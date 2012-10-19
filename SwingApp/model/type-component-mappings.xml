@@ -1,0 +1,8 @@
+<map>
+	<property language-type="java.lang.String" component-type="javax.swing.JTextField" />
+	<property language-type="java.lang.Long" component-type="javax.swing.JTextField" />
+	<property language-type="java.lang.Integer" component-type="javax.swing.JTextField" />
+	<property language-type="java.math.BigDecimal" component-type="javax.swing.JTextField" />
+	<property language-type="java.util.Date" component-type="javax.swing.JTextField" />
+	<property language-type="java.lang.Boolean" component-type="javax.swing.JCheckBox" />
+</map>

@@ -1,0 +1,39 @@
+				<#if user??><table>
+							<thead>
+								<tr>
+									<th>${user.name}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="/homepage">profil</a></td>
+								</tr>
+								<tr>
+									<td><a href="/">odjava</a></td>
+								</tr>
+							</tbody>
+							</table>
+							</br>
+					</#if>
+					<#if myResources?has_content>
+							<table>
+							<thead>
+								<tr>
+									<th>Moji resursi</th>
+								</tr>
+							</thead>
+							<tbody>
+								<#list myResources as res>
+								<tr>
+									<td>${res.entLabel}, <a href="${res.resLink}">${res.tableLabel}</a></td>
+								</tr>
+								</#list>
+								<tr>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td><a href="/resources/mojiResursi">Svi moji resursi</a></td>
+								</tr>
+							</tbody>
+							</table>
+					</#if>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="lib" path="dist/lib/commons-lang-2.6-javadoc.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-lang-2.6-sources.jar"/>
+	<classpathentry kind="lib" path="dist/lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="dist/lib/miglayout-4.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.6-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
+	<classpathentry kind="lib" path="lib/junit_4/junit-4.5-src.jar"/>
+	<classpathentry kind="lib" path="lib/junit_4/junit-4.5.jar"/>
+	<classpathentry kind="lib" path="lib/junit/junit-3.8.2.jar"/>
+	<classpathentry kind="lib" path="lib/miglayout-4.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
+	<classpathentry kind="lib" path="/kroki-commons/dist/kroki-commons.jar"/>
+	<classpathentry kind="lib" path="/Kroki/dist/Kroki.jar"/>
+	<classpathentry kind="lib" path="/kroki-intl/dist/kroki-intl.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kroki"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SwingApp"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
+	<classpathentry kind="lib" path="lib/freemarker.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-UIProfil"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/WebApp"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

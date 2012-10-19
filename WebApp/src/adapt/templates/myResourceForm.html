@@ -1,0 +1,31 @@
+					<!------------------------------------MYRESOURCE FORMA------------------------------------------>
+					<#if XMLresources??>
+					<#if allMyResources??>
+					<#list XMLresources as xmlres>
+					<#if xmlres.name != "MyResource">
+						<h2>${xmlres.label}</h2>
+						<table align="center" class="tables" style="width:300px" id='datatable'> 
+						<thead>
+							<tr>
+								<th>Ime</th>
+								<th>Tabela</th>
+							</tr>
+						</thead>
+						<tbody>
+						<#list allMyResources as myres>
+						<#if xmlres.name == myres.table>
+						<tr>
+							<td class="concell">${myres.entLabel}</td>
+							<td class="concell"><a href="${myres.resLink}">${myres.tableLabel}</a></td>
+						<tr>
+						</#if>
+						</#list>
+						</tbody>
+						</table>
+					</#if>
+					</#list>
+					</br>
+					</br>
+					</#if>
+					</#if>
+					<!------------------------------------/MYRESOURCE FORMA------------------------------------------>

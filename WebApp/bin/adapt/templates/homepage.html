@@ -1,0 +1,55 @@
+﻿<html>
+	<head>
+		<title> Adaptivna web aplikacija::po&#269;etna strana </title>
+		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<meta HTTP-EQUIV="Expires" CONTENT="-1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="/files/style.css" type="text/css" />
+		<script type="text/javascript" src="/files/script.js">
+		</script>
+	</head>
+	<body onload="highlight();">
+		<div id="wrapper" >
+		<#if user??>
+			<div id="menu">
+				<#include "/menu.html" parse=true>
+			</div>
+			<div id="content">
+				<div id="leftpane">
+					<h1>Dobrodo&#154;li, ${user.name}!</h1>
+					<h2>Va&#154; profil</h2>
+					&nbsp;
+					<p>
+						<table align="center">
+						<tbody>
+						<tr>
+							<td><b>Korisni&#269;ko ime:</b></td>
+							<td>${user.name}</td>
+						</tr>
+						<tr>
+							<td><b>Lozinka:</b></td>
+							<td><input type="password" name="password" readonly="readonly" value="${user.password}"></td>
+						</tr>
+						<tr>
+							<td colspan="2"><td>&nbsp;</td></td>
+						</tr>
+						<tr>
+							<td align="center" colspan="2"><a href="/profilIzmena">[Izmena podataka]</a></td>
+						</tr>
+						</tbody>
+						</table>
+					</p>
+				</div>
+				<div id="rightpane">
+					<#include "/rightpane.html" parse=true>
+				</div>
+			</div>
+			<div id="footer">
+				<img src="/files/images/logo.png" >
+			</div>
+		<#else>
+			<p style="color:red"> &#382;ao nam je, niste ulogovani! </p>
+		</#if>
+		</div>
+	</body>
+</html>

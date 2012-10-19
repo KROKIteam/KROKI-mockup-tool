@@ -1,0 +1,52 @@
+﻿<html>
+	<head>
+		<title> Adaptivna web aplikacija::po&#269;etna strana </title>
+		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<meta HTTP-EQUIV="Expires" CONTENT="-1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="/files/style.css" type="text/css" />
+	</head>
+	<body>
+		<div id="wrapper" >
+			<div id="indexcontentpane">
+				<h1>Dobrodo&#154;li na adaptivnu web aplikaciju baziranu na aspektima!</h1>
+				<p>Molimo vas da se prijavite.</p>
+				<#if msg??>
+					<p style="color:${clr}">${msg}</p>
+				</#if>
+			</div>
+			<div id="indexrightpane">
+				<form action="/homepage" name="login" method="post">
+					<table class="login">
+						<thead>
+							<tr>
+							<th colspan="2">Prijava</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+							</tr>
+							<tr>
+								<td>Korisničko ime:</td>
+								<td align="right"><input type="text" name="username">				
+							</tr>
+							<tr>
+								<td>Lozinka:</td>
+								<td align="right"><input type="password" name="password">			
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td align="right"><input type="submit"  name="submit" class="nav" value="Prijava">
+							</tr>
+							<tr>
+							</tr>
+							<tr>
+								<td colspan="2">Ukoliko nemate nalog, mo&#382;ete ga kreirati <a href="/register">ovde</a>.</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

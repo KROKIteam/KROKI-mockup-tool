@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="entity" type="EntityType" />
+	<xs:complexType name="ZoomAttributeType">
+		<xs:sequence>
+			<xs:element name="column-ref" maxOccurs="unbounded"
+				minOccurs="0" type="ColumnRefType" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="field-name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="class-name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="zoomed-by" type="xs:string" use="required">
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ColumnAttributeType">
+		<xs:attribute name="name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="field-name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="type" type="xs:string" use="optional">
+		</xs:attribute>
+		<xs:attribute name="length" type="xs:string" use="optional">
+		</xs:attribute>
+		<xs:attribute name="scale" type="xs:string" use="optional">
+		</xs:attribute>
+		<xs:attribute name="default" type="xs:string" use="optional">
+		</xs:attribute>
+		<xs:attribute name="key" type="xs:string" use="optional">
+		</xs:attribute>
+		<xs:attribute name="enum" type="xs:string" use="optional">
+		</xs:attribute>
+		<xs:attribute name="derived" type="xs:string" use="optional">
+		</xs:attribute>
+		<xs:attribute name="formula" type="xs:string" use="optional">
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ColumnRefType">
+		<xs:attribute name="name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string" use="required">
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="EntityType">
+		<xs:sequence>
+			<xs:element name="attributes">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="zoom-attribute" maxOccurs="unbounded"
+							minOccurs="0" type="ZoomAttributeType" />
+						<xs:element name="column-attribute" maxOccurs="unbounded"
+							minOccurs="0" type="ColumnAttributeType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="class-name" type="xs:string" use="required">
+		</xs:attribute>
+		<xs:attribute name="label" type="xs:string" use="required">
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

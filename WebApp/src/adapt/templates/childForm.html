@@ -1,0 +1,71 @@
+					<!----------------------------------PARENT-CHILD FORMA------------------------------------------->
+					<p>
+					<#if childList??>
+					<#if childList?has_content>
+						<form align='center' action="/showChildern/${resource.name}" name="childform" method="post">
+							Prikazati 
+							<select name="childern">
+							    <#list childList as child>
+							    <option value="${child.name}">${child.label}</option>
+							    </#list>
+							</select>
+							za
+							<select name="selectChild">
+							<#if entities??>
+								<#list entities as ent>
+								<#if ent.properties[1].name == "name">
+									<option value="${ent.properties[0].value}">${ent.properties[1].value}</option>
+								<#elseif ent.properties[1].name == "id">
+									<option value="${ent.properties[0].value}">${ent.properties[0].value}</option>
+								</#if>
+								</#list>
+							</#if>
+							</select>
+							<input type="submit" value="Prikaz" />
+						</form>
+					</#if>
+					</#if>
+					<table style="position: relative; left: 180px">
+					<tr>
+						<#if childControls?has_content>
+						<#if form.allowControls?string == "true">
+						<#list childControls as control>
+						<td><a title="${control.tip}" href="${control.link}${resource.name}"><img width ="20px" height="20px" src="${control.imagePath}" ></a></td>
+						</#list>
+						</#if>
+						</#if>
+					</tr>
+					</table>
+					<#if childEntities??>
+					<#if childEntities?has_content>
+					<table class="tables" align='center' id='datatable'> 
+						<thead>
+							<tr>
+							<#list childFormHeaders as header>
+								<th>${header}</th>
+							</#list>
+							</tr>
+						</thead>
+						<tbody>
+							<#list childEntities as entity>
+							<tr>
+								<#list entity.properties as prop>
+									<td class="concell">${prop.value}</td>
+								</#list>
+								<#if childActions?has_content>
+								<#if form.allowActions?string == "true">
+									<td  class="actcell">
+								<#list childActions as action>
+								 	<a title="${action.tip}" href="${action.link}${childResource.name}/${entity.properties?first.value}"><img src="${action.imagePath}"></a>
+								</#list>
+									</td>
+								</#if>
+								</#if>
+							</tr>
+							</#list>
+						</tbody>
+					</table>
+					</#if>
+					</#if>
+					</p>
+					<!----------------------------------/PARENT-CHILD FORMA------------------------------------------->

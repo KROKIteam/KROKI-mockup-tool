@@ -1,0 +1,87 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package kroki.app.gui.dialog;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import kroki.app.utils.StringResource;
+import kroki.profil.VisibleElement;
+
+/**
+ *
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ */
+public class RenameDialog extends JDialog {
+
+    VisibleElement visibleElement;
+    JPanel content;
+    JPanel action;
+    JButton okBtn;
+    JButton cancelBtn;
+    JLabel nameLbl;
+    JTextField nameTf;
+
+    public RenameDialog(JFrame frame, VisibleElement visibleElement) {
+        super(frame);
+        this.visibleElement = visibleElement;
+        initComponents();
+    }
+
+    private void initComponents() {
+        this.setLayout(new BorderLayout());
+        content = new JPanel();
+        action = new JPanel();
+        this.add(content, BorderLayout.CENTER);
+        this.add(action, BorderLayout.SOUTH);
+
+        okBtn = new JButton(StringResource.getStringResource("dialog.ok.label"));
+        okBtn.addActionListener(new AbstractAction() {
+
+            public void actionPerformed(ActionEvent e) {
+                okActionPreformed();
+            }
+        });
+        cancelBtn = new JButton(StringResource.getStringResource("dialog.cancel.label"));
+        cancelBtn.addActionListener(new AbstractAction() {
+
+            public void actionPerformed(ActionEvent e) {
+                cancelActionPreformed();
+            }
+        });
+        action.setLayout(new FlowLayout(FlowLayout.CENTER));
+        action.add(okBtn);
+        action.add(cancelBtn);
+
+        nameLbl = new JLabel(StringResource.getStringResource("dialog.visibleElement.name.label"));
+        nameTf = new JTextField(50);
+        nameTf.setText(visibleElement.getLabel());
+
+        content.setLayout(new FlowLayout(FlowLayout.CENTER));
+        content.add(nameLbl);
+        content.add(nameTf);
+    }
+
+    private void okActionPreformed() {
+        if (nameTf.getText() == null || nameTf.getText().equals("")) {
+            return;
+        }
+        visibleElement.setLabel(nameTf.getText());
+        //visibleElement.getComponent().setName(nameTf.getText());
+        //visibleElement.update();
+        this.dispose();
+    }
+
+    private void cancelActionPreformed() {
+        this.dispose();
+    }
+}

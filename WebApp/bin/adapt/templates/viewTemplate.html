@@ -1,0 +1,39 @@
+﻿<html>
+	<head>
+		<title> Adaptivna web aplikacija::${resource.label} </title>
+		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<meta HTTP-EQUIV="Expires" CONTENT="-1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="/files/style.css" type="text/css" />
+		<script type="text/javascript" src="/files/script.js">
+		</script>
+	</head>
+	<body>
+		<div id="wrapper" >
+		<#if user??>
+			<div id="menu">
+				<#include "/menu.html" parse=true>
+			</div>
+			<script>highlight();</script>
+			<div id="content">
+				<div id="leftpane">
+					<h1>${resource.label}</h1>
+					<#if msg??>
+					<p style="color:red">${msg}</p>
+					</#if>
+					<#list resource.forms as form>
+					<div>
+					<#include "/${form.fileName}" parse=true>
+					</div>
+					</#list>
+				</div>
+					<div id="rightpane">
+					<#include "/rightpane.html" parse=true>
+				</div>
+			</div>
+		<#else>
+			<p style="color:red"> &#382;ao nam je, niste ulogovani! </p>
+		</#if>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,82 @@
+﻿<html>
+	<head>
+		<title> Adaptivna web aplikacija::izmena ${resource.label} </title>
+		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<meta HTTP-EQUIV="Expires" CONTENT="-1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="/files/style.css" type="text/css" />
+		<script type="text/javascript" src="/files/script.js">
+		</script>
+	</head>
+	<body>
+		<div id="wrapper" >
+		<#if user??>
+			<div id="menu">
+				<#include "/menu.html" parse=true>
+			</div>
+			<script>highlight();</script>
+			<div id="content">
+				<div id="leftpane">
+				<#if resource??>
+					<h1>${resource.label}, izmena</h1>
+					<#if msg??>
+					<p style="color:red">${msg}</p>
+					</#if>
+					<p>
+							<form action="/izmeni${resource.link}/${modid}" name="izmena" method="post">
+								<table align="center">
+									<#if attributeLabels??>
+									<#if attributeValues??>
+									<#list attributeLabels as label>
+									<tr>
+									<#if resource.attributes[label_index].type == "java.lang.Boolean">
+										<td><b>${label}:</b></td>
+										<td>
+											<select name="attrSelect${label_index}">
+												<option value="true" <#if attributeValues[label_index] == "DA">selected="selected"</#if>>DA</option>
+												<option value="false" <#if attributeValues[label_index] == "NE">selected="selected"</#if>>NE</option>
+											</select>
+										</td>
+									<#else>
+										<td><b>${label}:</b></td>
+										<td><input type="text" name="attr${label_index}izmena" value="${attributeValues[label_index]}"></td>
+									</#if>
+									</tr>
+									</#list>
+									</#if>
+									</#if>
+									<#if childFormMap??>
+									<#list childFormMap?keys as childRow>
+									<tr>
+										<td><b>${childRow}:</b></td>
+										<td>
+											<select name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
+											<#list childFormMap[childRow]?keys as id>
+												<option value="${id}">${childFormMap[childRow][id]}</option>
+											</#list>
+											</select>
+										</td>
+									</tr>
+									</#list>
+									</#if>
+									<tr>
+										<td align="right" colspan="2"><input type="submit" name="submit" value="Izmena"></td>
+									</tr>
+								</table>
+							</form>
+					</p>
+				</#if>
+				</div>
+					<div id="rightpane">
+						<#include "/rightpane.html" parse=true>
+					</div>
+			</div>
+			<div id="footer">
+				<img src="/files/images/logo.png" >
+			</div>
+		<#else>
+			<p style="color:red"> &#382;ao nam je, niste ulogovani! </p>
+		</#if>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+1. help
+	Available commands:
+		1. make project
+		2. make package
+		3. make std-panel
+	    (4. save project)
+		(5. export project)
+		6. clear
+	For help on specific command, type help "command name" (i.e. help make project)
+
+2. help make project
+		Syntax: make project "Project name"
+		Description: Creates new project with specified name in workspace.
+		Example:
+			make project "Resources"
+			Creates new project named "Resources" in workspace
+ 
+3. 	help make package
+		Syntax: make package "Package name" in "Path"
+		Description: Creates new package with specified name in specifies path.
+					 Path specifies hierarchial order of parent packages startin from project in workspace and ending with immediate parent package,
+		             separated by /.
+		Example:
+			make package "Workers" in "Resources/Human Resources"
+			Creates new package named "Workers" in package named "Human Resources" in project named "Resources".
+			NOTE: If any project or package in path is not found, it will be created.
+
+4. 	help make std-panel
+		Syntax: make std-panel "Panel name" in "Path" {components}
+		Description: Creates standard panel with specified name in specified path with enlisted graphical elements(GUI components).
+				     Path specifies hierarchial order of parent packages startin from project in workspace and ending with immediate parent package,
+				     separated by /.
+					 Components specify list of GUI elements to be drawn on panel, components list is enclosed in curly brackets,
+					 each component in list is specified by pair type-name, separated by comma.
+					 Available component types are: textfield, textarea, combobox, radiobutton, checkbox, report, transaction, link.
+					 NOTE: When specifying component type, case is ignored, so textfield is same as textField or TextField.
+		Example:
+			make std-panel "Workers" in "Resources/Human resources" {textfield-First name, textfield-Last name, textarea-Address, checkbox-Married}
+	

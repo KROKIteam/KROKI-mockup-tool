@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<forms>
+	<form>
+		<name>StandardForm</name>
+		<allowActions>true</allowActions>
+		<allowControls>true</allowControls>
+		<filename>standardForm.html</filename>
+	</form>
+	<form>
+		<name>ParentChildForm</name>
+		<allowActions>false</allowActions>
+		<allowControls>false</allowControls>
+		<filename>childForm.html</filename>
+	</form>
+	<form>
+		<name>ManyToManyForm</name>
+		<allowActions>true</allowActions>
+		<allowControls>true</allowControls>
+		<filename>manyToManyForm.html</filename>
+	</form>
+	<form>
+		<name>MyResourceForm</name>
+		<allowActions>false</allowActions>
+		<allowControls>false</allowControls>
+		<filename>myResourceForm.html</filename>
+	</form>
+</forms>

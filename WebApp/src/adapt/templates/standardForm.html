@@ -1,0 +1,44 @@
+					<!------------------------------------STANDARDNA FORMA------------------------------------------>
+					<table style="position: relative; left: 180px">
+					<tr>
+						<#if resourceControls?has_content>
+						<#if form.allowControls?string == "true">
+						<#list resourceControls as control>
+						<td><a title="${control.tip}" href="${control.link}${resource.name}"><img width ="20px" height="20px" src="${control.imagePath}" ></a></td>
+						</#list>
+						</#if>
+						</#if>
+					</tr>
+					</table>
+					<#if entities??>
+					<#if mainFormHeaders??>
+					<table class="tables" style="position: relative; left: 180px" id='datatable'> 
+						<thead>
+							<tr>
+							<#list mainFormHeaders as header>
+								<th>${header}</th>
+							</#list>
+							</tr>
+						</thead>
+						<tbody>
+							<#list entities as entity>
+							<tr>
+								<#list entity.properties as prop>
+									<td class="concell">${prop.value}</td>
+								</#list>
+								<#if resourceActions?has_content>
+								<#if form.allowActions?string == "true">
+								<td  class="actcell">
+								<#list resourceActions as action>
+								 <a title="${action.tip}" href="${action.link}${resource.name}/${entity.properties?first.value}"><img src="${action.imagePath}"></a>
+								</#list>
+								</td>
+								</#if>
+								</#if>
+							</tr>
+							</#list>
+						</tbody>
+					</table>
+					</#if>
+					</#if>
+					<!------------------------------------/STANDARDNA FORMA------------------------------------------>

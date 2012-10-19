@@ -1,0 +1,49 @@
+﻿<html>
+	<head>
+		<title> Adaptivna web aplikacija::izmena profila </title>
+		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<meta HTTP-EQUIV="Expires" CONTENT="-1">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="/files/style.css" type="text/css" />
+		<script type="text/javascript" src="/files/script.js">
+		</script>
+	</head>
+	<body>
+		<div id="wrapper" >
+			<div id="menu">
+				<#include "/menu.html" parse=true>
+			</div>
+			<script>highlight();</script>
+			<div id="content">
+				<#if user??>
+					<h1>Izmena profilnih podataka</h1>
+					<p>
+					<form action="/homepage" name="izmena" method="post">
+						<input type="hidden" name="idIzmena" value="${user.id}">
+						<table align="center">
+						<tbody>
+						<tr>
+							<td><b>Korisni&#269;ko ime:</b></td>
+							<td><input type="text" name="usernameIzmena" value="${user.username}"></td>
+						</tr>
+						<tr>
+							<td><b>Lozinka:</b></td>
+							<td><input type="password" name="passwordIzmena" value="${user.password}"></td>
+						</tr>
+						<tr>
+							<td align="right" colspan="2"><input type="submit" name="submit" value="Izmena"></td>
+						</tr>
+					</tbody>
+					</table>
+					</form>
+					</p>
+				<#else>
+					<p> &#382;ao nam je, niste ulogovani! </p>
+				</#if>
+			</div>
+			<div id="footer">
+				<img src="/files/images/logo.png" >
+			</div>
+		</div>
+	</body>
+</html>

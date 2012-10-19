@@ -1,0 +1,52 @@
+<project name="Adapt ant" default="startdb" basedir=".">
+
+	<!-- Name of project and version -->
+	<property name="proj.name"      value="Adapt application"/>
+	<property name="proj.shortname" value="adapt-application"/>
+	<property name="version"        value="1.0"/>
+
+	<!-- Global properties for this build -->
+	<property name="database.dir"           value="database"/>
+	<property name="src.java.dir"           value="src"/>
+	<property name="src.etc.dir"            value="etc"/>
+	<property name="lib.dir"                value="lib"/>
+	<property name="build.dir"              value="build"/>
+
+
+	<!-- Classpath declaration -->
+	<path id="project.classpath">
+	    <fileset dir="${lib.dir}">
+	       <include name="**/*.jar"/>
+	       <include name="**/*.zip"/>
+	    </fileset>
+	</path>
+
+	    <!-- Non-java files -->
+	<patternset id="meta.files">
+	    <include name="**/*"/>
+	    <exclude name="**/*.java"/>
+		<exclude name="**/*.class"/>
+		<include name="**/*.html"/>
+		<include name="**/*.xml"/>
+		<include name="**/*.css"/>
+		<include name="**/*.jpg"/>
+		<include name="**/*.gif"/>
+		<include name="**/*.properties"/>
+	</patternset>
+	
+	<!-- Start the HSQL DB server and console-->
+		<target name="startdb" description="Run H2 database server and console">
+		    <!-- Delete database files -->
+		    <delete dir="${database.dir}"/>
+		    <java classname="org.h2.tools.Console"
+		           fork="yes"
+		           classpathref="project.classpath"
+		           failonerror="true">
+		        <arg value="-browser" />
+		        <arg value="-tcp" />
+		        <arg value="-baseDir"/>
+		        <arg value="database" />
+		    </java>
+		 </target>
+	
+</project>

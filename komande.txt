@@ -1,0 +1,4 @@
+- make project "Ime projekta"
+- make package "Ime paketa" in "Ime projekta"
+- make std-panel "Ime panela" in "Ime paketa" {tip-labela, ...}
+  tipovi: textfield, textarea, combobox, radiobutton,  checkbox, report, transaction, link

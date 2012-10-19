@@ -1,0 +1,195 @@
+body{
+	background-color:white;
+}
+
+/*wrapper*/
+div#wrapper{
+	width:900px;
+	margin:0 auto;
+	background-color:#FFFFFF;	
+}
+
+/*sadrzaj i meni na svim stranicama osim index.html*/
+div#content{
+	clear:both;
+	float:both;	
+	overflow:auto;
+	width:100%;
+	list-style-type:none;
+	border: 1px solid #708090;
+	min-height:600px;
+	text-align:center;
+	font-family:sans-serif;
+	font-size:11pt;
+	font-weight:bold;
+}
+
+div#leftpane {
+	clear:left;
+	float:left;	
+	overflow:auto;
+	width:745px;
+	height:100%;
+}
+
+div#footer {
+	clear:both;
+	float:both;	
+	overflow:auto;
+	width:100%;
+	height:55px;
+	border-top: 1px solid #708090;
+}
+
+div#rightpane {
+	clear:right;
+	float:right;
+	overflow:auto;
+	width:150px;
+	height:100%;
+	text-align:center;
+	padding:0px;
+	background-color:#FFFFFF;	 
+	border-left: 1px solid #708090;
+	overflow:auto;
+        font-size:10pt;
+        font-family:sans-serif;
+}
+
+div#rightpane table{
+	width: 100%;
+	text-align:center;
+    text-decoration:none;
+    font-size:9pt;
+    font-family:sans-serif;
+}
+
+div#rightpane th{
+	background-color: #000000;
+	border: 0px;
+	padding-left: 4px;
+	padding-right: 4px;
+    color:#FFFFFF;
+    text-decoration:none;
+    font-size:10pt;
+    font-family:sans-serif;
+}
+
+div#rightpane p{
+	font-size:8pt;
+}
+
+div#user {
+	float:right;
+	text-align:left;
+}
+
+div#menu{
+	float:center;
+	clear:both;
+	text-align:left;
+	width:100%;
+	height:19px;
+	font-family:sans-serif;
+	font-size:11pt;
+	font-weight:bold;
+}
+
+div#menu a{
+	background-color: #000000;
+	border: 1px solid #000000;
+	padding-left: 4px;
+	padding-right: 4px;
+    color:#FFFFFF;
+    text-decoration:none;
+}
+
+a.active{
+    background-color: #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	color: #000000;
+    text-decoration:none;    
+}
+
+/*index*/
+div#indexcontentpane {
+	clear:left;
+	float:left;
+	min-height:185px;
+	width:620px;
+	text-align:left;
+	border-right: 1px solid #708090;
+	background-color:#FFFFFF;	
+	overflow:auto;
+        font-size:11pt;
+        font-family:sans-serif;
+}
+
+div#indexrightpane {
+	clear:right;
+	float:right;
+	width:260px;
+	height:190px;
+	text-align:center;
+	padding:0px;
+	background-color:#FFFFFF;	 
+	border: 1px solid #708090;
+	overflow:auto;
+        font-size:11pt;
+        font-family:sans-serif;
+}
+
+/*tabele*/
+
+table.tables{
+    width:500px;
+    background-color: #FFFFFF;
+    border-spacing:0;
+    border-collapse:collapse;
+    table-layout:fixed;
+}
+
+td.concell{
+    overflow:hidden;
+    border:1px solid black;
+	background-color: #FFFFFF;
+    font-size:10pt;
+    text-align:center;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+td.actcell {
+	overflow:hidden;
+    border:0px;
+    height:20px; 
+    width:20px;
+	background-color: #FFFFFF;
+    font-size:10pt;
+    text-align:left;
+    padding-left:0px;
+    padding-right:0px;
+}
+
+table.tables th{
+    overflow:hidden;
+    border:1px solid black;
+	background-color: #000000;
+	color: white;
+    font-size:10pt;
+    text-align:center;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+table.login th{
+    overflow:hidden;
+    border:1px solid black;
+	background-color: #000000;
+	color: white;
+    text-align:center;
+}
+
+table.login td{
+    font-size:10pt;
+}

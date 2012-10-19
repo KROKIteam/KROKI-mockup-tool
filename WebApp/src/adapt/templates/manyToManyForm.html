@@ -1,0 +1,69 @@
+					<!----------------------------------MANY-TO-MANY FORMA------------------------------------------->
+					<#if entities??>
+					<#if entities?has_content>
+					<p>
+					<form align='center' action="/showMTMChildern/${resource.name}" name="childform" method="post">
+							Prikazati 
+							<select name="MTMchildern">
+							    <#list MTMChildList as child>
+							    <option value="${child.name}">${child.label}</option>
+							    </#list>
+							</select>
+							za
+							<select name="selectMTMChild">
+								<#list entities as ent>
+								<#if ent.properties[1].name == "name">
+									<option value="${ent.properties[0].value}">${ent.properties[1].value}</option>
+								<#elseif ent.properties[1].name == "id">
+									<option value="${ent.properties[0].value}">${ent.properties[0].value}</option>
+								</#if>
+								</#list>
+							</select>
+							<input type="submit" value="Prikaz" />
+						</form>
+					<table style="position: relative; left: 180px">
+					<tr>
+						<#if childControls?has_content>
+						<#if form.allowControls?string == "true">
+						<#list childControls as control>
+						<td><a title="${control.tip}" href="${control.link}${resource.name}/${id}/${childname}"><img width ="20px" height="20px" src="${control.imagePath}" ></a></td>
+						</#list>
+						</#if>
+						</#if>
+					</tr>
+					</table>
+					<#if mtmheaders??>
+					<#if mtmheaders?has_content>
+					<table class="tables" style="position: relative; left: 180px" id='datatable'> 
+						<thead>
+							<tr>
+							<#list mtmheaders as header>
+								<th>${header}</th>
+							</#list>
+							</tr>
+						</thead>
+						<tbody>
+							<#list mtmchildEntities as entity>
+							<tr>
+								<#list entity.properties as prop>
+									<td class="concell">${prop.value}</td>
+								</#list>
+								<#if childActions?has_content>
+								<#if form.allowActions?string == "true">
+									<td  class="actcell">
+								<#list childActions as action>
+								 	<a title="${action.tip}" href="${action.link}${resource.name}/${id}/${childname}/${entity.properties[0].value}"><img src="${action.imagePath}"></a>
+								</#list>
+									</td>
+								</#if>
+								</#if>
+							</tr>
+							</#list>
+						</tbody>
+					</table>
+					</#if>
+					</#if>
+					</p>
+					</#if>
+					</#if>
+					<!----------------------------------/MANY-TO-MANY FORMA------------------------------------------->
