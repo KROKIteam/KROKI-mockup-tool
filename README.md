@@ -1,4 +1,4 @@
-KROKI-integracija
+KROKI mockup tool
 =================
 
-Integracija KROKI mockupa alata sa generickim poslovnim aplikacijama
+Mockup based tool for fast prototyping and development of business applications.
