@@ -1,6 +1,6 @@
 ﻿<html>
 	<head>
-		<title> Adaptivna web aplikacija::izmena ${resource.label} </title>
+		<title> Adaptive web application::modify page for ${resource.label} </title>
 		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
 		<meta HTTP-EQUIV="Expires" CONTENT="-1">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -18,7 +18,7 @@
 			<div id="content">
 				<div id="leftpane">
 				<#if resource??>
-					<h1>${resource.label}, izmena</h1>
+					<h1>Change data for ${resource.label}</h1>
 					<#if msg??>
 					<p style="color:red">${msg}</p>
 					</#if>
@@ -60,7 +60,7 @@
 									</#list>
 									</#if>
 									<tr>
-										<td align="right" colspan="2"><input type="submit" name="submit" value="Izmena"></td>
+										<td align="right" colspan="2"><input type="submit" name="submit" value="Modify"></td>
 									</tr>
 								</table>
 							</form>
@@ -75,7 +75,7 @@
 				<img src="/files/images/logo.png" >
 			</div>
 		<#else>
-			<p style="color:red"> &#382;ao nam je, niste ulogovani! </p>
+			<p style="color:red"> You are not logged in! </p>
 		</#if>
 		</div>
 	</body>

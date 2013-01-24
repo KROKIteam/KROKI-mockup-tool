@@ -281,7 +281,7 @@ public class ViewResource extends Resource {
 					if(!entities.isEmpty()) {
 						dataModel.put("entities", entities);
 					}else {
-						dataModel.put("msg", "Tra&#382;eni resursi ne postoje u bazi!");
+						dataModel.put("msg", "No entries in the database for requested resource!");
 					}
 				} catch (NoSuchFieldException e) {
 					try {
@@ -291,7 +291,7 @@ public class ViewResource extends Resource {
 						if(!entities.isEmpty()) {
 							dataModel.put("entities", entities);
 						}else {
-							dataModel.put("msg", "Tra&#382;eni resursi ne postoje u bazi!");
+							dataModel.put("msg", "No entries in the database for requested resource!");
 						}
 					} catch (NoSuchFieldException e1) {
 						//ovo ne bi trebalo nikada da se desi
@@ -486,7 +486,7 @@ public class ViewResource extends Resource {
 		try {
 			t.commit();
 		} catch (Exception e1) {
-			dataModel.put("msg", "Nije mogu&#263;e obrisati entitet dok ne obri&#353;ete entitete koji mu pripadaju!");
+			dataModel.put("msg", "Unable to delete entity. Delete child entries first!");
 		}
 	}
 	

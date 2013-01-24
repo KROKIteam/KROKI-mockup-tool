@@ -1,15 +1,15 @@
-					<!----------------------------------MANY-TO-MANY FORMA------------------------------------------->
+					<!----------------------------------MANY-TO-MANY FORM------------------------------------------->
 					<#if entities??>
 					<#if entities?has_content>
 					<p>
 					<form align='center' action="/showMTMChildern/${resource.name}" name="childform" method="post">
-							Prikazati 
+							Show 
 							<select name="MTMchildern">
 							    <#list MTMChildList as child>
 							    <option value="${child.name}">${child.label}</option>
 							    </#list>
 							</select>
-							za
+							for
 							<select name="selectMTMChild">
 								<#list entities as ent>
 								<#if ent.properties[1].name == "name">
@@ -66,4 +66,4 @@
 					</p>
 					</#if>
 					</#if>
-					<!----------------------------------/MANY-TO-MANY FORMA------------------------------------------->
+					<!----------------------------------/MANY-TO-MANY FORM------------------------------------------->

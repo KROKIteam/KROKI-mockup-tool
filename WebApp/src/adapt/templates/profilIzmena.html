@@ -1,6 +1,6 @@
 ﻿<html>
 	<head>
-		<title> Adaptivna web aplikacija::izmena profila </title>
+		<title> Adaptive web application::account settings </title>
 		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
 		<meta HTTP-EQUIV="Expires" CONTENT="-1">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -16,18 +16,18 @@
 			<script>highlight();</script>
 			<div id="content">
 				<#if user??>
-					<h1>Izmena profilnih podataka</h1>
+					<h1>Account settings</h1>
 					<p>
 					<form action="/homepage" name="izmena" method="post">
 						<input type="hidden" name="idIzmena" value="${user.id}">
 						<table align="center">
 						<tbody>
 						<tr>
-							<td><b>Korisni&#269;ko ime:</b></td>
+							<td><b>Username:</b></td>
 							<td><input type="text" name="usernameIzmena" value="${user.username}"></td>
 						</tr>
 						<tr>
-							<td><b>Lozinka:</b></td>
+							<td><b>Password:</b></td>
 							<td><input type="password" name="passwordIzmena" value="${user.password}"></td>
 						</tr>
 						<tr>
@@ -38,7 +38,7 @@
 					</form>
 					</p>
 				<#else>
-					<p> &#382;ao nam je, niste ulogovani! </p>
+					<p> You are not logged in! </p>
 				</#if>
 			</div>
 			<div id="footer">

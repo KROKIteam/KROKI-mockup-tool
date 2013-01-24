@@ -51,13 +51,13 @@ public class IndexResource extends BaseResource {
 			em.persist(u);
 			tx.commit();
 			em.close();
-			String msg = "Uspe&#154;no ste se registrovali! Sada se mo&#382;ete ulogovati";
+			String msg = "Registration successful! You can log in now.";
 			String clr = "blue";
 			dataModel.put("msg", msg);
 			dataModel.put("clr", clr);
 			return u;
 		} catch (Exception e) {
-			String msg = "Do&#154;lo je do gre&#154;ke prilikom registracije, molimo poku&#154;ajte ponovo.";
+			String msg = "An error occured. Please try again.";
 			String clr = "red";
 			dataModel.put("msg", msg);
 			dataModel.put("clr", clr);

@@ -12,34 +12,34 @@
 		<link>/dodavanje/</link>
 		<imagePath>/files/images/add.png</imagePath>
 		<type>control</type>
-		<tip>Dodavanje novog entiteta</tip>
+		<tip>Add new entity</tip>
 	</action>
 	<action>
 		<name>modify</name>
 		<link>/izmena/</link>
 		<imagePath>/files/images/edit.png</imagePath>
 		<type>action</type>
-		<tip>Izmena podataka o entitetu</tip>
+		<tip>Modify entity</tip>
 	</action>
 	<action>
 		<name>remove</name>
 		<link>/brisanje/</link>
 		<imagePath>/files/images/delete.png</imagePath>
 		<type>action</type>
-		<tip>Brisanje entiteta iz baze</tip>
+		<tip>Delete entity</tip>
 	</action>
 	<action>
 		<name>mtmadd</name>
 		<link>/mtmdodavanje/</link>
 		<imagePath>/files/images/add.png</imagePath>
 		<type>control</type>
-		<tip>Dodavanje novog entiteta u tabelu</tip>
+		<tip>Add new entity</tip>
 	</action>
 	<action>
 		<name>mtmremove</name>
 		<link>/mtmbrisanje/</link>
 		<imagePath>/files/images/delete.png</imagePath>
 		<type>action</type>
-		<tip>Uklanjanje entiteta iz tabele</tip>
+		<tip>Delete entity</tip>
 	</action>
 </actions>
