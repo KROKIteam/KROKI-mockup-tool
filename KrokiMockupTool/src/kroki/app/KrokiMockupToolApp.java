@@ -38,12 +38,15 @@ public class KrokiMockupToolApp {
     private ProjectHierarchyModel projectHierarchyModel;
     private Workspace workspace;
     private GuiManager guiManager;
+    private static KrokiMockupToolSplashScreen splash;
 
     public KrokiMockupToolApp() {
 
 
         KrokiLookAndFeel.setLookAndFeel();
         guiManager = new GuiManager();
+        
+        splash  = new KrokiMockupToolSplashScreen();
 
         krokiMockupToolFrame = new KrokiMockupToolFrame(guiManager);
         tabbedPaneController = new TabbedPaneController(krokiMockupToolFrame.getCanvasTabbedPane());
@@ -96,10 +99,6 @@ public class KrokiMockupToolApp {
         renderer.setOpenIcon(openIcon);
         projectHierarchy.setCellRenderer(renderer);
         projectHierarchy.setEditable(true);
-
-
-
-
     }
 
     public static KrokiMockupToolApp getInstance() {
@@ -110,18 +109,25 @@ public class KrokiMockupToolApp {
     }
 
     public void launch() {
+    	splash.showSplashAndExit();
         EventQueue.invokeLater(new Runnable() {
-
             public void run() {
                 krokiMockupToolFrame.pack();
                 GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 krokiMockupToolFrame.setMaximizedBounds(e.getMaximumWindowBounds());
                 krokiMockupToolFrame.setMinimumSize(new Dimension(1200, 800));
                 krokiMockupToolFrame.setExtendedState(krokiMockupToolFrame.getExtendedState() | JFrame.NORMAL);
-                krokiMockupToolFrame.setVisible(true);
+                krokiMockupToolFrame.setLocationRelativeTo(null);
                 krokiMockupToolFrame.toFront();
                 krokiMockupToolFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 krokiMockupToolFrame.getStatusMessage().setText(StringResource.getStringResource("app.state.select"));
+                try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+                splash.turnOffSplash();
+                krokiMockupToolFrame.setVisible(true);
             }
         });
 

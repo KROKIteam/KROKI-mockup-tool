@@ -30,5 +30,6 @@
 	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-UIProfil"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WebApp"/>
+	<classpathentry kind="lib" path="lib/JTattoo.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

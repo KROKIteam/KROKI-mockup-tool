@@ -6,6 +6,8 @@ package kroki.app.action;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+
+import kroki.app.gui.dialog.KrokiMockupToolAboutDialog;
 import kroki.app.utils.StringResource;
 
 /**
@@ -20,6 +22,8 @@ public class AboutAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
+    	KrokiMockupToolAboutDialog about = new KrokiMockupToolAboutDialog();
+    	about.setVisible(true);
     }
 }

@@ -29,6 +29,7 @@ import kroki.app.action.AboutAction;
 import kroki.app.action.ExitAction;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
+import kroki.app.action.HelpAction;
 import kroki.app.action.NewFileAction;
 import kroki.app.action.NewProjectAction;
 import kroki.app.action.OpenFileAction;
@@ -205,6 +206,7 @@ public class KrokiMockupToolFrame extends JFrame {
         help.setText(StringResource.getStringResource("menu.help.name"));
 
         help.add(new AboutAction());
+        help.add(new HelpAction());
 
         mainMenuBar.add(file);
         mainMenuBar.add(edit);
