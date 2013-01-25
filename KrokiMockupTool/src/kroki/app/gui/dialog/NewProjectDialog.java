@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import kroki.app.utils.StringResource;
 import kroki.profil.ComponentType;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.DatabaseProps;
 
 /**
  *
@@ -93,6 +94,8 @@ public class NewProjectDialog extends JDialog {
 
     private void okActionPreformed() {
         newSubystem = new BussinesSubsystem(projectNameTf.getText(), true, ComponentType.MENU, null);
+        DatabaseProps props = new DatabaseProps(0, "driver", "", 0000, "", "", "");
+        newSubystem.setDBConnectionProps(props);
         this.dispose();
     }
 

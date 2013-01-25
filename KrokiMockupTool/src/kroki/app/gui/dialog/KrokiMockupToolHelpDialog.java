@@ -38,7 +38,8 @@ public class KrokiMockupToolHelpDialog extends JDialog {
 
 		text = new JEditorPane();
 		text.setContentType("text/html");
-		text.setText("<br<br>For detailed help please visit: <p>KROKI <a href=\"https://github.com/MiloradFilipovic/KROKI-integracija/wiki\">Wiki pages</a></p>");
+		text.setText("<br><br><font face=\"arial\" size=\"3\"> To get help on using textual commands, type \"help\" in command window." +
+					"<br>For detailed help please visit KROKI <a href=\"https://github.com/MiloradFilipovic/KROKI-integracija/wiki\">Wiki pages</a>.</font>");
 
 		StyledDocument doc = (StyledDocument) text.getDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();

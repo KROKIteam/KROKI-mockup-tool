@@ -60,12 +60,15 @@ public class ExportSwingAction extends AbstractAction {
 		
 		//nadjem selektovani projekat iz workspace-a
 		BussinesSubsystem proj = null;
-		String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
-		for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
-			BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
-			if(pack.getLabel().equals(selectedNoded)) {
-				proj = pack;
+		try {
+			String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
+			for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
+				BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
+				if(pack.getLabel().equals(selectedNoded)) {
+					proj = pack;
+				}
 			}
+		} catch (NullPointerException e2) {
 		}
 
         classes = new ArrayList<EJBClass>();
@@ -99,7 +102,7 @@ public class ExportSwingAction extends AbstractAction {
         	
         }else {
         	//ako nista nije selektovano, prikazem poruku
-        	JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Morate selektovati projekat!");
+        	JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
         }
         
 	}

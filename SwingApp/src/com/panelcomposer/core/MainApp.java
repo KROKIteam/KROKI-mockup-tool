@@ -1,11 +1,5 @@
 package com.panelcomposer.core;
 
-import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import util.AnnotationConfigurationWithWildcard;

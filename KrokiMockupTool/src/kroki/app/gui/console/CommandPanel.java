@@ -78,9 +78,6 @@ public class CommandPanel extends JPanel {
 		previousLines.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				//kada se klikne na JTextArea,
-				//JTextField dobije fokus
-				currentLine.requestFocusInWindow();
 			}
 			
 			@Override
@@ -97,11 +94,13 @@ public class CommandPanel extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				//kada se klikne na JTextArea,
+				//JTextField dobije fokus
+				currentLine.requestFocusInWindow();
 			}
 		});
 		
 		currentLine.addKeyListener(new KeyListener() {
-			
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 			}
@@ -154,7 +153,7 @@ public class CommandPanel extends JPanel {
 	//               									   METODA ZA PARSIRANJE KOMANDI
 	//*********************************************************************************
 	public String parseCommand(String command) {
-		String ret = "\n[KROKI] Error parsing command!\n";
+		String ret = "\n[KROKI] KROKI does not understand '" + command +"'\n";
 		
 		if(command.startsWith("help")) {
 			ret = displayHelp(command);
@@ -178,7 +177,7 @@ public class CommandPanel extends JPanel {
 	
 	public String makeProjectCommand(String command) {
 		Scanner sc = new Scanner(command);
-		Pattern pattern = Pattern.compile("\"([^\"]+)\"");
+		Pattern pattern = Pattern.compile("[\"']([^\"']+)[\"']");
 	    String token = sc.findInLine(pattern);
 	    if(token != null) {
 	    	String name = token.substring(1, token.length()-1);
@@ -187,12 +186,12 @@ public class CommandPanel extends JPanel {
             KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
 	    	return "\n[KROKI] Project " + token  + " created successfully\n";
 	    }else {
-	    	return "\n[KROKI] Error parsing command!\n";
+	    	return "\n[KROKI] Error parsing command. Check your syntax!\n";
 	    }
 	}
 	
 	public String makePackageCommand(String command) {
-		Pattern patt = Pattern.compile("\"([^\"]*)\" in \"([^\"]*)\"");
+		Pattern patt = Pattern.compile("[\"']([^\"']+)[\"'] in [\"']([^\"']+)[\"']");
 		String project;
 		String pack;
 		
@@ -208,11 +207,11 @@ public class CommandPanel extends JPanel {
 				return "\n[KROKI] Subsystem \"" + pack  + "\" created successfully in \"" + project + "\"\n";
 			}
 		}
-		return "\n[KROKI] Error parsing command!\n";
+		return "\n[KROKI] Error parsing command. Check your syntax!\n";
 	}
 	
 	public String makeStdPanelCommand(String command) {
-		Pattern patt = Pattern.compile("\"([^\"]+)\" in \"([^\"]+)\"(?: \\{(.+?)\\})?");
+		Pattern patt = Pattern.compile("[\"']([^\"']+)[\"'] in [\"']([^\"']+)[\"'](?: \\{(.+?)\\})?");
 		String panel;
 		String pack;
 		String components;
@@ -235,7 +234,7 @@ public class CommandPanel extends JPanel {
 				return "\n[KROKI] Standard panel \"" + panel  + "\" created successfully in \"" + pack + "\"\n";
 			}
 		}
-		return "\n[KROKI] Error parsing command!\n";
+		return "\n[KROKI] Error parsing command. Check your syntax!\n";
 	}
 	
 	public String displayHelp(String command) {
@@ -253,7 +252,8 @@ public class CommandPanel extends JPanel {
 					"\n\tDescription: Creates new project with specified name in workspace." +
 					"\n\tExample:" + 
 					"\n\t\tmake project \"Resources\"" + 
-					"\n\t\tCreates new project named \"Resources\" in workspace\n";
+					"\n\t\tCreates new project named \"Resources\" in workspace" +
+					"\n\t\tNOTE: The project name can be written in sigle or double quotes.\n";
 		}else if(command.equals("help make package")) {
 			help = "\n[KROKI] make package command" +
 					"\n\tSyntax: make package \"Package name\" in \"Path\"" +
@@ -263,7 +263,8 @@ public class CommandPanel extends JPanel {
 					"\n\tExample:" + 
 					"\n\t\tmake package \"Workers\" in \"Resources/Human Resources\"" + 
 					"\n\t\tCreates new package named \"Workers\" in package named \"Human Resources\" in project named \"Resources\"." +
-					"\n\t\tNOTE: If any project or package in path is not found, it will be created.\n";
+					"\n\t\tNOTE: If any project or package in path is not found, it will be created." +
+					"\n\t\t      The package name and path can be written in sigle or double quotes.\n";
 		}else if(command.equals("help make std-panel")) {
 			help = "\n[KROKI] make std-panel command" +
 					"\n\tSyntax: make std-panel \"Panel name\" in \"Path\" {components}" +
@@ -275,7 +276,8 @@ public class CommandPanel extends JPanel {
 					"\n\t\t     Available component types are: textfield, textarea, combobox, radiobutton, checkbox, report, transaction, link." +
 					"\n\t\t     NOTE: When specifying component type, case is ignored, so textfield is same as textField or TextField." +
 					"\n\tExample:" + 
-					"\n\t\tmake std-panel \"Workers\" in \"Resources/Human resources\" {textfield-First name, textfield-Last name, textarea-Address, checkbox-Married}\n";
+					"\n\t\tmake std-panel \"Workers\" in \"Resources/Human resources\" {textfield-First name, textfield-Last name, textarea-Address, checkbox-Married}" +
+					"\n\t\tNOTE: The panel name and path can be written in sigle or double quotes.\n";
 		}else {
 			help = "\n[KROKI] no help for command \"" + command.substring(5) + "\"\n";
 		}

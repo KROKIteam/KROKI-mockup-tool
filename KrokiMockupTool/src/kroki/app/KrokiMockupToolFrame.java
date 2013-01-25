@@ -5,12 +5,8 @@
 package kroki.app;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -26,6 +22,7 @@ import javax.swing.JToolBar;
 import javax.swing.JTree;
 
 import kroki.app.action.AboutAction;
+import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
@@ -46,7 +43,7 @@ import kroki.app.utils.StringResource;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class KrokiMockupToolFrame extends JFrame {
 
@@ -85,7 +82,7 @@ public class KrokiMockupToolFrame extends JFrame {
     /************************************/
     private JLabel statusMessage;
     
-    /**Konstruiše {@code KrokiMockupToolFrame} bez parametara*/
+    /**Konstruise {@code KrokiMockupToolFrame} bez parametara*/
     public KrokiMockupToolFrame(GuiManager guiManager) {
         super();
         this.guiManager = guiManager;
@@ -200,13 +197,15 @@ public class KrokiMockupToolFrame extends JFrame {
 
         edit.add(new UndoAction());
         edit.add(new RedoAction());
+        edit.addSeparator();
+        edit.add(new DBConneectionSettingsAction());
 
         JMenu help = new JMenu();
         help.setName("help");
         help.setText(StringResource.getStringResource("menu.help.name"));
 
-        help.add(new AboutAction());
         help.add(new HelpAction());
+        help.add(new AboutAction());
 
         mainMenuBar.add(file);
         mainMenuBar.add(edit);
@@ -225,8 +224,6 @@ public class KrokiMockupToolFrame extends JFrame {
         mainToolbar.add(guiManager.getMainToolbar());
         mainToolbar.add(guiManager.getStyleToolbar());
         topPanel.add(mainToolbar, BorderLayout.CENTER);
-
-
 
         this.add(guiManager.getPallete(), BorderLayout.EAST);
     }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.utils.DatabaseProps;
 import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
 import kroki.profil.utils.visitor.AllPosibleNextPanels;
 import kroki.profil.utils.visitor.AllPosibleZoomPanels;
@@ -17,8 +18,8 @@ import kroki.uml_core_basic.UmlType;
 
 /**
  * Klasa koja se koristi za definisanje
- * poslovnih podsistema i referata, na način definisan HCI standardom.
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * poslovnih podsistema i referata, na naÄ�in definisan HCI standardom.
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
@@ -26,6 +27,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
     private List<VisibleElement> ownedElement = new ArrayList<VisibleElement>();
     private List<UmlPackage> nestedPackage = new ArrayList<UmlPackage>();
     private List<UmlType> ownedType = new ArrayList<UmlType>();
+    private DatabaseProps DBConnectionProps = new DatabaseProps();
 
     public BussinesSubsystem(BussinesSubsystem owner) {
         super();
@@ -102,7 +104,15 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
         this.nestingPackage = nestingPackage;
     }
 
-    /****************************************************/
+    public DatabaseProps getDBConnectionProps() {
+		return DBConnectionProps;
+	}
+
+	public void setDBConnectionProps(DatabaseProps dBConnectionProps) {
+		DBConnectionProps = dBConnectionProps;
+	}
+
+	/****************************************************/
     /*IMPLEMENTIRANE METODE INTERFEJSA VisitingSubsystem*/
     /****************************************************/
     public void accept(AllPosibleZoomPanels visitor) {

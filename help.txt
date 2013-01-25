@@ -13,7 +13,8 @@
 		Description: Creates new project with specified name in workspace.
 		Example:
 			make project "Resources"
-			Creates new project named "Resources" in workspace
+			Creates new project named "Resources" in workspace.
+			NOTE: The project name can be written in sigle or double quotes.
  
 3. 	help make package
 		Syntax: make package "Package name" in "Path"
@@ -23,7 +24,8 @@
 		Example:
 			make package "Workers" in "Resources/Human Resources"
 			Creates new package named "Workers" in package named "Human Resources" in project named "Resources".
-			NOTE: If any project or package in path is not found, it will be created.
+			NOTE: If any project or package in path is not found, it will be created. 
+				  The package name and path can be written in sigle or double quotes.
 
 4. 	help make std-panel
 		Syntax: make std-panel "Panel name" in "Path" {components}
@@ -36,4 +38,5 @@
 					 NOTE: When specifying component type, case is ignored, so textfield is same as textField or TextField.
 		Example:
 			make std-panel "Workers" in "Resources/Human resources" {textfield-First name, textfield-Last name, textarea-Address, checkbox-Married}
+			NOTE: The panel name and path can be written in sigle or double quotes.
 	

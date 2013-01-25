@@ -23,7 +23,7 @@ import kroki.app.utils.TypeComponentMapper;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  * ovo je sad izmenjeno
  */
 public class KrokiMockupToolApp {
