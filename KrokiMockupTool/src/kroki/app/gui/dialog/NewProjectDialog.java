@@ -94,7 +94,7 @@ public class NewProjectDialog extends JDialog {
 
     private void okActionPreformed() {
         newSubystem = new BussinesSubsystem(projectNameTf.getText(), true, ComponentType.MENU, null);
-        DatabaseProps props = new DatabaseProps(0, "driver", "", 0000, "", "", "");
+        DatabaseProps props = new DatabaseProps(0, "driver", "", 0000, "", "", "", "org.hibernate.dialect.MySQLDialect");
         newSubystem.setDBConnectionProps(props);
         this.dispose();
     }

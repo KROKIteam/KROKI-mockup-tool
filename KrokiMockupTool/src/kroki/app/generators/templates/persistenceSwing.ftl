@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 28.01.2013  12:27 -->
+${doc}
 
 <persistence version="2.0"
 	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -10,10 +9,10 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class, hbm"/>
-			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/apuff" />
-			<property name="hibernate.connection.username" value="mrd" />
-			<property name="hibernate.connection.password" value="drupal" />
+			<property name="hibernate.connection.driver_class" value="${driver}" />
+			<property name="hibernate.connection.url" value="${url}" />
+			<property name="hibernate.connection.username" value="${username}" />
+			<property name="hibernate.connection.password" value="${password}" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" />
 		</properties>

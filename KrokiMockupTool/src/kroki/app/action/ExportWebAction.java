@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.PanelGenerator;
@@ -62,6 +63,7 @@ public class ExportWebAction extends AbstractAction {
         
         WebResourceGenerator WebGenerator = new WebResourceGenerator();
         EJBGenerator ejbGenerator = new EJBGenerator();
+        DatabaseConfigGenerator dbConfigGen = new DatabaseConfigGenerator(proj.getDBConnectionProps());
         
         //ITERACIJA KROZ ELEMENTE SELEKTOVANOG PROJEKTA
         if(proj != null) {
@@ -88,6 +90,7 @@ public class ExportWebAction extends AbstractAction {
             //GENERISANJE DATOTEKA
             WebGenerator.generate(elements);
             ejbGenerator.generateEJBClasses(classes, false);
+            dbConfigGen.generatePersistenceXMl(true);
         	
             //pokreni web aplikaciju
             Application adapt = new Application();

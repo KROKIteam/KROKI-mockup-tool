@@ -3,16 +3,15 @@
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
-<!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 28.01.2013  12:27 -->
+${doc}
 
 <hibernate-configuration>
   <session-factory>
-  <property name="connection.url">jdbc:mysql://localhost:3306/apuff</property>
-  <property name="connection.username">mrd</property>
-  <property name="connection.password">drupal</property>
-  <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-  <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="connection.url">${url}</property>
+  <property name="connection.username">${username}</property>
+  <property name="connection.password">${password}</property>
+  <property name="connection.driver_class">${driver}</property>
+  <property name="dialect">org.hibernate.dialect.${dialect}</property>
   <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
   <property name="current_session_context_class">thread</property>
   <!-- this will show us all sql statements -->

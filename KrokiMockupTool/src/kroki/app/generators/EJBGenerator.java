@@ -14,6 +14,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import kroki.app.generators.utils.Attribute;
+import kroki.app.generators.utils.EJBClass;
+import kroki.app.generators.utils.ManyToOneAttribute;
+import kroki.app.generators.utils.XMLWriter;
+import kroki.commons.camelcase.CamelCaser;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,17 +27,8 @@ import org.w3c.dom.Element;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.ObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-
-import kroki.app.generators.utils.Attribute;
-import kroki.app.generators.utils.EJBClass;
-import kroki.app.generators.utils.ManyToOneAttribute;
-import kroki.app.generators.utils.XMLWriter;
-import kroki.commons.camelcase.CamelCaser;
 
 public class EJBGenerator {
 	
@@ -41,7 +38,7 @@ public class EJBGenerator {
 	DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 	
 	  /***********************************************/
-	 /*            GENERISE EJB KLASE               */
+	 /*           EJB CLASS GENERATION              */
 	/***********************************************/
 	public void generateEJBClasses(ArrayList<EJBClass> classes, Boolean swing) {
 		cc = new CamelCaser();
@@ -97,7 +94,7 @@ public class EJBGenerator {
 
 	
 	  /***********************************************/
-	 /*        GENERISE EJB XML DATOTEKE            */
+	 /*        EJB XML FILES GENERATION             */
 	/***********************************************/
 	public void generateEJBXmlFiles(ArrayList<EJBClass> classes) {
 		
@@ -286,7 +283,7 @@ public class EJBGenerator {
 	}
 	
 	  /***********************************************/
-	 /*     GENERISE XML-MAPPING DATOTEKU           */
+	 /*     XML-MAPPING FILE GENERATION             */
 	/***********************************************/
 	public void generateXMLMappingFile(ArrayList<EJBClass> classes) {
 		

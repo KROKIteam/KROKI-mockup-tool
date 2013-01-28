@@ -12,14 +12,16 @@ public class DatabaseProps implements Serializable {
 	private String schema;
 	private String username;
 	private String password;
+	private String dialect;
 		
 	public DatabaseProps() {
 		driverClass = "com.mysql.jdbc.Driver";
 		host = "localhost";
 		port = 3306;
+		dialect = "org.hibernate.dialect.MySQLDialect";
 	}
 	
-	public DatabaseProps(int profile, String driverClass, String host, int port, String schema, String username, String password) {
+	public DatabaseProps(int profile, String driverClass, String host, int port, String schema, String username, String password, String dialect) {
 		super();
 		this.profile = profile;
 		this.driverClass = driverClass;
@@ -28,6 +30,7 @@ public class DatabaseProps implements Serializable {
 		this.schema = schema;
 		this.username = username;
 		this.password = password;
+		this.dialect = dialect;
 	}
 
 	public String getDriverClass() {
@@ -84,5 +87,13 @@ public class DatabaseProps implements Serializable {
 
 	public void setProfile(int profile) {
 		this.profile = profile;
+	}
+
+	public String getDialect() {
+		return dialect;
+	}
+
+	public void setDialect(String dialect) {
+		this.dialect = dialect;
 	}
 }

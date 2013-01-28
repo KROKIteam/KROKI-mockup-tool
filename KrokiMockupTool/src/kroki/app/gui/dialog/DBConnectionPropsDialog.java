@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -27,6 +28,8 @@ public class DBConnectionPropsDialog extends JDialog {
 	private JComboBox cbProfile;
 	private JLabel lblDriver;
 	private JTextField tfDriver;
+	private JLabel lblDialect;
+	private JComboBox cbDialect;
 	private JLabel lblHost;
 	private JTextField tfHost;
 	private JLabel lblPort;
@@ -39,6 +42,19 @@ public class DBConnectionPropsDialog extends JDialog {
 	private JPasswordField pfPassword;
 	private JButton btnOK;
 	private JButton btnCancel;
+	
+	private String[] mySQLDialects = {"MySQLDialect", "MySQL5Dialect", "MySQL5InnoDBDialect", "MySQLInnoDBDialect", "MySQLMyISAMDialect"};
+	private String[] postgreSQLDialects = {"PostgreSQLDialect", "PostgresPlusDialect", "ProgressDialect"};
+	private String[] msSQLDialects = {"SQLServerDialect", "SQLServer2008Dialect"};
+	private String[] h2Dialects = {"H2Dialect", };
+	private String[] customDialects = {"Cache71Dialect", "DataDirectOracle9Dialect", "DB2390Dialect", "DB2400Dialect", "DB2Dialect", "DerbyDialect",
+			                           "Dialect", "FirebirdDialect", "FrontBaseDialect", "H2Dialect", "HSQLDialect", "HSQLDialect.ReadUncommittedLockingStrategy",
+			                           "InformixDialect", "Ingres10Dialect", "Ingres9Dialect", "IngresDialect", "InterbaseDialect", "JDataStoreDialect",
+			                           "MckoiDialect", "MimerSQLDialect", "MySQL5Dialect", "MySQL5InnoDBDialect", "MySQLDialect", "MySQLInnoDBDialect",
+			                           "MySQLMyISAMDialect", "Oracle10gDialect", "Oracle8iDialect", "Oracle9Dialect", "Oracle9iDialect", "OracleDialect",
+			                           "PointbaseDialect", "PostgresPlusDialect", "PostgreSQLDialect", "ProgressDialect", "RDMSOS2200Dialect", "SAPDBDialect",
+			                           "SQLServer2008Dialect", "SQLServerDialect", "Sybase11Dialect", "SybaseAnywhereDialect", "SybaseASE15Dialect",
+			                           "SybaseDialect", "TeradataDialect", "TimesTenDialect"};
 	
 	public DBConnectionPropsDialog(BussinesSubsystem project) {
 		setSize(300, 330);
@@ -53,7 +69,7 @@ public class DBConnectionPropsDialog extends JDialog {
         
         setLayout(new MigLayout(
         		"",
-        		"[][right]",
+        		"[][right, grow]",
         		""));
 		initGUI(project);
 	}
@@ -76,30 +92,36 @@ public class DBConnectionPropsDialog extends JDialog {
 					tfDriver.setText("com.mysql.jdbc.Driver");
 					tfPort.setText("3306");
 					tfDriver.setEnabled(false);
+					cbDialect.setModel(new DefaultComboBoxModel(mySQLDialects));
 					break;
 				case 1:
 					tfDriver.setText("org.postgresql.Driver");
 					tfPort.setText("5432");
 					tfDriver.setEnabled(false);
+					cbDialect.setModel(new DefaultComboBoxModel(postgreSQLDialects));
 					break;
 				case 2:
 					tfDriver.setText("net.sourceforge.jtds.jdbc.Driver");
 					tfPort.setText("1433");
 					tfDriver.setEnabled(false);
+					cbDialect.setModel(new DefaultComboBoxModel(msSQLDialects));
 					break;
 				case 3:
 					tfDriver.setText("com.microsoft.jdbc.sqlserver.SQLServerDriver");
 					tfPort.setText("1433");
 					tfDriver.setEnabled(false);
+					cbDialect.setModel(new DefaultComboBoxModel(msSQLDialects));
 					break;
 				case 4:
 					tfDriver.setText("org.h2.Driver");
 					tfPort.setText("");
 					tfDriver.setEnabled(false);
+					cbDialect.setModel(new DefaultComboBoxModel(h2Dialects));
 					break;
 				case 5:
 					tfDriver.setText("");
 					tfDriver.setEnabled(true);
+					cbDialect.setModel(new DefaultComboBoxModel(customDialects));
 					tfHost.setText("");
 					tfPort.setText("");
 					tfSchema.setText("");
@@ -116,6 +138,10 @@ public class DBConnectionPropsDialog extends JDialog {
 		tfDriver = new JTextField(30);
 		tfDriver.setEnabled(false);
 		tfDriver.setText(project.getDBConnectionProps().getDriverClass());
+		
+		lblDialect = new JLabel("Dialect");
+		cbDialect = new JComboBox();
+		cbDialect.setModel(new DefaultComboBoxModel(mySQLDialects));
 		
 		lblHost = new JLabel("Host URL");
 		tfHost = new JTextField(30);
@@ -144,13 +170,14 @@ public class DBConnectionPropsDialog extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				int profile = cbProfile.getSelectedIndex();
 				String driver = tfDriver.getText().trim();
+				String dialect = cbDialect.getSelectedItem().toString();
 				String url = tfHost.getText().trim();
 				int port = Integer.parseInt(tfPort.getText().trim());
 				String schema = tfSchema.getText().trim();
 				String username = tfUsername.getText().trim();
-				String password = pfPassword.getPassword().toString();
+				String password = new String(pfPassword.getPassword());
 				
-				DatabaseProps props = new DatabaseProps(profile, driver, url, port, schema, username, password);
+				DatabaseProps props = new DatabaseProps(profile, driver, url, port, schema, username, password, dialect);
 				project.setDBConnectionProps(props);
 				DBConnectionPropsDialog.this.dispose();
 				DBConnectionPropsDialog.this.setVisible(false);
@@ -172,6 +199,8 @@ public class DBConnectionPropsDialog extends JDialog {
 		add(cbProfile, "wrap, gapbottom 20, left, growx");
 		add(lblDriver);
 		add(tfDriver, "wrap");
+		add(lblDialect);
+		add(cbDialect, "wrap, growx");
 		add(lblHost);
 		add(tfHost, "wrap");
 		add(lblPort);

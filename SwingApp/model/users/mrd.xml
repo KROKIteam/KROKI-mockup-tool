@@ -9,19 +9,18 @@
 				<disabled value="pttOznaka" />
 
 				<next name="next_preduzecaUMestu" disabled = "true">
-					<settings change-mode="false" />
+				<settings change-mode="false" />
 				</next>
 
 				<zoom name="zoom_naseljeno_mesto_st_drzava" disabled = "true">
-					<settings change-mode="true" copy="false" />
-					<disabled value="naziv" />
+				<settings change-mode="true" copy="false" />
+				<disabled value="naziv" />
 				</zoom>
 			</panel>
 
 			<panel panel-ref="dnmp_d" disabled="true">
 				<settings change-mode="false" copy="false" />
 			</panel>
-			
 		</panels>
 	</rights>
 </user>

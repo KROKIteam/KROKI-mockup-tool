@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.PanelGenerator;
@@ -77,6 +78,7 @@ public class ExportSwingAction extends AbstractAction {
         EJBGenerator ejbGenerator = new EJBGenerator();
         MenuGenerator menuGenerator = new MenuGenerator();
         PanelGenerator panelGenerator = new PanelGenerator();
+        DatabaseConfigGenerator dbConfigGenerator = new DatabaseConfigGenerator(proj.getDBConnectionProps());
         
         //ITERACIJA KROZ ELEMENTE SELEKTOVANOG PROJEKTA
         if(proj != null) {
@@ -95,6 +97,7 @@ public class ExportSwingAction extends AbstractAction {
             ejbGenerator.generateEJBXmlFiles(classes);
             ejbGenerator.generateEJBClasses(classes, true);
             ejbGenerator.generateXMLMappingFile(classes);
+            dbConfigGenerator.generateFilesForDesktopApp();
             //pokreni pejinu aplikaciju
             MainApp mapp = new MainApp();
             //mapp.main(null);
