@@ -31,5 +31,11 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-UIProfil"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WebApp"/>
 	<classpathentry kind="lib" path="lib/JTattoo.jar"/>
+	<classpathentry kind="lib" path="lib/h2-1.2.121.jar"/>
+	<classpathentry kind="lib" path="lib/h2-1.3.170.jar"/>
+	<classpathentry kind="lib" path="lib/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jtds-1.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.7-bin.jar"/>
+	<classpathentry kind="lib" path="lib/postgresql-9.2-1002.jdbc4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

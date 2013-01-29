@@ -1,5 +1,6 @@
 package kroki.app.utils;
 
+import java.io.File;
 import java.util.HashMap;
 
 import org.w3c.dom.Document;
@@ -13,7 +14,9 @@ public class TypeComponentMapper {
 	public void getMappings() {
 		mapping = new HashMap<String, String>();
 		try {
-			Document typeDoc = XMLParser.parseXml("D:/workspace/kroki-integracija-clone/SwingApp/model/type-component-mappings.xml");
+			File f = new File(".");
+			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+			Document typeDoc = XMLParser.parseXml(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "model" + File.separator + "type-component-mappings.xml");
 			NodeList typeNodes = typeDoc.getElementsByTagName("property");
 			for(int i=0; i<typeNodes.getLength(); i++) {
 				Element el = (Element) typeNodes.item(i);
