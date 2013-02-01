@@ -135,7 +135,6 @@ public class KrokiMockupToolApp {
                 krokiMockupToolFrame.setVisible(true);
             }
         });
-
     }
 
     public void stop() {

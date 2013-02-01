@@ -70,6 +70,7 @@ public class ExportSwingAction extends AbstractAction {
 				}
 			}
 		} catch (NullPointerException e2) {
+			e2.printStackTrace();
 		}
 
         classes = new ArrayList<EJBClass>();
@@ -102,7 +103,6 @@ public class ExportSwingAction extends AbstractAction {
             MainApp mapp = new MainApp();
             //mapp.main(null);
 
-        	
         }else {
         	//ako nista nije selektovano, prikazem poruku
         	JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");

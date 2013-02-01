@@ -43,7 +43,6 @@ public class OpenProjectAction extends AbstractAction {
             BussinesSubsystem bussinesSubsystem = null;
             try {
                 bussinesSubsystem = (BussinesSubsystem) DeepCopy.open(file);
-
                 //KrokiMockupToolApp.getInstance().getWorkspace().addBussinesSubsystem(bussinesSubsystem);
                 KrokiMockupToolApp.getInstance().getWorkspace().addPackage(bussinesSubsystem);
                 KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();

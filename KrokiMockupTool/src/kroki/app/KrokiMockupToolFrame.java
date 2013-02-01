@@ -134,7 +134,6 @@ public class KrokiMockupToolFrame extends JFrame {
         //tabbed pane sa canvasom i panelom za podesavanja
 
         console = new CommandPanel();
-        
         JLabel consoleLbl = new JLabel("Command Window");
         
         canvasSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);

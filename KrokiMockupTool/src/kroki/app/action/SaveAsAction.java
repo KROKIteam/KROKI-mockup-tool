@@ -17,6 +17,7 @@ public class SaveAsAction extends AbstractAction {
     public SaveAsAction() {
         putValue(NAME, StringResource.getStringResource("action.saveAs.name"));
         putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.saveAs.description"));
+        setEnabled(false);
     }
 
     public void actionPerformed(ActionEvent e) {

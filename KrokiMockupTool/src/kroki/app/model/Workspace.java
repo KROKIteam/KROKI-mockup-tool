@@ -4,6 +4,7 @@
  */
 package kroki.app.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import kroki.app.utils.StringResource;
@@ -13,9 +14,10 @@ import kroki.uml_core_basic.UmlPackage;
  *
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-public final class Workspace {
+public final class Workspace implements Serializable{
 
-    private String name;
+	private static final long serialVersionUID = 1206782231294485404L;
+	private String name;
     private List<UmlPackage> packageList = new ArrayList<UmlPackage>();
     //private List<BussinesSubsystem> bussinesSubsystemList;
 
