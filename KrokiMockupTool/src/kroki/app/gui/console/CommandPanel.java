@@ -33,22 +33,30 @@ import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
- * Simulacija konzole pomocu TextField i TextArea komponenti
- * @author mrd
- *
- */
+* GUI component that simulates console behavior
+* @author Milorad Filipovic <milorad.filipovic19@gmail.com>
+* https://github.com/MiloradFilipovic/JCommandPanel
+*/
 public class CommandPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	//JTextArea koja sadrzi prethodno unete linije
-	//i poruke od strane aplikacije
+	/**
+	 * TextArea that contains previously entered user commands
+	 * and application output text (not editable)
+	 */
 	private JTextArea previousLines;
 	private JScrollPane consoleScroll;
-	//JTextField u koji se unose komande
+	/**
+	 * TextField used for command typing
+	 */
 	private JTextField currentLine;
-	//lista koja cuva istoriju naredbi
+	/**
+	 * Command history
+	 */
 	private ArrayList<String> listory;
-	//indeks trenutne naredbe u listi
+	/**
+	 * Current command index in history list
+	 */
 	private int commandInex;
 	
 	public CommandPanel() {
@@ -73,7 +81,7 @@ public class CommandPanel extends JPanel {
 		
 		
 		//*********************************************************************************
-		//                                         								  LISTENERI
+		//                                         								  LISTENERS
 		//*********************************************************************************
 		previousLines.addMouseListener(new MouseListener() {
 			@Override
@@ -94,8 +102,7 @@ public class CommandPanel extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//kada se klikne na JTextArea,
-				//JTextField dobije fokus
+				//when user clicks on textArea, focus is transfered to textField
 				currentLine.requestFocusInWindow();
 			}
 		});
@@ -107,7 +114,7 @@ public class CommandPanel extends JPanel {
 			
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				//Kada se stisne ENTER, parsira se unesena komanda
+				//if ENTER key is pressed inside text box, command is read and parsed
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!currentLine.getText().equals("")) {
 						previousLines.append(">> " + currentLine.getText());
@@ -117,7 +124,8 @@ public class CommandPanel extends JPanel {
 						commandInex = listory.size();
 						currentLine.setText("");
 					}
-					//strelicama GORE i DOLE se krecemo kroz istoriju naredbi
+				//if user presses UP key inside textBox
+				//decrease command index, and display command on that position in history
 				}else if(arg0.getKeyCode() == KeyEvent.VK_UP) {
 					if(!listory.isEmpty()) {
 						if(commandInex > 0) {
@@ -125,13 +133,15 @@ public class CommandPanel extends JPanel {
 						}
 						currentLine.setText(listory.get(commandInex));
 					}
+				//if DOWN key is pressed inside textBox
+				//increase command index and disp
 				}else if(arg0.getKeyCode() == KeyEvent.VK_DOWN) {
 					if(!listory.isEmpty()) {
 						if(commandInex < listory.size()-1) {
 							commandInex++;
 							currentLine.setText(listory.get(commandInex));
 						}else if (commandInex == listory.size()-1) {
-							//ako je dosao do kraja liste naredbi kada stisne DOLE, ispise se prazan red
+							//if last command in list is reached, after pressing DOWN key, empty command is displayed
 							commandInex = listory.size();
 							currentLine.setText("");
 						}
@@ -150,7 +160,7 @@ public class CommandPanel extends JPanel {
 	
 	
 	//*********************************************************************************
-	//               									   METODA ZA PARSIRANJE KOMANDI
+	//               									        COMMAND PARSING METHODS
 	//*********************************************************************************
 	public String parseCommand(String command) {
 		String ret = "\n[KROKI] KROKI does not understand '" + command +"'\n";
@@ -172,7 +182,7 @@ public class CommandPanel extends JPanel {
 	}
 
 	//*********************************************************************************
-	// 	 															  METODE ZA KOMANDE
+	// 	 												  METHODS THAT EXECUTE COMMANDS
 	//*********************************************************************************	
 	
 	public String makeProjectCommand(String command) {
@@ -285,14 +295,14 @@ public class CommandPanel extends JPanel {
 	}
 	
 	//*********************************************************************************
-	//																  	 POMOCNE METODE
+	//																  	   UTIL METHODS
 	//*********************************************************************************
 	/**
-	 * Pronalazi paket ili projekat na osnovu imena
-	 * @param projectName ime projekta ili paketa na osnovu kojeg se vrsi pretraga
-	 * @param recursion ako je true, pretrazuje sve pakete u hijerarhiju, ako je false
-	 * pretrazuje samo projekte (prvi nivo hijerarhije)
-	 * @return pronadjeni paket ili null ako nema paketa sa prosledjenim imenom
+	 * Finds package or project based on name
+	 * @param projectName project or package name that we are looking for
+	 * @param recursion if true, searches trough all levels of package hierarchy,
+	 * else searches only projects (imediate childern of workspace node)
+	 * @return found package or null if package with given name dones not exist
 	 */
 	public BussinesSubsystem findNode(String projectName, Boolean recursion) {
 		BussinesSubsystem project = null;
@@ -315,10 +325,10 @@ public class CommandPanel extends JPanel {
 	}
 	
 	/**
-	 * Pronalazi paket unutar prosledjenog paketa na osnovu imena
-	 * @param childName ime paketa na osnovu kojeg se vrsi pretraga
-	 * @param owner paket unutar kojeg se vrsi pretraga
-	 * @return pronadjeni paket ili null ako nema paketa sa prosledjenim imenom
+	 * Finds package inside owner package based on given name
+	 * @param childName name of the package that we are looking for
+	 * @param owner packet which childern are beig searched
+	 * @return found package or null if package with given name dones not exist
 	 */
 	public BussinesSubsystem findChild(String childName, BussinesSubsystem owner) {
 		BussinesSubsystem found = null;
@@ -341,9 +351,9 @@ public class CommandPanel extends JPanel {
 	}
 	
 	/**
-	 * Kreira projekat sa zeljenim nazivom unutar workspacea
-	 * @param projectName ime novog projekta
-	 * @return kreirani projekat
+	 * Creates package with given name inside workspace
+	 * @param projectName name of the new project
+	 * @return created project
 	 */
 	public BussinesSubsystem makeProject(String projectName) {
 		BussinesSubsystem project = new BussinesSubsystem(projectName, true, ComponentType.MENU, null);
@@ -353,10 +363,10 @@ public class CommandPanel extends JPanel {
 	}
 	
 	/**
-	 * Kreira paket unutar prosledjenog paketa ili projekta
-	 * @param owner paket ili projekat unutar kojega ce se kreirati novi paket
-	 * @param packageName ime novog paketa
-	 * @return kreirani paket
+	 * Creates package with given name inside provided owner package
+	 * @param owner package or project inside which new package is created
+	 * @param packageName name of the new package
+	 * @return created package
 	 */
 	public BussinesSubsystem makePackage(BussinesSubsystem owner, String packageName) {
 		BussinesSubsystem pack = new BussinesSubsystem(owner);
@@ -367,11 +377,11 @@ public class CommandPanel extends JPanel {
 	}
 	
 	/**
-	 * Kreira standardni panel unutar prosledjenog paketa
-	 * @param owner paket u kojem se kreira panel
-	 * @param label naziv panela
-	 * @param components spisak gui komponenti koje ce biti na kreiranom panelu
-	 * @return kreirani panel
+	 * Creates standard panel inside given package
+	 * @param owner package or project inside which panel is created
+	 * @param label panel nale
+	 * @param components list of GUI components to be created on panel
+	 * @return created panel
 	 */
 	public VisibleClass makeStdPanel(BussinesSubsystem owner, String label, String[] components) {
 		VisibleClass panel = new StandardPanel();
@@ -427,12 +437,12 @@ public class CommandPanel extends JPanel {
 	}
 	
 	/**
-	 * Kreiranje GUI elemenata
-	 * @param label labela uz element
-	 * @param visible da li ce element biti vidljiv na panelu
-	 * @param type tip komponente koji se kreira
-	 * @param panel panel na kojem se kreira komponenta
-	 * @param group grupa unutar panela unutar koje se kreira komponenta (0-toolbar, 1-Properties, 2-Operations)
+	 * creates GUI element
+	 * @param label element label
+	 * @param visible specifies element visibility on panel
+	 * @param type component type
+	 * @param panel panel on which component is to be created
+	 * @param group group inside panel in which created component is to be put (0-toolbar, 1-Properties, 2-Operations)
 	 */
 	public void makeVisibleProperty(String label, boolean visible, ComponentType type, VisibleClass panel, int group) {
 		VisibleProperty property = new VisibleProperty(label, visible, type);
@@ -446,11 +456,11 @@ public class CommandPanel extends JPanel {
 	}
 	
 	/**
-	 * Na osnovu putanje nalazi (ili kreira ako ne postoji) hijerarhiju paketa i vraca poslendnji paket u putanji.
-	 * Koristi se za komande 'make package' i 'make std-panel'
-	 * @param path putanja u hijerarhiji na kojoj se nalazi paket.
-	 *        putanje su oblika 'Projekat/Paket/Paket/...'
-	 * @return pronadjeni ili kreirani poslednji paket u navedenoj putanji
+	 * Finds (or creates) package hierarchy based on provided path and returns last package in hierarchy
+	 * Used for commands 'make package' and 'make std-panel'
+	 * @param path path in the hierarchy.
+	 *        path is specified as 'Project/Package/Package/...'
+	 * @return found or created package
 	 */
 	public BussinesSubsystem getOwnerPackage(String path) {
 		BussinesSubsystem owner = null;

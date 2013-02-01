@@ -22,7 +22,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class SaveAction extends AbstractAction {
 

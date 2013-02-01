@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<menus>
-<menu label="Human resources" name="menu0">
-<submenu activate="workers_st" label="Workers" panel-type="standard-panel"/>
-</menu>
-</menus>
+<menus/>
