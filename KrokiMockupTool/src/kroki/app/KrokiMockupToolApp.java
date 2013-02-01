@@ -4,12 +4,14 @@
  */
 package kroki.app;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import kroki.app.controller.TreeController;
 import kroki.app.controller.TabbedPaneController;
@@ -20,6 +22,8 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.KrokiLookAndFeel;
 import kroki.app.utils.StringResource;
 import kroki.app.utils.TypeComponentMapper;
+import kroki.profil.panel.VisibleClass;
+import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
  *
@@ -63,37 +67,38 @@ public class KrokiMockupToolApp {
         projectHierarchyModel.addTreeModelListener(projectHierarchyController);
         projectHierarchy.setModel(projectHierarchyModel);
 
-        //PODESAVANJE IKONICA...
-        //TODO:Videti gde se ovo moze izmestiti
+        //JTree icons
         ImageIcon leafIcon = new ImageIcon(ImageResource.getImageResource("tree.leaf.icon"));
         ImageIcon openIcon = new ImageIcon(ImageResource.getImageResource("tree.open.icon"));
         ImageIcon closedIcon = new ImageIcon(ImageResource.getImageResource("tree.closed.icon"));
 
-        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();//{
-//
-//            @Override
-//            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-//                super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-//                DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-//
-//                setIconAndToolTip(node.getUserObject(), tree);
-//
-//                return this;
-//            }
-//
-//            private void setIconAndToolTip(Object userObject, JTree tree) {
-//
-//                if(userObject instanceof BussinesSubsystem){
-//                    setOpenIcon(openIcon);
-//                    setClosedIcon(closedIcon);
-//                }
-//                if(userObject instanceof VisibleClass){
-//                    setIcon(leafIcon);
-//                }
-//            }
-//
-//
-//        };
+        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer() {
+            @Override
+            public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+                super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+                ImageIcon rootIcon = new ImageIcon(ImageResource.getImageResource("tree.root.icon"));
+                ImageIcon projectIcon = new ImageIcon(ImageResource.getImageResource("tree.project.icon"));
+                //setting workspace icon
+                if(value instanceof Workspace) {
+                	setIcon(rootIcon);
+                }
+                //project icons
+                if(value instanceof BussinesSubsystem) {
+                	BussinesSubsystem proj = (BussinesSubsystem) value;
+                	Workspace workspace = KrokiMockupToolApp.getInstance().getWorkspace();
+            		//since both projects and packages are BussinesSubsystem instances
+                	//we need to change icons only for imediate childern of workspace (projects)
+            		for(int i=0; i<workspace.getPackageCount(); i++) {
+            			BussinesSubsystem system = (BussinesSubsystem) workspace.getPackageAt(i);
+            			if(system.getLabel().trim().equals(proj.getLabel().trim())) {
+            				setIcon(projectIcon);
+            			}
+            		}
+                }
+                return this;
+            }
+        };
+        
         renderer.setLeafIcon(leafIcon);
         renderer.setClosedIcon(closedIcon);
         renderer.setOpenIcon(openIcon);

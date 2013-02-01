@@ -147,7 +147,13 @@ public class DBConnectionPropsDialog extends JDialog {
 				String host = tfHost.getText();
 
 				String url = "jdbc:" + protocol + "://" + host  + ":" + port + "/" + schema;
-				testConnection(url, user, pass, driver);
+				
+				String stat = checkRequiredFields();
+				if(!stat.equals("OK")) {
+					displayMessage(stat, true);
+				}else {
+					testConnection(url, user, pass, driver);
+				}
 			}
 		});
 
@@ -163,7 +169,12 @@ public class DBConnectionPropsDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				assignSettingstoProject(project);
+				String stat = checkRequiredFields();
+				if(!stat.equals("OK")) {
+					displayMessage(stat, true);
+				}else {
+					assignSettingstoProject(project);
+				}
 			}
 		});
 
@@ -316,5 +327,19 @@ public class DBConnectionPropsDialog extends JDialog {
 		default:
 			return "mysql";
 		}
+	}
+	
+	public String checkRequiredFields() {
+		String status = "OK";
+		
+		if(tfHost.getText().equals("")) {
+			status = "You must provide host URL!";
+		}else if (tfPort.getText().equals("")) {
+			status = "You must provide port number!";
+		}else if (tfSchema.getText().equals("")) {
+			status = "You must provide schema name!";
+		}
+		
+		return status;
 	}
 }

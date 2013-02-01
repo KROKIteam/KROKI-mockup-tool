@@ -59,15 +59,17 @@ public class TreeController extends AbstractTreeController {
     @Override
     public void valueChanged(TreeSelectionEvent e) {
         TreePath treePath = e.getNewLeadSelectionPath();
-        Object node = treePath.getLastPathComponent();
-        if (node instanceof Workspace) {
-            System.out.println("WORKSPACE");
-        } else if (node instanceof BussinesSubsystem) {
-            System.out.println("BUSSINESSUBSYSTEM");
-        } else if (node instanceof VisibleClass) {
-            System.out.println("VISIBLECLASS");
-        }
-        super.valueChanged(e);
+        if (treePath != null) {
+			Object node = treePath.getLastPathComponent();
+			if (node instanceof Workspace) {
+				System.out.println("WORKSPACE");
+			} else if (node instanceof BussinesSubsystem) {
+				System.out.println("BUSSINESSUBSYSTEM");
+			} else if (node instanceof VisibleClass) {
+				System.out.println("VISIBLECLASS");
+			}
+		}
+		super.valueChanged(e);
     }
 
     @Override
