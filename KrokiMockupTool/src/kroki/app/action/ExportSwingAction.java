@@ -26,6 +26,7 @@ import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.generators.utils.Submenu;
+import kroki.app.utils.JARMaker;
 import kroki.app.utils.TypeComponentMapper;
 import kroki.app.view.Canvas;
 import kroki.commons.camelcase.CamelCaser;
@@ -108,6 +109,22 @@ public class ExportSwingAction extends AbstractAction {
 			//write project label as mainframe title in main.properties file
 			writeProjectName(proj.getLabel());
 
+			//make JAR file
+			JARMaker maker = new JARMaker();
+			File output = new File("C:" + File.separator + "Users" + File.separator + "mrd" + File.separator + "Desktop");
+			File f = new File(".");
+			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+			File input = new File(appPath.substring(0, appPath.length()-16) + "SwingApp");
+			String jarName = proj.getLabel().replace(" ", "_") + ".jar";
+			
+			try {
+				maker.makeJAR(input, output, jarName);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			//start app
 			//MainApp mapp = new MainApp();
 			//mapp.main(null);
@@ -127,7 +144,7 @@ public class ExportSwingAction extends AbstractAction {
 			StdPanelSettings sps = sp.getStdPanelSettings();
 			VisibleClass vc = (VisibleClass)el;
 
-			//LISTE ATRIBUTA ZA EJB KLASU
+			//EJB CLASS ATTRIBUTE LISTS
 			ArrayList<Attribute> attributes = new ArrayList<Attribute>();
 			ArrayList<ManyToOneAttribute> mtoAttributes = new ArrayList<ManyToOneAttribute>();
 			ArrayList<OneToManyAttribute> otmAttributes = new ArrayList<OneToManyAttribute>();
@@ -168,7 +185,7 @@ public class ExportSwingAction extends AbstractAction {
 				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
 				mtoAttributes.add(mto);
 
-				//add OneToMany attribute to opposite and of association
+				//add OneToMany attribute to opposite end of association
 				if(zcl != null) {
 					String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
 					String label = z.getLabel();

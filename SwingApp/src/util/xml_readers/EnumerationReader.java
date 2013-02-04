@@ -2,6 +2,8 @@ package util.xml_readers;
 
 import java.io.File;
 
+import log.Logger;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,6 +45,7 @@ public class EnumerationReader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			Logger.log(e.getMessage());
 		}
 	}
 }

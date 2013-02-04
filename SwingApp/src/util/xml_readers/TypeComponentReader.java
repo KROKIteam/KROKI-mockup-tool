@@ -5,6 +5,8 @@ import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import log.Logger;
+
 
 import org.h2.constant.SysProperties;
 import org.w3c.dom.Document;
@@ -40,6 +42,7 @@ public class TypeComponentReader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			Logger.log(e.getMessage());
 		}
 	}
 
