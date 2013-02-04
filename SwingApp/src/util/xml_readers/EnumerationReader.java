@@ -16,14 +16,14 @@ import util.staticnames.Tags;
 public class EnumerationReader {
 
 	protected static String fileName = ReadersPathConst.ENUM_FILE_NAME;
+	protected static String modelDir = ReadersPathConst.MODEL_DIR_PATH;
 
 	public static void loadMappings() {
 		try {
 			File f = new File(".");
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-			System.out.println("ENUM READER 1: " + fileName);
-			Document doc = XMLUtil.getDocumentFromXML(appPath + fileName, 
-					ReadersPathConst.XSD_ENUM);
+			System.out.println("ENUM READER 1: " + appPath + modelDir  + File.separator + fileName);
+			Document doc = XMLUtil.getDocumentFromXML(appPath + modelDir  + File.separator + fileName, null);
 			NodeList nodeLst = doc.getElementsByTagName(Tags.ENUM);
 			System.out.println("ENUM READER 2: " + fileName + " DOC: " + doc.getDocumentURI());
 			for (int i = 0; i < nodeLst.getLength(); i++) {

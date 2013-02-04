@@ -34,8 +34,8 @@ public class EntityReader {
 		try {
 			File f = new File(".");
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-			System.out.println("ENTITY READER: " + appPath + dirName + mappingFile);
-			Document doc = XMLUtil.getDocumentFromXML(appPath + dirName + mappingFile, ReadersPathConst.XSD_XML_MAP);
+			System.out.println("ENTITY READER: " + appPath + dirName + File.separator + mappingFile);
+			Document doc = XMLUtil.getDocumentFromXML(appPath + dirName + File.separator + mappingFile, null);
 			System.out.println("ENTITY READER DOC: " + doc.getBaseURI());
 			NodeList nodeLst = doc.getElementsByTagName(Tags.PROPERTY);
 			for (int i = 0; i < nodeLst.getLength(); i++) {
@@ -59,7 +59,7 @@ public class EntityReader {
 			String xmlFileName = appCache.getXMLFileName(className); 
 			if (xmlFileName == null)
 				return null;
-			Document doc = XMLUtil.getDocumentFromXML(dirName + xmlFileName, 
+			Document doc = XMLUtil.getDocumentFromXML(dirName + File.separator + xmlFileName, 
 					null);
 			ejb = getEntityBeanInfo(doc);
 			ejb = getAttributesInfo(ejb, doc);

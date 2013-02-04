@@ -11,6 +11,8 @@ import org.restlet.resource.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
 
+import adapt.utils.Settings;
+
 public class RegisterResource extends BaseResource {
 
 	Map<String, Object> dataModel = new TreeMap<String, Object>();
@@ -33,9 +35,7 @@ public class RegisterResource extends BaseResource {
 
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
+		dataModel.put("title", Settings.APP_TITLE);
 		return getHTMLTemplateRepresentation("register.html", dataModel);
 	}
-	
-	
-
 }

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <panels>
-<standard-panels/>
+<standard-panels>
+<standard-panel ejb-ref="ejb.Radnici" id="radnici_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.NaseljenoMesto" id="naseljenomesto_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+</standard-panels>
 <parent-child-panels/>
 <many-to-many-panels/>
 </panels>

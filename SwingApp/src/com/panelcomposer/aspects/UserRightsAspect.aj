@@ -1,5 +1,6 @@
 package com.panelcomposer.aspects;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,7 +23,8 @@ import com.panelcomposer.model.panel.configuration.Next;
 import com.panelcomposer.model.panel.configuration.Zoom;
 
 public aspect UserRightsAspect {
-	protected static String usersDirName = ReadersPathConst.USERS_FILE_NAME;
+	protected static String modelDir = ReadersPathConst.MODEL_DIR_PATH;
+	protected static String usersDirName = modelDir + File.separator + ReadersPathConst.USERS_FILE_NAME + File.separator;
 	
 	public pointcut userMPanelRights() : 
 		( call (* PanelReader.findStandardPanel(..)) || call (* PanelReader.findNextPanel(..)) 
@@ -107,6 +109,7 @@ public aspect UserRightsAspect {
 			String username = AppCache.getInstance().getUsername();
 			String fileName = usersDirName + username + ".xml";
 			Document doc = XMLUtil.getDocumentFromXML(fileName, null);
+			System.out.println("UR ASPECT FILENAME: " + doc.getDocumentURI());
 			String panelId = msm.getActivate();
 			Element elem = getElementByPanelId(doc, panelId, OpenedAs.DEFAULT);
 			if(elem != null) {

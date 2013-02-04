@@ -19,8 +19,9 @@ import com.panelcomposer.model.menu.MySubMenu;
 public class MenuReader {
 
 	protected static String menuFile = ReadersPathConst.MENU_FILE_NAME;
-	protected static String usersDirName = ReadersPathConst.USERS_FILE_NAME;
-
+	protected static String modelDir = ReadersPathConst.MODEL_DIR_PATH;
+	protected static String usersDirName = modelDir + ReadersPathConst.USERS_FILE_NAME + File.separator;
+	
 	/**
 	 * Loads the menu configuration from XML
 	 */
@@ -28,13 +29,10 @@ public class MenuReader {
 		try {
 			File f = new File(".");
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-			System.out.println("MENU READER 1: " + appPath + menuFile);
-			Document doc = XMLUtil.getDocumentFromXML(appPath + menuFile, 
-					ReadersPathConst.XSD_MENU);
-			Element elementMenuMap = (Element) doc.getElementsByTagName(
-					Tags.MENU_MAP).item(0);
-			NodeList nodeListMenus = elementMenuMap
-					.getElementsByTagName(Tags.MENU);
+			System.out.println("MENU READER FILE: " + appPath + modelDir + File.separator + menuFile);
+			Document doc = XMLUtil.getDocumentFromXML(appPath + modelDir + File.separator + menuFile, null);
+			Element elementMenuMap = (Element) doc.getElementsByTagName(Tags.MENU_MAP).item(0);
+			NodeList nodeListMenus = elementMenuMap.getElementsByTagName(Tags.MENU);
 			System.out.println("MENUS: " + doc.getDocumentURI());
 			for (int i = 0; i < nodeListMenus.getLength(); i++) {
 				AppCache.getInstance().addToCache(

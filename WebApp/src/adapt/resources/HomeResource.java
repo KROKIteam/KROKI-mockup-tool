@@ -17,6 +17,7 @@ import org.restlet.resource.Variant;
 
 import adapt.application.AdaptApplication;
 import adapt.entities.User;
+import adapt.utils.Settings;
 
 public class HomeResource extends BaseResource {
 	
@@ -88,6 +89,7 @@ public class HomeResource extends BaseResource {
         AdaptApplication app = (AdaptApplication) getApplication();
 		EntityManager em = app.getEmf().createEntityManager();
         prepareContent(dataModel, em);
+        dataModel.put("title", Settings.APP_TITLE);
         return getHTMLTemplateRepresentation("homepage.html", dataModel);
     }
     

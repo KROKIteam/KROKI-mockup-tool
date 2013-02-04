@@ -48,7 +48,7 @@ import kroki.uml_core_basic.UmlPackage;
 import com.panelcomposer.core.MainApp;
 
 /**
- * Akcija za export konfiguracionih xml datoteka potrebnih za genericku swing aplikaciju
+ * Action that generates configuration xml files for web app 
  */
 public class ExportSwingAction extends AbstractAction {
 
@@ -118,7 +118,7 @@ public class ExportSwingAction extends AbstractAction {
 		}
 	}
 
-	//KUPI PODATKE KLASA (PANELA) IZ MODELA NA OSNOVU KOJIH SE VRSI GENERISANJE DATOTEKA
+	//fetches class (panel) data from the model
 	public void getClassData(VisibleElement el, String classPackage, Menu menu) {
 		CamelCaser cc = new CamelCaser();
 
@@ -132,10 +132,10 @@ public class ExportSwingAction extends AbstractAction {
 			ArrayList<ManyToOneAttribute> mtoAttributes = new ArrayList<ManyToOneAttribute>();
 			ArrayList<OneToManyAttribute> otmAttributes = new ArrayList<OneToManyAttribute>();
 
-			/*****************************************/
-			/*    PODACI ZA GENERISANJE EJB KLASA    */
-			/*za svaki panel generise se jedna klasa */
-			/*****************************************/
+			/***********************************************/
+			/*    DATA USED FOR EJB CLASS GENERATION      */
+			/*one ejb class is generated for every panel */
+			/********************************************/
 			for(int j=0; j<vc.containedProperties().size(); j++) {
 				VisibleProperty vp = vc.containedProperties().get(j);
 
@@ -160,7 +160,7 @@ public class ExportSwingAction extends AbstractAction {
 				Zoom z = vc.containedZooms().get(l);
 				StandardPanel zsp = (StandardPanel) z.getTargetPanel();
 				EJBClass zcl = getClass(zsp.getPersistentClass().name());
-				//dodajem ManyToOne (zoom) atribut
+				//adding ManyToOne (zoom) attribute
 				String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
 				String reffColumn = "id";
 				String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
@@ -168,14 +168,14 @@ public class ExportSwingAction extends AbstractAction {
 				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
 				mtoAttributes.add(mto);
 
-				//u suprotni kraj asocijacije dodam OneToMany atribut
+				//add OneToMany attribute to opposite and of association
 				if(zcl != null) {
 					String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
 					String label = z.getLabel();
 					String reffTable = sp.getPersistentClass().name();
 					String mappedBy = cc.toCamelCase(z.getLabel(), true);
 
-					//pokupim sve representative atribute kako bi bili prikazani u zoom polju
+					//fetching of all representative attributes that will be displayed in zoom field
 					for(int m=0; m<zcl.getAttributes().size(); m++) {
 						Attribute a = zcl.getAttributes().get(m);
 
@@ -196,25 +196,24 @@ public class ExportSwingAction extends AbstractAction {
 
 			}
 
-			//ZA SVAKI PANEL U MODELU GENERISE SE JEDNA EJB KLASA I PROSLEDJUJE GENERATORU
+			//EJB class instance for panel is created and passed to generator
 			EJBClass ejb = new EJBClass("ejb", sp.getPersistentClass().name(), sp.getLabel(), attributes, mtoAttributes, otmAttributes);
 			classes.add(ejb);
 
 
-			/*****************************************/
-			/*    PODACI ZA GENERISANJE PODMENIJA    */
-			/*   za svaki panel generise se stavka   */
-			/*****************************************/
-			//SVAKI PANEL DOBIJE SVOJU STAVKU U MENIJU
+			   /**************************************/
+			  /*        SUBMENU GENERATION DATA     */
+			 /*        one menu item per panel     */
+			/**************************************/
 			String activate = ejb.getName().toLowerCase() + "_st";
 			String label = ejb.getLabel();
 			String panel_type = "standard-panel";
 			Submenu sub = new Submenu(activate, label, panel_type);
-			//ako je u podsistemu, dodaje se u njegove stavke
+			//if it is in a subsystem, it is aded as submenu item
 			if(menu != null) {
 				menu.add(sub);
 			}else {
-				//ako je u rootu dobija svoj meni
+				//if panel is in root of workspace, it gets it's item in main menu
 				Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>());
 				men.add(sub);
 				menus.add(men);
@@ -225,11 +224,9 @@ public class ExportSwingAction extends AbstractAction {
 			String label = pcPanel.getLabel();
 			String panel_type = "parent-child";
 			Submenu sub = new Submenu(activate, label, panel_type);
-			//ako je u podsistemu, dodaje se u njegove stavke
 			if(menu != null) {
 				menu.add(sub);
 			}else {
-				//ako je u rootu dobija svoj meni
 				Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>());
 				men.add(sub);
 				menus.add(men);
@@ -239,11 +236,11 @@ public class ExportSwingAction extends AbstractAction {
 	}
 
 
-	//KUPI PODATKE PODSISTEMA IZ MODELA NA OSNOVU KOJIH SE VRSI GENERISANJE
+	//FETCHING SUBSYSTEM DATA USED FOR FILES GENERATION
 	public void getSubSystemData(VisibleElement el, int index) {
-		/*****************************************/
-		/*    PODACI ZA GENERISANJE MENIJA       */
-		/*  za svaki subsystem generise se meni  */
+		   /*****************************************/
+		  /*          MENU GENERATION DATA         */
+		 /*          one menu per package         */
 		/*****************************************/
 		String name = "menu" + index;
 		String label = el.name().replace("_", " ");
@@ -263,7 +260,7 @@ public class ExportSwingAction extends AbstractAction {
 
 	}
 
-	//na osnovu imena vraca referencu na ejb klasu iz modela
+	//gets refference to ejb class from model based on name
 	public EJBClass getClass(String name) {
 		System.out.println("trazim klasu sa imenom " + name);
 		EJBClass clas = null;

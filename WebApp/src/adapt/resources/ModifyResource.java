@@ -20,6 +20,7 @@ import adapt.application.AdaptApplication;
 import adapt.utils.EntityClass;
 import adapt.utils.EntityCreator;
 import adapt.utils.EntityProperty;
+import adapt.utils.Settings;
 import adapt.utils.XMLAttribute;
 import adapt.utils.XMLManyToOneAttribute;
 import adapt.utils.XMLResource;
@@ -144,6 +145,7 @@ public class ModifyResource extends BaseResource {
 		AdaptApplication app = (AdaptApplication) getApplication();
 		EntityManager em = app.getEmf().createEntityManager();
 		prepareContent(dataModel, em);
+		dataModel.put("title", Settings.APP_TITLE);
 		return getHTMLTemplateRepresentation("modifyTemplate.html", dataModel);
 	}
 }

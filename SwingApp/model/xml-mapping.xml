@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map/>
+<map>
+<property class-name="ejb.Radnici" xml-file="ejb/Radnici"/>
+<property class-name="ejb.NaseljenoMesto" xml-file="ejb/NaseljenoMesto"/>
+</map>

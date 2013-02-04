@@ -45,17 +45,17 @@ import com.panelcomposer.model.panel.configuration.operation.SpecificOperations;
 
 public class PanelReader {
 
+	protected static String modelDir = ReadersPathConst.MODEL_DIR_PATH;
+	protected static String panelDir = ReadersPathConst.PANELS_DIR;
 	protected static String panelsFile = ReadersPathConst.PANELS_FILE_NAME;
 	protected static String panelsMapFile = ReadersPathConst.PANELS_MAP_FILE_NAME;
 	
-
 	public static void loadMappings() {
 		try {
 			File f = new File(".");
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-			System.out.println("PANEL READER 1: " + panelsFile + ", " + panelsMapFile);
-			Document doc = XMLUtil.getDocumentFromXML(appPath + panelsMapFile,
-					ReadersPathConst.XSD_PANEL_MAP);
+			System.out.println("PANEL READER PANEL MAP: " + appPath + modelDir + File.separator + panelDir + File.separator + panelsMapFile);
+			Document doc = XMLUtil.getDocumentFromXML(appPath + modelDir + File.separator + panelDir + File.separator + panelsMapFile, null);
 			NodeList nodeLst = doc.getElementsByTagName(Tags.PANEL);
 			System.out.println("PANELS: " + doc.getDocumentURI());
 			for (int i = 0; i < nodeLst.getLength(); i++) {
@@ -85,8 +85,7 @@ public class PanelReader {
 	public static MPanel loadPanel(String panelId, PanelType panelType,
 			String openedId, OpenedAs openedAs) {
 		try {
-			Document doc = XMLUtil.getDocumentFromXML(panelsFile, 
-					ReadersPathConst.XSD_PANELS);
+			Document doc = XMLUtil.getDocumentFromXML(modelDir + File.separator + panelDir + File.separator + panelsFile, null);
 			MPanel mpanel = null;
 			switch (panelType) {
 			case StandardPanel:
@@ -255,8 +254,7 @@ public class PanelReader {
 	private static MStandardPanel getSubPanel(Element elem) {
 		MStandardPanel mpanel = null;
 		String panelRef = elem.getAttribute(Tags.PANEL_REF);
-		mpanel = (MStandardPanel) loadPanel(panelRef, PanelType.StandardPanel,
-				null, OpenedAs.DEFAULT);
+		mpanel = (MStandardPanel) loadPanel(panelRef, PanelType.StandardPanel, null, OpenedAs.DEFAULT);
 		String id = elem.getAttribute(Tags.ID);
 		String level = elem.getAttribute(Tags.LEVEL);
 		mpanel.setName(id);

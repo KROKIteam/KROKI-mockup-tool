@@ -28,7 +28,7 @@ public class MySubMenuActionListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent event) {
-		MPanel mp = PanelReader.loadPanel(new String(act), 
+		MPanel mp = PanelReader.loadPanel(new String(act),  
 				panelType, null, OpenedAs.DEFAULT);
 		SForm sf = null;
 		if(panelType.equals(PanelType.StandardPanel)) {

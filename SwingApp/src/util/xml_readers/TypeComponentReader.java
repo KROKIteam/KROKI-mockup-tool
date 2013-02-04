@@ -19,7 +19,8 @@ import util.staticnames.Tags;
 public class TypeComponentReader {
 	
 	protected static String xmlFile = ReadersPathConst.TYPE_COMPONENT_FILE_NAME;
-	
+	protected static String modelDir = ReadersPathConst.MODEL_DIR_PATH;
+
 	public static void loadMappings() {
 		try {
 			File f = new File(".");
@@ -27,7 +28,7 @@ public class TypeComponentReader {
 			System.out.println("TYPE COMPONENT READER: " + xmlFile);
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(appPath + xmlFile);
+			Document doc = db.parse(appPath + modelDir + File.separator + xmlFile);
 			System.out.println("TC READER: " + doc.getDocumentURI());
 			doc.getDocumentElement().normalize();
 			NodeList nodeList = doc.getElementsByTagName(Tags.PROPERTY);

@@ -33,6 +33,7 @@ import adapt.application.AdaptApplication;
 import adapt.exception.RightAlreadyDefinedException;
 import adapt.utils.EntityClass;
 import adapt.utils.EntityCreator;
+import adapt.utils.Settings;
 import adapt.utils.XMLAttribute;
 import adapt.utils.XMLManyToManyAttribute;
 import adapt.utils.XMLManyToOneAttribute;
@@ -579,6 +580,7 @@ public class ViewResource extends Resource {
 
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
+		dataModel.put("title", Settings.APP_TITLE);
 		return getHTMLTemplateRepresentation("viewTemplate.html", dataModel);
 	}
 }

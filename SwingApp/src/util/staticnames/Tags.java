@@ -30,7 +30,6 @@ public class Tags {
 	public static final String COLUMN_REF = read("column_reference");
 
 	// panel tags:
-	
 	public static final String VISUAL = read("visual");
 	public static final String STANDARD_PANELS = read("standard_panels");
 	public static final String STANDARD_PANEL = read("standard_panel");
@@ -47,8 +46,6 @@ public class Tags {
 	public static final String OPERATION = read("operation");
 	public static final String OPERATION_REFERENCE = read("operation_ref");
 	public static final String DATA = read("data");
-	
-	
 	
 	public static final String ID = read("id");
 	public static final String EJB_REF = read("ejb_ref");

@@ -1,7 +1,12 @@
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
@@ -64,6 +69,9 @@ public class ExportWebAction extends AbstractAction {
         WebResourceGenerator WebGenerator = new WebResourceGenerator();
         EJBGenerator ejbGenerator = new EJBGenerator();
         DatabaseConfigGenerator dbConfigGen = new DatabaseConfigGenerator(proj.getDBConnectionProps());
+        
+        //write project label as mainframe title in main.properties file
+		writeProjectName(proj.getLabel());
         
         //ITERACIJA KROZ ELEMENTE SELEKTOVANOG PROJEKTA
         if(proj != null) {
@@ -229,4 +237,40 @@ public class ExportWebAction extends AbstractAction {
 		return clas;
 	}
 
+	public void writeProjectName(String name) {
+		File f = new File(".");
+		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "props" + File.separator + "app.properties");
+
+		//read app.properties file
+		//and append first line which contains main form title
+		Scanner scan;
+		ArrayList<String> lines = new ArrayList<String>();
+		lines.add("app.title = " + name);
+		try {
+			scan = new Scanner(propertiesFile);
+			while(scan.hasNext()){
+				String line = scan.nextLine();
+				if(!line.startsWith("app.title")) {
+					lines.add(line);
+				}
+			}
+			scan.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("[ERROR] app.properties file not found");
+		}
+
+		//write app.properties file with main form title
+		try {
+			PrintWriter pw=new PrintWriter(new FileOutputStream(propertiesFile));
+			for(int i=0; i<lines.size(); i++) {
+				pw.println(lines.get(i));
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 }

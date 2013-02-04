@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<entity class-name="ejb.Radnici" label="Radnici" name="RADNICI">
+<attributes>
+<column-attribute field-name="id" key="true" label="Šifra" length="50" name="id" type="java.lang.Long"/>
+<column-attribute field-name="ime" key="false" label="Ime" length="50" name="ime" type="java.lang.String"/>
+<column-attribute field-name="prezime" key="false" label="Prezime" length="50" name="prezime" type="java.lang.String"/>
+<column-attribute field-name="adresa" key="false" label="Adresa" length="50" name="adresa" type="java.lang.String"/>
+</attributes>
+</entity>

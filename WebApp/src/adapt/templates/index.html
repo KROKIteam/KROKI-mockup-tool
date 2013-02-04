@@ -1,6 +1,6 @@
 ﻿<html>
 	<head>
-		<title> Adaptive web application </title>
+		<title> ${title} </title>
 		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
 		<meta HTTP-EQUIV="Expires" CONTENT="-1">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -9,8 +9,8 @@
 	<body>
 		<div id="wrapper" >
 			<div id="indexcontentpane">
-				<h1>Wellcome to the adaptive web application based on aspects!</h1>
-				<p>Please log in to continue.</p>
+				<h1>Wellcome to ${title} web pages!</h1>
+				<p>${description}</p>
 				<#if msg??>
 					<p style="color:${clr}">${msg}</p>
 				</#if>

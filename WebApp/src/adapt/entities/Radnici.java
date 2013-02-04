@@ -1,4 +1,4 @@
-package ejb;
+package adapt.entities;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
@@ -22,12 +22,12 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 04.02.2013  9:48:01h
+   Creation date: 04.02.2013  12:37:27h
    **/
 
 @Entity
-@Table(name = "NASELJENOMESTO")
-public class NaseljenoMesto implements java.io.Serializable {
+@Table(name = "RADNICI")
+public class Radnici implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,18 @@ public class NaseljenoMesto implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "NM_NAZIV", unique = false, nullable = false)
-	private java.lang.String naziv;
+	@Column(name = "RAD_IME", unique = false, nullable = false)
+	private java.lang.String name;
+	
+	@Column(name = "RAD_PREZIME", unique = false, nullable = false)
+	private java.lang.String prezime;
+	
+	@Column(name = "RAD_ADRESA", unique = false, nullable = false)
+	private java.lang.String adresa;
 	
 	
 	
-	public NaseljenoMesto(){
+	public Radnici(){
 	}
 	
 	public Long getId() {
@@ -52,12 +58,28 @@ public class NaseljenoMesto implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getNaziv() {
-		return this.naziv;
+	public java.lang.String getName() {
+		return this.name;
 	}
 	
-	public void setNaziv(java.lang.String naziv) {
-		this.naziv = naziv;
+	public void setName(java.lang.String name) {
+		this.name = name;
+	}
+	
+	public java.lang.String getPrezime() {
+		return this.prezime;
+	}
+	
+	public void setPrezime(java.lang.String prezime) {
+		this.prezime = prezime;
+	}
+	
+	public java.lang.String getAdresa() {
+		return this.adresa;
+	}
+	
+	public void setAdresa(java.lang.String adresa) {
+		this.adresa = adresa;
 	}
 	
 }

@@ -14,6 +14,7 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
 
 import adapt.application.AdaptApplication;
+import adapt.utils.Settings;
 
 public class ProfilIzmenaResource extends BaseResource {
 
@@ -44,6 +45,7 @@ public class ProfilIzmenaResource extends BaseResource {
 
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
+		dataModel.put("title", Settings.APP_TITLE);
 		return getHTMLTemplateRepresentation("profilIzmena.html", dataModel);
 	}
 	
