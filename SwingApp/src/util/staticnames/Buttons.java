@@ -28,6 +28,6 @@ public class Buttons {
 	
 	
 	public static String read(String name) {
-		return ResourceBundle.getBundle("toolbar").getString(name);
+		return ResourceBundle.getBundle("props.toolbar").getString(name);
 	}
 }

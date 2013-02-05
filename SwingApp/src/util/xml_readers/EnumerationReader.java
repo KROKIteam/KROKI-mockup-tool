@@ -45,7 +45,6 @@ public class EnumerationReader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.log(e.getMessage());
 		}
 	}
 }

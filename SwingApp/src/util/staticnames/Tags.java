@@ -93,6 +93,6 @@ public class Tags {
 	
 
 	public static String read(String name) {
-		return ResourceBundle.getBundle("tagutil").getString(name);
+		return ResourceBundle.getBundle("props.tagutil").getString(name);
 	}
 }

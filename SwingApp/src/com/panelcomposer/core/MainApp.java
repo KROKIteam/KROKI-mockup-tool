@@ -17,7 +17,6 @@ public class MainApp {
 	
 	public static void main(String[] args) {
 		//Logger.getLogger("").setLevel(Level.OFF);
-		Logger.log("Kreno");
 		PersistenceHelper.createFactory("hotelsoap");
 		
 		TypeComponentReader.loadMappings();

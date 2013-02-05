@@ -25,6 +25,6 @@ public class Messages {
 	public static final Object SEARCH_NO_FIELDS_FILLED = read("search_no_fields_filled");
 	
 	public static String read(String name) {
-		return ResourceBundle.getBundle("messagesform").getString(name);
+		return ResourceBundle.getBundle("props.messagesform").getString(name);
 	}
 }

@@ -30,7 +30,7 @@ public class ReadersPathConst {
 	public static final String XSD_XML_MAP = "D:" + File.separator + "workspace" + File.separator + "kroki-integracija-clone" + File.separator + "SwingApp" + File.separator + "xsd" + File.separator + "xml-map.xsd";
 
 	public static String read(String name) {
-		return ResourceBundle.getBundle("xmlpaths").getString(name);
+		return ResourceBundle.getBundle("props.xmlpaths").getString(name);
 	}
 	
 }

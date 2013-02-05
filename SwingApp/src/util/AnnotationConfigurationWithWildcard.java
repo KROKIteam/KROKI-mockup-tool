@@ -224,7 +224,7 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
         List<String> fileNames = new ArrayList<String>();
         
         String path = fileAttributeName.substring(0, fileAttributeName.lastIndexOf(".")).replace(".", "/");
-        URL packageUrl = getClass().getClassLoader().getResource(path);
+        URL packageUrl = new URL("/" + path);
         if(packageUrl == null) {
             fileNames.add(fileAttributeName); //cant find package, so default behaviour
         } else {

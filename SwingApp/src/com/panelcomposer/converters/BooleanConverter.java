@@ -37,7 +37,7 @@ public class BooleanConverter extends AbstractConverter {
 	}
 	
 	public static String read(String name) {
-		return ResourceBundle.getBundle("main").getString(name);
+		return ResourceBundle.getBundle("props.main").getString(name);
 	}
 
 	@Override

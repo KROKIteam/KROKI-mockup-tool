@@ -42,7 +42,6 @@ public class TypeComponentReader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.log(e.getMessage());
 		}
 	}
 
