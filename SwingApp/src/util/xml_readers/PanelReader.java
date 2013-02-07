@@ -5,10 +5,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import log.Logger;
-
-import net.sf.jasperreports.engine.type.PenEnum;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -68,7 +64,7 @@ public class PanelReader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.log(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 

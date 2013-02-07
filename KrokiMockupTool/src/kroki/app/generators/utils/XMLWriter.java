@@ -22,15 +22,16 @@ public class XMLWriter {
 			File f = new File(".");
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 			
-			
 			File fout = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "model" + File.separator +  fileName + ".xml");
 			if(!swing) {
-				fout = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "src" + File.separator + "config" + File.separator +  fileName + ".xml");
+				fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "config" + File.separator +  fileName + ".xml");
 			}
 			if (!fout.getParentFile().exists()) 
 				if (!fout.getParentFile().mkdirs()) {
 					throw new IOException("Greska pri kreiranju izlaznog direktorijuma ");
 			}
+			
+			System.out.println("XML Writer writing " + fout.getAbsolutePath());
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();

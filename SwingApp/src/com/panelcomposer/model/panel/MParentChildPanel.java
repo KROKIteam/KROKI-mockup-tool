@@ -9,7 +9,7 @@ public class MParentChildPanel extends MPanel {
 
 	public void add(MStandardPanel mspanel) {
 		panels.add(mspanel);
-		System.out.println(" " + mspanel.getName());
+		System.out.println("PARENT-CHILD PANEL ADDING: " + mspanel.getName());
 	}
 
 	

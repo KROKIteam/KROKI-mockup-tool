@@ -1,6 +1,12 @@
 package com.panelcomposer.core;
 
-import log.Logger;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
@@ -17,6 +23,7 @@ public class MainApp {
 	
 	public static void main(String[] args) {
 		//Logger.getLogger("").setLevel(Level.OFF);
+		
 		PersistenceHelper.createFactory("hotelsoap");
 		
 		TypeComponentReader.loadMappings();

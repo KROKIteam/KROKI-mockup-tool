@@ -5,6 +5,7 @@
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 
 import kroki.app.gui.dialog.KrokiMockupToolAboutDialog;

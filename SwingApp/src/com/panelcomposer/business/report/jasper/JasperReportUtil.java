@@ -36,8 +36,6 @@ public class JasperReportUtil {
 		System.out.println("JasperReportUtil.viewReport()");
 		while (it.hasNext()) {
 			Object obj = it.next();
-			System.out.println(obj);
-			
 		}
 		 
 		

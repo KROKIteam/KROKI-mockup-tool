@@ -5,44 +5,44 @@ import com.panelcomposer.model.ejb.EntityBean;
 public class ConsoleUtil {
 	
 	/*public static void printEJB(EJBClass ejb) {
-		System.out.println("===============EJB===============");
-		System.out.println("Name: " +ejb.getName() + "\t" + 
+		Logger.log("===============EJB===============");
+		Logger.log("Name: " +ejb.getName() + "\t" + 
 				"Label: " + ejb.getLabel());
 		
 		for (int j = 0; j < ejb.getAttributesCount(); j++) {
-			System.out.println("-------------------------");
+			Logger.log("-------------------------");
 			printEJBAttribute(ejb.getAttributes().get(j));
 		}
 	}
 	
 	public static void printEJBAttribute(EJBAttribute attr) {
-		System.out.println("Name: " + attr.getName());
-		System.out.println("Label: " + attr.getLabel());
-		System.out.println("Type: " + attr.getType());
-		System.out.println("Upper: " + attr.getUpper() + 
+		Logger.log("Name: " + attr.getName());
+		Logger.log("Label: " + attr.getLabel());
+		Logger.log("Type: " + attr.getType());
+		Logger.log("Upper: " + attr.getUpper() + 
 				"\tLower: " + attr.getLower());
-		System.out.println("Nullable: " + attr.isNullable());
-		System.out.println("Unique: " + attr.isUnique());
+		Logger.log("Nullable: " + attr.isNullable());
+		Logger.log("Unique: " + attr.isUnique());
 		if(attr.getLength() != null)
-			System.out.println("Length: " + attr.getLength());
+			Logger.log("Length: " + attr.getLength());
 		if(attr.getPrecision() != null && attr.getScale() != null)
-			System.out.println("Precision: " + attr.getPrecision() + 
+			Logger.log("Precision: " + attr.getPrecision() + 
 					", Scale: " + attr.getScale());
 		if(attr.isKey()) 
-			System.out.println("is key");
+			Logger.log("is key");
 		if(attr.getMapped() != null) {
 			switch(attr.getMapped()) {
 				case oneToMany : 
-					System.out.println("-- 1 to * --");
+					Logger.log("-- 1 to * --");
 					break;
 				case manyToOne :
-					System.out.println("-- * to 1 --");
+					Logger.log("-- * to 1 --");
 					break;
 				case oneToOne : 
-					System.out.println("-- 1 to 1 --");
+					Logger.log("-- 1 to 1 --");
 					break;
 				case manyToMany : 
-					System.out.println("-- * to * --");
+					Logger.log("-- * to * --");
 					break;
 			}
 		}

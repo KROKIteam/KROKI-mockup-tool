@@ -5,8 +5,10 @@
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.dialog.RenameDialog;
 import kroki.app.utils.StringResource;

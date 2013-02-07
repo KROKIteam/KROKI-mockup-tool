@@ -202,7 +202,6 @@ public class SPanel extends JPanel implements ObserverPanel {
 						System.out.println(whereStatement);
 					}
 				} catch (EntityAttributeNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

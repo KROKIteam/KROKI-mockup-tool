@@ -37,6 +37,7 @@
 	<classpathentry kind="lib" path="lib/sqljdbc.jar"/>
 	<classpathentry kind="lib" path="lib/sqljdbc4.jar"/>
 	<classpathentry kind="lib" path="lib/aspectj-1.6.11.jar"/>
-	<classpathentry kind="lib" path="lib/aspectjrt-1.6.9.jar"/>
+	<classpathentry kind="lib" path="lib/aspectjtools.jar"/>
+	<classpathentry kind="lib" path="C:/eclipse/plugins/org.aspectj.runtime_1.6.12.20110613132200/aspectjrt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

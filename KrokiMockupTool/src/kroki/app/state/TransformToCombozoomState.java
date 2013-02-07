@@ -7,6 +7,7 @@ package kroki.app.state;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;

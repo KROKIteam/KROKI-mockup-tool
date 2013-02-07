@@ -2,18 +2,16 @@ package util.xml_readers;
 
 import java.io.File;
 
-import log.Logger;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.panelcomposer.core.AppCache;
-import com.panelcomposer.model.enumeration.Enumeration;
-
 import util.staticnames.ReadersPathConst;
 import util.staticnames.Tags;
+
+import com.panelcomposer.core.AppCache;
+import com.panelcomposer.model.enumeration.Enumeration;
 
 public class EnumerationReader {
 

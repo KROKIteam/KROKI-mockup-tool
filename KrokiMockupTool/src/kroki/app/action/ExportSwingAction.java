@@ -1,18 +1,15 @@
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
-import java.io.Closeable;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
@@ -26,27 +23,18 @@ import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.generators.utils.Submenu;
-import kroki.app.utils.JARMaker;
-import kroki.app.utils.TypeComponentMapper;
-import kroki.app.view.Canvas;
+import kroki.app.utils.RunAnt;
+import kroki.common.copy.DeepCopy;
 import kroki.commons.camelcase.CamelCaser;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;
-import kroki.profil.operation.BussinessOperation;
-import kroki.profil.operation.Report;
-import kroki.profil.operation.Transaction;
-import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
-import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.panel.std.StdPanelSettings;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.uml_core_basic.UmlPackage;
-
-import com.panelcomposer.core.MainApp;
 
 /**
  * Action that generates configuration xml files for web app 
@@ -79,56 +67,57 @@ public class ExportSwingAction extends AbstractAction {
 				}
 			}
 
-			classes = new ArrayList<EJBClass>();
-			menus = new ArrayList<Menu>();
-			elements = new ArrayList<VisibleElement>();
-			EJBGenerator ejbGenerator = new EJBGenerator();
-			MenuGenerator menuGenerator = new MenuGenerator();
-			PanelGenerator panelGenerator = new PanelGenerator();
-			DatabaseConfigGenerator dbConfigGenerator = new DatabaseConfigGenerator(proj.getDBConnectionProps());
+			JFileChooser jfc = new JFileChooser();
+			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
+			if (retValue == JFileChooser.APPROVE_OPTION) {
+				File file = jfc.getSelectedFile();
+				
+				classes = new ArrayList<EJBClass>();
+				menus = new ArrayList<Menu>();
+				elements = new ArrayList<VisibleElement>();
+				EJBGenerator ejbGenerator = new EJBGenerator();
+				MenuGenerator menuGenerator = new MenuGenerator();
+				PanelGenerator panelGenerator = new PanelGenerator();
+				DatabaseConfigGenerator dbConfigGenerator = new DatabaseConfigGenerator(proj.getDBConnectionProps());
 
 
-			//iteration trough project elements and retrieving of usable data for generators
-			for(int i=0; i<proj.ownedElementCount(); i++) {
-				VisibleElement el = proj.getOwnedElementAt(i);
-				if(el instanceof BussinesSubsystem) {
-					getSubSystemData(el, i);
-				}else if(el instanceof VisibleClass) {
-					getClassData(el, "", null);
+				//iteration trough project elements and retrieving of usable data for generators
+				for(int i=0; i<proj.ownedElementCount(); i++) {
+					VisibleElement el = proj.getOwnedElementAt(i);
+					if(el instanceof BussinesSubsystem) {
+						getSubSystemData(el, i);
+					}else if(el instanceof VisibleClass) {
+						getClassData(el, "", null);
+					}
 				}
-			}
 
-			//CONFIGURATION FILES GENERATION
-			menuGenerator.generate(menus);
-			panelGenerator.generate(elements);
-			ejbGenerator.generateEJBXmlFiles(classes);
-			ejbGenerator.generateEJBClasses(classes, true);
-			ejbGenerator.generateXMLMappingFile(classes);
-			dbConfigGenerator.generateFilesForDesktopApp();
+				//CONFIGURATION FILES GENERATION
+				menuGenerator.generate(menus);
+				panelGenerator.generate(elements);
+				ejbGenerator.generateEJBXmlFiles(classes);
+				ejbGenerator.generateEJBClasses(classes, true);
+				ejbGenerator.generateXMLMappingFile(classes);
+				dbConfigGenerator.generateFilesForDesktopApp();
 
-			//write project label as mainframe title in main.properties file
-			writeProjectName(proj.getLabel());
+				//write project label as mainframe title in main.properties file
+				writeProjectName(proj.getLabel());
 
-			//make JAR file
-			JARMaker maker = new JARMaker();
-			File output = new File("C:" + File.separator + "Users" + File.separator + "mrd" + File.separator + "Desktop");
-			File f = new File(".");
-			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-			File input = new File(appPath.substring(0, appPath.length()-16) + "SwingApp");
-			String jarName = proj.getLabel().replace(" ", "_") + ".jar";
-			
-			try {
-				maker.makeJAR(input, output, jarName);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+				//run ant script that compiles generated code and makes runnable jar
+				File f = new File(".");
+				String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+
+				String jarName = proj.getLabel().replace(" ", "_");
+				File buildFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "build.xml");
+				File outputFile = new File(file.getAbsolutePath() + File.separator + jarName);
+				
+				RunAnt runner = new RunAnt();
+				runner.run(jarName + ".jar", buildFile, outputFile);
+				
+			} else {
+				System.out.println("saving canceled: ");
 			}
 			
-			//start app
-			//MainApp mapp = new MainApp();
-			//mapp.main(null);
-
 		} catch (NullPointerException e2) {
 			//if no project is selected, inform user to select one
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
@@ -294,6 +283,7 @@ public class ExportSwingAction extends AbstractAction {
 	public void writeProjectName(String name) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		//appPath.substring(0, appPath.length()-16)
 		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main.properties");
 
 		//read main.properties file
@@ -311,6 +301,7 @@ public class ExportSwingAction extends AbstractAction {
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
+//			JOptionPane.showMessageDialog(null, "WRITE PROJECT NAME: READ FileNotFoundException");
 			System.out.println("[ERROR] main.properties file not found");
 		}
 
@@ -322,6 +313,7 @@ public class ExportSwingAction extends AbstractAction {
 			}
 			pw.close();
 		} catch (FileNotFoundException e) {
+//			JOptionPane.showMessageDialog(null, "WRITE PROJECT NAME: WRITE FileNotFoundException");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

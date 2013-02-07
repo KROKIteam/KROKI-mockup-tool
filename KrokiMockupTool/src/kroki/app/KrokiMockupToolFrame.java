@@ -346,5 +346,11 @@ public class KrokiMockupToolFrame extends JFrame {
         this.leftSplitPane = leftSplitPane;
     }
 
-    
+	public CommandPanel getConsole() {
+		return console;
+	}
+
+	public void setConsole(CommandPanel console) {
+		this.console = console;
+	}
 }

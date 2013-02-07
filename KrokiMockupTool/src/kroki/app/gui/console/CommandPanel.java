@@ -496,4 +496,9 @@ public class CommandPanel extends JPanel {
 		return owner;
 	}
 	
+	public void displayText(String text) {
+		previousLines.append(text);
+		previousLines.setCaretPosition(previousLines.getDocument().getLength());
+	}
+	
 }

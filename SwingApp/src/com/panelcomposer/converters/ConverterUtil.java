@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.h2.util.New;
-
 import com.panelcomposer.model.attribute.ColumnAttribute;
 
 /****

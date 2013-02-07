@@ -7,10 +7,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
+
 import com.panelcomposer.listeners.OperationActionListener;
 import com.panelcomposer.model.panel.configuration.operation.Operation;
-
-import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class OperationsPanel extends JPanel {

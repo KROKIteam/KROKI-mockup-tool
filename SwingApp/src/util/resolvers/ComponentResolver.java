@@ -63,8 +63,7 @@ public class ComponentResolver {
 			return (JComponent) Class.forName(compType).getConstructor()
 					.newInstance();
 		} catch (Exception e) {
-			System.out.println(type);
-			e.printStackTrace();
+			System.out.println("COMPONENT RESOLVER ERROR: " + e.getMessage());
 			return null;
 		}
 	}
@@ -218,7 +217,7 @@ public class ComponentResolver {
 			obj = jcAttr.getLookupClass().cast(q.getSingleResult());
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println(e.getMessage());
+			System.out.println(e.getMessage());
 		} finally {
 			em.close();
 		}

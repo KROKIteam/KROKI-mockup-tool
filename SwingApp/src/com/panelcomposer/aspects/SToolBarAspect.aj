@@ -11,6 +11,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
+import util.staticnames.Buttons;
+import util.staticnames.Settings;
+
 import com.panelcomposer.elements.SToolBar;
 import com.panelcomposer.elements.spanel.SPanel;
 import com.panelcomposer.enumerations.OpenedAs;
@@ -19,11 +22,8 @@ import com.panelcomposer.enumerations.ViewMode;
 import com.panelcomposer.listeners.NextActionListener;
 import com.panelcomposer.model.panel.configuration.Next;
 
-import util.staticnames.Buttons;
-import util.staticnames.Settings;
-
 public aspect SToolBarAspect {
-	
+
 	/**
 	 * Pointcut for method init()
 	 * @param toolbar
@@ -33,14 +33,16 @@ public aspect SToolBarAspect {
 	after(final SToolBar toolbar) : createButtons(toolbar) {
 		// search button
 		toolbar.makeButton("search.gif", Buttons.SEARCH, new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ev) {
 				toolbar.getPanel().handleSearch();
 			}
 		});
-		
+
 		// zoom pick-up button
 		if (toolbar.getPanel().getModelPanel().getPanelSettings().getOpenedAs() == OpenedAs.ZOOM) {
 			toolbar.makeButton("zoompick.gif", Buttons.ZOOM_PICK, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					SPanel sp = toolbar.getPanel();
 					int crow = sp.getTable().getTableModel().getCurrentRow();
@@ -81,47 +83,54 @@ public aspect SToolBarAspect {
 			});	
 		}
 		toolbar.makeButton("refresh.gif", Buttons.REFRESH, new ActionListener() {
-				public void actionPerformed(ActionEvent ev) {
-					String dataFilter = toolbar.getPanel()
+			@Override
+			public void actionPerformed(ActionEvent ev) {
+				String dataFilter = toolbar.getPanel()
 						.getModelPanel().getDataSettings().getDataFilter();
-					toolbar.getPanel().loadData(dataFilter);
-				}
+				toolbar.getPanel().loadData(dataFilter);
+			}
 		});
 		toolbar.makeButton("help.gif",Buttons.HELP, new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent ev) {
 				JOptionPane.showMessageDialog(null, "No Help!");
 			}
 		});
 		toolbar.addSeparator();
-		
+
 		// Data navigation part - first, previous, next and last
 		if (toolbar.getPanel().getModelPanel().getPanelSettings().getDataNavigation() == true) {
 			toolbar.makeButton("first.gif", Buttons.FIRST, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					toolbar.getPanel().getTable().goToFirst();
 				}
 			});
 			toolbar.makeButton("prev.gif", Buttons.PREVIOUS, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					toolbar.getPanel().getTable().goToPrev();
 				}
 			});
 			toolbar.makeButton("next.gif", Buttons.NEXT, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					toolbar.getPanel().getTable().goToNext();
 				}
 			});
 			toolbar.makeButton("last.gif", Buttons.LAST, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					toolbar.getPanel().getTable().goToLast();
 				}
 			});
 			toolbar.addSeparator();
 		}
-		
+
 		// Add button
 		if (toolbar.getPanel().getModelPanel().getPanelSettings().getAdd() == true) {
 			toolbar.makeButton("add.gif", Buttons.ADD, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					toolbar.getPanel().handleAdd();
 				}
@@ -131,6 +140,7 @@ public aspect SToolBarAspect {
 		// Copy button
 		if (toolbar.getPanel().getModelPanel().getPanelSettings().getCopy() == true) {
 			toolbar.makeButton("copy.gif", Buttons.COPY, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					toolbar.getPanel().handleCopy();
 				}
@@ -140,12 +150,13 @@ public aspect SToolBarAspect {
 		// Remove button
 		if (toolbar.getPanel().getModelPanel().getPanelSettings().getDelete() == true) {
 			toolbar.makeButton("remove.gif", Buttons.REMOVE, new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent ev) {
 					toolbar.getPanel().getTable().handleDelete();
 				}
 			});
 		}
-		
+
 		// Next button with popup menu
 		if(toolbar.getPanel().getModelPanel().getNextPanels().size() > 0) {
 			toolbar.makeButton("chain.gif", Buttons.NEXT_MENU, new ActionListener() {
@@ -164,35 +175,35 @@ public aspect SToolBarAspect {
 			});
 		}
 	}
-	
+
 	/****
 	 * Disabling buttons 
 	 * @param enable Enables or disables buttons depending on state
 	 */
- 	public void SToolBar.setEnablingOnToolBar(boolean enable) {
+	public void SToolBar.setEnablingOnToolBar(boolean enable) {
 		StateMode state = getPanel().getModelPanel().getPanelSettings().getStateMode();
 		switch(state) {
-			case ADD: 
-				// Disable all buttons that are present on toolbar
-				Iterator<String> iter = getButtons().keySet().iterator();
-				while (iter.hasNext()) {
-					setEnabledButton(iter.next(), enable);
-				}
-				break;
-			case SEARCH: 
-				setEnabledButton(Buttons.SEARCH, enable);
-				setEnabledButton(Buttons.ADD, enable);
-				setEnabledButton(Buttons.REMOVE, enable);
-				setEnabledButton(Buttons.COPY, enable);
-				break;
-			default: 
-				Iterator<String> iter2 = getButtons().keySet().iterator();
-				while (iter2.hasNext()) {
-					setEnabledButton(iter2.next(), enable);
-				}
+		case ADD: 
+			// Disable all buttons that are present on toolbar
+			Iterator<String> iter = getButtons().keySet().iterator();
+			while (iter.hasNext()) {
+				setEnabledButton(iter.next(), enable);
+			}
+			break;
+		case SEARCH: 
+			setEnabledButton(Buttons.SEARCH, enable);
+			setEnabledButton(Buttons.ADD, enable);
+			setEnabledButton(Buttons.REMOVE, enable);
+			setEnabledButton(Buttons.COPY, enable);
+			break;
+		default: 
+			Iterator<String> iter2 = getButtons().keySet().iterator();
+			while (iter2.hasNext()) {
+				setEnabledButton(iter2.next(), enable);
+			}
 		}
 	}
-	
+
 	/***
 	 * Enable or disable one button
 	 * @param name Key for map of buttons

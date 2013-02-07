@@ -110,7 +110,6 @@ public class AppCache {
 	 */
 	public boolean logIn(String username, char[] password) {
 		EntityManager em = PersistenceHelper.createEntityManager();
-		System.out.println("LOG IN: user: " + username + ", pass: " + new String(password));
 		Query q = em.createQuery(
 				"SELECT x FROM User x WHERE x.username = ? AND x.password = ?");
 		q.setParameter(1, username);
@@ -118,12 +117,10 @@ public class AppCache {
 		try {
 			User user1 = (User) q.getSingleResult();
 			if(user1 != null) {
-				System.out.println("vratio");
 				user = new User(username, password.toString());
 				return true;
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			return false;
 		}
 		return false;
@@ -132,8 +129,4 @@ public class AppCache {
 	public String getUsername() {
 		return user.getUsername();
 	}
-
-	
-
-	
 }

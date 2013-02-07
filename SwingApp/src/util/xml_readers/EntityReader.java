@@ -4,8 +4,6 @@ import java.io.File;
 
 import javax.swing.JComponent;
 
-import log.Logger;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -48,7 +46,7 @@ public class EntityReader {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.log(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 

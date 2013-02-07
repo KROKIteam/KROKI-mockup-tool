@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 04.02.2013  16:23 -->
+<!-- Creation time and date: 07.02.2013  16:44 -->
 
-<persistence version="2.0">
+<persistence>
 	<persistence-unit name="hotelsoap" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>

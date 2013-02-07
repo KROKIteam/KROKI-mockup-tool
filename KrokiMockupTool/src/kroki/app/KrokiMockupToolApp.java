@@ -8,13 +8,16 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import kroki.app.controller.TreeController;
+
 import kroki.app.controller.TabbedPaneController;
+import kroki.app.controller.TreeController;
 import kroki.app.gui.GuiManager;
 import kroki.app.model.ProjectHierarchyModel;
 import kroki.app.model.Workspace;
@@ -22,7 +25,6 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.KrokiLookAndFeel;
 import kroki.app.utils.StringResource;
 import kroki.app.utils.TypeComponentMapper;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**

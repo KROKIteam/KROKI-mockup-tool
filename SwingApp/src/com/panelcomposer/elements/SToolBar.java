@@ -8,9 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
-import com.panelcomposer.elements.spanel.SPanel;
-
 import util.staticnames.Settings;
+
+import com.panelcomposer.elements.spanel.SPanel;
 
 @SuppressWarnings("serial")
 public class SToolBar extends JToolBar {

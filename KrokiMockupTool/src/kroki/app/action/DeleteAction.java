@@ -6,15 +6,16 @@ package kroki.app.action;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.visitor.ContainingPanels;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;

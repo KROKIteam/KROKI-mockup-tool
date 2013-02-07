@@ -6,10 +6,12 @@ package kroki.app.action;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 

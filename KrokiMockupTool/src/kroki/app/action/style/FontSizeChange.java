@@ -6,8 +6,10 @@ package kroki.app.action.style;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;

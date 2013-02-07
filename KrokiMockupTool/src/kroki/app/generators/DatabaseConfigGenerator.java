@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.swing.JOptionPane;
+
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -45,13 +47,13 @@ public class DatabaseConfigGenerator {
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		
-		File fout = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "META-INF" + File.separator + "persistence.xml");
+		File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "props" + File.separator + "META-INF" + File.separator + "persistence.xml");
 		Template tpl = prepareTemplate("persistenceSwing.ftl");
 		if(web){
-			fout = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "etc" + File.separator + "META-INF" + File.separator + "persistence.xml");
+			fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "etc" + File.separator + "META-INF" + File.separator + "persistence.xml");
 			tpl = prepareTemplate("persistenceWeb.ftl");
 		}
-		
+//		JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: generisem u " + fout.getAbsolutePath());
 		
 		OutputStreamWriter writer;
 		try {
@@ -72,10 +74,13 @@ public class DatabaseConfigGenerator {
 			
 			tpl.process(model, writer);
 		} catch (FileNotFoundException e) {
+//			JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: FileNotFoundException");
 			e.printStackTrace();
 		} catch (TemplateException e) {
+//			JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: TemplateException");
 			e.printStackTrace();
 		} catch (IOException e) {
+//			JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: IOException");
 			e.printStackTrace();
 		}
 	}

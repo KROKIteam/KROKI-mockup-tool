@@ -1,9 +1,9 @@
 package util.resolvers;
 
+import util.staticnames.Tags;
+
 import com.panelcomposer.enumerations.PanelType;
 import com.panelcomposer.exceptions.PanelTypeParsingException;
-
-import util.staticnames.Tags;
 
 public class PanelTypeResolver {
 

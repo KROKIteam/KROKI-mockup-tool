@@ -5,12 +5,13 @@
 package kroki.app.action.style;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.ChangeLayoutCommand;
 import kroki.app.command.CommandManager;
-import kroki.app.gui.GuiManager;
 import kroki.app.gui.toolbar.StyleToolbar;
 import kroki.app.model.SelectionModel;
 import kroki.app.utils.ImageResource;

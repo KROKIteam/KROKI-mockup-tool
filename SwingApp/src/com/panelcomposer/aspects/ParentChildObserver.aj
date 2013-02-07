@@ -1,12 +1,12 @@
 package com.panelcomposer.aspects;
 
+import util.EntityHelper;
+
 import com.panelcomposer.elements.spanel.SPanel;
 import com.panelcomposer.exceptions.EntityAttributeNotFoundException;
 import com.panelcomposer.model.attribute.JoinColumnAttribute;
 import com.panelcomposer.model.ejb.EntityBean;
 import com.panelcomposer.observe.ObserverPanel;
-
-import util.EntityHelper;
 
 public aspect ParentChildObserver {
 	

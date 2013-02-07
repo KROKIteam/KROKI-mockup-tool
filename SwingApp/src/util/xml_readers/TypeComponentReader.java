@@ -5,18 +5,14 @@ import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import log.Logger;
-
-
-import org.h2.constant.SysProperties;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.panelcomposer.core.AppCache;
-
 import util.staticnames.ReadersPathConst;
 import util.staticnames.Tags;
+
+import com.panelcomposer.core.AppCache;
 
 public class TypeComponentReader {
 	

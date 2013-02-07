@@ -2,6 +2,8 @@ package com.panelcomposer.aspects;
 
 import javax.swing.JButton;
 
+import util.EntityHelper;
+
 import com.panelcomposer.elements.spanel.InputPanel;
 import com.panelcomposer.elements.spanel.SPanel;
 import com.panelcomposer.enumerations.OpenedAs;
@@ -10,8 +12,6 @@ import com.panelcomposer.model.attribute.AbsAttribute;
 import com.panelcomposer.model.attribute.ColumnAttribute;
 import com.panelcomposer.model.attribute.JoinColumnAttribute;
 import com.panelcomposer.model.ejb.EntityBean;
-
-import util.EntityHelper;
 
 public aspect InputPanelAspect {
 

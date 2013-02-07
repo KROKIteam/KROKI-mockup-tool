@@ -156,8 +156,6 @@ public class OperationActionListener implements ActionListener {
 			JOptionPane.showMessageDialog(dialog, 
 					"Nije nadjen izvestaj", Messages.ERROR, JOptionPane.ERROR_MESSAGE);
 		} finally {
-			
-			//panel.getForm().setModal(true);
 			panel.loadData(null);
 		}
 	}

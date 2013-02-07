@@ -6,8 +6,10 @@ package kroki.app.action.mockup;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.state.State;
