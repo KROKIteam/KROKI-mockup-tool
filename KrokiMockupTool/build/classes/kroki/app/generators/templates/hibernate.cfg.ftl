@@ -16,6 +16,5 @@ ${doc}
   <property name="current_session_context_class">thread</property>
   <!-- this will show us all sql statements -->
   <property name="hibernate.show_sql">true</property>
-  <mapping class="ejb.*"/>
 </session-factory>
 </hibernate-configuration>

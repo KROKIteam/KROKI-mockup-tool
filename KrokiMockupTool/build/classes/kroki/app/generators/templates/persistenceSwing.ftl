@@ -11,7 +11,7 @@ ${doc}
 			<property name="hibernate.connection.url" value="${url}" />
 			<property name="hibernate.connection.username" value="${username}" />
 			<property name="hibernate.connection.password" value="${password}" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" />
 		</properties>
 	</persistence-unit>

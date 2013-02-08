@@ -61,8 +61,8 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
             parseSecurity(secNode);
         }
 
-        log.info("Configured SessionFactory: " + name);
-        log.debug("properties: " + getProperties());
+        //System.out.println("Configured SessionFactory: " + name);
+        //System.out.println("properties: " + getProperties());
 
         return this;
     }
@@ -151,6 +151,7 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
             
             if(classAttributeName.endsWith(".*")) {
                 try {
+                	System.out.println("TRY " + classAttributeName);
                     classNames.addAll(getAllAnnotatedClassNames(classAttributeName));
                 } catch(IOException ioe) {
                     log.error("Could not read class: " + classAttributeName, ioe);
@@ -225,44 +226,44 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
         
         List<String> fileNames = new ArrayList<String>();
         
-        String path = fileAttributeName.substring(0, fileAttributeName.lastIndexOf(".")).replace(".", "/");
-        URL packageUrl = new URL("/" + path);
-        if(packageUrl == null) {
-            fileNames.add(fileAttributeName); //cant find package, so default behaviour
-        } else {
-            File fPackageDir = new File(packageUrl.toURI());
-            if(!fPackageDir.exists()) {
-                fileNames.add(fileAttributeName); //cant find package, so default behaviour
-            } else {
-                File classFiles[] = fPackageDir.listFiles(new FilenameFilter(){
-                    @Override
-                    public boolean accept(File file, String name) {
-                        return name.endsWith(".class");
-                    }
-                });
-                
-                for(File classFile : classFiles) {
-                    DataInputStream dis = null;
-                    try {
-                        dis = new DataInputStream(new BufferedInputStream(new FileInputStream(classFile)));
-                        ClassFile cf =  new ClassFile(dis);
-                        AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute(AnnotationsAttribute.visibleTag);
-                        for(Annotation ann : visible.getAnnotations()) {
-                             if(ann.getTypeName().equals("javax.persistence.Entity")) {
-                                 fileNames.add(cf.getName());
-                             }
-                        }
-                    } catch(IOException ioe) {
-                        log.warn("Could not read the class file: " + classFile.getName(), ioe);
-                    } finally {
-                        if(dis != null) {
-                            dis.close();
-                        }
-                    }
-                }
-            }
-
-        }
+        String path = fileAttributeName.substring(0, fileAttributeName.lastIndexOf(".")).replace(".", File.separator);
+        System.out.println("WILD: " + path);
+        //URL packageUrl = new URL(File.separator + path);
+		File fPackageDir = new File(File.separator + path);
+		System.out.println("WILD FILE: " + fPackageDir.getAbsolutePath());
+		if(!fPackageDir.exists()) {
+			System.out.println("WILD !EXISTS");
+		    fileNames.add(fileAttributeName); //cant find package, so default behaviour
+		} else {
+			System.out.println("WILD ELSE2");
+		    File classFiles[] = fPackageDir.listFiles(new FilenameFilter(){
+		        @Override
+		        public boolean accept(File file, String name) {
+		            return name.endsWith(".class");
+		        }
+		    });
+		    
+		    for(File classFile : classFiles) {
+		    	System.out.println("CLASS: "  + classFile.getName());
+		        DataInputStream dis = null;
+		        try {
+		            dis = new DataInputStream(new BufferedInputStream(new FileInputStream(classFile)));
+		            ClassFile cf =  new ClassFile(dis);
+		            AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute(AnnotationsAttribute.visibleTag);
+		            for(Annotation ann : visible.getAnnotations()) {
+		                 if(ann.getTypeName().equals("javax.persistence.Entity")) {
+		                     fileNames.add(cf.getName());
+		                 }
+		            }
+		        } catch(IOException ioe) {
+		            log.warn("Could not read the class file: " + classFile.getName(), ioe);
+		        } finally {
+		            if(dis != null) {
+		                dis.close();
+		            }
+		        }
+		    }
+		}
         
         return fileNames;
     }

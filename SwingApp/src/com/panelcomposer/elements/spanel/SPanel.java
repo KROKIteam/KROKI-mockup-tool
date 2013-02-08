@@ -78,7 +78,7 @@ public class SPanel extends JPanel implements ObserverPanel {
 	}
 
 	public void init() {
-		getModelPanel().getPanelSettings().setStateMode(StateMode.UPDATE);
+		getModelPanel().getPanelSettings().setStateMode(StateMode.ADD);
 		setLayout(new MigLayout("", "[0:0,grow 100,fill][pref!]", "[]0[]"));
 
 		JPanel panelContainer = new JPanel();
@@ -120,14 +120,13 @@ public class SPanel extends JPanel implements ObserverPanel {
 		getTable().requestFocus();
 		refreshInputPanel();
 	}
-	
+
 	public void handleCommit() {
 		if (!getModelPanel().getPanelSettings().getStateMode().equals(StateMode.SEARCH)) {
 			// TODO: Needs validation
 			// return;
 			Object objEntity = null;
 			try {
-				
 				System.out.println("SPanelAspect.SPanel.handleCommit(); " + getModelPanel().getPanelSettings().getStateMode());
 				if(getModelPanel().getPanelSettings().getStateMode().equals(StateMode.ADD)) {
 					objEntity = ComponentResolver.getDataFromComponents(
@@ -146,7 +145,7 @@ public class SPanel extends JPanel implements ObserverPanel {
 						method.invoke(objEntity, id);
 					}
 					getTable().getTableModel().update(objEntity);
-					
+
 				} else {
 					throw new Exception();
 				}

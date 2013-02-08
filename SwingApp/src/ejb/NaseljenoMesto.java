@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 07.02.2013  16:44:37h
+   Creation date: 08.02.2013  15:31:10h
    **/
 
 @Entity
@@ -36,10 +36,20 @@ public class NaseljenoMesto implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
+	@Column(name = "NM_PTT_OZNAKA", unique = false, nullable = false)
+	private java.lang.String pttOznaka;
+	
 	@Column(name = "NM_NAZIV", unique = false, nullable = false)
 	private java.lang.String naziv;
 	
 	
+	@ManyToOne
+	@JoinColumn(name="drzava", referencedColumnName="ID", nullable=false)
+	private Drzava drzava;
+	
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "naseljenoMesto")
+	private Set<Preduzece> preduzeceSet = new HashSet<Preduzece>();
 	
 	public NaseljenoMesto(){
 	}
@@ -52,12 +62,36 @@ public class NaseljenoMesto implements java.io.Serializable {
 		this.id = id;
 	}
 	
+	public java.lang.String getPttOznaka() {
+		return this.pttOznaka;
+	}
+	
+	public void setPttOznaka(java.lang.String pttOznaka) {
+		this.pttOznaka = pttOznaka;
+	}
+	
 	public java.lang.String getNaziv() {
 		return this.naziv;
 	}
 	
 	public void setNaziv(java.lang.String naziv) {
 		this.naziv = naziv;
+	}
+	
+	public Drzava getDrzava() {
+		return this.drzava;
+	}
+	
+	public void setDrzava(Drzava drzava) {
+		this.drzava = drzava;
+	}
+	
+	public Set<Preduzece> getPreduzeceSet() {
+		return this.preduzeceSet;
+	}
+
+	public void setPreduzeceSet(Set<Preduzece> preduzeceSet) {
+		this.preduzeceSet = preduzeceSet;
 	}
 	
 }

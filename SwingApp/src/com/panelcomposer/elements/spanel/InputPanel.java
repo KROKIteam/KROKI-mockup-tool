@@ -288,21 +288,21 @@ public class InputPanel extends JPanel {
 	 */
 	private void addCommitPanel() {
 		btnCommit = new JButton(new ImageIcon(getClass().getResource(
-				"/gui/images/commit.gif")));
+				Settings.iconsDirectory + "commit.gif")));
 		btnCommit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				panel.handleCommit();
 			}
 		});
 		btnCancel = new JButton(new ImageIcon(getClass().getResource(
-				"/gui/images/rollback.gif")));
+				Settings.iconsDirectory + "rollback.gif")));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				panel.handleCancel();
 			}
 		});
 		btnStartSearch = new JButton(new ImageIcon(getClass().getResource(
-				"/gui/images/search2.gif")));
+				Settings.iconsDirectory + "search2.gif")));
 		btnStartSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				panel.handleStartSearch();

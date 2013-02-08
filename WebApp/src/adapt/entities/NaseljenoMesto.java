@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 04.02.2013  15:27:10h
+   Creation date: 08.02.2013  10:13:49h
    **/
 
 @Entity
@@ -41,6 +41,9 @@ public class NaseljenoMesto implements java.io.Serializable {
 	
 	
 	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "mesto")
+	private Set<Radnici> radniciSet = new HashSet<Radnici>();
+	
 	public NaseljenoMesto(){
 	}
 	
@@ -58,6 +61,14 @@ public class NaseljenoMesto implements java.io.Serializable {
 	
 	public void setName(java.lang.String name) {
 		this.name = name;
+	}
+	
+	public Set<Radnici> getRadniciSet() {
+		return this.radniciSet;
+	}
+
+	public void setRadniciSet(Set<Radnici> radniciSet) {
+		this.radniciSet = radniciSet;
 	}
 	
 }

@@ -24,7 +24,6 @@ import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.utils.RunAnt;
-import kroki.common.copy.DeepCopy;
 import kroki.commons.camelcase.CamelCaser;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -91,6 +90,16 @@ public class ExportSwingAction extends AbstractAction {
 						getClassData(el, "", null);
 					}
 				}
+
+				//Add User class to classes list
+				Attribute usernameAttribute = new Attribute("username", "username", "User name", "java.lang.String", true, true);
+				Attribute passwordAttribute = new Attribute("password", "password", "Password", "java.lang.String", true, true);
+				ArrayList<Attribute> userAttributes = new ArrayList<Attribute>();
+				userAttributes.add(usernameAttribute);
+				userAttributes.add(passwordAttribute);
+				
+				EJBClass user = new EJBClass("ejb", "User", "User", userAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+				classes.add(user);
 
 				//CONFIGURATION FILES GENERATION
 				menuGenerator.generate(menus);
@@ -179,7 +188,7 @@ public class ExportSwingAction extends AbstractAction {
 					String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
 					String label = z.getLabel();
 					String reffTable = sp.getPersistentClass().name();
-					String mappedBy = cc.toCamelCase(z.getLabel(), true);
+					String mappedBy = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
 
 					//fetching of all representative attributes that will be displayed in zoom field
 					for(int m=0; m<zcl.getAttributes().size(); m++) {

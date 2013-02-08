@@ -12,6 +12,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import util.AnnotationConfigurationWithWildcard;
 import util.PersistenceHelper;
+import util.SchemaGenerator;
 import util.xml_readers.EntityReader;
 import util.xml_readers.EnumerationReader;
 import util.xml_readers.PanelReader;
@@ -33,9 +34,16 @@ public class MainApp {
 		PanelReader.loadMappings();
 		
 		//SCHEMA EXPORT
-		AnnotationConfigurationWithWildcard cfg = new AnnotationConfigurationWithWildcard();
-		cfg.configure();
-		new SchemaExport(cfg).create(true, true);
+		//AnnotationConfigurationWithWildcard cfg = new AnnotationConfigurationWithWildcard();
+		//cfg.configure();
+		//new SchemaExport(cfg).create(true, true);
+		 try {
+			SchemaGenerator gen = new SchemaGenerator("ejb");
+			gen.generate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		SMainForm sm = new SMainForm();
 		sm.setVisible(true);

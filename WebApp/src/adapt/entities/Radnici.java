@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 04.02.2013  15:27:10h
+   Creation date: 08.02.2013  10:13:49h
    **/
 
 @Entity
@@ -39,12 +39,16 @@ public class Radnici implements java.io.Serializable {
 	@Column(name = "RAD_IME", unique = false, nullable = false)
 	private java.lang.String name;
 	
-	@Column(name = "RAD_PREZIME", unique = false, nullable = false)
+	@Column(name = "RAD_PREZ", unique = false, nullable = false)
 	private java.lang.String prezime;
 	
-	@Column(name = "RAD_ADRESA", unique = false, nullable = false)
-	private java.lang.String adresa;
+	@Column(name = "RAD_ULICA", unique = false, nullable = false)
+	private java.lang.String ulicaIBroj;
 	
+	
+	@ManyToOne
+	@JoinColumn(name="naseljenoMesto", referencedColumnName="ID", nullable=false)
+	private NaseljenoMesto naseljenoMesto;
 	
 	
 	public Radnici(){
@@ -74,12 +78,20 @@ public class Radnici implements java.io.Serializable {
 		this.prezime = prezime;
 	}
 	
-	public java.lang.String getAdresa() {
-		return this.adresa;
+	public java.lang.String getUlicaIBroj() {
+		return this.ulicaIBroj;
 	}
 	
-	public void setAdresa(java.lang.String adresa) {
-		this.adresa = adresa;
+	public void setUlicaIBroj(java.lang.String ulicaIBroj) {
+		this.ulicaIBroj = ulicaIBroj;
+	}
+	
+	public NaseljenoMesto getNaseljenoMesto() {
+		return this.naseljenoMesto;
+	}
+	
+	public void setNaseljenoMesto(NaseljenoMesto naseljenoMesto) {
+		this.naseljenoMesto = naseljenoMesto;
 	}
 	
 }

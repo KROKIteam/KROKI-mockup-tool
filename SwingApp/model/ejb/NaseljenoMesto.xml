@@ -2,6 +2,11 @@
 <entity class-name="ejb.NaseljenoMesto" label="Naseljeno mesto" name="NASELJENOMESTO">
 <attributes>
 <column-attribute field-name="id" key="true" label="Šifra" length="50" name="id" type="java.lang.Long"/>
+<column-attribute field-name="pttOznaka" key="false" label="PTT oznaka" length="50" name="pttOznaka" type="java.lang.String"/>
 <column-attribute field-name="naziv" key="false" label="Naziv" length="50" name="naziv" type="java.lang.String"/>
+<zoom-attribute class-name="ejb.Drzava" field-name="drzava" label="Drzava" name="drzava" zoomed-by="id">
+<column-ref label="Drzava Šifrа" name="id"/>
+<column-ref label="Drzava Naziv" name="naziv"/>
+</zoom-attribute>
 </attributes>
 </entity>

@@ -3,6 +3,7 @@ package util.xml_readers;
 import java.io.File;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -196,8 +197,7 @@ public class EntityReader {
 		if (xmlFileName == null)
 			return null;
 		try {
-			Document doc = XMLUtil.getDocumentFromXML(dirName + xmlFileName, 
-					ReadersPathConst.XSD_ENTITY);
+			Document doc = XMLUtil.getDocumentFromXML(dirName+ File.separator + xmlFileName, null);
 			ejb = getEntityBeanInfo(doc);
 			// TODO: izvuci samo potreban columnAttribute
 			NodeList nodeList = doc.getElementsByTagName(Tags.COLUMN_ATTRIBUTE);

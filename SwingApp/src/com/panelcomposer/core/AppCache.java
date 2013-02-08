@@ -14,6 +14,8 @@ import com.panelcomposer.model.enumeration.Enumeration;
 import com.panelcomposer.model.menu.MyMenu;
 import com.panelcomposer.model.panel.MPanel;
 
+import ejb.User;
+
 
 public class AppCache {
 
@@ -117,7 +119,9 @@ public class AppCache {
 		try {
 			User user1 = (User) q.getSingleResult();
 			if(user1 != null) {
-				user = new User(username, password.toString());
+				user = new User();
+				user.setUsername(user1.getUsername());
+				user.setPassword(user1.getPassword());
 				return true;
 			}
 		} catch (Exception e) {

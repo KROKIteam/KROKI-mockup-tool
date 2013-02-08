@@ -4,6 +4,10 @@
 <column-attribute field-name="id" key="true" label="Šifra" length="50" name="id" type="java.lang.Long"/>
 <column-attribute field-name="ime" key="false" label="Ime" length="50" name="ime" type="java.lang.String"/>
 <column-attribute field-name="prezime" key="false" label="Prezime" length="50" name="prezime" type="java.lang.String"/>
-<column-attribute field-name="adresa" key="false" label="Adresa" length="50" name="adresa" type="java.lang.String"/>
+<column-attribute field-name="ulicaIBroj" key="false" label="Ulica i broj" length="50" name="ulicaIBroj" type="java.lang.String"/>
+<zoom-attribute class-name="ejb.NaseljenoMesto" field-name="naseljenoMesto" label="Mesto" name="naseljenoMesto" zoomed-by="id">
+<column-ref label="Mesto Šifrа" name="id"/>
+<column-ref label="Mesto Naziv" name="naziv"/>
+</zoom-attribute>
 </attributes>
 </entity>

@@ -13,6 +13,7 @@
 		<target name="init">
 			<delete dir="${build.home}/bin" />
 		    <mkdir dir="${build.home}/bin" />
+			<copy file="${build.home}/src/hibernate.cfg.xml" todir="${build.home}/bin"/>
 		</target>
 		
 		<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
@@ -21,7 +22,7 @@
 			</classpath>
 		</taskdef>
 	
-		<target name="build">
+		<target name="build" depends="init">
 			<iajc destdir="${build.home}/bin" sourceroots="${build.home}" source="1.6">
 			<classpath>
 				<pathelement path="${build.home}/lib"/>
@@ -79,12 +80,13 @@
 	        <!-- Finally, use the generated libs path -->  
 	        <attribute name="Class-Path" value="${libs.project} ${props.project}" />  
 	      </manifest>
-	    <!-- Files to be included in jar -->
-	    <!-- All contents from bin folder (class files) except compiled configuration files -->
-	  	<fileset dir="${build.home}/bin" excludes="*.xsd, mapping-types.xml, *.properties"/>
-	    <!-- Resource files from src folder -->	
-	    <fileset dir="${build.home}" excludes="**/src/, **/.settings/, **/bin/, **/lib/, *.classpath, *.project, *.xml"/>
-	    </jar>  
+			<!-- Files to be included in jar -->
+			<!-- All contents from bin folder (class files) except compiled configuration files -->
+			<fileset dir="${build.home}/bin" excludes="*.xsd, mapping-types.xml, *.properties"/>
+			<!-- Resource files from src folder -->	
+			<fileset dir="${build.home}" excludes="**/src/, **/.settings/, **/bin/, **/lib/, *.classpath, *.project, *.xml"/>
+	    	<metainf  dir="${build.home}/props/META-INF"/> 
+		</jar>  
 	  </target>  
 	  
 	<!-- Copy jar application files to user selected destination -->
