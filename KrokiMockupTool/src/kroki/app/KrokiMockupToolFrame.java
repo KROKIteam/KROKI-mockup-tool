@@ -32,6 +32,7 @@ import kroki.app.action.NewProjectAction;
 import kroki.app.action.OpenFileAction;
 import kroki.app.action.OpenProjectAction;
 import kroki.app.action.RedoAction;
+import kroki.app.action.RunSwingAction;
 import kroki.app.action.SaveAction;
 import kroki.app.action.SaveAllAction;
 import kroki.app.action.SaveAsAction;
@@ -171,12 +172,6 @@ public class KrokiMockupToolFrame extends JFrame {
         file.setName("file");
         file.setText(StringResource.getStringResource("menu.file.name"));
         
-        JMenu export = new JMenu();
-        export.setName("export");
-        export.setText("Export...");
-        export.add(new ExportSwingAction());
-        export.add(new ExportWebAction());
-        
         file.add(new NewProjectAction());
         file.add(new NewFileAction());
         file.addSeparator();
@@ -186,7 +181,6 @@ public class KrokiMockupToolFrame extends JFrame {
         file.add(new SaveAction());
         file.add(new SaveAsAction());
         file.add(new SaveAllAction());
-        file.add(export);
         file.addSeparator();
         file.add(new ExitAction());
 
@@ -197,8 +191,27 @@ public class KrokiMockupToolFrame extends JFrame {
         edit.add(new UndoAction());
         edit.add(new RedoAction());
         edit.addSeparator();
-        edit.add(new DBConneectionSettingsAction());
 
+        JMenu export = new JMenu();
+        export.setName("export");
+        export.setText("Export...");
+        export.add(new ExportSwingAction());
+        export.add(new ExportWebAction());
+        
+        JMenu run = new JMenu();
+        run.setName("run");
+        run.setText("Run...");
+        run.add(new RunSwingAction());
+        
+        JMenu project = new JMenu();
+        project.setName("project");
+        project.setText(StringResource.getStringResource("menu.project.name"));
+        project.add(export);
+        project.addSeparator();
+        project.add(run);
+        project.addSeparator();
+        project.add(new DBConneectionSettingsAction());
+        
         JMenu help = new JMenu();
         help.setName("help");
         help.setText(StringResource.getStringResource("menu.help.name"));
@@ -208,6 +221,7 @@ public class KrokiMockupToolFrame extends JFrame {
 
         mainMenuBar.add(file);
         mainMenuBar.add(edit);
+        mainMenuBar.add(project);
         mainMenuBar.add(help);
         topPanel.add(mainMenuBar, BorderLayout.NORTH);
     }
@@ -220,7 +234,12 @@ public class KrokiMockupToolFrame extends JFrame {
         mainToolbar.setRollover(false);
         mainToolbar.setFloatable(false);
 
+        
+        JToolBar runToolbar = new JToolBar(JToolBar.HORIZONTAL);
+        runToolbar.add(new RunSwingAction());
+        
         mainToolbar.add(guiManager.getMainToolbar());
+        mainToolbar.add(runToolbar);
         mainToolbar.add(guiManager.getStyleToolbar());
         topPanel.add(mainToolbar, BorderLayout.CENTER);
 

@@ -23,7 +23,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.StandardPanel;
@@ -38,7 +38,7 @@ import net.miginfocom.swing.MigLayout;
  */
 public class StandardPanelSettings extends VisibleClassSettings {
 
-	CamelCaser cc = new CamelCaser();
+	NamingUtil cc = new NamingUtil();
 	
 	protected JTextField classTf;
     protected JCheckBox addCb;

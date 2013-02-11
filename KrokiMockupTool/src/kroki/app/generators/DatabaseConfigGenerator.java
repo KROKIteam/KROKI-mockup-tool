@@ -63,6 +63,10 @@ public class DatabaseConfigGenerator {
 			String driver = parameters.getDriverClass();
 			String protocol = getProtocol(parameters.getProfile());
 			String url = "jdbc:" + protocol + "://" + parameters.getHost()  + ":" + parameters.getPort() + "/" + parameters.getSchema();
+			//if test profile is selected, generate test url
+			if(parameters.getProfile() == 5) {
+				url = "jdbc:h2:mem:test";
+			}
 			String username = parameters.getUsername();
 			String password = parameters.getPassword();
 
@@ -102,6 +106,9 @@ public class DatabaseConfigGenerator {
 			String protocol = getProtocol(parameters.getProfile());
 			
 			String url = "jdbc:" + protocol + "://" + parameters.getHost()  + ":" + parameters.getPort() + "/" + parameters.getSchema();
+			if(parameters.getProfile() == 5) {
+				url = "jdbc:h2:mem:test";
+			}
 			String username = parameters.getUsername();
 			String password = parameters.getPassword();
 			String driver = parameters.getDriverClass();

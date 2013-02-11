@@ -1,0 +1,5 @@
+<project name="SwingApp" default="run">
+	<target name="run">
+        <java jar="${jar.dir}/${jar.name}.jar" fork="true"/>
+	</target>
+</project>

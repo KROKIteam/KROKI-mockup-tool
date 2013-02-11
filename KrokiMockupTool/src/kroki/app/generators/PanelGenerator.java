@@ -13,7 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import kroki.app.generators.utils.XMLWriter;
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.operation.BussinessOperation;
@@ -33,7 +33,7 @@ public class PanelGenerator {
 		
 		XMLWriter writer = new XMLWriter();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		CamelCaser cc = new CamelCaser();
+		NamingUtil cc = new NamingUtil();
 		
 		try {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

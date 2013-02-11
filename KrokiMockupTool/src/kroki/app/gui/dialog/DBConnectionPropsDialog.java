@@ -90,7 +90,7 @@ public class DBConnectionPropsDialog extends JDialog {
 		lblTitle.setFont(new Font("sansserif", Font.PLAIN, 16));
 
 		lblProfile = new JLabel("Profile");
-		cbProfile = new JComboBox(new String[] {"MySQL", "PostgreSQL", "SQL Server (jTDS)", "SQL Server (Microsoft Driver)", "H2"});
+		cbProfile = new JComboBox(new String[] {"MySQL", "PostgreSQL", "SQL Server (jTDS)", "SQL Server (Microsoft Driver)", "H2", "Run test database"});
 		cbProfile.setSelectedIndex(project.getDBConnectionProps().getProfile());
 		cbProfile.addItemListener(new ItemListener() {
 
@@ -146,7 +146,13 @@ public class DBConnectionPropsDialog extends JDialog {
 				String port = tfPort.getText();
 				String host = tfHost.getText();
 
-				String url = "jdbc:" + protocol + "://" + host  + ":" + port + "/" + schema;
+				String url;
+				if(cbProfile.getSelectedIndex() == 5) {
+					url = "jdbc:h2:mem:test";
+				}else {
+					url = "jdbc:" + protocol + "://" + host  + ":" + port + "/" + schema;
+				}
+				
 				
 				String stat = checkRequiredFields();
 				if(!stat.equals("OK")) {
@@ -229,33 +235,62 @@ public class DBConnectionPropsDialog extends JDialog {
 		case 0:
 			tfDriver.setText("com.mysql.jdbc.Driver");
 			tfPort.setText("3306");
-			tfDriver.setEnabled(false);
+			tfSchema.setText("");
+			tfUsername.setText("");
+			pfPassword.setText("");
 			cbDialect.setModel(new DefaultComboBoxModel(mySQLDialects));
+			setEnabledComponents(true);
 			break;
 		case 1:
 			tfDriver.setText("org.postgresql.Driver");
+			tfHost.setText("localhost");
 			tfPort.setText("5432");
-			tfDriver.setEnabled(false);
+			tfSchema.setText("");
+			tfUsername.setText("");
+			pfPassword.setText("");
+			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(postgreSQLDialects));
 			break;
 		case 2:
 			tfDriver.setText("net.sourceforge.jtds.jdbc.Driver");
+			tfHost.setText("localhost");
 			tfPort.setText("1433");
-			tfDriver.setEnabled(false);
+			tfSchema.setText("");
+			tfUsername.setText("");
+			pfPassword.setText("");
+			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(msSQLDialects));
 			break;
 		case 3:
 			tfDriver.setText("com.microsoft.jdbc.sqlserver.SQLServerDriver");
+			tfHost.setText("localhost");
 			tfPort.setText("1433");
-			tfDriver.setEnabled(false);
+			tfSchema.setText("");
+			tfUsername.setText("");
+			pfPassword.setText("");
+			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(msSQLDialects));
 			break;
 		case 4:
 			tfDriver.setText("org.h2.Driver");
-			tfPort.setText("");
-			tfDriver.setEnabled(false);
+			tfHost.setText("localhost");
+			tfPort.setText("8082");
+			tfSchema.setText("");
+			tfUsername.setText("");
+			pfPassword.setText("");
+			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(h2Dialects));
 			break;
+		case 5:
+			tfDriver.setText("org.h2.Driver");
+			tfHost.setText("localhost");
+			tfPort.setText("8082");
+			tfHost.setText("test");
+			tfSchema.setText("test");
+			tfUsername.setText("test");
+			pfPassword.setText("test");
+			cbDialect.setModel(new DefaultComboBoxModel(h2Dialects));
+			setEnabledComponents(false);
 		default:
 			break;
 		}
@@ -341,5 +376,14 @@ public class DBConnectionPropsDialog extends JDialog {
 		}
 		
 		return status;
+	}
+	
+	public void setEnabledComponents(boolean enabled) {
+		tfHost.setEnabled(enabled);
+		tfPort.setEnabled(enabled);
+		tfSchema.setEnabled(enabled);
+		tfUsername.setEnabled(enabled);
+		pfPassword.setEnabled(enabled);
+		cbDialect.setEnabled(enabled);
 	}
 }

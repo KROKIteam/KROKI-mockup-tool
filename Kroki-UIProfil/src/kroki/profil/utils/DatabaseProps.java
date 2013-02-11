@@ -15,10 +15,14 @@ public class DatabaseProps implements Serializable {
 	private String dialect;
 		
 	public DatabaseProps() {
-		driverClass = "com.mysql.jdbc.Driver";
+		profile = 5;
+		driverClass = "org.h2.Driver";
 		host = "localhost";
-		port = 3306;
-		dialect = "org.hibernate.dialect.MySQLDialect";
+		port = 8082;
+		dialect = "org.hibernate.dialect.H2Dialect";
+		schema = "test";
+		username = "test";
+		password = "test";
 	}
 	
 	public DatabaseProps(int profile, String driverClass, String host, int port, String schema, String username, String password, String dialect) {

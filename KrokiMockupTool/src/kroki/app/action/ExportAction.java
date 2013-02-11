@@ -6,7 +6,7 @@ import javax.swing.AbstractAction;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.view.Canvas;
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;
 import kroki.profil.operation.BussinessOperation;
@@ -34,7 +34,7 @@ public class ExportAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		CamelCaser cc = new CamelCaser();
+		NamingUtil cc = new NamingUtil();
 		Canvas c = KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent();
         VisibleClass visibleClass = c.getVisibleClass();
         //NEW:

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>  
-<project name="MyProject" default="deploy">   
+<project name="SwingApp" default="deploy">   
 		  
 		  <!-- Base directory for compilation targets -->  
 		  <property name="build.home" value="." />  
@@ -12,6 +12,7 @@
 	  
 		<target name="init">
 			<delete dir="${build.home}/bin" />
+			<delete dir="${deploy.home}" />
 		    <mkdir dir="${build.home}/bin" />
 			<copy file="${build.home}/src/hibernate.cfg.xml" todir="${build.home}/bin"/>
 		</target>

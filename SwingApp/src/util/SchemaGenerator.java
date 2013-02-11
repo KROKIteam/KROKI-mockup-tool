@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.h2.constant.SysProperties;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
@@ -21,8 +22,7 @@ public class SchemaGenerator
 {
 	private Configuration cfg;
 
-	public SchemaGenerator(String packageName) throws Exception
-	{
+	public SchemaGenerator(String packageName) throws Exception {
 		cfg = new Configuration();
 		cfg.setProperty("hibernate.hbm2ddl.auto","update");
 
@@ -37,8 +37,7 @@ public class SchemaGenerator
 	 * Method that actually creates the file.  
 	 * @param dbDialect to use
 	 */
-	public void generate()
-	{
+	public void generate() {
 		cfg.configure();
 		SchemaExport export = new SchemaExport(cfg);
 		export.setDelimiter(";");
@@ -51,8 +50,7 @@ public class SchemaGenerator
 	 * Utility method used to fetch Class list based on a package name.
 	 * @param packageName (should be the package containing your annotated beans.
 	 */
-	private List getClasses(String packageName) throws Exception
-	{
+	private List getClasses(String packageName) throws Exception {
 		final String classExt = ".class";
 		ArrayList<String> files = listFilesInPackage(packageName);
 		ArrayList<Class> classes = new ArrayList<Class>(files.size());
@@ -71,8 +69,7 @@ public class SchemaGenerator
 	public static ArrayList<String> listFilesInPackage(String packageName) throws ClassNotFoundException, IOException {
 		ArrayList<String> classNames = new ArrayList<String>();
 		File directory = null;
-		try
-		{
+		try {
 			ClassLoader cld = Thread.currentThread().getContextClassLoader();
 			if (cld == null) {
 				throw new ClassNotFoundException("Can't get class loader.");
@@ -115,25 +112,5 @@ public class SchemaGenerator
 		}
 
 		return classNames;
-	}
-
-	/**
-	 * Holds the classnames of hibernate dialects for easy reference.
-	 */
-	private static enum Dialect 
-	{
-		ORACLE("org.hibernate.dialect.Oracle10gDialect"),
-		MYSQL("org.hibernate.dialect.MySQLDialect"),
-		HSQL("org.hibernate.dialect.HSQLDialect");
-
-		private String dialectClass;
-		private Dialect(String dialectClass)
-		{
-			this.dialectClass = dialectClass;
-		}
-		public String getDialectClass()
-		{
-			return dialectClass;
-		}
 	}
 }

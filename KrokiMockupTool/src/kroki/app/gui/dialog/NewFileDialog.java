@@ -23,7 +23,7 @@ import kroki.app.command.ChangeLayoutCommand;
 import kroki.app.command.CommandManager;
 import kroki.app.utils.StringResource;
 import kroki.app.view.Canvas;
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupOrientation;
@@ -150,7 +150,7 @@ public class NewFileDialog extends JDialog {
     }
 
     private void okActionPreformed() {
-    	CamelCaser cc = new CamelCaser();
+    	NamingUtil cc = new NamingUtil();
         if (nameTf.getText().equals("")) {
             return;
         }

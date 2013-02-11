@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import kroki.app.generators.utils.XMLWriter;
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;
@@ -25,7 +25,7 @@ public class WebResourceGenerator {
 	
 	public void generate(ArrayList<VisibleElement> elements) {
 		
-		CamelCaser cc = new CamelCaser();
+		NamingUtil cc = new NamingUtil();
 		XMLWriter writer = new XMLWriter();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder;

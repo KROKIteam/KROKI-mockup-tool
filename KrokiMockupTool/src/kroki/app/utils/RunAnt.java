@@ -12,9 +12,8 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class RunAnt {
 	
-	public void run(String jarName, File antFile, File outputFile) {
+	public void runBuild(String jarName, File antFile, File outputFile) {
 		System.out.println("RUN ANT jarName: " + jarName + ", antFile: " + antFile.getAbsolutePath() + ", outputFile: " + outputFile.getAbsolutePath() );
-//		JOptionPane.showMessageDialog(null, "RUN ANT jarName: " + jarName + ", antFile: " + antFile.getAbsolutePath() + ", outputFile: " + outputFile.getAbsolutePath());
 		Project p = new Project();
 		p.setProperty("deploy.home", outputFile.getAbsolutePath());
 		p.setProperty("jar.name", jarName);
@@ -27,4 +26,22 @@ public class RunAnt {
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("[KROKI] project exported to " + outputFile.getAbsolutePath());
 	}
 
+	public void runRun(String jarName, File jarDir) {
+		File f = new File(".");
+		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		File buildFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "run.xml");
+		
+		System.out.println("ANT RUNNER: \njarName: " + jarName + ".jar" + "\nDir: " + jarDir.getAbsolutePath()+ "\\" + jarName + "\nBuildFile: " + buildFile.getAbsolutePath());
+		
+		Project p = new Project();
+		p.setProperty("jar.dir", jarDir.getAbsolutePath() + File.separator + jarName);
+		p.setProperty("jar.name", jarName);
+		p.setUserProperty("ant.file", buildFile.getAbsolutePath());
+		p.init();
+		ProjectHelper helper = ProjectHelper.getProjectHelper();
+		p.addReference("ant.projectHelper", helper);
+		helper.parse(p, buildFile);
+		p.executeTarget(p.getDefaultTarget());
+	}
+	
 }

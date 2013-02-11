@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<entity class-name="ejb.Njanjalica" label="Njanjalica" name="NJANJALICA">
+<attributes>
+<column-attribute field-name="id" key="true" label="Šifra" length="50" name="id" type="java.lang.Long"/>
+<column-attribute field-name="naziv" key="false" label="Naziv" length="50" name="naziv" type="java.lang.String"/>
+<column-attribute field-name="moze" key="false" label="Moze?" length="50" name="moze" type="java.lang.Boolean"/>
+</attributes>
+</entity>

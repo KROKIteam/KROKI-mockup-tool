@@ -19,7 +19,7 @@ import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.XMLWriter;
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -34,7 +34,7 @@ import freemarker.template.TemplateException;
 public class EJBGenerator {
 
 
-	CamelCaser cc;
+	NamingUtil cc;
 	XMLWriter writer = new XMLWriter();
 	DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 
@@ -42,7 +42,7 @@ public class EJBGenerator {
 	/*           EJB CLASS GENERATION              */
 	/***********************************************/
 	public void generateEJBClasses(ArrayList<EJBClass> classes, Boolean swing) {
-		cc = new CamelCaser();
+		cc = new NamingUtil();
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  H:mm:ss");
 		String d = formatter.format(now);

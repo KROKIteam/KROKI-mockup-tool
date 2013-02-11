@@ -19,7 +19,7 @@ import kroki.app.model.Workspace;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 import kroki.common.copy.DeepCopy;
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**

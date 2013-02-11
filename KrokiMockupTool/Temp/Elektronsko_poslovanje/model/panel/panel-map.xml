@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<map>
+<panel ejb-ref="ejb.Drzava" id="drzava_st"/>
+<panel ejb-ref="ejb.NaseljenoMesto" id="naseljenomesto_st"/>
+<panel ejb-ref="ejb.Preduzece" id="preduzece_st"/>
+</map>

@@ -21,7 +21,7 @@ import javax.swing.border.BevelBorder;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.toolbar.StyleToolbar;
 import kroki.app.model.Workspace;
-import kroki.commons.camelcase.CamelCaser;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.layout.VerticalLayoutManager;
 import kroki.profil.ComponentType;
@@ -385,7 +385,7 @@ public class CommandPanel extends JPanel {
 	 */
 	public VisibleClass makeStdPanel(BussinesSubsystem owner, String label, String[] components) {
 		VisibleClass panel = new StandardPanel();
-		CamelCaser cc = new CamelCaser();
+		NamingUtil cc = new NamingUtil();
 		panel.setLabel(label);
 		panel.getComponent().setName(label);
 		StandardPanel sp = (StandardPanel) panel;
