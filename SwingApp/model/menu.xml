@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menus>
-<menu label="Njanjalica" name="menunjanjalica_st">
-<submenu activate="njanjalica_st" label="Njanjalica" panel-type="standard-panel"/>
+<menu label="Teritorijalna organizacija" name="menu0">
+<submenu activate="drzava_st" label="Drzava" panel-type="standard-panel"/>
+<submenu activate="naseljenomesto_st" label="Naseljeno mesto" panel-type="standard-panel"/>
+</menu>
+<menu label="Preduzece" name="menupreduzece_st">
+<submenu activate="preduzece_st" label="Preduzece" panel-type="standard-panel"/>
 </menu>
 </menus>

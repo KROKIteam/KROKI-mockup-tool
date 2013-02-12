@@ -26,11 +26,11 @@ import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.StandardPanelSettings;
 
 /**
- * <code>StandardPanel</code> oznaÄ�ava da se datoj perzistentnoj klasi (u
- * sluÄ�aju troslojnog reÅ¡enja) ili odgovarajuÄ‡oj tabeli nastaloj mapiranjem
- * objektnog na relacioni model (u sluÄ�aju dvoslojnog reÅ¡enja) pridruÅ¾uje
- * standardni panel Ä�iji su izgled i funkcionalnost definisani HCI standardom.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * <code>StandardPanel</code> oznacava da se datoj perzistentnoj klasi (u
+ * slucaju troslojnog resenja) ili odgovarajucoj tabeli nastaloj mapiranjem
+ * objektnog na relacioni model (u slucaju dvoslojnog resenja) pridruzuje
+ * standardni panel ciji su izgled i funkcionalnost definisani HCI standardom.
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(StandardPanelSettings.class)
 public class StandardPanel extends VisibleClass {

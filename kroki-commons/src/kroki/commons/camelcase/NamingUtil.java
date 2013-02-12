@@ -65,7 +65,7 @@ public class NamingUtil {
 		
 		String[] prefixElements = tableName.split(" ");
 		if(prefixElements.length == 1) {
-			prefix = prefixElements[0].substring(0, 2).toUpperCase();
+			prefix = prefixElements[0].substring(0, 3).toUpperCase();
 		}else {
 			for(int i=0; i<prefixElements.length; i++) {
 				prefix += prefixElements[i].charAt(0);

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -24,7 +25,9 @@ import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.generators.utils.Submenu;
+import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
+import kroki.app.utils.StringResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -42,7 +45,12 @@ import kroki.profil.subsystem.BussinesSubsystem;
 public class ExportSwingAction extends AbstractAction {
 
 	public ExportSwingAction() {
-		putValue(NAME, "Desktop Application");
+		putValue(NAME, "Export desktop application");
+		ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.exportswing.smallicon"));
+        ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.exportswing.largeicon"));
+        putValue(SMALL_ICON, smallIcon);
+        putValue(LARGE_ICON_KEY, largeIcon);
+        putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.exportswing.description"));
 	}
 
 	@Override
@@ -65,7 +73,7 @@ public class ExportSwingAction extends AbstractAction {
 				File file = jfc.getSelectedFile();
 				SwingExporter exporter = new SwingExporter();
 				//pass selected project and directory to exporter class
-				exporter.export(file, proj);
+				exporter.export(file, proj, "Project exported OK!");
 			} else {
 				System.out.println("Export canceled");
 			}

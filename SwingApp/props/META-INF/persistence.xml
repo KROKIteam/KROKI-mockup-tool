@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 11.02.2013  15:14 -->
+<!-- Creation time and date: 12.02.2013  13:09 -->
 
 <persistence>
 	<persistence-unit name="hotelsoap" transaction-type="RESOURCE_LOCAL">
@@ -13,7 +13,7 @@
 			<property name="hibernate.connection.username" value="test" />
 			<property name="hibernate.connection.password" value="test" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -40,7 +40,7 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class VisibleAssociationEndSettings extends VisibleElementSettings {
 

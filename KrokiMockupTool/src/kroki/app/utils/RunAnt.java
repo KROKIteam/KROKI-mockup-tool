@@ -23,7 +23,6 @@ public class RunAnt {
 		p.addReference("ant.projectHelper", helper);
 		helper.parse(p, antFile);
 		p.executeTarget(p.getDefaultTarget());
-		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("[KROKI] project exported to " + outputFile.getAbsolutePath());
 	}
 
 	public void runRun(String jarName, File jarDir) {

@@ -50,6 +50,13 @@ public class EJBGenerator {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 
+		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb");
+		if(!swing) {
+			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "adapt" + File.separator + "entities");
+			//TODO Action, MyResource, User i UserRights treba da ostanu
+		}
+		deleteFiles(dir);
+		
 		for(int i=0; i<classes.size(); i++) {
 			EJBClass cl = classes.get(i);
 			Configuration cfg = new Configuration();
@@ -60,16 +67,11 @@ public class EJBGenerator {
 				cfg.setTemplateLoader(templateLoader);
 				Template tpl = cfg.getTemplate("EJBClass.ftl");
 
-				//delete previously generated files
-				File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb");
-				deleteFiles(dir);
 				
 				File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
 				//ako je swing false onda se generisu ejb klase u web projekat
 				if(!swing) {
 					fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src" + File.separator + "adapt" + File.separator + "entities" + File.separator + cl.getName() + ".java");
-					dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src" + File.separator + "adapt" + File.separator + "entities");
-					deleteFiles(dir);
 				}
 
 				//JOptionPane.showMessageDialog(null, "EJB GENERATOR: generisem u " + fout.getAbsolutePath());
@@ -108,6 +110,12 @@ public class EJBGenerator {
 	/***********************************************/
 	public void generateEJBXmlFiles(ArrayList<EJBClass> classes) {
 
+		File f = new File(".");
+		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+
+		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "model" + File.separator + "ejb");
+		deleteFiles(dir);
+		
 		try {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -148,7 +156,7 @@ public class EJBGenerator {
 
 				//atribut "label"
 				Attr idLabelAttr = doc.createAttribute("label");
-				idLabelAttr.setValue("Šifra");
+				idLabelAttr.setValue("ID");
 				idColumn.setAttributeNode(idLabelAttr);
 
 				//atribut "field-name"
@@ -256,7 +264,7 @@ public class EJBGenerator {
 
 						//atribut "label"
 						Attr colRefLabelAttr = doc.createAttribute("label");
-						colRefLabelAttr.setValue(zoom.getLabel() + " Šifrа");
+						colRefLabelAttr.setValue(zoom.getLabel() + " ID");
 						columnRef.setAttributeNode(colRefLabelAttr);
 
 						zoomTag.appendChild(columnRef);

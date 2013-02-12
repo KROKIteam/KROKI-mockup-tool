@@ -133,9 +133,6 @@ public class TreeController extends AbstractTreeController {
                 popupMenu.add(new DeleteAction((BussinesSubsystem) node));
                 popupMenu.addSeparator();
                 popupMenu.add(new DBConneectionSettingsAction());
-                popupMenu.addSeparator();
-                popupMenu.add(new ExportSwingAction());
-                popupMenu.add(new ExportWebAction());
             } else if (node instanceof VisibleClass) {
                 popupMenu.add(new RenameAction((VisibleClass) node));
                 popupMenu.add(new DeleteAction((VisibleClass) node));

@@ -50,6 +50,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         initComponents();
         layoutComponents();
         addActions();
+        System.out.println("Visible element " + visibleElement);
     }
 
     private void initComponents() {
@@ -63,7 +64,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         
         String[] types = { "String", "Integer", "Long", "BigDecimal", "Date" };
         typeCb = new JComboBox<String>(types);
-        typeCb.setSelectedIndex(1);
+        typeCb.setSelectedIndex(0);
         typeCb.setEnabled(false);
         
         columnLabelTf = new JTextField(30);

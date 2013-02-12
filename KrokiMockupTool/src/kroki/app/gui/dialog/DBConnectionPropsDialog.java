@@ -91,7 +91,6 @@ public class DBConnectionPropsDialog extends JDialog {
 
 		lblProfile = new JLabel("Profile");
 		cbProfile = new JComboBox(new String[] {"MySQL", "PostgreSQL", "SQL Server (jTDS)", "SQL Server (Microsoft Driver)", "H2", "Run test database"});
-		cbProfile.setSelectedIndex(project.getDBConnectionProps().getProfile());
 		cbProfile.addItemListener(new ItemListener() {
 
 			@Override
@@ -194,6 +193,8 @@ public class DBConnectionPropsDialog extends JDialog {
 			}
 		});
 
+		cbProfile.setSelectedIndex(project.getDBConnectionProps().getProfile());
+		
 		Dimension separatorDim = new Dimension(320, 5);
 		JSeparator topSep = new JSeparator(JSeparator.HORIZONTAL);
 		topSep.setPreferredSize(separatorDim);
@@ -234,61 +235,36 @@ public class DBConnectionPropsDialog extends JDialog {
 		switch (index) {
 		case 0:
 			tfDriver.setText("com.mysql.jdbc.Driver");
-			tfPort.setText("3306");
-			tfSchema.setText("");
-			tfUsername.setText("");
-			pfPassword.setText("");
 			cbDialect.setModel(new DefaultComboBoxModel(mySQLDialects));
 			setEnabledComponents(true);
 			break;
 		case 1:
 			tfDriver.setText("org.postgresql.Driver");
 			tfHost.setText("localhost");
-			tfPort.setText("5432");
-			tfSchema.setText("");
-			tfUsername.setText("");
-			pfPassword.setText("");
 			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(postgreSQLDialects));
 			break;
 		case 2:
 			tfDriver.setText("net.sourceforge.jtds.jdbc.Driver");
 			tfHost.setText("localhost");
-			tfPort.setText("1433");
-			tfSchema.setText("");
-			tfUsername.setText("");
-			pfPassword.setText("");
 			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(msSQLDialects));
 			break;
 		case 3:
 			tfDriver.setText("com.microsoft.jdbc.sqlserver.SQLServerDriver");
 			tfHost.setText("localhost");
-			tfPort.setText("1433");
-			tfSchema.setText("");
-			tfUsername.setText("");
-			pfPassword.setText("");
 			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(msSQLDialects));
 			break;
 		case 4:
 			tfDriver.setText("org.h2.Driver");
 			tfHost.setText("localhost");
-			tfPort.setText("8082");
-			tfSchema.setText("");
-			tfUsername.setText("");
-			pfPassword.setText("");
 			setEnabledComponents(true);
 			cbDialect.setModel(new DefaultComboBoxModel(h2Dialects));
 			break;
 		case 5:
 			tfDriver.setText("org.h2.Driver");
 			tfHost.setText("localhost");
-			tfPort.setText("8082");
-			tfHost.setText("test");
-			tfSchema.setText("test");
-			tfUsername.setText("test");
-			pfPassword.setText("test");
 			cbDialect.setModel(new DefaultComboBoxModel(h2Dialects));
 			setEnabledComponents(false);
 		default:

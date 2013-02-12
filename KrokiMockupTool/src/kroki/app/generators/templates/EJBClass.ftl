@@ -43,7 +43,7 @@ public class ${class.name} implements java.io.Serializable {
 	<#if class.manyToOneAttributes?has_content>
 	<#list class.manyToOneAttributes as mattr>
 	@ManyToOne
-	@JoinColumn(name="${mattr.name}", referencedColumnName="ID", nullable=false)
+	@JoinColumn(name="${mattr.name}", referencedColumnName="ID", nullable=true)
 	private ${mattr.type} ${mattr.name};
 	
 	</#list>

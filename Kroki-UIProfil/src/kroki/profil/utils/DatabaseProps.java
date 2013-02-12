@@ -19,7 +19,7 @@ public class DatabaseProps implements Serializable {
 		driverClass = "org.h2.Driver";
 		host = "localhost";
 		port = 8082;
-		dialect = "org.hibernate.dialect.H2Dialect";
+		dialect = "H2Dialect";
 		schema = "test";
 		username = "test";
 		password = "test";

@@ -10,7 +10,7 @@ ${doc}
 			<property name="hibernate.connection.url" value="${url}" />
 			<property name="hibernate.connection.username" value="${username}" />
 			<property name="hibernate.connection.password" value="${password}" />
-	        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+	        <property name="hibernate.dialect" value="org.hibernate.dialect.${dialect}" />
 		  	<property name="hibernate.hbm2ddl.auto" value="create"/> 
       </properties>
    </persistence-unit>

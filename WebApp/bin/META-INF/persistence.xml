@@ -1,5 +1,5 @@
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 08.02.2013  10:13 -->
+<!-- Creation time and date: 11.02.2013  16:15 -->
 
 <persistence>
    <persistence-unit name="adapt" transaction-type="RESOURCE_LOCAL">
@@ -8,7 +8,7 @@
           <!-- Scan for annotated classes and Hibernate mapping XML files -->
           <property name="hibernate.archive.autodetection" value="class, hbm"/>
           <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/apuff" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/nja" />
 			<property name="hibernate.connection.username" value="mrd" />
 			<property name="hibernate.connection.password" value="drupal" />
 	        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />

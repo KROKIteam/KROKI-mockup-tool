@@ -69,10 +69,12 @@ public class DatabaseConfigGenerator {
 			}
 			String username = parameters.getUsername();
 			String password = parameters.getPassword();
-
+			String dialect = parameters.getDialect();
+			
 			model.put("doc", prepareComment());
 			model.put("driver", driver);
 			model.put("url", url);
+			model.put("dialect", dialect);
 			model.put("username", username);
 			model.put("password", password);
 			

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -26,6 +27,8 @@ import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.generators.utils.Submenu;
+import kroki.app.utils.ImageResource;
+import kroki.app.utils.StringResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -44,7 +47,12 @@ import com.panelcomposer.core.MainApp;
 public class ExportWebAction extends AbstractAction {
 
 	public ExportWebAction() {
-		putValue(NAME, "Web Application");
+		putValue(NAME, "Export web application");
+		ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.exportweb.smallicon"));
+        ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.exportweb.largeicon"));
+        putValue(SMALL_ICON, smallIcon);
+        putValue(LARGE_ICON_KEY, largeIcon);
+        putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.exportweb.description"));
 	}
 
 	@Override

@@ -33,6 +33,7 @@ import kroki.app.action.OpenFileAction;
 import kroki.app.action.OpenProjectAction;
 import kroki.app.action.RedoAction;
 import kroki.app.action.RunSwingAction;
+import kroki.app.action.RunWebAction;
 import kroki.app.action.SaveAction;
 import kroki.app.action.SaveAllAction;
 import kroki.app.action.SaveAsAction;
@@ -202,6 +203,7 @@ public class KrokiMockupToolFrame extends JFrame {
         run.setName("run");
         run.setText("Run...");
         run.add(new RunSwingAction());
+        run.add(new RunWebAction());
         
         JMenu project = new JMenu();
         project.setName("project");
@@ -237,6 +239,7 @@ public class KrokiMockupToolFrame extends JFrame {
         
         JToolBar runToolbar = new JToolBar(JToolBar.HORIZONTAL);
         runToolbar.add(new RunSwingAction());
+        runToolbar.add(new RunWebAction());
         
         mainToolbar.add(guiManager.getMainToolbar());
         mainToolbar.add(runToolbar);

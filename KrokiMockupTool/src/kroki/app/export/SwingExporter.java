@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.MenuGenerator;
@@ -61,8 +62,10 @@ public class SwingExporter {
 	 * Project is exported as runnable jar file
 	 * on given location
 	 * @param file location to which project needs to be exported
+	 * @param proj project that is exported
+	 * @message message that is dispayed on finish
 	 */
-	public void export(File file, BussinesSubsystem proj) {
+	public void export(File file, BussinesSubsystem proj, String message) {
 		dbConfigGenerator = new DatabaseConfigGenerator(proj.getDBConnectionProps());
 
 
@@ -107,6 +110,7 @@ public class SwingExporter {
 
 		RunAnt runner = new RunAnt();
 		runner.runBuild(jarName + ".jar", buildFile, outputFile);
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message);
 	}
 
 	//fetches class (panel) data from the model
