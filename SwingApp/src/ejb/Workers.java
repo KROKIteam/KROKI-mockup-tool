@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 28.01.2013  12:27:32h
+   Creation date: 12.02.2013  15:53:42h
    **/
 
 @Entity
@@ -36,18 +36,22 @@ public class Workers implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "WRK_FIRST_NAME", unique = false, nullable = false)
+	@Column(name = "WOR_FIRST_NAME", unique = false, nullable = false)
 	private java.lang.String firstName;
 	
-	@Column(name = "WRK_LAST_NAME", unique = false, nullable = false)
+	@Column(name = "WOR_LAST_NAME", unique = false, nullable = false)
 	private java.lang.String lastName;
 	
-	@Column(name = "WRK_ADDRESS", unique = false, nullable = false)
+	@Column(name = "WOR_ADDRESS", unique = false, nullable = false)
 	private java.lang.String address;
 	
-	@Column(name = "WRK_MARRIED", unique = false, nullable = false)
+	@Column(name = "WOR_MARRIED", unique = false, nullable = false)
 	private java.lang.Boolean married;
 	
+	
+	@ManyToOne
+	@JoinColumn(name="cities", referencedColumnName="ID", nullable=true)
+	private Cities cities;
 	
 	
 	public Workers(){
@@ -91,6 +95,14 @@ public class Workers implements java.io.Serializable {
 	
 	public void setMarried(java.lang.Boolean married) {
 		this.married = married;
+	}
+	
+	public Cities getCities() {
+		return this.cities;
+	}
+	
+	public void setCities(Cities cities) {
+		this.cities = cities;
 	}
 	
 }

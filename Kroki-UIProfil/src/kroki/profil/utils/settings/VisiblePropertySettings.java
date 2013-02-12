@@ -6,6 +6,8 @@ package kroki.profil.utils.settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
@@ -14,6 +16,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -50,7 +54,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         initComponents();
         layoutComponents();
         addActions();
-        System.out.println("Visible element " + visibleElement);
     }
 
     private void initComponents() {
@@ -103,6 +106,16 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     }
 
     private void addActions() {
+    	
+    	VisiblePropertySettings.this.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				updateComponents();
+			}
+		});
+    	
     	typeCb.addActionListener(new ActionListener() {
 			
 			@Override
@@ -195,7 +208,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
                 }
                 VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
                 visibleProperty.setDefaultValue(text);
-                updatePreformed();
             }
         });
 
@@ -252,7 +264,8 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     @Override
     public void updateSettings(VisibleElement visibleElement) {
         super.updateSettings(visibleElement);
-        
+        VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+        columnLabelTf.setText(visibleProperty.getColumnLabel());
         //ako nije text field, ne treba podesavanje za tip
         if(!(visibleElement.getComponentType() == ComponentType.TEXT_FIELD)) {
         	typelbl.setVisible(false);

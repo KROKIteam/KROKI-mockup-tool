@@ -49,6 +49,7 @@ public class DBConnectionPropsDialog extends JDialog {
 	private JTextField tfHost;
 	private JLabel lblPort;
 	private JTextField tfPort;
+	private JButton btnDefaultPort;
 	private JLabel lblSchema;
 	private JTextField tfSchema;
 	private JLabel lblUsername;
@@ -116,6 +117,16 @@ public class DBConnectionPropsDialog extends JDialog {
 		lblPort = new JLabel("Port");
 		tfPort = new JTextField(10);
 		tfPort.setText(Integer.toString(project.getDBConnectionProps().getPort()));
+		btnDefaultPort = new JButton("Default");
+		btnDefaultPort.setToolTipText("Set default port for selected profile");
+		
+		btnDefaultPort.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				tfPort.setText(getDefaultPort(cbProfile.getSelectedIndex()));
+			}
+		});
 
 		lblSchema = new JLabel("Schema name");
 		tfSchema = new JTextField(30);
@@ -151,8 +162,8 @@ public class DBConnectionPropsDialog extends JDialog {
 				}else {
 					url = "jdbc:" + protocol + "://" + host  + ":" + port + "/" + schema;
 				}
-				
-				
+
+
 				String stat = checkRequiredFields();
 				if(!stat.equals("OK")) {
 					displayMessage(stat, true);
@@ -194,7 +205,7 @@ public class DBConnectionPropsDialog extends JDialog {
 		});
 
 		cbProfile.setSelectedIndex(project.getDBConnectionProps().getProfile());
-		
+
 		Dimension separatorDim = new Dimension(320, 5);
 		JSeparator topSep = new JSeparator(JSeparator.HORIZONTAL);
 		topSep.setPreferredSize(separatorDim);
@@ -214,7 +225,8 @@ public class DBConnectionPropsDialog extends JDialog {
 		add(lblHost);
 		add(tfHost, "wrap, growx");
 		add(lblPort);
-		add(tfPort, "wrap");
+		add(tfPort, "split 2");
+		add(btnDefaultPort, "wrap");
 		add(lblSchema);
 		add(tfSchema, "wrap, growx");
 		add(lblUsername);
@@ -322,7 +334,7 @@ public class DBConnectionPropsDialog extends JDialog {
 		}
 		lblStatus.setText("<html><p>" + message + "</p></html>");
 	}
-	
+
 	public String getProtocol(int profile) {
 		switch (profile) {
 		case 0:
@@ -339,10 +351,10 @@ public class DBConnectionPropsDialog extends JDialog {
 			return "mysql";
 		}
 	}
-	
+
 	public String checkRequiredFields() {
 		String status = "OK";
-		
+
 		if(tfHost.getText().equals("")) {
 			status = "You must provide host URL!";
 		}else if (tfPort.getText().equals("")) {
@@ -350,16 +362,34 @@ public class DBConnectionPropsDialog extends JDialog {
 		}else if (tfSchema.getText().equals("")) {
 			status = "You must provide schema name!";
 		}
-		
+
 		return status;
 	}
-	
+
 	public void setEnabledComponents(boolean enabled) {
 		tfHost.setEnabled(enabled);
 		tfPort.setEnabled(enabled);
+		btnDefaultPort.setEnabled(enabled);
 		tfSchema.setEnabled(enabled);
 		tfUsername.setEnabled(enabled);
 		pfPassword.setEnabled(enabled);
 		cbDialect.setEnabled(enabled);
+	}
+
+	public String getDefaultPort(int profile) {
+		switch(profile) {
+		case 0 :
+			return "3306";
+		case 1 :
+			return "5432";
+		case 2 :
+			return "1433";
+		case 3 :
+			return "1433";
+		case 4 :
+			return "8082";
+		default :
+			return "8082";
+		}
 	}
 }

@@ -149,6 +149,12 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 				} catch (BadLocationException ex) {
 				}
 				visibleElement.setLabel(text);
+				NamingUtil namer = new NamingUtil();
+				if(visibleElement instanceof VisibleProperty) {
+					VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+					visibleProperty.setColumnLabel(namer.toDatabaseFormat(visibleProperty.umlClass().name().replace("_", " "), labelTf.getText().trim()));
+					updatePreformed();
+				}
 				if (visibleElement instanceof VisibleClass) {
 					updatePreformedIncludeTree();
 				} else {

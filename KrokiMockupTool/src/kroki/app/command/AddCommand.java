@@ -8,9 +8,11 @@ import java.awt.Point;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.property.VisibleProperty;
 
 /**
  * Komanda dodavanja elementa
@@ -34,6 +36,11 @@ public class AddCommand implements Command {
         visibleClass.addVisibleElement(element);
         elementsGroup.addVisibleElement(element);
         element.getComponent().setAbsolutePosition(point);
+        if(element instanceof VisibleElement) {
+        	VisibleProperty prop = (VisibleProperty) element;
+        	NamingUtil namer = new NamingUtil();
+        	prop.setColumnLabel(namer.toDatabaseFormat(visibleClass.getLabel(), element.getLabel()));
+        }
         elementsGroup.update();
         visibleClass.update();
     }

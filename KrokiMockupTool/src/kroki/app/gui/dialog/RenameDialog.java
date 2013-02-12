@@ -15,7 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import kroki.app.utils.StringResource;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
+import kroki.profil.panel.StandardPanel;
+import kroki.profil.panel.VisibleClass;
 
 /**
  *
@@ -76,8 +79,13 @@ public class RenameDialog extends JDialog {
             return;
         }
         visibleElement.setLabel(nameTf.getText());
+        if(visibleElement instanceof VisibleClass) {
+        	NamingUtil namer = new NamingUtil();
+        	StandardPanel clas = (StandardPanel) visibleElement;
+        	clas.getPersistentClass().setName(namer.toCamelCase(nameTf.getText().trim(), false));
+        }
         //visibleElement.getComponent().setName(nameTf.getText());
-        //visibleElement.update();
+        visibleElement.update();
         this.dispose();
     }
 

@@ -40,9 +40,6 @@ public class RunSwingAction extends AbstractAction {
 	 * and embedded h2 database is ran.
 	 */
 	public void actionPerformed(ActionEvent arg0) {
-		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("[KROKI] Exporting project. Please wait...");
-		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
 		Thread thread = new Thread(new Runnable() {
 
 			@Override
@@ -57,7 +54,9 @@ public class RunSwingAction extends AbstractAction {
 							proj = pack;
 						}
 					}
-
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("\n[KROKI] Exporting project. Please wait...");
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					
 					//get temporary location in KROKI directory
 					File f = new File(".");
 					String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
@@ -76,9 +75,11 @@ public class RunSwingAction extends AbstractAction {
 					runner.runRun(proj.getLabel().replace(" ", "_"), tempDir);
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
-				} catch (NullPointerException e2) {
+				} catch (NullPointerException e) {
 					//if no project is selected, inform user to select one
 					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					e.printStackTrace();
 				}
 
 			}

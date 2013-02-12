@@ -16,6 +16,7 @@ import kroki.app.utils.CursorResource;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 import kroki.app.view.Canvas;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.property.VisibleProperty;
 
@@ -36,12 +37,16 @@ public class AddTextFieldAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        TabbedPaneController tabbedPaneController = KrokiMockupToolApp.getInstance().getTabbedPaneController();
+        NamingUtil namer = new NamingUtil();
+    	
+    	TabbedPaneController tabbedPaneController = KrokiMockupToolApp.getInstance().getTabbedPaneController();
         Canvas currentCanvas = tabbedPaneController.getCurrentTabContent();
         tabbedPaneController.changeCursorImage(addEnabledIcon);
         tabbedPaneController.getContext().goNext(State.ADD_STATE);
 
         VisibleProperty visibleProperty = new VisibleProperty("text_field_1", true, ComponentType.TEXT_FIELD);
+        visibleProperty.setDataType("String");
+        
         ((AddState) tabbedPaneController.getContext().getCurrentState()).setElement(visibleProperty);
         ((AddState) tabbedPaneController.getContext().getCurrentState()).setAddEnabledIcon(addEnabledIcon);
         ((AddState) tabbedPaneController.getContext().getCurrentState()).setAddDisabledIcon(addDisabledIcon);

@@ -31,6 +31,7 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.uml_core_basic.UmlType;
 
 /**
 * GUI component that simulates console behavior
@@ -445,7 +446,12 @@ public class CommandPanel extends JPanel {
 	 * @param group group inside panel in which created component is to be put (0-toolbar, 1-Properties, 2-Operations)
 	 */
 	public void makeVisibleProperty(String label, boolean visible, ComponentType type, VisibleClass panel, int group) {
+		NamingUtil namer = new NamingUtil();
 		VisibleProperty property = new VisibleProperty(label, visible, type);
+		if(type == ComponentType.TEXT_FIELD) {
+			property.setDataType("String");
+		}
+		property.setColumnLabel(namer.toDatabaseFormat(panel.getLabel(), label));
 		panel.addVisibleElement(property);
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(group);
 		gr.addVisibleElement(property);

@@ -1,0 +1,12 @@
+<enums>
+	<enum name="vrstaDokumenta" label="Vrsta dok.">
+		<value>Ulaz</value>
+		<value>Izlaz</value>
+		<value>Početno stanje</value>
+	</enum>
+	<enum name="status" label="Status">
+		<value>U fazi formiranja</value>
+		<value>Proknjižen</value>
+		<value>Storniran</value>
+	</enum>
+</enums>
