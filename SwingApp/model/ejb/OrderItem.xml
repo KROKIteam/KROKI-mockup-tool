@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<entity class-name="ejb.OrderItem" label="Order Item" name="ORDERITEM">
+<attributes>
+<column-attribute field-name="id" key="true" label="ID" length="50" name="id" type="java.lang.Long"/>
+<column-attribute field-name="orderedQuantity" key="false" label="Ordered quantity" length="50" name="orderedQuantity" type="java.lang.String"/>
+<column-attribute field-name="available" key="false" label="Available" length="50" name="available" type="java.lang.Boolean"/>
+<column-attribute field-name="unitPrice" key="false" label="Unit price" length="50" name="unitPrice" type="java.math.BigDecimal"/>
+<column-attribute field-name="unitTax" key="false" label="Unit tax" length="50" name="unitTax" type="java.math.BigDecimal"/>
+<column-attribute field-name="value" key="false" label="Value" length="50" name="value" type="java.math.BigDecimal"/>
+<zoom-attribute class-name="ejb.Orders" field-name="orders" label="Order" name="orders" zoomed-by="id">
+<column-ref label="Order ID" name="id"/>
+</zoom-attribute>
+<zoom-attribute class-name="ejb.Product" field-name="product" label="Product" name="product" zoomed-by="id">
+<column-ref label="Product ID" name="id"/>
+</zoom-attribute>
+</attributes>
+</entity>

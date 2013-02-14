@@ -47,6 +47,7 @@ public class OpenProjectAction extends AbstractAction {
                 KrokiMockupToolApp.getInstance().getWorkspace().addPackage(bussinesSubsystem);
                 KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
             } catch (Exception ex) {
+            	ex.printStackTrace();
                 JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Opening failed.");
             }
 

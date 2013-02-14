@@ -149,6 +149,16 @@ public class StandardPanelSettings extends VisibleClassSettings {
             this.addTab(Intl.getValue("group.INTERMEDIATE"), intermediate);
         }
 
+        JPanel persistent = null;
+		if(panelMap.containsKey("group.PERSISTENT")) {
+			persistent = panelMap.get("group.PERSISTENT");
+		}else {
+			persistent = new JPanel();
+			persistent.setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
+			addTab("Persistent", persistent);
+			panelMap.put("group.PERSISTENT", persistent);
+		}
+        
         intermediate.add(classLb);
         intermediate.add(classTf);
         intermediate.add(addLb);

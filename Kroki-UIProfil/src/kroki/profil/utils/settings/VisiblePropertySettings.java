@@ -108,10 +108,8 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     private void addActions() {
     	
     	VisiblePropertySettings.this.addChangeListener(new ChangeListener() {
-			
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
 				updateComponents();
 			}
 		});

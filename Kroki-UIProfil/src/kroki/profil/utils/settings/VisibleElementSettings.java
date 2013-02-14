@@ -175,7 +175,6 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 					updatePreformed();
 				}
 			}
-
 			@Override
 			public void focusGained(FocusEvent arg0) {
 			}

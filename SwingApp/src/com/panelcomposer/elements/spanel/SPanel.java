@@ -122,6 +122,7 @@ public class SPanel extends JPanel implements ObserverPanel {
 	}
 
 	public void handleCommit() {
+		System.out.println("HANDLE COMMIT");
 		if (!getModelPanel().getPanelSettings().getStateMode().equals(StateMode.SEARCH)) {
 			// TODO: Needs validation
 			// return;
@@ -129,6 +130,7 @@ public class SPanel extends JPanel implements ObserverPanel {
 			try {
 				System.out.println("SPanelAspect.SPanel.handleCommit(); " + getModelPanel().getPanelSettings().getStateMode());
 				if(getModelPanel().getPanelSettings().getStateMode().equals(StateMode.ADD)) {
+					System.out.println("ADD");
 					objEntity = ComponentResolver.getDataFromComponents(
 							getTable().getTableModel().getEntityBean(),
 							getInputPanel().getPanelComponents(), null);

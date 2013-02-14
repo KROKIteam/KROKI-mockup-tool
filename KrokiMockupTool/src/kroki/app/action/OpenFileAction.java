@@ -46,6 +46,7 @@ public class OpenFileAction extends AbstractAction {
                 KrokiMockupToolApp.getInstance().setWorkspace(workspace);
                 KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
             } catch (Exception ex) {
+            	ex.printStackTrace();
                 JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Opening failed.");
             }
 

@@ -24,7 +24,6 @@ import kroki.profil.subsystem.BussinesSubsystem;
 /**
  * Akcija za eksport projekta u xml fajl
  * @author mrd
- *
  */
 public class ExportAction extends AbstractAction {
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 12.02.2013  15:53 -->
+<!-- Creation time and date: 14.02.2013  16:41 -->
 
 <persistence>
 	<persistence-unit name="hotelsoap" transaction-type="RESOURCE_LOCAL">
@@ -10,8 +10,8 @@
 			<property name="hibernate.archive.autodetection" value="class, hbm"/>
 			<property name="hibernate.connection.driver_class" value="org.h2.Driver" />
 			<property name="hibernate.connection.url" value="jdbc:h2:mem:test" />
-			<property name="hibernate.connection.username" value="test" />
-			<property name="hibernate.connection.password" value="test" />
+			<property name="hibernate.connection.username" value="mrd" />
+			<property name="hibernate.connection.password" value="drupal" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 		</properties>

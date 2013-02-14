@@ -48,7 +48,7 @@ public class SwingExporter {
 	private MenuGenerator menuGenerator;
 	private PanelGenerator panelGenerator;
 	private DatabaseConfigGenerator dbConfigGenerator;
-	
+
 	public SwingExporter() {
 		classes = new ArrayList<EJBClass>();
 		menus = new ArrayList<Menu>();
@@ -57,7 +57,7 @@ public class SwingExporter {
 		menuGenerator = new MenuGenerator();
 		panelGenerator = new PanelGenerator();
 	}
-	
+
 	/**
 	 * Project is exported as runnable jar file
 	 * on given location
@@ -110,12 +110,13 @@ public class SwingExporter {
 
 		RunAnt runner = new RunAnt();
 		runner.runBuild(jarName + ".jar", buildFile, outputFile);
-		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message);
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, 0);
 	}
 
 	//fetches class (panel) data from the model
 	public void getClassData(VisibleElement el, String classPackage, Menu menu) {
 		NamingUtil cc = new NamingUtil();
+		System.out.println("OBRADJUJEM: " + el.getLabel());
 
 		if(el instanceof StandardPanel) {
 			StandardPanel sp = (StandardPanel)el;
@@ -153,40 +154,50 @@ public class SwingExporter {
 
 			for(int l=0; l<vc.containedZooms().size(); l++) {
 				Zoom z = vc.containedZooms().get(l);
-				StandardPanel zsp = (StandardPanel) z.getTargetPanel();
-				EJBClass zcl = getClass(zsp.getPersistentClass().name());
-				//adding ManyToOne (zoom) attribute
-				String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
-				String reffColumn = "id";
-				String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
+				if(z.getTargetPanel() != null) {
+					StandardPanel zsp = (StandardPanel) z.getTargetPanel();
+					if(z.getLabel().equals(vc.getLabel())) {
+						//TODO Odradi vezu sam na sebe
+					}else {
+						if(getClass(zsp.getPersistentClass().name()) != null) {
+							EJBClass zcl = getClass(zsp.getPersistentClass().name());
+							System.out.println("zoom: " + z.getLabel() + " na " + z.getTargetPanel().getLabel() + " u " + vc.getLabel() + " = " + zcl.getLabel());
+							//adding ManyToOne (zoom) attribute
+							String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
+							String reffColumn = "id";
+							String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 
-				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
-				mtoAttributes.add(mto);
+							ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
+							mtoAttributes.add(mto);
 
-				//add OneToMany attribute to opposite end of association
-				if(zcl != null) {
-					String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
-					String label = z.getLabel();
-					String reffTable = sp.getPersistentClass().name();
-					String mappedBy = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
+							//add OneToMany attribute to opposite end of association
+							String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
+							String label = z.getLabel();
+							String reffTable = sp.getPersistentClass().name();
+							String mappedBy = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
 
-					//fetching of all representative attributes that will be displayed in zoom field
-					for(int m=0; m<zcl.getAttributes().size(); m++) {
-						Attribute a = zcl.getAttributes().get(m);
+							//fetching of all representative attributes that will be displayed in zoom field
+							for(int m=0; m<zcl.getAttributes().size(); m++) {
+								Attribute a = zcl.getAttributes().get(m);
 
-						if(a.getRepresentative()) {
-							System.out.println("atribut" + a.getLabel() + "JE reprezentativan");
-							mto.getColumnRefs().add(a);
+								if(a.getRepresentative()) {
+									System.out.println("atribut " + a.getLabel() + " JE reprezentativan");
+									mto.getColumnRefs().add(a);
+								}else {
+									System.out.println("atribut " + a.getLabel() + " NIJE reprezentativan");
+								}
+							}
+
+							OneToManyAttribute otm = new OneToManyAttribute(name, label, reffTable, mappedBy);
+							zcl.getOneToManyAttributes().add(otm);
 						}else {
-							System.out.println("atribut" + a.getLabel() + "NIJE reprezentativan");
+							KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Class '" + zsp.getPersistentClass().name() + "' missing!" , 3);
+							throw new NullPointerException();
 						}
 					}
-
-					OneToManyAttribute otm = new OneToManyAttribute(name, label, reffTable, mappedBy);
-					zcl.getOneToManyAttributes().add(otm);
-
 				}else {
-					System.out.println("NULL majku mu");
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
+					return;
 				}
 
 			}
@@ -261,7 +272,6 @@ public class SwingExporter {
 		EJBClass clas = null;
 		for(int i=0; i<classes.size(); i++) {
 			EJBClass cl = classes.get(i);
-			System.out.println("imam " + cl.getName());
 			if(cl.getName().equalsIgnoreCase(name)) {
 				clas = cl;
 			}

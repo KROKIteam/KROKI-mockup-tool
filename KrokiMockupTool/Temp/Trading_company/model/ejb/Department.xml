@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<entity class-name="ejb.Department" label="Department" name="DEPARTMENT">
+<attributes>
+<column-attribute field-name="id" key="true" label="ID" length="50" name="id" type="java.lang.Long"/>
+<column-attribute field-name="departmentName" key="false" label="Department name" length="50" name="departmentName" type="java.lang.String"/>
+<column-attribute field-name="departmentAddress" key="false" label="Department address" length="50" name="departmentAddress" type="java.lang.String"/>
+<zoom-attribute class-name="ejb.City" field-name="city" label="City" name="city" zoomed-by="id">
+<column-ref label="City ID" name="id"/>
+</zoom-attribute>
+</attributes>
+</entity>

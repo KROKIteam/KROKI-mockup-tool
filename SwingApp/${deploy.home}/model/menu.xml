@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menus>
+<menu label="State" name="menustate_st">
+<submenu activate="state_st" label="State" panel-type="standard-panel"/>
+</menu>
+<menu label="City" name="menucity_st">
+<submenu activate="city_st" label="City" panel-type="standard-panel"/>
+</menu>
+<menu label="Enterprise" name="menuenterprise_st">
+<submenu activate="enterprise_st" label="Enterprise" panel-type="standard-panel"/>
+</menu>
+</menus>

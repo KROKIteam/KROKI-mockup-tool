@@ -81,11 +81,13 @@ public class RenameDialog extends JDialog {
         visibleElement.setLabel(nameTf.getText());
         if(visibleElement instanceof VisibleClass) {
         	NamingUtil namer = new NamingUtil();
-        	StandardPanel clas = (StandardPanel) visibleElement;
-        	clas.getPersistentClass().setName(namer.toCamelCase(nameTf.getText().trim(), false));
+        	if(visibleElement instanceof StandardPanel) {
+        		StandardPanel clas = (StandardPanel) visibleElement;
+            	clas.getPersistentClass().setName(namer.toCamelCase(nameTf.getText().trim(), false));
+            	visibleElement.update();
+        	}
         }
         //visibleElement.getComponent().setName(nameTf.getText());
-        visibleElement.update();
         this.dispose();
     }
 

@@ -46,40 +46,45 @@ public class RunSwingAction extends AbstractAction {
 			public void run() {
 				//find selected project from workspace
 				BussinesSubsystem proj = null;
-				try {
-					String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
-					for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
-						BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
-						if(pack.getLabel().equals(selectedNoded)) {
-							proj = pack;
-						}
+				String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
+				for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
+					BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
+					if(pack.getLabel().equals(selectedNoded)) {
+						proj = pack;
 					}
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("\n[KROKI] Exporting project. Please wait...");
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					
-					//get temporary location in KROKI directory
-					File f = new File(".");
-					String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
-					File tempDir = new File(appPath);
+				}
 
-					deleteFiles(tempDir);
+				if(proj != null) {
+					try {
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-					//generate connection settings for embedded h2 database
-					DatabaseProps tempProps = new DatabaseProps();
-					//proj.setDBConnectionProps(tempProps);
-					SwingExporter exporter = new SwingExporter();
-					exporter.export(tempDir, proj,  "\n[KROKI] Project exported OK! Running project...");
+						//get temporary location in KROKI directory
+						File f = new File(".");
+						String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
+						File tempDir = new File(appPath);
 
-					//run exported jar file
-					RunAnt runner = new RunAnt();
-					runner.runRun(proj.getLabel().replace(" ", "_"), tempDir);
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+						deleteFiles(tempDir);
 
-				} catch (NullPointerException e) {
+						//generate connection settings for embedded h2 database
+						DatabaseProps tempProps = new DatabaseProps();
+						//proj.setDBConnectionProps(tempProps);
+						SwingExporter exporter = new SwingExporter(); 
+						exporter.export(tempDir, proj, "Project exported OK! Running project...");
+
+						//run exported jar file
+						RunAnt runner = new RunAnt();
+						runner.runRun(proj.getLabel().replace(" ", "_"), tempDir);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					} catch (NullPointerException e) {
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("An error occured. Running aborted", 3);
+						//e.printStackTrace();
+					}
+				}else {
 					//if no project is selected, inform user to select one
 					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					e.printStackTrace();
 				}
 
 			}

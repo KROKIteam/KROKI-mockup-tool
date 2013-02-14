@@ -36,7 +36,7 @@ public class AddCommand implements Command {
         visibleClass.addVisibleElement(element);
         elementsGroup.addVisibleElement(element);
         element.getComponent().setAbsolutePosition(point);
-        if(element instanceof VisibleElement) {
+        if(element instanceof VisibleProperty) {
         	VisibleProperty prop = (VisibleProperty) element;
         	NamingUtil namer = new NamingUtil();
         	prop.setColumnLabel(namer.toDatabaseFormat(visibleClass.getLabel(), element.getLabel()));

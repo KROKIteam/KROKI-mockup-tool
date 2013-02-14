@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<map>
+<panel ejb-ref="ejb.State" id="state_st"/>
+<panel ejb-ref="ejb.City" id="city_st"/>
+<panel ejb-ref="ejb.Enterprise" id="enterprise_st"/>
+</map>

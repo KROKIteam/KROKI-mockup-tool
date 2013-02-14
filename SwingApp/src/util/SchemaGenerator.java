@@ -29,6 +29,7 @@ public class SchemaGenerator
 		ArrayList<Class> classes = (ArrayList<Class>) getClasses(packageName);
 		for(int i=0; i<classes.size(); i++) {
 			Class clazz = classes.get(i);
+			System.out.println("Dodajem klasu: " + clazz);
 			cfg.addAnnotatedClass(clazz);
 		}
 	}
@@ -41,8 +42,9 @@ public class SchemaGenerator
 		cfg.configure();
 		SchemaExport export = new SchemaExport(cfg);
 		export.setDelimiter(";");
+		export.setFormat(true);
 		export.setOutputFile("ddl_createDatabase.sql"); 
-		//export.execute(true, true, false, false);
+		//export.execute(true, true, true, true);
 		export.create(true, true);
 	}
 
