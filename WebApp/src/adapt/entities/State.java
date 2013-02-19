@@ -26,8 +26,8 @@ import javax.persistence.JoinTable;
    **/
 
 @Entity
-@Table(name = "CATEGORY")
-public class Category implements java.io.Serializable {
+@Table(name = "STATE")
+public class State implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,22 +36,15 @@ public class Category implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "CAT_NAME", unique = false, nullable = false)
+	@Column(name = "STA_NAME", unique = false, nullable = false)
 	private java.lang.String name;
 	
-	@Column(name = "CAT_DESCRIPTION", unique = false, nullable = false)
-	private java.lang.String description;
 	
 	
-	@ManyToOne
-	@JoinColumn(name="category", referencedColumnName="ID", nullable=true)
-	private Category category;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "state")
+	private Set<City> citySet = new HashSet<City>();
 	
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "category")
-	private Set<Product> productSet = new HashSet<Product>();
-	
-	public Category(){
+	public State(){
 	}
 	
 	public Long getId() {
@@ -70,28 +63,12 @@ public class Category implements java.io.Serializable {
 		this.name = name;
 	}
 	
-	public java.lang.String getDescription() {
-		return this.description;
-	}
-	
-	public void setDescription(java.lang.String description) {
-		this.description = description;
-	}
-	
-	public Category getCategory() {
-		return this.category;
-	}
-	
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
-	public Set<Product> getProductSet() {
-		return this.productSet;
+	public Set<City> getCitySet() {
+		return this.citySet;
 	}
 
-	public void setProductSet(Set<Product> productSet) {
-		this.productSet = productSet;
+	public void setCitySet(Set<City> citySet) {
+		this.citySet = citySet;
 	}
 	
 }

@@ -12,6 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
@@ -49,9 +52,16 @@ public class SaveAction extends AbstractAction {
 			}
 			
 			JFileChooser jfc = new JFileChooser();
+			jfc.setSelectedFile(new File(proj.getLabel().replace(" ", "_")));
+			FileFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
+	        jfc.setAcceptAllFileFilterUsed(false);
+	        jfc.setFileFilter(filter);
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
 			if (retValue == JFileChooser.APPROVE_OPTION) {
 				File file = jfc.getSelectedFile();
+				if(!file.getAbsolutePath().endsWith(".kroki")) {
+					file = new File(file.getAbsolutePath() + ".kroki");
+				}
 				System.out.println("saving to file: " + file.getAbsolutePath());
 				DeepCopy.save(proj, file);
 			} else {

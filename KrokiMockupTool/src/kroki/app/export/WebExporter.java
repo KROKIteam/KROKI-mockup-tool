@@ -18,6 +18,7 @@ import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;
+import kroki.profil.operation.BussinessOperation;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.std.StdPanelSettings;
@@ -26,6 +27,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 
 public class WebExporter {
 
+	private BussinesSubsystem project;
 	private ArrayList<VisibleElement> elements;
 	private ArrayList<EJBClass> classes;
 	WebResourceGenerator WebGenerator;
@@ -40,6 +42,7 @@ public class WebExporter {
 	}
 
 	public void export(File file, BussinesSubsystem proj) {
+		this.project = proj;
 		dbConfigGen = new DatabaseConfigGenerator(proj.getDBConnectionProps());
 
 		for(int i=0; i<proj.ownedElementCount(); i++) {
@@ -95,7 +98,7 @@ public class WebExporter {
 				} 
 
 
-				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true);
+				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative());
 				if(vp.isRepresentative()) {
 					attr.setName("name");
 				}
@@ -143,8 +146,9 @@ public class WebExporter {
 
 			}
 
+			String tableName = cc.toDatabaseFormat(this.project.getLabel(), sp.getLabel());
 			//EJB class instance for panel is created and passed to generator
-			EJBClass ejb = new EJBClass("adapt.entities", sp.getPersistentClass().name(), sp.getLabel(), attributes, mtoAttributes, otmAttributes);
+			EJBClass ejb = new EJBClass("adapt.entities", sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
 			classes.add(ejb);
 		}
 	}

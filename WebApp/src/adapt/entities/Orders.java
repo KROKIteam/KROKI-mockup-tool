@@ -1,4 +1,4 @@
-package ejb;
+package adapt.entities;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 19.02.2013  10:44:27h
+   Creation date: 15.02.2013  15:52:28h
    **/
 
 @Entity
-@Table(name = "TC_ORDERS")
+@Table(name = "ORDERS")
 public class Orders implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ public class Orders implements java.io.Serializable {
 	private java.lang.String shipmentAddress;
 	
 	@Column(name = "ORD_ORDER_TOTAL", unique = false, nullable = false)
-	private java.math.BigDecimal orderTotal;
+	private java.lang.String orderTotal;
 	
 	@Column(name = "ORD_ORDER_STATUS", unique = false, nullable = false)
 	private java.lang.String orderStatus;
@@ -62,10 +62,10 @@ public class Orders implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "orders")
-	private Set<OrderItem> OrderItemSet = new HashSet<OrderItem>();
+	private Set<OrderItem> orderItemSet = new HashSet<OrderItem>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "orders")
-	private Set<Invoice> InvoiceSet = new HashSet<Invoice>();
+	private Set<Invoice> invoiceSet = new HashSet<Invoice>();
 	
 	public Orders(){
 	}
@@ -102,11 +102,11 @@ public class Orders implements java.io.Serializable {
 		this.shipmentAddress = shipmentAddress;
 	}
 	
-	public java.math.BigDecimal getOrderTotal() {
+	public java.lang.String getOrderTotal() {
 		return this.orderTotal;
 	}
 	
-	public void setOrderTotal(java.math.BigDecimal orderTotal) {
+	public void setOrderTotal(java.lang.String orderTotal) {
 		this.orderTotal = orderTotal;
 	}
 	
@@ -135,19 +135,19 @@ public class Orders implements java.io.Serializable {
 	}
 	
 	public Set<OrderItem> getOrderItemSet() {
-		return this.OrderItemSet;
+		return this.orderItemSet;
 	}
 
-	public void setOrderItemSet(Set<OrderItem> OrderItemSet) {
-		this.OrderItemSet = OrderItemSet;
+	public void setOrderItemSet(Set<OrderItem> orderItemSet) {
+		this.orderItemSet = orderItemSet;
 	}
 	
 	public Set<Invoice> getInvoiceSet() {
-		return this.InvoiceSet;
+		return this.invoiceSet;
 	}
 
-	public void setInvoiceSet(Set<Invoice> InvoiceSet) {
-		this.InvoiceSet = InvoiceSet;
+	public void setInvoiceSet(Set<Invoice> invoiceSet) {
+		this.invoiceSet = invoiceSet;
 	}
 	
 }

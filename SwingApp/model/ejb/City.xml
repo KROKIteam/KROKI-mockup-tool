@@ -6,6 +6,7 @@
 <column-attribute field-name="name" key="false" label="Name" length="50" name="name" type="java.lang.String"/>
 <zoom-attribute class-name="ejb.State" field-name="state" label="State" name="state" zoomed-by="id">
 <column-ref label="State ID" name="id"/>
+<column-ref label="State Name" name="name"/>
 </zoom-attribute>
 </attributes>
 </entity>

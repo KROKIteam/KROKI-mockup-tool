@@ -3,6 +3,7 @@ package util.xml_readers;
 import java.io.File;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.html.HTML.Tag;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,7 +24,7 @@ public class MenuReader {
 	protected static String menuFile = ReadersPathConst.MENU_FILE_NAME;
 	protected static String modelDir = ReadersPathConst.MODEL_DIR_PATH;
 	protected static String usersDirName = modelDir + ReadersPathConst.USERS_FILE_NAME + File.separator;
-	
+
 	/**
 	 * Loads the menu configuration from XML
 	 */
@@ -34,11 +35,13 @@ public class MenuReader {
 			System.out.println("MENU READER FILE: " + appPath + modelDir + File.separator + menuFile);
 			Document doc = XMLUtil.getDocumentFromXML(appPath + modelDir + File.separator + menuFile, null);
 			Element elementMenuMap = (Element) doc.getElementsByTagName(Tags.MENU_MAP).item(0);
-			NodeList nodeListMenus = elementMenuMap.getElementsByTagName(Tags.MENU);
-			System.out.println("MENUS: " + doc.getDocumentURI());
-			for (int i = 0; i < nodeListMenus.getLength(); i++) {
-				AppCache.getInstance().addToCache(
-						createMenu(nodeListMenus.item(i)));
+
+			NodeList list = elementMenuMap.getChildNodes();
+			for(int i=0;i<list.getLength(); i++) {
+				Node n = list.item(i);
+				if(n.getNodeType() == Node.ELEMENT_NODE) {
+					AppCache.getInstance().addToCache(createMenu(n));
+				}
 			}
 
 		} catch (Exception e) {
@@ -48,32 +51,46 @@ public class MenuReader {
 
 	private static MyMenu createMenu(Node node) {
 		Element elementMenu = (Element) node;
+
 		MyMenu mmenu = new MyMenu();
 		mmenu.setLabel(elementMenu.getAttribute(Tags.LABEL));
-		NodeList nodeListSubmenus = elementMenu.getElementsByTagName(Tags.SUBMENU);
-		for (int i = 0; i < nodeListSubmenus.getLength(); i++) {
-			try {
-				MySubMenu msm = createSubMenu(nodeListSubmenus.item(i));
-				if(msm != null) {
-					mmenu.add(msm);
+		
+		System.out.println("PRAVIM MENU " + elementMenu.getAttribute(Tags.LABEL));
+		
+		NodeList childern = node.getChildNodes();
+		for(int i=0; i<childern.getLength(); i++) {
+			Node n = childern.item(i);
+			if(n.getNodeType() == Node.ELEMENT_NODE) {
+				//System.out.println("CHILD " + i + " OF " + elementMenu.getAttribute(Tags.LABEL) + " IS " + n.getNodeName());
+				if(n.getNodeName().equals("menu")) {
+					MyMenu menu = createMenu(n);
+					if(menu != null) {
+						mmenu.addMenu(menu);
+						System.out.println("Dodajem meni " + menu.getLabel() + " u " + mmenu.getLabel());
+					}
+				}else if (n.getNodeName().equals("submenu")) {
+					try {
+						MySubMenu submenu = createSubMenu(n);
+						if(submenu != null) {
+							mmenu.addSubmenu(submenu);
+						}
+					} catch (PanelTypeParsingException e) {
+						e.printStackTrace();
+					}
 				}
-			} catch (PanelTypeParsingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		return mmenu;
 	}
 
-	private static MySubMenu createSubMenu(Node node)
-			throws PanelTypeParsingException {
-		
+	private static MySubMenu createSubMenu(Node node)throws PanelTypeParsingException {
 		Element elementSubmenu = (Element) node;
 		MySubMenu submenu = new MySubMenu();
 		submenu.setActivate(elementSubmenu.getAttribute(Tags.ACTIVATE));
 		submenu.setLabel(elementSubmenu.getAttribute(Tags.LABEL));
 		String pType = elementSubmenu.getAttribute(Tags.PANEL_TYPE);
 		submenu.setPanelType(PanelTypeResolver.getType(pType));
+		System.out.println("PRAVIM SUBMENU " + elementSubmenu.getAttribute(Tags.LABEL));
 		return submenu;
 	}
 

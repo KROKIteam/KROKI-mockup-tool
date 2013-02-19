@@ -518,7 +518,7 @@ public class CommandPanel extends JPanel {
 		StyledDocument document = previousLines.getStyledDocument();
 		SimpleAttributeSet set = new SimpleAttributeSet();
 		previousLines.setCharacterAttributes(set, true);
-		String prefix = "<b>[KROKI]</b> ";
+		String prefix = "[KROKI] ";
 		switch (type) {
 		case 0:
 			StyleConstants.setForeground(set, Color.blue);

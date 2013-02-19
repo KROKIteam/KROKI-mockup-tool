@@ -7,6 +7,7 @@
 <column-attribute field-name="total" key="false" label="Total" length="50" name="total" type="java.math.BigDecimal"/>
 <zoom-attribute class-name="ejb.Orders" field-name="orders" label="Order" name="orders" zoomed-by="id">
 <column-ref label="Order ID" name="id"/>
+<column-ref label="Order Order number" name="orderNumber"/>
 </zoom-attribute>
 </attributes>
 </entity>

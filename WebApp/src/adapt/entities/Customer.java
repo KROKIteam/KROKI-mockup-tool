@@ -1,4 +1,4 @@
-package ejb;
+package adapt.entities;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 19.02.2013  10:44:27h
+   Creation date: 15.02.2013  15:52:28h
    **/
 
 @Entity
-@Table(name = "TC_CUSTOMER")
+@Table(name = "CUSTOMER")
 public class Customer implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -52,7 +52,7 @@ public class Customer implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "customer")
-	private Set<Orders> OrdersSet = new HashSet<Orders>();
+	private Set<Orders> ordersSet = new HashSet<Orders>();
 	
 	public Customer(){
 	}
@@ -98,11 +98,11 @@ public class Customer implements java.io.Serializable {
 	}
 	
 	public Set<Orders> getOrdersSet() {
-		return this.OrdersSet;
+		return this.ordersSet;
 	}
 
-	public void setOrdersSet(Set<Orders> OrdersSet) {
-		this.OrdersSet = OrdersSet;
+	public void setOrdersSet(Set<Orders> ordersSet) {
+		this.ordersSet = ordersSet;
 	}
 	
 }

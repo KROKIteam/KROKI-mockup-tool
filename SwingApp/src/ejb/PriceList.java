@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 14.02.2013  16:41:16h
+   Creation date: 19.02.2013  10:44:27h
    **/
 
 @Entity
-@Table(name = "PRICELIST")
+@Table(name = "TC_PRICE_LIST")
 public class PriceList implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class PriceList implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "priceList")
-	private Set<PriceListItem> priceListItemSet = new HashSet<PriceListItem>();
+	private Set<PriceListItem> PriceListItemSet = new HashSet<PriceListItem>();
 	
 	public PriceList(){
 	}
@@ -75,11 +75,11 @@ public class PriceList implements java.io.Serializable {
 	}
 	
 	public Set<PriceListItem> getPriceListItemSet() {
-		return this.priceListItemSet;
+		return this.PriceListItemSet;
 	}
 
-	public void setPriceListItemSet(Set<PriceListItem> priceListItemSet) {
-		this.priceListItemSet = priceListItemSet;
+	public void setPriceListItemSet(Set<PriceListItem> PriceListItemSet) {
+		this.PriceListItemSet = PriceListItemSet;
 	}
 	
 }

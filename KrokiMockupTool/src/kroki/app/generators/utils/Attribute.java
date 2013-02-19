@@ -16,7 +16,7 @@ public class Attribute {
 	private Boolean representative;
 	
 	public Attribute(String name, String databaseName, String label,
-			String type, Boolean unique, Boolean mandatory) {
+			String type, Boolean unique, Boolean mandatory, Boolean representative) {
 		super();
 		this.name = name;
 		this.databaseName = databaseName;
@@ -24,6 +24,7 @@ public class Attribute {
 		this.type = type;
 		this.unique = unique;
 		this.mandatory = mandatory;
+		this.representative = representative;
 	}
 
 	public String getName() {

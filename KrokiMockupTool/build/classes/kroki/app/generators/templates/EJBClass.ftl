@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
 ${doc}
 
 @Entity
-@Table(name = "${class.name?upper_case}")
+@Table(name = "${class.tableName}")
 public class ${class.name} implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

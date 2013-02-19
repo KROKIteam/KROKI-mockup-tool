@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 14.02.2013  16:41:16h
+   Creation date: 19.02.2013  10:44:27h
    **/
 
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "TC_CATEGORY")
 public class Category implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,9 +43,16 @@ public class Category implements java.io.Serializable {
 	private java.lang.String description;
 	
 	
+	@ManyToOne
+	@JoinColumn(name="category", referencedColumnName="ID", nullable=true)
+	private Category category;
+	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "category")
-	private Set<Product> productSet = new HashSet<Product>();
+	private Set<Category> CategorySet = new HashSet<Category>();
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "category")
+	private Set<Product> ProductSet = new HashSet<Product>();
 	
 	public Category(){
 	}
@@ -74,12 +81,28 @@ public class Category implements java.io.Serializable {
 		this.description = description;
 	}
 	
-	public Set<Product> getProductSet() {
-		return this.productSet;
+	public Category getCategory() {
+		return this.category;
+	}
+	
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	public Set<Category> getCategorySet() {
+		return this.CategorySet;
 	}
 
-	public void setProductSet(Set<Product> productSet) {
-		this.productSet = productSet;
+	public void setCategorySet(Set<Category> CategorySet) {
+		this.CategorySet = CategorySet;
+	}
+	
+	public Set<Product> getProductSet() {
+		return this.ProductSet;
+	}
+
+	public void setProductSet(Set<Product> ProductSet) {
+		this.ProductSet = ProductSet;
 	}
 	
 }

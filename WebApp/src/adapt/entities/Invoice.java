@@ -1,4 +1,4 @@
-package ejb;
+package adapt.entities;
 
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 19.02.2013  10:44:27h
+   Creation date: 15.02.2013  15:52:28h
    **/
 
 @Entity
-@Table(name = "TC_INVOICE")
+@Table(name = "INVOICE")
 public class Invoice implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

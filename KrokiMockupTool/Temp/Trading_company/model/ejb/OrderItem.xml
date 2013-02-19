@@ -9,9 +9,11 @@
 <column-attribute field-name="value" key="false" label="Value" length="50" name="value" type="java.math.BigDecimal"/>
 <zoom-attribute class-name="ejb.Orders" field-name="orders" label="Order" name="orders" zoomed-by="id">
 <column-ref label="Order ID" name="id"/>
+<column-ref label="Order Order number" name="orderNumber"/>
 </zoom-attribute>
 <zoom-attribute class-name="ejb.Product" field-name="product" label="Product" name="product" zoomed-by="id">
 <column-ref label="Product ID" name="id"/>
+<column-ref label="Product Name" name="name"/>
 </zoom-attribute>
 </attributes>
 </entity>

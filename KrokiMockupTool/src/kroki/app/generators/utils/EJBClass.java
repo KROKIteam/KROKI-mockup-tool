@@ -11,18 +11,20 @@ public class EJBClass {
 	
 	private String classPackage;
 	private String name;
+	private String tableName;
 	private String label;
 	private ArrayList<Attribute> attributes;
 	private ArrayList<ManyToOneAttribute> manyToOneAttributes;
 	private ArrayList<OneToManyAttribute> oneToManyAttributes;
 	
-	public EJBClass(String classPackage, String name, String label,
+	public EJBClass(String classPackage, String name, String tableName, String label,
 			ArrayList<Attribute> attributes,
 			ArrayList<ManyToOneAttribute> manyToOneAttributes,
 			ArrayList<OneToManyAttribute> oneToManyAttributes) {
 		super();
 		this.classPackage = classPackage;
 		this.name = name;
+		this.tableName = tableName;
 		this.label = label;
 		this.attributes = attributes;
 		this.manyToOneAttributes = manyToOneAttributes;
@@ -39,6 +41,14 @@ public class EJBClass {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
 
 	public void setName(String name) {

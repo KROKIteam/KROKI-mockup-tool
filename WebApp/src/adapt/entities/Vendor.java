@@ -26,8 +26,8 @@ import javax.persistence.JoinTable;
    **/
 
 @Entity
-@Table(name = "CATEGORY")
-public class Category implements java.io.Serializable {
+@Table(name = "VENDOR")
+public class Vendor implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,22 +36,19 @@ public class Category implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "CAT_NAME", unique = false, nullable = false)
+	@Column(name = "VEN_NAME", unique = false, nullable = false)
 	private java.lang.String name;
 	
-	@Column(name = "CAT_DESCRIPTION", unique = false, nullable = false)
-	private java.lang.String description;
+	@Column(name = "VEN_ADDRESS", unique = false, nullable = false)
+	private java.lang.String address;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="category", referencedColumnName="ID", nullable=true)
-	private Category category;
+	@JoinColumn(name="city", referencedColumnName="ID", nullable=true)
+	private City city;
 	
 	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "category")
-	private Set<Product> productSet = new HashSet<Product>();
-	
-	public Category(){
+	public Vendor(){
 	}
 	
 	public Long getId() {
@@ -70,28 +67,20 @@ public class Category implements java.io.Serializable {
 		this.name = name;
 	}
 	
-	public java.lang.String getDescription() {
-		return this.description;
+	public java.lang.String getAddress() {
+		return this.address;
 	}
 	
-	public void setDescription(java.lang.String description) {
-		this.description = description;
+	public void setAddress(java.lang.String address) {
+		this.address = address;
 	}
 	
-	public Category getCategory() {
-		return this.category;
+	public City getCity() {
+		return this.city;
 	}
 	
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-	
-	public Set<Product> getProductSet() {
-		return this.productSet;
-	}
-
-	public void setProductSet(Set<Product> productSet) {
-		this.productSet = productSet;
+	public void setCity(City city) {
+		this.city = city;
 	}
 	
 }

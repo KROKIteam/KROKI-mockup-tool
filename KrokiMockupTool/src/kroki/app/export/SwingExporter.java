@@ -36,7 +36,9 @@ import kroki.profil.subsystem.BussinesSubsystem;
  * @author Milorad Filipovic
  */
 public class SwingExporter {
-
+	
+	//project that is exported
+	private BussinesSubsystem project;
 	//list of EJB classes to be generated
 	private ArrayList<EJBClass> classes;
 	//list of menus to be generated
@@ -67,8 +69,8 @@ public class SwingExporter {
 	 */
 	public void export(File file, BussinesSubsystem proj, String message) {
 		dbConfigGenerator = new DatabaseConfigGenerator(proj.getDBConnectionProps());
-
-
+		this.project = proj;
+		
 		//iteration trough project elements and retrieving of usable data for generators
 		for(int i=0; i<proj.ownedElementCount(); i++) {
 			VisibleElement el = proj.getOwnedElementAt(i);
@@ -79,16 +81,22 @@ public class SwingExporter {
 			}
 		}
 
+		NamingUtil namer = new NamingUtil();
+		
 		//Add User class to classes list
-		Attribute usernameAttribute = new Attribute("username", "username", "User name", "java.lang.String", true, true);
-		Attribute passwordAttribute = new Attribute("password", "password", "Password", "java.lang.String", true, true);
+		Attribute usernameAttribute = new Attribute("username", "username", "User name", "java.lang.String", true, true, true);
+		Attribute passwordAttribute = new Attribute("password", "password", "Password", "java.lang.String", true, true, false);
 		ArrayList<Attribute> userAttributes = new ArrayList<Attribute>();
 		userAttributes.add(usernameAttribute);
 		userAttributes.add(passwordAttribute);
-
-		EJBClass user = new EJBClass("ejb", "User", "User", userAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+		String userTableName = namer.toDatabaseFormat(proj.getLabel(), "User");
+		
+		EJBClass user = new EJBClass("ejb", "User", userTableName, "User", userAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
 		classes.add(user);
 
+		//Add one-to-many attributes to classes
+		addReferences();
+		
 		//CONFIGURATION FILES GENERATION
 		menuGenerator.generate(menus);
 		panelGenerator.generate(elements);
@@ -146,64 +154,31 @@ public class SwingExporter {
 					type =  "java.lang.Boolean";
 				} 
 
-
-				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true);
-				attr.setRepresentative(vp.isRepresentative());
+				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative());
 				attributes.add(attr);
 			}
 
+			
 			for(int l=0; l<vc.containedZooms().size(); l++) {
-				Zoom z = vc.containedZooms().get(l);
-				if(z.getTargetPanel() != null) {
-					StandardPanel zsp = (StandardPanel) z.getTargetPanel();
-					if(z.getLabel().equals(vc.getLabel())) {
-						//TODO Odradi vezu sam na sebe
-					}else {
-						if(getClass(zsp.getPersistentClass().name()) != null) {
-							EJBClass zcl = getClass(zsp.getPersistentClass().name());
-							System.out.println("zoom: " + z.getLabel() + " na " + z.getTargetPanel().getLabel() + " u " + vc.getLabel() + " = " + zcl.getLabel());
-							//adding ManyToOne (zoom) attribute
-							String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
-							String reffColumn = "id";
-							String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
+			Zoom z = vc.containedZooms().get(l);
+			if(z.getTargetPanel() != null) {
+				StandardPanel zsp = (StandardPanel) z.getTargetPanel();
+				
+				//adding ManyToOne (zoom) attribute
+				String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
+				String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 
-							ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
-							mtoAttributes.add(mto);
-
-							//add OneToMany attribute to opposite end of association
-							String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
-							String label = z.getLabel();
-							String reffTable = sp.getPersistentClass().name();
-							String mappedBy = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
-
-							//fetching of all representative attributes that will be displayed in zoom field
-							for(int m=0; m<zcl.getAttributes().size(); m++) {
-								Attribute a = zcl.getAttributes().get(m);
-
-								if(a.getRepresentative()) {
-									System.out.println("atribut " + a.getLabel() + " JE reprezentativan");
-									mto.getColumnRefs().add(a);
-								}else {
-									System.out.println("atribut " + a.getLabel() + " NIJE reprezentativan");
-								}
-							}
-
-							OneToManyAttribute otm = new OneToManyAttribute(name, label, reffTable, mappedBy);
-							zcl.getOneToManyAttributes().add(otm);
-						}else {
-							KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Class '" + zsp.getPersistentClass().name() + "' missing!" , 3);
-							throw new NullPointerException();
-						}
-					}
-				}else {
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
-					return;
-				}
-
+				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
+				mtoAttributes.add(mto);
+			}else {
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
+				return;
 			}
-
+		}
+			String tableName = cc.toDatabaseFormat(this.project.getLabel(), sp.getLabel());
+			
 			//EJB class instance for panel is created and passed to generator
-			EJBClass ejb = new EJBClass("ejb", sp.getPersistentClass().name(), sp.getLabel(), attributes, mtoAttributes, otmAttributes);
+			EJBClass ejb = new EJBClass("ejb", sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
 			classes.add(ejb);
 
 
@@ -266,6 +241,42 @@ public class SwingExporter {
 
 	}
 
+	//adding OneToMany to classes on opposite sides of zoom attributes
+	//this is done after all panels have been processed and added to classes list
+	//which allows child panel to be drawn after parent
+	public void addReferences() {
+		NamingUtil namer = new NamingUtil();
+		for(int i=0; i<classes.size(); i++) {
+			EJBClass ejbClass = classes.get(i);
+			if(!ejbClass.getManyToOneAttributes().isEmpty()) {
+				for(int j=0; j<ejbClass.getManyToOneAttributes().size(); j++) {
+					ManyToOneAttribute mtrAttribute = ejbClass.getManyToOneAttributes().get(j);
+					EJBClass oppositeClass = getClass(mtrAttribute.getType());
+					
+					if(oppositeClass != null) {
+						String name = ejbClass.getName() + "Set";
+						String label = mtrAttribute.getLabel();
+						String reffTable = ejbClass.getName();
+						String mappedBy = mtrAttribute.getName();
+						
+						OneToManyAttribute otmAttr = new OneToManyAttribute(name, label, reffTable, mappedBy);
+						oppositeClass.getOneToManyAttributes().add(otmAttr);
+						
+						for(int l=0; l<oppositeClass.getAttributes().size(); l++) {
+							Attribute atr = oppositeClass.getAttributes().get(l);
+							if(atr.getRepresentative()) {
+								mtrAttribute.getColumnRefs().add(atr);
+							}
+						}
+					}else {
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Class '" + ejbClass.getLabel() + "' references non-exsisting class '" + mtrAttribute.getType()  + "'", 3);
+						throw new NullPointerException("Refferenced file + " + mtrAttribute.getType() + " not found!");
+					}
+				}
+			}
+		}
+	}
+	
 	//gets refference to ejb class from model based on name
 	public EJBClass getClass(String name) {
 		System.out.println("trazim klasu sa imenom " + name);
@@ -282,7 +293,6 @@ public class SwingExporter {
 	public void writeProjectName(String name) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-		//appPath.substring(0, appPath.length()-16)
 		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main.properties");
 
 		//read main.properties file
@@ -300,7 +310,6 @@ public class SwingExporter {
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
-			//			JOptionPane.showMessageDialog(null, "WRITE PROJECT NAME: READ FileNotFoundException");
 			System.out.println("[ERROR] main.properties file not found");
 		}
 
@@ -312,8 +321,6 @@ public class SwingExporter {
 			}
 			pw.close();
 		} catch (FileNotFoundException e) {
-			//			JOptionPane.showMessageDialog(null, "WRITE PROJECT NAME: WRITE FileNotFoundException");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

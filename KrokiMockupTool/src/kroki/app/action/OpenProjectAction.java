@@ -12,6 +12,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
@@ -36,6 +39,9 @@ public class OpenProjectAction extends AbstractAction {
 
     public void actionPerformed(ActionEvent e) {
         JFileChooser jfc = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
+        jfc.setAcceptAllFileFilterUsed(false);
+        jfc.setFileFilter(filter);
         int retValue = jfc.showOpenDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
         if (retValue == JFileChooser.APPROVE_OPTION) {
             File file = jfc.getSelectedFile();

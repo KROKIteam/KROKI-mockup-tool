@@ -26,8 +26,8 @@ import javax.persistence.JoinTable;
    **/
 
 @Entity
-@Table(name = "PRICELISTITEM")
-public class PriceListItem implements java.io.Serializable {
+@Table(name = "DEPARTMENT")
+public class Department implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,23 +36,19 @@ public class PriceListItem implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "PLI_PRICE", unique = false, nullable = false)
-	private java.math.BigDecimal price;
+	@Column(name = "DEP_DEPARTMENT_NAME", unique = false, nullable = false)
+	private java.lang.String departmentName;
 	
-	@Column(name = "PLI_TAX", unique = false, nullable = false)
-	private java.math.BigDecimal tax;
+	@Column(name = "DEP_DEPARTMENT_ADDRESS", unique = false, nullable = false)
+	private java.lang.String departmentAddress;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="product", referencedColumnName="ID", nullable=true)
-	private Product product;
-	
-	@ManyToOne
-	@JoinColumn(name="priceList", referencedColumnName="ID", nullable=true)
-	private PriceList priceList;
+	@JoinColumn(name="city", referencedColumnName="ID", nullable=true)
+	private City city;
 	
 	
-	public PriceListItem(){
+	public Department(){
 	}
 	
 	public Long getId() {
@@ -63,36 +59,28 @@ public class PriceListItem implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.math.BigDecimal getPrice() {
-		return this.price;
+	public java.lang.String getDepartmentName() {
+		return this.departmentName;
 	}
 	
-	public void setPrice(java.math.BigDecimal price) {
-		this.price = price;
+	public void setDepartmentName(java.lang.String departmentName) {
+		this.departmentName = departmentName;
 	}
 	
-	public java.math.BigDecimal getTax() {
-		return this.tax;
+	public java.lang.String getDepartmentAddress() {
+		return this.departmentAddress;
 	}
 	
-	public void setTax(java.math.BigDecimal tax) {
-		this.tax = tax;
+	public void setDepartmentAddress(java.lang.String departmentAddress) {
+		this.departmentAddress = departmentAddress;
 	}
 	
-	public Product getProduct() {
-		return this.product;
+	public City getCity() {
+		return this.city;
 	}
 	
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-	
-	public PriceList getPriceList() {
-		return this.priceList;
-	}
-	
-	public void setPriceList(PriceList priceList) {
-		this.priceList = priceList;
+	public void setCity(City city) {
+		this.city = city;
 	}
 	
 }

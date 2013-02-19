@@ -61,7 +61,7 @@ public aspect UserRightsAspect {
 				String username = AppCache.getInstance().getUsername();
 				String fileName = usersDirName + username + ".xml";
 				Document doc = XMLUtil.getDocumentFromXML(fileName, null);
-				System.out.println(zoom.getName());
+				//System.out.println(zoom.getName());
 				String panelId = zoom.getName();
 				Element elem = getElementByPanelId(doc, panelId, OpenedAs.ZOOM);
 				if(elem != null) {
@@ -109,7 +109,7 @@ public aspect UserRightsAspect {
 			String username = AppCache.getInstance().getUsername();
 			String fileName = usersDirName + username + ".xml";
 			Document doc = XMLUtil.getDocumentFromXML(fileName, null);
-			System.out.println("UR ASPECT FILENAME: " + doc.getDocumentURI());
+			//System.out.println("UR ASPECT FILENAME: " + doc.getDocumentURI());
 			String panelId = msm.getActivate();
 			Element elem = getElementByPanelId(doc, panelId, OpenedAs.DEFAULT);
 			if(elem != null) {
