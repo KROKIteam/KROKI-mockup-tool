@@ -75,7 +75,7 @@ public class SwingExporter {
 		for(int i=0; i<proj.ownedElementCount(); i++) {
 			VisibleElement el = proj.getOwnedElementAt(i);
 			if(el instanceof BussinesSubsystem) {
-				getSubSystemData(el, i);
+				getSubSystemData(el, i, null);
 			}else if(el instanceof VisibleClass) {
 				getClassData(el, "", null);
 			}
@@ -192,11 +192,11 @@ public class SwingExporter {
 			Submenu sub = new Submenu(activate, label, panel_type);
 			//if it is in a subsystem, it is aded as submenu item
 			if(menu != null) {
-				menu.add(sub);
+				menu.addSubmenu(sub);
 			}else {
 				//if panel is in root of workspace, it gets it's item in main menu
-				Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>());
-				men.add(sub);
+				Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
+				men.addSubmenu(sub);
 				menus.add(men);
 			}
 		}else if (el instanceof ParentChild) {
@@ -206,10 +206,10 @@ public class SwingExporter {
 			String panel_type = "parent-child";
 			Submenu sub = new Submenu(activate, label, panel_type);
 			if(menu != null) {
-				menu.add(sub);
+				menu.addSubmenu(sub);
 			}else {
-				Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>());
-				men.add(sub);
+				Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
+				men.addSubmenu(sub);
 				menus.add(men);
 			}
 		}
@@ -218,15 +218,14 @@ public class SwingExporter {
 
 
 	//FETCHING SUBSYSTEM DATA USED FOR FILES GENERATION
-	public void getSubSystemData(VisibleElement el, int index) {
+	public void getSubSystemData(VisibleElement el, int index, Menu mmenu) {
 		/*****************************************/
 		/*          MENU GENERATION DATA         */
 		/*          one menu per package         */
 		/*****************************************/
-		String name = "menu" + index;
+		String name = "menu" + index + "_" + el.name();
 		String label = el.name().replace("_", " ");
-		Menu menu = new Menu(name, label, new ArrayList<Submenu>());
-		menus.add(menu);
+		Menu menu = new Menu(name, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 
 		BussinesSubsystem bs = (BussinesSubsystem) el;
 
@@ -235,10 +234,14 @@ public class SwingExporter {
 			if(e instanceof VisibleClass) {
 				getClassData(e, el.name(), menu);
 			}else if (e instanceof BussinesSubsystem) {
-				getSubSystemData(e, index+1);
+				getSubSystemData(e, index+1, menu);
 			}
 		}
-
+		if(mmenu != null) {
+			mmenu.addMenu(menu);
+		}else {
+			menus.add(menu);
+		}
 	}
 
 	//adding OneToMany to classes on opposite sides of zoom attributes

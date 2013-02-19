@@ -7,18 +7,24 @@ public class Menu {
 	String name;
 	String label;
 	ArrayList<Submenu> submenus;
+	ArrayList<Menu> menus;
 	
 	public Menu() {
 	}
 
-	public Menu(String name, String label, ArrayList<Submenu> submenus) {
+	public Menu(String name, String label, ArrayList<Submenu> submenus, ArrayList<Menu> menus) {
 		this.name = name;
 		this.label = label;
 		this.submenus = submenus;
+		this.menus = menus;
 	}
 
-	public boolean add(Submenu sub) {
+	public boolean addSubmenu(Submenu sub) {
 		return submenus.add(sub);
+	}
+	
+	public boolean addMenu(Menu menu) {
+		return menus.add(menu);
 	}
 	
 	public String getName() {
@@ -44,5 +50,12 @@ public class Menu {
 	public void setSubmenus(ArrayList<Submenu> submenus) {
 		this.submenus = submenus;
 	}
-	
+
+	public ArrayList<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(ArrayList<Menu> menus) {
+		this.menus = menus;
+	}
 }
