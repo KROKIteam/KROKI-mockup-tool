@@ -81,21 +81,20 @@ public class STable extends JTable {
 		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		List<AbsAttribute> attributes = tableModel.entityBean.getAttributes();
 		ColumnAttribute colAttr = null;
-		int counter = 0;
 		for (int i = 0; i < attributes.size(); i++) {
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				colAttr = (ColumnAttribute) attributes.get(i);
-				costumizeColumn(colAttr, counter);
-				counter++;
-			} else if (attributes.get(i) instanceof JoinColumnAttribute) {
-				JoinColumnAttribute jcAttr = (JoinColumnAttribute) attributes
-						.get(i);
-				for (int j = 0; j < jcAttr.getColumns().size(); j++) {
-					colAttr = jcAttr.getColumns().get(j);
-					costumizeColumn(colAttr, counter);
-					counter++;
-				}
-			}
+				costumizeColumn(colAttr, i);
+			} 
+//			else if (attributes.get(i) instanceof JoinColumnAttribute) {
+//				JoinColumnAttribute jcAttr = (JoinColumnAttribute) attributes
+//						.get(i);
+//				for (int j = 0; j < jcAttr.getColumns().size(); j++) {
+//					colAttr = jcAttr.getColumns().get(j);
+//					costumizeColumn(colAttr, counter);
+//					counter++;
+//				}
+//			}
 			packColumns();
 		}
 		setPreferredScrollableViewportSize(new Dimension(
@@ -168,7 +167,6 @@ public class STable extends JTable {
 						new TableCellEditorListener(bean, colAttr, this));
 			}
 		} catch (EntityAttributeNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -182,7 +180,6 @@ public class STable extends JTable {
 	/***
 	 * Optimized sizing of columns in the table based on the label length or
 	 * maximum data length for the column.
-	 * 
 	 * @param index Index of table column.
 	 * @param margin Margin size.
 	 * @return

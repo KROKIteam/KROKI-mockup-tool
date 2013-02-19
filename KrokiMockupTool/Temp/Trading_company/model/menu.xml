@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menus>
-<menu label="Business entities" name="menu0">
+<menu label="Business entities" name="menu0_Business_entities">
 <submenu activate="state_st" label="State" panel-type="standard-panel"/>
 <submenu activate="city_st" label="City" panel-type="standard-panel"/>
 <submenu activate="enterprise_st" label="Enterprise" panel-type="standard-panel"/>
@@ -8,18 +8,18 @@
 <submenu activate="customer_st" label="Customer" panel-type="standard-panel"/>
 <submenu activate="vendor_st" label="Vendor" panel-type="standard-panel"/>
 </menu>
-<menu label="Products" name="menu1">
+<menu label="Products" name="menu1_Products">
 <submenu activate="category_st" label="Category" panel-type="standard-panel"/>
 <submenu activate="product_st" label="Product" panel-type="standard-panel"/>
 </menu>
-<menu label="Order management" name="menu2">
+<menu label="Order management" name="menu2_Order_management">
 <submenu activate="payment_st" label="Payment" panel-type="standard-panel"/>
 <submenu activate="orders_st" label="Orders" panel-type="standard-panel"/>
 <submenu activate="orderitem_st" label="Order Item" panel-type="standard-panel"/>
 <submenu activate="invoice_st" label="Invoice" panel-type="standard-panel"/>
 <submenu activate="ParentChildOrderItems_pc" label="Parent-child order items" panel-type="parent-child"/>
 </menu>
-<menu label="Price lists" name="menu3">
+<menu label="Price lists" name="menu3_Price_lists">
 <submenu activate="pricelist_st" label="Price list" panel-type="standard-panel"/>
 <submenu activate="pricelistitem_st" label="Price list item" panel-type="standard-panel"/>
 <submenu activate="ParentChildPriceListItems_pc" label="Parent-child price list items" panel-type="parent-child"/>

@@ -4,13 +4,13 @@
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 19.02.2013  13:28 -->
+<!-- Creation time and date: 19.02.2013  15:40 -->
 
 <hibernate-configuration>
   <session-factory>
   <property name="connection.url">jdbc:h2:mem:test</property>
-  <property name="connection.username">test</property>
-  <property name="connection.password">test</property>
+  <property name="connection.username">mrd</property>
+  <property name="connection.password">drupal</property>
   <property name="connection.driver_class">org.h2.Driver</property>
   <property name="dialect">org.hibernate.dialect.H2Dialect</property>
   <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>

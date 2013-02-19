@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 19.02.2013  13:28:51h
+   Creation date: 19.02.2013  15:40:34h
    **/
 
 @Entity
-@Table(name = "WS_PRICE_LIST")
+@Table(name = "TC_PRICE_LIST")
 public class PriceList implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,10 +36,16 @@ public class PriceList implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "PL_NUMBER", unique = false, nullable = false)
-	private java.lang.String number;
+	@Column(name = "PL_PRICE_LIST_NUMBER", unique = false, nullable = false)
+	private java.lang.String priceListNumber;
+	
+	@Column(name = "PL_ACTIVE_FROM_DATE", unique = false, nullable = false)
+	private java.util.Date activeFromDate;
 	
 	
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "priceList")
+	private Set<PriceListItem> PriceListItemSet = new HashSet<PriceListItem>();
 	
 	public PriceList(){
 	}
@@ -52,12 +58,28 @@ public class PriceList implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getNumber() {
-		return this.number;
+	public java.lang.String getPriceListNumber() {
+		return this.priceListNumber;
 	}
 	
-	public void setNumber(java.lang.String number) {
-		this.number = number;
+	public void setPriceListNumber(java.lang.String priceListNumber) {
+		this.priceListNumber = priceListNumber;
+	}
+	
+	public java.util.Date getActiveFromDate() {
+		return this.activeFromDate;
+	}
+	
+	public void setActiveFromDate(java.util.Date activeFromDate) {
+		this.activeFromDate = activeFromDate;
+	}
+	
+	public Set<PriceListItem> getPriceListItemSet() {
+		return this.PriceListItemSet;
+	}
+
+	public void setPriceListItemSet(Set<PriceListItem> PriceListItemSet) {
+		this.PriceListItemSet = PriceListItemSet;
 	}
 	
 }

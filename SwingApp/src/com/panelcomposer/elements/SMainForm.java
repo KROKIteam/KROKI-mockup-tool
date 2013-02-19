@@ -53,12 +53,6 @@ public class SMainForm extends JFrame {
 		}
 	}
 
-	public JMenuItem createJMenuItemFromMySubMenu(MySubMenu submenu) {
-		JMenuItem item = new JMenuItem(submenu.getLabel());
-		item.addActionListener(new MySubMenuActionListener(submenu.getActivate(), submenu.getPanelType(), SMainForm.this));
-		return item;
-	}
-	
 	public JMenu createJMenuFromMyMenu(MyMenu myMenu) {
 		JMenu jMenu = new JMenu(myMenu.getLabel());
 		for (MySubMenu submenu : myMenu.getSubmenus()) {
@@ -71,6 +65,12 @@ public class SMainForm extends JFrame {
 			jMenu.add(mmenu);
 		}
 		return jMenu;
+	}
+	
+	public JMenuItem createJMenuItemFromMySubMenu(MySubMenu submenu) {
+		JMenuItem item = new JMenuItem(submenu.getLabel());
+		item.addActionListener(new MySubMenuActionListener(submenu.getActivate(), submenu.getPanelType(), SMainForm.this));
+		return item;
 	}
 	
 	private void createClose() {

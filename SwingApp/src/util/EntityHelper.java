@@ -109,6 +109,16 @@ public class EntityHelper {
 		return counter;
 	}
 
+	public static int getColumnAttributesColumnCount(EntityBean bean) {
+		int counter = 0;
+		for(int i=0; i<bean.getAttributes().size(); i++) {
+			if(bean.getAttributes().get(i) instanceof ColumnAttribute) {
+				counter++;
+			}
+		}
+		return counter;
+	}
+	
 	public static JoinColumnAttribute getJoinByColumnPosition(EntityBean bean,
 			int position) {
 		int counter = 0;
