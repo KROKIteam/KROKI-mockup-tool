@@ -23,8 +23,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/SwingApp"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate3.jar"/>

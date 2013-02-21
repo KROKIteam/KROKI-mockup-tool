@@ -113,7 +113,7 @@ public class Palette extends JPanel {
         add(addTextFieldBtn);
         add(addTextAreaBtn);
         add(addComboBoxBtn);
-        add(addRadioButtonBtn);
+        //add(addRadioButtonBtn);
         add(addCheckBoxBtn);
         add(addReportBtn);
         add(addTransactionBtn);

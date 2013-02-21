@@ -32,7 +32,7 @@
 </operations>
 </standard-panel>
 <standard-panel ejb-ref="ejb.Orders" id="orders_st">
-<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="table"/>
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
 <operations>
 <operation allowed="true" label="Finish" name="Finish" target="null" type="transaction"/>
 <operation allowed="true" label="Create invoice" name="Create_invoice" target="null" type="transaction"/>
@@ -57,12 +57,8 @@
 </standard-panels>
 <parent-child-panels>
 <parent-child id="ParentChildOrderItems_pc" label="Parent-child order items">
-<panel id="Order" level="1" panel-ref="orders_st"/>
-<panel id="Items" level="2" panel-ref="orderitem_st"/>
-</parent-child>
-<parent-child id="ParentChildPriceListItems_pc" label="Parent-child price list items">
-<panel id="Price_list" level="1" panel-ref="pricelist_st"/>
-<panel id="Items" level="2" panel-ref="pricelistitem_st"/>
+<panel id="Orders" level="1" panel-ref="orders_st"/>
+<panel id="Order_Item" level="2" panel-ref="orderitem_st"/>
 </parent-child>
 </parent-child-panels>
 <many-to-many-panels/>

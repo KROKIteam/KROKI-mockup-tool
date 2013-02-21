@@ -28,8 +28,6 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.secure.JACCConfiguration;
 import org.hibernate.util.ReflectHelper;
 import org.hibernate.util.StringHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Hibernate Configuration class
@@ -40,8 +38,6 @@ import org.slf4j.LoggerFactory;
  */
 public class AnnotationConfigurationWithWildcard extends Configuration {
 
-    private static Logger log = LoggerFactory.getLogger(AnnotationConfigurationWithWildcard.class);
-    
     //mostly copied from Configuration
     @Override
     protected Configuration doConfigure(Document doc) throws HibernateException {
@@ -75,7 +71,6 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
             Element node = (Element) itr.next();
             String name = node.attributeValue( "name" );
             String value = node.getText().trim();
-            log.debug( name + "=" + value );
             props.setProperty( name, value );
             if(!name.startsWith( "hibernate" ) ) {
                 props.setProperty( "hibernate." + name, value );
@@ -126,22 +121,18 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
 
         if(resourceAttribute != null) {
             final String resourceName = resourceAttribute.getValue();
-            log.debug( "session-factory config [{}] named resource [{}] for mapping", name, resourceName );
             addResource( resourceName );
         }
         else if (fileAttribute != null) {
             final String fileName = fileAttribute.getValue();
-            log.debug( "session-factory config [{}] named file [{}] for mapping", name, fileName );
             addFile( fileName );
         }
         else if (jarAttribute != null) {
             final String jarFileName = jarAttribute.getValue();
-            log.debug( "session-factory config [{}] named jar file [{}] for mapping", name, jarFileName );
             addJar(new File(jarFileName ));
         }
         else if (packageAttribute != null) {
             final String packageName = packageAttribute.getValue();
-            log.debug( "session-factory config [{}] named package [{}] for mapping", name, packageName );
             addPackage( packageName );
         }
         else if ( classAttribute != null ) {
@@ -154,9 +145,7 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
                 	System.out.println("TRY " + classAttributeName);
                     classNames.addAll(getAllAnnotatedClassNames(classAttributeName));
                 } catch(IOException ioe) {
-                    log.error("Could not read class: " + classAttributeName, ioe);
                 } catch(URISyntaxException use) {
-                    log.error("Could not read class: " + classAttributeName, use);
                 }
             } else {            
                 classNames.add(classAttributeName);
@@ -164,7 +153,6 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
             
             for(String className : classNames) {
                 try {
-                    log.debug( "session-factory config [{}] named class [{}] for mapping", name, className );
                     addAnnotatedClass(ReflectHelper.classForName(className));
                 } catch (Exception e ) {
                     throw new MappingException("Unable to load class [ " + className + "] declared in Hibernate configuration <mapping/> entry", e );
@@ -180,7 +168,6 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
     private void parseSecurity(Element secNode) {
         String contextId = secNode.attributeValue( "context" );
         setProperty(Environment.JACC_CONTEXTID, contextId);
-        log.info( "JACC contextID: " + contextId );
         JACCConfiguration jcfg = new JACCConfiguration( contextId );
         Iterator grantElements = secNode.elementIterator();
         while ( grantElements.hasNext() ) {
@@ -204,7 +191,6 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
         for ( int i = 0; i < listeners.size() ; i++ ) {
                 listenerClasses[i] = ( (Element) listeners.get( i ) ).attributeValue( "class" );
         }
-        log.debug( "Event listeners: " + type + "=" + StringHelper.toString(listenerClasses));
         setListeners( type, listenerClasses );
     }
 
@@ -215,7 +201,6 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
                 throw new MappingException( "No type specified for listener" );
         }
         String impl = element.attributeValue( "class" );
-        log.debug( "Event listener: " + type + "=" + impl );
         setListeners( type, new String[]{impl} );
     }
 
@@ -256,7 +241,6 @@ public class AnnotationConfigurationWithWildcard extends Configuration {
 		                 }
 		            }
 		        } catch(IOException ioe) {
-		            log.warn("Could not read the class file: " + classFile.getName(), ioe);
 		        } finally {
 		            if(dis != null) {
 		                dis.close();

@@ -22,6 +22,5 @@
 <menu label="Price lists" name="menu3_Price_lists">
 <submenu activate="pricelist_st" label="Price list" panel-type="standard-panel"/>
 <submenu activate="pricelistitem_st" label="Price list item" panel-type="standard-panel"/>
-<submenu activate="ParentChildPriceListItems_pc" label="Parent-child price list items" panel-type="parent-child"/>
 </menu>
 </menus>

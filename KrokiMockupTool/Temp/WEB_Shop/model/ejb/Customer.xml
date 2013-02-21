@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<entity class-name="ejb.Customer" label="Customer" name="CUSTOMER">
+<attributes>
+<column-attribute field-name="id" key="true" label="ID" length="50" name="id" type="java.lang.Long"/>
+<column-attribute field-name="firstName" key="false" label="First name" length="50" name="firstName" type="java.lang.String"/>
+<column-attribute field-name="lastName" key="false" label="Last name" length="50" name="lastName" type="java.lang.String"/>
+<column-attribute field-name="address" key="false" label="Address" length="50" name="address" type="java.lang.String"/>
+<zoom-attribute class-name="ejb.City" field-name="city" label="City" name="city" zoomed-by="id">
+<column-ref label="City ID" name="id"/>
+<column-ref label="City Name" name="name"/>
+</zoom-attribute>
+</attributes>
+</entity>

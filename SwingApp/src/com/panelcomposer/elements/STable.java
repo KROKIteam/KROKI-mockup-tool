@@ -81,10 +81,11 @@ public class STable extends JTable {
 		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		List<AbsAttribute> attributes = tableModel.entityBean.getAttributes();
 		ColumnAttribute colAttr = null;
-		for (int i = 0; i < attributes.size(); i++) {
+		System.out.println("kolona: " + getColumnCount() + ", atributa: " + attributes.size());
+		for (int i = 1; i <= getColumnCount(); i++) {
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				colAttr = (ColumnAttribute) attributes.get(i);
-				costumizeColumn(colAttr, i);
+				costumizeColumn(colAttr, i-1);
 			} 
 //			else if (attributes.get(i) instanceof JoinColumnAttribute) {
 //				JoinColumnAttribute jcAttr = (JoinColumnAttribute) attributes

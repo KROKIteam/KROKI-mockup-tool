@@ -11,16 +11,16 @@ public class CamelCaser {
 	 */
 	public String toCamelCase(String s, boolean cap) {
 		if(!s.equals("")) {
-			s = s.replace('ž', 'z');
 			s = s.replace('Ž', 'z');
-			s = s.replace('ć', 'c');
-			s = s.replace('Ć', 'c');
-			s = s.replace('č', 'c');
+			s = s.replace('ž', 'z');
 			s = s.replace('Č', 'c');
-			s = s.replace('š', 's');
+			s = s.replace('č', 'c');
+			s = s.replace('Ć', 'c');
+			s = s.replace('ć', 'c');
 			s = s.replace('Š', 's');
-			s = s.replaceAll("đ‘", "dj");
+			s = s.replace('š', 's');
 			s = s.replaceAll("Đ", "dj");
+			s = s.replaceAll("đ", "dj");
 			
 		    StringBuffer sb = new StringBuffer();
 		    String[] x = s.replaceAll("[^A-Za-z]", " ").replaceAll("\\s+", " ")

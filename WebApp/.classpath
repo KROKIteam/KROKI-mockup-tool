@@ -11,8 +11,6 @@
 	<classpathentry kind="lib" path="lib/ejb3-persistence.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
 	<classpathentry kind="lib" path="lib/h2-1.2.121.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate3.jar"/>

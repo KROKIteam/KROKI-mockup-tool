@@ -4,16 +4,62 @@
 <standard-panel ejb-ref="ejb.State" id="state_st">
 <settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
 </standard-panel>
-<standard-panel ejb-ref="ejb.PriceList" id="pricelist_st">
+<standard-panel ejb-ref="ejb.City" id="city_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.Enterprise" id="enterprise_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.Department" id="department_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.Customer" id="customer_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.Vendor" id="vendor_st">
 <settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
 </standard-panel>
 <standard-panel ejb-ref="ejb.Category" id="category_st">
 <settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
 </standard-panel>
-<standard-panel ejb-ref="ejb.Order" id="order_st">
+<standard-panel ejb-ref="ejb.Product" id="product_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.Payment" id="payment_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+<operations>
+<operation allowed="true" label="Cancel" name="Cancel" target="null" type="transaction"/>
+</operations>
+</standard-panel>
+<standard-panel ejb-ref="ejb.Orders" id="orders_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+<operations>
+<operation allowed="true" label="Finish" name="Finish" target="null" type="transaction"/>
+<operation allowed="true" label="Create invoice" name="Create_invoice" target="null" type="transaction"/>
+<operation allowed="true" label="Cancel" name="Cancel" target="null" type="transaction"/>
+</operations>
+</standard-panel>
+<standard-panel ejb-ref="ejb.OrderItem" id="orderitem_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.Invoice" id="invoice_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+</standard-panel>
+<standard-panel ejb-ref="ejb.PriceList" id="pricelist_st">
+<settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
+<operations>
+<operation allowed="true" label="Copy" name="Copy" target="null" type="transaction"/>
+</operations>
+</standard-panel>
+<standard-panel ejb-ref="ejb.PriceListItem" id="pricelistitem_st">
 <settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
 </standard-panel>
 </standard-panels>
-<parent-child-panels/>
+<parent-child-panels>
+<parent-child id="ParentChildOrderItems_pc" label="Parent-child order items">
+<panel id="Orders" level="1" panel-ref="orders_st"/>
+<panel id="Order_Item" level="2" panel-ref="orderitem_st"/>
+</parent-child>
+</parent-child-panels>
 <many-to-many-panels/>
 </panels>
