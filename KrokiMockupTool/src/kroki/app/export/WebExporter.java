@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.w3c.dom.Attr;
+
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.WebResourceGenerator;
@@ -30,14 +32,14 @@ public class WebExporter {
 	private BussinesSubsystem project;
 	private ArrayList<VisibleElement> elements;
 	private ArrayList<EJBClass> classes;
-	WebResourceGenerator WebGenerator;
+	WebResourceGenerator webGenerator;
 	EJBGenerator ejbGenerator;
 	DatabaseConfigGenerator dbConfigGen;
 
 	public WebExporter() {
 		elements = new ArrayList<VisibleElement>();
 		classes = new ArrayList<EJBClass>();
-		WebGenerator = new WebResourceGenerator();
+		webGenerator = new WebResourceGenerator();
 		ejbGenerator = new EJBGenerator();
 	}
 
@@ -56,8 +58,11 @@ public class WebExporter {
 			}
 		}
 
+		//Add infrastructural classes (for user rights management)
+		addDefaultClasses(classes);
+
 		//CONFIGURATION FILES GENERATION
-		WebGenerator.generate(elements);
+		webGenerator.generate(elements);
 		ejbGenerator.generateEJBClasses(classes, false);
 		dbConfigGen.generatePersistenceXMl(true);
 
@@ -228,4 +233,87 @@ public class WebExporter {
 
 	}
 
+	public void addDefaultClasses(ArrayList<EJBClass> classes) {
+		//ACTION
+		Attribute actionName = new Attribute("name", "ACT_NAME", "Name", "java.lang.String", true, true, true);
+		Attribute actionLink = new Attribute("link", "ACT_LINK", "Link", "java.lang.String", false, true, false);
+		Attribute actionImagePath = new Attribute("imagePath", "ACT_IMG_PATH", "Image path", "java.lang.String", false, false, false);
+		Attribute actonType = new Attribute("type", "ACT_TYPE", "Type", "java.lang.String", false, true, false);
+		Attribute actionTip = new Attribute("tip", "ACT_TIP", "Tip", "java.lang.String", false, false, false);
+
+		ArrayList<Attribute> actionAttributes = new ArrayList<Attribute>();
+		actionAttributes.add(actionName);
+		actionAttributes.add(actionLink);
+		actionAttributes.add(actionImagePath);
+		actionAttributes.add(actonType);
+		actionAttributes.add(actionTip);
+
+		EJBClass action = new EJBClass("adapt.entities", "Action", "ADAPT_ACTION", "Action", actionAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+
+		//USER
+		Attribute userName = new Attribute("name", "USER_USERNAME", "Username", "java.lang.String", true, true, true);
+		Attribute userPassword = new Attribute("password", "USER_PASSWORD", "Password", "java.lang.String", false, true, false);
+		OneToManyAttribute userRights = new OneToManyAttribute("rights", "Rights", "UserRights", "user");
+
+		ArrayList<Attribute> userAttributes = new ArrayList<Attribute>();
+		userAttributes.add(userName);
+		userAttributes.add(userPassword);
+
+		ArrayList<OneToManyAttribute> userOTMAttributes = new ArrayList<OneToManyAttribute>();
+		userOTMAttributes.add(userRights);
+
+		EJBClass user = new EJBClass("adapt.entities", "User", "ADAPT_USER", "User", userAttributes, new ArrayList<ManyToOneAttribute>(), userOTMAttributes);
+
+		//MYRESOURCE
+		Attribute myResourceEntId = new Attribute("entId", "MYRES_ENT_ID", "Entity ID", "java.lang.Long", false, true, false);
+		Attribute myResourceTable = new Attribute("table", "MYRES_TABLE", "Table", "java.lang.String", false, true, false);
+		Attribute myResourceEntLabel = new Attribute("entLabel", "MYRES_ENT_LABEL", "Entity label", "java.lang.String", false, true, false);
+		Attribute myResourceTableLabel = new Attribute("tableLabel", "MYRES_TABLE_LABEL", "Table", "java.lang.String", false, true, false);
+		Attribute myResourceResLink = new Attribute("ResLink", "MYRES_RESLINK", "Resource link", "java.lang.String", false, true, false);
+		ManyToOneAttribute myResourceUser = new ManyToOneAttribute("user", "MYRES_USER", "User", "User", true);
+		
+		ArrayList<Attribute> myResourceAttributes = new ArrayList<Attribute>();
+		myResourceAttributes.add(myResourceEntId);
+		myResourceAttributes.add(myResourceTable);
+		myResourceAttributes.add(myResourceTableLabel);
+		myResourceAttributes.add(myResourceEntLabel);
+		myResourceAttributes.add(myResourceResLink);
+
+		ArrayList<ManyToOneAttribute> myResourceMTOAttributes = new ArrayList<ManyToOneAttribute>();
+		myResourceMTOAttributes.add(myResourceUser);
+		
+		EJBClass myResource = new EJBClass("adapt.entities", "MyResource", "ADAPT_MY_RESOURCE", "My Resources", myResourceAttributes, myResourceMTOAttributes, new ArrayList<OneToManyAttribute>());
+		
+		//RESOURCE
+		Attribute resourceName = new Attribute("name", "RES_NAME", "Name", "java.lang.String", true, true, true);
+		Attribute resourceLink = new Attribute("link", "RES_LINK", "Link", "java.lang.String", true, true, false);
+		
+		ArrayList<Attribute> resourceAttributes = new ArrayList<Attribute>();
+		resourceAttributes.add(resourceName);
+		resourceAttributes.add(resourceLink);
+		
+		EJBClass resource = new EJBClass("adapt.entities", "Resource", "ADAPT_RESOURCE", "Resources", resourceAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+		
+		//USERRIGHTS
+		Attribute urightsAllowed = new Attribute("allowed", "UR_ALLOWED", "Allowed", "java.lang.Boolean", false, true, true);
+		ManyToOneAttribute urightsUser = new ManyToOneAttribute("user", "UR_USER", "User", "User", true);
+		ManyToOneAttribute urightsAction = new ManyToOneAttribute("action", "UR_ACTION", "Action", "Action", true);
+		ManyToOneAttribute urightsResource = new ManyToOneAttribute("resource", "UR_RESOURCE", "Resource", "Resource", true);
+		
+		ArrayList<Attribute> urightsAttributes = new ArrayList<Attribute>();
+		urightsAttributes.add(urightsAllowed);
+		
+		ArrayList<ManyToOneAttribute> urightsMTOAttributes = new ArrayList<ManyToOneAttribute>();
+		urightsMTOAttributes.add(urightsUser);
+		urightsMTOAttributes.add(urightsAction);
+		urightsMTOAttributes.add(urightsResource);
+		
+		EJBClass uRights = new EJBClass("adapt.entities", "UserRights", "ADAPT_USER_RIGHTS", "User rights", urightsAttributes, urightsMTOAttributes, new ArrayList<OneToManyAttribute>());
+	
+		classes.add(action);
+		classes.add(user);
+		classes.add(myResource);
+		classes.add(resource);
+		classes.add(uRights);
+	}
 }

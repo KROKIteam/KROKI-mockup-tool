@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.CascadeType;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,13 +20,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 
    /** 
-   Class generated using EJBGeneratorAspect 
+   Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 25.04.2012  18:37:17:306h
+   Creation date: 27.02.2013  14:52:36h
    **/
 
 @Entity
-@Table(name = "MYRESOURCE")
+@Table(name = "ADAPT_MY_RESOURCE")
 public class MyResource implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,26 +34,26 @@ public class MyResource implements java.io.Serializable {
 	@Id 
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	private Long id;
+	private java.lang.Long id;
 
-	@Column(name = "entId", unique = false, nullable = false)
-	private Long entId;
+	@Column(name = "MYRES_ENT_ID", unique = false, nullable = false)
+	private java.lang.Long entId;
 	
-	@Column(name = "MR_TABLE", unique = false, nullable = false)
-	private String table;
+	@Column(name = "MYRES_TABLE", unique = false, nullable = false)
+	private java.lang.String table;
 	
-	@Column(name = "MR_ENTLABEL", unique = false, nullable = false)
-	private String entLabel;
+	@Column(name = "MYRES_TABLE_LABEL", unique = false, nullable = false)
+	private java.lang.String tableLabel;
 	
-	@Column(name = "MR_TABLABEL", unique = false, nullable = false)
-	private String tableLabel;
+	@Column(name = "MYRES_ENT_LABEL", unique = false, nullable = false)
+	private java.lang.String entLabel;
 	
-	@Column(name = "MR_RESLINK", unique = false, nullable = false)
-	private String resLink;
+	@Column(name = "MYRES_RESLINK", unique = false, nullable = false)
+	private java.lang.String ResLink;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="MR_USER", referencedColumnName="ID", nullable=false)
+	@JoinColumn(name="user", referencedColumnName="ID", nullable=true)
 	private User user;
 	
 	
@@ -67,44 +68,44 @@ public class MyResource implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public Long getEntId() {
+	public java.lang.Long getEntId() {
 		return this.entId;
 	}
 	
-	public void setEntId(Long entId) {
+	public void setEntId(java.lang.Long entId) {
 		this.entId = entId;
 	}
 	
-	public String getTable() {
+	public java.lang.String getTable() {
 		return this.table;
 	}
 	
-	public void setTable(String table) {
+	public void setTable(java.lang.String table) {
 		this.table = table;
 	}
 	
-	public String getEntLabel() {
-		return this.entLabel;
-	}
-	
-	public void setEntLabel(String entLabel) {
-		this.entLabel = entLabel;
-	}
-	
-	public String getTableLabel() {
+	public java.lang.String getTableLabel() {
 		return this.tableLabel;
 	}
 	
-	public void setTableLabel(String tableLabel) {
+	public void setTableLabel(java.lang.String tableLabel) {
 		this.tableLabel = tableLabel;
 	}
 	
-	public String getResLink() {
-		return this.resLink;
+	public java.lang.String getEntLabel() {
+		return this.entLabel;
 	}
 	
-	public void setResLink(String resLink) {
-		this.resLink = resLink;
+	public void setEntLabel(java.lang.String entLabel) {
+		this.entLabel = entLabel;
+	}
+	
+	public java.lang.String getResLink() {
+		return this.ResLink;
+	}
+	
+	public void setResLink(java.lang.String ResLink) {
+		this.ResLink = ResLink;
 	}
 	
 	public User getUser() {

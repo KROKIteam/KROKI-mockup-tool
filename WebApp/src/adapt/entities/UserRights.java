@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.CascadeType;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,13 +20,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 
    /** 
-   Class generated using EJBGeneratorAspect 
+   Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 20.06.2012  15:13:11:993h
+   Creation date: 27.02.2013  14:52:36h
    **/
 
 @Entity
-@Table(name = "USERRIGHTS")
+@Table(name = "ADAPT_USER_RIGHTS")
 public class UserRights implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,22 +34,22 @@ public class UserRights implements java.io.Serializable {
 	@Id 
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	private Long id;
+	private java.lang.Long id;
 
 	@Column(name = "UR_ALLOWED", unique = false, nullable = false)
-	private Boolean allowed;
+	private java.lang.Boolean allowed;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="UR_USER", referencedColumnName="ID", nullable=false)
+	@JoinColumn(name="user", referencedColumnName="ID", nullable=true)
 	private User user;
 	
 	@ManyToOne
-	@JoinColumn(name="UR_ACTION", referencedColumnName="ID", nullable=false)
+	@JoinColumn(name="action", referencedColumnName="ID", nullable=true)
 	private Action action;
 	
 	@ManyToOne
-	@JoinColumn(name="UR_RESOURCE", referencedColumnName="ID", nullable=false)
+	@JoinColumn(name="resource", referencedColumnName="ID", nullable=true)
 	private Resource resource;
 	
 	
@@ -63,11 +64,11 @@ public class UserRights implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public Boolean getAllowed() {
+	public java.lang.Boolean getAllowed() {
 		return this.allowed;
 	}
 	
-	public void setAllowed(Boolean allowed) {
+	public void setAllowed(java.lang.Boolean allowed) {
 		this.allowed = allowed;
 	}
 	

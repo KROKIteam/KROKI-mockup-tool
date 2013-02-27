@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.CascadeType;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,13 +20,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 
    /** 
-   Class generated using EJBGeneratorAspect 
+   Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 20.06.2012  15:13:11:993h
+   Creation date: 27.02.2013  14:52:36h
    **/
 
 @Entity
-@Table(name = "ACTION")
+@Table(name = "ADAPT_ACTION")
 public class Action implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,22 +34,22 @@ public class Action implements java.io.Serializable {
 	@Id 
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	private Long id;
+	private java.lang.Long id;
 
 	@Column(name = "ACT_NAME", unique = true, nullable = false)
-	private String name;
+	private java.lang.String name;
 	
 	@Column(name = "ACT_LINK", unique = false, nullable = false)
-	private String link;
+	private java.lang.String link;
 	
 	@Column(name = "ACT_IMG_PATH", unique = false, nullable = false)
-	private String imagePath;
+	private java.lang.String imagePath;
 	
 	@Column(name = "ACT_TYPE", unique = false, nullable = false)
-	private String type;
+	private java.lang.String type;
 	
 	@Column(name = "ACT_TIP", unique = false, nullable = false)
-	private String tip;
+	private java.lang.String tip;
 	
 	
 	
@@ -63,43 +64,43 @@ public class Action implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public String getName() {
+	public java.lang.String getName() {
 		return this.name;
 	}
 	
-	public void setName(String name) {
+	public void setName(java.lang.String name) {
 		this.name = name;
 	}
 	
-	public String getLink() {
+	public java.lang.String getLink() {
 		return this.link;
 	}
 	
-	public void setLink(String link) {
+	public void setLink(java.lang.String link) {
 		this.link = link;
 	}
 	
-	public String getImagePath() {
+	public java.lang.String getImagePath() {
 		return this.imagePath;
 	}
 	
-	public void setImagePath(String imagePath) {
+	public void setImagePath(java.lang.String imagePath) {
 		this.imagePath = imagePath;
 	}
 	
-	public String getType() {
+	public java.lang.String getType() {
 		return this.type;
 	}
 	
-	public void setType(String type) {
+	public void setType(java.lang.String type) {
 		this.type = type;
 	}
 	
-	public String getTip() {
+	public java.lang.String getTip() {
 		return this.tip;
 	}
 	
-	public void setTip(String tip) {
+	public void setTip(java.lang.String tip) {
 		this.tip = tip;
 	}
 	

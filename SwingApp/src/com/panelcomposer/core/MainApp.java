@@ -1,6 +1,5 @@
 package com.panelcomposer.core;
 
-
 import javax.persistence.EntityManager;
 
 import org.apache.log4j.Logger;

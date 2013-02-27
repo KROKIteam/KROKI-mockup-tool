@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.CascadeType;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,13 +20,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinTable;
 
    /** 
-   Class generated using EJBGeneratorAspect 
+   Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 20.06.2012  15:13:11:993h
+   Creation date: 27.02.2013  14:52:36h
    **/
 
 @Entity
-@Table(name = "USER")
+@Table(name = "ADAPT_USER")
 public class User implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,18 +34,18 @@ public class User implements java.io.Serializable {
 	@Id 
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	private Long id;
+	private java.lang.Long id;
 
-	@Column(name = "US_USERNAME", unique = true, nullable = false)
-	private String name;
+	@Column(name = "USER_USERNAME", unique = true, nullable = false)
+	private java.lang.String name;
 	
-	@Column(name = "US_PASSWORD", unique = false, nullable = false)
-	private String password;
+	@Column(name = "USER_PASSWORD", unique = false, nullable = false)
+	private java.lang.String password;
 	
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<UserRights> rights;
+	private Set<UserRights> rights = new HashSet<UserRights>();
 	
 	public User(){
 	}
@@ -57,19 +58,19 @@ public class User implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public String getName() {
+	public java.lang.String getName() {
 		return this.name;
 	}
 	
-	public void setName(String name) {
+	public void setName(java.lang.String name) {
 		this.name = name;
 	}
 	
-	public String getPassword() {
+	public java.lang.String getPassword() {
 		return this.password;
 	}
 	
-	public void setPassword(String password) {
+	public void setPassword(java.lang.String password) {
 		this.password = password;
 	}
 	

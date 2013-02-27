@@ -1,6 +1,6 @@
 ${doc}
 
-<persistence>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
    <persistence-unit name="adapt" transaction-type="RESOURCE_LOCAL">
    	  <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <properties>

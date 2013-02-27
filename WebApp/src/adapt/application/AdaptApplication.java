@@ -62,12 +62,17 @@ public class AdaptApplication extends Application {
 		XMLResources.addAll(getXMLResources("resources-generated"));
 		emf = Persistence.createEntityManagerFactory("adapt");
 		actions = getActions();
+		
+		for (XMLResource resource : XMLResources) {
+			for (Action action : actions) {
+				System.out.println("INSERT INTO USERRIGHTS VALUES (TRUE," + action.getName() + ", " + resource.getName() + ", 1);");
+			}
+		}
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public Restlet createRoot() {
-		
 		Router router = new Router(getContext());
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);

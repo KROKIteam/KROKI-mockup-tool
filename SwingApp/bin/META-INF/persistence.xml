@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 19.02.2013  10:44 -->
+<!-- Creation time and date: 21.02.2013  15:40 -->
 
 <persistence>
 	<persistence-unit name="hotelsoap" transaction-type="RESOURCE_LOCAL">
