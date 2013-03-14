@@ -74,48 +74,35 @@ public class STable extends JTable {
 		getTableHeader().setReorderingAllowed(false);
 		getTableHeader().setResizingAllowed(true);
 		scrollPane.getViewport().setView(this);
-		scrollPane
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		List<AbsAttribute> attributes = tableModel.entityBean.getAttributes();
 		ColumnAttribute colAttr = null;
-		System.out.println("kolona: " + getColumnCount() + ", atributa: " + attributes.size());
-		for (int i = 1; i <= getColumnCount(); i++) {
-			if (attributes.get(i) instanceof ColumnAttribute) {
-				colAttr = (ColumnAttribute) attributes.get(i);
-				costumizeColumn(colAttr, i-1);
-			} 
-//			else if (attributes.get(i) instanceof JoinColumnAttribute) {
-//				JoinColumnAttribute jcAttr = (JoinColumnAttribute) attributes
-//						.get(i);
-//				for (int j = 0; j < jcAttr.getColumns().size(); j++) {
-//					colAttr = jcAttr.getColumns().get(j);
-//					costumizeColumn(colAttr, counter);
-//					counter++;
-//				}
-//			}
+		
+		System.out.println("GET COLUMN COUNT IZ TABELE VRACA: " + getColumnCount());
+		for (int i = 0; i < getColumnCount(); i++) {
+			colAttr = (ColumnAttribute) attributes.get(i);
+			costumizeColumn(colAttr, i);
 			packColumns();
 		}
-		setPreferredScrollableViewportSize(new Dimension(
-				(int) getPreferredSize().getWidth(), 800));
+
+		setPreferredScrollableViewportSize(new Dimension((int) getPreferredSize().getWidth(), 800));
 	}
 
 	/***
 	 * Sets up TableColumn properties for ColumnAttribute
-	 * 
-	 * @param colAttr
-	 *            Column attribute that represents one attribute in entity
-	 * @param number
-	 *            Number of column
+	 * @param colAttr Column attribute that represents one attribute in entity
+	 * @param number Number of column
 	 * @return
 	 */
 	private int costumizeColumn(ColumnAttribute colAttr, int number) {
-		TableColumn tc = ((XTableColumnModel) getColumnModel())
-				.getColumn(number);
-		if (colAttr.getHidden()) {
-			((XTableColumnModel) getColumnModel()).setColumnVisible(tc, false);
+		TableColumn tc = ((XTableColumnModel) getColumnModel()).getColumn(number);
+		System.out.println("[CUSTOMIZE COLUMN] attr = " + colAttr.getFieldName() + ", tc = " + tc.getHeaderValue().toString() + ", index = " + number);
+		if(colAttr.getHidden()) {
+			tc.setMinWidth(0);
+			tc.setMaxWidth(0);
+			tc.setWidth(0);
 			return 0;
 		}
 		tc.setHeaderValue(colAttr.getLabel());
@@ -131,7 +118,7 @@ public class STable extends JTable {
 		if (colAttr.getDerived()) {
 			makeFormulaForTableCellEdit(colAttr);
 		}
-		tc.setResizable(false);
+		tc.setResizable(true);
 		return tc.getPreferredWidth();
 	}
 

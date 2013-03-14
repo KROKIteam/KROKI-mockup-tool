@@ -165,6 +165,7 @@ public class STModel extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
+		System.out.println("GET COLUMN COUNT IZ MODELA VRACA: " + EntityHelper.getColumnAttributesColumnCount(entityBean));
 		return EntityHelper.getColumnAttributesColumnCount(entityBean);
 	}
 

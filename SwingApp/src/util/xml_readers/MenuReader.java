@@ -55,8 +55,6 @@ public class MenuReader {
 		MyMenu mmenu = new MyMenu();
 		mmenu.setLabel(elementMenu.getAttribute(Tags.LABEL));
 		
-		System.out.println("PRAVIM MENU " + elementMenu.getAttribute(Tags.LABEL));
-		
 		NodeList childern = node.getChildNodes();
 		for(int i=0; i<childern.getLength(); i++) {
 			Node n = childern.item(i);
@@ -66,7 +64,6 @@ public class MenuReader {
 					MyMenu menu = createMenu(n);
 					if(menu != null) {
 						mmenu.addMenu(menu);
-						System.out.println("Dodajem meni " + menu.getLabel() + " u " + mmenu.getLabel());
 					}
 				}else if (n.getNodeName().equals("submenu")) {
 					try {
@@ -90,7 +87,6 @@ public class MenuReader {
 		submenu.setLabel(elementSubmenu.getAttribute(Tags.LABEL));
 		String pType = elementSubmenu.getAttribute(Tags.PANEL_TYPE);
 		submenu.setPanelType(PanelTypeResolver.getType(pType));
-		System.out.println("PRAVIM SUBMENU " + elementSubmenu.getAttribute(Tags.LABEL));
 		return submenu;
 	}
 

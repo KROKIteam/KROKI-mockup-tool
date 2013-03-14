@@ -98,6 +98,9 @@ public class EntityReader {
 				if (attributeType.equals(Tags.COLUMN_ATTRIBUTE)) {
 					ColumnAttribute ca = null;
 					ca = getColumnAttributeValues(elem);
+					if(ca.getFieldName().equals("id")) {
+						ca.setHidden(true);
+					}
 					ejb.add(ca);
 				} else if (attributeType.equals(Tags.JOIN_COLUMN_ATTRIBUTE)) {
 					JoinColumnAttribute jca = null;
@@ -147,7 +150,7 @@ public class EntityReader {
 		if (defaultValue != null && !defaultValue.equals("")) {
 			ca.setDefaultValue(ConverterUtil.convert(defaultValue, ca));
 		}
-
+		
 		JComponent component = ComponentResolver.getComponent(ca);
 		ca.setComponent(component);
 		return ca;

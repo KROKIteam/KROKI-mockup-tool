@@ -21,6 +21,8 @@ import org.w3c.dom.NodeList;
 
 import adapt.entities.Action;
 import adapt.entities.Resource;
+import adapt.entities.User;
+import adapt.entities.UserRights;
 import adapt.resources.HomeResource;
 import adapt.resources.IndexResource;
 import adapt.resources.ModifyResource;
@@ -63,11 +65,7 @@ public class AdaptApplication extends Application {
 		emf = Persistence.createEntityManagerFactory("adapt");
 		actions = getActions();
 		
-		for (XMLResource resource : XMLResources) {
-			for (Action action : actions) {
-				System.out.println("INSERT INTO USERRIGHTS VALUES (TRUE," + action.getName() + ", " + resource.getName() + ", 1);");
-			}
-		}
+		persistTestData();
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -91,20 +89,20 @@ public class AdaptApplication extends Application {
 		tt.commit();
 		ee.close();
 		
-		for(int i=0; i<XMLResources.size(); i++) {
-			XMLResource r = XMLResources.get(i);
-			if(r.getRouted()) {
-				Resource re = new Resource();
-				re.setName(r.getLabel());
-				re.setLink(r.getLink());
-				EntityManager e = emf.createEntityManager();
-				EntityTransaction t = e.getTransaction();
-				t.begin();
-				e.persist(re);
-				t.commit();
-				e.close();
-			}
-		}
+//		for(int i=0; i<XMLResources.size(); i++) {
+//			XMLResource r = XMLResources.get(i);
+//			if(r.getRouted()) {
+//				Resource re = new Resource();
+//				re.setName(r.getLabel());
+//				re.setLink(r.getLink());
+//				EntityManager e = emf.createEntityManager();
+//				EntityTransaction t = e.getTransaction();
+//				t.begin();
+//				e.persist(re);
+//				t.commit();
+//				e.close();
+//			}
+//		}
 		
 		router.attach("/files", dir);
 		router.attach("/", IndexResource.class);
@@ -340,6 +338,46 @@ public class AdaptApplication extends Application {
 	        ress.add(res);
 		}
 		return ress;
+	}
+	
+	/**
+	 * Stores one user (admin) to database and sets all permissions for that user
+	 * This method is used for fast prototyping purposes only and needs to be removed once user administration module
+	 * is added to mockup tool.
+	 */
+	public void persistTestData() {
+		User admin = new User();
+		admin.setName("admin");
+		admin.setPassword("admin");
+		
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		
+		em.persist(admin);
+		
+		for (XMLResource resource : XMLResources) {
+			
+			Resource res = new Resource();
+			res.setLink(resource.getLink());
+			res.setName(resource.getName());
+			System.out.println("persisting resource " + res.getName());
+			em.persist(res);
+			
+			for (Action action : actions) {
+				if(!action.getName().startsWith("mtm")) {
+					UserRights right = new UserRights();
+					right.setAllowed(true);
+					right.setAction(action);
+					
+					right.setResource(res);
+					right.setUser(admin);
+
+					em.persist(right);
+				}
+			}
+		}
+		
+		em.getTransaction().commit();
 	}
 	
 	//vraca listu imena svih resursa koji imaju referencu trazeni resurs (ManyToOne)

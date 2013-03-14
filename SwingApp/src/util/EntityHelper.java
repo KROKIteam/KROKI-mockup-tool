@@ -111,7 +111,7 @@ public class EntityHelper {
 
 	public static int getColumnAttributesColumnCount(EntityBean bean) {
 		int counter = 0;
-		for(int i=1; i<bean.getAttributes().size(); i++) {
+		for(int i=0; i<bean.getAttributes().size(); i++) {
 			if(bean.getAttributes().get(i) instanceof ColumnAttribute) {
 				counter++;
 			}
