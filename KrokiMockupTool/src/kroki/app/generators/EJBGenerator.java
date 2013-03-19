@@ -53,7 +53,6 @@ public class EJBGenerator {
 		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb");
 		if(!swing) {
 			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "adapt" + File.separator + "entities");
-			//TODO Action, MyResource, User i UserRights treba da ostanu
 		}
 		deleteFiles(dir);
 		

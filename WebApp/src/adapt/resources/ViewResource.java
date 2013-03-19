@@ -257,7 +257,7 @@ public class ViewResource extends Resource {
 			dataModel.put("XMLresources", XMLresources);
 			//pokupimo labele atributa resursa koje sluze kao zaglavlja tabele
 			ArrayList<String> headers = new ArrayList<String>();
-			headers.add("ID");
+			//headers.add("ID");
 			for(int i=0; i<resource.getAttributes().size(); i++) {
 				headers.add(resource.getAttributes().get(i).getLabel());
 			}

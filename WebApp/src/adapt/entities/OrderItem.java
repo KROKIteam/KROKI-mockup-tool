@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_ORDER_ITEM")
+@Table(name = "WS_ORDER_ITEM")
 public class OrderItem implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,13 +43,13 @@ public class OrderItem implements java.io.Serializable {
 	private java.lang.Boolean available;
 	
 	@Column(name = "OI_UNIT_PRICE", unique = false, nullable = false)
-	private java.lang.String unitPrice;
+	private java.math.BigDecimal unitPrice;
 	
 	@Column(name = "OI_UNIT_TAX", unique = false, nullable = false)
-	private java.lang.String unitTax;
+	private java.math.BigDecimal unitTax;
 	
 	@Column(name = "OI_VALUE", unique = false, nullable = false)
-	private java.lang.String value;
+	private java.math.BigDecimal value;
 	
 	
 	@ManyToOne
@@ -88,27 +88,27 @@ public class OrderItem implements java.io.Serializable {
 		this.available = available;
 	}
 	
-	public java.lang.String getUnitPrice() {
+	public java.math.BigDecimal getUnitPrice() {
 		return this.unitPrice;
 	}
 	
-	public void setUnitPrice(java.lang.String unitPrice) {
+	public void setUnitPrice(java.math.BigDecimal unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 	
-	public java.lang.String getUnitTax() {
+	public java.math.BigDecimal getUnitTax() {
 		return this.unitTax;
 	}
 	
-	public void setUnitTax(java.lang.String unitTax) {
+	public void setUnitTax(java.math.BigDecimal unitTax) {
 		this.unitTax = unitTax;
 	}
 	
-	public java.lang.String getValue() {
+	public java.math.BigDecimal getValue() {
 		return this.value;
 	}
 	
-	public void setValue(java.lang.String value) {
+	public void setValue(java.math.BigDecimal value) {
 		this.value = value;
 	}
 	

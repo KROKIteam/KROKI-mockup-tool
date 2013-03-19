@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_CUSTOMER")
+@Table(name = "WS_CUSTOMER")
 public class Customer implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class Customer implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "CUS_FIRST_NAME", unique = false, nullable = false)
-	private java.lang.String firstName;
+	private java.lang.String name;
 	
 	@Column(name = "CUS_LAST_NAME", unique = false, nullable = false)
 	private java.lang.String lastName;
@@ -52,7 +52,7 @@ public class Customer implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "customer")
-	private Set<Orders> ordersSet = new HashSet<Orders>();
+	private Set<Orders> OrdersSet = new HashSet<Orders>();
 	
 	public Customer(){
 	}
@@ -65,12 +65,12 @@ public class Customer implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getFirstName() {
-		return this.firstName;
+	public java.lang.String getName() {
+		return this.name;
 	}
 	
-	public void setFirstName(java.lang.String firstName) {
-		this.firstName = firstName;
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 	
 	public java.lang.String getLastName() {
@@ -98,11 +98,11 @@ public class Customer implements java.io.Serializable {
 	}
 	
 	public Set<Orders> getOrdersSet() {
-		return this.ordersSet;
+		return this.OrdersSet;
 	}
 
-	public void setOrdersSet(Set<Orders> ordersSet) {
-		this.ordersSet = ordersSet;
+	public void setOrdersSet(Set<Orders> OrdersSet) {
+		this.OrdersSet = OrdersSet;
 	}
 	
 }

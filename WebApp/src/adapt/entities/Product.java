@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_PRODUCT")
+@Table(name = "WS_PRODUCT")
 public class Product implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,10 +49,10 @@ public class Product implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<OrderItem> orderItemSet = new HashSet<OrderItem>();
+	private Set<OrderItem> OrderItemSet = new HashSet<OrderItem>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<PriceListItem> priceListItemSet = new HashSet<PriceListItem>();
+	private Set<PriceListItem> PriceListItemSet = new HashSet<PriceListItem>();
 	
 	public Product(){
 	}
@@ -90,19 +90,19 @@ public class Product implements java.io.Serializable {
 	}
 	
 	public Set<OrderItem> getOrderItemSet() {
-		return this.orderItemSet;
+		return this.OrderItemSet;
 	}
 
-	public void setOrderItemSet(Set<OrderItem> orderItemSet) {
-		this.orderItemSet = orderItemSet;
+	public void setOrderItemSet(Set<OrderItem> OrderItemSet) {
+		this.OrderItemSet = OrderItemSet;
 	}
 	
 	public Set<PriceListItem> getPriceListItemSet() {
-		return this.priceListItemSet;
+		return this.PriceListItemSet;
 	}
 
-	public void setPriceListItemSet(Set<PriceListItem> priceListItemSet) {
-		this.priceListItemSet = priceListItemSet;
+	public void setPriceListItemSet(Set<PriceListItem> PriceListItemSet) {
+		this.PriceListItemSet = PriceListItemSet;
 	}
 	
 }

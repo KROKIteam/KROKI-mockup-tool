@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_ORDERS")
+@Table(name = "WS_ORDERS")
 public class Orders implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class Orders implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "ORD_ORDER_NUMBER", unique = false, nullable = false)
-	private java.lang.String orderNumber;
+	private java.lang.String name;
 	
 	@Column(name = "ORD_ORDER_DATE", unique = false, nullable = false)
 	private java.util.Date orderDate;
@@ -46,7 +46,7 @@ public class Orders implements java.io.Serializable {
 	private java.lang.String shipmentAddress;
 	
 	@Column(name = "ORD_ORDER_TOTAL", unique = false, nullable = false)
-	private java.lang.String orderTotal;
+	private java.math.BigDecimal orderTotal;
 	
 	@Column(name = "ORD_ORDER_STATUS", unique = false, nullable = false)
 	private java.lang.String orderStatus;
@@ -62,10 +62,10 @@ public class Orders implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "orders")
-	private Set<OrderItem> orderItemSet = new HashSet<OrderItem>();
+	private Set<OrderItem> OrderItemSet = new HashSet<OrderItem>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "orders")
-	private Set<Invoice> invoiceSet = new HashSet<Invoice>();
+	private Set<Invoice> InvoiceSet = new HashSet<Invoice>();
 	
 	public Orders(){
 	}
@@ -78,12 +78,12 @@ public class Orders implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getOrderNumber() {
-		return this.orderNumber;
+	public java.lang.String getName() {
+		return this.name;
 	}
 	
-	public void setOrderNumber(java.lang.String orderNumber) {
-		this.orderNumber = orderNumber;
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 	
 	public java.util.Date getOrderDate() {
@@ -102,11 +102,11 @@ public class Orders implements java.io.Serializable {
 		this.shipmentAddress = shipmentAddress;
 	}
 	
-	public java.lang.String getOrderTotal() {
+	public java.math.BigDecimal getOrderTotal() {
 		return this.orderTotal;
 	}
 	
-	public void setOrderTotal(java.lang.String orderTotal) {
+	public void setOrderTotal(java.math.BigDecimal orderTotal) {
 		this.orderTotal = orderTotal;
 	}
 	
@@ -135,19 +135,19 @@ public class Orders implements java.io.Serializable {
 	}
 	
 	public Set<OrderItem> getOrderItemSet() {
-		return this.orderItemSet;
+		return this.OrderItemSet;
 	}
 
-	public void setOrderItemSet(Set<OrderItem> orderItemSet) {
-		this.orderItemSet = orderItemSet;
+	public void setOrderItemSet(Set<OrderItem> OrderItemSet) {
+		this.OrderItemSet = OrderItemSet;
 	}
 	
 	public Set<Invoice> getInvoiceSet() {
-		return this.invoiceSet;
+		return this.InvoiceSet;
 	}
 
-	public void setInvoiceSet(Set<Invoice> invoiceSet) {
-		this.invoiceSet = invoiceSet;
+	public void setInvoiceSet(Set<Invoice> InvoiceSet) {
+		this.InvoiceSet = InvoiceSet;
 	}
 	
 }

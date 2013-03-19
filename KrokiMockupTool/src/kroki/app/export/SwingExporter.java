@@ -162,8 +162,6 @@ public class SwingExporter {
 			for(int l=0; l<vc.containedZooms().size(); l++) {
 			Zoom z = vc.containedZooms().get(l);
 			if(z.getTargetPanel() != null) {
-				StandardPanel zsp = (StandardPanel) z.getTargetPanel();
-				
 				//adding ManyToOne (zoom) attribute
 				String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
 				String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
@@ -248,7 +246,6 @@ public class SwingExporter {
 	//this is done after all panels have been processed and added to classes list
 	//which allows child panel to be drawn after parent
 	public void addReferences() {
-		NamingUtil namer = new NamingUtil();
 		for(int i=0; i<classes.size(); i++) {
 			EJBClass ejbClass = classes.get(i);
 			if(!ejbClass.getManyToOneAttributes().isEmpty()) {

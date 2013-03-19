@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
@@ -43,6 +43,9 @@ public class Resource implements java.io.Serializable {
 	private java.lang.String link;
 	
 	
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "resource")
+	private Set<UserRights> UserRightsSet = new HashSet<UserRights>();
 	
 	public Resource(){
 	}
@@ -69,6 +72,14 @@ public class Resource implements java.io.Serializable {
 	
 	public void setLink(java.lang.String link) {
 		this.link = link;
+	}
+	
+	public Set<UserRights> getUserRightsSet() {
+		return this.UserRightsSet;
+	}
+
+	public void setUserRightsSet(Set<UserRights> UserRightsSet) {
+		this.UserRightsSet = UserRightsSet;
 	}
 	
 }

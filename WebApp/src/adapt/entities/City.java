@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_CITY")
+@Table(name = "WS_CITY")
 public class City implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,19 +49,19 @@ public class City implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Enterprise> enterpriseSet = new HashSet<Enterprise>();
+	private Set<Enterprise> EnterpriseSet = new HashSet<Enterprise>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Department> departmentSet = new HashSet<Department>();
+	private Set<Department> DepartmentSet = new HashSet<Department>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Customer> customerSet = new HashSet<Customer>();
+	private Set<Customer> CustomerSet = new HashSet<Customer>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Vendor> vendorSet = new HashSet<Vendor>();
+	private Set<Vendor> VendorSet = new HashSet<Vendor>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Orders> ordersSet = new HashSet<Orders>();
+	private Set<Orders> OrdersSet = new HashSet<Orders>();
 	
 	public City(){
 	}
@@ -99,43 +99,43 @@ public class City implements java.io.Serializable {
 	}
 	
 	public Set<Enterprise> getEnterpriseSet() {
-		return this.enterpriseSet;
+		return this.EnterpriseSet;
 	}
 
-	public void setEnterpriseSet(Set<Enterprise> enterpriseSet) {
-		this.enterpriseSet = enterpriseSet;
+	public void setEnterpriseSet(Set<Enterprise> EnterpriseSet) {
+		this.EnterpriseSet = EnterpriseSet;
 	}
 	
 	public Set<Department> getDepartmentSet() {
-		return this.departmentSet;
+		return this.DepartmentSet;
 	}
 
-	public void setDepartmentSet(Set<Department> departmentSet) {
-		this.departmentSet = departmentSet;
+	public void setDepartmentSet(Set<Department> DepartmentSet) {
+		this.DepartmentSet = DepartmentSet;
 	}
 	
 	public Set<Customer> getCustomerSet() {
-		return this.customerSet;
+		return this.CustomerSet;
 	}
 
-	public void setCustomerSet(Set<Customer> customerSet) {
-		this.customerSet = customerSet;
+	public void setCustomerSet(Set<Customer> CustomerSet) {
+		this.CustomerSet = CustomerSet;
 	}
 	
 	public Set<Vendor> getVendorSet() {
-		return this.vendorSet;
+		return this.VendorSet;
 	}
 
-	public void setVendorSet(Set<Vendor> vendorSet) {
-		this.vendorSet = vendorSet;
+	public void setVendorSet(Set<Vendor> VendorSet) {
+		this.VendorSet = VendorSet;
 	}
 	
 	public Set<Orders> getOrdersSet() {
-		return this.ordersSet;
+		return this.OrdersSet;
 	}
 
-	public void setOrdersSet(Set<Orders> ordersSet) {
-		this.ordersSet = ordersSet;
+	public void setOrdersSet(Set<Orders> OrdersSet) {
+		this.OrdersSet = OrdersSet;
 	}
 	
 }

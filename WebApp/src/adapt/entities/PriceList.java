@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_PRICE_LIST")
+@Table(name = "WS_PRICE_LIST")
 public class PriceList implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class PriceList implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "PL_PRICE_LIST_NUMBER", unique = false, nullable = false)
-	private java.lang.String priceListNumber;
+	private java.lang.String name;
 	
 	@Column(name = "PL_ACTIVE_FROM_DATE", unique = false, nullable = false)
 	private java.util.Date activeFromDate;
@@ -45,7 +45,7 @@ public class PriceList implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "priceList")
-	private Set<PriceListItem> priceListItemSet = new HashSet<PriceListItem>();
+	private Set<PriceListItem> PriceListItemSet = new HashSet<PriceListItem>();
 	
 	public PriceList(){
 	}
@@ -58,12 +58,12 @@ public class PriceList implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getPriceListNumber() {
-		return this.priceListNumber;
+	public java.lang.String getName() {
+		return this.name;
 	}
 	
-	public void setPriceListNumber(java.lang.String priceListNumber) {
-		this.priceListNumber = priceListNumber;
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 	
 	public java.util.Date getActiveFromDate() {
@@ -75,11 +75,11 @@ public class PriceList implements java.io.Serializable {
 	}
 	
 	public Set<PriceListItem> getPriceListItemSet() {
-		return this.priceListItemSet;
+		return this.PriceListItemSet;
 	}
 
-	public void setPriceListItemSet(Set<PriceListItem> priceListItemSet) {
-		this.priceListItemSet = priceListItemSet;
+	public void setPriceListItemSet(Set<PriceListItem> PriceListItemSet) {
+		this.PriceListItemSet = PriceListItemSet;
 	}
 	
 }

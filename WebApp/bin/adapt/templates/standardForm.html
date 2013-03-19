@@ -24,7 +24,11 @@
 							<#list entities as entity>
 							<tr>
 								<#list entity.properties as prop>
+									<#if prop.name == "id">
+									<td class="concell" style="display:none;">${prop.value}</td>
+									<#else>
 									<td class="concell">${prop.value}</td>
+									</#if>
 								</#list>
 								<#if resourceActions?has_content>
 								<#if form.allowActions?string == "true">

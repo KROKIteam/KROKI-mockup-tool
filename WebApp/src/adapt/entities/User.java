@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
@@ -46,6 +46,12 @@ public class User implements java.io.Serializable {
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<UserRights> rights = new HashSet<UserRights>();
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<MyResource> MyResourceSet = new HashSet<MyResource>();
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<UserRights> UserRightsSet = new HashSet<UserRights>();
 	
 	public User(){
 	}
@@ -80,6 +86,22 @@ public class User implements java.io.Serializable {
 
 	public void setRights(Set<UserRights> rights) {
 		this.rights = rights;
+	}
+	
+	public Set<MyResource> getMyResourceSet() {
+		return this.MyResourceSet;
+	}
+
+	public void setMyResourceSet(Set<MyResource> MyResourceSet) {
+		this.MyResourceSet = MyResourceSet;
+	}
+	
+	public Set<UserRights> getUserRightsSet() {
+		return this.UserRightsSet;
+	}
+
+	public void setUserRightsSet(Set<UserRights> UserRightsSet) {
+		this.UserRightsSet = UserRightsSet;
 	}
 	
 }

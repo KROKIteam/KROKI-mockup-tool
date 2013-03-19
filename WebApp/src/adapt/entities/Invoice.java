@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_INVOICE")
+@Table(name = "WS_INVOICE")
 public class Invoice implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class Invoice implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "INV_INVOICE_NUMBER", unique = false, nullable = false)
-	private java.lang.String invoiceNumber;
+	private java.lang.String name;
 	
 	@Column(name = "INV_INVOICE_DATE", unique = false, nullable = false)
 	private java.util.Date invoiceDate;
@@ -62,12 +62,12 @@ public class Invoice implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getInvoiceNumber() {
-		return this.invoiceNumber;
+	public java.lang.String getName() {
+		return this.name;
 	}
 	
-	public void setInvoiceNumber(java.lang.String invoiceNumber) {
-		this.invoiceNumber = invoiceNumber;
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 	
 	public java.util.Date getInvoiceDate() {

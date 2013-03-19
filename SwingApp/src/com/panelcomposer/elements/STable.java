@@ -80,7 +80,6 @@ public class STable extends JTable {
 		List<AbsAttribute> attributes = tableModel.entityBean.getAttributes();
 		ColumnAttribute colAttr = null;
 		
-		System.out.println("GET COLUMN COUNT IZ TABELE VRACA: " + getColumnCount());
 		for (int i = 0; i < getColumnCount(); i++) {
 			colAttr = (ColumnAttribute) attributes.get(i);
 			costumizeColumn(colAttr, i);
@@ -98,7 +97,6 @@ public class STable extends JTable {
 	 */
 	private int costumizeColumn(ColumnAttribute colAttr, int number) {
 		TableColumn tc = ((XTableColumnModel) getColumnModel()).getColumn(number);
-		System.out.println("[CUSTOMIZE COLUMN] attr = " + colAttr.getFieldName() + ", tc = " + tc.getHeaderValue().toString() + ", index = " + number);
 		if(colAttr.getHidden()) {
 			tc.setMinWidth(0);
 			tc.setMaxWidth(0);

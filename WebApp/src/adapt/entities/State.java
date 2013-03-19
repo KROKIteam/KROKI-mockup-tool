@@ -22,11 +22,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.02.2013  14:52:36h
+   Creation date: 19.03.2013  11:05:54h
    **/
 
 @Entity
-@Table(name = "TC_STATE")
+@Table(name = "WS_STATE")
 public class State implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +42,7 @@ public class State implements java.io.Serializable {
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "state")
-	private Set<City> citySet = new HashSet<City>();
+	private Set<City> CitySet = new HashSet<City>();
 	
 	public State(){
 	}
@@ -64,11 +64,11 @@ public class State implements java.io.Serializable {
 	}
 	
 	public Set<City> getCitySet() {
-		return this.citySet;
+		return this.CitySet;
 	}
 
-	public void setCitySet(Set<City> citySet) {
-		this.citySet = citySet;
+	public void setCitySet(Set<City> CitySet) {
+		this.CitySet = CitySet;
 	}
 	
 }

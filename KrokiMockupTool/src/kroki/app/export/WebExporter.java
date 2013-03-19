@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import org.w3c.dom.Attr;
 
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.WebResourceGenerator;
@@ -61,6 +62,9 @@ public class WebExporter {
 		//Add infrastructural classes (for user rights management)
 		addDefaultClasses(classes);
 
+		//Add one-to-many attributes to classes
+		addReferences();
+		
 		//CONFIGURATION FILES GENERATION
 		webGenerator.generate(elements);
 		ejbGenerator.generateEJBClasses(classes, false);
@@ -113,42 +117,47 @@ public class WebExporter {
 
 			for(int l=0; l<vc.containedZooms().size(); l++) {
 				Zoom z = vc.containedZooms().get(l);
-				StandardPanel zsp = (StandardPanel) z.getTargetPanel();
-				EJBClass zcl = getClass(zsp.getPersistentClass().name());
+				if(z.getTargetPanel() != null) {
+				//StandardPanel zsp = (StandardPanel) z.getTargetPanel();
+				//EJBClass zcl = getClass(zsp.getPersistentClass().name());
+				
 				//adding ManyToOne (zoom) attribute
 				String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
-				String reffColumn = "id";
+				//String reffColumn = "id";
 				String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 
 				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
 				mtoAttributes.add(mto);
 
-				//add OneToMany attribute to opposite and of association
-				if(zcl != null) {
-					String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
-					String label = z.getLabel();
-					String reffTable = sp.getPersistentClass().name();
-					String mappedBy = cc.toCamelCase(z.getLabel(), true);
-
-					//fetching of all representative attributes that will be displayed in zoom field
-					for(int m=0; m<zcl.getAttributes().size(); m++) {
-						Attribute a = zcl.getAttributes().get(m);
-
-						if(a.getRepresentative()) {
-							System.out.println("atribut" + a.getLabel() + "JE reprezentativan");
-							mto.getColumnRefs().add(a);
-						}else {
-							System.out.println("atribut" + a.getLabel() + "NIJE reprezentativan");
-						}
-					}
-
-					OneToManyAttribute otm = new OneToManyAttribute(name, label, reffTable, mappedBy);
-					zcl.getOneToManyAttributes().add(otm);
-
+//				//add OneToMany attribute to opposite and of association
+//				if(zcl != null) {
+//					String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
+//					String label = z.getLabel();
+//					String reffTable = sp.getPersistentClass().name();
+//					String mappedBy = cc.toCamelCase(z.getLabel(), true);
+//
+//					//fetching of all representative attributes that will be displayed in zoom field
+//					for(int m=0; m<zcl.getAttributes().size(); m++) {
+//						Attribute a = zcl.getAttributes().get(m);
+//
+//						if(a.getRepresentative()) {
+//							System.out.println("atribut" + a.getLabel() + "JE reprezentativan");
+//							mto.getColumnRefs().add(a);
+//						}else {
+//							System.out.println("atribut" + a.getLabel() + "NIJE reprezentativan");
+//						}
+//					}
+//
+//					OneToManyAttribute otm = new OneToManyAttribute(name, label, reffTable, mappedBy);
+//					zcl.getOneToManyAttributes().add(otm);
+//
+//				}else {
+//					System.out.println("NULL majku mu");
+//				}
 				}else {
-					System.out.println("NULL majku mu");
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
+					return;
 				}
-
 			}
 
 			String tableName = cc.toDatabaseFormat(this.project.getLabel(), sp.getLabel());
@@ -316,4 +325,40 @@ public class WebExporter {
 		classes.add(resource);
 		classes.add(uRights);
 	}
+	
+	//adding OneToMany to classes on opposite sides of zoom attributes
+	//this is done after all panels have been processed and added to classes list
+	//which allows child panel to be drawn after parent
+	public void addReferences() {
+		for(int i=0; i<classes.size(); i++) {
+			EJBClass ejbClass = classes.get(i);
+			if(!ejbClass.getManyToOneAttributes().isEmpty()) {
+				for(int j=0; j<ejbClass.getManyToOneAttributes().size(); j++) {
+					ManyToOneAttribute mtrAttribute = ejbClass.getManyToOneAttributes().get(j);
+					EJBClass oppositeClass = getClass(mtrAttribute.getType());
+					
+					if(oppositeClass != null) {
+						String name = ejbClass.getName() + "Set";
+						String label = mtrAttribute.getLabel();
+						String reffTable = ejbClass.getName();
+						String mappedBy = mtrAttribute.getName();
+						
+						OneToManyAttribute otmAttr = new OneToManyAttribute(name, label, reffTable, mappedBy);
+						oppositeClass.getOneToManyAttributes().add(otmAttr);
+						
+						for(int l=0; l<oppositeClass.getAttributes().size(); l++) {
+							Attribute atr = oppositeClass.getAttributes().get(l);
+							if(atr.getRepresentative()) {
+								mtrAttribute.getColumnRefs().add(atr);
+							}
+						}
+					}else {
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Class '" + ejbClass.getLabel() + "' references non-exsisting class '" + mtrAttribute.getType()  + "'", 3);
+						throw new NullPointerException("Refferenced file + " + mtrAttribute.getType() + " not found!");
+					}
+				}
+			}
+		}
+	}
+	
 }
