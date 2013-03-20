@@ -48,7 +48,4 @@ public class ProfilIzmenaResource extends BaseResource {
 		dataModel.put("title", Settings.APP_TITLE);
 		return getHTMLTemplateRepresentation("profilIzmena.html", dataModel);
 	}
-	
-	
-
 }

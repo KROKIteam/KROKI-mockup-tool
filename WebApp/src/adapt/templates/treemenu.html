@@ -1,0 +1,42 @@
+<div id="menuTitle">Navigation</div>
+<ul id="treemenu1" class="treeview">
+	<li>Business entites
+		<ul>
+		<li><a href="resources/State">State</a> </li>
+		<li><a href="resources/City">City</a> </li>
+		<li><a href="resources/Enterprise">Enterprise</a> </li>
+		<li><a href="resources/Department">Department</a> </li>
+		<li><a href="resources/Customer">Customer</a> </li>
+		<li><a href="resources/Vendor">Vendor</a> </li>
+		</ul>
+	</li>
+	<li>Products
+		<ul>
+		<li><a href="resources/Category">Category</a> </li>
+		<li><a href="resources/Product">Product</a> </li>
+		</ul>
+	</li>
+	<li>Order management
+		<ul>
+		<li><a href="resources/Payment">Payment</a> </li>
+		<li><a href="resources/Orders">Orders</a> </li>
+		<li><a href="resources/OrderItem">Order item</a> </li>
+		<li><a href="resources/Invoice">Invoice</a> </li>
+		</ul>
+	</li>
+	<li>Price lists
+		<ul>
+		<li><a href="resources/PriceList">Price list</a> </li>
+		<li><a href="resources/PriceListItem">Price list item</a> </li>
+		</ul>
+	</li>
+</ul>
+
+<script type="text/javascript">
+
+//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+
+ddtreemenu.createTree("treemenu1", true)
+ddtreemenu.createTree("treemenu2", false)
+
+</script>		

@@ -370,7 +370,7 @@ public class ViewResource extends Resource {
 				}
 			}
 			ArrayList<String> childFormHeaders = new ArrayList<String>();
-			childFormHeaders.add("ID");
+			//childFormHeaders.add("ID");
 			for(int j=0; j<childResource.getAttributes().size(); j++) {
 				XMLAttribute attr = childResource.getAttributes().get(j);
 				childFormHeaders.add(attr.getLabel());

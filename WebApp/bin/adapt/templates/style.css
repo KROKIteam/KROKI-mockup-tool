@@ -4,17 +4,16 @@ body{
 
 /*wrapper*/
 div#wrapper{
-	width:900px;
+	width:1200px;
 	margin:0 auto;
 	background-color:#FFFFFF;	
 }
 
 /*sadrzaj i meni na svim stranicama osim index.html*/
 div#content{
-	clear:both;
-	float:both;	
+	float:right;	
 	overflow:auto;
-	width:100%;
+	width:945px;
 	list-style-type:none;
 	border: 1px solid #708090;
 	min-height:600px;
@@ -28,7 +27,7 @@ div#leftpane {
 	clear:left;
 	float:left;	
 	overflow:auto;
-	width:745px;
+	width:790px;
 	height:100%;
 }
 
@@ -85,22 +84,31 @@ div#user {
 }
 
 div#menu{
-	float:center;
-	clear:both;
+	float:left;
 	text-align:left;
-	width:100%;
-	height:19px;
+	width:250px;
+	height:100%;
+	border: 1px solid #708090;
 	font-family:sans-serif;
 	font-size:11pt;
 	font-weight:bold;
 }
 
-div#menu a{
+div#menuTitle {
 	background-color: #000000;
-	border: 1px solid #000000;
+    border: 0 none;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    font-size: 10pt;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-decoration: none;
+}
+
+div#menu a{
 	padding-left: 4px;
 	padding-right: 4px;
-    color:#FFFFFF;
+    color:#000;
     text-decoration:none;
 }
 
@@ -116,7 +124,7 @@ div#indexcontentpane {
 	clear:left;
 	float:left;
 	min-height:185px;
-	width:620px;
+	width:930px;
 	text-align:left;
 	border-right: 1px solid #708090;
 	background-color:#FFFFFF;	

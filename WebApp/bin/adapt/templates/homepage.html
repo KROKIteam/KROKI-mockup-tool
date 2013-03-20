@@ -5,14 +5,15 @@
 		<meta HTTP-EQUIV="Expires" CONTENT="-1">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" href="/files/style.css" type="text/css" />
-		<script type="text/javascript" src="/files/script.js">
+		<link rel="stylesheet" href="/files/simpletree.css" type="text/css" />
+		<script type="text/javascript" src="/files/simpletreemenu.js"></script>
 		</script>
 	</head>
 	<body onload="highlight();">
 		<div id="wrapper" >
 		<#if user??>
 			<div id="menu">
-				<#include "/menu.html" parse=true>
+				<#include "/treemenu.html" parse=true>
 			</div>
 			<div id="content">
 				<div id="leftpane">
