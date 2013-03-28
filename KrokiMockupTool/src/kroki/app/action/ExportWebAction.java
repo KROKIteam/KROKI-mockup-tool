@@ -85,6 +85,7 @@ public class ExportWebAction extends AbstractAction {
 		} catch (NullPointerException e2) {
 			//if no project is selected, inform user to select one
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
+			e2.printStackTrace();
 		}
 	}
 }

@@ -12,11 +12,14 @@ import org.w3c.dom.Attr;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
+import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.WebResourceGenerator;
 import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.ManyToOneAttribute;
+import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
+import kroki.app.generators.utils.Submenu;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -33,15 +36,20 @@ public class WebExporter {
 	private BussinesSubsystem project;
 	private ArrayList<VisibleElement> elements;
 	private ArrayList<EJBClass> classes;
+	//list of menus to be generated
+	private ArrayList<Menu> menus;
 	WebResourceGenerator webGenerator;
 	EJBGenerator ejbGenerator;
 	DatabaseConfigGenerator dbConfigGen;
+	MenuGenerator menuGenerator;
 
 	public WebExporter() {
 		elements = new ArrayList<VisibleElement>();
 		classes = new ArrayList<EJBClass>();
+		menus = new ArrayList<Menu>();
 		webGenerator = new WebResourceGenerator();
 		ejbGenerator = new EJBGenerator();
+		menuGenerator = new MenuGenerator();
 	}
 
 	public void export(File file, BussinesSubsystem proj) {
@@ -51,10 +59,10 @@ public class WebExporter {
 		for(int i=0; i<proj.ownedElementCount(); i++) {
 			VisibleElement el = proj.getOwnedElementAt(i);
 			if(el instanceof BussinesSubsystem) {
-				getSubSystemData(el);
+				getSubSystemData(el, null);
 				getSubSystemClasses(el);
 			}else if(el instanceof VisibleClass) {
-				getClassData(el, "");
+				getClassData(el, "", null);
 				elements.add(el);
 			}
 		}
@@ -69,13 +77,14 @@ public class WebExporter {
 		webGenerator.generate(elements);
 		ejbGenerator.generateEJBClasses(classes, false);
 		dbConfigGen.generatePersistenceXMl(true);
+		menuGenerator.generateWEBMenu(menus);
 
 		//write project label as mainframe title in main.properties file
 		writeProjectName(proj.getLabel());
 	}
 
 	//fetches class (panel) data from the model
-	public void getClassData(VisibleElement el, String classPackage) {
+	public void getClassData(VisibleElement el, String classPackage,  Menu menu) {
 		NamingUtil cc = new NamingUtil();
 
 		if(el instanceof StandardPanel) {
@@ -118,9 +127,6 @@ public class WebExporter {
 			for(int l=0; l<vc.containedZooms().size(); l++) {
 				Zoom z = vc.containedZooms().get(l);
 				if(z.getTargetPanel() != null) {
-				//StandardPanel zsp = (StandardPanel) z.getTargetPanel();
-				//EJBClass zcl = getClass(zsp.getPersistentClass().name());
-				
 				//adding ManyToOne (zoom) attribute
 				String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
 				//String reffColumn = "id";
@@ -128,32 +134,6 @@ public class WebExporter {
 
 				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
 				mtoAttributes.add(mto);
-
-//				//add OneToMany attribute to opposite and of association
-//				if(zcl != null) {
-//					String name = sp.getPersistentClass().name().substring(0, 1).toLowerCase() + sp.getPersistentClass().name().substring(1) + "Set";
-//					String label = z.getLabel();
-//					String reffTable = sp.getPersistentClass().name();
-//					String mappedBy = cc.toCamelCase(z.getLabel(), true);
-//
-//					//fetching of all representative attributes that will be displayed in zoom field
-//					for(int m=0; m<zcl.getAttributes().size(); m++) {
-//						Attribute a = zcl.getAttributes().get(m);
-//
-//						if(a.getRepresentative()) {
-//							System.out.println("atribut" + a.getLabel() + "JE reprezentativan");
-//							mto.getColumnRefs().add(a);
-//						}else {
-//							System.out.println("atribut" + a.getLabel() + "NIJE reprezentativan");
-//						}
-//					}
-//
-//					OneToManyAttribute otm = new OneToManyAttribute(name, label, reffTable, mappedBy);
-//					zcl.getOneToManyAttributes().add(otm);
-//
-//				}else {
-//					System.out.println("NULL majku mu");
-//				}
 				}else {
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
 					return;
@@ -164,19 +144,47 @@ public class WebExporter {
 			//EJB class instance for panel is created and passed to generator
 			EJBClass ejb = new EJBClass("adapt.entities", sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
 			classes.add(ejb);
+			
+
+			/**************************************/
+			/*        SUBMENU GENERATION DATA     */
+			/*        one menu item per panel     */
+			/**************************************/
+			String activate = "/resources/" + ejb.getName();
+			String label = ejb.getLabel();
+			Submenu sub = new Submenu(activate, label, "");
+			//if it is in a subsystem, it is aded as submenu item
+			if(menu != null) {
+				menu.addSubmenu(sub);
+			}else {
+				//if panel is in root of workspace, it gets it's item in main menu
+				Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
+				men.addSubmenu(sub);
+				menus.add(men);
+			}
 		}
 	}
 
 	//FETCHING SUBSYSTEM DATA USED FOR FILES GENERATION
-	public void getSubSystemData(VisibleElement el) {
+	public void getSubSystemData(VisibleElement el, Menu mmenu) {
+		
+		String label = el.name().replace("_", " ");
+		Menu menu = new Menu("", label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 		BussinesSubsystem bs = (BussinesSubsystem) el;
+		
 		for(int m=0; m<bs.ownedElementCount(); m++) {
 			VisibleElement e = bs.getOwnedElementAt(m);
 			if(e instanceof VisibleClass) {
-				getClassData(e, el.name());
+				getClassData(e, el.name(), menu);
 			}else if (e instanceof BussinesSubsystem) {
-				getSubSystemData(e);
+				getSubSystemData(e, menu);
 			}
+		}
+		
+		if(mmenu != null) {
+			mmenu.addMenu(menu);
+		}else {
+			menus.add(menu);
 		}
 
 	}

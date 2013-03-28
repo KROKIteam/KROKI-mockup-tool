@@ -210,19 +210,19 @@ public class WebResourceGenerator {
 
 								NodeList resChildNodes = resNode.getChildNodes();
 								
-								for(int n=0; n<resChildNodes.getLength(); n++) {
-									Node resChildNode = resChildNodes.item(n);
-									if(resChildNode.getNodeName().equals("Name")) {
-										if(resChildNode.getTextContent().equals(zoomType)) {
-											for(int o=0; o<resChildNodes.getLength(); o++) {
-												Node rresChildNode = resChildNodes.item(o);
-												if(rresChildNode.getNodeName().equals("Forms")) {
-													rresChildNode.setTextContent(rresChildNode.getTextContent() + ",ParentChildForm");
-												}
-											}
-										}
-									}
-								}
+//								for(int n=0; n<resChildNodes.getLength(); n++) {
+//									Node resChildNode = resChildNodes.item(n);
+//									if(resChildNode.getNodeName().equals("Name")) {
+//										if(resChildNode.getTextContent().equals(zoomType)) {
+//											for(int o=0; o<resChildNodes.getLength(); o++) {
+//												Node rresChildNode = resChildNodes.item(o);
+//												if(rresChildNode.getNodeName().equals("Forms")) {
+//													rresChildNode.setTextContent(rresChildNode.getTextContent() + ",ParentChildForm");
+//												}
+//											}
+//										}
+//									}
+//								}
 								
 							}
 							

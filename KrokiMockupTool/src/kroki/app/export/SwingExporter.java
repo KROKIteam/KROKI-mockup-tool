@@ -98,7 +98,7 @@ public class SwingExporter {
 		addReferences();
 		
 		//CONFIGURATION FILES GENERATION
-		menuGenerator.generate(menus);
+		menuGenerator.generateSWINGMenu(menus);
 		panelGenerator.generate(elements);
 		ejbGenerator.generateEJBXmlFiles(classes);
 		ejbGenerator.generateEJBClasses(classes, true);
