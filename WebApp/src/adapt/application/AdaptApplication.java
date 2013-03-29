@@ -45,6 +45,7 @@ public class AdaptApplication extends Application {
 	public ArrayList<XMLResource> XMLResources = new ArrayList<XMLResource>();
 	private ArrayList<Action> actions = new ArrayList<Action>();
 	private ArrayList<XMLForm> forms = new ArrayList<XMLForm>();
+	private AdaptMainFrame mainFrame;
 	
 	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  H:mm:ss:SSS");
     Date today = new Date();
@@ -443,5 +444,12 @@ public class AdaptApplication extends Application {
 		}
 		return form;
 	}
-	
+
+	public AdaptMainFrame getMainFrame() {
+		return mainFrame;
+	}
+
+	public void setMainFrame(AdaptMainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+	}
 }

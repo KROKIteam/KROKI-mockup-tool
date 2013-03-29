@@ -19,7 +19,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import org.bouncycastle.asn1.x509.DisplayText;
 import org.restlet.Component;
 import org.restlet.data.Protocol;
 
@@ -128,7 +127,9 @@ public class AdaptMainFrame extends JFrame {
 		component.getServers().add(Protocol.HTTP, 8182);
 		component.getClients().add(Protocol.FILE);
 		component.getClients().add(Protocol.HTTP);
-		component.getDefaultHost().attach(new AdaptApplication());
+		AdaptApplication app = new AdaptApplication();
+		app.setMainFrame(AdaptMainFrame.this);
+		component.getDefaultHost().attach(app);
 		component.start();
 		displayText("Starting internal server on port 8182", 0);
 	}

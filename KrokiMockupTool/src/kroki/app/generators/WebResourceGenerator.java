@@ -199,17 +199,17 @@ public class WebResourceGenerator {
 						zoomElement.appendChild(zoomMandatoryTag);
 						
 						
-						//treba naci <resource> tag sa imenom  koje je isto kao i <Type> tag i dodati mu parent-child formu u listu formi
-						for(int l=0; l<doc.getChildNodes().getLength(); l++) {
-							Node node = doc.getChildNodes().item(l);
-
-							NodeList resourceNodes = node.getChildNodes();
-							
-							for(int m=0; m<resourceNodes.getLength(); m++) {
-								Node resNode = resourceNodes.item(m);
-
-								NodeList resChildNodes = resNode.getChildNodes();
-								
+//						treba naci <resource> tag sa imenom  koje je isto kao i <Type> tag i dodati mu parent-child formu u listu formi
+//						for(int l=0; l<doc.getChildNodes().getLength(); l++) {
+//							Node node = doc.getChildNodes().item(l);
+//
+//							NodeList resourceNodes = node.getChildNodes();
+//							
+//							for(int m=0; m<resourceNodes.getLength(); m++) {
+//								Node resNode = resourceNodes.item(m);
+//
+//								NodeList resChildNodes = resNode.getChildNodes();
+//								
 //								for(int n=0; n<resChildNodes.getLength(); n++) {
 //									Node resChildNode = resChildNodes.item(n);
 //									if(resChildNode.getNodeName().equals("Name")) {
@@ -223,10 +223,10 @@ public class WebResourceGenerator {
 //										}
 //									}
 //								}
-								
-							}
-							
-						}
+//								
+//							}
+//							
+//						}
 						
 					}
 					

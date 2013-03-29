@@ -60,6 +60,10 @@ public class HomeResource extends BaseResource {
 		tx.begin();
 		try {
 			u = (User) em.createQuery("from User u where u.name =:usrname").setParameter("usrname", uname).getSingleResult();
+			if(u != null) {
+				AdaptApplication app = (AdaptApplication) getApplication();
+				app.getMainFrame().displayText("User " + u.getName() + " logged in from " + getRequest().getClientInfo().getAddress(), 0);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

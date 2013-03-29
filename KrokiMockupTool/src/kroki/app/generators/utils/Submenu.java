@@ -1,5 +1,9 @@
 package kroki.app.generators.utils;
 
+/**
+ * Class that represents menu item (JMenuItem for desktop or {@code<li>} HTML list item for web application)
+ * @author mrd
+ */
 public class Submenu {
 	
 	String activate;

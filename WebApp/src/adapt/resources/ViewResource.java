@@ -2,6 +2,7 @@ package adapt.resources;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -522,9 +523,10 @@ public class ViewResource extends Resource {
 								value = Boolean.parseBoolean(value.toString());
 							}else if (attr.getType().equals("java.util.Date")) {
 								SimpleDateFormat formatter = new SimpleDateFormat("dd.MMM.yyyy.", Locale.JAPAN);
-								value = (Date)formatter.parse(value.toString().replaceAll("\\p{Cntrl}", ""));
+								value = (Date)formatter.parse(value.toString().replaceAll("\\p{Cntrl}", "").replaceAll(",", "."));
+							}else if (attr.getType().equals("java.math.BigDecimal")) {
+								value = new BigDecimal(value.toString().replaceAll(",", "."));
 							}
-							
 							setter.invoke(o, value);
 						} catch (IllegalArgumentException e) {
 							e.printStackTrace();
