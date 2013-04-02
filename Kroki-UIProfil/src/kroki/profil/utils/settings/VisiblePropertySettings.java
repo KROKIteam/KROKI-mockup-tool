@@ -25,6 +25,7 @@ import javax.swing.text.Document;
 import kroki.intl.Intl;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.property.Persistent;
 import kroki.profil.property.VisibleProperty;
 import net.miginfocom.swing.MigLayout;
 
@@ -38,6 +39,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     protected JLabel columnLabelLb;
     protected JLabel displayFormatLb;
     protected JLabel representativeLb;
+    protected JLabel mandatoryLb;
     protected JLabel autoGoLb;
     protected JLabel disabledLb;
     protected JLabel defaultValueLb;
@@ -46,6 +48,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     protected JTextField displayFormatTf;
     protected JTextField defaultValueTf;
     protected JCheckBox representativeCb;
+    protected JCheckBox mandatoryCb;
     protected JCheckBox disabledCb;
     protected JCheckBox autoGoCb;
 
@@ -61,6 +64,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         columnLabelLb = new JLabel(Intl.getValue("visibleProperty.columnLabel"));
         displayFormatLb = new JLabel(Intl.getValue("visibleProperty.displayFormat"));
         representativeLb = new JLabel(Intl.getValue("visibleProperty.representative"));
+        mandatoryLb = new JLabel(Intl.getValue("visibleProperty.mandatory"));
         autoGoLb = new JLabel(Intl.getValue("visibleProperty.autoGo"));
         disabledLb = new JLabel(Intl.getValue("visibleProperty.disabled"));
         defaultValueLb = new JLabel(Intl.getValue("visibleProperty.defaultValue"));
@@ -74,6 +78,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         displayFormatTf = new JTextField(30);
         defaultValueTf = new JTextField(30);
         representativeCb = new JCheckBox();
+        mandatoryCb = new JCheckBox();
         autoGoCb = new JCheckBox();
         disabledCb = new JCheckBox();
     }
@@ -94,6 +99,8 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         intermediate.add(columnLabelTf);
         intermediate.add(displayFormatLb);
         intermediate.add(displayFormatTf);
+        intermediate.add(mandatoryLb);
+        intermediate.add(mandatoryCb);
         intermediate.add(representativeLb);
         intermediate.add(representativeCb);
         intermediate.add(autoGoLb);
@@ -209,6 +216,22 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             }
         });
 
+        mandatoryCb.addActionListener(new AbstractAction() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JCheckBox checkBox = (JCheckBox) e.getSource();
+				boolean value = checkBox.isSelected();
+				VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+				if(value) {
+					visibleProperty.setLower(1);
+				}else {
+					visibleProperty.setLower(0);
+				}
+				updatePreformed();
+			}
+		});
+        
         representativeCb.addActionListener(new AbstractAction() {
 
             public void actionPerformed(ActionEvent e) {
@@ -254,6 +277,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         columnLabelTf.setText(visibleProperty.getColumnLabel());
         displayFormatTf.setText(visibleProperty.getDisplayFormat());
         defaultValueTf.setText(visibleProperty.getDefaultValue());
+        mandatoryCb.setSelected(visibleProperty.lower() != 0);
         representativeCb.setSelected(visibleProperty.isRepresentative());
         autoGoCb.setSelected(visibleProperty.isAutoGo());
         disabledCb.setSelected(visibleProperty.isDisabled());
@@ -272,7 +296,11 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         	typelbl.setVisible(true);
         	typeCb.setVisible(true);
         }
-        
+        if(mandatoryCb.isSelected()) {
+        	visibleProperty.setLower(1);
+        }else {
+        	visibleProperty.setLower(0);
+        }
     }
 
     @Override

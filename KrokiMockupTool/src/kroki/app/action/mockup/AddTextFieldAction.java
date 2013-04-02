@@ -37,10 +37,7 @@ public class AddTextFieldAction extends AbstractAction {
     }
 
     public void actionPerformed(ActionEvent e) {
-        NamingUtil namer = new NamingUtil();
-    	
     	TabbedPaneController tabbedPaneController = KrokiMockupToolApp.getInstance().getTabbedPaneController();
-        Canvas currentCanvas = tabbedPaneController.getCurrentTabContent();
         tabbedPaneController.changeCursorImage(addEnabledIcon);
         tabbedPaneController.getContext().goNext(State.ADD_STATE);
 

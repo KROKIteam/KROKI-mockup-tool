@@ -34,7 +34,7 @@ public class ${class.name} implements java.io.Serializable {
 
 	<#if class.attributes?has_content>
 	<#list class.attributes as attr>
-	@Column(name = "${attr.databaseName}", unique = ${attr.unique?string}, nullable = false)
+	@Column(name = "${attr.databaseName}", unique = ${attr.unique?string}, nullable = ${attr.mandatory?string('false', 'true')})
 	private ${attr.type} ${attr.name};
 	
 	</#list>
@@ -43,7 +43,7 @@ public class ${class.name} implements java.io.Serializable {
 	<#if class.manyToOneAttributes?has_content>
 	<#list class.manyToOneAttributes as mattr>
 	@ManyToOne
-	@JoinColumn(name="${mattr.name}", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="${mattr.name}", referencedColumnName="ID",  nullable = ${mattr.mandatory?string('false', 'true')})
 	private ${mattr.type} ${mattr.name};
 	
 	</#list>

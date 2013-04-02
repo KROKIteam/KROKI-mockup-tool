@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 28.03.2013  12:21:09h
+   Creation date: 02.04.2013  15:17:20h
    **/
 
 @Entity
@@ -53,7 +53,7 @@ public class MyResource implements java.io.Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="user", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="user", referencedColumnName="ID",  nullable = false)
 	private User user;
 	
 	

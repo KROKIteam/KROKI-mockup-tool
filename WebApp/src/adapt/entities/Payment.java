@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 28.03.2013  12:21:09h
+   Creation date: 02.04.2013  15:17:20h
    **/
 
 @Entity
@@ -36,13 +36,13 @@ public class Payment implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "PAY_PAYMENT_METHOD", unique = false, nullable = false)
+	@Column(name = "PAY_PAYMENT_METHOD", unique = false, nullable = true)
 	private java.lang.String name;
 	
-	@Column(name = "PAY_DATE_RECIEVED", unique = false, nullable = false)
+	@Column(name = "PAY_DATE_RECIEVED", unique = false, nullable = true)
 	private java.util.Date dateRecieved;
 	
-	@Column(name = "PAY_AMOUNT_RECIEVED", unique = false, nullable = false)
+	@Column(name = "PAY_AMOUNT_RECIEVED", unique = false, nullable = true)
 	private java.math.BigDecimal amountRecieved;
 	
 	

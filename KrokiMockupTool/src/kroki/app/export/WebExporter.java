@@ -121,6 +121,7 @@ public class WebExporter {
 					attr.setName("name");
 				}
 				attr.setRepresentative(vp.isRepresentative());
+				attr.setMandatory(vp.lower() != 0);
 				attributes.add(attr);
 			}
 
@@ -133,6 +134,7 @@ public class WebExporter {
 				String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 
 				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
+				mto.setMandatory(z.lower() != 0);
 				mtoAttributes.add(mto);
 				}else {
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);

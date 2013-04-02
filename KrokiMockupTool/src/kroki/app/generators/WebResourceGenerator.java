@@ -120,7 +120,7 @@ public class WebResourceGenerator {
 						} 
 						
 						Boolean unique = false;
-						Boolean mandatory = true;
+						Boolean mandatory = prop.lower() != 0;
 						
 						//<Name>
 						Element attrNameTag = doc.createElement("Name");
@@ -193,7 +193,7 @@ public class WebResourceGenerator {
 						zoomElement.appendChild(zoomTypeTag);
 						
 						//<Mandatory>
-						Boolean zoomMandatory = true;
+						Boolean zoomMandatory = zoom.lower() != 0;
 						Element zoomMandatoryTag = doc.createElement("Mandatory");
 						zoomMandatoryTag.setTextContent(Boolean.toString(zoomMandatory));
 						zoomElement.appendChild(zoomMandatoryTag);

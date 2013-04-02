@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 28.03.2013  12:21:09h
+   Creation date: 02.04.2013  15:17:20h
    **/
 
 @Entity
@@ -36,19 +36,19 @@ public class PriceListItem implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "PLI_PRICE", unique = false, nullable = false)
+	@Column(name = "PLI_PRICE", unique = false, nullable = true)
 	private java.math.BigDecimal price;
 	
-	@Column(name = "PLI_TAX", unique = false, nullable = false)
+	@Column(name = "PLI_TAX", unique = false, nullable = true)
 	private java.math.BigDecimal tax;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="product", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="product", referencedColumnName="ID",  nullable = true)
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name="priceList", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="priceList", referencedColumnName="ID",  nullable = true)
 	private PriceList priceList;
 	
 	
