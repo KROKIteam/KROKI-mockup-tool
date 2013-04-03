@@ -208,7 +208,7 @@
 <Label>Name</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>description</Name>
@@ -216,7 +216,7 @@
 <Label>Description</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 </Attributes>
 <ManyToOneAttributes>
@@ -242,7 +242,7 @@
 <Label>Name</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>description</Name>
@@ -250,7 +250,7 @@
 <Label>Description</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 </Attributes>
 <ManyToOneAttributes>
@@ -259,7 +259,7 @@
 <DatabaseName>Category</DatabaseName>
 <Label>Category</Label>
 <Type>Category</Type>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </manyToOne>
 </ManyToOneAttributes>
 </resource>
@@ -276,7 +276,7 @@
 <Label>Payment method</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>dateRecieved</Name>
@@ -284,7 +284,7 @@
 <Label>Date Recieved</Label>
 <Type>java.util.Date</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>amountRecieved</Name>
@@ -292,7 +292,7 @@
 <Label>Amount recieved</Label>
 <Type>java.math.BigDecimal</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 </Attributes>
 </resource>
@@ -309,7 +309,7 @@
 <Label>Order number</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>orderDate</Name>
@@ -317,7 +317,7 @@
 <Label>Order date</Label>
 <Type>java.util.Date</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>shipmentAddress</Name>
@@ -325,7 +325,7 @@
 <Label>Shipment address</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>orderTotal</Name>
@@ -333,7 +333,7 @@
 <Label>Order total</Label>
 <Type>java.math.BigDecimal</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>orderStatus</Name>
@@ -341,7 +341,7 @@
 <Label>Order status</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 </Attributes>
 <ManyToOneAttributes>
@@ -350,14 +350,14 @@
 <DatabaseName>Customer</DatabaseName>
 <Label>Customer</Label>
 <Type>Customer</Type>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </manyToOne>
 <manyToOne>
 <Name>city</Name>
 <DatabaseName>City</DatabaseName>
 <Label>City</Label>
 <Type>City</Type>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </manyToOne>
 </ManyToOneAttributes>
 </resource>
@@ -374,7 +374,7 @@
 <Label>Ordered quantity</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>available</Name>
@@ -382,7 +382,7 @@
 <Label>Available</Label>
 <Type>java.lang.Boolean</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>unitPrice</Name>
@@ -390,7 +390,7 @@
 <Label>Unit price</Label>
 <Type>java.math.BigDecimal</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>unitTax</Name>
@@ -398,7 +398,7 @@
 <Label>Unit tax</Label>
 <Type>java.math.BigDecimal</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>value</Name>
@@ -406,7 +406,7 @@
 <Label>Value</Label>
 <Type>java.math.BigDecimal</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 </Attributes>
 <ManyToOneAttributes>
@@ -415,14 +415,14 @@
 <DatabaseName>Order</DatabaseName>
 <Label>Order</Label>
 <Type>Orders</Type>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </manyToOne>
 <manyToOne>
 <Name>product</Name>
 <DatabaseName>Product</DatabaseName>
 <Label>Product</Label>
 <Type>Product</Type>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </manyToOne>
 </ManyToOneAttributes>
 </resource>
@@ -439,7 +439,7 @@
 <Label>Invoice number</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>invoiceDate</Name>
@@ -447,7 +447,7 @@
 <Label>Invoice date</Label>
 <Type>java.util.Date</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>total</Name>
@@ -455,7 +455,7 @@
 <Label>Total</Label>
 <Type>java.math.BigDecimal</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 </Attributes>
 <ManyToOneAttributes>
@@ -464,7 +464,7 @@
 <DatabaseName>Order</DatabaseName>
 <Label>Order</Label>
 <Type>Orders</Type>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </manyToOne>
 </ManyToOneAttributes>
 </resource>
@@ -488,7 +488,7 @@
 <Label>Price list number</Label>
 <Type>java.lang.String</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 <attribute>
 <Name>activeFromDate</Name>
@@ -496,7 +496,7 @@
 <Label>Active from date</Label>
 <Type>java.util.Date</Type>
 <Unique>false</Unique>
-<Mandatory>false</Mandatory>
+<Mandatory>true</Mandatory>
 </attribute>
 </Attributes>
 </resource>

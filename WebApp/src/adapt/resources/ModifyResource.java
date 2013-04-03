@@ -96,6 +96,9 @@ public class ModifyResource extends BaseResource {
 							try {
 								entities = EntityCreator.getEntities(objs, "name");
 								Map<String, String> childMap = new TreeMap<String, String>();
+								if(!mattr.getMandatory()) {
+									childMap.put("null", "-- None --");
+								}
 								for(int j=0; j<entities.size(); j++) {
 									EntityClass ecl = entities.get(j);
 									String Id = EntityCreator.getEntityPropertyValue(ecl, "id");

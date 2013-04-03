@@ -54,6 +54,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.disabled = disabled;
         this.defaultValue = defaultValue;
         this.dataType = "String";
+        this.lower = 1;
     }
 
     public VisibleProperty(String label, boolean visible, ComponentType componentType, String columnLabel, String displayFormat, boolean representative, boolean autoGo, boolean disabled, String defaultValue) {
@@ -65,6 +66,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.disabled = disabled;
         this.defaultValue = defaultValue;
         this.dataType = "String";
+        this.lower = 1;
     }
 
     public VisibleProperty() {
@@ -73,6 +75,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 
     public VisibleProperty(String label, boolean visible, ComponentType componentType) {
         super(label, visible, componentType);
+        this.lower = 1;
     }
 
     @Override

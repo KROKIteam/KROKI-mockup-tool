@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 02.04.2013  15:17:20h
+   Creation date: 03.04.2013  10:04:06h
    **/
 
 @Entity
@@ -36,28 +36,28 @@ public class Orders implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "ORD_ORDER_NUMBER", unique = false, nullable = true)
+	@Column(name = "ORD_ORDER_NUMBER", unique = false, nullable = false)
 	private java.lang.String name;
 	
-	@Column(name = "ORD_ORDER_DATE", unique = false, nullable = true)
+	@Column(name = "ORD_ORDER_DATE", unique = false, nullable = false)
 	private java.util.Date orderDate;
 	
-	@Column(name = "ORD_SHIPMENT_ADDRESS", unique = false, nullable = true)
+	@Column(name = "ORD_SHIPMENT_ADDRESS", unique = false, nullable = false)
 	private java.lang.String shipmentAddress;
 	
-	@Column(name = "ORD_ORDER_TOTAL", unique = false, nullable = true)
+	@Column(name = "ORD_ORDER_TOTAL", unique = false, nullable = false)
 	private java.math.BigDecimal orderTotal;
 	
-	@Column(name = "ORD_ORDER_STATUS", unique = false, nullable = true)
+	@Column(name = "ORD_ORDER_STATUS", unique = false, nullable = false)
 	private java.lang.String orderStatus;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="customer", referencedColumnName="ID",  nullable = true)
+	@JoinColumn(name="customer", referencedColumnName="ID",  nullable = false)
 	private Customer customer;
 	
 	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
+	@JoinColumn(name="city", referencedColumnName="ID",  nullable = false)
 	private City city;
 	
 	

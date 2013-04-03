@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 02.04.2013  15:17:20h
+   Creation date: 03.04.2013  10:04:06h
    **/
 
 @Entity
@@ -36,10 +36,10 @@ public class Category implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "CAT_NAME", unique = false, nullable = true)
+	@Column(name = "CAT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
 	
-	@Column(name = "CAT_DESCRIPTION", unique = false, nullable = true)
+	@Column(name = "CAT_DESCRIPTION", unique = false, nullable = false)
 	private java.lang.String description;
 	
 	

@@ -82,7 +82,10 @@ public class AddResource extends BaseResource {
 			ArrayList<EntityClass> entities;
 			try {
 				entities = EntityCreator.getEntities(objects, "name");
-				Map<String, String> childMap = new TreeMap<String, String>();
+				Map<String, String> childMap = new LinkedHashMap<String, String>();
+				if(!mattr.getMandatory()) {
+					childMap.put("null", "-- None --");
+				}
 				for(int j=0; j<entities.size(); j++) {
 					EntityClass ecl = entities.get(j);
 					String Id = EntityCreator.getEntityPropertyValue(ecl, "id");

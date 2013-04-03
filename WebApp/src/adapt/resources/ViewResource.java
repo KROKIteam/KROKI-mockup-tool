@@ -466,7 +466,11 @@ public class ViewResource extends Resource {
 					EntityTransaction tx = e.getTransaction();
 					tx.begin();
 					String q = "FROM " + mattr.getType() + " o WHERE o.id=:oid";
-					Object o = e.createQuery(q).setParameter("oid", Long.parseLong(pairs.getValue().toString())).getSingleResult();
+					Object o = null;
+					if(!pairs.getValue().toString().equals("null")) {
+						o = e.createQuery(q).setParameter("oid", Long.parseLong(pairs.getValue().toString())).getSingleResult();
+					}
+					
 					tx.commit();
 					values.add(o);
 				}
