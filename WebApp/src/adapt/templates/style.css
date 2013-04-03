@@ -28,7 +28,8 @@ div#leftpane {
 	float:left;	
 	overflow:auto;
 	width:790px;
-	height:100%;
+	height:100%;	
+	text-align:center;
 }
 
 div#footer {
@@ -157,6 +158,7 @@ table.tables{
     background-color: #FFFFFF;
     border-spacing:0;
     border-collapse:collapse;
+     margin: 0 auto;
     table-layout:fixed;
 }
 

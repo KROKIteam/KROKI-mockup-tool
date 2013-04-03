@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.04.2013  10:04:06h
+   Creation date: 03.04.2013  11:12:58h
    **/
 
 @Entity
@@ -37,7 +37,7 @@ public class Customer implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "CUS_FIRST_NAME", unique = false, nullable = false)
-	private java.lang.String name;
+	private java.lang.String firstName;
 	
 	@Column(name = "CUS_LAST_NAME", unique = false, nullable = false)
 	private java.lang.String lastName;
@@ -65,12 +65,12 @@ public class Customer implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getName() {
-		return this.name;
+	public java.lang.String getFirstName() {
+		return this.firstName;
 	}
 	
-	public void setName(java.lang.String name) {
-		this.name = name;
+	public void setFirstName(java.lang.String firstName) {
+		this.firstName = firstName;
 	}
 	
 	public java.lang.String getLastName() {

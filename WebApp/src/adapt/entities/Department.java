@@ -22,7 +22,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.04.2013  10:04:06h
+   Creation date: 03.04.2013  11:12:58h
    **/
 
 @Entity
@@ -37,7 +37,7 @@ public class Department implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "DEP_DEPARTMENT_NAME", unique = false, nullable = false)
-	private java.lang.String name;
+	private java.lang.String departmentName;
 	
 	@Column(name = "DEP_DEPARTMENT_ADDRESS", unique = false, nullable = false)
 	private java.lang.String departmentAddress;
@@ -59,12 +59,12 @@ public class Department implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getName() {
-		return this.name;
+	public java.lang.String getDepartmentName() {
+		return this.departmentName;
 	}
 	
-	public void setName(java.lang.String name) {
-		this.name = name;
+	public void setDepartmentName(java.lang.String departmentName) {
+		this.departmentName = departmentName;
 	}
 	
 	public java.lang.String getDepartmentAddress() {

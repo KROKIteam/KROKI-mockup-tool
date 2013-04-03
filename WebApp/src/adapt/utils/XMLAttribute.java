@@ -8,9 +8,10 @@ public class XMLAttribute {
 	private String type;
 	private Boolean unique;
 	private Boolean mandatory;
+	private Boolean representative;
 	
 	public XMLAttribute(String name, String databaseName, String label,
-			String type, Boolean unique, Boolean mandatory) {
+			String type, Boolean unique, Boolean mandatory, Boolean representative) {
 		super();
 		this.name = name;
 		this.databaseName = databaseName;
@@ -18,6 +19,7 @@ public class XMLAttribute {
 		this.type = type;
 		this.unique = unique;
 		this.mandatory = mandatory;
+		this.representative = representative;
 	}
 
 	public String getName() {
@@ -66,5 +68,13 @@ public class XMLAttribute {
 
 	public void setMandatory(Boolean mandatory) {
 		this.mandatory = mandatory;
+	}
+
+	public Boolean getRepresentative() {
+		return representative;
+	}
+
+	public void setRepresentative(Boolean representative) {
+		this.representative = representative;
 	}
 }

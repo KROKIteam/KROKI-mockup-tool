@@ -239,6 +239,7 @@ public class AdaptApplication extends Application {
 					NodeList nType = e.getElementsByTagName("Type");
 					NodeList nUnique = e.getElementsByTagName("Unique");
 					NodeList nMandatory = e.getElementsByTagName("Mandatory");
+					NodeList nRepresentative = e.getElementsByTagName("Representative");
 					
 					String aName = XMLParser.getCharacterDataFromElement((Element)nAName.item(0));
 					String DBName = XMLParser.getCharacterDataFromElement((Element)nDBName.item(0));
@@ -246,8 +247,9 @@ public class AdaptApplication extends Application {
 					String label = XMLParser.getCharacterDataFromElement((Element)nnLabel.item(0));
 					Boolean unique = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element)nUnique.item(0)));
 					Boolean mandatory = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element)nMandatory.item(0)));
+					Boolean representative = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element)nRepresentative.item(0)));
 					
-					XMLAttribute attr = new XMLAttribute(aName, DBName, label, type, unique, mandatory);
+					XMLAttribute attr = new XMLAttribute(aName, DBName, label, type, unique, mandatory, representative);
 					attributes.add(attr);
 				}
 			}

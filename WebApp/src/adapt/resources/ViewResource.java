@@ -46,6 +46,7 @@ public class ViewResource extends Resource {
 	Map<String, Object> dataModel = new TreeMap<String, Object>();
 	XMLResource resource;
 	XMLResource childResource;
+	EntityCreator creator;
 	
 	public ViewResource(Context context, Request request, Response response) {
 		super(context, request, response);
@@ -83,6 +84,8 @@ public class ViewResource extends Resource {
 			String cresName = (String)getRequest().getAttributes().get("cresName");
 			String mcresName = (String)getRequest().getAttributes().get("mcresName");
 			String mtmResName = (String)getRequest().getAttributes().get("mtmResName");
+			
+			creator = new EntityCreator(application);
 			
 			if(resName != null) {
 				resource = application.getXMLResource(resName);
@@ -279,26 +282,28 @@ public class ViewResource extends Resource {
 					//objekte koje nam vrati upit pomocu klase EntityCreator
 					//pretvorimo u objekte klase EntityClass
 					//i smestimo u data model
-					entities = EntityCreator.getEntities(ress, "name");
+					System.out.println("Trazim za resurs " + resource.getName());
+					entities = creator.getEntities(ress);
 					if(!entities.isEmpty()) {
 						dataModel.put("entities", entities);
 					}else {
 						dataModel.put("msg", "No entries in the database for requested resource!");
 					}
 				} catch (NoSuchFieldException e) {
-					try {
-						//ako klasa nema name polje, ispisuje se ID
-						entities = EntityCreator.getEntities(ress, "id");
-						System.err.println("[INFO]Klasa nema 'name' polje, ispisujem ID");
-						if(!entities.isEmpty()) {
-							dataModel.put("entities", entities);
-						}else {
-							dataModel.put("msg", "No entries in the database for requested resource!");
-						}
-					} catch (NoSuchFieldException e1) {
-						//ovo ne bi trebalo nikada da se desi
-						System.err.println("[ERROR]Klasa nema ID polje :(");
-					}
+//					try {
+//						//ako klasa nema name polje, ispisuje se ID
+//						entities = EntityCreator.getEntities(ress, "id");
+//						System.err.println("[INFO]Klasa nema 'name' polje, ispisujem ID");
+//						if(!entities.isEmpty()) {
+//							dataModel.put("entities", entities);
+//						}else {
+//							dataModel.put("msg", "No entries in the database for requested resource!");
+//						}
+//					} catch (NoSuchFieldException e1) {
+//						//ovo ne bi trebalo nikada da se desi
+//						System.err.println("[ERROR]Klasa nema ID polje :(");
+//					}
+					e.printStackTrace();
 				}
 			}
 		}
@@ -312,20 +317,16 @@ public class ViewResource extends Resource {
 		if(childResource != null) {
 			for(int i=0; i<childResource.getManyToOneAttributes().size(); i++) {
 				XMLManyToOneAttribute mattr = childResource.getManyToOneAttributes().get(i);
+				XMLResource childRes = application.getXMLResource(mattr.getType());
 				if(mattr.getType().equals(resource.getName())) {
 					String q = "FROM " + child + " o WHERE o." + mattr.getName() + ".id = " + id;
 					Query query = em.createQuery(q);
 					ArrayList<Object> objs = (ArrayList<Object>) query.getResultList();
 					try {
-						ArrayList<EntityClass> childEntities = EntityCreator.getEntities(objs, "name");
+						ArrayList<EntityClass> childEntities = creator.getEntities(objs);
 						dataModel.put("childEntities", childEntities);
 					} catch (NoSuchFieldException e) {
-						try {
-							ArrayList<EntityClass> childEntities = EntityCreator.getEntities(objs, "id");
-							dataModel.put("childEntities", childEntities);
-						} catch (NoSuchFieldException e1) {
-							e1.printStackTrace();
-						}
+						e.printStackTrace();
 					}
 				}
 			}
@@ -345,15 +346,16 @@ public class ViewResource extends Resource {
 						ArrayList<Object> objs =  new ArrayList<Object>((Collection<Object>) get.invoke(rObj));
 						System.out.println("objekata: " + objs.size());
 						try {
-							ArrayList<EntityClass> childEntities = EntityCreator.getEntities(objs, "name");
+							ArrayList<EntityClass> childEntities = creator.getEntities(objs);
 							dataModel.put("childEntities", childEntities);
 						} catch (NoSuchFieldException e) {
-							try {
-								ArrayList<EntityClass> childEntities = EntityCreator.getEntities(objs, "id");
-								dataModel.put("childEntities", childEntities);
-							} catch (NoSuchFieldException e1) {
-								e1.printStackTrace();
-							}
+//							try {
+//								ArrayList<EntityClass> childEntities = EntityCreator.getEntities(objs, "id");
+//								dataModel.put("childEntities", childEntities);
+//							} catch (NoSuchFieldException e1) {
+//								e1.printStackTrace();
+//							}
+							e.printStackTrace();
 						}
 					} catch (ClassNotFoundException e) {
 						e.printStackTrace();
@@ -405,7 +407,7 @@ public class ViewResource extends Resource {
 				Method get = rClass.getDeclaredMethod(getName);
 				get.setAccessible(true);
 				ArrayList<Object> objs =  new ArrayList<Object>((Collection<Object>) get.invoke(rObj));
-				ArrayList<EntityClass> ents = EntityCreator.getEntities(objs, "name");
+				ArrayList<EntityClass> ents = creator.getEntities(objs);
 				dataModel.put("mtmchildEntities", ents);
 				ArrayList<String> childFormHeaders = new ArrayList<String>();
 				childFormHeaders.add("ID");

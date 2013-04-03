@@ -100,12 +100,6 @@ public class WebResourceGenerator {
 						attributesTag.appendChild(attributeTag);
 						
 						String attrName = cc.toCamelCase(prop.name(), true);
-						//ako je atribut reprezentativan, onda treba da se zove "name" da bi radio Adapt
-						//TODO treba da bude samo 1 name atribut
-						if(prop.isRepresentative()) {
-							attrName = "name";
-						}
-						
 						String attrLabel = prop.getLabel();
 						
 						String type = "java.lang.String";
@@ -121,6 +115,7 @@ public class WebResourceGenerator {
 						
 						Boolean unique = false;
 						Boolean mandatory = prop.lower() != 0;
+						Boolean representative = prop.isRepresentative();
 						
 						//<Name>
 						Element attrNameTag = doc.createElement("Name");
@@ -152,6 +147,9 @@ public class WebResourceGenerator {
 						attrMandatoryTag.setTextContent(Boolean.toString(mandatory));
 						attributeTag.appendChild(attrMandatoryTag);
 						
+						Element attrRepresentativeTag = doc.createElement("Representative");
+						attrRepresentativeTag.setTextContent(Boolean.toString(representative));
+						attributeTag.appendChild(attrRepresentativeTag);
 						//System.out.println("\t[ATTRIBUTE] \n\t\tName: " + attrName + "\n\t\tLabel: " + attrLabel + "\n\t\tType: " + type + "\n\t\tUnique: " + unique + "\n\t \tMandatory: " + mandatory);
 					}
 				}
@@ -197,7 +195,6 @@ public class WebResourceGenerator {
 						Element zoomMandatoryTag = doc.createElement("Mandatory");
 						zoomMandatoryTag.setTextContent(Boolean.toString(zoomMandatory));
 						zoomElement.appendChild(zoomMandatoryTag);
-						
 						
 //						treba naci <resource> tag sa imenom  koje je isto kao i <Type> tag i dodati mu parent-child formu u listu formi
 //						for(int l=0; l<doc.getChildNodes().getLength(); l++) {

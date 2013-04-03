@@ -7,8 +7,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import org.h2.constant.SysProperties;
+
+import adapt.application.AdaptApplication;
+
 public class EntityCreator {
 
+	private AdaptApplication application;
+	
+	public EntityCreator(AdaptApplication application) {
+		this.application = application;
+	}
+	
 	/**
 	 * Na osnovu liste objekata iz baze podataka kreira listu EntityClass objekata.
 	 * @param objects lista objekata dobijena upitom u bazu, moze biti lista objekata bilo koje klase
@@ -16,7 +26,7 @@ public class EntityCreator {
 	 * @throws NoSuchFieldException 
 	 */
 	@SuppressWarnings("rawtypes")
-	public static ArrayList<EntityClass> getEntities(ArrayList<Object> objects, String field) throws NoSuchFieldException {
+	public ArrayList<EntityClass> getEntities(ArrayList<Object> objects) throws NoSuchFieldException {
 		ArrayList<EntityClass> entities = new ArrayList<EntityClass>();
 		if(!objects.isEmpty()) {
 			for(int i=0; i<objects.size(); i++) {
@@ -45,23 +55,26 @@ public class EntityCreator {
 								if(!value.getClass().getSimpleName().equals("PersistentBag")) {
 									if(!fname.equals("serialVersionUID")) {
 										//ako ima referenca na neku drugu klasu
-										//treba dovuci ime
+										//treba dovuci representativna obelezja
 										if (value.toString().startsWith("adapt")) {
-											Class cl = Class.forName(value.getClass().getName());
-											Field f = cl.getDeclaredField(field);
-											f.setAccessible(true);
-											String n = f.get(value).toString();
-											EntityProperty pr = new EntityProperty(fname, n);
+											XMLResource ress = application.getXMLResource(value.getClass().getSimpleName());
+											String values = "";
+											for (XMLAttribute xmlAttribute : ress.getRepresentativeAttributes()) {
+												Field f = value.getClass().getDeclaredField(xmlAttribute.getName());
+												f.setAccessible(true);
+												values += f.get(value).toString() + ", ";
+											}
+											EntityProperty pr = new EntityProperty(fname, values.substring(0, values.length()-2));
 											entity.getProperties().add(pr);
 											//ako je Boolean, pretvorim u da ili ne
 										} else if (value.getClass().getSimpleName().equals("Boolean")) {
 											if (value.toString().equals("true")) {
 												EntityProperty pr = new EntityProperty(
-														fname, "DA");
+														fname, "YES");
 												entity.getProperties().add(pr);
 											} else {
 												EntityProperty pr = new EntityProperty(
-														fname, "NE");
+														fname, "NO");
 												entity.getProperties().add(pr);
 											}
 											//ako je Date, formatiram ga lepo
@@ -83,8 +96,6 @@ public class EntityCreator {
 						e.printStackTrace();
 					} catch (SecurityException e) {
 						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
@@ -101,7 +112,7 @@ public class EntityCreator {
 	 * @param name ime atributa cija se vrednost trazi
 	 * @return String vrednost trazenog atributa ili null ukoliko atribut sa trazenim imenom ne postoji
 	 */
-	public static String getEntityPropertyValue(EntityClass entity, String name) {
+	public String getEntityPropertyValue(EntityClass entity, String name) {
 		String val = null;
 		for(int i=0; i<entity.getProperties().size(); i++) {
 			EntityProperty prop = entity.getProperties().get(i);

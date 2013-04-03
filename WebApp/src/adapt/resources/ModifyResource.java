@@ -29,6 +29,7 @@ public class ModifyResource extends BaseResource {
 
 	Map<String, Object> dataModel = new TreeMap<String, Object>();
 	XMLResource resource;
+	EntityCreator creator;
 	
 	public ModifyResource(Context context, Request request, Response response) {
 		super(context, request, response);
@@ -46,6 +47,8 @@ public class ModifyResource extends BaseResource {
 	public void handleGet() {
 		String resName = (String)getRequest().getAttributes().get("aresName");
 		String modId = (String)getRequest().getAttributes().get("mid");
+		AdaptApplication application = (AdaptApplication) getApplication();
+		creator = new EntityCreator(application);
 		if(resName != null &&  modId != null) {
 			AdaptApplication app = (AdaptApplication) getApplication();
 			resource = app.getXMLResource(resName);
@@ -60,13 +63,14 @@ public class ModifyResource extends BaseResource {
 			obejcts.add(o);
 			EntityClass entity = null;
 			try {
-				entity = EntityCreator.getEntities(obejcts, "name").get(0);
+				entity = creator.getEntities(obejcts).get(0);
 			} catch (NoSuchFieldException e) {
-				try {
-					entity = EntityCreator.getEntities(obejcts, "id").get(0);
-				} catch (NoSuchFieldException e1) {
-					e1.printStackTrace();
-				}
+//				try {
+//					entity = EntityCreator.getEntities(obejcts, "id").get(0);
+//				} catch (NoSuchFieldException e1) {
+//					e1.printStackTrace();
+//				}
+				e.printStackTrace();
 			}
 			if(entity != null) {
 				//za obicne atribute kreiramo liste sa labelama i vrednostima
@@ -94,33 +98,34 @@ public class ModifyResource extends BaseResource {
 							ArrayList<Object> objs = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList(); 
 							ArrayList<EntityClass> entities;
 							try {
-								entities = EntityCreator.getEntities(objs, "name");
+								entities = creator.getEntities(objs);
 								Map<String, String> childMap = new TreeMap<String, String>();
 								if(!mattr.getMandatory()) {
 									childMap.put("null", "-- None --");
 								}
 								for(int j=0; j<entities.size(); j++) {
 									EntityClass ecl = entities.get(j);
-									String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-									String name = EntityCreator.getEntityPropertyValue(ecl, "name");
+									String Id = creator.getEntityPropertyValue(ecl, "id");
+									String name = creator.getEntityPropertyValue(ecl, "name");
 									//objekte iz baze pretvorimo u EntityClass objekte
 									//i spremimo u mapu sa vrednostima za combo box
 									childMap.put(Id, name);
 								}
 								childFormMap.put(mattr.getLabel(), childMap);
 							} catch (NoSuchFieldException e) {
-								try {
-									entities = EntityCreator.getEntities(objs, "id");
-									Map<String, String> childMap = new TreeMap<String, String>();
-									for(int j=0; j<entities.size(); j++) {
-										EntityClass ecl = entities.get(j);
-										String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-										childMap.put(Id, Id);
-									}
-									childFormMap.put(mattr.getLabel(), childMap);
-								} catch (NoSuchFieldException e1) {
-									e1.printStackTrace();
-								}
+//								try {
+//									entities = EntityCreator.getEntities(objs, "id");
+//									Map<String, String> childMap = new TreeMap<String, String>();
+//									for(int j=0; j<entities.size(); j++) {
+//										EntityClass ecl = entities.get(j);
+//										String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
+//										childMap.put(Id, Id);
+//									}
+//									childFormMap.put(mattr.getLabel(), childMap);
+//								} catch (NoSuchFieldException e1) {
+//									e1.printStackTrace();
+//								}
+								e.printStackTrace();
 							}
 							t.commit();
 						}
@@ -130,7 +135,7 @@ public class ModifyResource extends BaseResource {
 				dataModel.put("attributeLabels", attributeLabels);
 				dataModel.put("attributeValues", attributeValues);
 				dataModel.put("childFormMap", childFormMap);
-				dataModel.put("modid", EntityCreator.getEntityPropertyValue(entity, "id"));
+				dataModel.put("modid", creator.getEntityPropertyValue(entity, "id"));
 				
 			}
 			em.close();

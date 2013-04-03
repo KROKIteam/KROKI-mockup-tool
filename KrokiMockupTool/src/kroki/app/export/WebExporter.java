@@ -117,9 +117,6 @@ public class WebExporter {
 
 
 				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative());
-				if(vp.isRepresentative()) {
-					attr.setName("name");
-				}
 				attr.setRepresentative(vp.isRepresentative());
 				attr.setMandatory(vp.lower() != 0);
 				attributes.add(attr);

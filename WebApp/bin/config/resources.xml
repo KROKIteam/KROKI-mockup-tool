@@ -13,6 +13,7 @@
 				<Type>String</Type>
 				<Unique>true</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>true</Representative>
 			</attribute>
 			<attribute>
 				<Name>link</Name>
@@ -21,6 +22,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 			<attribute>
 				<Name>imagePath</Name>
@@ -29,6 +31,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 			<attribute>
 				<Name>type</Name>
@@ -37,6 +40,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 			<attribute>
 				<Name>tip</Name>
@@ -45,6 +49,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>false</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 		</Attributes>
 	</resource>
@@ -62,6 +67,7 @@
 				<Type>String</Type>
 				<Unique>true</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>true</Representative>
 			</attribute>
 			<attribute>
 				<Name>link</Name>
@@ -70,6 +76,7 @@
 				<Type>String</Type>
 				<Unique>true</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 		</Attributes>
 	</resource>
@@ -81,12 +88,13 @@
 		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
-				<Name>name</Name>
+				<Name>username</Name>
 				<DatabaseName>US_USERNAME</DatabaseName>
 				<Label>Korisni&#269;ko ime</Label>
 				<Type>String</Type>
 				<Unique>true</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>true</Representative>
 			</attribute>
 			<attribute>
 				<Name>password</Name>
@@ -95,6 +103,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 		</Attributes>
 		<OneToManyAttributes>
@@ -120,6 +129,7 @@
 				<Type>Boolean</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 		</Attributes>
 		<ManyToOneAttributes>
@@ -160,6 +170,7 @@
 				<Type>Long</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 			<attribute>
 				<Name>table</Name>
@@ -168,6 +179,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>true</Representative>
 			</attribute>
 			<attribute>
 				<Name>entLabel</Name>
@@ -176,6 +188,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>true</Representative>
 			</attribute>
 			<attribute>
 				<Name>tableLabel</Name>
@@ -184,6 +197,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>falsev</Representative>
 			</attribute>
 			<attribute>
 				<Name>resLink</Name>
@@ -192,6 +206,7 @@
 				<Type>String</Type>
 				<Unique>false</Unique>
 				<Mandatory>true</Mandatory>
+				<Representative>false</Representative>
 			</attribute>
 		</Attributes>
 		<ManyToOneAttributes>

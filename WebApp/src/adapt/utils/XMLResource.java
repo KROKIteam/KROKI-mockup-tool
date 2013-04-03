@@ -31,6 +31,18 @@ public class XMLResource {
 		this.manyToManyAttributes = manyToManyAttributes;
 	}
 
+	public ArrayList<XMLAttribute> getRepresentativeAttributes() {
+		ArrayList<XMLAttribute> repAttributes = new ArrayList<XMLAttribute>();
+		
+		for (XMLAttribute attribute : attributes) {
+			if(attribute.getRepresentative()) {
+				repAttributes.add(attribute);
+			}
+		}
+		
+		return repAttributes;
+	}
+	
 	public String getName() {
 		return name;
 	}

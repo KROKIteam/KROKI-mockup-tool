@@ -32,6 +32,7 @@ public class AddResource extends BaseResource {
 
 	Map<String, Object> dataModel = new TreeMap<String, Object>();
 	XMLResource resource;
+	EntityCreator creator;
 	
 	public AddResource(Context context, Request request, Response response) {
 		super(context, request, response);
@@ -49,6 +50,8 @@ public class AddResource extends BaseResource {
 	public void handleGet() {
 		String resName = (String)getRequest().getAttributes().get("aresName");
 		String amtmresName = (String)getRequest().getAttributes().get("amtmresName");
+		AdaptApplication app = (AdaptApplication) getApplication();
+		creator = new EntityCreator(app);
 		//obicno dodavanje
 		if(resName != null) {
 			prepareAdd(resName);
@@ -78,34 +81,43 @@ public class AddResource extends BaseResource {
 		//svaki child atribut pokupim iz baze i pretvorim u EntityClass objekat
 		for(int i=0; i<resource.getManyToOneAttributes().size(); i++) {
 			XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(i);
+			XMLResource ress = app.getXMLResource(mattr.getType());
 			ArrayList<Object> objects = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList();
 			ArrayList<EntityClass> entities;
 			try {
-				entities = EntityCreator.getEntities(objects, "name");
+				entities = creator.getEntities(objects);
 				Map<String, String> childMap = new LinkedHashMap<String, String>();
 				if(!mattr.getMandatory()) {
 					childMap.put("null", "-- None --");
 				}
 				for(int j=0; j<entities.size(); j++) {
 					EntityClass ecl = entities.get(j);
-					String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-					String name = EntityCreator.getEntityPropertyValue(ecl, "name");
+					String Id = creator.getEntityPropertyValue(ecl, "id");
+					String name = "";
+					
+					for (XMLAttribute attr : ress.getRepresentativeAttributes()) {
+						name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
+					}
+					
+					name = name.substring(0, name.length()-2);
+					
 					childMap.put(Id, name);
 				}
 				childFormMap.put(mattr.getLabel(), childMap);
 			} catch (NoSuchFieldException e) {
-				try {
-					entities = EntityCreator.getEntities(objects, "id");
-					Map<String, String> childMap = new TreeMap<String, String>();
-					for(int j=0; j<entities.size(); j++) {
-						EntityClass ecl = entities.get(j);
-						String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-						childMap.put(Id, Id);
-					}
-					childFormMap.put(mattr.getLabel(), childMap);
-				} catch (NoSuchFieldException e1) {
-					e1.printStackTrace();
-				}
+//				try {
+//					entities = EntityCreator.getEntities(objects, "id");
+//					Map<String, String> childMap = new TreeMap<String, String>();
+//					for(int j=0; j<entities.size(); j++) {
+//						EntityClass ecl = entities.get(j);
+//						String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
+//						childMap.put(Id, Id);
+//					}
+//					childFormMap.put(mattr.getLabel(), childMap);
+//				} catch (NoSuchFieldException e1) {
+//					e1.printStackTrace();
+//				}
+				e.printStackTrace();
 			}
 		}
 		tx.commit();
@@ -153,9 +165,9 @@ public class AddResource extends BaseResource {
 				//napravimo presek liste svih entiteta i liste vec dodatih
 				//kako bi dobili listu samo onih entiteta koji jos nisu dodati
 				childern.removeAll(objs);
-				ArrayList<EntityClass> chEnt = EntityCreator.getEntities(childern, "name");
+				ArrayList<EntityClass> chEnt = creator.getEntities(childern);
 				dataModel.put("childern", chEnt);//spisak za combo box
-				ArrayList<EntityClass> ents = EntityCreator.getEntities(objs, "name");
+				ArrayList<EntityClass> ents = creator.getEntities(objs);
 				dataModel.put("mtmchildEntities", ents);//spisak za 'Vec u...' tabelu
 				ArrayList<String> childFormHeaders = new ArrayList<String>();
 				childFormHeaders.add("ID");
