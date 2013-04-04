@@ -1,5 +1,5 @@
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 03.04.2013  11:12 -->
+<!-- Creation time and date: 04.04.2013  14:40 -->
 
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
    <persistence-unit name="adapt" transaction-type="RESOURCE_LOCAL">

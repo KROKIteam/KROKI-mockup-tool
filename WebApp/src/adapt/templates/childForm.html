@@ -11,13 +11,9 @@
 							</select>
 							for
 							<select name="selectChild">
-							<#if entities??>
-								<#list entities as ent>
-								<#if ent.properties[1].name == "name">
-									<option value="${ent.properties[0].value}">${ent.properties[1].value}</option>
-								<#elseif ent.properties[1].name == "id">
-									<option value="${ent.properties[0].value}">${ent.properties[0].value}</option>
-								</#if>
+							<#if childMap??>
+								<#list childMap?keys as id>
+								<option value="${id}">${childMap[id]}</option>
 								</#list>
 							</#if>
 							</select>
@@ -38,7 +34,7 @@
 					</table>
 					<#if childEntities??>
 					<#if childEntities?has_content>
-					<table class="tables" align='center' id='datatable'> 
+					<table class="tables" align='center' id='childTable'> 
 						<thead>
 							<tr>
 							<#list childFormHeaders as header>

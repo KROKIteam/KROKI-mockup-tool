@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -285,7 +286,25 @@ public class ViewResource extends Resource {
 					System.out.println("Trazim za resurs " + resource.getName());
 					entities = creator.getEntities(ress);
 					if(!entities.isEmpty()) {
+						Map<String, String> childMap = new LinkedHashMap<String, String>();
+						
+						for(int j=0; j<entities.size(); j++) {
+							EntityClass ecl = entities.get(j);
+							String Id = creator.getEntityPropertyValue(ecl, "id");
+							String name = "";
+							
+							for (XMLAttribute attr : resource.getRepresentativeAttributes()) {
+								name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
+							}
+							
+							name = name.substring(0, name.length()-2);
+							
+							childMap.put(Id, name);
+						}
+						
 						dataModel.put("entities", entities);
+						dataModel.put("childMap", childMap);
+						
 					}else {
 						dataModel.put("msg", "No entries in the database for requested resource!");
 					}

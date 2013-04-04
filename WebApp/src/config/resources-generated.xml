@@ -5,7 +5,7 @@
 		<Label>State</Label>
 		<Link>/resources/State</Link>
 		<Routed>true</Routed>
-		<Forms>StandardForm</Forms>
+		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
 				<Name>name</Name>
@@ -23,7 +23,7 @@
 		<Label>City</Label>
 		<Link>/resources/City</Link>
 		<Routed>true</Routed>
-		<Forms>StandardForm</Forms>
+		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
 				<Name>zipCode</Name>
@@ -131,7 +131,7 @@
 		<Label>Customer</Label>
 		<Link>/resources/Customer</Link>
 		<Routed>true</Routed>
-		<Forms>StandardForm</Forms>
+		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
 				<Name>firstName</Name>
@@ -212,7 +212,7 @@
 		<Label>Category</Label>
 		<Link>/resources/Category</Link>
 		<Routed>true</Routed>
-		<Forms>StandardForm</Forms>
+		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
 				<Name>name</Name>
@@ -248,7 +248,7 @@
 		<Label>Product</Label>
 		<Link>/resources/Product</Link>
 		<Routed>true</Routed>
-		<Forms>StandardForm</Forms>
+		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
 				<Name>name</Name>
@@ -320,7 +320,7 @@
 		<Label>Orders</Label>
 		<Link>/resources/Orders</Link>
 		<Routed>true</Routed>
-		<Forms>StandardForm</Forms>
+		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
 				<Name>orderNumber</Name>
@@ -512,7 +512,7 @@
 		<Label>Price list</Label>
 		<Link>/resources/PriceList</Link>
 		<Routed>true</Routed>
-		<Forms>StandardForm</Forms>
+		<Forms>StandardForm,ParentChildForm</Forms>
 		<Attributes>
 			<attribute>
 				<Name>priceListNumber</Name>

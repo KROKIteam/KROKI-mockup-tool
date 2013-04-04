@@ -153,6 +153,15 @@ div#indexrightpane {
 
 /*tabele*/
 
+table.dataTables {
+	width:500px;
+    background-color: #FFFFFF;
+    border-spacing:0;
+    border-collapse:collapse;
+    margin-left:27%;
+    table-layout:fixed;
+}
+
 table.tables{
     width:500px;
     background-color: #FFFFFF;
@@ -185,6 +194,17 @@ td.actcell {
 }
 
 table.tables th{
+    overflow:hidden;
+    border:1px solid black;
+	background-color: #000000;
+	color: white;
+    font-size:10pt;
+    text-align:center;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+table.dataTables th{
     overflow:hidden;
     border:1px solid black;
 	background-color: #000000;
