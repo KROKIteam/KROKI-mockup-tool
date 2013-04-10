@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -45,6 +47,10 @@ public class Payment implements java.io.Serializable {
 	@Column(name = "PAY_AMOUNT_RECIEVED", unique = false, nullable = false)
 	private java.math.BigDecimal amountRecieved;
 	
+	
+	@ManyToOne
+	@JoinColumn(name="order", referencedColumnName="ID",  nullable = true)
+	private Order order;
 	
 	
 	public Payment(){
@@ -80,6 +86,14 @@ public class Payment implements java.io.Serializable {
 	
 	public void setAmountRecieved(java.math.BigDecimal amountRecieved) {
 		this.amountRecieved = amountRecieved;
+	}
+	
+	public Order getOrder() {
+		return this.order;
+	}
+	
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 	
 }

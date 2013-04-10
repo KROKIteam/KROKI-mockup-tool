@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -36,23 +38,20 @@ public class City implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "CIT_ZIP_CODE", unique = false, nullable = false)
-	private java.lang.String zipCode;
-	
 	@Column(name = "CIT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
 	
+	@Column(name = "CIT_ZIP_CODE", unique = false, nullable = false)
+	private java.lang.String zipCode;
+	
 	
 	@ManyToOne
-	@JoinColumn(name="state", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="state", referencedColumnName="ID",  nullable = true)
 	private State state;
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
 	private Set<Enterprise> EnterpriseSet = new HashSet<Enterprise>();
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Department> DepartmentSet = new HashSet<Department>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
 	private Set<Customer> CustomerSet = new HashSet<Customer>();
@@ -61,7 +60,7 @@ public class City implements java.io.Serializable {
 	private Set<Vendor> VendorSet = new HashSet<Vendor>();
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Orders> OrdersSet = new HashSet<Orders>();
+	private Set<Order> OrderSet = new HashSet<Order>();
 	
 	public City(){
 	}
@@ -74,20 +73,20 @@ public class City implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getZipCode() {
-		return this.zipCode;
-	}
-	
-	public void setZipCode(java.lang.String zipCode) {
-		this.zipCode = zipCode;
-	}
-	
 	public java.lang.String getName() {
 		return this.name;
 	}
 	
 	public void setName(java.lang.String name) {
 		this.name = name;
+	}
+	
+	public java.lang.String getZipCode() {
+		return this.zipCode;
+	}
+	
+	public void setZipCode(java.lang.String zipCode) {
+		this.zipCode = zipCode;
 	}
 	
 	public State getState() {
@@ -106,14 +105,6 @@ public class City implements java.io.Serializable {
 		this.EnterpriseSet = EnterpriseSet;
 	}
 	
-	public Set<Department> getDepartmentSet() {
-		return this.DepartmentSet;
-	}
-
-	public void setDepartmentSet(Set<Department> DepartmentSet) {
-		this.DepartmentSet = DepartmentSet;
-	}
-	
 	public Set<Customer> getCustomerSet() {
 		return this.CustomerSet;
 	}
@@ -130,12 +121,12 @@ public class City implements java.io.Serializable {
 		this.VendorSet = VendorSet;
 	}
 	
-	public Set<Orders> getOrdersSet() {
-		return this.OrdersSet;
+	public Set<Order> getOrderSet() {
+		return this.OrderSet;
 	}
 
-	public void setOrdersSet(Set<Orders> OrdersSet) {
-		this.OrdersSet = OrdersSet;
+	public void setOrderSet(Set<Order> OrderSet) {
+		this.OrderSet = OrderSet;
 	}
 	
 }

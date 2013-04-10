@@ -10,6 +10,8 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
+import org.h2.constant.SysProperties;
+
 import util.PersistenceHelper;
 import util.StringUtil;
 
@@ -55,8 +57,7 @@ public class ComponentResolver {
 	public static JComponent getComponent(ColumnAttribute ca) {
 		String type = ca.getDataType();
 		String compType = AppCache.getInstance().getComponentType(type);
-		if (compType == null && ca.getEnumeration() != null
-				&& ca.getEnumeration().getLabels().size() > 0) {
+		if (ca.getEnumeration() != null) {
 			return new JComboBox(ca.getEnumeration().getLabels().toArray());
 		}
 		try {
@@ -155,11 +156,11 @@ public class ComponentResolver {
 							+ StringUtil.capitalize(colAttr.getName());
 					String dataType = colAttr.getDataType();
 
-					if ((dataType == null || dataType.equals(""))
-							&& colAttr.getEnumeration() != null) {
-						dataType = "java.lang.Integer";
-					}
-					Class<?> parameter = Class.forName(dataType);
+					
+					System.out.println("METODA: " + setterName);
+					System.out.println("DATA TYPE: " + dataType);
+					
+					Class<?> parameter = Class.forName(dataType);;
 					Method method = entity.getEntityClass().getMethod(
 							setterName, parameter);
 					invokeMethod(method, retVal, parameter, null, comp, colAttr);
@@ -190,10 +191,13 @@ public class ComponentResolver {
 		Object argument = null;
 		if (component instanceof JTextField) {
 			String s = ((JTextField) component).getText();
+			System.out.println("CONVERT: " + s);
 			argument = ConverterUtil.convert(s, column);
 		} else if (component instanceof JComboBox) {
-			argument = parameter.getConstructor(int.class).newInstance(
-					((JComboBox) component).getSelectedIndex());
+			JComboBox cb = (JComboBox)component;
+			String val = cb.getSelectedItem().toString();
+			argument = parameter.getConstructor(String.class).newInstance(val);
+			System.out.println("ARGUMENT: " + val + " za " + argument.getClass().getCanonicalName());
 		} else if (component instanceof JCheckBox) {
 			argument = parameter.getConstructor(boolean.class).newInstance(
 					((JCheckBox) component).isSelected());

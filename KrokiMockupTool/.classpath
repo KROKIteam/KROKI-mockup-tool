@@ -26,7 +26,6 @@
 	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-UIProfil"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WebApp"/>
 	<classpathentry kind="lib" path="lib/JTattoo.jar"/>
 	<classpathentry kind="lib" path="lib/h2-1.2.121.jar"/>
@@ -37,5 +36,6 @@
 	<classpathentry kind="lib" path="lib/postgresql-9.2-1002.jdbc4.jar"/>
 	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-UIProfil"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

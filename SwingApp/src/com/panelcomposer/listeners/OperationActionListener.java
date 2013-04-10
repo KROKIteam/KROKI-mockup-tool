@@ -106,10 +106,10 @@ public class OperationActionListener implements ActionListener {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					switch(operation.getType()) {
-						case ViewReport :	
+						case VIEWREPORT :	
 							callViewReport(operation);							
 							break;
-						case BussinesTransaction : 
+						case BUSSINESTRANSACTION : 
 							callTransaction(operation);
 							break;
 					}

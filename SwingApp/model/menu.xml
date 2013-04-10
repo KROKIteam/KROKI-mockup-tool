@@ -13,11 +13,10 @@
 <submenu activate="product_st" label="Product" panel-type="standard-panel"/>
 </menu>
 <menu label="Order management" name="menu2_Order_management">
-<submenu activate="payment_st" label="Payment" panel-type="standard-panel"/>
-<submenu activate="orders_st" label="Orders" panel-type="standard-panel"/>
-<submenu activate="orderitem_st" label="Order Item" panel-type="standard-panel"/>
+<submenu activate="order_st" label="Order" panel-type="standard-panel"/>
+<submenu activate="orderitem_st" label="Order item" panel-type="standard-panel"/>
 <submenu activate="invoice_st" label="Invoice" panel-type="standard-panel"/>
-<submenu activate="ParentChildOrderItems_pc" label="Parent-child order items" panel-type="parent-child"/>
+<submenu activate="payment_st" label="Payment" panel-type="standard-panel"/>
 </menu>
 <menu label="Price lists" name="menu3_Price_lists">
 <submenu activate="pricelist_st" label="Price list" panel-type="standard-panel"/>

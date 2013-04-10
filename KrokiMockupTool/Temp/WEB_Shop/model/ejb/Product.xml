@@ -8,5 +8,9 @@
 <column-ref label="Category ID" name="id"/>
 <column-ref label="Category Name" name="name"/>
 </zoom-attribute>
+<zoom-attribute class-name="ejb.Vendor" field-name="vendor" label="Vendor" name="vendor" zoomed-by="id">
+<column-ref label="Vendor ID" name="id"/>
+<column-ref label="Vendor Name" name="name"/>
+</zoom-attribute>
 </attributes>
 </entity>

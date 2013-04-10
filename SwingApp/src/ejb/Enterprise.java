@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -36,17 +38,20 @@ public class Enterprise implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "ENT_ENTERPRISE_NAME", unique = false, nullable = false)
-	private java.lang.String enterpriseName;
+	@Column(name = "ENT_NAME", unique = false, nullable = false)
+	private java.lang.String name;
 	
 	@Column(name = "ENT_ADDRESS", unique = false, nullable = false)
 	private java.lang.String address;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
 	private City city;
 	
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "enterprise")
+	private Set<Department> DepartmentSet = new HashSet<Department>();
 	
 	public Enterprise(){
 	}
@@ -59,12 +64,12 @@ public class Enterprise implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getEnterpriseName() {
-		return this.enterpriseName;
+	public java.lang.String getName() {
+		return this.name;
 	}
 	
-	public void setEnterpriseName(java.lang.String enterpriseName) {
-		this.enterpriseName = enterpriseName;
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 	
 	public java.lang.String getAddress() {
@@ -81,6 +86,14 @@ public class Enterprise implements java.io.Serializable {
 	
 	public void setCity(City city) {
 		this.city = city;
+	}
+	
+	public Set<Department> getDepartmentSet() {
+		return this.DepartmentSet;
+	}
+
+	public void setDepartmentSet(Set<Department> DepartmentSet) {
+		this.DepartmentSet = DepartmentSet;
 	}
 	
 }

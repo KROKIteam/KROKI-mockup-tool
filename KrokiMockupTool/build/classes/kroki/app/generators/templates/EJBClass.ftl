@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

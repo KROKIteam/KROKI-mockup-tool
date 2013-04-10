@@ -1,11 +1,23 @@
 package com.panelcomposer.enumerations;
 
-/***
- * Enumeration for type of specific operation.
- * 
- * @author Darko
- * 
- */
+   /** 
+   File generated using Kroki EnumGenerator 
+   @Author MiloradFilipovic 
+   Creation date: 10.04.2013  15:26:53h
+   **/
+
 public enum OperationType {
-	BussinesTransaction, ViewReport, JavaOperation
+	BUSSINESTRANSACTION("BussinesTransaction"),
+	VIEWREPORT("ViewReport"),
+	JAVAOPERATION("JavaOperation");
+	
+	String label;
+	
+	OperationType() {
+	}
+	
+	OperationType(String label) {
+		this.label = label;
+	}
+	
 }

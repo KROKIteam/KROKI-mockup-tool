@@ -1,11 +1,23 @@
 package com.panelcomposer.enumerations;
 
-/***
- * Enumeration for panel's context of viewing
- * 
- * @author Darko
- * 
- */
+   /** 
+   File generated using Kroki EnumGenerator 
+   @Author MiloradFilipovic 
+   Creation date: 10.04.2013  15:26:53h
+   **/
+
 public enum OpenedAs {
-	DEFAULT, ZOOM, NEXT
+	DEFAULT("DEFAULT"),
+	ZOOM("ZOOM"),
+	NEXT("NEXT");
+	
+	String label;
+	
+	OpenedAs() {
+	}
+	
+	OpenedAs(String label) {
+		this.label = label;
+	}
+	
 }

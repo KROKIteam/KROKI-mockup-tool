@@ -31,13 +31,13 @@ public class MySubMenuActionListener implements ActionListener {
 		MPanel mp = PanelReader.loadPanel(new String(act),  
 				panelType, null, OpenedAs.DEFAULT);
 		SForm sf = null;
-		if(panelType.equals(PanelType.StandardPanel)) {
+		if(panelType.equals(PanelType.STANDARDPANEL)) {
 			MStandardPanel msp = (MStandardPanel) mp;
 			sf = new SForm(msp, null, OpenedAs.DEFAULT, null);
-		} if(panelType.equals(PanelType.ParentChildPanel)) {
+		} if(panelType.equals(PanelType.PARENTCHILDPANEL)) {
 			MParentChildPanel mpcp = (MParentChildPanel) mp;
 			sf = new SForm(mpcp, null);
-		} else if(panelType.equals(PanelType.ManyToManyPanel)) {
+		} else if(panelType.equals(PanelType.MANYTOMANYPANEL)) {
 			MManyToManyPanel mmtmp = (MManyToManyPanel) mp;
 			sf = new SForm(mmtmp, null);
 		}

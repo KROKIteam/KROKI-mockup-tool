@@ -10,10 +10,12 @@ import java.util.Scanner;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
+import kroki.app.generators.EnumerationGenerator;
 import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.PanelGenerator;
 import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBClass;
+import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
@@ -36,7 +38,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
  * @author Milorad Filipovic
  */
 public class SwingExporter {
-	
+
 	//project that is exported
 	private BussinesSubsystem project;
 	//list of EJB classes to be generated
@@ -45,19 +47,24 @@ public class SwingExporter {
 	private ArrayList<Menu> menus;
 	//list of standard forms to be nerated
 	private ArrayList<VisibleElement> elements;
+	//list of enumerations to be generated
+	private ArrayList<Enumeration> enumerations;
 	//configuration files generators
 	private EJBGenerator ejbGenerator;
 	private MenuGenerator menuGenerator;
 	private PanelGenerator panelGenerator;
 	private DatabaseConfigGenerator dbConfigGenerator;
+	private EnumerationGenerator enumGenerator;
 
 	public SwingExporter() {
 		classes = new ArrayList<EJBClass>();
 		menus = new ArrayList<Menu>();
 		elements = new ArrayList<VisibleElement>();
+		enumerations = new ArrayList<Enumeration>();
 		ejbGenerator = new EJBGenerator();
 		menuGenerator = new MenuGenerator();
 		panelGenerator = new PanelGenerator();
+		enumGenerator = new EnumerationGenerator(true);
 	}
 
 	/**
@@ -70,7 +77,7 @@ public class SwingExporter {
 	public void export(File file, BussinesSubsystem proj, String message) {
 		dbConfigGenerator = new DatabaseConfigGenerator(proj.getDBConnectionProps());
 		this.project = proj;
-		
+
 		//iteration trough project elements and retrieving of usable data for generators
 		for(int i=0; i<proj.ownedElementCount(); i++) {
 			VisibleElement el = proj.getOwnedElementAt(i);
@@ -81,22 +88,11 @@ public class SwingExporter {
 			}
 		}
 
-		NamingUtil namer = new NamingUtil();
-		
-		//Add User class to classes list
-		Attribute usernameAttribute = new Attribute("username", "username", "User name", "java.lang.String", true, true, true);
-		Attribute passwordAttribute = new Attribute("password", "password", "Password", "java.lang.String", true, true, false);
-		ArrayList<Attribute> userAttributes = new ArrayList<Attribute>();
-		userAttributes.add(usernameAttribute);
-		userAttributes.add(passwordAttribute);
-		String userTableName = namer.toDatabaseFormat(proj.getLabel(), "User");
-		
-		EJBClass user = new EJBClass("ejb", "User", userTableName, "User", userAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
-		classes.add(user);
-
+		//add default data
+		addDefaultData(proj);
 		//Add one-to-many attributes to classes
 		addReferences();
-		
+
 		//CONFIGURATION FILES GENERATION
 		menuGenerator.generateSWINGMenu(menus);
 		panelGenerator.generate(elements);
@@ -104,7 +100,9 @@ public class SwingExporter {
 		ejbGenerator.generateEJBClasses(classes, true);
 		ejbGenerator.generateXMLMappingFile(classes);
 		dbConfigGenerator.generateFilesForDesktopApp();
-
+		enumGenerator.generateXMLFiles(enumerations);
+		enumGenerator.generateEnumFiles(enumerations);
+		
 		//write project label as mainframe title in main.properties file
 		writeProjectName(proj.getLabel());
 
@@ -136,14 +134,15 @@ public class SwingExporter {
 			ArrayList<ManyToOneAttribute> mtoAttributes = new ArrayList<ManyToOneAttribute>();
 			ArrayList<OneToManyAttribute> otmAttributes = new ArrayList<OneToManyAttribute>();
 
-			/***********************************************/
-			/*    DATA USED FOR EJB CLASS GENERATION      */
-			/*one ejb class is generated for every panel */
-			/********************************************/
+			  /***********************************************/
+			 /*    DATA USED FOR EJB CLASS GENERATION       */
+			/* one ejb class is generated for every panel  */
+		   /***********************************************/
 			for(int j=0; j<vc.containedProperties().size(); j++) {
 				VisibleProperty vp = vc.containedProperties().get(j);
 
 				String type = "java.lang.String";
+				Enumeration enumeration = null;
 				if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
 					if(vp.getDataType().equals("BigDecimal")) {
 						type = "java.math.BigDecimal";
@@ -152,31 +151,44 @@ public class SwingExporter {
 					}
 				}else if(vp.getComponentType() == ComponentType.CHECK_BOX) {
 					type =  "java.lang.Boolean";
-				} 
+				}else if (vp.getComponentType() == ComponentType.COMBO_BOX) {
+					  /***********************************************/
+					 /*    DATA USED FOR ENUMERATION GENERATION     */
+					/* one enum is generated for every combo-box   */
+				   /***********************************************/
+					String enumName = cc.toCamelCase(vp.getLabel(), false);
+					enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
+					String enumClass = vp.umlClass().name();
+					String enumProp = cc.toCamelCase(vp.getLabel(), true);
+					//type = "com.panelcomposer.enumerations." + enumName;
+					String[] enumValues = vp.getEnumeration().split(";");
+					enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
+					enumerations.add(enumeration);
+				}
 
-				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative());
+				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative(), enumeration);
 				attr.setMandatory(vp.lower() != 0);
 				attributes.add(attr);
 			}
 
-			
-			for(int l=0; l<vc.containedZooms().size(); l++) {
-			Zoom z = vc.containedZooms().get(l);
-			if(z.getTargetPanel() != null) {
-				//adding ManyToOne (zoom) attribute
-				String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
-				String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 
-				ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
-				mto.setMandatory(z.lower() != 0);
-				mtoAttributes.add(mto);
-			}else {
-				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
-				return;
+			for(int l=0; l<vc.containedZooms().size(); l++) {
+				Zoom z = vc.containedZooms().get(l);
+				if(z.getTargetPanel() != null) {
+					//adding ManyToOne (zoom) attribute
+					String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
+					String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
+
+					ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
+					mto.setMandatory(z.lower() != 0);
+					mtoAttributes.add(mto);
+				}else {
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
+					return;
+				}
 			}
-		}
 			String tableName = cc.toDatabaseFormat(this.project.getLabel(), sp.getLabel());
-			
+
 			//EJB class instance for panel is created and passed to generator
 			EJBClass ejb = new EJBClass("ejb", sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
 			classes.add(ejb);
@@ -254,16 +266,16 @@ public class SwingExporter {
 				for(int j=0; j<ejbClass.getManyToOneAttributes().size(); j++) {
 					ManyToOneAttribute mtrAttribute = ejbClass.getManyToOneAttributes().get(j);
 					EJBClass oppositeClass = getClass(mtrAttribute.getType());
-					
+
 					if(oppositeClass != null) {
 						String name = ejbClass.getName() + "Set";
 						String label = mtrAttribute.getLabel();
 						String reffTable = ejbClass.getName();
 						String mappedBy = mtrAttribute.getName();
-						
+
 						OneToManyAttribute otmAttr = new OneToManyAttribute(name, label, reffTable, mappedBy);
 						oppositeClass.getOneToManyAttributes().add(otmAttr);
-						
+
 						for(int l=0; l<oppositeClass.getAttributes().size(); l++) {
 							Attribute atr = oppositeClass.getAttributes().get(l);
 							if(atr.getRepresentative()) {
@@ -278,7 +290,7 @@ public class SwingExporter {
 			}
 		}
 	}
-	
+
 	//gets refference to ejb class from model based on name
 	public EJBClass getClass(String name) {
 		System.out.println("trazim klasu sa imenom " + name);
@@ -326,6 +338,43 @@ public class SwingExporter {
 			e.printStackTrace();
 		}
 
+	}
+
+	/**
+	 * Adds default data that needs to be generated in order to make application run correctly
+	 * @param proj
+	 */
+	public void addDefaultData(BussinesSubsystem proj) {
+		NamingUtil namer = new NamingUtil();
+
+		//Add User class to classes list
+		Attribute usernameAttribute = new Attribute("username", "username", "User name", "java.lang.String", true, true, true, null);
+		Attribute passwordAttribute = new Attribute("password", "password", "Password", "java.lang.String", true, true, false, null);
+		ArrayList<Attribute> userAttributes = new ArrayList<Attribute>();
+		userAttributes.add(usernameAttribute);
+		userAttributes.add(passwordAttribute);
+		String userTableName = namer.toDatabaseFormat(proj.getLabel(), "User");
+
+		EJBClass user = new EJBClass("ejb", "User", userTableName, "User", userAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+		classes.add(user);
+		
+		//add default enumerations
+		//OpenedAs
+		Enumeration openedAsEnum = new Enumeration("OpenedAs", "Opened as", null, null, new String[]{"DEFAULT", "ZOOM", "NEXT"});
+		//OperationType
+		Enumeration operationTypeEnum = new Enumeration("OperationType", "Operation type", null, null, new String[]{"BussinesTransaction", "ViewReport", "JavaOperation"});
+		//PanelType
+		Enumeration panelTypeEnum = new Enumeration("PanelType", "Panel type", null, null, new String[]{"StandardPanel", "ParentChildPanel", "ManyToManyPanel"});
+		//StateMode
+		Enumeration stateModeEnum = new Enumeration("StateMode", "State mode", null, null, new String[]{"UPDATE", "ADD", "SEARCH"});
+		//ViewMode
+		Enumeration viewModeEnum = new Enumeration("ViewMode", "View mode", null, null, new String[]{"TABLEVIEW", "INPUTPANELVIEW"});
+		
+		enumerations.add(openedAsEnum);
+		enumerations.add(operationTypeEnum);
+		enumerations.add(panelTypeEnum);
+		enumerations.add(stateModeEnum);
+		enumerations.add(viewModeEnum);
 	}
 
 }

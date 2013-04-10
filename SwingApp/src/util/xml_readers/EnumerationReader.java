@@ -41,6 +41,7 @@ public class EnumerationReader {
 						enumeration.add(value);
 					}
 				}
+				AppCache.getInstance().addToCacheTypes("javax.swing.JComboBox", "com.panelcomposer.enumerations." + enumeration.getName());
 				AppCache.getInstance().addToCache(name, enumeration);
 			}
 		} catch (Exception e) {

@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -36,16 +38,16 @@ public class Department implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "DEP_DEPARTMENT_NAME", unique = false, nullable = false)
-	private java.lang.String departmentName;
+	@Column(name = "DEP_NAME", unique = false, nullable = false)
+	private java.lang.String name;
 	
-	@Column(name = "DEP_DEPARTMENT_ADDRESS", unique = false, nullable = false)
-	private java.lang.String departmentAddress;
+	@Column(name = "DEP_ADDRESS", unique = false, nullable = false)
+	private java.lang.String address;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID", nullable=true)
-	private City city;
+	@JoinColumn(name="enterprise", referencedColumnName="ID",  nullable = true)
+	private Enterprise enterprise;
 	
 	
 	public Department(){
@@ -59,28 +61,28 @@ public class Department implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getDepartmentName() {
-		return this.departmentName;
+	public java.lang.String getName() {
+		return this.name;
 	}
 	
-	public void setDepartmentName(java.lang.String departmentName) {
-		this.departmentName = departmentName;
+	public void setName(java.lang.String name) {
+		this.name = name;
 	}
 	
-	public java.lang.String getDepartmentAddress() {
-		return this.departmentAddress;
+	public java.lang.String getAddress() {
+		return this.address;
 	}
 	
-	public void setDepartmentAddress(java.lang.String departmentAddress) {
-		this.departmentAddress = departmentAddress;
+	public void setAddress(java.lang.String address) {
+		this.address = address;
 	}
 	
-	public City getCity() {
-		return this.city;
+	public Enterprise getEnterprise() {
+		return this.enterprise;
 	}
 	
-	public void setCity(City city) {
-		this.city = city;
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
 	}
 	
 }

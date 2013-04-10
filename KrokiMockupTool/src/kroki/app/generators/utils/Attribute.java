@@ -14,9 +14,10 @@ public class Attribute {
 	private Boolean unique;
 	private Boolean mandatory;
 	private Boolean representative;
+	private Enumeration enumeration;
 	
 	public Attribute(String name, String databaseName, String label,
-			String type, Boolean unique, Boolean mandatory, Boolean representative) {
+			String type, Boolean unique, Boolean mandatory, Boolean representative, Enumeration enumeration) {
 		super();
 		this.name = name;
 		this.databaseName = databaseName;
@@ -25,6 +26,7 @@ public class Attribute {
 		this.unique = unique;
 		this.mandatory = mandatory;
 		this.representative = representative;
+		this.enumeration = enumeration;
 	}
 
 	public String getName() {
@@ -82,5 +84,12 @@ public class Attribute {
 	public void setRepresentative(Boolean representative) {
 		this.representative = representative;
 	}
-	
+
+	public Enumeration getEnumeration() {
+		return enumeration;
+	}
+
+	public void setEnumeration(Enumeration enumeration) {
+		this.enumeration = enumeration;
+	}
 }

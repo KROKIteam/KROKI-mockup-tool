@@ -10,13 +10,13 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBClass;
+import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
@@ -205,6 +205,15 @@ public class EJBGenerator {
 						//atribut "type"
 						Attr colType = doc.createAttribute("type");
 						colType.setValue(atribute.getType());
+						
+						Enumeration enumeration = atribute.getEnumeration();
+						if(enumeration != null) {
+							//colType.setValue("");
+							Attr colEnum = doc.createAttribute("enum");
+							colEnum.setValue(atribute.getEnumeration().getName());
+							columnAttr.setAttributeNode(colEnum);
+						}
+						
 						columnAttr.setAttributeNode(colType);
 
 						//atribut "length"

@@ -128,13 +128,13 @@ public class SPanel extends JPanel implements ObserverPanel {
 			// return;
 			Object objEntity = null;
 			try {
-				System.out.println("SPanelAspect.SPanel.handleCommit(); " + getModelPanel().getPanelSettings().getStateMode());
 				if(getModelPanel().getPanelSettings().getStateMode().equals(StateMode.ADD)) {
 					System.out.println("ADD");
 					objEntity = ComponentResolver.getDataFromComponents(
 							getTable().getTableModel().getEntityBean(),
 							getInputPanel().getPanelComponents(), null);
 					getTable().getTableModel().add(objEntity);
+					getModelPanel().getPanelSettings().setStateMode(StateMode.ADD);
 				} else if(getModelPanel().getPanelSettings().getStateMode().equals(StateMode.UPDATE)) {
 					if(getModelPanel().getPanelSettings().getStateMode().equals(StateMode.UPDATE)) {
 						Object o = ((STModel) getTable().getModel()).getObject(getTable().getSelectedRow());

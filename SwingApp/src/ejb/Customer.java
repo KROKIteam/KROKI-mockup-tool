@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -47,12 +49,12 @@ public class Customer implements java.io.Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
 	private City city;
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "customer")
-	private Set<Orders> OrdersSet = new HashSet<Orders>();
+	private Set<Order> OrderSet = new HashSet<Order>();
 	
 	public Customer(){
 	}
@@ -97,12 +99,12 @@ public class Customer implements java.io.Serializable {
 		this.city = city;
 	}
 	
-	public Set<Orders> getOrdersSet() {
-		return this.OrdersSet;
+	public Set<Order> getOrderSet() {
+		return this.OrderSet;
 	}
 
-	public void setOrdersSet(Set<Orders> OrdersSet) {
-		this.OrdersSet = OrdersSet;
+	public void setOrderSet(Set<Order> OrderSet) {
+		this.OrderSet = OrderSet;
 	}
 	
 }

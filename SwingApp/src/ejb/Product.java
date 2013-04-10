@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -44,15 +46,16 @@ public class Product implements java.io.Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="category", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="category", referencedColumnName="ID",  nullable = true)
 	private Category category;
+	
+	@ManyToOne
+	@JoinColumn(name="vendor", referencedColumnName="ID",  nullable = true)
+	private Vendor vendor;
 	
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "product")
 	private Set<OrderItem> OrderItemSet = new HashSet<OrderItem>();
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "product")
-	private Set<PriceListItem> PriceListItemSet = new HashSet<PriceListItem>();
 	
 	public Product(){
 	}
@@ -89,20 +92,20 @@ public class Product implements java.io.Serializable {
 		this.category = category;
 	}
 	
+	public Vendor getVendor() {
+		return this.vendor;
+	}
+	
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
+	
 	public Set<OrderItem> getOrderItemSet() {
 		return this.OrderItemSet;
 	}
 
 	public void setOrderItemSet(Set<OrderItem> OrderItemSet) {
 		this.OrderItemSet = OrderItemSet;
-	}
-	
-	public Set<PriceListItem> getPriceListItemSet() {
-		return this.PriceListItemSet;
-	}
-
-	public void setPriceListItemSet(Set<PriceListItem> PriceListItemSet) {
-		this.PriceListItemSet = PriceListItemSet;
 	}
 	
 }

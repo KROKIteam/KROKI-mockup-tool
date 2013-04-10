@@ -43,6 +43,8 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     protected int lower;
     protected int upper;
 
+    protected String enumeration;
+    
     /*****************/
     /*Konstruktori   */
     /*****************/
@@ -232,5 +234,13 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 
 	public void setDataType(String dataType) {
 		this.dataType = dataType;
+	}
+
+	public String getEnumeration() {
+		return enumeration;
+	}
+
+	public void setEnumeration(String enumeration) {
+		this.enumeration = enumeration;
 	}
 }

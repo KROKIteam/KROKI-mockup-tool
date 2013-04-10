@@ -1,12 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <enums>
-	<enum name="vrstaDokumenta" label="Vrsta dok.">
-		<value>Ulaz</value>
-		<value>Izlaz</value>
-		<value>Početno stanje</value>
-	</enum>
-	<enum name="status" label="Status">
-		<value>U fazi formiranja</value>
-		<value>Proknjižen</value>
-		<value>Storniran</value>
-	</enum>
+<enum label="Order status" name="OrderStatusOrderEnum">
+<value>Processing</value>
+<value>Shipped</value>
+<value>Dispatched</value>
+<value>Canceled</value>
+</enum>
+<enum label="Payment method" name="PaymentMethodPaymentEnum">
+<value> Exchanging</value>
+<value>Provisioning</value>
+</enum>
+<enum label="Opened as" name="OpenedAs">
+<value>DEFAULT</value>
+<value>ZOOM</value>
+<value>NEXT</value>
+</enum>
+<enum label="Operation type" name="OperationType">
+<value>BussinesTransaction</value>
+<value>ViewReport</value>
+<value>JavaOperation</value>
+</enum>
+<enum label="Panel type" name="PanelType">
+<value>StandardPanel</value>
+<value>ParentChildPanel</value>
+<value>ManyToManyPanel</value>
+</enum>
+<enum label="State mode" name="StateMode">
+<value>UPDATE</value>
+<value>ADD</value>
+<value>SEARCH</value>
+</enum>
+<enum label="View mode" name="ViewMode">
+<value>TABLEVIEW</value>
+<value>INPUTPANELVIEW</value>
+</enum>
 </enums>

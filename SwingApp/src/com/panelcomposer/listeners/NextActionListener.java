@@ -42,16 +42,16 @@ public class NextActionListener implements ActionListener {
 		if (rowIndex != -1) {
 			try {
 				panel.getTable().getTableModel().setCurrentRow(rowIndex);
-				if (panelType.equals(PanelType.ManyToManyPanel)) {
+				if (panelType.equals(PanelType.MANYTOMANYPANEL)) {
 					System.out.println("nextaction : many2many ");
 					MManyToManyPanel mtmp = (MManyToManyPanel) PanelReader.loadPanel(
-							panelId, PanelType.ManyToManyPanel, idNext, OpenedAs.NEXT);
+							panelId, PanelType.MANYTOMANYPANEL, idNext, OpenedAs.NEXT);
 					SForm sf = new SForm(mtmp, panel);
 					sf.setVisible(true);
 					
-				} else if (panelType.equals(PanelType.StandardPanel)) {
+				} else if (panelType.equals(PanelType.STANDARDPANEL)) {
 					MStandardPanel msp = (MStandardPanel) PanelReader.loadPanel(
-							panelId, PanelType.StandardPanel, idNext,  OpenedAs.NEXT);
+							panelId, PanelType.STANDARDPANEL, idNext,  OpenedAs.NEXT);
 					Class<?> lookup = tableModel.getEntityBean().getEntityClass();
 					JoinColumnAttribute jca = null;
 					jca = EntityHelper.getJoinByLookup(msp.getEntityBean(), lookup);

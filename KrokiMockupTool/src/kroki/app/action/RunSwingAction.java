@@ -79,7 +79,7 @@ public class RunSwingAction extends AbstractAction {
 					} catch (NullPointerException e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("An error occured. Running aborted", 3);
-						//e.printStackTrace();
+						e.printStackTrace();
 					}
 				}else {
 					//if no project is selected, inform user to select one

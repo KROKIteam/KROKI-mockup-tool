@@ -44,7 +44,7 @@ public class ZoomActionListener implements ActionListener {
 			if(zoom != null) 
 				zoomName = zoom.getName();
 			
-			MPanel mp = PanelReader.loadPanel(panelId, PanelType.StandardPanel, 
+			MPanel mp = PanelReader.loadPanel(panelId, PanelType.STANDARDPANEL, 
 					zoomName, OpenedAs.ZOOM);
 			MStandardPanel msp = (MStandardPanel) mp;
 			Object objZoomed = null;

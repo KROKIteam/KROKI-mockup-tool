@@ -87,7 +87,7 @@ public class PanelReader {
 			Document doc = XMLUtil.getDocumentFromXML(modelDir + File.separator + panelDir + File.separator + panelsFile, null);
 			MPanel mpanel = null;
 			switch (panelType) {
-			case StandardPanel:
+			case STANDARDPANEL:
 				if (openedAs.equals(OpenedAs.NEXT)) {
 					mpanel = findNextPanel(doc, panelId, panelType, openedId);
 				} else if (openedAs.equals(OpenedAs.ZOOM)) {
@@ -96,10 +96,10 @@ public class PanelReader {
 					mpanel = findStandardPanel(doc, panelId);
 				}
 				break;
-			case ParentChildPanel:
+			case PARENTCHILDPANEL:
 				mpanel = findParentChildPanel(doc, panelId);
 				break;
-			case ManyToManyPanel:
+			case MANYTOMANYPANEL:
 				mpanel = findManyToManyPanel(doc, panelId);
 				break;
 			}
@@ -253,7 +253,7 @@ public class PanelReader {
 	private static MStandardPanel getSubPanel(Element elem) {
 		MStandardPanel mpanel = null;
 		String panelRef = elem.getAttribute(Tags.PANEL_REF);
-		mpanel = (MStandardPanel) loadPanel(panelRef, PanelType.StandardPanel, null, OpenedAs.DEFAULT);
+		mpanel = (MStandardPanel) loadPanel(panelRef, PanelType.STANDARDPANEL, null, OpenedAs.DEFAULT);
 		String id = elem.getAttribute(Tags.ID);
 		String level = elem.getAttribute(Tags.LEVEL);
 		mpanel.setName(id);
@@ -289,9 +289,9 @@ public class PanelReader {
 
 			String type = elemOperation.getAttribute(Tags.DATA_TYPE);
 			if (type.equals("report"))
-				oper.setType(OperationType.ViewReport);
+				oper.setType(OperationType.VIEWREPORT);
 			else if (type.equals("transaction")) {
-				oper.setType(OperationType.BussinesTransaction);
+				oper.setType(OperationType.BUSSINESTRANSACTION);
 			}
 
 			NodeList nodeListParameters = elemOperation

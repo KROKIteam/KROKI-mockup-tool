@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -44,9 +46,12 @@ public class Vendor implements java.io.Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
 	private City city;
 	
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "vendor")
+	private Set<Product> ProductSet = new HashSet<Product>();
 	
 	public Vendor(){
 	}
@@ -81,6 +86,14 @@ public class Vendor implements java.io.Serializable {
 	
 	public void setCity(City city) {
 		this.city = city;
+	}
+	
+	public Set<Product> getProductSet() {
+		return this.ProductSet;
+	}
+
+	public void setProductSet(Set<Product> ProductSet) {
+		this.ProductSet = ProductSet;
 	}
 	
 }

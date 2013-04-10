@@ -2,8 +2,8 @@
 <entity class-name="ejb.City" label="City" name="CITY">
 <attributes>
 <column-attribute field-name="id" key="true" label="ID" length="50" name="id" type="java.lang.Long"/>
-<column-attribute field-name="zipCode" key="false" label="ZIP Code" length="50" name="zipCode" type="java.lang.String"/>
 <column-attribute field-name="name" key="false" label="Name" length="50" name="name" type="java.lang.String"/>
+<column-attribute field-name="zipCode" key="false" label="ZIP Code" length="50" name="zipCode" type="java.lang.String"/>
 <zoom-attribute class-name="ejb.State" field-name="state" label="State" name="state" zoomed-by="id">
 <column-ref label="State ID" name="id"/>
 <column-ref label="State Name" name="name"/>

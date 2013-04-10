@@ -8,10 +8,10 @@
 <panel ejb-ref="ejb.Vendor" id="vendor_st"/>
 <panel ejb-ref="ejb.Category" id="category_st"/>
 <panel ejb-ref="ejb.Product" id="product_st"/>
-<panel ejb-ref="ejb.Payment" id="payment_st"/>
-<panel ejb-ref="ejb.Orders" id="orders_st"/>
+<panel ejb-ref="ejb.Order" id="order_st"/>
 <panel ejb-ref="ejb.OrderItem" id="orderitem_st"/>
 <panel ejb-ref="ejb.Invoice" id="invoice_st"/>
+<panel ejb-ref="ejb.Payment" id="payment_st"/>
 <panel ejb-ref="ejb.PriceList" id="pricelist_st"/>
 <panel ejb-ref="ejb.PriceListItem" id="pricelistitem_st"/>
 </map>

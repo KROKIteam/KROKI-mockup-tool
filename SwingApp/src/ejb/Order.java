@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 19.02.2013  13:28:51h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -36,10 +38,39 @@ public class Order implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "ORD_NUMBER", unique = false, nullable = false)
-	private java.lang.String number;
+	@Column(name = "ORD_ORDER_NUMBER", unique = false, nullable = false)
+	private java.lang.String orderNumber;
+	
+	@Column(name = "ORD_ORDER_DATE", unique = false, nullable = false)
+	private java.util.Date orderDate;
+	
+	@Column(name = "ORD_SHIPMENT_ADDRESS", unique = false, nullable = false)
+	private java.lang.String shipmentAddress;
+	
+	@Column(name = "ORD_ORDER_TOTAL", unique = false, nullable = false)
+	private java.math.BigDecimal orderTotal;
+	
+	@Column(name = "ORD_ORDER_STATUS", unique = false, nullable = false)
+	private java.lang.String orderStatus;
 	
 	
+	@ManyToOne
+	@JoinColumn(name="customer", referencedColumnName="ID",  nullable = true)
+	private Customer customer;
+	
+	@ManyToOne
+	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
+	private City city;
+	
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
+	private Set<OrderItem> OrderItemSet = new HashSet<OrderItem>();
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
+	private Set<Invoice> InvoiceSet = new HashSet<Invoice>();
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
+	private Set<Payment> PaymentSet = new HashSet<Payment>();
 	
 	public Order(){
 	}
@@ -52,12 +83,84 @@ public class Order implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getNumber() {
-		return this.number;
+	public java.lang.String getOrderNumber() {
+		return this.orderNumber;
 	}
 	
-	public void setNumber(java.lang.String number) {
-		this.number = number;
+	public void setOrderNumber(java.lang.String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+	
+	public java.util.Date getOrderDate() {
+		return this.orderDate;
+	}
+	
+	public void setOrderDate(java.util.Date orderDate) {
+		this.orderDate = orderDate;
+	}
+	
+	public java.lang.String getShipmentAddress() {
+		return this.shipmentAddress;
+	}
+	
+	public void setShipmentAddress(java.lang.String shipmentAddress) {
+		this.shipmentAddress = shipmentAddress;
+	}
+	
+	public java.math.BigDecimal getOrderTotal() {
+		return this.orderTotal;
+	}
+	
+	public void setOrderTotal(java.math.BigDecimal orderTotal) {
+		this.orderTotal = orderTotal;
+	}
+	
+	public java.lang.String getOrderStatus() {
+		return this.orderStatus;
+	}
+	
+	public void setOrderStatus(java.lang.String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	
+	public Customer getCustomer() {
+		return this.customer;
+	}
+	
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	public City getCity() {
+		return this.city;
+	}
+	
+	public void setCity(City city) {
+		this.city = city;
+	}
+	
+	public Set<OrderItem> getOrderItemSet() {
+		return this.OrderItemSet;
+	}
+
+	public void setOrderItemSet(Set<OrderItem> OrderItemSet) {
+		this.OrderItemSet = OrderItemSet;
+	}
+	
+	public Set<Invoice> getInvoiceSet() {
+		return this.InvoiceSet;
+	}
+
+	public void setInvoiceSet(Set<Invoice> InvoiceSet) {
+		this.InvoiceSet = InvoiceSet;
+	}
+	
+	public Set<Payment> getPaymentSet() {
+		return this.PaymentSet;
+	}
+
+	public void setPaymentSet(Set<Payment> PaymentSet) {
+		this.PaymentSet = PaymentSet;
 	}
 	
 }

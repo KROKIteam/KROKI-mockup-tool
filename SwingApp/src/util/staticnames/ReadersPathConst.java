@@ -32,5 +32,4 @@ public class ReadersPathConst {
 	public static String read(String name) {
 		return ResourceBundle.getBundle("props.xmlpaths").getString(name);
 	}
-	
 }

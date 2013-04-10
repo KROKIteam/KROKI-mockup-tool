@@ -8,11 +8,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -47,13 +45,9 @@ public class KrokiMockupToolApp {
     private static KrokiMockupToolSplashScreen splash;
 
     public KrokiMockupToolApp() {
-
-
         KrokiLookAndFeel.setLookAndFeel();
         guiManager = new GuiManager();
-        
         splash  = new KrokiMockupToolSplashScreen();
-
         krokiMockupToolFrame = new KrokiMockupToolFrame(guiManager);
         tabbedPaneController = new TabbedPaneController(krokiMockupToolFrame.getCanvasTabbedPane());
         workspace = new Workspace();

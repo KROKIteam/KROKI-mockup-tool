@@ -2,7 +2,7 @@
 <entity class-name="ejb.Enterprise" label="Enterprise" name="ENTERPRISE">
 <attributes>
 <column-attribute field-name="id" key="true" label="ID" length="50" name="id" type="java.lang.Long"/>
-<column-attribute field-name="enterpriseName" key="false" label="Enterprise name" length="50" name="enterpriseName" type="java.lang.String"/>
+<column-attribute field-name="name" key="false" label="Name" length="50" name="name" type="java.lang.String"/>
 <column-attribute field-name="address" key="false" label="Address" length="50" name="address" type="java.lang.String"/>
 <zoom-attribute class-name="ejb.City" field-name="city" label="City" name="city" zoomed-by="id">
 <column-ref label="City ID" name="id"/>

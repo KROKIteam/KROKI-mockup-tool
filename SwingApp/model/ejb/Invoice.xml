@@ -4,8 +4,8 @@
 <column-attribute field-name="id" key="true" label="ID" length="50" name="id" type="java.lang.Long"/>
 <column-attribute field-name="invoiceNumber" key="false" label="Invoice number" length="50" name="invoiceNumber" type="java.lang.String"/>
 <column-attribute field-name="invoiceDate" key="false" label="Invoice date" length="50" name="invoiceDate" type="java.util.Date"/>
-<column-attribute field-name="total" key="false" label="Total" length="50" name="total" type="java.math.BigDecimal"/>
-<zoom-attribute class-name="ejb.Orders" field-name="orders" label="Order" name="orders" zoomed-by="id">
+<column-attribute field-name="invoiceTotal" key="false" label="Invoice total" length="50" name="invoiceTotal" type="java.math.BigDecimal"/>
+<zoom-attribute class-name="ejb.Order" field-name="order" label="Order" name="order" zoomed-by="id">
 <column-ref label="Order ID" name="id"/>
 <column-ref label="Order Order number" name="orderNumber"/>
 </zoom-attribute>

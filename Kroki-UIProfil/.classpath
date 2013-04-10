@@ -17,7 +17,7 @@
 	<classpathentry kind="lib" path="lib/miglayout-4.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kroki"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -44,11 +46,7 @@ public class PriceListItem implements java.io.Serializable {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="product", referencedColumnName="ID", nullable=true)
-	private Product product;
-	
-	@ManyToOne
-	@JoinColumn(name="priceList", referencedColumnName="ID", nullable=true)
+	@JoinColumn(name="priceList", referencedColumnName="ID",  nullable = true)
 	private PriceList priceList;
 	
 	
@@ -77,14 +75,6 @@ public class PriceListItem implements java.io.Serializable {
 	
 	public void setTax(java.math.BigDecimal tax) {
 		this.tax = tax;
-	}
-	
-	public Product getProduct() {
-		return this.product;
-	}
-	
-	public void setProduct(Product product) {
-		this.product = product;
 	}
 	
 	public PriceList getPriceList() {

@@ -5,6 +5,7 @@ import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -119,7 +120,8 @@ public class EntityReader {
 		ca.setFieldName(elem.getAttribute(Tags.FIELD_NAME));
 		String dataType = elem.getAttribute(Tags.DATA_TYPE);
 		ca.setDataType(dataType);
-		if (dataType == null || dataType.equals("")) {
+		Attr enumAttr = elem.getAttributeNode(Tags.ENUM);
+		if(enumAttr != null) {
 			String enumName = elem.getAttribute(Tags.ENUM);
 			ca.setEnumeration(AppCache.getInstance().getEnumeration(enumName));
 		}

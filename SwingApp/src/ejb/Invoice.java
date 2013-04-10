@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 27.03.2013  13:10:23h
+   Creation date: 10.04.2013  15:26:53h
    **/
 
 @Entity
@@ -42,13 +44,13 @@ public class Invoice implements java.io.Serializable {
 	@Column(name = "INV_INVOICE_DATE", unique = false, nullable = false)
 	private java.util.Date invoiceDate;
 	
-	@Column(name = "INV_TOTAL", unique = false, nullable = false)
-	private java.math.BigDecimal total;
+	@Column(name = "INV_INVOICE_TOTAL", unique = false, nullable = false)
+	private java.math.BigDecimal invoiceTotal;
 	
 	
 	@ManyToOne
-	@JoinColumn(name="orders", referencedColumnName="ID", nullable=true)
-	private Orders orders;
+	@JoinColumn(name="order", referencedColumnName="ID",  nullable = true)
+	private Order order;
 	
 	
 	public Invoice(){
@@ -78,20 +80,20 @@ public class Invoice implements java.io.Serializable {
 		this.invoiceDate = invoiceDate;
 	}
 	
-	public java.math.BigDecimal getTotal() {
-		return this.total;
+	public java.math.BigDecimal getInvoiceTotal() {
+		return this.invoiceTotal;
 	}
 	
-	public void setTotal(java.math.BigDecimal total) {
-		this.total = total;
+	public void setInvoiceTotal(java.math.BigDecimal invoiceTotal) {
+		this.invoiceTotal = invoiceTotal;
 	}
 	
-	public Orders getOrders() {
-		return this.orders;
+	public Order getOrder() {
+		return this.order;
 	}
 	
-	public void setOrders(Orders orders) {
-		this.orders = orders;
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 	
 }

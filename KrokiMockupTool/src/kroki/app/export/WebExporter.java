@@ -105,6 +105,7 @@ public class WebExporter {
 				VisibleProperty vp = vc.containedProperties().get(j);
 
 				String type = "java.lang.String";
+				String values = null;
 				if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
 					if(vp.getDataType().equals("BigDecimal")) {
 						type = "java.math.BigDecimal";
@@ -116,7 +117,7 @@ public class WebExporter {
 				} 
 
 
-				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative());
+				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative(), null);
 				attr.setRepresentative(vp.isRepresentative());
 				attr.setMandatory(vp.lower() != 0);
 				attributes.add(attr);
@@ -251,11 +252,11 @@ public class WebExporter {
 
 	public void addDefaultClasses(ArrayList<EJBClass> classes) {
 		//ACTION
-		Attribute actionName = new Attribute("name", "ACT_NAME", "Name", "java.lang.String", true, true, true);
-		Attribute actionLink = new Attribute("link", "ACT_LINK", "Link", "java.lang.String", false, true, false);
-		Attribute actionImagePath = new Attribute("imagePath", "ACT_IMG_PATH", "Image path", "java.lang.String", false, false, false);
-		Attribute actonType = new Attribute("type", "ACT_TYPE", "Type", "java.lang.String", false, true, false);
-		Attribute actionTip = new Attribute("tip", "ACT_TIP", "Tip", "java.lang.String", false, false, false);
+		Attribute actionName = new Attribute("name", "ACT_NAME", "Name", "java.lang.String", true, true, true, null);
+		Attribute actionLink = new Attribute("link", "ACT_LINK", "Link", "java.lang.String", false, true, false, null);
+		Attribute actionImagePath = new Attribute("imagePath", "ACT_IMG_PATH", "Image path", "java.lang.String", false, false, false, null);
+		Attribute actonType = new Attribute("type", "ACT_TYPE", "Type", "java.lang.String", false, true, false, null);
+		Attribute actionTip = new Attribute("tip", "ACT_TIP", "Tip", "java.lang.String", false, false, false, null);
 
 		ArrayList<Attribute> actionAttributes = new ArrayList<Attribute>();
 		actionAttributes.add(actionName);
@@ -267,8 +268,8 @@ public class WebExporter {
 		EJBClass action = new EJBClass("adapt.entities", "Action", "ADAPT_ACTION", "Action", actionAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
 
 		//USER
-		Attribute userName = new Attribute("name", "USER_USERNAME", "Username", "java.lang.String", true, true, true);
-		Attribute userPassword = new Attribute("password", "USER_PASSWORD", "Password", "java.lang.String", false, true, false);
+		Attribute userName = new Attribute("name", "USER_USERNAME", "Username", "java.lang.String", true, true, true, null);
+		Attribute userPassword = new Attribute("password", "USER_PASSWORD", "Password", "java.lang.String", false, true, false, null);
 		OneToManyAttribute userRights = new OneToManyAttribute("rights", "Rights", "UserRights", "user");
 
 		ArrayList<Attribute> userAttributes = new ArrayList<Attribute>();
@@ -281,11 +282,11 @@ public class WebExporter {
 		EJBClass user = new EJBClass("adapt.entities", "User", "ADAPT_USER", "User", userAttributes, new ArrayList<ManyToOneAttribute>(), userOTMAttributes);
 
 		//MYRESOURCE
-		Attribute myResourceEntId = new Attribute("entId", "MYRES_ENT_ID", "Entity ID", "java.lang.Long", false, true, false);
-		Attribute myResourceTable = new Attribute("table", "MYRES_TABLE", "Table", "java.lang.String", false, true, false);
-		Attribute myResourceEntLabel = new Attribute("entLabel", "MYRES_ENT_LABEL", "Entity label", "java.lang.String", false, true, false);
-		Attribute myResourceTableLabel = new Attribute("tableLabel", "MYRES_TABLE_LABEL", "Table", "java.lang.String", false, true, false);
-		Attribute myResourceResLink = new Attribute("ResLink", "MYRES_RESLINK", "Resource link", "java.lang.String", false, true, false);
+		Attribute myResourceEntId = new Attribute("entId", "MYRES_ENT_ID", "Entity ID", "java.lang.Long", false, true, false, null);
+		Attribute myResourceTable = new Attribute("table", "MYRES_TABLE", "Table", "java.lang.String", false, true, false, null);
+		Attribute myResourceEntLabel = new Attribute("entLabel", "MYRES_ENT_LABEL", "Entity label", "java.lang.String", false, true, false, null);
+		Attribute myResourceTableLabel = new Attribute("tableLabel", "MYRES_TABLE_LABEL", "Table", "java.lang.String", false, true, false, null);
+		Attribute myResourceResLink = new Attribute("ResLink", "MYRES_RESLINK", "Resource link", "java.lang.String", false, true, false, null);
 		ManyToOneAttribute myResourceUser = new ManyToOneAttribute("user", "MYRES_USER", "User", "User", true);
 		
 		ArrayList<Attribute> myResourceAttributes = new ArrayList<Attribute>();
@@ -301,8 +302,8 @@ public class WebExporter {
 		EJBClass myResource = new EJBClass("adapt.entities", "MyResource", "ADAPT_MY_RESOURCE", "My Resources", myResourceAttributes, myResourceMTOAttributes, new ArrayList<OneToManyAttribute>());
 		
 		//RESOURCE
-		Attribute resourceName = new Attribute("name", "RES_NAME", "Name", "java.lang.String", true, true, true);
-		Attribute resourceLink = new Attribute("link", "RES_LINK", "Link", "java.lang.String", true, true, false);
+		Attribute resourceName = new Attribute("name", "RES_NAME", "Name", "java.lang.String", true, true, true, null);
+		Attribute resourceLink = new Attribute("link", "RES_LINK", "Link", "java.lang.String", true, true, false, null);
 		
 		ArrayList<Attribute> resourceAttributes = new ArrayList<Attribute>();
 		resourceAttributes.add(resourceName);
@@ -311,7 +312,7 @@ public class WebExporter {
 		EJBClass resource = new EJBClass("adapt.entities", "Resource", "ADAPT_RESOURCE", "Resources", resourceAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
 		
 		//USERRIGHTS
-		Attribute urightsAllowed = new Attribute("allowed", "UR_ALLOWED", "Allowed", "java.lang.Boolean", false, true, true);
+		Attribute urightsAllowed = new Attribute("allowed", "UR_ALLOWED", "Allowed", "java.lang.Boolean", false, true, true, null);
 		ManyToOneAttribute urightsUser = new ManyToOneAttribute("user", "UR_USER", "User", "User", true);
 		ManyToOneAttribute urightsAction = new ManyToOneAttribute("action", "UR_ACTION", "Action", "Action", true);
 		ManyToOneAttribute urightsResource = new ManyToOneAttribute("resource", "UR_RESOURCE", "Resource", "Resource", true);
