@@ -3,7 +3,7 @@ package com.panelcomposer.enumerations;
    /** 
    File generated using Kroki EnumGenerator 
    @Author MiloradFilipovic 
-   Creation date: 10.04.2013  15:26:53h
+   Creation date: 24.04.2013  14:13:36h
    **/
 
 public enum ViewMode {
