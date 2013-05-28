@@ -6,13 +6,15 @@ package kroki.app.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
+import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreePath;
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.action.CreateDiagramAction;
+import kroki.app.action.CreateUIDiagramAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.DeleteAction;
 import kroki.app.action.ExportSwingAction;
@@ -115,7 +117,11 @@ public class TreeController extends AbstractTreeController {
         } else if (e.getButton() == MouseEvent.BUTTON3) {
 
             TreePath treePath = tree.getPathForLocation(e.getX(), e.getY());
+            tree.setSelectionPath(treePath);
             JPopupMenu popupMenu = new JPopupMenu();
+            JMenu diagramMenu = new JMenu();
+            diagramMenu.setText("View diagram...");
+            diagramMenu.add(new CreateUIDiagramAction());
             if (treePath == null) {
                 popupMenu.add(new NewProjectAction());
                 popupMenu.add(new NewFileAction());
@@ -134,7 +140,7 @@ public class TreeController extends AbstractTreeController {
                 popupMenu.add(new DeleteAction((BussinesSubsystem) node));
                 popupMenu.addSeparator();
                 popupMenu.add(new DBConneectionSettingsAction());
-                popupMenu.add(new CreateDiagramAction());
+                popupMenu.add(diagramMenu);
             } else if (node instanceof VisibleClass) {
                 popupMenu.add(new RenameAction((VisibleClass) node));
                 popupMenu.add(new DeleteAction((VisibleClass) node));

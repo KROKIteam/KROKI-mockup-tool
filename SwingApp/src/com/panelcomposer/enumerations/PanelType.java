@@ -3,7 +3,7 @@ package com.panelcomposer.enumerations;
    /** 
    File generated using Kroki EnumGenerator 
    @Author MiloradFilipovic 
-   Creation date: 24.04.2013  14:13:36h
+   Creation date: 22.05.2013  10:56:57h
    **/
 
 public enum PanelType {

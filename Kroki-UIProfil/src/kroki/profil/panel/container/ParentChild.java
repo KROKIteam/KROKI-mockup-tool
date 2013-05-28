@@ -24,9 +24,9 @@ import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.VisibleClassSettings;
 
 /**
- * <code>ParentChild</code> modeluje složeni panel  čiji su
- * sastavni paneli organizovani u stablo, na način definisan HCI standardom. 
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * <code>ParentChild</code> modeluje slozeni panel  ciji su
+ * sastavni paneli organizovani u stablo, na nacin definisan HCI standardom. 
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(VisibleClassSettings.class)
 public class ParentChild extends ContainerPanel {
@@ -81,7 +81,7 @@ public class ParentChild extends ContainerPanel {
     /**************/
     /*JAVNE METODE*/
     /**************/
-    /**Vraća sve elemente koji predstavljaju deo hijerarhijske strukture*/
+    /**VraÄ‡a sve elemente koji predstavljaju deo hijerarhijske strukture*/
     public List<Hierarchy> allContainedHierarchies() {
         List<Hierarchy> allContainedHierarchies = new ArrayList<Hierarchy>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -92,7 +92,7 @@ public class ParentChild extends ContainerPanel {
         return allContainedHierarchies;
     }
 
-    /**Vraća broj elemenata hijerarhijske strukture*/
+    /**VraÄ‡a broj elemenata hijerarhijske strukture*/
     public int getHierarchyCount() {
         int i = 0;
         for (VisibleElement visibleElement : visibleElementList) {
@@ -103,7 +103,7 @@ public class ParentChild extends ContainerPanel {
         return i;
     }
 
-    /**Vraća koren hijerarhije. Ukoliko ga nema vraća null.*/
+    /**VraÄ‡a koren hijerarhije. Ukoliko ga nema vraÄ‡a null.*/
     public Hierarchy getHierarchyRoot() {
         Hierarchy root = null;
         for (VisibleElement visibleElement : visibleElementList) {
@@ -117,7 +117,7 @@ public class ParentChild extends ContainerPanel {
         return root;
     }
 
-    /**Pronalazi sve hijerarhije čiji nivo je jednak prosleđenom parametru <code>level</code>*/
+    /**Pronalazi sve hijerarhije Ä�iji nivo je jednak prosleÄ‘enom parametru <code>level</code>*/
     public List<Hierarchy> allHierarchiesByLevel(int level) {
         List<Hierarchy> allHierarchiesByLevel = new ArrayList<Hierarchy>();
         for (VisibleElement visibleElement : visibleElementList) {

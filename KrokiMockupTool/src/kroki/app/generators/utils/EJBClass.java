@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class EJBClass {
 	
 	private String classPackage;
+	private String subsystem;
 	private String name;
 	private String tableName;
 	private String label;
@@ -17,12 +18,13 @@ public class EJBClass {
 	private ArrayList<ManyToOneAttribute> manyToOneAttributes;
 	private ArrayList<OneToManyAttribute> oneToManyAttributes;
 	
-	public EJBClass(String classPackage, String name, String tableName, String label,
+	public EJBClass(String classPackage, String subsys, String name, String tableName, String label,
 			ArrayList<Attribute> attributes,
 			ArrayList<ManyToOneAttribute> manyToOneAttributes,
 			ArrayList<OneToManyAttribute> oneToManyAttributes) {
 		super();
 		this.classPackage = classPackage;
+		this.subsystem = subsys;
 		this.name = name;
 		this.tableName = tableName;
 		this.label = label;
@@ -37,6 +39,14 @@ public class EJBClass {
 
 	public void setClassPackage(String classPackage) {
 		this.classPackage = classPackage;
+	}
+
+	public String getSubsystem() {
+		return subsystem;
+	}
+
+	public void setSubsystem(String subsystem) {
+		this.subsystem = subsystem;
 	}
 
 	public String getName() {

@@ -6,6 +6,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -34,10 +43,14 @@ import org.xml.sax.SAXException;
 
 public class KrokiDiagramFrame extends JFrame {
 
+	private JScrollPane scrollPane;
 	private JSVGCanvas canvas;
 	private JPanel statusPanel;
 	private JLabel nameLabel;
 	private JLabel statLabel;
+	private JLabel coordLabel;
+	
+	double zoomFactor = 1;
 	
 	public KrokiDiagramFrame() {
 		setTitle("KROKI project visualizer");
@@ -51,13 +64,16 @@ public class KrokiDiagramFrame extends JFrame {
 	private void initGUI() {
 		nameLabel = new JLabel();
 		statLabel = new JLabel();
+		coordLabel = new JLabel("0,0");
 		
 		statusPanel = new JPanel();
 		initStatusBar();
 		canvas = new JSVGCanvas();
 		initCanvas();
+
+		scrollPane = new JScrollPane(canvas);
 		
-		add(canvas, BorderLayout.CENTER);
+		add(scrollPane, BorderLayout.CENTER);
 		add(statusPanel, BorderLayout.SOUTH);
 	}
 	
@@ -70,7 +86,63 @@ public class KrokiDiagramFrame extends JFrame {
             	statLabel.setText("Rendered ok.");
             }
         });
+		
+		
+		/*
+		 * ZOOM IN AND OUT IMPLEMENTED WITH MOUSE WHEEL LISTENER (NOT QUITE)
+		 */
+		canvas.addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				AffineTransform matrix = new AffineTransform();
+				int notches = e.getWheelRotation();
+				//SCROLL UP -> ZOOM IN
+				if(notches < 0) {
+					if(zoomFactor < 10) {
+						zoomFactor -= e.getWheelRotation();
+						Point2D old = e.getPoint();
+						pointToUserSpace(old, matrix);
+						matrix.setToScale(zoomFactor, zoomFactor);
+						Point2D newP = e.getPoint();
+						pointToUserSpace(newP, matrix);
+						matrix.translate(newP.getX()-old.getX(), newP.getY()-newP.getY());
+						canvas.setRenderingTransform(matrix, true);
+					}
+					System.out.println(zoomFactor);
+				}else {
+					//ZOOM OUT
+					if(zoomFactor > 1) {
+						zoomFactor -= e.getWheelRotation() * 0.2;
+						Point2D old = e.getPoint();
+						pointToUserSpace(old, matrix);
+						matrix.setToScale(zoomFactor, zoomFactor);
+						Point2D newP = e.getPoint();
+						pointToUserSpace(newP, matrix);
+						matrix.translate(newP.getX()-old.getX(), newP.getY()-newP.getY());
+						canvas.setRenderingTransform(matrix, true);
+					}
+				}
+			}
+		});
+		
+		canvas.addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				Point p = e.getPoint();
+				int xOffset = scrollPane.getHorizontalScrollBar().getValue();
+				int yOffset = scrollPane.getVerticalScrollBar().getValue();
+				int x = p.x - xOffset;
+				int y = p.y - yOffset;
+				coordLabel.setText(x + "," + y);
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+			}
+		});
 	}
+	
 	
 	private void initStatusBar() {
 		statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
@@ -102,6 +174,9 @@ public class KrokiDiagramFrame extends JFrame {
 		
 		leftSection.add(projectLabel);
 		leftSection.add(nameLabel);
+		
+		middleSection.add(coordLabel);
+		
 		rightSection.add(statusLabel);
 		rightSection.add(statLabel);
 		
@@ -130,6 +205,7 @@ public class KrokiDiagramFrame extends JFrame {
 			dbf.setNamespaceAware(true);
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(new InputSource(new ByteArrayInputStream(svg.getBytes("utf-8"))));
+			//System.out.println(svg);
 			//display created xml as SVG image
 			canvas.setDocument(doc);
 		} catch (IOException e1) {
@@ -141,4 +217,11 @@ public class KrokiDiagramFrame extends JFrame {
 		}
 	}
 	
+	private void pointToUserSpace(Point2D deviceSpace, AffineTransform affineTransform){
+		try {
+			affineTransform.inverseTransform(deviceSpace, deviceSpace);
+		} catch (NoninvertibleTransformException e) {
+			e.printStackTrace();
+		}
+	}
 }

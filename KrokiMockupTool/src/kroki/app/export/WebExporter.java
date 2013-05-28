@@ -142,7 +142,7 @@ public class WebExporter {
 
 			String tableName = cc.toDatabaseFormat(this.project.getLabel(), sp.getLabel());
 			//EJB class instance for panel is created and passed to generator
-			EJBClass ejb = new EJBClass("adapt.entities", sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
+			EJBClass ejb = new EJBClass("adapt.entities", cc.toCamelCase(menu.getLabel(), true), sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
 			classes.add(ejb);
 			
 
@@ -265,7 +265,7 @@ public class WebExporter {
 		actionAttributes.add(actonType);
 		actionAttributes.add(actionTip);
 
-		EJBClass action = new EJBClass("adapt.entities", "Action", "ADAPT_ACTION", "Action", actionAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+		EJBClass action = new EJBClass("adapt.entities", "default", "Action", "ADAPT_ACTION", "Action", actionAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
 
 		//USER
 		Attribute userName = new Attribute("name", "USER_USERNAME", "Username", "java.lang.String", true, true, true, null);
@@ -279,7 +279,7 @@ public class WebExporter {
 		ArrayList<OneToManyAttribute> userOTMAttributes = new ArrayList<OneToManyAttribute>();
 		userOTMAttributes.add(userRights);
 
-		EJBClass user = new EJBClass("adapt.entities", "User", "ADAPT_USER", "User", userAttributes, new ArrayList<ManyToOneAttribute>(), userOTMAttributes);
+		EJBClass user = new EJBClass("adapt.entities", "default", "User", "ADAPT_USER", "User", userAttributes, new ArrayList<ManyToOneAttribute>(), userOTMAttributes);
 
 		//MYRESOURCE
 		Attribute myResourceEntId = new Attribute("entId", "MYRES_ENT_ID", "Entity ID", "java.lang.Long", false, true, false, null);
@@ -299,7 +299,7 @@ public class WebExporter {
 		ArrayList<ManyToOneAttribute> myResourceMTOAttributes = new ArrayList<ManyToOneAttribute>();
 		myResourceMTOAttributes.add(myResourceUser);
 		
-		EJBClass myResource = new EJBClass("adapt.entities", "MyResource", "ADAPT_MY_RESOURCE", "My Resources", myResourceAttributes, myResourceMTOAttributes, new ArrayList<OneToManyAttribute>());
+		EJBClass myResource = new EJBClass("adapt.entities", "default", "MyResource", "ADAPT_MY_RESOURCE", "My Resources", myResourceAttributes, myResourceMTOAttributes, new ArrayList<OneToManyAttribute>());
 		
 		//RESOURCE
 		Attribute resourceName = new Attribute("name", "RES_NAME", "Name", "java.lang.String", true, true, true, null);
@@ -309,7 +309,7 @@ public class WebExporter {
 		resourceAttributes.add(resourceName);
 		resourceAttributes.add(resourceLink);
 		
-		EJBClass resource = new EJBClass("adapt.entities", "Resource", "ADAPT_RESOURCE", "Resources", resourceAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+		EJBClass resource = new EJBClass("adapt.entities", "default", "Resource", "ADAPT_RESOURCE", "Resources", resourceAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
 		
 		//USERRIGHTS
 		Attribute urightsAllowed = new Attribute("allowed", "UR_ALLOWED", "Allowed", "java.lang.Boolean", false, true, true, null);
@@ -325,7 +325,7 @@ public class WebExporter {
 		urightsMTOAttributes.add(urightsAction);
 		urightsMTOAttributes.add(urightsResource);
 		
-		EJBClass uRights = new EJBClass("adapt.entities", "UserRights", "ADAPT_USER_RIGHTS", "User rights", urightsAttributes, urightsMTOAttributes, new ArrayList<OneToManyAttribute>());
+		EJBClass uRights = new EJBClass("adapt.entities", "default", "UserRights", "ADAPT_USER_RIGHTS", "User rights", urightsAttributes, urightsMTOAttributes, new ArrayList<OneToManyAttribute>());
 	
 		classes.add(action);
 		classes.add(user);
