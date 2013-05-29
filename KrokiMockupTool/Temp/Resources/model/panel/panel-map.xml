@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map>
-<panel ejb-ref="ejb.Workers" id="workers_st"/>
-<panel ejb-ref="ejb.Cities" id="cities_st"/>
-</map>

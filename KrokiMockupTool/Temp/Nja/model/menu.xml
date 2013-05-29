@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<menus>
-<menu label="Njanjalica" name="menunjanjalica_st">
-<submenu activate="njanjalica_st" label="Njanjalica" panel-type="standard-panel"/>
-</menu>
-</menus>

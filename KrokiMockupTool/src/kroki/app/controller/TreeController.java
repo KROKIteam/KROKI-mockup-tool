@@ -14,6 +14,7 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreePath;
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.action.CreatePresistentDiagramAction;
 import kroki.app.action.CreateUIDiagramAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.DeleteAction;
@@ -122,6 +123,7 @@ public class TreeController extends AbstractTreeController {
             JMenu diagramMenu = new JMenu();
             diagramMenu.setText("View diagram...");
             diagramMenu.add(new CreateUIDiagramAction());
+            diagramMenu.add(new CreatePresistentDiagramAction());
             if (treePath == null) {
                 popupMenu.add(new NewProjectAction());
                 popupMenu.add(new NewFileAction());

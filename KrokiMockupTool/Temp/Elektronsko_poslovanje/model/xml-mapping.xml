@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map>
-<property class-name="ejb.Drzava" xml-file="ejb/Drzava"/>
-<property class-name="ejb.NaseljenoMesto" xml-file="ejb/NaseljenoMesto"/>
-<property class-name="ejb.Preduzece" xml-file="ejb/Preduzece"/>
-<property class-name="ejb.User" xml-file="ejb/User"/>
-</map>

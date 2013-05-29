@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<entity class-name="ejb.Ojasa" label="Ojasa" name="OJASA">
-<attributes>
-<column-attribute field-name="id" key="true" label="Šifra" length="50" name="id" type="java.lang.Long"/>
-<column-attribute field-name="naziv" key="false" label="Naziv" length="50" name="naziv" type="java.lang.String"/>
-</attributes>
-</entity>

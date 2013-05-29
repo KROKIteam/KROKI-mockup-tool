@@ -2,12 +2,14 @@ package kroki.app;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -43,12 +45,14 @@ import org.xml.sax.SAXException;
 
 public class KrokiDiagramFrame extends JFrame {
 
-	private JScrollPane scrollPane;
 	private JSVGCanvas canvas;
 	private JPanel statusPanel;
 	private JLabel nameLabel;
 	private JLabel statLabel;
 	private JLabel coordLabel;
+	private Point clickLocation;
+	private Cursor handCursor = new Cursor(Cursor.MOVE_CURSOR);
+	private Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
 	
 	double zoomFactor = 1;
 	
@@ -71,13 +75,12 @@ public class KrokiDiagramFrame extends JFrame {
 		canvas = new JSVGCanvas();
 		initCanvas();
 
-		scrollPane = new JScrollPane(canvas);
-		
-		add(scrollPane, BorderLayout.CENTER);
+		add(canvas, BorderLayout.CENTER);
 		add(statusPanel, BorderLayout.SOUTH);
 	}
 	
 	private void initCanvas() {
+		canvas.setAutoscrolls(true);
 		canvas.addGVTTreeRendererListener(new GVTTreeRendererAdapter() {
             public void gvtRenderingPrepare(GVTTreeRendererEvent e) {
                 statLabel.setText("Rendering...");
@@ -94,7 +97,7 @@ public class KrokiDiagramFrame extends JFrame {
 		canvas.addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				AffineTransform matrix = new AffineTransform();
+				AffineTransform matrix = canvas.getRenderingTransform();
 				int notches = e.getWheelRotation();
 				//SCROLL UP -> ZOOM IN
 				if(notches < 0) {
@@ -108,7 +111,6 @@ public class KrokiDiagramFrame extends JFrame {
 						matrix.translate(newP.getX()-old.getX(), newP.getY()-newP.getY());
 						canvas.setRenderingTransform(matrix, true);
 					}
-					System.out.println(zoomFactor);
 				}else {
 					//ZOOM OUT
 					if(zoomFactor > 1) {
@@ -125,20 +127,54 @@ public class KrokiDiagramFrame extends JFrame {
 			}
 		});
 		
+		canvas.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				canvas.setCursor(defaultCursor);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				clickLocation = e.getPoint();
+				pointToUserSpace(clickLocation, canvas.getRenderingTransform());
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		
 		canvas.addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				Point p = e.getPoint();
-				int xOffset = scrollPane.getHorizontalScrollBar().getValue();
-				int yOffset = scrollPane.getVerticalScrollBar().getValue();
-				int x = p.x - xOffset;
-				int y = p.y - yOffset;
+				//int xOffset = scrollPane.getHorizontalScrollBar().getValue();
+				//int yOffset = scrollPane.getVerticalScrollBar().getValue();
+				int x = p.x;
+				int y = p.y;
 				coordLabel.setText(x + "," + y);
 			}
 			
 			@Override
 			public void mouseDragged(MouseEvent e) {
+				canvas.setCursor(handCursor);
+				AffineTransform matrix = canvas.getRenderingTransform();
+				Point p = e.getPoint();
+				pointToUserSpace(p, matrix);
+				int xOffset = -(clickLocation.x - p.x);
+				int yOffset = -(clickLocation.y - p.y);
+				matrix.translate(xOffset, yOffset);
+				canvas.setRenderingTransform(matrix, true);
 			}
 		});
 	}

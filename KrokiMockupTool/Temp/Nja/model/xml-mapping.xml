@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map>
-<property class-name="ejb.Njanjalica" xml-file="ejb/Njanjalica"/>
-<property class-name="ejb.User" xml-file="ejb/User"/>
-</map>

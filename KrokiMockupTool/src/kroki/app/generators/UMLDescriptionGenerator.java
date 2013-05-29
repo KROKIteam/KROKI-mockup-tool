@@ -5,8 +5,11 @@ import java.util.List;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.SwingExporter;
+import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBClass;
+import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
+import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.utils.DiagramProfile;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -53,10 +56,13 @@ public class UMLDescriptionGenerator {
 			desc += connections;
 			desc += parentChildDescriptions + "\n";
 		}else {
+			//if package is selected, first find project it belongs to
 			BussinesSubsystem p = findProject(project);
+			//then fetch project data
 			exporter.getData(p);
 			for (Menu menu : exporter.getMenus()) {
 				if(menu.getLabel().equals(project.getLabel())) {
+					//display only data for selected package
 					String packName = namer.toCamelCase(menu.getLabel(), true);
 					desc += getPackageDescription(menu);
 					ArrayList<EJBClass> packClasses = getSubsystemClasses(packName, exporter.getClasses());
@@ -73,6 +79,7 @@ public class UMLDescriptionGenerator {
 		}
 		return desc + "\n@enduml";
 	}
+	
 	
 	/************************************************************
 	 * Generates PlantUML package description for KROKI packages
@@ -115,12 +122,33 @@ public class UMLDescriptionGenerator {
 	 * @return
 	 ***************************************************************/
 	public String getPersistentClassDescription(EJBClass clas) {
-		return "class " + clas.getName() + "<<StandardPanel>>";
+		String className = clas.getName();
+		String stereotype = " <<PersistentClass>> ";
+		String classDescription = "\nclass " + className + stereotype;
+		
+		ArrayList<Attribute> classAttributes = clas.getAttributes();
+		if(!classAttributes.isEmpty()) {
+			classDescription += "{";
+			for (Attribute attribute : classAttributes) {
+				String[] splitedType = attribute.getType().split("\\.");
+				int index = splitedType.length-1;
+				String simpleType = splitedType[index];
+				classDescription += "\n\t\t-" + attribute.getName() + " : " + simpleType;
+			}
+			for (ManyToOneAttribute mtoAttr : clas.getManyToOneAttributes()) {
+				classDescription += "\n\t\t-" + mtoAttr.getName() + " : " + mtoAttr.getType();
+			}
+			for (OneToManyAttribute otmAttr : clas.getOneToManyAttributes()) {
+				classDescription += "\n\t\t-" + otmAttr.getName() + " : HashSet<" + otmAttr.getRefferencedTable() + ">";
+			}
+			classDescription += "\n\t}";
+		}
+		return "\n" + classDescription;
 	}
 	
 	
 	/************************************************************
-	 * Generates PlantUML description for KROKI UI diaram
+	 * Generates PlantUML description for KROKI UI diagram
 	 * @param clas
 	 * @return
 	 ************************************************************/
@@ -140,7 +168,6 @@ public class UMLDescriptionGenerator {
 		if(!props.isEmpty()) {
 			classDesc += " {";
 			for (VisibleProperty prop : props) {
-				String propName = namer.toCamelCase(prop.getLabel(), true);
 				classDesc += "\n\t\t-" + prop.getLabel() + ":" + prop.getComponentType();
 			}
 			for (VisibleOperation op : ops) {
@@ -159,7 +186,15 @@ public class UMLDescriptionGenerator {
 	
 	
 	public void getClassConnections(ArrayList<VisibleElement> elements) {
-		// = getElementsFromClasses(exporter.getClasses(), exporter.getElements());
+		if(profile == DiagramProfile.UI_PROFILE) {
+			getUIClassConnections(elements);
+		}else {
+			getPersistentClassConnections(elements);
+		}
+		
+	}
+	
+	public void getUIClassConnections(ArrayList<VisibleElement> elements) {
 		for (VisibleElement element : elements) {
 			String elName = namer.toCamelCase(element.getLabel(), false);
 			if(element instanceof StandardPanel) {
@@ -173,6 +208,19 @@ public class UMLDescriptionGenerator {
 				for (Hierarchy h : pc.allContainedHierarchies()) {
 					String hName = namer.toCamelCase(h.getTargetPanel().getComponent().getName(), false);
 					connections += "\n" + elName + " \"*\" -- \"1\" " + hName + ":<<hierarchy>>"; 
+				}
+			}
+		}
+	}
+	
+	public void getPersistentClassConnections(ArrayList<VisibleElement> elements) {
+		for (VisibleElement element : elements) {
+			String elName = namer.toCamelCase(element.getLabel(), false);
+			if(element instanceof StandardPanel) {
+				VisibleClass vClass = (VisibleClass) element;
+				for (Zoom zoom : vClass.containedZooms()) {
+					String zoomed = namer.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false);
+					connections += "\n" + elName + " \"*\" *-- \"1\" " + zoomed;
 				}
 			}
 		}
@@ -217,6 +265,9 @@ public class UMLDescriptionGenerator {
 		return els;
 	}
 	
+	/*
+	 * Gets list of parent-child elements that belong to specified package
+	 */
 	public ArrayList<VisibleElement> getParentChildElements(ArrayList<VisibleElement> elements, String packageName) {
 		ArrayList<VisibleElement> els = new ArrayList<VisibleElement>();
 		for (VisibleElement element : elements) {
@@ -258,6 +309,9 @@ public class UMLDescriptionGenerator {
 		return false;
 	}
 	
+	/*
+	 * Finds project based on belonging package
+	 */
 	public BussinesSubsystem findProject(BussinesSubsystem pack) {
 		BussinesSubsystem project = null;
 		for(int i=0; i<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); i++) {
