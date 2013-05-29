@@ -7,7 +7,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,19 +23,32 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.BoxLayout;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import kroki.app.model.Workspace;
 import kroki.app.utils.ImageResource;
+import kroki.common.copy.DeepCopy;
 
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -50,11 +68,16 @@ public class KrokiDiagramFrame extends JFrame {
 	private JLabel nameLabel;
 	private JLabel statLabel;
 	private JLabel coordLabel;
-	private Point clickLocation;
 	private Cursor handCursor = new Cursor(Cursor.MOVE_CURSOR);
 	private Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
 	
-	double zoomFactor = 1;
+	private MenuBar mainMenu;
+	private Menu fileMenu;
+	
+	private Point clickLocation;
+	private double zoomFactor = 1;
+	
+	private String svgXML;
 	
 	public KrokiDiagramFrame() {
 		setTitle("KROKI project visualizer");
@@ -66,6 +89,46 @@ public class KrokiDiagramFrame extends JFrame {
 	}
 
 	private void initGUI() {
+		mainMenu = new MenuBar();;
+		fileMenu = new Menu("File");
+		
+		MenuItem saveAsSVGItem = new MenuItem("Save as SVG image...");
+		
+		saveAsSVGItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser();
+				FileFilter filter = new FileNameExtensionFilter("Scalable vector graphic files", "svg");
+		        jfc.setAcceptAllFileFilterUsed(false);
+		        jfc.setFileFilter(filter);
+		        int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
+		        if (retValue == JFileChooser.APPROVE_OPTION) {
+		            File file = jfc.getSelectedFile();
+		            PrintWriter pw;
+					try {
+						pw = new PrintWriter(new FileOutputStream(new File(file.getPath() + ".svg")));
+						pw.print(svgXML);
+						pw.close();
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+					}
+
+		        } else {
+		            System.out.println("SVG save canceled: ");
+		        }
+				
+			}
+		});
+		
+		MenuItem editPrefferencesItem = new MenuItem("Prefferences..");
+		fileMenu.add(saveAsSVGItem);
+		//fileMenu.addSeparator();
+		//fileMenu.add(editPrefferencesItem);
+		mainMenu.add(fileMenu);
+		
+		setMenuBar(mainMenu);
+		
 		nameLabel = new JLabel();
 		statLabel = new JLabel();
 		coordLabel = new JLabel("0,0");
@@ -102,7 +165,7 @@ public class KrokiDiagramFrame extends JFrame {
 				//SCROLL UP -> ZOOM IN
 				if(notches < 0) {
 					if(zoomFactor < 10) {
-						zoomFactor -= e.getWheelRotation();
+						zoomFactor -= e.getWheelRotation() * 0.2;
 						Point2D old = e.getPoint();
 						pointToUserSpace(old, matrix);
 						matrix.setToScale(zoomFactor, zoomFactor);
@@ -241,6 +304,7 @@ public class KrokiDiagramFrame extends JFrame {
 			dbf.setNamespaceAware(true);
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(new InputSource(new ByteArrayInputStream(svg.getBytes("utf-8"))));
+			svgXML = svg;
 			//System.out.println(svg);
 			//display created xml as SVG image
 			canvas.setDocument(doc);

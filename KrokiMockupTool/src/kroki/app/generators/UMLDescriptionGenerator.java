@@ -135,12 +135,12 @@ public class UMLDescriptionGenerator {
 				String simpleType = splitedType[index];
 				classDescription += "\n\t\t-" + attribute.getName() + " : " + simpleType;
 			}
-			for (ManyToOneAttribute mtoAttr : clas.getManyToOneAttributes()) {
-				classDescription += "\n\t\t-" + mtoAttr.getName() + " : " + mtoAttr.getType();
-			}
-			for (OneToManyAttribute otmAttr : clas.getOneToManyAttributes()) {
-				classDescription += "\n\t\t-" + otmAttr.getName() + " : HashSet<" + otmAttr.getRefferencedTable() + ">";
-			}
+//			for (ManyToOneAttribute mtoAttr : clas.getManyToOneAttributes()) {
+//				classDescription += "\n\t\t-" + mtoAttr.getName() + " : " + mtoAttr.getType();
+//			}
+//			for (OneToManyAttribute otmAttr : clas.getOneToManyAttributes()) {
+//				classDescription += "\n\t\t-" + otmAttr.getName() + " : HashSet<" + otmAttr.getRefferencedTable() + ">";
+//			}
 			classDescription += "\n\t}";
 		}
 		return "\n" + classDescription;
@@ -201,13 +201,13 @@ public class UMLDescriptionGenerator {
 				VisibleClass vClass = (VisibleClass) element;
 				for (Zoom zoom : vClass.containedZooms()) {
 					String zoomed = namer.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false);
-					connections += "\n" + elName + " \"*\" -- \"1\" " + zoomed + ":<<zoom>>";
+					connections += "\n" + elName + " \"*\" -- \"1 <<zoom>>\" " + zoomed;
 				}
 			}else if (element instanceof ParentChild) {
 				ParentChild pc = (ParentChild) element;
 				for (Hierarchy h : pc.allContainedHierarchies()) {
 					String hName = namer.toCamelCase(h.getTargetPanel().getComponent().getName(), false);
-					connections += "\n" + elName + " \"*\" -- \"1\" " + hName + ":<<hierarchy>>"; 
+					connections += "\n" + elName + " \"1\" -- \"1\" " + hName + ":<<hierarchy : level " + h.getLevel() +">>"; 
 				}
 			}
 		}
@@ -220,7 +220,8 @@ public class UMLDescriptionGenerator {
 				VisibleClass vClass = (VisibleClass) element;
 				for (Zoom zoom : vClass.containedZooms()) {
 					String zoomed = namer.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false);
-					connections += "\n" + elName + " \"*\" *-- \"1\" " + zoomed;
+					String zoomLabel = namer.toCamelCase(zoom.getLabel(), false);
+					connections += "\n" + elName + " \"*\" -- \"1\" " + zoomed + " : " + zoomLabel;
 				}
 			}
 		}

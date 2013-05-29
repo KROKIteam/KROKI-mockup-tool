@@ -335,7 +335,7 @@ public class SwingExporter {
 
 		//write main.properties file with main form title
 		try {
-			PrintWriter pw=new PrintWriter(new FileOutputStream(propertiesFile));
+			PrintWriter pw = new PrintWriter(new FileOutputStream(propertiesFile));
 			for(int i=0; i<lines.size(); i++) {
 				pw.println(lines.get(i));
 			}
