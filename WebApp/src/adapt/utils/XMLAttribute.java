@@ -1,5 +1,7 @@
 package adapt.utils;
 
+import java.util.ArrayList;
+
 public class XMLAttribute {
 
 	private String name;
@@ -9,6 +11,7 @@ public class XMLAttribute {
 	private Boolean unique;
 	private Boolean mandatory;
 	private Boolean representative;
+	private ArrayList<String> values;
 	
 	public XMLAttribute(String name, String databaseName, String label,
 			String type, Boolean unique, Boolean mandatory, Boolean representative) {
@@ -76,5 +79,13 @@ public class XMLAttribute {
 
 	public void setRepresentative(Boolean representative) {
 		this.representative = representative;
+	}
+
+	public ArrayList<String> getValues() {
+		return values;
+	}
+
+	public void setValues(ArrayList<String> values) {
+		this.values = values;
 	}
 }

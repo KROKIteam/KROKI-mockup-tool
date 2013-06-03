@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <panels>
 <standard-panels>
-<standard-panel ejb-ref="ejb.Person" id="person_st">
+<standard-panel ejb-ref="ejb.Panel" id="panel_st">
 <settings add="true" change-mode="true" data-navigation="true" delete="true" view-mode="panel"/>
 </standard-panel>
 </standard-panels>

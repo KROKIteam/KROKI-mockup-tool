@@ -15,8 +15,11 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.StringResource;
 import kroki.profil.ComponentType;
 import kroki.profil.subsystem.BussinesSubsystem;
@@ -93,10 +96,15 @@ public class NewProjectDialog extends JDialog {
     }
 
     private void okActionPreformed() {
-        newSubystem = new BussinesSubsystem(projectNameTf.getText(), true, ComponentType.MENU, null);
-        DatabaseProps props = new DatabaseProps();
-        newSubystem.setDBConnectionProps(props);
-        this.dispose();
+        BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findProject(projectNameTf.getText());
+        if(pr != null) {
+        	JOptionPane.showMessageDialog(NewProjectDialog.this, "Project with specified name allready exists!");
+        }else {
+        	newSubystem = new BussinesSubsystem(projectNameTf.getText(), true, ComponentType.MENU, null);
+            DatabaseProps props = new DatabaseProps();
+            newSubystem.setDBConnectionProps(props);
+            this.dispose();
+        }
     }
 
     private void cancelActionPreformed() {

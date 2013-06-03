@@ -21,7 +21,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 public class CreatePresistentDiagramAction extends AbstractAction {
 
 	public CreatePresistentDiagramAction() {
-		putValue(NAME, "Persistent profile");
+		putValue(NAME, "Persistent class diagram");
 		putValue(SHORT_DESCRIPTION, "Generate class diagram from project");
 	}
 	

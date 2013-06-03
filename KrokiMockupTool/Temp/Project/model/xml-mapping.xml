@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <map>
-<property class-name="ejb.Person" xml-file="ejb/Person"/>
+<property class-name="ejb.Panel" xml-file="ejb/Panel"/>
 <property class-name="ejb.User" xml-file="ejb/User"/>
 </map>

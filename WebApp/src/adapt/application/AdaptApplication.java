@@ -3,6 +3,7 @@ package adapt.application;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -240,6 +241,7 @@ public class AdaptApplication extends Application {
 					NodeList nUnique = e.getElementsByTagName("Unique");
 					NodeList nMandatory = e.getElementsByTagName("Mandatory");
 					NodeList nRepresentative = e.getElementsByTagName("Representative");
+					NodeList nValues = e.getElementsByTagName("Values");
 					
 					String aName = XMLParser.getCharacterDataFromElement((Element)nAName.item(0));
 					String DBName = XMLParser.getCharacterDataFromElement((Element)nDBName.item(0));
@@ -248,8 +250,16 @@ public class AdaptApplication extends Application {
 					Boolean unique = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element)nUnique.item(0)));
 					Boolean mandatory = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element)nMandatory.item(0)));
 					Boolean representative = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element)nRepresentative.item(0)));
+					ArrayList<String> values = null;
+					if(nValues.getLength() > 0) {
+						String v = XMLParser.getCharacterDataFromElement((Element)nValues.item(0));
+						System.out.println("Values za " + aName + ":" + v);
+						String[] vals = v.split(";");
+						values = new ArrayList<String>(Arrays.asList(vals)) ;
+					}
 					
 					XMLAttribute attr = new XMLAttribute(aName, DBName, label, type, unique, mandatory, representative);
+					attr.setValues(values);
 					attributes.add(attr);
 				}
 			}

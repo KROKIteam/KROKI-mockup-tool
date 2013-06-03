@@ -23,7 +23,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 public class CreateUIDiagramAction extends AbstractAction {
 
 	public CreateUIDiagramAction() {
-		putValue(NAME, "User interface profile");
+		putValue(NAME, "User interface class diagram");
 		putValue(SHORT_DESCRIPTION, "Generate class diagram from project");
 	}
 

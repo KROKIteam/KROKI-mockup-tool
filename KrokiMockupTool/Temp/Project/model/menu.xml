@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menus>
-<menu label="Package" name="menu0_Package">
-<submenu activate="person_st" label="Person" panel-type="standard-panel"/>
+<menu label="Panel" name="menupanel_st">
+<submenu activate="panel_st" label="Panel" panel-type="standard-panel"/>
 </menu>
 </menus>

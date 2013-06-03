@@ -145,6 +145,57 @@ public class KrokiMockupToolApp {
         tcm.getMappings();
     }
 
+    
+    //*****************************************[ SEARCH METHODS ]***************************************************
+   
+    //Finds project with specified label
+    public BussinesSubsystem findProject(String label) {
+    	BussinesSubsystem project = null;
+    	for (int i=0; i<workspace.getPackageCount(); i++) {
+			BussinesSubsystem proj = (BussinesSubsystem) workspace.getPackageAt(i);
+			if(proj.getLabel().equalsIgnoreCase(label)) {
+				return proj;
+			}
+		}
+    	return project;
+    }
+    
+    //Finds package with specified label inside specified project or package
+    public BussinesSubsystem findPackage(String label, BussinesSubsystem owner) {
+    	System.out.println("\tTRAZIM " + label + " UNUTAR " + owner.getLabel());
+    	for(int i=0; i<owner.ownedElementCount(); i++) {
+    		BussinesSubsystem p = (BussinesSubsystem) owner.getOwnedElementAt(i);
+    		if(p.getLabel().equalsIgnoreCase(label)) {
+    			System.out.println("\tNASAO " + p.getLabel() + " UNUTAR " + owner.getLabel());
+    			return p;
+    		}else {
+    			System.out.println("\tNISAM NASAO IDEM U " + p.getLabel());
+    			return findPackage(label, p);
+    		}
+    	}
+    	return null;
+    }
+    
+    
+    //Finds owner project for specified package
+    public BussinesSubsystem findProject(BussinesSubsystem pack) {
+    	if(findProject(pack.getLabel()) != null) {
+    		//if passed subsystem is project, return it
+    		return pack;
+    	}else {
+    		BussinesSubsystem owner = (BussinesSubsystem) pack.nestingPackage();
+        	if(findProject(owner.getLabel()) != null) {
+        		//if imediate parent is project, return it
+        		return owner;
+        	}else {
+        		//else, go one level up, and check owner's parents until one of them is project
+        		return findProject(owner);
+        	}
+    	}
+    }
+    
+    //***************************************************************************************************************
+    
     public KrokiMockupToolFrame getKrokiMockupToolFrame() {
         return krokiMockupToolFrame;
     }

@@ -18,6 +18,7 @@ import java.util.TreeMap;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
+import javax.smartcardio.ATR;
 import javax.swing.text.DateFormatter;
 
 import org.restlet.Context;
@@ -297,7 +298,9 @@ public class ViewResource extends Resource {
 								name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
 							}
 							
-							name = name.substring(0, name.length()-2);
+							if(!name.equals("")) {
+								name = name.substring(0, name.length()-2);
+							}
 							
 							childMap.put(Id, name);
 						}
@@ -474,11 +477,11 @@ public class ViewResource extends Resource {
 			if(!pairs.getKey().toString().equals("submit")) {
 				//atributi
 				if(pairs.getKey().toString().startsWith("attr")) {
-					if(pairs.getKey().toString().startsWith("attrSelect")) { //ako ima combobox, onda je boolean
+					if(pairs.getKey().toString().startsWith("attrSelectBool")) { //ako ima combobox, onda je boolean
 						Boolean b = Boolean.parseBoolean(pairs.getValue().toString());
 						values.add(b);
 					}else {
-						values.add(pairs.getValue());
+						values.add(pairs.getValue().toString());
 					}
 				}else if(pairs.getKey().toString().startsWith("mattr")) { //manyToOne atributi
 					String index = Character.toString( pairs.getKey().toString().charAt(pairs.getKey().toString().length()-1));
@@ -552,6 +555,9 @@ public class ViewResource extends Resource {
 							}else if (attr.getType().equals("java.math.BigDecimal")) {
 								value = new BigDecimal(value.toString().replaceAll(",", "."));
 							}
+//							else if (attr.getType().equals("java.lang.String") && attr.getValues() != null) {
+//								System.out.println("TREBA COMBOBOX ZA " + attr.getName());
+//							}
 							setter.invoke(o, value);
 						} catch (IllegalArgumentException e) {
 							e.printStackTrace();

@@ -207,7 +207,7 @@ public class UMLDescriptionGenerator {
 				ParentChild pc = (ParentChild) element;
 				for (Hierarchy h : pc.allContainedHierarchies()) {
 					String hName = namer.toCamelCase(h.getTargetPanel().getComponent().getName(), false);
-					connections += "\n" + elName + " \"1\" -- \"1\" " + hName + ":<<hierarchy : level " + h.getLevel() +">>"; 
+					connections += "\n" + elName + " \"1\" -- \"1\" " + hName + ":<<hierarchy>> {level =" + h.getLevel() +"}"; 
 				}
 			}
 		}

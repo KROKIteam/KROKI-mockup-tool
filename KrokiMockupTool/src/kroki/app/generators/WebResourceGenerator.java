@@ -11,6 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
@@ -147,9 +148,16 @@ public class WebResourceGenerator {
 						attrMandatoryTag.setTextContent(Boolean.toString(mandatory));
 						attributeTag.appendChild(attrMandatoryTag);
 						
+						//<Representative>
 						Element attrRepresentativeTag = doc.createElement("Representative");
 						attrRepresentativeTag.setTextContent(Boolean.toString(representative));
 						attributeTag.appendChild(attrRepresentativeTag);
+						
+						if(prop.getComponentType() == ComponentType.COMBO_BOX) {
+							Element attrValuesTag = doc.createElement("Values");
+							attrValuesTag.setTextContent(prop.getEnumeration());
+							attributeTag.appendChild(attrValuesTag);
+						}
 						//System.out.println("\t[ATTRIBUTE] \n\t\tName: " + attrName + "\n\t\tLabel: " + attrLabel + "\n\t\tType: " + type + "\n\t\tUnique: " + unique + "\n\t \tMandatory: " + mandatory);
 					}
 				}

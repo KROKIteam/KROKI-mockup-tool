@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <enums>
+<enum label="Color" name="ColorPanelEnum">
+<value>Red</value>
+<value>Green</value>
+<value>Blue</value>
+</enum>
 <enum label="Opened as" name="OpenedAs">
 <value>DEFAULT</value>
 <value>ZOOM</value>

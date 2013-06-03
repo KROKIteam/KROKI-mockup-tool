@@ -86,20 +86,30 @@
 										<#list resource.attributes as attr>
 										<tr>
 											<td><b>${attr.label}:</b></td>
-											<#if attr.type == "java.lang.Boolean">
-											<td>
-												<select name="attrSelect${attr.name}">
-													<option value="true">YES</option>
-													<option value="false">NO</option>
-												</select>
-											</td>
-											<#elseif attr.name == "password">
-											<td><input type="password" name="attr${attr.name}Dodavanje"></td>
-											<#elseif attr.type == "java.util.Date">
-											<td><input type="text" name="attr${attr.name}Dodavanje"></td>
-											<td><font size="2" color="blue">Format: dd.MM.yyyy.</font> </td>
+											<#if attr.values??>
+												<td>
+													<select name="attrSelectCombo${attr.name}">
+													<#list attr.values as value>
+														<option value="${value}">${value}</option>
+													</#list>
+													</select>
+												</td>
 											<#else>
-											<td><input type="text" name="attr${attr.name}Dodavanje"></td>
+												<#if attr.type == "java.lang.Boolean">
+												<td>
+													<select name="attrSelectBool${attr.name}">
+														<option value="true">YES</option>
+														<option value="false">NO</option>
+													</select>
+												</td>
+												<#elseif attr.name == "password">
+												<td><input type="password" name="attr${attr.name}Dodavanje"></td>
+												<#elseif attr.type == "java.util.Date">
+												<td><input type="text" name="attr${attr.name}Dodavanje"></td>
+												<td><font size="2" color="blue">Format: dd.MM.yyyy.</font> </td>
+												<#else>
+												<td><input type="text" name="attr${attr.name}Dodavanje"></td>
+												</#if>
 											</#if>
 										</tr>
 										</#list>

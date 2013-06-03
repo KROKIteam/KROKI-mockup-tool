@@ -16,6 +16,7 @@ import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.WebResourceGenerator;
 import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBClass;
+import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.OneToManyAttribute;
@@ -105,6 +106,7 @@ public class WebExporter {
 				VisibleProperty vp = vc.containedProperties().get(j);
 
 				String type = "java.lang.String";
+				Enumeration enumeration = null;
 				String values = null;
 				if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
 					if(vp.getDataType().equals("BigDecimal")) {
@@ -114,10 +116,18 @@ public class WebExporter {
 					}
 				}else if(vp.getComponentType() == ComponentType.CHECK_BOX) {
 					type =  "java.lang.Boolean";
-				} 
+				}else if(vp.getComponentType() == ComponentType.COMBO_BOX) {
+					String enumName = cc.toCamelCase(vp.getLabel(), false);
+					enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
+					String enumClass = vp.umlClass().name();
+					String enumProp = cc.toCamelCase(vp.getLabel(), true);
+					//type = "com.panelcomposer.enumerations." + enumName;
+					String[] enumValues = vp.getEnumeration().split(";");
+					enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
+				}
 
 
-				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative(), null);
+				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative(), enumeration);
 				attr.setRepresentative(vp.isRepresentative());
 				attr.setMandatory(vp.lower() != 0);
 				attributes.add(attr);
@@ -141,8 +151,12 @@ public class WebExporter {
 			}
 
 			String tableName = cc.toDatabaseFormat(this.project.getLabel(), sp.getLabel());
+			String sys = cc.toCamelCase(project.getLabel(), true);
+			if(menu != null) {
+				sys = cc.toCamelCase(menu.getLabel(), true);
+			}
 			//EJB class instance for panel is created and passed to generator
-			EJBClass ejb = new EJBClass("adapt.entities", cc.toCamelCase(menu.getLabel(), true), sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
+			EJBClass ejb = new EJBClass("adapt.entities", sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
 			classes.add(ejb);
 			
 

@@ -38,6 +38,15 @@
 												<option value="false" <#if attributeValues[label_index] == "NE">selected="selected"</#if>>NE</option>
 											</select>
 										</td>
+									<#elseif resource.attributes[label_index].values??>
+									<td><b>${label}:</b></td>
+									<td>
+										<select name="attrSelectCombo${label_index}">
+										<#list resource.attributes[label_index].values as value>
+											<option value="${value}" <#if attributeValues[label_index] == "${value}">selected = "selected"</#if>>${value}</option>
+										</#list>
+										</select>
+									</td>
 									<#else>
 										<td><b>${label}:</b></td>
 										<td><input type="text" name="attr${label_index}izmena" value="${attributeValues[label_index]}"></td>

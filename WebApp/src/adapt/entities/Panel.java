@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,12 +24,12 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 04.04.2013  14:40:58h
+   Creation date: 03.06.2013  14:03:14h
    **/
 
 @Entity
-@Table(name = "WS_DEPARTMENT")
-public class Department implements java.io.Serializable {
+@Table(name = "PRO_PANEL")
+public class Panel implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,19 +38,15 @@ public class Department implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "DEP_DEPARTMENT_NAME", unique = false, nullable = false)
-	private java.lang.String departmentName;
+	@Column(name = "PAN_BOJA", unique = false, nullable = false)
+	private java.lang.String boja;
 	
-	@Column(name = "DEP_DEPARTMENT_ADDRESS", unique = false, nullable = false)
-	private java.lang.String departmentAddress;
-	
-	
-	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID",  nullable = false)
-	private City city;
+	@Column(name = "PAN_IME", unique = false, nullable = false)
+	private java.lang.String ime;
 	
 	
-	public Department(){
+	
+	public Panel(){
 	}
 	
 	public Long getId() {
@@ -59,28 +57,20 @@ public class Department implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getDepartmentName() {
-		return this.departmentName;
+	public java.lang.String getBoja() {
+		return this.boja;
 	}
 	
-	public void setDepartmentName(java.lang.String departmentName) {
-		this.departmentName = departmentName;
+	public void setBoja(java.lang.String boja) {
+		this.boja = boja;
 	}
 	
-	public java.lang.String getDepartmentAddress() {
-		return this.departmentAddress;
+	public java.lang.String getIme() {
+		return this.ime;
 	}
 	
-	public void setDepartmentAddress(java.lang.String departmentAddress) {
-		this.departmentAddress = departmentAddress;
-	}
-	
-	public City getCity() {
-		return this.city;
-	}
-	
-	public void setCity(City city) {
-		this.city = city;
+	public void setIme(java.lang.String ime) {
+		this.ime = ime;
 	}
 	
 }

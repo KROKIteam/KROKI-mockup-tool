@@ -24,12 +24,12 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 22.05.2013  10:56:57h
+   Creation date: 03.06.2013  12:24:43h
    **/
 
 @Entity
-@Table(name = "PRO_PERSON")
-public class Person implements java.io.Serializable {
+@Table(name = "PRO_PANEL")
+public class Panel implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,12 +38,15 @@ public class Person implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "PER_NAME", unique = false, nullable = false)
+	@Column(name = "PAN_NAME", unique = false, nullable = false)
 	private java.lang.String name;
 	
+	@Column(name = "PAN_COLOR", unique = false, nullable = false)
+	private java.lang.String color;
 	
 	
-	public Person(){
+	
+	public Panel(){
 	}
 	
 	public Long getId() {
@@ -60,6 +63,14 @@ public class Person implements java.io.Serializable {
 	
 	public void setName(java.lang.String name) {
 		this.name = name;
+	}
+	
+	public java.lang.String getColor() {
+		return this.color;
+	}
+	
+	public void setColor(java.lang.String color) {
+		this.color = color;
 	}
 	
 }

@@ -198,10 +198,15 @@ public class CommandPanel extends JPanel {
 		String token = sc.findInLine(pattern);
 		if(token != null) {
 			String name = token.substring(1, token.length()-1);
-			BussinesSubsystem bss = new BussinesSubsystem(name, true, ComponentType.MENU, null);
-			KrokiMockupToolApp.getInstance().getWorkspace().addPackage(bss);
-			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
-			return "Project " + token  + " created successfully";
+			BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findProject(name);
+			if(pr != null) {
+				return "Project with specified name already exists";
+			}else {
+				BussinesSubsystem bss = new BussinesSubsystem(name, true, ComponentType.MENU, null);
+				KrokiMockupToolApp.getInstance().getWorkspace().addPackage(bss);
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
+				return "Project " + token  + " created successfully";
+			}
 		}else {
 			return "Error parsing command. Check your syntax!";
 		}
@@ -219,9 +224,14 @@ public class CommandPanel extends JPanel {
 				project = matcher.group(2);
 
 				BussinesSubsystem owner = getOwnerPackage(project);
-				makePackage(owner, pack);
-
-				return "Subsystem \"" + pack  + "\" created successfully in \"" + project + "\"";
+				BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findPackage(pack, owner);
+				
+				if(pr != null) {
+					return "Package with specified name already exists";
+				}else {
+					makePackage(owner, pack);
+					return "Subsystem \"" + pack  + "\" created successfully in \"" + project + "\"";
+				}
 			}
 		}
 		return "Error parsing command. Check your syntax!";

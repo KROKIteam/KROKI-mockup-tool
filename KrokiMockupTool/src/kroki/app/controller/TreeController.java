@@ -68,11 +68,11 @@ public class TreeController extends AbstractTreeController {
         if (treePath != null) {
 			Object node = treePath.getLastPathComponent();
 			if (node instanceof Workspace) {
-				System.out.println("WORKSPACE");
+				//System.out.println("WORKSPACE");
 			} else if (node instanceof BussinesSubsystem) {
-				System.out.println("BUSSINESSUBSYSTEM");
+				//System.out.println("BUSSINESSUBSYSTEM");
 			} else if (node instanceof VisibleClass) {
-				System.out.println("VISIBLECLASS");
+				//System.out.println("VISIBLECLASS");
 			}
 		}
 		super.valueChanged(e);

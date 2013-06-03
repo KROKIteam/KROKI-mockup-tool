@@ -60,5 +60,7 @@
 	<classpathentry kind="lib" path="lib/batik-awt-util.jar"/>
 	<classpathentry kind="lib" path="lib/batik-anim.jar"/>
 	<classpathentry kind="lib" path="lib/batik-parser.jar"/>
+	<classpathentry kind="lib" path="lib/batik-transcoder.jar"/>
+	<classpathentry kind="lib" path="lib/batik-codec.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
