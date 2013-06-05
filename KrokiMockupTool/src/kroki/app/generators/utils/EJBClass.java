@@ -14,25 +14,37 @@ public class EJBClass {
 	private String name;
 	private String tableName;
 	private String label;
-	private ArrayList<Attribute> attributes;
-	private ArrayList<ManyToOneAttribute> manyToOneAttributes;
-	private ArrayList<OneToManyAttribute> oneToManyAttributes;
+	private ArrayList<EJBAttribute> attributes;
+//	private ArrayList<Attribute> attributes;
+//	private ArrayList<ManyToOneAttribute> manyToOneAttributes;
+//	private ArrayList<OneToManyAttribute> oneToManyAttributes;
+//	
+//	public EJBClass(String classPackage, String subsys, String name, String tableName, String label,
+//			ArrayList<Attribute> attributes,
+//			ArrayList<ManyToOneAttribute> manyToOneAttributes,
+//			ArrayList<OneToManyAttribute> oneToManyAttributes) {
+//		super();
+//		this.classPackage = classPackage;
+//		this.subsystem = subsys;
+//		this.name = name;
+//		this.tableName = tableName;
+//		this.label = label;
+//		this.attributes = attributes;
+//		this.manyToOneAttributes = manyToOneAttributes;
+//		this.oneToManyAttributes = oneToManyAttributes;
+//	}
+
 	
-	public EJBClass(String classPackage, String subsys, String name, String tableName, String label,
-			ArrayList<Attribute> attributes,
-			ArrayList<ManyToOneAttribute> manyToOneAttributes,
-			ArrayList<OneToManyAttribute> oneToManyAttributes) {
-		super();
+	public EJBClass(String classPackage, String subsystem, String name, String tableName, String label, ArrayList<EJBAttribute> attributes) {
 		this.classPackage = classPackage;
-		this.subsystem = subsys;
+		this.subsystem = subsystem;
 		this.name = name;
 		this.tableName = tableName;
 		this.label = label;
 		this.attributes = attributes;
-		this.manyToOneAttributes = manyToOneAttributes;
-		this.oneToManyAttributes = oneToManyAttributes;
 	}
 
+	
 	public String getClassPackage() {
 		return classPackage;
 	}
@@ -73,29 +85,14 @@ public class EJBClass {
 		this.label = label;
 	}
 
-	public ArrayList<Attribute> getAttributes() {
+
+	public ArrayList<EJBAttribute> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(ArrayList<Attribute> attributes) {
+
+	public void setAttributes(ArrayList<EJBAttribute> attributes) {
 		this.attributes = attributes;
 	}
 
-	public ArrayList<ManyToOneAttribute> getManyToOneAttributes() {
-		return manyToOneAttributes;
-	}
-
-	public void setManyToOneAttributes(
-			ArrayList<ManyToOneAttribute> manyToOneAttributes) {
-		this.manyToOneAttributes = manyToOneAttributes;
-	}
-
-	public ArrayList<OneToManyAttribute> getOneToManyAttributes() {
-		return oneToManyAttributes;
-	}
-
-	public void setOneToManyAttributes(
-			ArrayList<OneToManyAttribute> oneToManyAttributes) {
-		this.oneToManyAttributes = oneToManyAttributes;
-	}
 }

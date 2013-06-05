@@ -6,6 +6,7 @@ import java.util.List;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.SwingExporter;
 import kroki.app.generators.utils.Attribute;
+import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
@@ -126,10 +127,10 @@ public class UMLDescriptionGenerator {
 		String stereotype = " <<PersistentClass>> ";
 		String classDescription = "\nclass " + className + stereotype;
 		
-		ArrayList<Attribute> classAttributes = clas.getAttributes();
+		ArrayList<EJBAttribute> classAttributes = clas.getAttributes();
 		if(!classAttributes.isEmpty()) {
 			classDescription += "{";
-			for (Attribute attribute : classAttributes) {
+			for (EJBAttribute attribute : classAttributes) {
 				String[] splitedType = attribute.getType().split("\\.");
 				int index = splitedType.length-1;
 				String simpleType = splitedType[index];

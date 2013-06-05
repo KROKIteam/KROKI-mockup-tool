@@ -13,7 +13,7 @@ import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.EnumerationGenerator;
 import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.PanelGenerator;
-import kroki.app.generators.utils.Attribute;
+import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.ManyToOneAttribute;
@@ -106,7 +106,7 @@ public class SwingExporter {
 	public void getData(BussinesSubsystem proj) {
 		dbConfigGenerator = new DatabaseConfigGenerator(proj.getDBConnectionProps());
 		this.project = proj;
-		
+
 		//iteration trough project elements and retrieving of usable data for generators
 		for(int i=0; i<proj.ownedElementCount(); i++) {
 			VisibleElement el = proj.getOwnedElementAt(i);
@@ -126,71 +126,80 @@ public class SwingExporter {
 	//fetches class (panel) data from the model
 	public void getClassData(VisibleElement el, String classPackage, Menu menu) {
 		NamingUtil cc = new NamingUtil();
-		//System.out.println("OBRADJUJEM: " + el.getLabel());
 
 		if(el instanceof StandardPanel) {
 			StandardPanel sp = (StandardPanel)el;
-			StdPanelSettings sps = sp.getStdPanelSettings();
 			VisibleClass vc = (VisibleClass)el;
 
 			//EJB CLASS ATTRIBUTE LISTS
-			ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-			ArrayList<ManyToOneAttribute> mtoAttributes = new ArrayList<ManyToOneAttribute>();
-			ArrayList<OneToManyAttribute> otmAttributes = new ArrayList<OneToManyAttribute>();
-
+			ArrayList<EJBAttribute> attributes = new ArrayList<EJBAttribute>();
+			
 			/***********************************************/
 			/*    DATA USED FOR EJB CLASS GENERATION       */
 			/* one ejb class is generated for every panel  */
 			/***********************************************/
-			for(int j=0; j<vc.containedProperties().size(); j++) {
-				VisibleProperty vp = vc.containedProperties().get(j);
-
-				String type = "java.lang.String";
-				Enumeration enumeration = null;
-				if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
-					if(vp.getDataType().equals("BigDecimal")) {
-						type = "java.math.BigDecimal";
-					}else if(vp.getDataType().equals("Date")) {
-						type = "java.util.Date";
+			for (VisibleElement element : sp.getVisibleElementList()) {
+				if(element instanceof VisibleProperty) {
+					VisibleProperty vp = (VisibleProperty) element;
+					
+					String type = "java.lang.String";
+					Enumeration enumeration = null;
+					if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
+						if(vp.getDataType().equals("BigDecimal")) {
+							type = "java.math.BigDecimal";
+						}else if(vp.getDataType().equals("Date")) {
+							type = "java.util.Date";
+						}
+					}else if(vp.getComponentType() == ComponentType.CHECK_BOX) {
+						type =  "java.lang.Boolean";
+					}else if (vp.getComponentType() == ComponentType.COMBO_BOX) {
+						/***********************************************/
+						/*    DATA USED FOR ENUMERATION GENERATION     */
+						/* one enum is generated for every combo-box   */
+						/***********************************************/
+						String enumName = cc.toCamelCase(vp.getLabel(), false);
+						enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
+						String enumClass = vp.umlClass().name();
+						String enumProp = cc.toCamelCase(vp.getLabel(), true);
+						String[] enumValues = vp.getEnumeration().split(";");
+						enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
+						enumerations.add(enumeration);
 					}
-				}else if(vp.getComponentType() == ComponentType.CHECK_BOX) {
-					type =  "java.lang.Boolean";
-				}else if (vp.getComponentType() == ComponentType.COMBO_BOX) {
-					/***********************************************/
-					/*    DATA USED FOR ENUMERATION GENERATION     */
-					/* one enum is generated for every combo-box   */
-					/***********************************************/
-					String enumName = cc.toCamelCase(vp.getLabel(), false);
-					enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
-					String enumClass = vp.umlClass().name();
-					String enumProp = cc.toCamelCase(vp.getLabel(), true);
-					//type = "com.panelcomposer.enumerations." + enumName;
-					String[] enumValues = vp.getEnumeration().split(";");
-					enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
-					enumerations.add(enumeration);
-				}
 
-				Attribute attr = new Attribute(cc.toCamelCase(vp.getLabel(), true), vp.getColumnLabel(), vp.getLabel(), type, false, true, vp.isRepresentative(), enumeration);
-				attr.setMandatory(vp.lower() != 0);
-				attributes.add(attr);
-			}
+					ArrayList<String> anotations = new ArrayList<String>();
+					String name = cc.toCamelCase(vp.getLabel(), true);
+					String label = vp.getLabel();
+					String columnLabel = vp.getColumnLabel();
 
+					anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false)");
+					EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(), enumeration);
+					attributes.add(attribute);
+					
+				}else if(element instanceof Zoom) {
+					Zoom z = (Zoom)element;
+					if(z.getTargetPanel() != null) {
+						String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
+						String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 
-			for(int l=0; l<vc.containedZooms().size(); l++) {
-				Zoom z = vc.containedZooms().get(l);
-				if(z.getTargetPanel() != null) {
-					//adding ManyToOne (zoom) attribute
-					String n = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
-					String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
+						ArrayList<String> anotations = new ArrayList<String>();
+						String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
+						String databaseName = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
+						String label = z.getLabel();
+						Boolean mandatory = z.lower() != 0;
 
-					ManyToOneAttribute mto = new ManyToOneAttribute(cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true), n, z.getLabel(), type, true);
-					mto.setMandatory(z.lower() != 0);
-					mtoAttributes.add(mto);
-				}else {
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
-					return;
+						anotations.add("@ManyToOne");
+						anotations.add("@JoinColumn(name=\"" + name + "\", referencedColumnName=\"ID\",  nullable = " + !mandatory + ")");
+
+						EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, databaseName, mandatory, false, false, null);
+						attributes.add(attribute);
+
+					}else {
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 2);
+						return;
+					}
 				}
 			}
+			
 			String tableName = cc.toDatabaseFormat(this.project.getLabel(), sp.getLabel());
 
 			String sys = cc.toCamelCase(project.getLabel(), true);
@@ -198,7 +207,7 @@ public class SwingExporter {
 				sys = cc.toCamelCase(menu.getLabel(), true);
 			}
 			//EJB class instance for panel is created and passed to generator
-			EJBClass ejb = new EJBClass("ejb", sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, mtoAttributes, otmAttributes);
+			EJBClass ejb = new EJBClass("ejb", sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes);
 			classes.add(ejb);
 
 			/**************************************/
@@ -269,29 +278,31 @@ public class SwingExporter {
 	public void addReferences() {
 		for(int i=0; i<classes.size(); i++) {
 			EJBClass ejbClass = classes.get(i);
-			if(!ejbClass.getManyToOneAttributes().isEmpty()) {
-				for(int j=0; j<ejbClass.getManyToOneAttributes().size(); j++) {
-					ManyToOneAttribute mtrAttribute = ejbClass.getManyToOneAttributes().get(j);
-					EJBClass oppositeClass = getClass(mtrAttribute.getType());
-
-					if(oppositeClass != null) {
+			for(int j=0; j<ejbClass.getAttributes().size(); j++) {
+				EJBAttribute attribute = ejbClass.getAttributes().get(j);
+				if(getAttributeType(attribute).equals("ManyToOne")) {
+					EJBClass oppositeCLass = getClass(attribute.getType());
+					if(oppositeCLass != null) {
 						String name = ejbClass.getName() + "Set";
-						String label = mtrAttribute.getLabel();
-						String reffTable = ejbClass.getName();
-						String mappedBy = mtrAttribute.getName();
+						String type = "Set<" + ejbClass.getName() + ">";
+						String label = attribute.getLabel();
+						String mappedBy = attribute.getName();
+						ArrayList<String> annotations = new ArrayList<String>();
+						annotations.add("@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = \"" + mappedBy + "\")");
 
-						OneToManyAttribute otmAttr = new OneToManyAttribute(name, label, reffTable, mappedBy);
-						oppositeClass.getOneToManyAttributes().add(otmAttr);
-
-						for(int l=0; l<oppositeClass.getAttributes().size(); l++) {
-							Attribute atr = oppositeClass.getAttributes().get(l);
-							if(atr.getRepresentative()) {
-								mtrAttribute.getColumnRefs().add(atr);
+						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, true, false, false, null);
+						oppositeCLass.getAttributes().add(attr);
+						
+						for(int k=0; k<oppositeCLass.getAttributes().size(); k++) {
+							EJBAttribute att = oppositeCLass.getAttributes().get(k);
+							if(att.getRepresentative()) {
+								attribute.getColumnRefs().add(att);
 							}
 						}
+
 					}else {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Class '" + ejbClass.getLabel() + "' references non-exsisting class '" + mtrAttribute.getType()  + "'", 3);
-						throw new NullPointerException("Refferenced file " + mtrAttribute.getType() + " not found!");
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Class '" + ejbClass.getLabel() + "' references non-exsisting class '" + attribute.getType()  + "'", 3);
+						throw new NullPointerException("Refferenced file " + attribute.getType() + " not found!");
 					}
 				}
 			}
@@ -354,14 +365,20 @@ public class SwingExporter {
 		NamingUtil namer = new NamingUtil();
 
 		//Add User class to classes list
-		Attribute usernameAttribute = new Attribute("username", "username", "User name", "java.lang.String", true, true, true, null);
-		Attribute passwordAttribute = new Attribute("password", "password", "Password", "java.lang.String", true, true, false, null);
-		ArrayList<Attribute> userAttributes = new ArrayList<Attribute>();
+		ArrayList<String> usernameAnnotations = new ArrayList<String>();
+		usernameAnnotations.add("@Column(name = \"username\", unique = false, nullable = false)");
+		EJBAttribute usernameAttribute = new EJBAttribute(usernameAnnotations, "java.lang.String", "username", "User name", "username", true, false, true, null);
+
+		ArrayList<String> passwordAnnotations = new ArrayList<String>();
+		passwordAnnotations.add("@Column(name = \"password\", unique = false, nullable = false)");
+		EJBAttribute passwordAttribute = new EJBAttribute(passwordAnnotations, "java.lang.String", "password", "Password", "password", true, false, false, null);
+
+		String userTableName = namer.toDatabaseFormat(proj.getLabel(), "User");
+		ArrayList<EJBAttribute> userAttributes = new ArrayList<EJBAttribute>();
 		userAttributes.add(usernameAttribute);
 		userAttributes.add(passwordAttribute);
-		String userTableName = namer.toDatabaseFormat(proj.getLabel(), "User");
 
-		EJBClass user = new EJBClass("ejb", "default", "User", userTableName, "User", userAttributes, new ArrayList<ManyToOneAttribute>(), new ArrayList<OneToManyAttribute>());
+		EJBClass user = new EJBClass("ejb", "default", "User", userTableName, "User", userAttributes);
 		classes.add(user);
 
 		//add default enumerations
@@ -381,6 +398,23 @@ public class SwingExporter {
 		enumerations.add(panelTypeEnum);
 		enumerations.add(stateModeEnum);
 		enumerations.add(viewModeEnum);
+	}
+
+	/**
+	 * Determines attribute type based on it's annotation
+	 * @param attribute
+	 * @return Column, OneToMany or ManyToOne
+	 */
+	public String getAttributeType(EJBAttribute attribute) {
+		String annotation = attribute.getAnnotations().get(0);
+		if(annotation.startsWith("@Column")) {
+			return "Column";
+		}else if (annotation.startsWith("@ManyToOne")) {
+			return "ManyToOne";
+		}else {
+			return "OneToMany";
+		}
+
 	}
 
 	public ArrayList<EJBClass> getClasses() {

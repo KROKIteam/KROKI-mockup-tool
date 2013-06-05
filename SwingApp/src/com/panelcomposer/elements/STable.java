@@ -79,12 +79,30 @@ public class STable extends JTable {
 		scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		List<AbsAttribute> attributes = tableModel.entityBean.getAttributes();
 		ColumnAttribute colAttr = null;
-		
-		for (int i = 0; i < getColumnCount(); i++) {
-			colAttr = (ColumnAttribute) attributes.get(i);
-			costumizeColumn(colAttr, i);
-			packColumns();
+		int counter = 0; 
+
+		for (int i = 0; i < attributes.size(); i++) {
+			if (attributes.get(i) instanceof ColumnAttribute) {
+				colAttr = (ColumnAttribute) attributes.get(i);
+				costumizeColumn(colAttr, counter);
+				counter++;
+			} else if (attributes.get(i) instanceof JoinColumnAttribute) {
+				JoinColumnAttribute jcAttr = (JoinColumnAttribute) attributes.get(i);
+				for (int j = 0; j < jcAttr.getColumns().size(); j++) {
+					colAttr = jcAttr.getColumns().get(j);
+					costumizeColumn(colAttr, counter);
+					counter++;
+				}
+			} 
+			packColumns(); 
 		}
+		//		for (int i = 0; i < getColumnCount(); i++) {
+			//			if(attributes.get(i) instanceof ColumnAttribute) {
+		//				colAttr = (ColumnAttribute) attributes.get(i);
+		//				costumizeColumn(colAttr, i);
+		//			}
+		//			packColumns();
+		//		}
 
 		setPreferredScrollableViewportSize(new Dimension((int) getPreferredSize().getWidth(), 800));
 	}

@@ -6,13 +6,9 @@ import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import com.panelcomposer.core.MainApp;
-
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.KrokiMockupToolFrame;
 import kroki.app.export.SwingExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;

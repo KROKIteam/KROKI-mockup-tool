@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  12:24:43h
+   Creation date: 05.06.2013  14:39:53h
    **/
 
 @Entity
@@ -38,12 +38,11 @@ public class User implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "username", unique = true, nullable = false)
+	@Column(name = "username", unique = false, nullable = false)
 	private java.lang.String username;
 	
-	@Column(name = "password", unique = true, nullable = false)
+	@Column(name = "password", unique = false, nullable = false)
 	private java.lang.String password;
-	
 	
 	
 	public User(){

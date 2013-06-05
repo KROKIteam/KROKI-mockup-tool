@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menus>
-<menu label="Panel" name="menupanel_st">
-<submenu activate="panel_st" label="Panel" panel-type="standard-panel"/>
+<menu label="Car" name="menucar_st">
+<submenu activate="car_st" label="Car" panel-type="standard-panel"/>
+</menu>
+<menu label="Owner" name="menuowner_st">
+<submenu activate="owner_st" label="Owner" panel-type="standard-panel"/>
+</menu>
+<menu label="City" name="menucity_st">
+<submenu activate="city_st" label="City" panel-type="standard-panel"/>
+</menu>
+<menu label="Manufacturer" name="menumanufacturer_st">
+<submenu activate="manufacturer_st" label="Manufacturer" panel-type="standard-panel"/>
 </menu>
 </menus>

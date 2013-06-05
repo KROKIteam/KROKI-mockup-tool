@@ -36,43 +36,14 @@ public class ${class.name} implements java.io.Serializable {
 
 	<#if class.attributes?has_content>
 	<#list class.attributes as attr>
-	@Column(name = "${attr.databaseName}", unique = ${attr.unique?string}, nullable = ${attr.mandatory?string('false', 'true')})
+	<#list attr.annotations as annotation>
+	${annotation}
+	</#list>
 	private ${attr.type} ${attr.name};
 	
 	</#list>
 	</#if>
 	
-	<#if class.manyToOneAttributes?has_content>
-	<#list class.manyToOneAttributes as mattr>
-	@ManyToOne
-	@JoinColumn(name="${mattr.name}", referencedColumnName="ID",  nullable = ${mattr.mandatory?string('false', 'true')})
-	private ${mattr.type} ${mattr.name};
-	
-	</#list>
-	</#if>
-	
-	<#if class.oneToManyAttributes?has_content>
-	<#list class.oneToManyAttributes as oattr>
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "${oattr.mappedBy}")
-	private Set<${oattr.refferencedTable}> ${oattr.name} = new HashSet<${oattr.refferencedTable}>();
-	
-	</#list>
-	</#if>
-	<#if class.manyToManyAttributes?has_content>
-	<#list class.manyToManyAttributes as mtmattr>
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "${mtmattr.joinTable}",
-	joinColumns = {
-	@JoinColumn(name="${mtmattr.joinColumns}") 
-	},
-	inverseJoinColumns = {
-	@JoinColumn(name="${mtmattr.inverseJoinColumns}")
-	}
-	)
-	private Set<${mtmattr.type}> ${mtmattr.name};
-	
-	</#list>
-	</#if>
 	public ${class.name}(){
 	}
 	
@@ -94,49 +65,6 @@ public class ${class.name} implements java.io.Serializable {
 		this.${attr.name} = ${attr.name};
 	}
 	
-	</#list>
-	</#if>
-	<#if class.manyToOneAttributes?has_content>
-	<#list class.manyToOneAttributes as mattr>
-	public ${mattr.type} get${mattr.name?cap_first}() {
-		return this.${mattr.name};
-	}
-	
-	public void set${mattr.name?cap_first}(${mattr.type} ${mattr.name}) {
-		this.${mattr.name} = ${mattr.name};
-	}
-	
-	</#list>
-	</#if>
-	<#if class.oneToManyAttributes?has_content>
-	<#list class.oneToManyAttributes as oattr>
-	public Set<${oattr.refferencedTable}> get${oattr.name?cap_first}() {
-		return this.${oattr.name};
-	}
-
-	public void set${oattr.name?cap_first}(Set<${oattr.refferencedTable}> ${oattr.name}) {
-		this.${oattr.name} = ${oattr.name};
-	}
-	
-	</#list>
-	</#if>
-	<#if class.manyToManyAttributes?has_content>
-	<#list class.manyToManyAttributes as mtmattr>
-	public Set<${mtmattr.type}> get${mtmattr.name?cap_first}() {
-		return this.${mtmattr.name};
-	}
-
-	public void set${mtmattr.name?cap_first}(Set<${mtmattr.type}> ${mtmattr.name}) {
-		this.${mtmattr.name} = ${mtmattr.name};
-	}
-	
-	public void add${mtmattr.type?cap_first}(${mtmattr.type} o) {
-		this.${mtmattr.name}.add(o);
-	}
-	
-	public void remove${mtmattr.type?cap_first}(${mtmattr.type} o) {
-		this.${mtmattr.name}.remove(o);
-	}
 	</#list>
 	</#if>
 }

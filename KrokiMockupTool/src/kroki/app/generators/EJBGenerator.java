@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import kroki.app.generators.utils.Attribute;
+import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.ManyToOneAttribute;
@@ -55,7 +56,7 @@ public class EJBGenerator {
 			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "adapt" + File.separator + "entities");
 		}
 		deleteFiles(dir);
-		
+
 		for(int i=0; i<classes.size(); i++) {
 			EJBClass cl = classes.get(i);
 			Configuration cfg = new Configuration();
@@ -66,7 +67,7 @@ public class EJBGenerator {
 				cfg.setTemplateLoader(templateLoader);
 				Template tpl = cfg.getTemplate("EJBClass.ftl");
 
-				
+
 				File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
 				//ako je swing false onda se generisu ejb klase u web projekat
 				if(!swing) {
@@ -114,7 +115,7 @@ public class EJBGenerator {
 
 		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "model" + File.separator + "ejb");
 		deleteFiles(dir);
-		
+
 		try {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -182,120 +183,113 @@ public class EJBGenerator {
 
 				//tag <column-attribute> za svaki atribut klase
 				if(!clas.getAttributes().isEmpty()) {
-					for(int k=0; k<clas.getAttributes().size(); k++) {
-						Attribute atribute =clas.getAttributes().get(k);
+					for (EJBAttribute attribute : clas.getAttributes()) {
+						if(getAttributeType(attribute).equals("Column")) {
+							Element columnAttr = doc.createElement("column-attribute");
 
-						Element columnAttr = doc.createElement("column-attribute");
+							//atribut "name"
+							Attr colNameAttr = doc.createAttribute("name");
+							colNameAttr.setValue(attribute.getName());
+							columnAttr.setAttributeNode(colNameAttr);
 
-						//atribut "name"
-						Attr colNameAttr = doc.createAttribute("name");
-						colNameAttr.setValue(atribute.getName());
-						columnAttr.setAttributeNode(colNameAttr);
+							//atribut "label"
+							Attr colLabelAttr = doc.createAttribute("label");
+							colLabelAttr.setValue(attribute.getLabel());
+							columnAttr.setAttributeNode(colLabelAttr);
 
-						//atribut "label"
-						Attr colLabelAttr = doc.createAttribute("label");
-						colLabelAttr.setValue(atribute.getLabel());
-						columnAttr.setAttributeNode(colLabelAttr);
+							//atribut "field-name"
+							Attr colFieldNameAttr = doc.createAttribute("field-name");
+							colFieldNameAttr.setValue(attribute.getName());
+							columnAttr.setAttributeNode(colFieldNameAttr);
 
-						//atribut "field-name"
-						Attr colFieldNameAttr = doc.createAttribute("field-name");
-						colFieldNameAttr.setValue(atribute.getName());
-						columnAttr.setAttributeNode(colFieldNameAttr);
+							//atribut "type"
+							Attr colType = doc.createAttribute("type");
+							colType.setValue(attribute.getType());
 
-						//atribut "type"
-						Attr colType = doc.createAttribute("type");
-						colType.setValue(atribute.getType());
-						
-						Enumeration enumeration = atribute.getEnumeration();
-						if(enumeration != null) {
-							//colType.setValue("");
-							Attr colEnum = doc.createAttribute("enum");
-							colEnum.setValue(atribute.getEnumeration().getName());
-							columnAttr.setAttributeNode(colEnum);
+							Enumeration enumeration = attribute.getEnumeration();
+							if(enumeration != null) {
+								//colType.setValue("");
+								Attr colEnum = doc.createAttribute("enum");
+								colEnum.setValue(attribute.getEnumeration().getName());
+								columnAttr.setAttributeNode(colEnum);
+							}
+
+							columnAttr.setAttributeNode(colType);
+
+							//atribut "length"
+							Attr colLength = doc.createAttribute("length");
+							colLength.setValue("50");
+							columnAttr.setAttributeNode(colLength);
+
+							//atribut "key"
+							Attr colKeyAttr = doc.createAttribute("key");
+							colKeyAttr.setValue("false");
+							columnAttr.setAttributeNode(colKeyAttr);
+
+							attributes.appendChild(columnAttr);
+						}else if(getAttributeType(attribute).equals("ManyToOne")) {
+							Element zoomTag = doc.createElement("zoom-attribute");
+
+							//atribut "name"
+							Attr zoomNameAttr = doc.createAttribute("name");
+							zoomNameAttr.setValue(attribute.getName());
+							zoomTag.setAttributeNode(zoomNameAttr);
+
+							//atribut "label"
+							Attr zoomLabelAttr = doc.createAttribute("label");
+							zoomLabelAttr.setValue(attribute.getLabel());
+							zoomTag.setAttributeNode(zoomLabelAttr);
+
+							//atribut "field-name"
+							Attr fieldNameAttr = doc.createAttribute("field-name");
+							fieldNameAttr.setValue(attribute.getName());
+							zoomTag.setAttributeNode(fieldNameAttr);
+
+							//atribut "class-name"
+							Attr classNameAttr = doc.createAttribute("class-name");
+							classNameAttr.setValue("ejb." + attribute.getType());
+							zoomTag.setAttributeNode(classNameAttr);
+
+							//atribut "zoomed-by"
+							Attr zoomedByAttr = doc.createAttribute("zoomed-by");
+							zoomedByAttr.setValue("id");
+							zoomTag.setAttributeNode(zoomedByAttr);
+
+							//tag <column-ref> za id (obavezno)
+							Element columnRef = doc.createElement("column-ref");
+
+							//atribut "name"
+							Attr colRefNameAttr = doc.createAttribute("name");
+							colRefNameAttr.setValue("id");
+							columnRef.setAttributeNode(colRefNameAttr);
+
+							//atribut "label"
+							Attr colRefLabelAttr = doc.createAttribute("label");
+							colRefLabelAttr.setValue(attribute.getLabel() + " ID");
+							columnRef.setAttributeNode(colRefLabelAttr);
+
+							zoomTag.appendChild(columnRef);
+
+							//ako ima jos referenci u zoomu, ide column-ref tag
+							for(int k=0;k<attribute.getColumnRefs().size(); k++) {
+								EJBAttribute a = attribute.getColumnRefs().get(k);
+
+								Element cr = doc.createElement("column-ref");
+
+								Attr attrNm = doc.createAttribute("name");
+								attrNm.setValue(a.getName());
+								cr.setAttributeNode(attrNm);
+
+								Attr attrLbl = doc.createAttribute("label");
+								attrLbl.setValue(attribute.getLabel() + " " + a.getLabel());
+								cr.setAttributeNode(attrLbl);
+
+								zoomTag.appendChild(cr);
+
+							}
+
+							attributes.appendChild(zoomTag);
 						}
-						
-						columnAttr.setAttributeNode(colType);
-
-						//atribut "length"
-						Attr colLength = doc.createAttribute("length");
-						colLength.setValue("50");
-						columnAttr.setAttributeNode(colLength);
-
-						//atribut "key"
-						Attr colKeyAttr = doc.createAttribute("key");
-						colKeyAttr.setValue("false");
-						columnAttr.setAttributeNode(colKeyAttr);
-
-						attributes.appendChild(columnAttr);
-					}
-				}
-
-				//tag <zoom-attribute> za svaku referencu (many-to-many)
-				if(!clas.getManyToOneAttributes().isEmpty()) {
-					for(int j=0; j<clas.getManyToOneAttributes().size(); j++) {
-						ManyToOneAttribute zoom = clas.getManyToOneAttributes().get(j);
-
-						Element zoomTag = doc.createElement("zoom-attribute");
-
-						//atribut "name"
-						Attr zoomNameAttr = doc.createAttribute("name");
-						zoomNameAttr.setValue(zoom.getName());
-						zoomTag.setAttributeNode(zoomNameAttr);
-
-						//atribut "label"
-						Attr zoomLabelAttr = doc.createAttribute("label");
-						zoomLabelAttr.setValue(zoom.getLabel());
-						zoomTag.setAttributeNode(zoomLabelAttr);
-
-						//atribut "field-name"
-						Attr fieldNameAttr = doc.createAttribute("field-name");
-						fieldNameAttr.setValue(zoom.getName());
-						zoomTag.setAttributeNode(fieldNameAttr);
-
-						//atribut "class-name"
-						Attr classNameAttr = doc.createAttribute("class-name");
-						classNameAttr.setValue("ejb." + zoom.getType());
-						zoomTag.setAttributeNode(classNameAttr);
-
-						//atribut "zoomed-by"
-						Attr zoomedByAttr = doc.createAttribute("zoomed-by");
-						zoomedByAttr.setValue("id");
-						zoomTag.setAttributeNode(zoomedByAttr);
-
-						//tag <column-ref> za id (obavezno)
-						Element columnRef = doc.createElement("column-ref");
-
-						//atribut "name"
-						Attr colRefNameAttr = doc.createAttribute("name");
-						colRefNameAttr.setValue("id");
-						columnRef.setAttributeNode(colRefNameAttr);
-
-						//atribut "label"
-						Attr colRefLabelAttr = doc.createAttribute("label");
-						colRefLabelAttr.setValue(zoom.getLabel() + " ID");
-						columnRef.setAttributeNode(colRefLabelAttr);
-
-						zoomTag.appendChild(columnRef);
-
-						//ako ima jos referenci u zoomu, ide column-ref tag
-						for(int k=0;k<zoom.getColumnRefs().size(); k++) {
-							Attribute a = zoom.getColumnRefs().get(k);
-
-							Element cr = doc.createElement("column-ref");
-
-							Attr attrNm = doc.createAttribute("name");
-							attrNm.setValue(a.getName());
-							cr.setAttributeNode(attrNm);
-
-							Attr attrLbl = doc.createAttribute("label");
-							attrLbl.setValue(zoom.getLabel() + " " + a.getLabel());
-							cr.setAttributeNode(attrLbl);
-
-							zoomTag.appendChild(cr);
-
-						}
-
-						attributes.appendChild(zoomTag);
 					}
 				}
 
@@ -349,16 +343,33 @@ public class EJBGenerator {
 
 	}
 
+	/**
+	 * Determines attribute type based on it's annotation
+	 * @param attribute
+	 * @return Column, OneToMany or ManyToOne
+	 */
+	public String getAttributeType(EJBAttribute attribute) {
+		String annotation = attribute.getAnnotations().get(0);
+		if(annotation.startsWith("@Column")) {
+			return "Column";
+		}else if (annotation.startsWith("@ManyToOne")) {
+			return "ManyToOne";
+		}else {
+			return "OneToMany";
+		}
+
+	}
+
 	public boolean deleteFiles(File directory) {
 		boolean success = false;
-		
+
 		if (!directory.exists()) {
 			return false;
 		}
 		if (!directory.canWrite()) {
 			return false;
 		}
-		
+
 		File[] files = directory.listFiles();
 		for(int i=0; i<files.length; i++) {
 			File file = files[i];

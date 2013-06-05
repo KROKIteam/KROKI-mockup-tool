@@ -77,18 +77,18 @@ public class InputPanel extends JPanel {
 		setLayout(new MigLayout("", "[0:0, grow 100, fill]", ""));
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panelOne = new JPanel(panelLayout);
-		List<AbsAttribute> attributes = panel.getTable().getTableModel()
-				.getEntityBean().getAttributes();
+		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
 		for (int i = 0; i < attributes.size(); i++) {
 			panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			if (attributes.get(i) instanceof ColumnAttribute) {
+				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
 				createComponent((ColumnAttribute) attributes.get(i));
 			} else if (attributes.get(i) instanceof JoinColumnAttribute) {
+				System.out.println("[CREATE COMPONENT ZA JOIN] " + attributes.get(i).getFieldName());
 				createComponent((JoinColumnAttribute) attributes.get(i));
 			}
 		}
-		panelOne.setMinimumSize(new Dimension((int) panelOne.getSize().getWidth(), 
-				20 + 40 * rowNumber));
+		panelOne.setMinimumSize(new Dimension((int) panelOne.getSize().getWidth(), 20 + 40 * rowNumber));
 		addCommitPanel();
 		setDerivedFormulas();
 	}
@@ -100,6 +100,7 @@ public class InputPanel extends JPanel {
 	 */
 	private void createComponent(ColumnAttribute colAttr) {
 		try {
+			panelOne = new JPanel(panelLayout);
 			addComponentToPanelTwo(colAttr, null, counter);
 			panelOne.add(panelTwo);
 			add(panelOne, "wrap, span");
@@ -126,8 +127,7 @@ public class InputPanel extends JPanel {
 		for (int j = 0; j < joinColAttr.getColumns().size(); j++) {
 			colAttr = joinColAttr.getColumns().get(j);
 			try {
-				JComponent comp = addComponentToPanelTwo(colAttr, joinColAttr,
-						counter);
+				JComponent comp = addComponentToPanelTwo(colAttr, joinColAttr,counter);
 				if (colAttr.getName().equals(joinColAttr.getZoomedBy())) {
 					btn = new JButton("...");
 					createButtonListener(joinColAttr, btn);
@@ -145,9 +145,8 @@ public class InputPanel extends JPanel {
 			}
 		}
 		panelOne.add(panelTwo);
-		panelTwo = new JPanel(panelLayout);
+		panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		add(panelOne, "wrap");
-		
 		rowNumber++;
 	}
 
@@ -224,7 +223,7 @@ public class InputPanel extends JPanel {
 			charSize = 10;
 		}
 		component = ComponentResolver.getComponent(colAttr);
-		component.setPreferredSize(new Dimension((int) (charSize * 10 * ratio), 20));
+		component.setPreferredSize(new Dimension((int) (charSize * 10 * ratio)/2, 20));
 		component.setEnabled(!colAttr.getDisabled());
 		return component;
 	}

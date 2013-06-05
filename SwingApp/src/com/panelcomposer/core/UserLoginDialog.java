@@ -36,6 +36,10 @@ public class UserLoginDialog extends JDialog {
 		setLocationRelativeTo(mainForm);
 		JPanel dialogPanel = new JPanel();
 		setTitle(Settings.LOGIN);
+		
+		jtfUsername.setText("admin");
+		jpfPassword.setText("admin");
+		
 		dialogPanel.setLayout(new GridLayout(3, 2));
 		dialogPanel.add(new JLabel(Settings.USERNAME + ":"));
 		dialogPanel.add(jtfUsername);
