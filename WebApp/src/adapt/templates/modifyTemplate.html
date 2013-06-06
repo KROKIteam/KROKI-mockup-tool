@@ -34,8 +34,8 @@
 										<td><b>${label}:</b></td>
 										<td>
 											<select name="attrSelect${label_index}">
-												<option value="true" <#if attributeValues[label_index] == "DA">selected="selected"</#if>>DA</option>
-												<option value="false" <#if attributeValues[label_index] == "NE">selected="selected"</#if>>NE</option>
+												<option value="true" <#if attributeValues[label_index] == "YES">selected="selected"</#if>>YES</option>
+												<option value="false" <#if attributeValues[label_index] == "NO">selected="selected"</#if>>NO</option>
 											</select>
 										</td>
 									<#elseif resource.attributes[label_index].values??>

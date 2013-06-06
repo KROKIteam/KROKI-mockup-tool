@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -44,23 +44,22 @@ public class City implements java.io.Serializable {
 	@Column(name = "CIT_ZIP_CODE", unique = false, nullable = false)
 	private java.lang.String zipCode;
 	
-	
 	@ManyToOne
 	@JoinColumn(name="state", referencedColumnName="ID",  nullable = true)
 	private State state;
 	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
+	private Set<Enterprise> EnterpriseSet;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Enterprise> EnterpriseSet = new HashSet<Enterprise>();
+	private Set<Customer> CustomerSet;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Customer> CustomerSet = new HashSet<Customer>();
+	private Set<Vendor> VendorSet;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Vendor> VendorSet = new HashSet<Vendor>();
+	private Set<Order> OrderSet;
 	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Order> OrderSet = new HashSet<Order>();
 	
 	public City(){
 	}
@@ -100,7 +99,7 @@ public class City implements java.io.Serializable {
 	public Set<Enterprise> getEnterpriseSet() {
 		return this.EnterpriseSet;
 	}
-
+	
 	public void setEnterpriseSet(Set<Enterprise> EnterpriseSet) {
 		this.EnterpriseSet = EnterpriseSet;
 	}
@@ -108,7 +107,7 @@ public class City implements java.io.Serializable {
 	public Set<Customer> getCustomerSet() {
 		return this.CustomerSet;
 	}
-
+	
 	public void setCustomerSet(Set<Customer> CustomerSet) {
 		this.CustomerSet = CustomerSet;
 	}
@@ -116,7 +115,7 @@ public class City implements java.io.Serializable {
 	public Set<Vendor> getVendorSet() {
 		return this.VendorSet;
 	}
-
+	
 	public void setVendorSet(Set<Vendor> VendorSet) {
 		this.VendorSet = VendorSet;
 	}
@@ -124,7 +123,7 @@ public class City implements java.io.Serializable {
 	public Set<Order> getOrderSet() {
 		return this.OrderSet;
 	}
-
+	
 	public void setOrderSet(Set<Order> OrderSet) {
 		this.OrderSet = OrderSet;
 	}

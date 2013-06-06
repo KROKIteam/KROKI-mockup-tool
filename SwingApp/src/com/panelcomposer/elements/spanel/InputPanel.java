@@ -156,8 +156,7 @@ public class InputPanel extends JPanel {
 	 * @param joinColAttr
 	 * @param btn
 	 */
-	private void createButtonListener(JoinColumnAttribute joinColAttr,
-			JButton btn) {
+	private void createButtonListener(JoinColumnAttribute joinColAttr, JButton btn) {
 		Zoom zoom = null;
 		if (panel.getModelPanel().getZoomPanels().size() > zoomCounter) {
 			zoom = panel.getModelPanel().getZoomPanels().get(zoomCounter);

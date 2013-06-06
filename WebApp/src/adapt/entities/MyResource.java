@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -39,20 +39,19 @@ public class MyResource implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "MYRES_ENT_ID", unique = false, nullable = false)
-	private java.lang.Long entId;
+	private java.lang.Long entityId;
 	
 	@Column(name = "MYRES_TABLE", unique = false, nullable = false)
 	private java.lang.String table;
 	
+	@Column(name = "MYRES_ENT_LABEL", unique = false, nullable = false)
+	private java.lang.String entityLabel;
+	
 	@Column(name = "MYRES_TABLE_LABEL", unique = false, nullable = false)
 	private java.lang.String tableLabel;
 	
-	@Column(name = "MYRES_ENT_LABEL", unique = false, nullable = false)
-	private java.lang.String entLabel;
-	
 	@Column(name = "MYRES_RESLINK", unique = false, nullable = false)
-	private java.lang.String ResLink;
-	
+	private java.lang.String resLink;
 	
 	@ManyToOne
 	@JoinColumn(name="user", referencedColumnName="ID",  nullable = false)
@@ -70,12 +69,12 @@ public class MyResource implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.Long getEntId() {
-		return this.entId;
+	public java.lang.Long getEntityId() {
+		return this.entityId;
 	}
 	
-	public void setEntId(java.lang.Long entId) {
-		this.entId = entId;
+	public void setEntityId(java.lang.Long entityId) {
+		this.entityId = entityId;
 	}
 	
 	public java.lang.String getTable() {
@@ -86,6 +85,14 @@ public class MyResource implements java.io.Serializable {
 		this.table = table;
 	}
 	
+	public java.lang.String getEntityLabel() {
+		return this.entityLabel;
+	}
+	
+	public void setEntityLabel(java.lang.String entityLabel) {
+		this.entityLabel = entityLabel;
+	}
+	
 	public java.lang.String getTableLabel() {
 		return this.tableLabel;
 	}
@@ -94,20 +101,12 @@ public class MyResource implements java.io.Serializable {
 		this.tableLabel = tableLabel;
 	}
 	
-	public java.lang.String getEntLabel() {
-		return this.entLabel;
-	}
-	
-	public void setEntLabel(java.lang.String entLabel) {
-		this.entLabel = entLabel;
-	}
-	
 	public java.lang.String getResLink() {
-		return this.ResLink;
+		return this.resLink;
 	}
 	
-	public void setResLink(java.lang.String ResLink) {
-		this.ResLink = ResLink;
+	public void setResLink(java.lang.String resLink) {
+		this.resLink = resLink;
 	}
 	
 	public User getUser() {

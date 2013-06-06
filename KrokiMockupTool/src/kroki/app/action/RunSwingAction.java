@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.export.SwingExporter;
+import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
@@ -65,7 +65,7 @@ public class RunSwingAction extends AbstractAction {
 						//generate connection settings for embedded h2 database
 						DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
-						SwingExporter exporter = new SwingExporter(); 
+						ProjectExporter exporter = new ProjectExporter(true);
 						exporter.export(tempDir, proj, "Project exported OK! Running project...");
 
 						//run exported jar file

@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -44,10 +44,9 @@ public class PriceList implements java.io.Serializable {
 	@Column(name = "PL_ACTIVE_FROM_DATE", unique = false, nullable = false)
 	private java.util.Date activeFromDate;
 	
-	
-	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "priceList")
-	private Set<PriceListItem> PriceListItemSet = new HashSet<PriceListItem>();
+	private Set<PriceListItem> PriceListItemSet;
+	
 	
 	public PriceList(){
 	}
@@ -79,7 +78,7 @@ public class PriceList implements java.io.Serializable {
 	public Set<PriceListItem> getPriceListItemSet() {
 		return this.PriceListItemSet;
 	}
-
+	
 	public void setPriceListItemSet(Set<PriceListItem> PriceListItemSet) {
 		this.PriceListItemSet = PriceListItemSet;
 	}

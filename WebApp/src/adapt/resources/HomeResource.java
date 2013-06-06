@@ -59,10 +59,10 @@ public class HomeResource extends BaseResource {
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		try {
-			u = (User) em.createQuery("from User u where u.name =:usrname").setParameter("usrname", uname).getSingleResult();
+			u = (User) em.createQuery("from User u where u.username =:usrname").setParameter("usrname", uname).getSingleResult();
 			if(u != null) {
 				AdaptApplication app = (AdaptApplication) getApplication();
-				app.getMainFrame().displayText("User " + u.getName() + " logged in from " + getRequest().getClientInfo().getAddress(), 0);
+				app.getMainFrame().displayText("User " + u.getUsername() + " logged in from " + getRequest().getClientInfo().getAddress(), 0);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,7 +79,7 @@ public class HomeResource extends BaseResource {
 		try {
 			User u = (User) e.createQuery("FROM User u WHERE u.id =:uid").setParameter("uid", id).getSingleResult();
 			tx.commit();
-			u.setName(username);
+			u.setUsername(username);
 			u.setPassword(password);
 			e.flush();
 		} catch (javax.persistence.NoResultException e1) {

@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -43,7 +43,6 @@ public class PriceListItem implements java.io.Serializable {
 	
 	@Column(name = "PLI_TAX", unique = false, nullable = false)
 	private java.math.BigDecimal tax;
-	
 	
 	@ManyToOne
 	@JoinColumn(name="priceList", referencedColumnName="ID",  nullable = true)

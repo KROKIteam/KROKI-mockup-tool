@@ -46,8 +46,8 @@ public aspect MyResourcesAspect {
 				getId.setAccessible(true);
 				Long entid = (Long) getId.invoke(obj);
 				
-				myres.setEntId(entid);
-				myres.setEntLabel(name);
+				myres.setEntityId(entid);
+				myres.setEntityLabel(name);
 				
 				tx.begin();
 				em.persist(myres);
@@ -62,8 +62,8 @@ public aspect MyResourcesAspect {
 					getId.setAccessible(true);
 					Long entid = (Long) getId.invoke(obj);
 					
-					myres.setEntId(entid);
-					myres.setEntLabel(entid.toString());
+					myres.setEntityId(entid);
+					myres.setEntityLabel(entid.toString());
 					
 					tx.begin();
 					em.persist(myres);

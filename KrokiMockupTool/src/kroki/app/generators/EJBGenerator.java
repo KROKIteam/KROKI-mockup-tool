@@ -146,7 +146,8 @@ public class EJBGenerator {
 				Element attributes = doc.createElement("attributes");
 				entityRoot.appendChild(attributes);
 
-				//za svaku klasu izgenerisem id kolonu
+				//---------------------------------ID COLUMN FOR EVERY CLASS
+				
 				Element idColumn = doc.createElement("column-attribute");
 
 				//atribut "name"
@@ -181,6 +182,8 @@ public class EJBGenerator {
 
 				attributes.appendChild(idColumn);
 
+				//-----------------------------------------------------------
+				
 				//tag <column-attribute> za svaki atribut klase
 				if(!clas.getAttributes().isEmpty()) {
 					for (EJBAttribute attribute : clas.getAttributes()) {
@@ -255,7 +258,7 @@ public class EJBGenerator {
 							zoomedByAttr.setValue("id");
 							zoomTag.setAttributeNode(zoomedByAttr);
 
-							//tag <column-ref> za id (obavezno)
+							//tag <column-ref> za id (ako nema ni jedan drugi)
 							Element columnRef = doc.createElement("column-ref");
 
 							//atribut "name"
@@ -269,25 +272,27 @@ public class EJBGenerator {
 							columnRef.setAttributeNode(colRefLabelAttr);
 
 							zoomTag.appendChild(columnRef);
+							
+							if(!attribute.getColumnRefs().isEmpty()) {
+								//ako ima referenci u zoomu, ide column-ref tag
+								for(int k=0;k<attribute.getColumnRefs().size(); k++) {
+									EJBAttribute a = attribute.getColumnRefs().get(k);
 
-							//ako ima jos referenci u zoomu, ide column-ref tag
-							for(int k=0;k<attribute.getColumnRefs().size(); k++) {
-								EJBAttribute a = attribute.getColumnRefs().get(k);
+									Element cr = doc.createElement("column-ref");
 
-								Element cr = doc.createElement("column-ref");
+									Attr attrNm = doc.createAttribute("name");
+									attrNm.setValue(a.getName());
+									cr.setAttributeNode(attrNm);
 
-								Attr attrNm = doc.createAttribute("name");
-								attrNm.setValue(a.getName());
-								cr.setAttributeNode(attrNm);
+									Attr attrLbl = doc.createAttribute("label");
+									attrLbl.setValue(attribute.getLabel() + " " + a.getLabel());
+									cr.setAttributeNode(attrLbl);
 
-								Attr attrLbl = doc.createAttribute("label");
-								attrLbl.setValue(attribute.getLabel() + " " + a.getLabel());
-								cr.setAttributeNode(attrLbl);
+									zoomTag.appendChild(cr);
 
-								zoomTag.appendChild(cr);
-
+								}
 							}
-
+							
 							attributes.appendChild(zoomTag);
 						}
 					}
@@ -362,14 +367,12 @@ public class EJBGenerator {
 
 	public boolean deleteFiles(File directory) {
 		boolean success = false;
-
 		if (!directory.exists()) {
 			return false;
 		}
 		if (!directory.canWrite()) {
 			return false;
 		}
-
 		File[] files = directory.listFiles();
 		for(int i=0; i<files.length; i++) {
 			File file = files[i];

@@ -24,11 +24,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 05.06.2013  14:39:53h
+   Creation date: 06.06.2013  15:10:17h
    **/
 
 @Entity
-@Table(name = "PRO_CITY")
+@Table(name = "WS_CITY")
 public class City implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,14 +41,24 @@ public class City implements java.io.Serializable {
 	@Column(name = "CIT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
 	
-	@Column(name = "CIT_DESCRIPTION", unique = false, nullable = false)
-	private java.lang.String description;
+	@Column(name = "CIT_ZIP_CODE", unique = false, nullable = false)
+	private java.lang.String zipCode;
+	
+	@ManyToOne
+	@JoinColumn(name="state", referencedColumnName="ID",  nullable = true)
+	private State state;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Owner> OwnerSet;
+	private Set<Enterprise> EnterpriseSet;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
-	private Set<Manufacturer> ManufacturerSet;
+	private Set<Customer> CustomerSet;
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
+	private Set<Vendor> VendorSet;
+	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
+	private Set<Order> OrderSet;
 	
 	
 	public City(){
@@ -70,28 +80,52 @@ public class City implements java.io.Serializable {
 		this.name = name;
 	}
 	
-	public java.lang.String getDescription() {
-		return this.description;
+	public java.lang.String getZipCode() {
+		return this.zipCode;
 	}
 	
-	public void setDescription(java.lang.String description) {
-		this.description = description;
+	public void setZipCode(java.lang.String zipCode) {
+		this.zipCode = zipCode;
 	}
 	
-	public Set<Owner> getOwnerSet() {
-		return this.OwnerSet;
+	public State getState() {
+		return this.state;
 	}
 	
-	public void setOwnerSet(Set<Owner> OwnerSet) {
-		this.OwnerSet = OwnerSet;
+	public void setState(State state) {
+		this.state = state;
 	}
 	
-	public Set<Manufacturer> getManufacturerSet() {
-		return this.ManufacturerSet;
+	public Set<Enterprise> getEnterpriseSet() {
+		return this.EnterpriseSet;
 	}
 	
-	public void setManufacturerSet(Set<Manufacturer> ManufacturerSet) {
-		this.ManufacturerSet = ManufacturerSet;
+	public void setEnterpriseSet(Set<Enterprise> EnterpriseSet) {
+		this.EnterpriseSet = EnterpriseSet;
+	}
+	
+	public Set<Customer> getCustomerSet() {
+		return this.CustomerSet;
+	}
+	
+	public void setCustomerSet(Set<Customer> CustomerSet) {
+		this.CustomerSet = CustomerSet;
+	}
+	
+	public Set<Vendor> getVendorSet() {
+		return this.VendorSet;
+	}
+	
+	public void setVendorSet(Set<Vendor> VendorSet) {
+		this.VendorSet = VendorSet;
+	}
+	
+	public Set<Order> getOrderSet() {
+		return this.OrderSet;
+	}
+	
+	public void setOrderSet(Set<Order> OrderSet) {
+		this.OrderSet = OrderSet;
 	}
 	
 }

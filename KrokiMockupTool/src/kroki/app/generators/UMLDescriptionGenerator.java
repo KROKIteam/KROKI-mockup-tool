@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.export.SwingExporter;
-import kroki.app.generators.utils.Attribute;
+import kroki.app.export.ProjectExporter;
 import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
-import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
-import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.utils.DiagramProfile;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -24,12 +21,11 @@ import kroki.profil.panel.container.ManyToMany;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.uml_core_basic.UmlPackage;
 
 public class UMLDescriptionGenerator {
 	
 	NamingUtil namer;
-	SwingExporter exporter;
+	ProjectExporter exporter;
 	DiagramProfile profile;
 	String connections;
 	String parentChildDescriptions;
@@ -41,7 +37,7 @@ public class UMLDescriptionGenerator {
 	 */
 	public String generateDescription(BussinesSubsystem project, DiagramProfile profile) {
 		namer = new NamingUtil();
-		exporter = new SwingExporter();
+		exporter = new ProjectExporter(true);
 		String desc = "@startuml \n";
 		connections = "\n";
 		parentChildDescriptions = "";

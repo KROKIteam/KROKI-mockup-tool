@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -38,25 +38,21 @@ public class Action implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "ACT_NAME", unique = true, nullable = false)
+	@Column(name = "ACT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
 	
 	@Column(name = "ACT_LINK", unique = false, nullable = false)
 	private java.lang.String link;
 	
-	@Column(name = "ACT_IMG_PATH", unique = false, nullable = true)
+	@Column(name = "ACT_IMG_PATH", unique = false, nullable = false)
 	private java.lang.String imagePath;
 	
 	@Column(name = "ACT_TYPE", unique = false, nullable = false)
 	private java.lang.String type;
 	
-	@Column(name = "ACT_TIP", unique = false, nullable = true)
+	@Column(name = "ACT_TIP", unique = false, nullable = false)
 	private java.lang.String tip;
 	
-	
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "action")
-	private Set<UserRights> UserRightsSet = new HashSet<UserRights>();
 	
 	public Action(){
 	}
@@ -107,14 +103,6 @@ public class Action implements java.io.Serializable {
 	
 	public void setTip(java.lang.String tip) {
 		this.tip = tip;
-	}
-	
-	public Set<UserRights> getUserRightsSet() {
-		return this.UserRightsSet;
-	}
-
-	public void setUserRightsSet(Set<UserRights> UserRightsSet) {
-		this.UserRightsSet = UserRightsSet;
 	}
 	
 }

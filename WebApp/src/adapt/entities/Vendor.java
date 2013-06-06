@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -44,14 +44,13 @@ public class Vendor implements java.io.Serializable {
 	@Column(name = "VEN_ADDRESS", unique = false, nullable = false)
 	private java.lang.String address;
 	
-	
 	@ManyToOne
 	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
 	private City city;
 	
-	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "vendor")
-	private Set<Product> ProductSet = new HashSet<Product>();
+	private Set<Product> ProductSet;
+	
 	
 	public Vendor(){
 	}
@@ -91,7 +90,7 @@ public class Vendor implements java.io.Serializable {
 	public Set<Product> getProductSet() {
 		return this.ProductSet;
 	}
-
+	
 	public void setProductSet(Set<Product> ProductSet) {
 		this.ProductSet = ProductSet;
 	}

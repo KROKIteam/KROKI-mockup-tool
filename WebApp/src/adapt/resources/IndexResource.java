@@ -46,7 +46,7 @@ public class IndexResource extends BaseResource {
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		User u = new User();
-		u.setName(username);
+		u.setUsername(username);
 		u.setPassword(password);
 		try {
 			em.persist(u);

@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -53,7 +53,6 @@ public class Order implements java.io.Serializable {
 	@Column(name = "ORD_ORDER_STATUS", unique = false, nullable = false)
 	private java.lang.String orderStatus;
 	
-	
 	@ManyToOne
 	@JoinColumn(name="customer", referencedColumnName="ID",  nullable = true)
 	private Customer customer;
@@ -62,15 +61,15 @@ public class Order implements java.io.Serializable {
 	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
 	private City city;
 	
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
+	private Set<OrderItem> OrderItemSet;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
-	private Set<OrderItem> OrderItemSet = new HashSet<OrderItem>();
+	private Set<Invoice> InvoiceSet;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
-	private Set<Invoice> InvoiceSet = new HashSet<Invoice>();
+	private Set<Payment> PaymentSet;
 	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
-	private Set<Payment> PaymentSet = new HashSet<Payment>();
 	
 	public Order(){
 	}
@@ -142,7 +141,7 @@ public class Order implements java.io.Serializable {
 	public Set<OrderItem> getOrderItemSet() {
 		return this.OrderItemSet;
 	}
-
+	
 	public void setOrderItemSet(Set<OrderItem> OrderItemSet) {
 		this.OrderItemSet = OrderItemSet;
 	}
@@ -150,7 +149,7 @@ public class Order implements java.io.Serializable {
 	public Set<Invoice> getInvoiceSet() {
 		return this.InvoiceSet;
 	}
-
+	
 	public void setInvoiceSet(Set<Invoice> InvoiceSet) {
 		this.InvoiceSet = InvoiceSet;
 	}
@@ -158,7 +157,7 @@ public class Order implements java.io.Serializable {
 	public Set<Payment> getPaymentSet() {
 		return this.PaymentSet;
 	}
-
+	
 	public void setPaymentSet(Set<Payment> PaymentSet) {
 		this.PaymentSet = PaymentSet;
 	}

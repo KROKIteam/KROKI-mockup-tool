@@ -360,7 +360,7 @@ public class AdaptApplication extends Application {
 	 */
 	public void persistTestData() {
 		User admin = new User();
-		admin.setName("admin");
+		admin.setUsername("admin");
 		admin.setPassword("admin");
 		
 		EntityManager em = emf.createEntityManager();

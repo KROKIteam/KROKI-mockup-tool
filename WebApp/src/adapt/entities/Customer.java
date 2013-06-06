@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -47,14 +47,13 @@ public class Customer implements java.io.Serializable {
 	@Column(name = "CUS_ADDRESS", unique = false, nullable = false)
 	private java.lang.String address;
 	
-	
 	@ManyToOne
 	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
 	private City city;
 	
-	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "customer")
-	private Set<Order> OrderSet = new HashSet<Order>();
+	private Set<Order> OrderSet;
+	
 	
 	public Customer(){
 	}
@@ -102,7 +101,7 @@ public class Customer implements java.io.Serializable {
 	public Set<Order> getOrderSet() {
 		return this.OrderSet;
 	}
-
+	
 	public void setOrderSet(Set<Order> OrderSet) {
 		this.OrderSet = OrderSet;
 	}

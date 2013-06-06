@@ -9,7 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.export.WebExporter;
+import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 import kroki.profil.subsystem.BussinesSubsystem;
@@ -45,9 +45,9 @@ public class ExportWebAction extends AbstractAction {
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
 			if (retValue == JFileChooser.APPROVE_OPTION) {
 				File file = jfc.getSelectedFile();
-				WebExporter exporter = new WebExporter();
 				//pass selected project and directory to exporter class
-				exporter.export(file, proj);
+				ProjectExporter exporter = new ProjectExporter(false);
+				exporter.export(file, proj, "OK");
 			} else {
 				System.out.println("Export canceled");
 			}

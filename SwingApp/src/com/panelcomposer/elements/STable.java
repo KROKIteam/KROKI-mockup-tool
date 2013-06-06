@@ -96,14 +96,6 @@ public class STable extends JTable {
 			} 
 			packColumns(); 
 		}
-		//		for (int i = 0; i < getColumnCount(); i++) {
-			//			if(attributes.get(i) instanceof ColumnAttribute) {
-		//				colAttr = (ColumnAttribute) attributes.get(i);
-		//				costumizeColumn(colAttr, i);
-		//			}
-		//			packColumns();
-		//		}
-
 		setPreferredScrollableViewportSize(new Dimension((int) getPreferredSize().getWidth(), 800));
 	}
 

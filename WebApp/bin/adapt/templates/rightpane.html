@@ -1,7 +1,7 @@
 				<#if user??><table>
 							<thead>
 								<tr>
-									<th>${user.name}</th>
+									<th>${user.username}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -25,7 +25,7 @@
 							<tbody>
 								<#list myResources as res>
 								<tr>
-									<td>${res.entLabel}, <a href="${res.resLink}">${res.tableLabel}</a></td>
+									<td>${res.entityLabel}, <a href="${res.resLink}">${res.tableLabel}</a></td>
 								</tr>
 								</#list>
 								<tr>

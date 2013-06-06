@@ -3,7 +3,7 @@ package com.panelcomposer.enumerations;
    /** 
    File generated using Kroki EnumGenerator 
    @Author MiloradFilipovic 
-   Creation date: 05.06.2013  14:39:54h
+   Creation date: 06.06.2013  15:10:17h
    **/
 
 public enum OperationType {

@@ -65,7 +65,7 @@ public aspect SessionAspect {
 	}
 	
 	after(String username, String pass) : modifyUser(username, pass) {
-		currentUser.setName(username);
+		currentUser.setUsername(username);
 		currentUser.setPassword(pass);
 	}
 }

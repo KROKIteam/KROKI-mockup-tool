@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -39,21 +39,14 @@ public class User implements java.io.Serializable {
 	private java.lang.Long id;
 
 	@Column(name = "USER_USERNAME", unique = true, nullable = false)
-	private java.lang.String name;
+	private java.lang.String username;
 	
 	@Column(name = "USER_PASSWORD", unique = false, nullable = false)
-	private java.lang.String password;
-	
-	
+	private String password;
 	
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<UserRights> rights = new HashSet<UserRights>();
+	private Set<UserRights> rights;
 	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<MyResource> MyResourceSet = new HashSet<MyResource>();
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<UserRights> UserRightsSet = new HashSet<UserRights>();
 	
 	public User(){
 	}
@@ -66,44 +59,28 @@ public class User implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public java.lang.String getName() {
-		return this.name;
+	public java.lang.String getUsername() {
+		return this.username;
 	}
 	
-	public void setName(java.lang.String name) {
-		this.name = name;
+	public void setUsername(java.lang.String username) {
+		this.username = username;
 	}
 	
-	public java.lang.String getPassword() {
+	public String getPassword() {
 		return this.password;
 	}
 	
-	public void setPassword(java.lang.String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 	
 	public Set<UserRights> getRights() {
 		return this.rights;
 	}
-
+	
 	public void setRights(Set<UserRights> rights) {
 		this.rights = rights;
-	}
-	
-	public Set<MyResource> getMyResourceSet() {
-		return this.MyResourceSet;
-	}
-
-	public void setMyResourceSet(Set<MyResource> MyResourceSet) {
-		this.MyResourceSet = MyResourceSet;
-	}
-	
-	public Set<UserRights> getUserRightsSet() {
-		return this.UserRightsSet;
-	}
-
-	public void setUserRightsSet(Set<UserRights> UserRightsSet) {
-		this.UserRightsSet = UserRightsSet;
 	}
 	
 }

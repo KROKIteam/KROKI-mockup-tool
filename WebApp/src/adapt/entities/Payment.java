@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 03.06.2013  16:13:59h
+   Creation date: 06.06.2013  15:10:54h
    **/
 
 @Entity
@@ -46,7 +46,6 @@ public class Payment implements java.io.Serializable {
 	
 	@Column(name = "PAY_AMOUNT_RECIEVED", unique = false, nullable = false)
 	private java.math.BigDecimal amountRecieved;
-	
 	
 	@ManyToOne
 	@JoinColumn(name="order", referencedColumnName="ID",  nullable = true)
