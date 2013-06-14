@@ -196,7 +196,7 @@ public class ProjectExporter {
 				attributes.add(attribute);
 			}else if(element instanceof Zoom) {
 				Zoom z = (Zoom)element;
-				EJBAttribute attribute = getZoomData(z);
+				EJBAttribute attribute = getZoomData(z, sp.getPersistentClass().name());
 				if(attribute != null) {
 					attributes.add(attribute);
 				}else {
@@ -302,20 +302,21 @@ public class ProjectExporter {
 	 * @param z
 	 * @return
 	 */
-	public EJBAttribute getZoomData(Zoom z) {
+	public EJBAttribute getZoomData(Zoom z, String className) {
 		if(z.getTargetPanel() != null) {
 			String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 
 			ArrayList<String> anotations = new ArrayList<String>();
 			String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
+			String propName = cc.toCamelCase(className, true) + "_" + name;
 			String databaseName = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
 			String label = z.getLabel();
 			Boolean mandatory = z.lower() != 0;
 
 			anotations.add("@ManyToOne");
-			anotations.add("@JoinColumn(name=\"" + name + "\", referencedColumnName=\"ID\",  nullable = " + !mandatory + ")");
+			anotations.add("@JoinColumn(name=\"" + propName + "\", referencedColumnName=\"ID\",  nullable = " + !mandatory + ")");
 
-			EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, databaseName, mandatory, false, false, null);
+			EJBAttribute attribute = new EJBAttribute(anotations, type, propName, label, databaseName, mandatory, false, false, null);
 			return attribute;
 
 		}else {

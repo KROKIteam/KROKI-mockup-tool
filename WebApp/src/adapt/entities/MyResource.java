@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,23 +40,17 @@ public class MyResource implements java.io.Serializable {
 
 	@Column(name = "MYRES_ENT_ID", unique = false, nullable = false)
 	private java.lang.Long entityId;
-	
 	@Column(name = "MYRES_TABLE", unique = false, nullable = false)
 	private java.lang.String table;
-	
 	@Column(name = "MYRES_ENT_LABEL", unique = false, nullable = false)
 	private java.lang.String entityLabel;
-	
 	@Column(name = "MYRES_TABLE_LABEL", unique = false, nullable = false)
 	private java.lang.String tableLabel;
-	
 	@Column(name = "MYRES_RESLINK", unique = false, nullable = false)
 	private java.lang.String resLink;
-	
 	@ManyToOne
 	@JoinColumn(name="user", referencedColumnName="ID",  nullable = false)
 	private User user;
-	
 	
 	public MyResource(){
 	}

@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,10 +40,8 @@ public class Resource implements java.io.Serializable {
 
 	@Column(name = "RES_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
 	@Column(name = "RES_LINK", unique = false, nullable = false)
 	private java.lang.String link;
-	
 	
 	public Resource(){
 	}

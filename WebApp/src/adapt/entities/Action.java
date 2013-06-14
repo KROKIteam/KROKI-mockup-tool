@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,19 +40,14 @@ public class Action implements java.io.Serializable {
 
 	@Column(name = "ACT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
 	@Column(name = "ACT_LINK", unique = false, nullable = false)
 	private java.lang.String link;
-	
 	@Column(name = "ACT_IMG_PATH", unique = false, nullable = false)
 	private java.lang.String imagePath;
-	
 	@Column(name = "ACT_TYPE", unique = false, nullable = false)
 	private java.lang.String type;
-	
 	@Column(name = "ACT_TIP", unique = false, nullable = false)
 	private java.lang.String tip;
-	
 	
 	public Action(){
 	}

@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,27 +40,20 @@ public class OrderItem implements java.io.Serializable {
 
 	@Column(name = "OI_ORDERED_QUANTITY", unique = false, nullable = false)
 	private java.lang.String orderedQuantity;
-	
 	@Column(name = "OI_AVAILABLE", unique = false, nullable = false)
 	private java.lang.Boolean available;
-	
 	@Column(name = "OI_UNIT_PRICE", unique = false, nullable = false)
 	private java.math.BigDecimal unitPrice;
-	
 	@Column(name = "OI_UNIT_TAX", unique = false, nullable = false)
 	private java.math.BigDecimal unitTax;
-	
 	@Column(name = "OI_VALUE", unique = false, nullable = false)
 	private java.math.BigDecimal value;
-	
 	@ManyToOne
-	@JoinColumn(name="order", referencedColumnName="ID",  nullable = true)
-	private Order order;
-	
+	@JoinColumn(name="orderitem_order", referencedColumnName="ID",  nullable = true)
+	private Order orderitem_order;
 	@ManyToOne
-	@JoinColumn(name="product", referencedColumnName="ID",  nullable = true)
-	private Product product;
-	
+	@JoinColumn(name="orderitem_product", referencedColumnName="ID",  nullable = true)
+	private Product orderitem_product;
 	
 	public OrderItem(){
 	}
@@ -113,20 +106,20 @@ public class OrderItem implements java.io.Serializable {
 		this.value = value;
 	}
 	
-	public Order getOrder() {
-		return this.order;
+	public Order getOrderitem_order() {
+		return this.orderitem_order;
 	}
 	
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrderitem_order(Order orderitem_order) {
+		this.orderitem_order = orderitem_order;
 	}
 	
-	public Product getProduct() {
-		return this.product;
+	public Product getOrderitem_product() {
+		return this.orderitem_product;
 	}
 	
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setOrderitem_product(Product orderitem_product) {
+		this.orderitem_product = orderitem_product;
 	}
 	
 }

@@ -88,7 +88,7 @@
 											<td><b>${attr.label}:</b></td>
 											<#if attr.values??>
 												<td>
-													<select name="attrSelectCombo${attr.name}">
+													<select name="attrSelectCombo${attr_index}">
 													<#list attr.values as value>
 														<option value="${value}">${value}</option>
 													</#list>

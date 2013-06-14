@@ -179,7 +179,9 @@ public class WebResourceGenerator {
 						
 						//<Name>
 						Element zoomName = doc.createElement("Name");
-						zoomName.setTextContent(cc.toCamelCase(zoom.getTargetPanel().getComponent().getName(), true));
+						String zName = cc.toCamelCase(zoom.getTargetPanel().getComponent().getName(), true);
+						String cName = cc.toCamelCase(vClass.name(), true);
+						zoomName.setTextContent(cName + "_" + zName);
 						zoomElement.appendChild(zoomName);
 						
 						//<DatabaseName>

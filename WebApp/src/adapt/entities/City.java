@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,26 +40,19 @@ public class City implements java.io.Serializable {
 
 	@Column(name = "CIT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
 	@Column(name = "CIT_ZIP_CODE", unique = false, nullable = false)
 	private java.lang.String zipCode;
-	
 	@ManyToOne
-	@JoinColumn(name="state", referencedColumnName="ID",  nullable = true)
-	private State state;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
+	@JoinColumn(name="city_state", referencedColumnName="ID",  nullable = true)
+	private State city_state;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "enterprise_city")
 	private Set<Enterprise> EnterpriseSet;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "customer_city")
 	private Set<Customer> CustomerSet;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "vendor_city")
 	private Set<Vendor> VendorSet;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city")
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order_city")
 	private Set<Order> OrderSet;
-	
 	
 	public City(){
 	}
@@ -88,12 +81,12 @@ public class City implements java.io.Serializable {
 		this.zipCode = zipCode;
 	}
 	
-	public State getState() {
-		return this.state;
+	public State getCity_state() {
+		return this.city_state;
 	}
 	
-	public void setState(State state) {
-		this.state = state;
+	public void setCity_state(State city_state) {
+		this.city_state = city_state;
 	}
 	
 	public Set<Enterprise> getEnterpriseSet() {

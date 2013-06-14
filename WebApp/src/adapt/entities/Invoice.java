@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,17 +40,13 @@ public class Invoice implements java.io.Serializable {
 
 	@Column(name = "INV_INVOICE_NUMBER", unique = false, nullable = false)
 	private java.lang.String invoiceNumber;
-	
 	@Column(name = "INV_INVOICE_DATE", unique = false, nullable = false)
 	private java.util.Date invoiceDate;
-	
 	@Column(name = "INV_INVOICE_TOTAL", unique = false, nullable = false)
 	private java.math.BigDecimal invoiceTotal;
-	
 	@ManyToOne
-	@JoinColumn(name="order", referencedColumnName="ID",  nullable = true)
-	private Order order;
-	
+	@JoinColumn(name="invoice_order", referencedColumnName="ID",  nullable = true)
+	private Order invoice_order;
 	
 	public Invoice(){
 	}
@@ -87,12 +83,12 @@ public class Invoice implements java.io.Serializable {
 		this.invoiceTotal = invoiceTotal;
 	}
 	
-	public Order getOrder() {
-		return this.order;
+	public Order getInvoice_order() {
+		return this.invoice_order;
 	}
 	
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setInvoice_order(Order invoice_order) {
+		this.invoice_order = invoice_order;
 	}
 	
 }

@@ -91,6 +91,7 @@ public class ModifyResource extends BaseResource {
 					//za child atribute
 					for(int k=0; k<resource.getManyToOneAttributes().size(); k++) {
 						XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(k);
+						XMLResource ress = app.getXMLResource(mattr.getType());
 						if(prop.getName().equals(mattr.getName())) {
 							EntityTransaction t = em.getTransaction();
 							t.begin();
@@ -106,7 +107,13 @@ public class ModifyResource extends BaseResource {
 								for(int j=0; j<entities.size(); j++) {
 									EntityClass ecl = entities.get(j);
 									String Id = creator.getEntityPropertyValue(ecl, "id");
-									String name = creator.getEntityPropertyValue(ecl, "name");
+									String name = "";
+									
+									for (XMLAttribute attr : ress.getRepresentativeAttributes()) {
+										name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
+									}
+									
+									name = name.substring(0, name.length()-2);
 									//objekte iz baze pretvorimo u EntityClass objekte
 									//i spremimo u mapu sa vrednostima za combo box
 									childMap.put(Id, name);

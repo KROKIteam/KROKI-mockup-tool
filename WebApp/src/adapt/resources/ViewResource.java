@@ -99,6 +99,7 @@ public class ViewResource extends Resource {
 				remove(dresName, delIdLong);
 			}
 			if (modid != null) {//izmena
+				System.out.println("[VIEW RESOURCE] handleGet");
 				String mresName = (String) getRequest().getAttributes().get("mresName");
 				resource = application.getXMLResource(mresName);
 				Form form = getRequest().getEntityAsForm();
@@ -484,7 +485,11 @@ public class ViewResource extends Resource {
 						values.add(pairs.getValue().toString());
 					}
 				}else if(pairs.getKey().toString().startsWith("mattr")) { //manyToOne atributi
-					String index = Character.toString( pairs.getKey().toString().charAt(pairs.getKey().toString().length()-1));
+					int ind = pairs.getKey().toString().length()-1;
+					System.out.println("pairs.getKey() = " + pairs.getKey().toString());
+					System.out.println("charAt(" + ind + ")");
+					String index = Character.toString( pairs.getKey().toString().charAt(ind));
+					System.out.println("index = " + index);
 					XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(Integer.parseInt(index));
 					EntityManager e = application.getEmf().createEntityManager();
 					EntityTransaction tx = e.getTransaction();
@@ -494,7 +499,6 @@ public class ViewResource extends Resource {
 					if(!pairs.getValue().toString().equals("null")) {
 						o = e.createQuery(q).setParameter("oid", Long.parseLong(pairs.getValue().toString())).getSingleResult();
 					}
-					
 					tx.commit();
 					values.add(o);
 				}

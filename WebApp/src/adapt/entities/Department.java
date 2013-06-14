@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,14 +40,11 @@ public class Department implements java.io.Serializable {
 
 	@Column(name = "DEP_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
 	@Column(name = "DEP_ADDRESS", unique = false, nullable = false)
 	private java.lang.String address;
-	
 	@ManyToOne
-	@JoinColumn(name="enterprise", referencedColumnName="ID",  nullable = true)
-	private Enterprise enterprise;
-	
+	@JoinColumn(name="department_enterprise", referencedColumnName="ID",  nullable = true)
+	private Enterprise department_enterprise;
 	
 	public Department(){
 	}
@@ -76,12 +73,12 @@ public class Department implements java.io.Serializable {
 		this.address = address;
 	}
 	
-	public Enterprise getEnterprise() {
-		return this.enterprise;
+	public Enterprise getDepartment_enterprise() {
+		return this.department_enterprise;
 	}
 	
-	public void setEnterprise(Enterprise enterprise) {
-		this.enterprise = enterprise;
+	public void setDepartment_enterprise(Enterprise department_enterprise) {
+		this.department_enterprise = department_enterprise;
 	}
 	
 }

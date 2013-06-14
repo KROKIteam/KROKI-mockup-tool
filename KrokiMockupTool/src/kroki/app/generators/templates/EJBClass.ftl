@@ -40,7 +40,6 @@ public class ${class.name} implements java.io.Serializable {
 	${annotation}
 	</#list>
 	private ${attr.type} ${attr.name};
-	
 	</#list>
 	</#if>
 	

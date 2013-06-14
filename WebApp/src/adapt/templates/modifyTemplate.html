@@ -33,7 +33,7 @@
 									<#if resource.attributes[label_index].type == "java.lang.Boolean">
 										<td><b>${label}:</b></td>
 										<td>
-											<select name="attrSelect${label_index}">
+											<select name="attrSelectBool${label_index}">
 												<option value="true" <#if attributeValues[label_index] == "YES">selected="selected"</#if>>YES</option>
 												<option value="false" <#if attributeValues[label_index] == "NO">selected="selected"</#if>>NO</option>
 											</select>

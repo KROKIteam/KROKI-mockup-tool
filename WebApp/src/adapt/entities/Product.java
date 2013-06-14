@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 06.06.2013  15:10:54h
+   Creation date: 14.06.2013  11:57:05h
    **/
 
 @Entity
@@ -40,21 +40,16 @@ public class Product implements java.io.Serializable {
 
 	@Column(name = "PRO_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
 	@Column(name = "PRO_DESCRIPTION", unique = false, nullable = false)
 	private java.lang.String description;
-	
 	@ManyToOne
-	@JoinColumn(name="category", referencedColumnName="ID",  nullable = true)
-	private Category category;
-	
+	@JoinColumn(name="product_category", referencedColumnName="ID",  nullable = true)
+	private Category product_category;
 	@ManyToOne
-	@JoinColumn(name="vendor", referencedColumnName="ID",  nullable = true)
-	private Vendor vendor;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "product")
+	@JoinColumn(name="product_vendor", referencedColumnName="ID",  nullable = true)
+	private Vendor product_vendor;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "orderitem_product")
 	private Set<OrderItem> OrderItemSet;
-	
 	
 	public Product(){
 	}
@@ -83,20 +78,20 @@ public class Product implements java.io.Serializable {
 		this.description = description;
 	}
 	
-	public Category getCategory() {
-		return this.category;
+	public Category getProduct_category() {
+		return this.product_category;
 	}
 	
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setProduct_category(Category product_category) {
+		this.product_category = product_category;
 	}
 	
-	public Vendor getVendor() {
-		return this.vendor;
+	public Vendor getProduct_vendor() {
+		return this.product_vendor;
 	}
 	
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
+	public void setProduct_vendor(Vendor product_vendor) {
+		this.product_vendor = product_vendor;
 	}
 	
 	public Set<OrderItem> getOrderItemSet() {

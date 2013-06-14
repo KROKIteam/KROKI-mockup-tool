@@ -46,7 +46,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>state</Name>
+<Name>city_state</Name>
 <DatabaseName>In_state</DatabaseName>
 <Label>In state</Label>
 <Type>State</Type>
@@ -82,7 +82,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>city</Name>
+<Name>enterprise_city</Name>
 <DatabaseName>City</DatabaseName>
 <Label>City</Label>
 <Type>City</Type>
@@ -118,7 +118,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>enterprise</Name>
+<Name>department_enterprise</Name>
 <DatabaseName>Enterprise</DatabaseName>
 <Label>Enterprise</Label>
 <Type>Enterprise</Type>
@@ -163,7 +163,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>city</Name>
+<Name>customer_city</Name>
 <DatabaseName>City</DatabaseName>
 <Label>City</Label>
 <Type>City</Type>
@@ -199,7 +199,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>city</Name>
+<Name>vendor_city</Name>
 <DatabaseName>City</DatabaseName>
 <Label>City</Label>
 <Type>City</Type>
@@ -235,7 +235,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>category</Name>
+<Name>category_category</Name>
 <DatabaseName>Super_category</DatabaseName>
 <Label>Super category</Label>
 <Type>Category</Type>
@@ -271,14 +271,14 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>category</Name>
+<Name>product_category</Name>
 <DatabaseName>Category</DatabaseName>
 <Label>Category</Label>
 <Type>Category</Type>
 <Mandatory>false</Mandatory>
 </manyToOne>
 <manyToOne>
-<Name>vendor</Name>
+<Name>product_vendor</Name>
 <DatabaseName>Vendor</DatabaseName>
 <Label>Vendor</Label>
 <Type>Vendor</Type>
@@ -342,14 +342,14 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>customer</Name>
+<Name>order_customer</Name>
 <DatabaseName>Customer</DatabaseName>
 <Label>Customer</Label>
 <Type>Customer</Type>
 <Mandatory>false</Mandatory>
 </manyToOne>
 <manyToOne>
-<Name>city</Name>
+<Name>order_city</Name>
 <DatabaseName>City</DatabaseName>
 <Label>City</Label>
 <Type>City</Type>
@@ -412,14 +412,14 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>order</Name>
+<Name>orderItem_order</Name>
 <DatabaseName>Order</DatabaseName>
 <Label>Order</Label>
 <Type>Order</Type>
 <Mandatory>false</Mandatory>
 </manyToOne>
 <manyToOne>
-<Name>product</Name>
+<Name>orderItem_product</Name>
 <DatabaseName>Product</DatabaseName>
 <Label>Product</Label>
 <Type>Product</Type>
@@ -464,7 +464,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>order</Name>
+<Name>invoice_order</Name>
 <DatabaseName>Order</DatabaseName>
 <Label>Order</Label>
 <Type>Order</Type>
@@ -510,7 +510,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>order</Name>
+<Name>payment_order</Name>
 <DatabaseName>Order</DatabaseName>
 <Label>Order</Label>
 <Type>Order</Type>
@@ -573,7 +573,7 @@
 </Attributes>
 <ManyToOneAttributes>
 <manyToOne>
-<Name>priceList</Name>
+<Name>priceListItem_priceList</Name>
 <DatabaseName>Price_list</DatabaseName>
 <Label>Price list</Label>
 <Type>PriceList</Type>
