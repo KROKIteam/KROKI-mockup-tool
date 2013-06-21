@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 14.06.2013  10:03:22h
+   Creation date: 14.06.2013  13:02:06h
    **/
 
 @Entity
@@ -40,10 +40,8 @@ public class State implements java.io.Serializable {
 
 	@Column(name = "STA_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "state")
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city_state")
 	private Set<City> CitySet;
-	
 	
 	public State(){
 	}

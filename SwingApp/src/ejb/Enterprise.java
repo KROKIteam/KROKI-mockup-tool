@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 14.06.2013  10:03:22h
+   Creation date: 14.06.2013  13:02:06h
    **/
 
 @Entity
@@ -40,17 +40,13 @@ public class Enterprise implements java.io.Serializable {
 
 	@Column(name = "ENT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
 	@Column(name = "ENT_ADDRESS", unique = false, nullable = false)
 	private java.lang.String address;
-	
 	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
-	private City city;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "enterprise")
+	@JoinColumn(name="enterprise_city", referencedColumnName="ID",  nullable = true)
+	private City enterprise_city;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "department_enterprise")
 	private Set<Department> DepartmentSet;
-	
 	
 	public Enterprise(){
 	}
@@ -79,12 +75,12 @@ public class Enterprise implements java.io.Serializable {
 		this.address = address;
 	}
 	
-	public City getCity() {
-		return this.city;
+	public City getEnterprise_city() {
+		return this.enterprise_city;
 	}
 	
-	public void setCity(City city) {
-		this.city = city;
+	public void setEnterprise_city(City enterprise_city) {
+		this.enterprise_city = enterprise_city;
 	}
 	
 	public Set<Department> getDepartmentSet() {

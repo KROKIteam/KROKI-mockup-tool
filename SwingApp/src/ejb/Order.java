@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 14.06.2013  10:03:22h
+   Creation date: 14.06.2013  13:02:06h
    **/
 
 @Entity
@@ -40,36 +40,26 @@ public class Order implements java.io.Serializable {
 
 	@Column(name = "ORD_ORDER_NUMBER", unique = false, nullable = false)
 	private java.lang.String orderNumber;
-	
 	@Column(name = "ORD_ORDER_DATE", unique = false, nullable = false)
 	private java.util.Date orderDate;
-	
 	@Column(name = "ORD_SHIPMENT_ADDRESS", unique = false, nullable = false)
 	private java.lang.String shipmentAddress;
-	
 	@Column(name = "ORD_ORDER_TOTAL", unique = false, nullable = false)
 	private java.math.BigDecimal orderTotal;
-	
 	@Column(name = "ORD_ORDER_STATUS", unique = false, nullable = false)
 	private java.lang.String orderStatus;
-	
 	@ManyToOne
-	@JoinColumn(name="customer", referencedColumnName="ID",  nullable = true)
-	private Customer customer;
-	
+	@JoinColumn(name="order_customer", referencedColumnName="ID",  nullable = true)
+	private Customer order_customer;
 	@ManyToOne
-	@JoinColumn(name="city", referencedColumnName="ID",  nullable = true)
-	private City city;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
+	@JoinColumn(name="order_city", referencedColumnName="ID",  nullable = true)
+	private City order_city;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "orderitem_order")
 	private Set<OrderItem> OrderItemSet;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "invoice_order")
 	private Set<Invoice> InvoiceSet;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order")
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "payment_order")
 	private Set<Payment> PaymentSet;
-	
 	
 	public Order(){
 	}
@@ -122,20 +112,20 @@ public class Order implements java.io.Serializable {
 		this.orderStatus = orderStatus;
 	}
 	
-	public Customer getCustomer() {
-		return this.customer;
+	public Customer getOrder_customer() {
+		return this.order_customer;
 	}
 	
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setOrder_customer(Customer order_customer) {
+		this.order_customer = order_customer;
 	}
 	
-	public City getCity() {
-		return this.city;
+	public City getOrder_city() {
+		return this.order_city;
 	}
 	
-	public void setCity(City city) {
-		this.city = city;
+	public void setOrder_city(City order_city) {
+		this.order_city = order_city;
 	}
 	
 	public Set<OrderItem> getOrderItemSet() {

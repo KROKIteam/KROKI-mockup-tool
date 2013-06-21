@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 14.06.2013  10:03:22h
+   Creation date: 14.06.2013  13:02:06h
    **/
 
 @Entity
@@ -40,14 +40,11 @@ public class PriceListItem implements java.io.Serializable {
 
 	@Column(name = "PLI_PRICE", unique = false, nullable = false)
 	private java.math.BigDecimal price;
-	
 	@Column(name = "PLI_TAX", unique = false, nullable = false)
 	private java.math.BigDecimal tax;
-	
 	@ManyToOne
-	@JoinColumn(name="priceList", referencedColumnName="ID",  nullable = true)
-	private PriceList priceList;
-	
+	@JoinColumn(name="pricelistitem_priceList", referencedColumnName="ID",  nullable = true)
+	private PriceList pricelistitem_priceList;
 	
 	public PriceListItem(){
 	}
@@ -76,12 +73,12 @@ public class PriceListItem implements java.io.Serializable {
 		this.tax = tax;
 	}
 	
-	public PriceList getPriceList() {
-		return this.priceList;
+	public PriceList getPricelistitem_priceList() {
+		return this.pricelistitem_priceList;
 	}
 	
-	public void setPriceList(PriceList priceList) {
-		this.priceList = priceList;
+	public void setPricelistitem_priceList(PriceList pricelistitem_priceList) {
+		this.pricelistitem_priceList = pricelistitem_priceList;
 	}
 	
 }

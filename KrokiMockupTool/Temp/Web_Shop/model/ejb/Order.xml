@@ -7,12 +7,12 @@
 <column-attribute field-name="shipmentAddress" key="false" label="Shipment address" length="50" name="shipmentAddress" type="java.lang.String"/>
 <column-attribute field-name="orderTotal" key="false" label="Order total" length="50" name="orderTotal" type="java.math.BigDecimal"/>
 <column-attribute enum="OrderStatusOrderEnum" field-name="orderStatus" key="false" label="Order status" length="50" name="orderStatus" type="java.lang.String"/>
-<zoom-attribute class-name="ejb.Customer" field-name="customer" label="Customer" name="customer" zoomed-by="id">
+<zoom-attribute class-name="ejb.Customer" field-name="order_customer" label="Customer" name="order_customer" zoomed-by="id">
 <column-ref label="Customer ID" name="id"/>
 <column-ref label="Customer First name" name="firstName"/>
 <column-ref label="Customer Last name" name="lastName"/>
 </zoom-attribute>
-<zoom-attribute class-name="ejb.City" field-name="city" label="City" name="city" zoomed-by="id">
+<zoom-attribute class-name="ejb.City" field-name="order_city" label="City" name="order_city" zoomed-by="id">
 <column-ref label="City ID" name="id"/>
 <column-ref label="City Name" name="name"/>
 </zoom-attribute>

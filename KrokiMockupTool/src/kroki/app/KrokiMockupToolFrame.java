@@ -66,9 +66,9 @@ public class KrokiMockupToolFrame extends JFrame {
     /*KOMPONENTE SADRZANE U GLAVNOM PANEL-u*/
     /***************************************/
     private JToolBar mainToolbar;
-    /**Komponenta koja predstavlja tabulatorski panel u kojem će se naći hijerarhijski uređena struktura projekata. Levi deo mainSplitPane-a*/
+    /**Komponenta koja predstavlja tabulatorski panel u kojem ce se naci hijerarhijski uredjena struktura projekata. Levi deo mainSplitPane-a*/
     private JTabbedPane treeTabbedPane;
-    /**Komponenta koja predstavlja tabulatorski panel u kojem će se naći kanvas. Desni deo mainSplitPane-a*/
+    /**Komponenta koja predstavlja tabulatorski panel u kojem ce se naci kanvas. Desni deo mainSplitPane-a*/
     private JTabbedPane canvasTabbedPane;
     /**Stablo kojim se prikazuje hijerarhija otvorenih projekata u datoj aplikaciji*/
     private JTree tree;

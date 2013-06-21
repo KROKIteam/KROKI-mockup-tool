@@ -11,15 +11,20 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 import kroki.app.view.Canvas;
 import kroki.common.copy.DeepCopy;
+import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
@@ -41,31 +46,58 @@ public class SaveAction extends AbstractAction {
 
 	public void actionPerformed(ActionEvent e) {
 		//find selected project to save
-		BussinesSubsystem proj = null;
 		try {
-			String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
-			for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
-				BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
-				if(pack.getLabel().equals(selectedNoded)) {
-					proj = pack;
+			BussinesSubsystem proj = null;
+			
+			//get selected item from jtree and find its project
+			TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
+			Object node = path.getLastPathComponent();
+			if(node != null) {
+				//if package is selected, find parent project
+				if(node instanceof BussinesSubsystem) {
+					BussinesSubsystem subsys = (BussinesSubsystem) node;
+					proj = KrokiMockupToolApp.getInstance().findProject(subsys);
+				}else if(node instanceof VisibleClass) {
+					//panel is selected, get parent node from tree and find project
+					JTree tree = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree();
+					Object parent = tree.getSelectionPath().getParentPath().getLastPathComponent();
+					if(parent instanceof BussinesSubsystem) {
+						proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
+					}
+				}
+				
+			}
+			
+			if(proj == null) {
+				if(KrokiMockupToolApp.getInstance().getTabbedPaneController().getTabbedPane().getTabCount() != 0) {
+					Canvas canv = KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent();
+					VisibleClass vc = canv.getVisibleClass();
+					System.out.println(vc.getLabel());
 				}
 			}
 			
-			JFileChooser jfc = new JFileChooser();
-			jfc.setSelectedFile(new File(proj.getLabel().replace(" ", "_")));
-			FileFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
-	        jfc.setAcceptAllFileFilterUsed(false);
-	        jfc.setFileFilter(filter);
-			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
-			if (retValue == JFileChooser.APPROVE_OPTION) {
-				File file = jfc.getSelectedFile();
-				if(!file.getAbsolutePath().endsWith(".kroki")) {
-					file = new File(file.getAbsolutePath() + ".kroki");
+			//if project allready has a file to save, save to that file, else display choose file dialog
+			if(proj.getFile() != null) {
+				System.out.println("saving to file: " + proj.getFile().getAbsolutePath());
+				DeepCopy.save(proj, proj.getFile());
+			}else {
+				JFileChooser jfc = new JFileChooser();
+				jfc.setSelectedFile(new File(proj.getLabel().replace(" ", "_")));
+				FileFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
+		        jfc.setAcceptAllFileFilterUsed(false);
+		        jfc.setFileFilter(filter);
+				int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
+				if (retValue == JFileChooser.APPROVE_OPTION) {
+					File file = jfc.getSelectedFile();
+					if(!file.getAbsolutePath().endsWith(".kroki")) {
+						file = new File(file.getAbsolutePath() + ".kroki");
+					}
+					System.out.println("saving to file: " + file.getAbsolutePath());
+					proj.setFile(file);
+					DeepCopy.save(proj, file);
+				} else {
+					System.out.println("saving canceled: ");
 				}
-				System.out.println("saving to file: " + file.getAbsolutePath());
-				DeepCopy.save(proj, file);
-			} else {
-				System.out.println("saving canceled: ");
 			}
 		//if no project is selected, display message to user
 		} catch (NullPointerException e2) {

@@ -4,6 +4,7 @@
  */
 package kroki.profil.subsystem;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import kroki.profil.ComponentType;
@@ -22,12 +23,12 @@ import kroki.uml_core_basic.UmlType;
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class BussinesSubsystem extends VisibleElement implements UmlPackage {
-
     private UmlPackage nestingPackage;
     private List<VisibleElement> ownedElement = new ArrayList<VisibleElement>();
     private List<UmlPackage> nestedPackage = new ArrayList<UmlPackage>();
     private List<UmlType> ownedType = new ArrayList<UmlType>();
     private DatabaseProps DBConnectionProps = new DatabaseProps();
+    private File file;
 
     public BussinesSubsystem(BussinesSubsystem owner) {
         super();
@@ -110,6 +111,14 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
 	public void setDBConnectionProps(DatabaseProps dBConnectionProps) {
 		DBConnectionProps = dBConnectionProps;
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	/****************************************************/

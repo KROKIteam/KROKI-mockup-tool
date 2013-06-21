@@ -5,7 +5,7 @@
 <column-attribute enum="PaymentMethodPaymentEnum" field-name="paymentMethod" key="false" label="Payment method" length="50" name="paymentMethod" type="java.lang.String"/>
 <column-attribute field-name="dateRecieved" key="false" label="Date recieved" length="50" name="dateRecieved" type="java.util.Date"/>
 <column-attribute field-name="amountRecieved" key="false" label="Amount recieved" length="50" name="amountRecieved" type="java.math.BigDecimal"/>
-<zoom-attribute class-name="ejb.Order" field-name="order" label="Order" name="order" zoomed-by="id">
+<zoom-attribute class-name="ejb.Order" field-name="payment_order" label="Order" name="payment_order" zoomed-by="id">
 <column-ref label="Order ID" name="id"/>
 <column-ref label="Order Order number" name="orderNumber"/>
 </zoom-attribute>

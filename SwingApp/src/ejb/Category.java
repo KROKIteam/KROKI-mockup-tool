@@ -24,7 +24,7 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author mrd 
-   Creation date: 14.06.2013  10:03:22h
+   Creation date: 14.06.2013  13:02:06h
    **/
 
 @Entity
@@ -40,20 +40,15 @@ public class Category implements java.io.Serializable {
 
 	@Column(name = "CAT_NAME", unique = false, nullable = false)
 	private java.lang.String name;
-	
 	@Column(name = "CAT_DESCRIPTION", unique = false, nullable = false)
 	private java.lang.String description;
-	
 	@ManyToOne
-	@JoinColumn(name="category", referencedColumnName="ID",  nullable = true)
-	private Category category;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "category")
+	@JoinColumn(name="category_category", referencedColumnName="ID",  nullable = true)
+	private Category category_category;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "category_category")
 	private Set<Category> CategorySet;
-	
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "category")
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "product_category")
 	private Set<Product> ProductSet;
-	
 	
 	public Category(){
 	}
@@ -82,12 +77,12 @@ public class Category implements java.io.Serializable {
 		this.description = description;
 	}
 	
-	public Category getCategory() {
-		return this.category;
+	public Category getCategory_category() {
+		return this.category_category;
 	}
 	
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory_category(Category category_category) {
+		this.category_category = category_category;
 	}
 	
 	public Set<Category> getCategorySet() {

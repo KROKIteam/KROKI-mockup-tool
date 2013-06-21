@@ -25,6 +25,7 @@ import kroki.app.action.NewPackageAction;
 import kroki.app.action.NewProjectAction;
 import kroki.app.action.RenameAction;
 import kroki.app.model.Workspace;
+import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
@@ -72,7 +73,9 @@ public class TreeController extends AbstractTreeController {
 			} else if (node instanceof BussinesSubsystem) {
 				//System.out.println("BUSSINESSUBSYSTEM");
 			} else if (node instanceof VisibleClass) {
-				//System.out.println("VISIBLECLASS");
+				VisibleClass v = (VisibleClass) node;
+				if(node instanceof StandardPanel) {
+				}
 			}
 		}
 		super.valueChanged(e);
@@ -147,7 +150,6 @@ public class TreeController extends AbstractTreeController {
                 popupMenu.add(new RenameAction((VisibleClass) node));
                 popupMenu.add(new DeleteAction((VisibleClass) node));
             }
-
             popupMenu.show(tree, e.getX(), e.getY());
         }
     }

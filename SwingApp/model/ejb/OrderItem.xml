@@ -7,11 +7,11 @@
 <column-attribute field-name="unitPrice" key="false" label="Unit price" length="50" name="unitPrice" type="java.math.BigDecimal"/>
 <column-attribute field-name="unitTax" key="false" label="Unit tax" length="50" name="unitTax" type="java.math.BigDecimal"/>
 <column-attribute field-name="value" key="false" label="Value" length="50" name="value" type="java.math.BigDecimal"/>
-<zoom-attribute class-name="ejb.Order" field-name="order" label="Order" name="order" zoomed-by="id">
+<zoom-attribute class-name="ejb.Order" field-name="orderitem_order" label="Order" name="orderitem_order" zoomed-by="id">
 <column-ref label="Order ID" name="id"/>
 <column-ref label="Order Order number" name="orderNumber"/>
 </zoom-attribute>
-<zoom-attribute class-name="ejb.Product" field-name="product" label="Product" name="product" zoomed-by="id">
+<zoom-attribute class-name="ejb.Product" field-name="orderitem_product" label="Product" name="orderitem_product" zoomed-by="id">
 <column-ref label="Product ID" name="id"/>
 <column-ref label="Product Name" name="name"/>
 </zoom-attribute>
