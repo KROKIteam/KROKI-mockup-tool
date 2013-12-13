@@ -58,7 +58,7 @@ public class SaveAction extends AbstractAction {
 					BussinesSubsystem subsys = (BussinesSubsystem) node;
 					proj = KrokiMockupToolApp.getInstance().findProject(subsys);
 				}else if(node instanceof VisibleClass) {
-					//panel is selected, get parent node from tree and find project
+					//if panel is selected, get parent node from tree and find project
 					JTree tree = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree();
 					Object parent = tree.getSelectionPath().getParentPath().getLastPathComponent();
 					if(parent instanceof BussinesSubsystem) {

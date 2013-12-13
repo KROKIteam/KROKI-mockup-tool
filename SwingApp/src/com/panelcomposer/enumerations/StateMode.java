@@ -3,7 +3,7 @@ package com.panelcomposer.enumerations;
    /** 
    File generated using Kroki EnumGenerator 
    @Author MiloradFilipovic 
-   Creation date: 14.06.2013  13:02:07h
+   Creation date: 21.06.2013  12:55:55h
    **/
 
 public enum StateMode {

@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -116,7 +117,8 @@ public class KrokiMockupToolApp {
 				krokiMockupToolFrame.pack();
 				GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				krokiMockupToolFrame.setMaximizedBounds(e.getMaximumWindowBounds());
-				krokiMockupToolFrame.setMinimumSize(new Dimension(1200, 800));
+				krokiMockupToolFrame.setMinimumSize(new Dimension(600, 400));
+				krokiMockupToolFrame.setSize(getPreferredSize());
 				krokiMockupToolFrame.setExtendedState(krokiMockupToolFrame.getExtendedState() | JFrame.NORMAL);
 				krokiMockupToolFrame.setLocationRelativeTo(null);
 				krokiMockupToolFrame.toFront();
@@ -145,6 +147,19 @@ public class KrokiMockupToolApp {
 		tcm.getMappings();
 	}
 
+	/*
+	 * Returns dimension that is 80% of the screen size
+	 */
+	public Dimension getPreferredSize() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double width = screenSize.getWidth();
+		double height = screenSize.getHeight();
+
+		int w = (int)Math.floor(width*0.8);
+		int h = (int)Math.floor(height*0.8);
+		return new Dimension(w, h);
+	}
+	
 
 	//*****************************************[ SEARCH METHODS ]***************************************************
 

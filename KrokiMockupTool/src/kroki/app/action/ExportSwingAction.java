@@ -7,11 +7,14 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
+import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
+import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
@@ -33,11 +36,21 @@ public class ExportSwingAction extends AbstractAction {
 		//find selected project from workspace
 		BussinesSubsystem proj = null;
 		try {
-			String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
-			for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
-				BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
-				if(pack.getLabel().equals(selectedNoded)) {
-					proj = pack;
+			//get selected item from jtree and find its project
+			TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
+			Object node = path.getLastPathComponent();
+			if(node != null) {
+				//if package is selected, find parent project
+				if(node instanceof BussinesSubsystem) {
+					BussinesSubsystem subsys = (BussinesSubsystem) node;
+					proj = KrokiMockupToolApp.getInstance().findProject(subsys);
+				}else if(node instanceof VisibleClass) {
+					//panel is selected, get parent node from tree and find project
+					JTree tree = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree();
+					Object parent = tree.getSelectionPath().getParentPath().getLastPathComponent();
+					if(parent instanceof BussinesSubsystem) {
+						proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
+					}
 				}
 			}
 

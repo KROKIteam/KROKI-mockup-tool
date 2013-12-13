@@ -28,8 +28,8 @@ import javax.persistence.JoinTable;
    **/
 
 @Entity
-@Table(name = "PS_USER")
-public class User implements java.io.Serializable {
+@Table(name = "PS_FIZICKA_LICA")
+public class FizickaLica implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,12 +38,8 @@ public class User implements java.io.Serializable {
 	@Column(name = "ID", unique = true, nullable = false)
 	private java.lang.Long id;
 
-	@Column(name = "username", unique = false, nullable = false)
-	private java.lang.String username;
-	@Column(name = "password", unique = false, nullable = false)
-	private java.lang.String password;
 	
-	public User(){
+	public FizickaLica(){
 	}
 	
 	public Long getId() {
@@ -52,22 +48,6 @@ public class User implements java.io.Serializable {
 	
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public java.lang.String getUsername() {
-		return this.username;
-	}
-	
-	public void setUsername(java.lang.String username) {
-		this.username = username;
-	}
-	
-	public java.lang.String getPassword() {
-		return this.password;
-	}
-	
-	public void setPassword(java.lang.String password) {
-		this.password = password;
 	}
 	
 }

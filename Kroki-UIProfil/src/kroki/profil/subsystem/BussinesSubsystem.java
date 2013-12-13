@@ -19,7 +19,7 @@ import kroki.uml_core_basic.UmlType;
 
 /**
  * Klasa koja se koristi za definisanje
- * poslovnih podsistema i referata, na naÄ�in definisan HCI standardom.
+ * poslovnih podsistema i referata, na nacin definisan HCI standardom.
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class BussinesSubsystem extends VisibleElement implements UmlPackage {
@@ -96,7 +96,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
     public UmlPackage nestingPackage() {
         return nestingPackage;
     }
-
+ 
     public List<UmlType> ownedType() {
         return ownedType;
     }
