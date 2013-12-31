@@ -51,6 +51,47 @@ public class NamingUtil {
 	}
 	
 	/**
+	 * Converts given string to camel case while preserving Serbian unique letters (Ž,Č,Ć,Đ,Š).
+	 * Used to generate camel case names for elements of UML diagrams during import and export functions.
+	 * @param s String to be converted.
+	 * @param cap Indicates if converted string should be capitalized (methods and properties names) or not (class names).
+	 * @return String in camel case notion.
+	 */
+	public String toCamelCaseIE(String s, boolean cap) {
+		if(s!=null)
+			if(!s.isEmpty())
+			{
+				StringBuffer builder=new StringBuffer();
+				char c=s.charAt(0);
+				if(Character.isUpperCase(c)&&!cap)
+					builder.append(Character.toLowerCase(c));
+				else
+					builder.append(c);
+				
+				boolean prazno=false;
+				for(char p:s.substring(1).toCharArray())
+				{
+					if(Character.isLowerCase(p)&&prazno)
+					{
+						builder.append(Character.toUpperCase(p));
+						prazno=false;
+					}
+					else if(Character.isWhitespace(p))
+						prazno=true;
+					else
+					{
+						builder.append(p);
+						prazno=false;
+					}
+				}
+				
+				return builder.toString();
+			}
+		return "";
+		/**/
+	}
+	
+	/**
 	 * Converts given string to format suitable for naming database columns.
 	 * Column names consist of column label in upper case with words separated by underscore and prefix which is based on table name.
 	 * If table name has only one word, column prefix is made from first three letters of that word in upper case,
@@ -65,7 +106,10 @@ public class NamingUtil {
 		
 		String[] prefixElements = tableName.split(" ");
 		if(prefixElements.length == 1) {
-			prefix = prefixElements[0].substring(0, 3).toUpperCase();
+			if(prefixElements[0].length()>=3)
+				prefix = prefixElements[0].substring(0, 3).toUpperCase();
+			else
+				prefix = prefixElements[0].substring(0, prefixElements[0].length()).toUpperCase();
 		}else {
 			for(int i=0; i<prefixElements.length; i++) {
 				prefix += prefixElements[i].charAt(0);
@@ -73,5 +117,109 @@ public class NamingUtil {
 		}
 		
 		return prefix.toUpperCase() + "_" + columnName.replace(" ", "_").toUpperCase();
+	}
+
+	/**
+	 * Enumeration that is used while transforming Camel case sentences to sentences in which words are
+	 * separated with empty spaces. Enumeration constants are used as states for the process of transforming
+	 * names from camel case to human readable notation. 
+	 * @author Zeljko Ivkovic
+	 *
+	 */
+	protected enum ESTANJA{PRVO_SLOVO,SLEDECE_SLOVO_POSLE_PRVOG,VELIKO_SLOVO,MALO_POSLE_VELIKOG,MALO_SLOVO,VELIKO_POSLE_MALOG};
+	
+	/**
+	 * Method that transforms Camel case sentences to sentences in which words are separated with empty spaces.
+	 * For example:<br/>
+	 * "ZIPCode" is transformed to "ZIP code" and "FirstSecondThrid" is transformed to "First second third". 
+	 * @param text String that is in camel case notation.
+	 * @return Text that is in human readable notation.
+	 */
+	public String fromCamelCase(String text){
+		if(text!=null)
+			if(!text.isEmpty())
+			{			
+				StringBuilder builder=new StringBuilder();
+				ESTANJA stanje=ESTANJA.PRVO_SLOVO;
+				int i=0;
+				char lastCharacter = 0,currentCharacter;
+				while(i<text.length()){
+					switch(stanje){
+					case PRVO_SLOVO:
+						currentCharacter=text.charAt(0);
+						i=1;
+						stanje=ESTANJA.SLEDECE_SLOVO_POSLE_PRVOG;
+						currentCharacter=Character.toUpperCase(currentCharacter);
+						lastCharacter=currentCharacter;
+						break;
+					case SLEDECE_SLOVO_POSLE_PRVOG:
+						builder.append(lastCharacter);
+						currentCharacter=text.charAt(i);
+						if(Character.isUpperCase(currentCharacter))
+							stanje=ESTANJA.VELIKO_SLOVO;
+						else
+							stanje=ESTANJA.MALO_SLOVO;
+						i++;
+						lastCharacter=currentCharacter;
+						break;
+					case VELIKO_SLOVO:
+						currentCharacter=text.charAt(i);
+						if(Character.isUpperCase(currentCharacter))
+						{
+							stanje=ESTANJA.VELIKO_SLOVO;
+							builder.append(lastCharacter);
+							lastCharacter=currentCharacter;
+							i++;
+						}
+						else
+						{
+							stanje=ESTANJA.MALO_POSLE_VELIKOG;
+							lastCharacter=Character.toLowerCase(lastCharacter);
+						}
+						break;
+					case MALO_POSLE_VELIKOG:
+						currentCharacter=text.charAt(i);
+						builder.append(" "+lastCharacter+currentCharacter);
+						if(++i<text.length())
+						{
+							currentCharacter=text.charAt(i);
+							if(Character.isUpperCase(currentCharacter))
+								stanje=ESTANJA.VELIKO_POSLE_MALOG;
+							else
+								stanje=ESTANJA.MALO_SLOVO;						
+							lastCharacter=currentCharacter;
+							i++;
+						}
+						break;
+					case MALO_SLOVO:
+						builder.append(lastCharacter);
+						currentCharacter=text.charAt(i);
+						if(Character.isUpperCase(currentCharacter))
+							stanje=ESTANJA.VELIKO_POSLE_MALOG;
+						else
+							stanje=ESTANJA.MALO_SLOVO;
+						i++;
+						lastCharacter=currentCharacter;
+						break;
+					case VELIKO_POSLE_MALOG:
+						currentCharacter=text.charAt(i);
+						if(Character.isUpperCase(currentCharacter))
+						{
+							builder.append(" "+lastCharacter);
+							stanje=ESTANJA.VELIKO_SLOVO;
+							lastCharacter=currentCharacter;
+						}
+						else
+						{
+							lastCharacter=Character.toLowerCase(lastCharacter);
+							stanje=ESTANJA.MALO_POSLE_VELIKOG;
+						}
+						break;
+					}
+				}
+				builder.append(lastCharacter);
+				return builder.toString();
+			}
+		return "";
 	}
 }

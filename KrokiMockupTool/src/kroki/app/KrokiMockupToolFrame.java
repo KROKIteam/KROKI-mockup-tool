@@ -24,9 +24,13 @@ import javax.swing.JTree;
 import kroki.app.action.AboutAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
+import kroki.app.action.ExportEclipseUMLDiagramAction;
+import kroki.app.action.ExportEclipseUMLDiagramAction3version;
+import kroki.app.action.ExportEclipseUMLDiagramAction4version;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
 import kroki.app.action.HelpAction;
+import kroki.app.action.ImportEclipseUMLDiagramAction;
 import kroki.app.action.NewFileAction;
 import kroki.app.action.NewProjectAction;
 import kroki.app.action.OpenFileAction;
@@ -183,6 +187,26 @@ public class KrokiMockupToolFrame extends JFrame {
         file.add(new SaveAsAction());
         file.add(new SaveAllAction());
         file.addSeparator();
+      //Dodavanje dela za import i export
+        JMenu importFileMenu=new JMenu();
+        importFileMenu.setName("import");
+        importFileMenu.setText(StringResource.getStringResource("menu.file.submenu.import"));
+        file.add(importFileMenu);
+        
+        importFileMenu.add(new ImportEclipseUMLDiagramAction());
+        
+        JMenu exportFileMenu=new JMenu();
+        exportFileMenu.setName("export");
+        exportFileMenu.setText(StringResource.getStringResource("menu.file.submenu.export"));
+        file.add(exportFileMenu);
+        
+        exportFileMenu.add(new ExportEclipseUMLDiagramAction4version());
+        exportFileMenu.add(new ExportEclipseUMLDiagramAction3version());
+        
+        
+        file.addSeparator();
+        //Kraj dela za dodavanje import i export
+        
         file.add(new ExitAction());
 
         JMenu edit = new JMenu();
