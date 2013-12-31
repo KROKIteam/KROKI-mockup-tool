@@ -14,6 +14,16 @@
 	<classpathentry kind="lib" path="lib/junit_4/junit-4.5.jar"/>
 	<classpathentry kind="lib" path="lib/junit/junit-3.8.2.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout-4.0.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.emf.common_2.9.0.v20130528-0742.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.emf.ecore_2.9.0.v20130528-0742.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.emf.ecore.xmi_2.9.0.v20130528-0742.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.emf.mapping.ecore2xml_2.7.0.v20130610-0406.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.common_1.8.0.v20130610-0712.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.types_1.1.0.v20130610-0712.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml_4.1.0.v20130610-0712.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.profile.l2_1.1.0.v20130610-0712.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.profile.l3_1.1.0.v20130610-0712.jar"/>
+	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.resources_4.1.0.v20130610-0712.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
 	<classpathentry kind="lib" path="/kroki-commons/dist/kroki-commons.jar"/>
@@ -44,7 +54,6 @@
 	<classpathentry kind="lib" path="lib/batik-svgpp.jar"/>
 	<classpathentry kind="lib" path="lib/batik-ttf2svg.jar"/>
 	<classpathentry kind="lib" path="lib/batik.jar"/>
-	<classpathentry kind="lib" path="lib/xerces_2_5_0.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis-ext.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/batik-swing.jar"/>
