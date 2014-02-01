@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map>
-<panel ejb-ref="ejb.Fakture" id="fakture_st"/>
-<panel ejb-ref="ejb.FizickaLica" id="fizickalica_st"/>
-</map>
