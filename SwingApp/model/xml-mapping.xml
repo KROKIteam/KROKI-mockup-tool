@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map>
-<property class-name="ejb.Fakture" xml-file="ejb/Fakture"/>
-<property class-name="ejb.FizickaLica" xml-file="ejb/FizickaLica"/>
-<property class-name="ejb.User" xml-file="ejb/User"/>
-</map>
