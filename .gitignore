@@ -23,7 +23,7 @@
 #                                    SwingApp excludes
 ######################################################
 **/SwingApp/bin
-**/SwingApp/props/META-INF/presistence.xml
+**/SwingApp/props/META-INF/persistence.xml
 **/SwingApp/src/hibernate.cfg.xml
 **/SwingApp/src/ejb/
 **/SwingApp/model/xml-mapping.xml
@@ -33,3 +33,7 @@
 **/SwingApp/model/ejb/
 **/SwingApp/src/com/panelcomposer/enumerations/
 **/SwingApp/src/com/panelcomposer/enumerations/
+**/SwingApp/ddl_createDatabase.sql
+**/SwingApp/src/panelcomposer/enumerations/
+**/SwingApp/model/menu.xml
+**/SwingApp/model/panel/
