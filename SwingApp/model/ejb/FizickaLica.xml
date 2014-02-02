@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<entity class-name="ejb.FizickaLica" label="Fizicka lica" name="FIZICKALICA">
-<attributes>
-<column-attribute field-name="id" key="true" label="ID" length="50" name="id" type="java.lang.Long"/>
-</attributes>
-</entity>
