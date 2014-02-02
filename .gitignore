@@ -13,6 +13,7 @@
 
 #                                       WebApp excludes
 #######################################################
+**/WebApp/bin
 **/WebApp/etc/META-INF/persistence.xml
 **/WebApp/src/adapt/entities/
 **/WebApp/src/adapt/enumerations/
@@ -21,6 +22,7 @@
 
 #                                    SwingApp excludes
 ######################################################
+**/SwingApp/bin
 **/SwingApp/props/META-INF/presistence.xml
 **/SwingApp/src/hibernate.cfg.xml
 **/SwingApp/src/ejb/
