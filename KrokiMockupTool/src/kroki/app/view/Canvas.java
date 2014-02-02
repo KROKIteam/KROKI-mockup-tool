@@ -7,7 +7,6 @@ package kroki.app.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
@@ -16,10 +15,11 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JPanel;
+
 import kroki.app.command.CommandManager;
 import kroki.app.model.SelectionModel;
-import kroki.mockup.model.Insets;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;

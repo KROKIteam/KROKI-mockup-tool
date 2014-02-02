@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="dist/Kroki.jar"/>
-	<classpathentry kind="lib" path="dist/lib/appframework-1.0.3.jar"/>
-	<classpathentry kind="lib" path="dist/lib/kroki-commons.jar"/>
-	<classpathentry kind="lib" path="dist/lib/kroki-intl.jar"/>
-	<classpathentry kind="lib" path="dist/lib/swing-worker-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
 	<classpathentry kind="lib" path="lib/junit_4/junit-4.5-src.jar"/>
 	<classpathentry kind="lib" path="lib/junit_4/junit-4.5.jar"/>

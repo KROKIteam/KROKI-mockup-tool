@@ -7,11 +7,13 @@ package kroki.app.view;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
+
+import kroki.app.view.Handle;
 import kroki.profil.VisibleElement;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class HandleManager {
 

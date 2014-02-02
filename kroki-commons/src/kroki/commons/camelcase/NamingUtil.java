@@ -23,7 +23,7 @@ public class NamingUtil {
 			s = s.replace('Č', 'c');
 			s = s.replace('š', 's');
 			s = s.replace('Š', 's');
-			s = s.replaceAll("đ‘", "dj");
+			s = s.replaceAll("đ", "dj");
 			s = s.replaceAll("Đ", "dj");
 			
 		    StringBuffer sb = new StringBuffer();
