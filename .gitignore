@@ -1,3 +1,33 @@
+#                                     Global excludes
+#####################################################
 .class
-bin/
-.metadata/
+**/.metadata
+**/build
+**/bin
+**/dist
+**/nbproject
+
+#                             KrokiMockupTool exludes
+######################################################
+**/KrokiMockupTool/Temp/
+
+#                                       WebApp excludes
+#######################################################
+**/WebApp/etc/META-INF/persistence.xml
+**/WebApp/src/adapt/entities/
+**/WebApp/src/adapt/enumerations/
+**/WebApp/src/config/resources-generated.xml
+**/WebApp/src/adapt/templates/treemenuGenerated.html
+
+#                                    SwingApp excludes
+######################################################
+**/SwingApp/props/META-INF/presistence.xml
+**/SwingApp/src/hibernate.cfg.xml
+**/SwingApp/src/ejb/
+**/SwingApp/model/xml-mapping.xml
+**/SwingApp/model/panel.xml
+**/SwingApp/model/panel-map.xml
+**/SwingApp/model/panel-map.xml
+**/SwingApp/model/ejb/
+**/SwingApp/src/com/panelcomposer/enumerations/
+**/SwingApp/src/com/panelcomposer/enumerations/
