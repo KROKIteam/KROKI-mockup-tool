@@ -110,7 +110,7 @@ public class EnumerationGenerator {
 				Map model = new TreeMap();
 				String doc = "   /** " +
 						"\n   File generated using Kroki EnumGenerator " +
-						"\n   @Author MiloradFilipovic " +
+						"\n   @Author KROKIteam " +
 						"\n   Creation date: " + d + "h" +
 						"\n   **/";
 				
