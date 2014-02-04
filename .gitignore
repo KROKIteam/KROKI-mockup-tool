@@ -1,12 +1,13 @@
 #                                     Global excludes
 #####################################################
-.class
+*.class
 **/.metadata
 **/build
 **/bin
 **/dist
 **/nbproject
-
+.settings/
+.svn/
 #                             KrokiMockupTool exludes
 ######################################################
 **/KrokiMockupTool/Temp/

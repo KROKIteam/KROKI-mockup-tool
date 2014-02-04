@@ -13,7 +13,9 @@ import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreePath;
+
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.action.ClassDiagramAction;
 import kroki.app.action.CreatePresistentDiagramAction;
 import kroki.app.action.CreateUIDiagramAction;
 import kroki.app.action.DBConneectionSettingsAction;
@@ -146,6 +148,7 @@ public class TreeController extends AbstractTreeController {
                 popupMenu.addSeparator();
                 popupMenu.add(new DBConneectionSettingsAction());
                 popupMenu.add(diagramMenu);
+                popupMenu.add(new ClassDiagramAction());
             } else if (node instanceof VisibleClass) {
                 popupMenu.add(new RenameAction((VisibleClass) node));
                 popupMenu.add(new DeleteAction((VisibleClass) node));

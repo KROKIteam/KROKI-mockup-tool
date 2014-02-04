@@ -28,12 +28,12 @@ import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 
 /**
- * Klasa  <code>ElementsGroup</code> označava obeležje klase
+ * Klasa  <code>ElementsGroup</code> oznaÄ�ava obeleÅ¾je klase
  * VisibleClass koje se koristi za grupisanje njenih elemenata
- * (obeležja, metoda, veza), formirajući na taj način semantičke celine koje se
- * preslikavaju na grupe komponenti korisničkog interfejsa u okviru panela
- * pridruženog klasi.
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * (obeleÅ¾ja, metoda, veza), formirajuÄ‡i na taj naÄ�in semantiÄ�ke celine koje se
+ * preslikavaju na grupe komponenti korisniÄ�kog interfejsa u okviru panela
+ * pridruÅ¾enog klasi.
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(ElementsGroupSettings.class)
 public class ElementsGroup extends VisibleElement implements UmlProperty {
@@ -54,7 +54,7 @@ public class ElementsGroup extends VisibleElement implements UmlProperty {
     protected UmlClass umlClass;
     /*OBELEŽJA METAKLASE TYPEDELEMENT*/
     protected UmlType umlType;
-    /*OBELEŽJA METAKLASE MULTIPLICITYELEMENT*/
+    /*OBELŽJA METAKLASE MULTIPLICITYELEMENT*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
@@ -100,7 +100,7 @@ public class ElementsGroup extends VisibleElement implements UmlProperty {
 
     public void addVisibleElement(int index, VisibleElement visibleElement) {
         if (!visibleElementList.contains(visibleElement)) {
-            visibleElementList.add(visibleElement);
+            visibleElementList.add(index, visibleElement);
             visibleElement.setParentGroup(this);
             //NEW:
             //visibleElement.setParentPanel(parentPanel);
