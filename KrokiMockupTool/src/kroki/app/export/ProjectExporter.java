@@ -113,10 +113,7 @@ public class ProjectExporter {
 
 		writeProjectName(proj.getLabel());
 
-		//FOR NOW
-		if(swing) {
-			runAnt(file, proj, message);
-		}
+		runAnt(file, proj, message);
 	}
 
 	/**
@@ -493,6 +490,9 @@ public class ProjectExporter {
 
 		String jarName = proj.getLabel().replace(" ", "_");
 		File buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "build.xml");
+		if(!swing) {
+			buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "kroki-build.xml");
+		}
 		File outputFile = new File(file.getAbsolutePath() + File.separator + jarName);
 
 		RunAnt runner = new RunAnt();

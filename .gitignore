@@ -31,9 +31,7 @@ SwingApp/model/xml-mapping.xml
 SwingApp/model/panel.xml
 SwingApp/model/panel-map.xml
 SwingApp/model/panel-map.xml
-SwingApp/model/menu.xml
 SwingApp/model/enumeration.xml
-SwingApp/model/panel/
 SwingApp/model/ejb/
 SwingApp/ddl_createDatabase.sql
 
@@ -45,3 +43,7 @@ SwingApp/src/com/panelcomposer/enumerations/*
 !SwingApp/src/com/panelcomposer/enumerations/PanelType.java
 !SwingApp/src/com/panelcomposer/enumerations/StateMode.java
 !SwingApp/src/com/panelcomposer/enumerations/ViewMode.java
+SwingApp/ddl_createDatabase.sql
+SwingApp/src/panelcomposer/enumerations/
+SwingApp/model/menu.xml
+SwingApp/model/panel/

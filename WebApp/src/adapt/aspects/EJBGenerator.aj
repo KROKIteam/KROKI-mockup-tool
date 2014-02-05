@@ -53,7 +53,7 @@ public aspect EJBGenerator {
 				Map model = new TreeMap();
 				String doc = "   /** " +
 						     "\n   Class generated using EJBGeneratorAspect " +
-						     "\n   @Author mrd " +
+						     "\n   @Author KROKI team " +
 						     "\n   Creation date: " + d + "h" +
 						     "\n   **/";
 						

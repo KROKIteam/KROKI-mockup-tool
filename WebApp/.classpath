@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="lib/aspectjtools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
