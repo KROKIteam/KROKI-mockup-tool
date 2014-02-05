@@ -5,6 +5,8 @@
 package kroki.app.gui.toolbar;
 
 import javax.swing.JToolBar;
+
+import kroki.app.action.ClassDiagramAction;
 import kroki.app.action.NewFileAction;
 import kroki.app.action.NewProjectAction;
 import kroki.app.action.OpenProjectAction;
@@ -35,5 +37,7 @@ public class MainToolbar extends JToolBar {
         addSeparator();
         add(new UndoAction());
         add(new RedoAction());
+        addSeparator();
+        add(new ClassDiagramAction());
     }
 }

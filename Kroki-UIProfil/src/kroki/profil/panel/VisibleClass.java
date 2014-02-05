@@ -7,9 +7,11 @@ package kroki.profil.panel;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.mockup.model.Composite;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Next;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
@@ -280,6 +282,27 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         }
         return nextList;
     }
+    
+	 /**Vraca listu hijerarhija*/
+	 public List<Hierarchy> containedHierarchies() {
+		 List<Hierarchy> hierarchyList = new ArrayList<Hierarchy>();
+		 for (VisibleElement visibleElement : visibleElementList) {
+			 if (visibleElement instanceof Hierarchy) {
+				 hierarchyList.add((Hierarchy) visibleElement);
+			 }
+		 }
+		 return hierarchyList;
+	 }
+
+	 /**Vraca klasu sa kom je povezana na osnovu zoom elementa*/
+	 public Next getLinkedClass(Zoom zoom){
+		 for (VisibleElement visibleElement : visibleElementList) {
+			 if (visibleElement instanceof Next)
+				 if (((Next)visibleElement).getTargetPanel() == zoom.getActivationPanel())
+					 return (Next) visibleElement;
+		 }
+		 return null;
+	 }
 
     /**
      * Osvežava stanje svojih grafičkih komponenti.

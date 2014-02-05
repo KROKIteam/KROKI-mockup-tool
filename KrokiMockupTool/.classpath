@@ -49,5 +49,6 @@
 	<classpathentry kind="lib" path="lib/xerces_2_5_0.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis-ext.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/GraphEdit"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
