@@ -10,36 +10,38 @@
 .svn/
 #                             KrokiMockupTool exludes
 ######################################################
-**/KrokiMockupTool/Temp/
+KrokiMockupTool/Temp/
 
 #                                       WebApp excludes
 #######################################################
-**/WebApp/bin
-**/WebApp/etc/META-INF/persistence.xml
-**/WebApp/src/adapt/entities/
-**/WebApp/src/adapt/enumerations/
-**/WebApp/src/config/resources-generated.xml
-**/WebApp/src/adapt/templates/treemenuGenerated.html
+WebApp/bin
+WebApp/etc/META-INF/persistence.xml
+WebApp/src/adapt/entities/
+WebApp/src/adapt/enumerations/
+WebApp/src/config/resources-generated.xml
+WebApp/src/adapt/templates/treemenuGenerated.html
 
 #                                    SwingApp excludes
 ######################################################
-**/SwingApp/bin
-**/SwingApp/props/META-INF/persistence.xml
-**/SwingApp/src/hibernate.cfg.xml
-**/SwingApp/src/ejb/
-**/SwingApp/model/xml-mapping.xml
-**/SwingApp/model/panel.xml
-**/SwingApp/model/panel-map.xml
-**/SwingApp/model/panel-map.xml
-**/SwingApp/model/ejb/
+SwingApp/bin
+SwingApp/props/META-INF/persistence.xml
+SwingApp/src/hibernate.cfg.xml
+SwingApp/src/ejb/
+SwingApp/model/xml-mapping.xml
+SwingApp/model/panel.xml
+SwingApp/model/panel-map.xml
+SwingApp/model/panel-map.xml
+SwingApp/model/enumeration.xml
+SwingApp/model/ejb/
 # skip default enumerations
+!SwingApp/src/com/panelcomposer/enumerations
 SwingApp/src/com/panelcomposer/enumerations/*
-!SwingApp/src/com/panelcomposer/enumerations/!OpenedAs.java
-SwingApp/src/com/panelcomposer/enumerations/!OperationType.java
-SwingApp/src/com/panelcomposer/enumerations/!PanelType.java
-SwingApp/src/com/panelcomposer/enumerations/!StateMode.java
-SwingApp/src/com/panelcomposer/enumerations/!ViewMode.java
-**/SwingApp/ddl_createDatabase.sql
-**/SwingApp/src/panelcomposer/enumerations/
-**/SwingApp/model/menu.xml
-**/SwingApp/model/panel/
+!SwingApp/src/com/panelcomposer/enumerations/OpenedAs.java
+!SwingApp/src/com/panelcomposer/enumerations/OperationType.java
+!SwingApp/src/com/panelcomposer/enumerations/PanelType.java
+!SwingApp/src/com/panelcomposer/enumerations/StateMode.java
+!SwingApp/src/com/panelcomposer/enumerations/ViewMode.java
+SwingApp/ddl_createDatabase.sql
+SwingApp/src/panelcomposer/enumerations/
+SwingApp/model/menu.xml
+SwingApp/model/panel/
