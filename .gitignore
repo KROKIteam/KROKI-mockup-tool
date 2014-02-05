@@ -32,8 +32,13 @@
 **/SwingApp/model/panel-map.xml
 **/SwingApp/model/panel-map.xml
 **/SwingApp/model/ejb/
-**/SwingApp/src/com/panelcomposer/enumerations/
-**/SwingApp/src/com/panelcomposer/enumerations/
+# skip default enumerations
+SwingApp/src/com/panelcomposer/enumerations/*
+!SwingApp/src/com/panelcomposer/enumerations/!OpenedAs.java
+SwingApp/src/com/panelcomposer/enumerations/!OperationType.java
+SwingApp/src/com/panelcomposer/enumerations/!PanelType.java
+SwingApp/src/com/panelcomposer/enumerations/!StateMode.java
+SwingApp/src/com/panelcomposer/enumerations/!ViewMode.java
 **/SwingApp/ddl_createDatabase.sql
 **/SwingApp/src/panelcomposer/enumerations/
 **/SwingApp/model/menu.xml

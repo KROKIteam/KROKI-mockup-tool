@@ -111,7 +111,6 @@ public class EnumerationGenerator {
 				String doc = "   /** " +
 						"\n   File generated using Kroki EnumGenerator " +
 						"\n   @Author KROKIteam " +
-						"\n   Creation date: " + d + "h" +
 						"\n   **/";
 				
 				model.put("enum", enumeration);
