@@ -56,7 +56,8 @@ public class AdaptApplication extends Application {
 		
 		try {
 			this.fmc = new freemarker.template.Configuration();
-			this.fmc.setTemplateLoader(new ClassTemplateLoader(getClass(), "../templates"));
+			//this.fmc.setTemplateLoader(new ClassTemplateLoader(getClass(), "../templates"));
+			this.fmc.setClassForTemplateLoading(this.getClass(), "../templates");
 		} catch (Exception e) {
 			getLogger().severe("Unable to configure freemarker.");
 			e.printStackTrace();

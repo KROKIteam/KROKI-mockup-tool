@@ -75,7 +75,11 @@
 	  	        <!-- lib.home contains all jar files, in several subdirectories -->  
 	  	        <fileset dir="${build.home}/props">  
 	  	          <include name="**/*.properties" />  
-	  	        </fileset>  
+	  	        </fileset> 
+	  	      	<!-- add freemarker templates to classpath -->
+	  	      	<fileset dir="${build.home}/src/adapt/templates">  
+		          <include name="**/*" />  
+		        </fileset>
 	  	      </path>  
 	  	</pathconvert> 
 	  	

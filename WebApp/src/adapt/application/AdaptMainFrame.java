@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
@@ -88,8 +90,11 @@ public class AdaptMainFrame extends JFrame {
 			runApp();
 			displayText("Server running...", 0);
 		} catch (Exception e1) {
-			displayText(e1.getMessage(), 1);
 			e1.printStackTrace();
+			StringWriter sw = new StringWriter();
+			e1.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			displayText(stacktrace, 1);
 		}
 		try {
 			Desktop.getDesktop().browse(new URI("http://localhost:8182/"));
