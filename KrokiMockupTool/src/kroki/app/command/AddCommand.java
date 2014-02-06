@@ -17,24 +17,29 @@ import kroki.profil.property.VisibleProperty;
 /**
  * Komanda dodavanja elementa
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Renata
  */
 public class AddCommand implements Command {
 
-    VisibleClass visibleClass;
-    ElementsGroup elementsGroup;
-    VisibleElement element;
-    Point point;
+    private VisibleClass visibleClass;
+    private ElementsGroup elementsGroup;
+    private VisibleElement element;
+    private Point point;
+    private int classIndex, groupIndex;
 
     public AddCommand(VisibleClass visibleClass, ElementsGroup elementsGroup, VisibleElement element, Point point) {
         this.visibleClass = visibleClass;
         this.elementsGroup = elementsGroup;
         this.element = element;
         this.point = point;
+        classIndex = visibleClass.getVisibleElementList().size();
+        groupIndex = elementsGroup.getVisibleElementList().size();
     }
 
     public void doCommand() {
-        visibleClass.addVisibleElement(element);
-        elementsGroup.addVisibleElement(element);
+    	
+        visibleClass.addVisibleElement(classIndex, element);
+        elementsGroup.addVisibleElement(groupIndex, element);
         element.getComponent().setAbsolutePosition(point);
         if(element instanceof VisibleProperty) {
         	VisibleProperty prop = (VisibleProperty) element;
