@@ -132,8 +132,7 @@ public class AdaptMainFrame extends JFrame {
 		component.getServers().add(Protocol.HTTP, 8182);
 		component.getClients().add(Protocol.FILE);
 		component.getClients().add(Protocol.HTTP);
-		AdaptApplication app = new AdaptApplication();
-		app.setMainFrame(AdaptMainFrame.this);
+		AdaptApplication app = new AdaptApplication(AdaptMainFrame.this);
 		component.getDefaultHost().attach(app);
 		component.start();
 		displayText("Starting internal server on port 8182", 0);

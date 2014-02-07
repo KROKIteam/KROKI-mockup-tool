@@ -1,6 +1,8 @@
 package adapt.application;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,17 +53,21 @@ public class AdaptApplication extends Application {
 	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  H:mm:ss:SSS");
     Date today = new Date();
 	
-	public AdaptApplication() {
+	public AdaptApplication(AdaptMainFrame mf) {
 		super();
-		
+		this.mainFrame = mf;
 		try {
 			this.fmc = new freemarker.template.Configuration();
-			//this.fmc.setTemplateLoader(new ClassTemplateLoader(getClass(), "../templates"));
-			this.fmc.setClassForTemplateLoading(this.getClass(), "../templates");
+			//this.fmc.setTemplateLoader(new ClassTemplateLoader(adapt.application.AdaptApplication.class, "templates/"));
+			this.fmc.setClassForTemplateLoading(this.getClass(), "/templates");
 		} catch (Exception e) {
 			getLogger().severe("Unable to configure freemarker.");
-			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String stacktrace = sw.toString();
+			this.mainFrame.displayText(stacktrace, 1);
 		}
+		
 		forms = getForms();
 		XMLResources = getXMLResources("resources");
 		XMLResources.addAll(getXMLResources("resources-generated"));
@@ -139,7 +145,7 @@ public class AdaptApplication extends Application {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		
-		Document formDoc = XMLParser.parseXml(appPath + "src/config/forms.xml");
+		Document formDoc = XMLParser.parseXml(appPath + "config/forms.xml");
 		NodeList frmNodes = formDoc.getElementsByTagName("form");
 		for(int i=0; i<frmNodes.getLength(); i++) {
 			Element element = (Element)frmNodes.item(i);
@@ -165,7 +171,7 @@ public class AdaptApplication extends Application {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		
-		Document resDoc = XMLParser.parseXml(appPath + "src/config/actions.xml");
+		Document resDoc = XMLParser.parseXml(appPath + "config/actions.xml");
 		NodeList actNodes = resDoc.getElementsByTagName("action");
 		for(int i=0; i<actNodes.getLength(); i++) {
 			Element element = (Element) actNodes.item(i);
@@ -206,7 +212,7 @@ public class AdaptApplication extends Application {
 	public ArrayList<XMLResource> getXMLResources(String file) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-		Document resDoc = XMLParser.parseXml(appPath + "src" + File.separator + "config" + File.separator + file  + ".xml");
+		Document resDoc = XMLParser.parseXml(appPath + "config" + File.separator + file  + ".xml");
 		NodeList resNodes = resDoc.getElementsByTagName("resource");
 		ArrayList<XMLResource> ress = new ArrayList<XMLResource>();
 

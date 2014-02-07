@@ -19,7 +19,9 @@ WebApp/etc/META-INF/persistence.xml
 WebApp/src/adapt/entities/
 WebApp/src/adapt/enumerations/
 WebApp/src/config/resources-generated.xml
+WebApp/config/
 WebApp/src/adapt/templates/treemenuGenerated.html
+
 
 #                                    SwingApp excludes
 ######################################################

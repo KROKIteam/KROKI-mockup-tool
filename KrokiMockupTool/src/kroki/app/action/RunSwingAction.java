@@ -68,9 +68,10 @@ public class RunSwingAction extends AbstractAction {
 						ProjectExporter exporter = new ProjectExporter(true);
 						exporter.export(tempDir, proj, "Project exported OK! Running project...");
 
+						
 						//run exported jar file
 						RunAnt runner = new RunAnt();
-						runner.runRun(proj.getLabel().replace(" ", "_"), tempDir);
+						runner.runRun(proj.getLabel().replace(" ", "_"), tempDir, true);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					} catch (NullPointerException e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));

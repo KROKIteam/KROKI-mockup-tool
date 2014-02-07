@@ -25,10 +25,15 @@ public class RunAnt {
 		p.executeTarget(p.getDefaultTarget());
 	}
 
-	public void runRun(String jarName, File jarDir) {
+	public void runRun(String jarName, File jarDir, boolean swing) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		
 		File buildFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "run.xml");
+		
+		if(!swing) {
+			buildFile = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "run.xml");
+		}
 		
 		System.out.println("ANT RUNNER: \njarName: " + jarName + ".jar" + "\nDir: " + jarDir.getAbsolutePath()+ "\\" + jarName + "\nBuildFile: " + buildFile.getAbsolutePath());
 		

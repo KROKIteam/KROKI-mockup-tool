@@ -24,7 +24,7 @@ public class XMLWriter {
 			
 			File fout = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "model" + File.separator +  fileName + ".xml");
 			if(!swing) {
-				fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "config" + File.separator +  fileName + ".xml");
+				fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "config" + File.separator +  fileName + ".xml");
 			}
 			if (!fout.getParentFile().exists()) 
 				if (!fout.getParentFile().mkdirs()) {
