@@ -72,16 +72,16 @@ public aspect ContentAspect {
 		EntityTransaction tx = e.getTransaction();
 		tx.begin();
 		
-		//pokupim prava koja korisnik ima na trazeni resurs
+		//get user rights for resource
 		Query q = e.createQuery("FROM UserRights ur WHERE ur.user.id =:uid  AND ur.resource.name =:res AND ur.allowed = TRUE");
 		q.setParameter("uid", curr.getId());
 		q.setParameter("res", childRes.getLabel());
 		ArrayList<UserRights> r = (ArrayList<UserRights>) q.getResultList();
 		for (int i = 0; i < r.size(); i++) {
 			UserRights ur = r.get(i);
-			//za svako dozvoljeno pravo generise se akcija
+			//generate UI action for every allowed permission
 			Action action = app.getAction(ur.getAction().getName());
-			//akcija se smesta u odgovarajucu listu u zavisnosti od tipa
+			//based on its type, action is added to corresponding list
 			if(action.getType().equals("control")) {
 				if(action.getName().equals("add")) {
 					Action act = app.getAction("mtmadd");
@@ -102,7 +102,7 @@ public aspect ContentAspect {
 		vr.getDataModel().put("childActions", actions);
 	}
 	
-	//priprema kontrola za child tabelu
+	//preparing controls for child table
 	after(ViewResource vr, String cresName) : prepareChildernControls(vr, cresName) {
 		ArrayList<Action> controls = new ArrayList<Action>();
 		ArrayList<Action> actions = new ArrayList<Action>();
@@ -114,16 +114,16 @@ public aspect ContentAspect {
 		EntityTransaction tx = e.getTransaction();
 		tx.begin();
 		
-		//pokupim prava koja korisnik ima na trazeni resurs
+		//get user rights for resource
 		Query q = e.createQuery("FROM UserRights ur WHERE ur.user.id =:uid  AND ur.resource.name =:res AND ur.allowed = TRUE");
 		q.setParameter("uid", curr.getId());
 		q.setParameter("res", childRes.getLabel());
 		ArrayList<UserRights> r = (ArrayList<UserRights>) q.getResultList();
 		for (int i = 0; i < r.size(); i++) {
 			UserRights ur = r.get(i);
-			//za svako dozvoljeno pravo generise se akcija
+			//generate UI action for every allowed permission
 			Action action = app.getAction(ur.getAction().getName());
-			//akcija se smesta u odgovarajucu listu u zavisnosti od tipa
+			//based on its type, action is added to corresponding list
 			if(action.getType().equals("control")) {
 				controls.add(action);
 			}else if (action.getType().equals("action")) {
@@ -145,12 +145,12 @@ public aspect ContentAspect {
 		EntityTransaction tx = e.getTransaction();
 		tx.begin();
 		
-		//pokupim sva prava u kojima  je trenutnom korisniku pravo view dozvoljeno
+		//get all rights with view permission for current user
 		ArrayList<UserRights> rights = (ArrayList<UserRights>) e.createQuery
 		("FROM UserRights ur WHERE ur.user.id =:uid AND ur.action = 1 AND ur.allowed = 1")
 		.setParameter("uid", c.getId()).getResultList();
 		
-		//sad odatle pokupim sve resurse i stavim u listu koja ide u meni
+		//resources from rights list are used to generate main menu
 		for(int i=0; i<rights.size(); i++) {
 			Resource r = (Resource)e.createQuery
 			("FROM Resource r WHERE r.id =:rid").
@@ -186,16 +186,16 @@ public aspect ContentAspect {
 		EntityTransaction tx = e.getTransaction();
 		tx.begin();
 		
-		//pokupim prava koja korisnik ima na trazeni resurs
+		//get user rights for resource
 		Query q = e.createQuery("FROM UserRights ur WHERE ur.user.id =:uid  AND ur.resource.name =:res AND ur.allowed = TRUE");
 		q.setParameter("uid", c.getId());
 		q.setParameter("res", rname);
 		ArrayList<UserRights> r = (ArrayList<UserRights>) q.getResultList();
 		for (int i = 0; i < r.size(); i++) {
 			UserRights ur = r.get(i);
-			//za svako dozvoljeno pravo generise se akcija
+			//generate UI action for every allowed permission
 			Action action = app.getAction(ur.getAction().getName());
-			//akcija se smesta u odgovarajucu listu u zavisnosti od tipa
+			//based on its type, action is added to corresponding list
 			if(action.getType().equals("control")) {
 				controls.add(action);
 			}else if (action.getType().equals("action")) {
@@ -220,7 +220,7 @@ public aspect ContentAspect {
 		EntityManager em = app.getEmf().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		//child lista za many-to-one formu
+		//child list for many-to-one form
 		for(int i=0; i<childern.size(); i++) {
 			XMLResource ress = childern.get(i);
 			Query q = em.createQuery("FROM UserRights ur WHERE ur.user.id =:uid AND ur.action.id = 1 AND ur.allowed = 1 AND ur.resource.link =:rname");
@@ -234,7 +234,7 @@ public aspect ContentAspect {
 				System.out.println("neam prava");
 			}
 		}
-		//child lista za many-to-many formu
+		//child list for many-to-many form
 		for(int j=0; j<MTMChildern.size(); j++) {
 			XMLResource re = MTMChildern.get(j);
 			Query q = em.createQuery("FROM UserRights ur WHERE ur.user.id =:uid AND ur.action.id = 1 AND ur.allowed = 1 AND ur.resource.link =:rname");

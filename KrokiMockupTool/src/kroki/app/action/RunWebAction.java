@@ -40,10 +40,10 @@ public class RunWebAction extends AbstractAction {
 			public void run() {
 				//find selected project from workspace
 				BussinesSubsystem proj = null;
-				String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
+				String selectedNode = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
 				for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
 					BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
-					if(pack.getLabel().equals(selectedNoded)) {
+					if(pack.getLabel().equals(selectedNode)) {
 						proj = pack;
 					}
 				}

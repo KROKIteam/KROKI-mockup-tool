@@ -127,7 +127,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${deploy.home}/config">
-			<fileset dir="${build.home}/config">
+			<fileset dir="${build.home}/src/config">
 				<include name="**/*.xml"/>
 			</fileset>
 		</copy>

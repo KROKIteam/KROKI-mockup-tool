@@ -58,7 +58,6 @@ public class AdaptApplication extends Application {
 		this.mainFrame = mf;
 		try {
 			this.fmc = new freemarker.template.Configuration();
-			//this.fmc.setTemplateLoader(new ClassTemplateLoader(adapt.application.AdaptApplication.class, "templates/"));
 			this.fmc.setClassForTemplateLoading(this.getClass(), "/templates");
 		} catch (Exception e) {
 			getLogger().severe("Unable to configure freemarker.");
@@ -119,9 +118,9 @@ public class AdaptApplication extends Application {
 		router.attach("/profilIzmena", ProfilIzmenaResource.class);
 		router.attach("/resources/{resName}", ViewResource.class);
 		router.attach("/dodavanje/{aresName}", AddResource.class);
-		router.attach("/brisanje/{dresName}/{delid}", ViewResource.class); //URI za brisanje
+		router.attach("/brisanje/{dresName}/{delid}", ViewResource.class); //delete page URI
 		router.attach("/dodaj/resources/{arName}", ViewResource.class);
-		router.attach("/izmena/{aresName}/{mid}", ModifyResource.class);	//URI za izmenu
+		router.attach("/izmena/{aresName}/{mid}", ModifyResource.class);//edit page URI
 		router.attach("/izmeni/resources/{mresName}/{modid}", ViewResource.class);
 		router.attach("/showChildern/{cresName}", ViewResource.class);
 		router.attach("/showMTMChildern/{mcresName}", ViewResource.class);
@@ -400,7 +399,7 @@ public class AdaptApplication extends Application {
 		em.getTransaction().commit();
 	}
 	
-	//vraca listu imena svih resursa koji imaju referencu trazeni resurs (ManyToOne)
+	//returns list with names of all resources which reference passed resource (ManyToOne)
 	public ArrayList<XMLResource> getResourceChildern(XMLResource resource) {
 		ArrayList<XMLResource> childern = new ArrayList<XMLResource>();
 		for(int i=0; i<XMLResources.size(); i++) {
@@ -415,7 +414,7 @@ public class AdaptApplication extends Application {
 		return childern;
 	}
 	
-	//vraca listu imena svih resursa koji imaju referencu trazeni resurs (ManyToMany)
+	//returns list with names of all resources which reference passed resource (ManyToMany)
 	public ArrayList<XMLResource> getManyToManyChildern(XMLResource resource) {
 		ArrayList<XMLResource> childern = new ArrayList<XMLResource>();
 		for(int i=0; i<XMLResources.size(); i++) {

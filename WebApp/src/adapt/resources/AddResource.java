@@ -74,11 +74,14 @@ public class AddResource extends BaseResource {
 		tx.begin();
 		resource = app.getXMLResource(resName);
 		dataModel.put("resource", resource);
-		//mapa child elemenata
-		//kljuc je labela a vrednost opet mapa kojoj je kluc ID entiteta a vrednost ime, ukoliko child klasa ima 'name' atribut, inace je ID
-		//na osnovu tih mapa se generise sadrzaj drop box-ova
+		/*
+		 * Child elements map.
+		 * Map key is element label, and values are map with entity id as key and value is name if child class has attribute called 'name',
+		 * else id attribute is used.
+		 * This map is used to generate content for zoom combo boxes
+		 */
 		LinkedHashMap<String, Map<String, String>> childFormMap = new LinkedHashMap<String, Map<String,String>>();
-		//svaki child atribut pokupim iz baze i pretvorim u EntityClass objekat
+		//get all child attributes from database and generate EntityClass object for each
 		for(int i=0; i<resource.getManyToOneAttributes().size(); i++) {
 			XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(i);
 			XMLResource ress = app.getXMLResource(mattr.getType());
@@ -129,15 +132,15 @@ public class AddResource extends BaseResource {
 	public void prepareMTMAdd(String resName, Long id, String childName) {
 		AdaptApplication application = (AdaptApplication) getApplication();
 		EntityManager em = application.getEmf().createEntityManager();
-		//resurs u koji se dodaje
+		//Resource in which addition is performed
 		XMLResource ress = application.getXMLResource(resName);
-		//resurs joji se dodaje
+		//Resource which needs to be added
 		XMLResource cress = application.getXMLResource(childName);
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		Class rClass;
 		try {
-			//naziv mtm atributa u resursu u koji se dodaje
+			//Name of many-to-many attribute in resource in which we are adding
 			String mtmattrName = "";
 			for(int i=0; i<ress.getManyToManyAttributes().size(); i++) {
 				XMLManyToManyAttribute mtmattr = ress.getManyToManyAttributes().get(i);
@@ -146,24 +149,23 @@ public class AddResource extends BaseResource {
 				}
 			}
 			rClass = Class.forName("adapt.entities." + resName);
-			//na osnovu id-a nalazimo konkretan entitet u koji dodajemo
+			//Find concrete entity in which we need to add
 			Object res = em.find(rClass, id);
 			if(res != null) {
-				//citamo iz baze sve entitete resursa koji se dodaje
+				//get all child entities from database
 				String q = "FROM " + childName;
 				ArrayList<Object> childern = (ArrayList<Object>) em.createQuery(q).getResultList();
 				dataModel.put("resource", ress);
 				dataModel.put("chresource", cress);
 				dataModel.put("resObj", res);
 				dataModel.put("mtm", "nja");
-				//na osnovu imena atributa pozivamo get metodu
-				//i dobijamo listu svih enititeta koji su vec dodani
+				//based on attribute name, we construct and call get method
+				//which returns list of allready added entities
 				String getName = "get" + Character.toUpperCase(mtmattrName.charAt(0)) + mtmattrName.substring(1);
 				Method get = rClass.getDeclaredMethod(getName);
 				get.setAccessible(true);
 				ArrayList<Object> objs =  new ArrayList<Object>((Collection<Object>) get.invoke(res));
-				//napravimo presek liste svih entiteta i liste vec dodatih
-				//kako bi dobili listu samo onih entiteta koji jos nisu dodati
+				//remove already added entities to get only those available to add
 				childern.removeAll(objs);
 				ArrayList<EntityClass> chEnt = creator.getEntities(childern);
 				dataModel.put("childern", chEnt);//spisak za combo box
