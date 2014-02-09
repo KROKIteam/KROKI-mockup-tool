@@ -276,7 +276,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     public List<Next> containedNexts() {
         List<Next> nextList = new ArrayList<Next>();
         for (VisibleElement visibleElement : visibleElementList) {
-            if (visibleElement instanceof Zoom) {
+            if (visibleElement instanceof Next) {
                 nextList.add((Next) visibleElement);
             }
         }

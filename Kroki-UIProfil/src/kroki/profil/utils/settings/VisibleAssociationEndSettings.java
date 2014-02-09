@@ -468,6 +468,7 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 						//ako je u pitanju kraj Hijerarhija onda prisili promenu komponente
 						if (visibleElement instanceof Hierarchy) {
 							((Hierarchy) visibleElement).forceUpdateComponent();
+							 updateComponents();
 						}
 						updatePreformed();
 					}
