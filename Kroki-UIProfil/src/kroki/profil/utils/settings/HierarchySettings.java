@@ -17,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,6 +26,7 @@ import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
+import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.uml_core_basic.UmlProperty;
@@ -84,26 +86,8 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 		viaAssociationEndBtn.setMinimumSize(sortByBtn.getPreferredSize());
 		appliedToPanelBtn.setPreferredSize(new Dimension(30, 20));
 		appliedToPanelBtn.setMinimumSize(sortByBtn.getPreferredSize());
-		
-		
-		cbLevels.addItemListener(new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent event) {
-				if (event.getStateChange() == ItemEvent.SELECTED){
-					
-					Hierarchy hierarchy = (Hierarchy) visibleElement;
-					ParentChild panel = (ParentChild) ((UmlProperty) visibleElement).umlClass();
-					
-					//set hierarchy parent if possible (only one association)
-					Integer level = (Integer) cbLevels.getSelectedItem();
-					List<Hierarchy> possibleParents = panel.possibleParents(hierarchy, level - 1);
-					if (possibleParents.size() == 1)
-						hierarchy.setHierarchyParent(possibleParents.get(0));
-				}
-				
-			}
-		});
+
+
 	}
 
 	private void layoutComponents() {
@@ -116,6 +100,11 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 			panelMap.put("group.INTERMEDIATE", intermediate);
 			this.addTab(Intl.getValue("group.INTERMEDIATE"), intermediate);
 		}
+
+		intermediate.add(appliedToPanelLb);
+		intermediate.add(appliedToPanelTf, "split 2, grow");
+		intermediate.add(appliedToPanelBtn, "shrink");
+
 		intermediate.add(levelLb);
 		intermediate.add(levelTf,"");
 		intermediate.add(cbLevels, "wrap");
@@ -128,9 +117,7 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 		intermediate.add(viaAssociationEndTf, "split 2, grow");
 		intermediate.add(viaAssociationEndBtn, "shrink");
 
-		intermediate.add(appliedToPanelLb);
-		intermediate.add(appliedToPanelTf, "split 2, grow");
-		intermediate.add(appliedToPanelBtn, "shrink");
+
 	}
 
 	@Override
@@ -141,24 +128,64 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 		//NEW:
 		ParentChild panel = (ParentChild) ((UmlProperty) visibleElement).umlClass();
 
-		if (hierarchy.getLevel() == -1){
-			if (hierarchy.getTargetPanel() != null){
+		//TODO menjanje level-a, parent-a itd.
+		
+		boolean enableLevels = false;
+		if (hierarchy.getTargetPanel()!=null && hierarchy.getLevel() == -1){
+			if ((hierarchy.getTargetPanel() instanceof ParentChild && hierarchy.getAppliedToPanel() != null) ||
+					hierarchy.getTargetPanel() instanceof StandardPanel){
 				Vector<Integer> possibleLevels = panel.possibleLevels(hierarchy);
 				if (possibleLevels != null && possibleLevels.size() > 0){
 					levelTf.setVisible(false);
 					cbLevels.setVisible(true);
 					cbLevels.setModel(new DefaultComboBoxModel<Integer>(possibleLevels));
-				}
-				else{
-					levelTf.setVisible(true);
-					cbLevels.setVisible(false);
+					enableLevels = true;
 				}
 			}
 		}
-		else{
+
+
+		if (!enableLevels){
 			levelTf.setVisible(true);
 			cbLevels.setVisible(false);
 		}
+
+
+		//disable setting hierarchy parent for levels 1 and 2, or if target panel is null
+		if (hierarchy.getTargetPanel() == null || (hierarchy.getLevel() != -1 && hierarchy.getLevel() <= 2))
+			hierarchyParentBtn.setEnabled(false);
+		else
+			hierarchyParentBtn.setEnabled(true);
+
+		//disable or enable via association end
+		List<VisibleAssociationEnd> viaAssociationEnd = panel.possibleAssociationEnds(hierarchy);
+		
+		String viaAssociationEndValue = "";
+		if (hierarchy.getViaAssociationEnd() != null) 
+			viaAssociationEndValue = hierarchy.getViaAssociationEnd().toString();
+		viaAssociationEndTf.setText(viaAssociationEndValue);
+		
+		if (viaAssociationEnd != null && viaAssociationEnd.size() > 1)
+			viaAssociationEndBtn.setEnabled(true);
+		else
+			viaAssociationEndBtn.setEnabled(false);
+		
+		
+		
+		if (hierarchy.getTargetPanel() != null && hierarchy.getTargetPanel() instanceof ParentChild){
+			appliedToPanelLb.setVisible(true);
+			appliedToPanelTf.setVisible(true);
+			appliedToPanelBtn.setVisible(true);
+			if (hierarchy.getAppliedToPanel() == null){
+				hierarchyParentBtn.setEnabled(false);
+			}
+		}
+		else{
+			appliedToPanelLb.setVisible(false);
+			appliedToPanelTf.setVisible(false);
+			appliedToPanelBtn.setVisible(false);
+		}
+
 
 
 		levelTf.setText("" + hierarchy.getLevel());
@@ -168,11 +195,7 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 		}
 		hierarchyParentTf.setText(hierarchyParentValue);
 
-		String viaAssociationEndValue = "";
-		if (hierarchy.getViaAssociationEnd() != null) {
-			viaAssociationEndValue = hierarchy.getViaAssociationEnd().toString();
-		}
-		viaAssociationEndTf.setText(viaAssociationEndValue);
+
 
 		String appliedToPanelValue = "";
 		if (hierarchy.getAppliedToPanel() != null) {
@@ -210,64 +233,91 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 		//        }
 
 
-		if (panel.getHierarchyCount() == 0 || panel.getHierarchyCount() == 1) {
-			hierarchyParentBtn.setEnabled(false);
-			viaAssociationEndBtn.setEnabled(false);
-			appliedToPanelBtn.setEnabled(false);
-		} else if (panel.getHierarchyCount() == 2) {
-			viaAssociationEndBtn.setEnabled(true);
-			appliedToPanelBtn.setEnabled(false);
-		} else {
-			hierarchyParentBtn.setEnabled(true);
-			viaAssociationEndBtn.setEnabled(true);
-			appliedToPanelBtn.setEnabled(false);
-		}
 
-		if (hierarchy.getTargetPanel() != null) {
-			if (hierarchy.getTargetPanel() instanceof ParentChild) {
-				appliedToPanelBtn.setEnabled(true);
-			}
-		}
+
+
 
 
 	}
 
 	private void addActions() {
+
+
+		cbLevels.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent event) {
+				if (event.getStateChange() == ItemEvent.SELECTED){
+
+					Hierarchy hierarchy = (Hierarchy) visibleElement;
+					ParentChild panel = (ParentChild) ((UmlProperty) visibleElement).umlClass();
+
+					//set hierarchy parent if possible (only one association)
+					Integer level = (Integer) cbLevels.getSelectedItem();
+					List<Hierarchy> possibleParents = panel.possibleParents(hierarchy, level - 1);
+					if (possibleParents != null && possibleParents.size() == 1){
+						hierarchy.setHierarchyParent(possibleParents.get(0));
+						hierarchyParentTf.setText(possibleParents.get(0).toString());
+					}
+					else{
+						hierarchy.setHierarchyParent(null);
+						hierarchyParentTf.setText("");
+					}
+				}
+
+			}
+		});
+
+
 		hierarchyParentBtn.addActionListener(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
-				//NEW
 				ParentChild panel = (ParentChild) ((UmlProperty) visibleElement).umlClass();
 				Hierarchy hierarchy = (Hierarchy) visibleElement;
-				List<Hierarchy> hierarcyList = panel.allContainedHierarchies();
-				hierarcyList.remove(hierarchy);
+				//only enable users to chose hierarchies linked with the current one
+				List<Hierarchy> hierarcyList;
+				if (hierarchy.getLevel() == -1)
+					hierarcyList = panel.possibleParents(hierarchy, -1);
+				else
+					hierarcyList = panel.possibleParents(hierarchy, hierarchy.getLevel() - 1);
+
+				if (hierarcyList == null){
+					JOptionPane.showMessageDialog(null, "No suitable parent hierarchies");
+					return;
+				}
+
 				Hierarchy parentHierarchy = (Hierarchy) ListDialog.showDialog(hierarcyList.toArray(), "Choose parent hierarchy");
 				hierarchy.setHierarchyParent(parentHierarchy);
 				if (parentHierarchy != null) {
 					hierarchyParentTf.setText(parentHierarchy.toString());
 					//level updated by setting the parent, set text
 					levelTf.setText(hierarchy.getLevel() + "");
+					if (cbLevels.isVisible())
+						for (int i = 0; i<cbLevels.getItemCount(); i++)
+							if (hierarchy.getLevel() == cbLevels.getItemAt(i))
+								cbLevels.setSelectedIndex(i);
+
+					List<VisibleAssociationEnd> viaAssociationEnd = panel.possibleAssociationEnds(hierarchy);
+					if (viaAssociationEnd.size() == 1){
+						viaAssociationEndTf.setText(viaAssociationEnd.get(0).toString());
+						viaAssociationEndBtn.setEnabled(false);
+					}
+					else{
+						viaAssociationEndTf.setText("");
+						viaAssociationEndBtn.setEnabled(true);
+					}
 				}
+
 			}
 		});
 		viaAssociationEndBtn.addActionListener(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
 				Hierarchy hierarchy = (Hierarchy) visibleElement;
-				List<VisibleAssociationEnd> viaAssociationEndList = new ArrayList<VisibleAssociationEnd>();
-				if (hierarchy.getHierarchyParent() != null) {
-					if (hierarchy.getTargetPanel() != null) {
-						VisibleClass parentPanel = hierarchy.getHierarchyParent().getTargetPanel();
-						VisibleClass targetPanel = hierarchy.getTargetPanel();
-						List<Zoom> zooms = targetPanel.containedZooms();
-						for (int i = 0; i < zooms.size(); i++) {
-							Zoom zoom = zooms.get(i);
-							if (zoom.getTargetPanel() == parentPanel) {
-								viaAssociationEndList.add(zoom);
-							}
-						}
-					}
-				}
+				ParentChild panel = (ParentChild) ((UmlProperty) visibleElement).umlClass();
+				
+				List<VisibleAssociationEnd> viaAssociationEndList = panel.possibleAssociationEnds(hierarchy);
+				
 				VisibleAssociationEnd viaAssociationEnd = (VisibleAssociationEnd) ListDialog.showDialog(viaAssociationEndList.toArray(), "Choose via association end:");
 
 				if (viaAssociationEnd != null) {
@@ -281,18 +331,11 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 
 			public void actionPerformed(ActionEvent e) {
 				Hierarchy hierarchy = (Hierarchy) visibleElement;
+				ParentChild panel = (ParentChild) ((UmlProperty) visibleElement).umlClass();
+
 				List<VisibleClass> targetPanelList = new ArrayList<VisibleClass>();
 				if (hierarchy.getTargetPanel() != null) {
-					VisibleClass targetPanel = hierarchy.getTargetPanel();
-					if (targetPanel instanceof ParentChild) {
-						List<Hierarchy> containedHierarchies = ((ParentChild) targetPanel).allContainedHierarchies();
-						for (int i = 0; i < containedHierarchies.size(); i++) {
-							VisibleClass tp = containedHierarchies.get(i).getTargetPanel();
-							if (tp != null) {
-								targetPanelList.add(tp);
-							}
-						}
-					}
+					targetPanelList = panel.getPossibleAppliedToPanels((ParentChild) hierarchy.getTargetPanel());
 				}
 				VisibleClass targetPanel = (VisibleClass) ListDialog.showDialog(targetPanelList.toArray(), "Choose applied to panel");
 

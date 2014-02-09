@@ -60,10 +60,16 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     protected int upper;
 
     public VisibleAssociationEnd() {
+    	
     }
 
     public VisibleAssociationEnd(String label, boolean visible, ComponentType componentType) {
         super(label, visible, componentType);
+    }
+    
+    @Override
+    public String toString(){
+    	return label;
     }
 
     /**************************************/

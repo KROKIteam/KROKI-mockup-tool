@@ -59,7 +59,9 @@ public class Hierarchy extends VisibleAssociationEnd {
 
     @Override
     public String toString() {
-        return label;
+    	String ret = label;
+    		ret += "[ level = " +level + "]"; 
+        return ret;
     }
 
     public void forceUpdateComponent() {

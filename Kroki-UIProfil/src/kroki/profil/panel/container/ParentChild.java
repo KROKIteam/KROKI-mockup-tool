@@ -102,6 +102,18 @@ public class ParentChild extends ContainerPanel {
 		return allContainedHierarchies;
 	}
 
+	public List<VisibleClass> allContainedPanels(boolean onlyStandard){
+		List<VisibleClass> allContainedPanels = new ArrayList<VisibleClass>();
+		for (VisibleElement visibleElement : visibleElementList) {
+			if (visibleElement instanceof Hierarchy) {
+				if ((onlyStandard && ((Hierarchy)visibleElement).getTargetPanel() instanceof StandardPanel) 
+						|| !onlyStandard)
+					allContainedPanels.add(((Hierarchy)visibleElement).getTargetPanel());
+			}
+		}
+		return allContainedPanels;
+	}
+
 	/**VraÄ‡a broj elemenata hijerarhijske strukture*/
 	public int getHierarchyCount() {
 		int i = 0;
@@ -141,6 +153,119 @@ public class ParentChild extends ContainerPanel {
 		return allHierarchiesByLevel;
 	}
 
+	//----------Target panel--------------------------------
+
+	public List<VisibleClass> getAllPosibleTargetPanels(){
+		List<VisibleClass> ret = new ArrayList<VisibleClass>();
+
+		List<VisibleClass> standardPanels = possibleTargetStandardPanels();
+		ret.addAll(standardPanels);
+		//pogledaj da li ima nekih parent child panela koji sazrsi neki od standardnih
+
+		List<ParentChild> allParentChildPanels = new ArrayList<ParentChild>();
+		getAllParentChildPanels(getProject(umlPackage), allParentChildPanels);
+		allParentChildPanels.remove(this);
+
+		ret.addAll(allParentChildPanelsContainingPanels(standardPanels));
+		return ret;
+
+	}
+
+	private List<VisibleClass> possibleTargetStandardPanels(){
+		List<VisibleClass> ret = new ArrayList<VisibleClass>();
+
+		//prodji kroz sve postojece hijerarhije, pokupo nextove
+
+		for (Hierarchy hierarchy : containedHierarchies()){
+			VisibleClass panel = hierarchy.getTargetPanel();
+			if (panel != null)
+				for (Next next : panel.containedNexts()){
+					if (!ret.contains(next.getTargetPanel()))
+						ret.add((StandardPanel) next.getTargetPanel());
+				}
+		}
+		return ret;
+	}
+
+	private List<ParentChild> allParentChildPanelsContainingPanels(List<VisibleClass> linkedPanels){
+		List<ParentChild> ret = new ArrayList<ParentChild>();
+
+		List<ParentChild> allParentChildPanels = new ArrayList<ParentChild>();
+		getAllParentChildPanels(getProject(umlPackage), allParentChildPanels);
+		allParentChildPanels.remove(this);
+
+		for (ParentChild parentChild : allParentChildPanels)
+			for (Hierarchy hierarchy : parentChild.containedHierarchies())
+				if (linkedPanels.contains(hierarchy.getTargetPanel())){
+					ret.add(parentChild);
+					break;
+				}
+		return ret;
+	}
+
+
+	private void getAllParentChildPanels(UmlPackage umlPackage, List<ParentChild> ret){
+		for (UmlType umlType : umlPackage.ownedType())
+			if (umlType instanceof ParentChild)
+				ret.add((ParentChild)umlType);
+		for (UmlPackage containedPackage : umlPackage.nestedPackage())
+			getAllParentChildPanels(containedPackage, ret);
+	}
+
+	private UmlPackage getProject(UmlPackage umlPackage){
+		if (umlPackage.nestingPackage() == null)
+			return umlPackage;
+		return getProject(umlPackage.nestingPackage());
+	}
+
+	public List<VisibleClass> getPossibleAppliedToPanels(ParentChild parentChild){
+		List<VisibleClass> ret = new ArrayList<VisibleClass>();
+		List<VisibleClass> containedPanels = parentChild.allContainedPanels(true);
+		for (VisibleClass sp : possibleTargetStandardPanels()){
+			if (containedPanels.contains(sp))
+				ret.add(sp);
+		}
+		return ret;
+	}	
+
+	/**
+	 * Proverava koje hijerarhije mogu biti parent za prosledjenu
+	 * @param hierarchy
+	 * @return
+	 */
+	public List<Hierarchy> possibleParents(Hierarchy hierarchy, int level){
+		if (hierarchy.getTargetPanel() == null)
+			return null;
+		List<Hierarchy> ret = new ArrayList<Hierarchy>();
+
+
+		//ako je parent child, proveriti za applied to
+		VisibleClass panel = hierarchy.getTargetPanel();
+
+		if (panel instanceof ParentChild)
+			panel = hierarchy.getAppliedToPanel();
+
+		List<Zoom> associations = panel.containedZooms();
+		List<VisibleClass> linkedPanels = new ArrayList<VisibleClass>();
+		for (Zoom zoom : associations){
+			linkedPanels.add(zoom.getTargetPanel());
+		}
+
+		for (Hierarchy containedHierarchy : containedHierarchies())
+			if (containedHierarchy != hierarchy && containedHierarchy.getLevel()!=-1 && (level == -1 || containedHierarchy.getLevel() == level)){
+				if (containedHierarchy.getTargetPanel() instanceof ParentChild){
+					if (containedHierarchy.getAppliedToPanel() == null)
+						continue;
+					if (linkedPanels.contains(containedHierarchy.getAppliedToPanel()))
+						ret.add(containedHierarchy);
+				}
+
+				else if (linkedPanels.contains(containedHierarchy.getTargetPanel()))
+					ret.add(containedHierarchy);
+			}
+		return ret;
+	}
+
 	public List<VisibleAssociationEnd> possibleAssociationEnds(Hierarchy hierarchy, int level){
 		List<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
 
@@ -162,132 +287,55 @@ public class ParentChild extends ContainerPanel {
 		return ret;
 	}
 
+	/**
+	 * Nalazi mogu ce krajeve asocijacije, kada su poznati i targeg i hierarchy parent
+	 * @param hierarchy
+	 * @return
+	 */
+	public List<VisibleAssociationEnd> possibleAssociationEnds(Hierarchy hierarchy){
+		if (hierarchy.getTargetPanel() == null || hierarchy.getHierarchyParent() == null)
+			return null;
+		
+		VisibleClass childPanel = hierarchy.getTargetPanel();
+		//ako je parent child, uzmi applied to 
+		if (childPanel instanceof ParentChild)
+			childPanel = hierarchy.getAppliedToPanel();
+		if (childPanel == null)
+			return null;
+		
+		VisibleClass parentPanel = hierarchy.getHierarchyParent().getTargetPanel();
+		if (parentPanel instanceof ParentChild)
+			parentPanel = hierarchy.getAppliedToPanel();
+		if (parentPanel == null)
+			return null;
+		
+		List<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
+		
+		
+		List<Zoom> associations = childPanel.containedZooms();
+		
+		for (Zoom zoom : associations){
+			if (zoom.getTargetPanel() == parentPanel)
+				ret.add(zoom);
+		}
+		return ret;
+
+	}
+
+
 
 	public List<VisibleClass> possiblePanelParents(Hierarchy hierarchy, int level){
 		if (hierarchy.getTargetPanel() == null)
 			return null;
 		List<VisibleClass> ret = new ArrayList<VisibleClass>();
-		VisibleClass panel = hierarchy.getTargetPanel();
-
-		List<Zoom> associations = panel.containedZooms();
-		List<VisibleClass> linkedPanels = new ArrayList<VisibleClass>();
-		for (Zoom zoom : associations){
-			linkedPanels.add(zoom.getTargetPanel());
-		}
-		linkedPanels.addAll(allParentChildPanelsContainingPanels(linkedPanels));
-
-		for (Hierarchy containedHierarchy : containedHierarchies())
-			if (containedHierarchy != hierarchy && linkedPanels.contains(containedHierarchy.getTargetPanel())){
-				if (level == -1 || containedHierarchy.getLevel() == level)
-					ret.add(containedHierarchy.getTargetPanel());
-			}
-
-		return ret;
-	}
-
-
-
-	public List<VisibleClass> getAllPosibleTargetPanels(){
-		List<VisibleClass> ret = new ArrayList<VisibleClass>();
-
-		List<VisibleClass> standardPanels = possibleTargetStandardPanels();
-		ret.addAll(standardPanels);
-		//pogledaj da li ima nekih parent child panela koji sazrsi neki od standardnih
-
-		List<ParentChild> allParentChildPanels = new ArrayList<ParentChild>();
-		getAllParentChildPanels(getProject(umlPackage), allParentChildPanels);
-		allParentChildPanels.remove(this);
-
-		ret.addAll(allParentChildPanelsContainingPanels(standardPanels));
-		return ret;
-
-	}
-
-	private List<ParentChild> allParentChildPanelsContainingPanels(List<VisibleClass> linkedPanels){
-		List<ParentChild> ret = new ArrayList<ParentChild>();
-
-		List<ParentChild> allParentChildPanels = new ArrayList<ParentChild>();
-		getAllParentChildPanels(getProject(umlPackage), allParentChildPanels);
-		allParentChildPanels.remove(this);
-
-		for (ParentChild parentChild : allParentChildPanels)
-			for (Hierarchy hierarchy : parentChild.containedHierarchies())
-				if (linkedPanels.contains(hierarchy.getTargetPanel())){
-					ret.add(parentChild);
-					break;
-				}
-		return ret;
-	}
-
-	private List<VisibleClass> possibleTargetStandardPanels(){
-		List<VisibleClass> ret = new ArrayList<VisibleClass>();
-
-		//prodji kroz sve postojece hijerarhije, pokupo nextove
-
-		for (Hierarchy hierarchy : containedHierarchies()){
-			VisibleClass panel = hierarchy.getTargetPanel();
-			if (panel != null)
-				for (Next next : panel.containedNexts()){
-					if (!ret.contains(next.getTargetPanel()))
-						ret.add((StandardPanel) next.getTargetPanel());
-				}
-		}
-		return ret;
-	}
-
-	private void getAllParentChildPanels(UmlPackage umlPackage, List<ParentChild> ret){
-		for (UmlType umlType : umlPackage.ownedType())
-			if (umlType instanceof ParentChild)
-				ret.add((ParentChild)umlType);
-		for (UmlPackage containedPackage : umlPackage.nestedPackage())
-			getAllParentChildPanels(containedPackage, ret);
-	}
-
-	private UmlPackage getProject(UmlPackage umlPackage){
-		if (umlPackage.nestingPackage() == null)
-			return umlPackage;
-		return getProject(umlPackage.nestingPackage());
-	}
-
-
-	/**
-	 * Proverava koje hijerarhije mogu biti parent za prosledjenu
-	 * @param hierarchy
-	 * @return
-	 */
-	public List<Hierarchy> possibleParents(Hierarchy hierarchy, int level){
-		if (hierarchy.getTargetPanel() == null)
-			return null;
-		List<Hierarchy> ret = new ArrayList<Hierarchy>();
 		
+		for (Hierarchy h : possibleParents(hierarchy, level))
+			ret.add(h.getTargetPanel());
 
-		//ako je parent child, onda se mora proveriti sa standardne unutar njega
-
-		List<Hierarchy> hierarchies = new ArrayList<Hierarchy>();
-		if (hierarchy.getTargetPanel() instanceof ParentChild){
-			for (Hierarchy h: ((ParentChild)hierarchy.getTargetPanel()).containedHierarchies())
-				if (h.getTargetPanel() instanceof StandardPanel)
-					hierarchies.add(h);
-		}
-		else hierarchies.add(hierarchy);
-
-		for (Hierarchy h : hierarchies){
-			VisibleClass panel = h.getTargetPanel();
-			List<Zoom> associations = panel.containedZooms();
-			List<VisibleClass> linkedPanels = new ArrayList<VisibleClass>();
-			for (Zoom zoom : associations){
-				linkedPanels.add(zoom.getTargetPanel());
-			}
-			linkedPanels.addAll(allParentChildPanelsContainingPanels(linkedPanels));
-
-			for (Hierarchy containedHierarchy : containedHierarchies())
-				if (containedHierarchy != h && linkedPanels.contains(containedHierarchy.getTargetPanel())){
-					if (level == -1 || containedHierarchy.getLevel() == level)
-						ret.add(containedHierarchy);
-				}
-		}
 		return ret;
 	}
+
+
 
 	/** 
 	 * Proverava na kom se nivoi moze nalaziti hijerarhija imajuci u vidu koji je target panel
