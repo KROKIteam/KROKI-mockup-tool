@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 import javax.swing.RootPaneContainer;
 
 import kroki.app.KrokiMockupToolApp;
@@ -45,21 +46,19 @@ public class ImportEclipseUMLDiagramAction extends AbstractAction {
 				File file=FileChooserHelper.fileChooser(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), false, "Import", "Eclipse UML diagram files", "uml");
 				if(file!=null)
 				{
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setVisible(true);
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Importing Eclipse UML diagram from file "+file.getAbsolutePath()+". Please wait...", 0);
+					
+					//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Importing Eclipse UML diagram from file "+file.getAbsolutePath()+". Please wait...", 0);
 					try{
-						(new ImportEclipseUMLToProject(file)).executeImport();
+						new ImportEclipseUMLToProject(file);
 					}catch(Exception e){
-						//e.printStackTrace();
-						//in method executeImport of class ImportEclipseUMLToProject errors are writen to the Console window in the main form of the Kroki application 
+						e.printStackTrace(); 
 					}
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setVisible(false);
+					
 				}
 				else
 				{
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Importing eclipse UML diagram aborted.", 0);
+					//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Importing eclipse UML diagram aborted.", 0);
+					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Importing eclipse UML diagram aborted.");
 				}
 			}
 		});

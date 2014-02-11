@@ -25,8 +25,6 @@ import kroki.app.action.AboutAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
 import kroki.app.action.ExportEclipseUMLDiagramAction;
-import kroki.app.action.ExportEclipseUMLDiagramAction3version;
-import kroki.app.action.ExportEclipseUMLDiagramAction4version;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
 import kroki.app.action.HelpAction;
@@ -200,8 +198,11 @@ public class KrokiMockupToolFrame extends JFrame {
         exportFileMenu.setText(StringResource.getStringResource("menu.file.submenu.export"));
         file.add(exportFileMenu);
         
-        exportFileMenu.add(new ExportEclipseUMLDiagramAction4version());
-        exportFileMenu.add(new ExportEclipseUMLDiagramAction3version());
+        exportFileMenu.add(new ExportEclipseUMLDiagramAction(true,true));
+        exportFileMenu.add(new ExportEclipseUMLDiagramAction(true,false));
+        
+        exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,true));
+        exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,false));
         
         
         file.addSeparator();

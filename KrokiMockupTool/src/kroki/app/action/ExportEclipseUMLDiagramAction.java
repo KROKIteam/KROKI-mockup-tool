@@ -16,12 +16,61 @@ import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
  * Abstract action for the menu item that starts the export functionality for exporting Kroki project to Eclipse UML diagram files.
- * Contains abstract method executeExport that needs to be implemented for exporting Kroki project to Eclipse UML diagram file.
+ * Exported Eclipse UML diagram can be version 4.0 or version 3.0 and UML elements can have applied stereotypes or not.
  * @author Zeljko Ivkovic
  *
  */
-public abstract class ExportEclipseUMLDiagramAction extends AbstractAction {
+public class ExportEclipseUMLDiagramAction extends AbstractAction {
 
+	/**
+	 * Indicates if the exported Eclipse UML elements should have a corresponding 
+	 * stereotypes applied.
+	 */
+	private boolean withStereotypes;
+	
+	/**
+	 * Indicates if the exported Eclipse UML diagram should be version 4.0 or version 3.0.
+	 */
+	private boolean version4;
+	
+	/**
+	 * Creates an action that exports Kroki project to a Eclipse UML 4.0 or 3.0 version
+	 * diagram depending on the version4 parameter. Exported UML elements can have applied stereotypes or not depending on the
+	 * value of the withStereotypes parameter.
+	 * @param withStereotypes  <code>true</code> if the UML elements should have
+	 * stereotypes applied, <code>false</code> if only UML elements should be exported
+	 * without the stereotypes applied
+	 * @param version4          <code>true</code> if the exported UML diagram should be a
+	 * version 4.0, or <code>false</code> if the exported UML diagram should be version 3.0 
+	 */
+	public ExportEclipseUMLDiagramAction(boolean withStereotypes,boolean version4){
+		this.withStereotypes=withStereotypes;
+		this.version4=version4;
+		String version="(3.0)";
+		if(version4)
+			version="(4.0)";
+		if(withStereotypes)
+		{
+			putValue(NAME, changeValue(StringResource.getStringResource("action.export.eclipseUML.diagram.stereotype.name"),version));
+			/*
+			ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.runswing.smallicon"));
+			ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.runswing.largeicon"));
+			putValue(SMALL_ICON, smallIcon);
+			putValue(LARGE_ICON_KEY, largeIcon);
+			*/
+			putValue(SHORT_DESCRIPTION, changeValue(StringResource.getStringResource("action.export.eclipseUML.diagram.stereotype.description"),version));
+		}else
+		{
+			putValue(NAME, changeValue(StringResource.getStringResource("action.export.eclipseUML.diagram.name"),version));
+			/*
+			ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.runswing.smallicon"));
+			ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.runswing.largeicon"));
+			putValue(SMALL_ICON, smallIcon);
+			putValue(LARGE_ICON_KEY, largeIcon);
+			*/
+			putValue(SHORT_DESCRIPTION, changeValue(StringResource.getStringResource("action.export.eclipseUML.diagram.description"),version));
+		}
+	}
 	
 	/**
 	 * Action that starts a thread for creating Eclipse UML diagram file from a Kroki project.
@@ -37,16 +86,9 @@ public abstract class ExportEclipseUMLDiagramAction extends AbstractAction {
 			public void run() {
 				//find selected project from workspace
 				BussinesSubsystem proj = null;
-				
-				//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setVisible(true);
 				if(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().isSelectionEmpty())
 				{
 					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
-					//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setVisible(true);
 					return;
 				}
 					
@@ -62,32 +104,17 @@ public abstract class ExportEclipseUMLDiagramAction extends AbstractAction {
 					File file=FileChooserHelper.fileChooser(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), true, "Export", "Eclipse UML diagram files","uml");
 					if(file!=null)
 					{
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project to file "+file.getAbsolutePath()+". Please wait...", 0);
-						executeExport(file,proj);
+						//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project to file "+file.getAbsolutePath()+". Please wait...", 0);
+						new ExportProjectToEclipseUML(file, proj, withStereotypes, version4);
 					}
 					else
 					{
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project aborted.", 0);
+						JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Exporting project aborted.");
+						//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project aborted.", 0);
 					}
-						//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-						((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					    ((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setVisible(true);
-					    /**/
-					/*
-					} catch (NullPointerException e) {
-						//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-						((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					    ((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setVisible(true);
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("An error occured. Running aborted", 3);
-						e.printStackTrace();
-					}
-					*/
 				}else {
 					//if no project is selected, inform user to select one
 					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
-					//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					((RootPaneContainer)KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getRootPane().getTopLevelAncestor()).getGlassPane().setVisible(true);
 				}
 
 			}
@@ -97,10 +124,12 @@ public abstract class ExportEclipseUMLDiagramAction extends AbstractAction {
 	}
 	
 	/**
-	 * Should implement export functionality of Kroki project to different versions of Eclipse UML diagram file.
-	 * @param file  file where to save the Eclipse UML diagram.
-	 * @param project  Kroki project to be exported.
+	 * Changes a string that contains {0} to a specified value string.
+	 * @param original  string containing {0} to be replaced
+	 * @param value     new string to replace {0}
+	 * @return          string with {0} replaced with the the value specified
 	 */
-	public abstract void executeExport(File file,BussinesSubsystem project);
-
+	private String changeValue(String original,String value){
+		return original.replace("{0}", value);
+	}
 }
