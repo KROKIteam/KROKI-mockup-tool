@@ -101,6 +101,7 @@ public class NewProjectDialog extends JDialog {
         	JOptionPane.showMessageDialog(NewProjectDialog.this, "Project with specified name allready exists!");
         }else {
         	newSubystem = new BussinesSubsystem(projectNameTf.getText(), true, ComponentType.MENU, null);
+        	newSubystem.setName(projectNameTf.getText());
             DatabaseProps props = new DatabaseProps();
             newSubystem.setDBConnectionProps(props);
             this.dispose();

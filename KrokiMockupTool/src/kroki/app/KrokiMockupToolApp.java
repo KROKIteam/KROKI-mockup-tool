@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -174,6 +175,18 @@ public class KrokiMockupToolApp {
 		}
 		return project;
 	}
+	
+	//Finds project with specified file
+		public BussinesSubsystem findProject(File file) {
+			BussinesSubsystem project = null;
+			for (int i=0; i<workspace.getPackageCount(); i++) {
+				BussinesSubsystem proj = (BussinesSubsystem) workspace.getPackageAt(i);
+				if(proj.getFile().getPath().equals(file.getPath())) {
+					return proj;
+				}
+			}
+			return project;
+		}
 
 	//Finds package with specified label inside specified project or package
 	public BussinesSubsystem findPackage(String label, BussinesSubsystem owner) {

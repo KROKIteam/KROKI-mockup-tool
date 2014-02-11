@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;

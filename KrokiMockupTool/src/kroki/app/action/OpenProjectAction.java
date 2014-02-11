@@ -46,17 +46,18 @@ public class OpenProjectAction extends AbstractAction {
         if (retValue == JFileChooser.APPROVE_OPTION) {
             File file = jfc.getSelectedFile();
             System.out.println("opening from file: " + file.getAbsolutePath());
-            BussinesSubsystem bussinesSubsystem = null;
-            try {
-                bussinesSubsystem = (BussinesSubsystem) DeepCopy.open(file);
-                //KrokiMockupToolApp.getInstance().getWorkspace().addBussinesSubsystem(bussinesSubsystem);
-                KrokiMockupToolApp.getInstance().getWorkspace().addPackage(bussinesSubsystem);
-                KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
-            } catch (Exception ex) {
-            	ex.printStackTrace();
-                JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Opening failed.");
+            BussinesSubsystem bussinesSubsystem = (BussinesSubsystem) DeepCopy.open(file);
+            if(bussinesSubsystem != null) {
+            	BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findProject(file);
+            	if(pr != null) {
+            		System.out.println("Postoji");
+            	}else {
+        			KrokiMockupToolApp.getInstance().getWorkspace().addPackage(bussinesSubsystem);
+                    KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
+        		}
+            }else {
+            	JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Opening failed.");
             }
-
         } else {
             System.out.println("opening canceled: ");
         }

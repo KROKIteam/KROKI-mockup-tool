@@ -9,35 +9,35 @@
 </action>
 <action>
 <name>add</name>
-<link>/dodavanje/</link>
+<link>/add/</link>
 <imagePath>/files/images/add.png</imagePath>
 <type>control</type>
 <tip>Add new entity</tip>
 </action>
 <action>
 <name>modify</name>
-<link>/izmena/</link>
+<link>/edit/</link>
 <imagePath>/files/images/edit.png</imagePath>
 <type>action</type>
 <tip>Modify entity</tip>
 </action>
 <action>
 <name>remove</name>
-<link>/brisanje/</link>
+<link>/delete/</link>
 <imagePath>/files/images/delete.png</imagePath>
 <type>action</type>
 <tip>Delete entity</tip>
 </action>
 <action>
 <name>mtmadd</name>
-<link>/mtmdodavanje/</link>
+<link>/mtmadd/</link>
 <imagePath>/files/images/add.png</imagePath>
 <type>control</type>
 <tip>Add new entity</tip>
 </action>
 <action>
 <name>mtmremove</name>
-<link>/mtmbrisanje/</link>
+<link>/mtmdelete/</link>
 <imagePath>/files/images/delete.png</imagePath>
 <type>action</type>
 <tip>Delete entity</tip>

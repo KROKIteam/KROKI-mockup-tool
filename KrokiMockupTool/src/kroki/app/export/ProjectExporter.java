@@ -329,8 +329,12 @@ public class ProjectExporter {
 	 */
 	public void getSubSystemData(VisibleElement el, int index, Menu mmenu) {
 		//          MENU GENERATION DATA
-		String name = "menu" + index + "_" + el.name();
-		String label = el.name().replace("_", " ");
+		String n = el.name();
+		if(n == null) {
+			n = el.getLabel();
+		}
+		String name = "menu" + index + "_" + n;
+		String label = n.replace("_", " ");
 		Menu menu = new Menu(name, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 
 		BussinesSubsystem bs = (BussinesSubsystem) el;

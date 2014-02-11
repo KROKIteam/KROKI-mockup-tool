@@ -24,7 +24,7 @@
 					<#if msg??>
 					<p style="color:red">${msg}</p>
 					</#if>
-					<form action="/mtmdodaj/${resource.name}/${resObj.id}/${chresource.name}" name="dodavanje" method="post">
+					<form action="/mtmadded/${resource.name}/${resObj.id}/${chresource.name}" name="dodavanje" method="post">
 						<table align="center">
 							<tbody>
 								<tr>
@@ -80,7 +80,7 @@
 					<p style="color:red">${msg}</p>
 					</#if>
 					<p>
-							<form action="/dodaj${resource.link}" name="dodavanje" method="post">
+							<form action="/added${resource.link}" name="dodavanje" method="post">
 								<table align="center">
 									<tbody>
 										<#list resource.attributes as attr>

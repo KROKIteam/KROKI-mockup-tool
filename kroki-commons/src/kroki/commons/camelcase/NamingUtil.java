@@ -2,7 +2,7 @@ package kroki.commons.camelcase;
 
 /**
  * Class that provides methods for naming various KROKI elements and name generation
- * @author Milorad Filipovic
+ * @author KROKI Team
  */
 public class NamingUtil {
 
@@ -53,7 +53,7 @@ public class NamingUtil {
 	/**
 	 * Converts given string to format suitable for naming database columns.
 	 * Column names consist of column label in upper case with words separated by underscore and prefix which is based on table name.
-	 * If table name has only one word, column prefix is made from first three letters of that word in upper case,
+	 * If table name has only one word, column prefix is made from first three letters of that word in upper case.
 	 * Otherwise, column prefix is acronym for table name.
 	 * Method is used for generating default column names based on labels of corresponding GUI components.
 	 * @param tableName name of database table used to generate prefix for column name
@@ -65,13 +65,17 @@ public class NamingUtil {
 		
 		String[] prefixElements = tableName.split(" ");
 		if(prefixElements.length == 1) {
-			prefix = prefixElements[0].substring(0, 3).toUpperCase();
+			String tabName = prefixElements[0];
+			if(tabName.length() < 3) {
+				prefix = tabName.toUpperCase();
+			}else {
+				prefix = tabName.substring(0, 3).toUpperCase();
+			}
 		}else {
 			for(int i=0; i<prefixElements.length; i++) {
 				prefix += prefixElements[i].charAt(0);
 			}
 		}
-		
 		return prefix.toUpperCase() + "_" + columnName.replace(" ", "_").toUpperCase();
 	}
 }

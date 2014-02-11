@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.StringResource;
+import kroki.profil.ComponentType;
 import kroki.profil.subsystem.BussinesSubsystem;
 import net.miginfocom.swing.MigLayout;
 
@@ -115,16 +116,12 @@ public class NewPackageDialog extends JDialog {
 		BussinesSubsystem project = KrokiMockupToolApp.getInstance().findProject(owner);
 		//check if  package with same name exists in that project (in any level)
 		BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findPackage(nameTf.getText(), project);
-		System.out.println("[PROJECT] " + project.getLabel());
-		System.out.println("[OWNER] " + owner.getLabel());
 		
 		if(pr != null) {
-			System.out.println("[PR] " + pr.getLabel());
 			JOptionPane.showMessageDialog(NewPackageDialog.this, "Package with specified name allready exists!");
 		}else {
-			newSubsystem = new BussinesSubsystem(owner);
-			newSubsystem.setLabel(nameTf.getText());
-
+			newSubsystem = new BussinesSubsystem(nameTf.getText(), true, ComponentType.MENU, owner);
+			newSubsystem.setName(nameTf.getText());
 			owner.addNestedPackage(newSubsystem);
 			this.dispose();
 		}
