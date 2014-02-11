@@ -77,7 +77,8 @@ public class ElementsGroupSettings extends VisibleElementSettings {
         borderColorBtn.setIcon(new ImageIcon(PlainColorImage.getImage(c.getBorder().getColor(), 16, 16)));
         groupOrientationCmb.setSelectedItem(eg.getGroupOrientation());
         groupAlignmentCmb.setSelectedItem(eg.getGroupAlignment());
-        groupLocationTf.setText(eg.getGroupLocation().name());
+        if(eg.getGroupLocation()!=null)
+        	groupLocationTf.setText(eg.getGroupLocation().name());
     }
 
     private void layoutComponents() {

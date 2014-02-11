@@ -78,4 +78,75 @@ public class NamingUtil {
 		}
 		return prefix.toUpperCase() + "_" + columnName.replace(" ", "_").toUpperCase();
 	}
+	
+	/**
+	 * Converts given string to camel case while preserving Serbian unique letters (Ž,Č,Ć,Đ,Š).
+	 * Used to generate camel case names for elements of UML diagrams during import and export functions.
+	 * @param s    String to be converted
+	 * @param cap  Indicates if converted string should be capitalized (methods and properties names) or not (class names).
+	 * @return     String in camel case notion
+	 */
+	public String toCamelCaseIE(String s, boolean cap) {
+		if(s!=null)
+			if(!s.isEmpty())
+			{
+				StringBuffer builder=new StringBuffer();
+				char c=s.charAt(0);
+				if(Character.isUpperCase(c)&&!cap)
+					builder.append(Character.toLowerCase(c));
+				else
+					builder.append(c);
+				
+				boolean prazno=false;
+				for(char p:s.substring(1).toCharArray())
+				{
+					if(Character.isWhitespace(p))
+						prazno=true;
+					else if(prazno)
+					{
+						builder.append(Character.toUpperCase(p));
+						prazno=false;
+					}
+					else
+					{
+						builder.append(Character.toLowerCase(p));
+						prazno=false;
+					}
+				}
+				
+				return builder.toString();
+			}
+		return "";
+		/**/
+	}
+	
+	/**
+	 * Method that transforms Camel case sentences to sentences in which words are separated with empty spaces.
+	 * For example:<br/>
+	 * "FirstSecondThrid" is transformed to "First second third" and "ZIPCode" will be transfered to "Z i p code". 
+	 * @param text   String that is in camel case notation
+	 * @return Text  String that is in human readable notation
+	 */
+	public String fromCamelCase(String text){
+		if(text!=null)
+			if(!text.isEmpty())
+			{	
+				StringBuilder builder=new StringBuilder();
+				builder.append(Character.toUpperCase(text.charAt(0)));
+				int i=1;
+				char currentCharacter;
+				while(i<text.length())
+				{
+					currentCharacter=text.charAt(i);
+					if(Character.isUpperCase(currentCharacter))
+					{
+						builder.append(" "+Character.toLowerCase(currentCharacter));
+					}else
+						builder.append(currentCharacter);
+					i++;
+				}
+				return builder.toString();
+			}
+		return "";
+	}
 }

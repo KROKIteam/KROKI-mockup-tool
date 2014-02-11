@@ -313,11 +313,13 @@ public class UMLDescriptionGenerator {
 	public BussinesSubsystem findProject(BussinesSubsystem pack) {
 		BussinesSubsystem project = null;
 		for(int i=0; i<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); i++) {
-			BussinesSubsystem proj = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(i);
-			for (int j=0; j<proj.ownedElementCount(); j++) {
-				BussinesSubsystem subsys = (BussinesSubsystem) proj.getOwnedElementAt(j);
-				if(subsys.name().equals(pack.name())){
-					project = proj;
+			if(KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(i) instanceof BussinesSubsystem){
+				BussinesSubsystem proj = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(i);
+				for (int j=0; j<proj.ownedElementCount(); j++) {
+					BussinesSubsystem subsys = (BussinesSubsystem) proj.getOwnedElementAt(j);
+					if(subsys.name().equals(pack.name())){
+						project = proj;
+					}
 				}
 			}
 		}
