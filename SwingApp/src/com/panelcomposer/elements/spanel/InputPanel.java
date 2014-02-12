@@ -3,6 +3,7 @@ package com.panelcomposer.elements.spanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
 import util.resolvers.ComponentResolver;
@@ -222,7 +224,17 @@ public class InputPanel extends JPanel {
 			charSize = 10;
 		}
 		component = ComponentResolver.getComponent(colAttr);
-		component.setPreferredSize(new Dimension((int) (charSize * 10 * ratio)/2, 20));
+		System.out.println("[COMPONENT] " + component.getClass().getSimpleName());
+		if(!component.getClass().getSimpleName().equals("JTextArea")) {
+			component.setPreferredSize(new Dimension((int) (charSize * 10 * ratio)/2, 20));
+		}else {
+			Dimension dim = (new Dimension((int) ((charSize * 10 * ratio)/2)-15, 100));
+			component.setPreferredSize(dim);
+			component.setMinimumSize(dim);
+		}
+		component.setBorder(BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY)));
+		Font font = new Font("Verdana", Font.PLAIN, 12);
+		component.setFont(font);
 		component.setEnabled(!colAttr.getDisabled());
 		return component;
 	}

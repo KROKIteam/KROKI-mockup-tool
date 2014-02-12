@@ -39,7 +39,7 @@ public class ${class.name} implements java.io.Serializable {
 	<#list attr.annotations as annotation>
 	${annotation}
 	</#list>
-	private ${attr.type} ${attr.name};
+	private ${attr.type?split(":")[0]} ${attr.name};
 	</#list>
 	</#if>
 	
@@ -56,11 +56,11 @@ public class ${class.name} implements java.io.Serializable {
 	
 	<#if class.attributes?has_content>
 	<#list class.attributes as attr>
-	public ${attr.type} get${attr.name?cap_first}() {
+	public ${attr.type?split(":")[0]} get${attr.name?cap_first}() {
 		return this.${attr.name};
 	}
 	
-	public void set${attr.name?cap_first}(${attr.type} ${attr.name}) {
+	public void set${attr.name?cap_first}(${attr.type?split(":")[0]} ${attr.name}) {
 		this.${attr.name} = ${attr.name};
 	}
 	

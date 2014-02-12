@@ -47,6 +47,11 @@
 										</#list>
 										</select>
 									</td>
+									<#elseif resource.attributes[label_index].type?ends_with("TextArea")>
+									<td valign="top"><b>${label}:</b></td>
+									<td>
+									<textarea rows="4" cols="32" name="attr${label_index}izmena">${attributeValues[label_index]}</textarea>
+									</td>
 									<#else>
 										<td><b>${label}:</b></td>
 										<td><input type="text" name="attr${label_index}izmena" value="${attributeValues[label_index]}"></td>

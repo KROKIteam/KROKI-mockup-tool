@@ -112,7 +112,9 @@ public class WebResourceGenerator {
 							}
 						}else if(prop.getComponentType() == ComponentType.CHECK_BOX) {
 							type =  "java.lang.Boolean";
-						} 
+						}else if(prop.getComponentType() == ComponentType.TEXT_AREA) {
+							type = "java.lang.String:TextArea";
+						}
 						
 						Boolean unique = false;
 						Boolean mandatory = prop.lower() != 0;

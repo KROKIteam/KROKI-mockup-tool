@@ -85,7 +85,7 @@ public class EJBGenerator {
 				Map model = new TreeMap();
 				String doc = "   /** " +
 						"\n   Class generated using Kroki EJBGenerator " +
-						"\n   @Author KROKIteam " +
+						"\n   @Author KROKI Team " +
 						"\n   Creation date: " + d + "h" +
 						"\n   **/";
 

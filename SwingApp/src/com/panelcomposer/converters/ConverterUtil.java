@@ -178,7 +178,7 @@ public class ConverterUtil {
 		Class<?> classType = null;
 		if (column.getDataType() != null && !column.getDataType().equals("")) {
 			try {
-				classType = Class.forName(column.getDataType());
+				classType = Class.forName(column.getDataType().split(":")[0]);
 			} catch (Exception e) {
 				return null;
 			}

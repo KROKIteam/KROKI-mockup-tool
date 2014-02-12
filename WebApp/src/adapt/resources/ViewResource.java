@@ -534,11 +534,11 @@ public class ViewResource extends Resource {
 		try {
 			Class s = Class.forName("adapt.entities." + table);
 			Object o;
-			if(id == null) {//ako nije prosledjen ID, radi se dodavanje
-				//novi objekat
+			if(id == null) {//if no ID is passed, add operation is executed
+				//new object
 				o = s.newInstance();
-			}else {//inace izmena
-				//postojeci objekat iz baze
+			}else {//if ID is not null, entity with that id gets modified
+				//get object from database
 				o = em.createQuery("FROM " + table + " o WHERE o.id=:oid").setParameter("oid", id).getSingleResult();
 			}
 				//prvo setujem collumn atribute
@@ -546,7 +546,8 @@ public class ViewResource extends Resource {
 					XMLAttribute attr = resource.getAttributes().get(j);
 					String setName = "set" + Character.toUpperCase(attr.getName().charAt(0)) + attr.getName().substring(1);
 					try {
-						Class aClass = Class.forName(attr.getType());
+						//ignore suffix on type
+						Class aClass = Class.forName(attr.getType().split(":")[0]);
 						Method setter = s.getMethod(setName, aClass);
 						setter.setAccessible(true);
 						try {

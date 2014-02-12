@@ -85,7 +85,7 @@
 									<tbody>
 										<#list resource.attributes as attr>
 										<tr>
-											<td><b>${attr.label}:</b></td>
+											<td valign="top"><b>${attr.label}:</b></td>
 											<#if attr.values??>
 												<td>
 													<select name="attrSelectCombo${attr_index}">
@@ -107,6 +107,10 @@
 												<#elseif attr.type == "java.util.Date">
 												<td><input type="text" name="attr${attr.name}Dodavanje"></td>
 												<td><font size="2" color="blue">Format: dd.MM.yyyy.</font> </td>
+												<#elseif attr.type?ends_with("TextArea")>
+												<td>
+												<textarea rows="4" cols="32" name="attr${attr.name}Dodavanje"></textarea>
+												</td>
 												<#else>
 												<td><input type="text" name="attr${attr.name}Dodavanje"></td>
 												</#if>

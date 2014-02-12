@@ -37,7 +37,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 /**
  * Class that provides methods for exporting KROKI projects
  * as working Java applications
- * @author Milorad Filipovic
+ * @author KROKI Team
  *
  */
 public class ProjectExporter {
@@ -282,6 +282,12 @@ public class ProjectExporter {
 			String[] enumValues = vp.getEnumeration().split(";");
 			enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
 			enumerations.add(enumeration);
+		}
+		else if(vp.getComponentType() == ComponentType.TEXT_AREA) {
+			//Since both text areas and text fields contain string data,
+			//we need to add suffix to generate appropriate UI control
+			//suffix needs to be skipped when generating java classes
+			type = "java.lang.String:TextArea";
 		}
 
 		ArrayList<String> anotations = new ArrayList<String>();

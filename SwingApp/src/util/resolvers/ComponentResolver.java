@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.h2.constant.SysProperties;
@@ -154,13 +155,13 @@ public class ComponentResolver {
 				} else {
 					String setterName = "set"
 							+ StringUtil.capitalize(colAttr.getName());
-					String dataType = colAttr.getDataType();
+					String dataType = colAttr.getDataType().split(":")[0];
 
 					
 					System.out.println("METODA: " + setterName);
 					System.out.println("DATA TYPE: " + dataType);
 					
-					Class<?> parameter = Class.forName(dataType);;
+					Class<?> parameter = Class.forName(dataType);
 					Method method = entity.getEntityClass().getMethod(
 							setterName, parameter);
 					invokeMethod(method, retVal, parameter, null, comp, colAttr);
@@ -201,6 +202,9 @@ public class ComponentResolver {
 		} else if (component instanceof JCheckBox) {
 			argument = parameter.getConstructor(boolean.class).newInstance(
 					((JCheckBox) component).isSelected());
+		} else if (component instanceof JTextArea) {
+			String s = ((JTextArea)component).getText();
+			argument = ConverterUtil.convert(s, column);
 		}
 		method.invoke(value, argument);
 	}

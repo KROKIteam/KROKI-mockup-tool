@@ -35,7 +35,7 @@ public class XMLResource {
 		ArrayList<XMLAttribute> repAttributes = new ArrayList<XMLAttribute>();
 		
 		for (XMLAttribute attribute : attributes) {
-			if(attribute.getRepresentative()) {
+			if(attribute.getRepresentative() || attribute.getName().equalsIgnoreCase("name")) {
 				repAttributes.add(attribute);
 			}
 		}
