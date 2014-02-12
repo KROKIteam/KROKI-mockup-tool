@@ -4,6 +4,9 @@
  */
 package kroki.profil.association;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kroki.common.copy.DeepCopy;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
@@ -11,6 +14,7 @@ import kroki.mockup.model.components.NullComponent;
 import kroki.profil.ComponentType;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.container.ParentChild;
 import kroki.profil.utils.settings.HierarchySettings;
 import kroki.profil.utils.settings.SettingsPanel;
 
@@ -236,12 +240,34 @@ public class Hierarchy extends VisibleAssociationEnd {
         return hierarchyParent;
     }
 
-    public void setHierarchyParent(Hierarchy hierarchyParent) {
+    public void setHierarchyParent(Hierarchy hierarchyParent){
+    	this.hierarchyParent = hierarchyParent;
+    }
+    
+    public void updateParent(Hierarchy hierarchyParent) {
         this.hierarchyParent = hierarchyParent;
         if (hierarchyParent != null) {
             this.level = this.hierarchyParent.getLevel() + 1;
+            ParentChild panel = (ParentChild) umlClass();
+            List<VisibleAssociationEnd> viaAssociationEnd = panel.possibleAssociationEnds(this);
+			if (viaAssociationEnd != null && viaAssociationEnd.size() == 1)
+				this.viaAssociationEnd = viaAssociationEnd.get(0);
+        }
+        else{
+        	this.level = -1;
+        	this.viaAssociationEnd = null;
         }
     }
+    
+    public List<Hierarchy> childHierarchies(){
+    	List<Hierarchy> ret = new ArrayList<Hierarchy>();
+    	ParentChild panel = (ParentChild)umlClass;
+    	for (Hierarchy h : panel.containedHierarchies())
+    		if (h.getHierarchyParent() == this)
+    			ret.add(h);
+    	return ret;
+    }
+    
 
     public VisibleClass getTargetPanelClone() {
         return targetPanelClone;

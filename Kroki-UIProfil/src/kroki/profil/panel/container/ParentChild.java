@@ -178,11 +178,15 @@ public class ParentChild extends ContainerPanel {
 
 		for (Hierarchy hierarchy : containedHierarchies()){
 			VisibleClass panel = hierarchy.getTargetPanel();
-			if (panel != null)
+			if (panel != null && panel instanceof ParentChild)
+				panel = hierarchy.getAppliedToPanel();
+			
+			if (panel != null){
 				for (Next next : panel.containedNexts()){
 					if (!ret.contains(next.getTargetPanel()))
 						ret.add((StandardPanel) next.getTargetPanel());
 				}
+			}
 		}
 		return ret;
 	}
@@ -195,11 +199,12 @@ public class ParentChild extends ContainerPanel {
 		allParentChildPanels.remove(this);
 
 		for (ParentChild parentChild : allParentChildPanels)
-			for (Hierarchy hierarchy : parentChild.containedHierarchies())
+			for (Hierarchy hierarchy : parentChild.containedHierarchies()){
 				if (linkedPanels.contains(hierarchy.getTargetPanel())){
 					ret.add(parentChild);
 					break;
 				}
+			}
 		return ret;
 	}
 
@@ -296,6 +301,7 @@ public class ParentChild extends ContainerPanel {
 		if (hierarchy.getTargetPanel() == null || hierarchy.getHierarchyParent() == null)
 			return null;
 		
+		
 		VisibleClass childPanel = hierarchy.getTargetPanel();
 		//ako je parent child, uzmi applied to 
 		if (childPanel instanceof ParentChild)
@@ -305,9 +311,10 @@ public class ParentChild extends ContainerPanel {
 		
 		VisibleClass parentPanel = hierarchy.getHierarchyParent().getTargetPanel();
 		if (parentPanel instanceof ParentChild)
-			parentPanel = hierarchy.getAppliedToPanel();
+			parentPanel = hierarchy.getHierarchyParent().getAppliedToPanel();
 		if (parentPanel == null)
 			return null;
+		
 		
 		List<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
 		
@@ -385,6 +392,8 @@ public class ParentChild extends ContainerPanel {
 	}
 
 	private void setHierarchhyAttributes(Hierarchy hierarchy){
+		if (hierarchy.getLevel() != 0)
+			return;
 		int count = getHierarchyCount();
 		if (count == 0) {
 			hierarchy.setLevel(1);
@@ -399,7 +408,17 @@ public class ParentChild extends ContainerPanel {
 			hierarchy.setLevel(-1);
 		}
 	}
-
+	
+	//treba pogledati sta se desava kada se nesto menja...
+	
+	public void allSuccessors(List<Hierarchy> ret, Hierarchy hierarchy){
+		List<Hierarchy> childHierarcies = hierarchy.childHierarchies();
+		ret.addAll(childHierarcies);
+		for (Hierarchy h : childHierarcies)
+			allSuccessors(ret, h);
+	}
+	
+	
 	@Override
 	public void removeVisibleElement(VisibleElement visibleElement) {
 		super.removeVisibleElement(visibleElement);

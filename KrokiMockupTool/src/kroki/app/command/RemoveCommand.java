@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Hierarchy;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.container.ParentChild;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlProperty;
 
@@ -21,12 +23,13 @@ import kroki.uml_core_basic.UmlProperty;
 public class RemoveCommand implements Command {
 
 	private List<VisibleElement> visibleElementList;
-	private List<Integer> classIndexes, groupIndexes;
+	private List<Integer> groupIndexes;
+	private List<Hierarchy> hierarchies = new ArrayList<Hierarchy>();
 
 	public RemoveCommand(List<VisibleElement> visibleElementList) {
 		this.visibleElementList = new ArrayList<VisibleElement>();
 		this.visibleElementList.addAll(visibleElementList);
-		classIndexes = new ArrayList<Integer>();
+
 		groupIndexes = new ArrayList<Integer>();
 		VisibleClass visibleClass;
 		ElementsGroup elementsGroup;
@@ -34,10 +37,35 @@ public class RemoveCommand implements Command {
 			visibleClass = getVisibleClass(visibleElement);
 			if (visibleClass == null)
 				continue;
-			classIndexes.add(visibleClass.getVisibleElementList().indexOf(visibleElement));
+			if (visibleElement instanceof Hierarchy){
+				hierarchies.add((Hierarchy)visibleElement);
+				continue;
+			}
 			elementsGroup = visibleElement.getParentGroup();
 			groupIndexes.add(elementsGroup.getVisibleElementList().indexOf(visibleElement));
 		}
+
+		ParentChild panel = null;
+		List<Hierarchy> currentSuccessors = new ArrayList<Hierarchy>();
+		this.visibleElementList.removeAll(hierarchies);
+
+		for (Hierarchy hierarchy : hierarchies){
+			//delete hierarchy and all successors
+
+			if (panel == null)
+				panel = (ParentChild)hierarchy.umlClass();
+			currentSuccessors.clear();
+			panel.allSuccessors(currentSuccessors, hierarchy);
+			currentSuccessors.add(0,hierarchy);
+
+			for (Hierarchy h : currentSuccessors)
+				if (!this.visibleElementList.contains(h)){
+					this.visibleElementList.add(h);
+					elementsGroup = hierarchy.getParentGroup();
+					groupIndexes.add(elementsGroup.getVisibleElementList().indexOf(hierarchy));
+				}
+		}
+
 	}
 
 	public void doCommand() {
@@ -47,6 +75,8 @@ public class RemoveCommand implements Command {
 			visibleClass = getVisibleClass(visibleElement);
 			if (visibleClass == null)
 				continue;
+
+
 			elementsGroup = visibleElement.getParentGroup();
 			if (elementsGroup != null) {
 				elementsGroup.removeVisibleElement(visibleElement);
@@ -56,33 +86,50 @@ public class RemoveCommand implements Command {
 				visibleClass.removeVisibleElement(visibleElement);
 				visibleClass.update();
 			}
+
 		}
 	}
 
 	public void undoCommand() {
-		
-		//Should add elements at their original positions
+
+
 		VisibleClass visibleClass;
 		ElementsGroup elementsGroup;
 		int index = 0;
-		
+
+		//Should add elements at their original positions
+		//add all elements first, to avoid exceptions
+
+		for (VisibleElement  visibleElement : visibleElementList){
+
+			elementsGroup = visibleElement.getParentGroup();
+			visibleClass = getVisibleClass(visibleElement);
+			if (visibleClass == null)
+				continue;
+			if (elementsGroup != null) 
+				elementsGroup.addVisibleElement(visibleElement);
+
+			if (visibleClass != null) 
+				visibleClass.addVisibleElement(visibleElement);
+		}
+
+
 		for (VisibleElement visibleElement : visibleElementList){
 			visibleClass = getVisibleClass(visibleElement);
 			if (visibleClass == null)
 				continue;
+
 			elementsGroup = visibleElement.getParentGroup();
-			int classIndex = classIndexes.get(index);
 			int groupIndex = groupIndexes.get(index ++);
-			
+
 			if (elementsGroup != null) {
+				elementsGroup.removeVisibleElement(visibleElement);
 				elementsGroup.addVisibleElement(groupIndex, visibleElement);
 				elementsGroup.update();
 			}
-			if (visibleClass != null) {
-				visibleClass.addVisibleElement(classIndex, visibleElement);
-				visibleClass.update();
-			}
+			
 		}
+
 	}
 
 	private VisibleClass getVisibleClass(VisibleElement visibleElement){
