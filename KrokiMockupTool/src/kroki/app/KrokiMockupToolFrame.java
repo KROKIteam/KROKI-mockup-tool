@@ -185,7 +185,7 @@ public class KrokiMockupToolFrame extends JFrame {
         file.add(new SaveAsAction());
         file.add(new SaveAllAction());
         file.addSeparator();
-      //Dodavanje dela za import i export
+        //Dodavanje dela za import i export
         JMenu importFileMenu=new JMenu();
         importFileMenu.setName("import");
         importFileMenu.setText(StringResource.getStringResource("menu.file.submenu.import"));

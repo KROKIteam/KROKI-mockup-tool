@@ -115,7 +115,7 @@ public class NewPackageDialog extends JDialog {
 		//find project in which we want to make package
 		BussinesSubsystem project = KrokiMockupToolApp.getInstance().findProject(owner);
 		//check if  package with same name exists in that project (in any level)
-		BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findPackage(nameTf.getText(), project);
+		BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findPackage(nameTf.getText(), owner);
 		
 		if(pr != null) {
 			JOptionPane.showMessageDialog(NewPackageDialog.this, "Package with specified name allready exists!");

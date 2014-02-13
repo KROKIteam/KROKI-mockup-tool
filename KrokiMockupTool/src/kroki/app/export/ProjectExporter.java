@@ -279,6 +279,7 @@ public class ProjectExporter {
 			enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
 			String enumClass = vp.umlClass().name();
 			String enumProp = cc.toCamelCase(vp.getLabel(), true);
+			System.out.println(vp.getEnumeration());
 			String[] enumValues = vp.getEnumeration().split(";");
 			enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
 			enumerations.add(enumeration);

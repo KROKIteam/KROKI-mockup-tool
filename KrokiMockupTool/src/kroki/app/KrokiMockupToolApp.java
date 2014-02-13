@@ -86,11 +86,8 @@ public class KrokiMockupToolApp {
 					Workspace workspace = KrokiMockupToolApp.getInstance().getWorkspace();
 					//since both projects and packages are BussinesSubsystem instances
 					//we need to change icons only for imediate childern of workspace (projects)
-					for(int i=0; i<workspace.getPackageCount(); i++) {
-						BussinesSubsystem system = (BussinesSubsystem) workspace.getPackageAt(i);
-						if(system.getLabel().trim().equals(proj.getLabel().trim())) {
-							setIcon(projectIcon);
-						}
+					if(krokiMockupApp.isProject(proj)) {
+						setIcon(projectIcon);
 					}
 				}
 				return this;
@@ -169,7 +166,7 @@ public class KrokiMockupToolApp {
 		BussinesSubsystem project = null;
 		for (int i=0; i<workspace.getPackageCount(); i++) {
 			BussinesSubsystem proj = (BussinesSubsystem) workspace.getPackageAt(i);
-			if(proj.getLabel().equalsIgnoreCase(label)) {
+			if(proj.getLabel().equals(label)) {
 				return proj;
 			}
 		}
@@ -209,12 +206,12 @@ public class KrokiMockupToolApp {
 
 	//Finds owner project for specified package
 	public BussinesSubsystem findProject(BussinesSubsystem pack) {
-		if(findProject(pack.getLabel()) != null) {
+		if(isProject(pack)) {
 			//if passed subsystem is project, return it
 			return pack;
 		}else {
 			BussinesSubsystem owner = (BussinesSubsystem) pack.nestingPackage();
-			if(findProject(owner.getLabel()) != null) {
+			if(isProject(owner)) {
 				//if imediate parent is project, return it
 				return owner;
 			}else {
@@ -226,7 +223,7 @@ public class KrokiMockupToolApp {
 
 	//checks if business subsystem is project (returns false if it's package)
 	public boolean isProject(BussinesSubsystem sub) {
-		if(findProject(sub) != null) {
+		if(sub.nestingPackage() == null) {
 			return true;
 		}else {
 			return false;

@@ -39,7 +39,6 @@ public class NewProjectAction extends AbstractAction {
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
         if (dialog.getNewSubystem() != null) {
-            //KrokiMockupToolApp.getInstance().getWorkspace().addBussinesSubsystem(dialog.getNewSubystem());
             KrokiMockupToolApp.getInstance().getWorkspace().addPackage(dialog.getNewSubystem());
             KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
         }

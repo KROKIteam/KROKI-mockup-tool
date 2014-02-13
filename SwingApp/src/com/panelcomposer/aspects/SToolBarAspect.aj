@@ -79,6 +79,7 @@ public aspect SToolBarAspect {
 					}
 					toolbar.getButtons().get(Buttons.VIEW_MODE).setIcon(
 							new ImageIcon(getClass().getResource(Settings.iconsDirectory + img)));
+					panel.getModelPanel().getPanelSettings().setStateMode(StateMode.UPDATE);
 				}
 			});	
 		}
