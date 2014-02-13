@@ -73,16 +73,18 @@ public class Hierarchy extends VisibleAssociationEnd {
             if (component != null) {
                 //kloniram ceo target panel zbog prikaza!!!
                 targetPanelClone = (VisibleClass) DeepCopy.copy(targetPanel);
-                //FIXME: ukoliko su neke od akcija u targetPanelu zabranjene one se ne mogu ododbriti od strane kraja asocijacije!!!!
-//                if (targetPanelClone instanceof StandardPanel) {
-//                    setAdd(add);
-//                    setChangeMode(changeMode);
-//                    setCopy(copy);
-//                    setDataNavigation(dataNavigation);
-//                    setDelete(delete);
-//                    setSearch(search);
-//                    setUpdate(update);
-//                }
+                
+                //ukoliko su neke od akcija u targetPanelu zabranjene one se ne mogu ododbriti od strane kraja asocijacije!!!!
+                if (targetPanelClone instanceof StandardPanel) {
+                	StandardPanel panel = (StandardPanel)targetPanel;
+                    setAdd(panel.isAdd());
+                    setChangeMode(panel.isChangeMode());
+                    setCopy(panel.isCopy());
+                    setDataNavigation(panel.isDataNavigation());
+                    setDelete(panel.isDelete());
+                    setSearch(panel.isSearch());
+                    setUpdate(panel.isUpdate());
+                }
 
                 int relX = component.getRelativePosition().x;
                 int relY = component.getRelativePosition().y;

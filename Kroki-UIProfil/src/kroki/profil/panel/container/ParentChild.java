@@ -29,7 +29,6 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.VisibleClassSettings;
-import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
@@ -37,6 +36,7 @@ import kroki.uml_core_basic.UmlType;
  * <code>ParentChild</code> modeluje slozeni panel  ciji su
  * sastavni paneli organizovani u stablo, na nacin definisan HCI standardom. 
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
+ * @author Renata
  */
 @SettingsPanel(VisibleClassSettings.class)
 public class ParentChild extends ContainerPanel {
@@ -160,11 +160,8 @@ public class ParentChild extends ContainerPanel {
 
 		List<VisibleClass> standardPanels = possibleTargetStandardPanels();
 		ret.addAll(standardPanels);
-		//pogledaj da li ima nekih parent child panela koji sazrsi neki od standardnih
 
-		List<ParentChild> allParentChildPanels = new ArrayList<ParentChild>();
-		getAllParentChildPanels(getProject(umlPackage), allParentChildPanels);
-		allParentChildPanels.remove(this);
+		//add parent child panels that contain found standard panelss
 
 		ret.addAll(allParentChildPanelsContainingPanels(standardPanels));
 		return ret;
@@ -174,13 +171,13 @@ public class ParentChild extends ContainerPanel {
 	private List<VisibleClass> possibleTargetStandardPanels(){
 		List<VisibleClass> ret = new ArrayList<VisibleClass>();
 
-		//prodji kroz sve postojece hijerarhije, pokupo nextove
+		//find all next association ends
 
 		for (Hierarchy hierarchy : containedHierarchies()){
 			VisibleClass panel = hierarchy.getTargetPanel();
 			if (panel != null && panel instanceof ParentChild)
 				panel = hierarchy.getAppliedToPanel();
-			
+
 			if (panel != null){
 				for (Next next : panel.containedNexts()){
 					if (!ret.contains(next.getTargetPanel()))
@@ -198,13 +195,21 @@ public class ParentChild extends ContainerPanel {
 		getAllParentChildPanels(getProject(umlPackage), allParentChildPanels);
 		allParentChildPanels.remove(this);
 
-		for (ParentChild parentChild : allParentChildPanels)
+		for (ParentChild parentChild : allParentChildPanels){
+			//parent child panels cannot reference each other 
+			boolean add = false;
 			for (Hierarchy hierarchy : parentChild.containedHierarchies()){
-				if (linkedPanels.contains(hierarchy.getTargetPanel())){
-					ret.add(parentChild);
+				if (hierarchy.getTargetPanel() == this){
+					add = false;
 					break;
 				}
+				if (linkedPanels.contains(hierarchy.getTargetPanel())){
+					add = true;
+				}
 			}
+			if (add)
+				ret.add(parentChild);
+		}
 		return ret;
 	}
 
@@ -242,6 +247,8 @@ public class ParentChild extends ContainerPanel {
 		if (hierarchy.getTargetPanel() == null)
 			return null;
 		List<Hierarchy> ret = new ArrayList<Hierarchy>();
+		List<Hierarchy> successors = new ArrayList<Hierarchy>();
+		allSuccessors(successors, hierarchy);
 
 
 		//ako je parent child, proveriti za applied to
@@ -256,7 +263,9 @@ public class ParentChild extends ContainerPanel {
 			linkedPanels.add(zoom.getTargetPanel());
 		}
 
-		for (Hierarchy containedHierarchy : containedHierarchies())
+		for (Hierarchy containedHierarchy : containedHierarchies()){
+			if (successors.contains(containedHierarchy))
+				continue;
 			if (containedHierarchy != hierarchy && containedHierarchy.getLevel()!=-1 && (level == -1 || containedHierarchy.getLevel() == level)){
 				if (containedHierarchy.getTargetPanel() instanceof ParentChild){
 					if (containedHierarchy.getAppliedToPanel() == null)
@@ -268,6 +277,7 @@ public class ParentChild extends ContainerPanel {
 				else if (linkedPanels.contains(containedHierarchy.getTargetPanel()))
 					ret.add(containedHierarchy);
 			}
+		}
 		return ret;
 	}
 
@@ -282,7 +292,6 @@ public class ParentChild extends ContainerPanel {
 
 		//postoji navigabilna asocijacija gde je kardinalitet tog panela ne veci od 1
 		//=> ima  zoom ka tom panelu
-		//TODO da su spcificirani kardinaliteti, onda bi moglo kroz sve da se prodje
 
 		List<Zoom> associations = panel.containedZooms();
 		for (Zoom zoom : associations){
@@ -300,27 +309,27 @@ public class ParentChild extends ContainerPanel {
 	public List<VisibleAssociationEnd> possibleAssociationEnds(Hierarchy hierarchy){
 		if (hierarchy.getTargetPanel() == null || hierarchy.getHierarchyParent() == null)
 			return null;
-		
-		
+
+
 		VisibleClass childPanel = hierarchy.getTargetPanel();
 		//ako je parent child, uzmi applied to 
 		if (childPanel instanceof ParentChild)
 			childPanel = hierarchy.getAppliedToPanel();
 		if (childPanel == null)
 			return null;
-		
+
 		VisibleClass parentPanel = hierarchy.getHierarchyParent().getTargetPanel();
 		if (parentPanel instanceof ParentChild)
 			parentPanel = hierarchy.getHierarchyParent().getAppliedToPanel();
 		if (parentPanel == null)
 			return null;
-		
-		
+
+
 		List<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
-		
-		
+
+
 		List<Zoom> associations = childPanel.containedZooms();
-		
+
 		for (Zoom zoom : associations){
 			if (zoom.getTargetPanel() == parentPanel)
 				ret.add(zoom);
@@ -335,7 +344,7 @@ public class ParentChild extends ContainerPanel {
 		if (hierarchy.getTargetPanel() == null)
 			return null;
 		List<VisibleClass> ret = new ArrayList<VisibleClass>();
-		
+
 		for (Hierarchy h : possibleParents(hierarchy, level))
 			ret.add(h.getTargetPanel());
 
@@ -350,18 +359,19 @@ public class ParentChild extends ContainerPanel {
 	 * @return
 	 */
 	public Vector<Integer> possibleLevels(Hierarchy hierarchy){
+
 		List<Hierarchy> possibleParents = possibleParents(hierarchy, -1);
+
 		if (possibleParents == null)
 			return null;
 		Vector<Integer> ret = new Vector<Integer>();
-		ret.add(-1);
 
 		for (Hierarchy containedHierarchy : possibleParents){
 			if (containedHierarchy == hierarchy)
 				continue;
 			boolean contains = false;
 			for (Integer i : ret)
-				if ( i == hierarchy.getLevel()+1){
+				if ( i == containedHierarchy.getLevel()+1){
 					contains = true;
 					break;
 				}
@@ -408,17 +418,30 @@ public class ParentChild extends ContainerPanel {
 			hierarchy.setLevel(-1);
 		}
 	}
-	
-	//treba pogledati sta se desava kada se nesto menja...
-	
+
+
 	public void allSuccessors(List<Hierarchy> ret, Hierarchy hierarchy){
 		List<Hierarchy> childHierarcies = hierarchy.childHierarchies();
 		ret.addAll(childHierarcies);
 		for (Hierarchy h : childHierarcies)
 			allSuccessors(ret, h);
 	}
-	
-	
+
+
+
+	public void changeLevel (Hierarchy hierarchy, int newLevel){
+		int oldLevel = hierarchy.getLevel();
+		int diff = oldLevel - newLevel;
+
+		hierarchy.setLevel(newLevel);
+		List<Hierarchy> successors = new ArrayList<Hierarchy>();
+		allSuccessors(successors, hierarchy);
+
+		for (Hierarchy h : successors)
+			h.setLevel(h.getLevel() - diff);
+	} 	
+
+
 	@Override
 	public void removeVisibleElement(VisibleElement visibleElement) {
 		super.removeVisibleElement(visibleElement);
