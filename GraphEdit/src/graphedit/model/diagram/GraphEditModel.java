@@ -331,8 +331,10 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public Map<Connector, GraphElement> removeFromElementByConnectorStructure(List<Link> links) {
 		Map<Connector, GraphElement> removed = new HashMap<Connector, GraphElement>();
 		for (Link link : links) {
-			removed.put(link.getSourceConnector(), elementByConnector.remove(link.getSourceConnector()));
-			removed.put(link.getDestinationConnector(), elementByConnector.remove(link.getDestinationConnector()));
+			Map<Connector, GraphElement> removedLink = removeFromElementByConnectorStructure(link);
+			for (Connector conn : removedLink.keySet()){
+				removed.put(conn, removedLink.get(conn));
+			}
 		}
 		return removed;
 	}
@@ -359,6 +361,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		// backup mappings (for undo)
 		removed.put(sourceConnector, sourceElement);
 		removed.put(destinationConnector, destinationElement);
+		
 		return removed;
 	}
 	

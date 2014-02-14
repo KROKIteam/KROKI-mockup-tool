@@ -12,11 +12,13 @@ public class HierarchyElement extends AbstractLinkElement implements Serializabl
 	private static final long serialVersionUID = 1L;
 	private Hierarchy hierarchy;
 	private int classIndex;
+	private int groupIndex;
 	
-	public HierarchyElement(Hierarchy hierarchy, int classIndex) {
+	public HierarchyElement(Hierarchy hierarchy, int classIndex, int groupIndex) {
 		super();
 		this.hierarchy = hierarchy;
 		this.classIndex = classIndex;
+		this.groupIndex = groupIndex;
 	}
 
 
@@ -34,6 +36,16 @@ public class HierarchyElement extends AbstractLinkElement implements Serializabl
 
 	public void setClassIndex(int classIndex) {
 		this.classIndex = classIndex;
+	}
+
+
+	public int getGroupIndex() {
+		return groupIndex;
+	}
+
+
+	public void setGroupIndex(int groupIndex) {
+		this.groupIndex = groupIndex;
 	}
 	
 	

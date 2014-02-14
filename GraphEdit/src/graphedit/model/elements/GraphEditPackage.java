@@ -130,12 +130,10 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					int groupIndex = ((ElementsGroup) visibleClass.getVisibleElementList().get(UIClassElement.STANDARD_PANEL_PROPERTIES)).getVisibleElementList().indexOf(zoom);
 					NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex,zoom.getLabel(),"1..1",zoom);
 					thisElement.getZoomMap().put(c2, zoomElement);
-					System.out.println(classIndex);
 					Next next = zoom.getTargetPanel().getLinkedClass(zoom);
 					UIClassElement targetElement2 = classes.get(visibleClass);
 					UIClassElement thisElement2 = classes.get(zoom.getTargetPanel());
 					classIndex = zoom.getTargetPanel().getVisibleElementList().indexOf(next);
-					System.out.println(classIndex);
 					groupIndex = ((ElementsGroup) zoom.getTargetPanel().getVisibleElementList().get(UIClassElement.STANDARD_PANEL_OPERATIONS)).getVisibleElementList().indexOf(next);
 					NextZoomElement nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex,next.getLabel(),"*",next);
 					thisElement2.getNextMap().put(c1, nextElement);
@@ -179,8 +177,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					c2.setRepresentedElement(thisElement);
 					c1.setRepresentedElement(targetElement);
 
+					
+					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(1);
 					int classIndex = visibleClass.getVisibleElementList().indexOf(hierarchy);
-					thisElement.getHierarchyStructure().addHierarchy(hierarchy, classIndex, c1);
+					int groupIndex = gr.getVisibleElementList().indexOf(hierarchy);
+					thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
 
 
 					ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();

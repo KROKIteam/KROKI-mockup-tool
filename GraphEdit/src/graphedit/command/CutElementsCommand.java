@@ -39,11 +39,12 @@ public class CutElementsCommand extends Command {
 	private List<GraphEditPackage> packages;
 	private Command deletePackages;
 	private UmlPackage umlPackage;
-	private List<AbstractLinkElement> sourceList = new ArrayList<AbstractLinkElement>(), destinationList = new ArrayList<AbstractLinkElement>();
 
 	private Map<Shortcut, GraphElement> replacements = new HashMap<Shortcut, GraphElement>();
 	private List<Shortcut> unlinked = new ArrayList<Shortcut>();
 	private Map<Connector, Point2D> oldPositions = new HashMap<Connector, Point2D>();
+
+	private List<CutLinkCommand> cutLinkCommands;
 
 
 	/*
@@ -53,6 +54,8 @@ public class CutElementsCommand extends Command {
 		packages = new ArrayList<GraphEditPackage>();
 		this.elementPainters = new ArrayList<ElementPainter>();
 		this.elements = new ArrayList<GraphElement>();
+		cutLinkCommands = new ArrayList<CutLinkCommand>();
+
 		for (GraphElement element : elements){
 			if (element instanceof Package)
 				packages.add( ((Package)element).getHierarchyPackage());
@@ -65,17 +68,10 @@ public class CutElementsCommand extends Command {
 		this.view = view;
 		this.elements = new ArrayList<GraphElement>(elements);
 		this.elementPainters = new ArrayList<ElementPainter>(elementPainters);
-		this.links = model.getAssociatedLinks(elements);
-		this.linkPainters = view.getLinkPainters(links);
+		this.links = new ArrayList<Link>();
+
 		deletePackages = new DeletePackagesCommand(packages, view);
 		umlPackage = model.getParentPackage().getUmlPackage();
-
-		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE && links!=null)
-			for (Link link : links){
-				sourceList.add(((UIClassElement)link.getSourceConnector().getRepresentedElement()).getCurrentElement(link.getSourceConnector()));
-				destinationList.add(((UIClassElement)link.getDestinationConnector().getRepresentedElement()).getCurrentElement(link.getDestinationConnector()));
-			}
-
 
 		for (GraphElement el : elements){
 			if (el instanceof Shortcut){
@@ -86,6 +82,35 @@ public class CutElementsCommand extends Command {
 					replacements.put(s, getReplacementElement(s));
 			}
 		}
+		
+		
+		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE && links!=null)
+			for (Link link : model.getAssociatedLinks(elements)){
+
+				boolean unlink = true;
+				GraphElement source = model.getElementByConnector().get(link.getSourceConnector());
+				GraphElement destination = model.getElementByConnector().get(link.getDestinationConnector());
+
+				
+				//brisemo ako se brise element 
+				if (!(source instanceof Shortcut) && elements.contains(source) ||
+						!(destination instanceof Shortcut) && elements.contains(destination))
+						unlink = true;
+				else if (source instanceof Shortcut || destination instanceof Shortcut)
+					unlink = unlinked.contains(source) || unlinked.contains(destination)
+					|| (elements.contains(source) && elements.contains(destination));
+
+				
+				if (unlink){
+					cutLinkCommands.add(new CutLinkCommand(view, link));
+				}
+				else{
+					links.add(link);
+					
+				}
+			}
+		this.linkPainters = view.getLinkPainters(links);
+
 
 	}
 
@@ -93,159 +118,128 @@ public class CutElementsCommand extends Command {
 	@Override
 	public void execute() {
 		model.removeDiagramElements(elements);
-		//model.removeLinks(links);
-
-		/* update mappings - connector - element */
-		removedMappings = model.removeFromElementByConnectorStructure(links);
-
 		view.removeElementPainters(elementPainters);
-		//	view.removeLinkPainters(linkPainters);
 		view.getSelectionModel().removeAllSelectedElements();
 		deletePackages.execute();
+		
+		removedMappings = model.removeFromElementByConnectorStructure(links);
 
 
+		
+		for (Connector conn : removedMappings.keySet()){
+			LinkableElement element = (LinkableElement) removedMappings.get(conn);
+			element.getConnectors().add(conn);
+		}
+		model.addToElementByConnectorStructure(removedMappings);
 
-		boolean unlink;
 		for (Link link : links){
 
-			unlink = true;
 			GraphElement source = removedMappings.get(link.getSourceConnector());
 			GraphElement destination = removedMappings.get(link.getDestinationConnector());
-			
-			if (source instanceof Shortcut || destination instanceof Shortcut)
-				unlink = unlinked.contains(source) || unlinked.contains(destination)
-					|| (elements.contains(source) && elements.contains(destination));
-			
+
+
 			if (source instanceof Shortcut){
-				if (!unlink){
-					LinkableElement replacement = (LinkableElement) replacements.get(source);
-					replacement.addConnectors(link.getSourceConnector());
-					Point2D oldPosition = new Point2D.Double(((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
-							((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getY());
+				LinkableElement replacement = (LinkableElement) replacements.get(source);
+				replacement.addConnectors(link.getSourceConnector());
+				Point2D oldPosition = new Point2D.Double(((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
+						((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getY());
 
-					oldPositions.put(link.getSourceConnector(), oldPosition);
-					Point2D newPosition = new Point2D.Double(((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getX(),
-							((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getY());
-					link.getSourceConnector().setProperty(LinkNodeProperties.POSITION, newPosition);
-					model.insertIntoElementByConnectorStructure(link.getSourceConnector(), replacement);
-				}
-			}
+				oldPositions.put(link.getSourceConnector(), oldPosition);
+				Point2D newPosition = new Point2D.Double(((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getX(),
+						((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getY());
+				link.getSourceConnector().setProperty(LinkNodeProperties.POSITION, newPosition);
 			
+				
+				model.insertIntoElementByConnectorStructure(link.getSourceConnector(), replacement);
+				link.getSourceConnector().setRelativePositions(newPosition);
+				link.getSourceConnector().setPercents(newPosition);
+			}
+
 			if (destination instanceof Shortcut){
-				if (!unlink){
-					LinkableElement replacement = (LinkableElement) replacements.get(destination);
-					replacement.addConnectors(link.getDestinationConnector());
-					Point2D oldPosition = new Point2D.Double(((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
-							((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getY());
+				LinkableElement replacement = (LinkableElement) replacements.get(destination);
+				replacement.addConnectors(link.getDestinationConnector());
+				Point2D oldPosition = new Point2D.Double(((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
+						((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getY());
 
-					oldPositions.put(link.getDestinationConnector(), oldPosition);
-					Point2D newPosition = new Point2D.Double(((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getX(),
-							((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getY());
-					link.getDestinationConnector().setProperty(LinkNodeProperties.POSITION, newPosition);
-					model.insertIntoElementByConnectorStructure(link.getDestinationConnector(), replacement);
-				}
+				oldPositions.put(link.getDestinationConnector(), oldPosition);
+				
+				Point2D newPosition = new Point2D.Double(((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getX(),
+						((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getY());
+				link.getDestinationConnector().setProperty(LinkNodeProperties.POSITION, newPosition);
+				
+				
+				model.insertIntoElementByConnectorStructure(link.getDestinationConnector(), replacement);
+				link.getDestinationConnector().setRelativePositions(newPosition);
+				link.getDestinationConnector().setPercents(newPosition);
 			}
-			
-			if (unlink){
+		}
+		for (CutLinkCommand cutLink : cutLinkCommands)
+			cutLink.execute();
 
-				model.removeLink(link);
-				view.removeLinkPainters(view.getLinkPainter(link));
+		for (GraphElement element : elements){
+			GraphElement nonShortcut = element;
+			if (element instanceof Shortcut)
+				nonShortcut = ((Shortcut)element).shortcutTo();
 
-				GraphEditElement sourceElement = link.getSourceConnector().getRepresentedElement();
-				GraphEditElement destinationElement = link.getDestinationConnector().getRepresentedElement();
-				sourceElement.unlink(link);
-				destinationElement.unlink(link);
-
-				for (GraphElement element : elements){
-					GraphElement nonShortcut = element;
-					if (element instanceof Shortcut)
-						nonShortcut = ((Shortcut)element).shortcutTo();
-
-					GraphEditElement gElement = nonShortcut.getRepresentedElement();
-					umlPackage.removeOwnedType(((ClassElement)gElement).getUmlType());
-
-				}
-			}
+			GraphEditElement gElement = nonShortcut.getRepresentedElement();
+			umlPackage.removeOwnedType(((ClassElement)gElement).getUmlType());
 
 		}
 	}
+
 	@Override
 	public void undo() {
 		model.addDiagramElements(elements);
 		model.addLinks(links);
-		model.addToElementByConnectorStructure(removedMappings);
-		//model.updateHashStructure(elements);
 
 		view.addElementPainters(elementPainters);
-		view.addLinkPainters(linkPainters);
-
+		model.addToElementByConnectorStructure(removedMappings);
 		view.getSelectionModel().addSelectedElements(elements);
 		deletePackages.undo();
 
-		Link link;
-		boolean unlink;
 
-		for (int i=0; i<links.size();i++){
-			link = links.get(i);
-
-			unlink = true;
+		for (Link link : links){
+			
 			GraphElement source = removedMappings.get(link.getSourceConnector());
 			GraphElement destination = removedMappings.get(link.getDestinationConnector());
-			if (source instanceof Shortcut || destination instanceof Shortcut)
-				unlink = unlinked.contains(source) || unlinked.contains(destination)
-					|| (elements.contains(source) && elements.contains(destination));
 
-			
-			
 			if (source instanceof Shortcut){
 
-				if (!unlink){
-
-					//nije unlinkovano, samo je premesteno
-					LinkableElement replacement = (LinkableElement) replacements.get(source);
-					replacement.removeConnectors(link.getSourceConnector());
-					((LinkableElement)source).addConnectors(link.getSourceConnector());
-					link.getSourceConnector().setProperty(LinkNodeProperties.POSITION, oldPositions.get(link.getSourceConnector()));
-					model.insertIntoElementByConnectorStructure(link.getSourceConnector(), source);
-				}
+				//nije unlinkovano, samo je premesteno
+				LinkableElement replacement = (LinkableElement) replacements.get(source);
+				replacement.removeConnectors(link.getSourceConnector());
+				((LinkableElement)source).addConnectors(link.getSourceConnector());
+				link.getSourceConnector().setProperty(LinkNodeProperties.POSITION, oldPositions.get(link.getSourceConnector()));
+				model.insertIntoElementByConnectorStructure(link.getSourceConnector(), source);
 			}
 
 			if (destination instanceof Shortcut){
 
-				if (!unlink){
 
-					//nije unlinkovano, samo je premesteno
-					LinkableElement replacement = (LinkableElement) replacements.get(destination);
-					replacement.removeConnectors(link.getDestinationConnector());
-					((LinkableElement)destination).addConnectors(link.getDestinationConnector());
-					link.getDestinationConnector().setProperty(LinkNodeProperties.POSITION, oldPositions.get(link.getDestinationConnector()));
-					model.insertIntoElementByConnectorStructure(link.getDestinationConnector(), source);
-				}
+				//nije unlinkovano, samo je premesteno
+				LinkableElement replacement = (LinkableElement) replacements.get(destination);
+				replacement.removeConnectors(link.getDestinationConnector());
+				((LinkableElement)destination).addConnectors(link.getDestinationConnector());
+				link.getDestinationConnector().setProperty(LinkNodeProperties.POSITION, oldPositions.get(link.getDestinationConnector()));
+				model.insertIntoElementByConnectorStructure(link.getDestinationConnector(), source);
 			}
+		}
 
-			if (unlink){
-				GraphEditElement sourceElement = link.getSourceConnector().getRepresentedElement();
-				GraphEditElement destinationElement = link.getDestinationConnector().getRepresentedElement();
-				//sourceElement.link(link);
-				//destinationElement.link(link);
-				if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
-					sourceElement.setOldLink(link, sourceList.get(i));
-					destinationElement.setOldLink(link, destinationList.get(i));
-				}
-				for (GraphElement element : elements){
-					GraphElement nonShortcut = element;
-					if (element instanceof Shortcut)
-						nonShortcut = ((Shortcut)element).shortcutTo();
+		for (CutLinkCommand cutLink : cutLinkCommands)
+			cutLink.undo();
 
-					GraphEditElement gElement = nonShortcut.getRepresentedElement();
-					umlPackage.addOwnedType(((ClassElement)gElement).getUmlType());
+		for (GraphElement element : elements){
+			GraphElement nonShortcut = element;
+			if (element instanceof Shortcut)
+				nonShortcut = ((Shortcut)element).shortcutTo();
 
-				}
-			}
-
+			GraphEditElement gElement = nonShortcut.getRepresentedElement();
+			umlPackage.addOwnedType(((ClassElement)gElement).getUmlType());
 
 		}
 	}
+
+
 
 
 	private boolean unlinkAfterDeletingShortcut(Shortcut shortcut){

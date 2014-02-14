@@ -161,7 +161,7 @@ public class ParentChild extends ContainerPanel {
 		List<VisibleClass> standardPanels = possibleTargetStandardPanels();
 		ret.addAll(standardPanels);
 
-		//add parent child panels that contain found standard panelss
+		//add parent child panels that contain found standard panels
 
 		ret.addAll(allParentChildPanelsContainingPanels(standardPanels));
 		return ret;

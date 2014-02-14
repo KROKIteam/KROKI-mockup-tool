@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 import kroki.profil.panel.StandardPanel;
+import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 
 public class LinkState extends State {
@@ -82,7 +83,6 @@ public class LinkState extends State {
 
 
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getKeyCode()== KeyEvent.VK_ESCAPE){
 			view.clearLinkLines();
 			firstPoint=null;
@@ -264,9 +264,18 @@ public class LinkState extends State {
 			if (destinationElement instanceof Shortcut)
 				destinationElement = (LinkableElement) ((Shortcut)destinationElement).shortcutTo();
 			
-			if ((((ClassElement)sourceElement.getRepresentedElement()).getUmlType() instanceof StandardPanel) &&
-			(((ClassElement)destinationElement.getRepresentedElement()).getUmlType() instanceof ParentChild))
-			return false;
+			VisibleClass sourceUml = (VisibleClass) ((ClassElement)sourceElement.getRepresentedElement()).getUmlType();
+			VisibleClass destinationUml = (VisibleClass) ((ClassElement)destinationElement.getRepresentedElement()).getUmlType();
+			
+			if (sourceUml instanceof StandardPanel && destinationUml instanceof ParentChild)
+				return false;
+			
+			if (sourceUml instanceof ParentChild){
+				//proveri da li moze destination da bude target za hijerarhiju
+				if (((ParentChild)sourceUml).getHierarchyCount() == 0)
+					return sourceUml != destinationUml;
+				return ((ParentChild)sourceUml).getAllPosibleTargetPanels().contains(destinationUml);
+			}
 			
 		}
 		if (linkType==LinkType.DEPENDENCY || linkType==LinkType.ASSOCIATION)

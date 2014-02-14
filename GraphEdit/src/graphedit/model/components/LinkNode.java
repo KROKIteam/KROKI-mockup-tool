@@ -2,6 +2,7 @@ package graphedit.model.components;
 
 import graphedit.model.properties.Properties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
+
 import java.awt.geom.Point2D;
 
 public class LinkNode extends GraphElement{
@@ -24,6 +25,11 @@ public class LinkNode extends GraphElement{
 	
 	public void setProperty(LinkNodeProperties key, Object value) {
 		properties.set(key, value);
+	}
+	
+	@Override
+	public String toString() {
+		return  properties.get(LinkNodeProperties.POSITION).toString();
 	}
 
 }

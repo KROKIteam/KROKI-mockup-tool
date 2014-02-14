@@ -44,7 +44,7 @@ import kroki.uml_core_basic.UmlType;
 public class UIClassElement extends ClassElement{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private VisibleClass visibleClass;
 
 	public static final int STANDARD_PANEL_PROPERTIES = 1;
@@ -61,7 +61,8 @@ public class UIClassElement extends ClassElement{
 
 	private HashMap<Connector, NextZoomElement> zoomMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, NextZoomElement> nextMap  = new HashMap<Connector, NextZoomElement>();
-	private HierarchyStructure hierarchyStructure = new HierarchyStructure();
+	private HashMap<Connector, HierarchyElement> hierarchyMap = new HashMap<Connector, HierarchyElement>();
+
 
 	private enum LinkEnd {ZOOM, NEXT};
 
@@ -153,7 +154,7 @@ public class UIClassElement extends ClassElement{
 			element.setProperty(GraphElementProperties.STEREOTYPE,ClassStereotypeUI.STANDARD_PANEL.toString());
 		else
 			element.setProperty(GraphElementProperties.STEREOTYPE, ClassStereotypeUI.PARENT_CHILD.toString());
-		
+
 		for (VisibleElement type : visibleClass.getVisibleElementList()){
 			if (type instanceof Zoom || type instanceof Next )
 				continue;
@@ -173,7 +174,7 @@ public class UIClassElement extends ClassElement{
 		}
 	}
 
-	
+
 
 	public void addAttribute(Attribute attribute, int ... args) {
 		int classIndex = args[0];
@@ -450,29 +451,43 @@ public class UIClassElement extends ClassElement{
 		gr.addVisibleElement(zoom.getGroupIndex(), zoom.getVisibleElement());
 		zoomMap.put(connector, zoom);
 	}
-	
+
 	public void addHierarchyElement(Connector connector, HierarchyElement hierarchyElement){
 		int level = hierarchyElement.getHierarchy().getLevel();
-		hierarchyStructure.addHierarchy(hierarchyElement, connector);
+		hierarchyMap.put(connector, hierarchyElement);
 		visibleClass.addVisibleElement(hierarchyElement.getHierarchy());
 		hierarchyElement.getHierarchy().getParentGroup().addVisibleElement(hierarchyElement.getHierarchy());
 		hierarchyElement.getHierarchy().setLevel(level);
 	}
-	
+
 
 	public void addHierarchyElement(Hierarchy hierarchy, VisibleClass targetPanel, Connector connector){
 		hierarchy.setActivationPanel(visibleClass);
-		hierarchy.setTargetPanel(targetPanel);
-		hierarchy.setLevel(hierarchyStructure.getCurrentLevel());
-		Hierarchy parent = hierarchyStructure.getCurrentHierarchyParent();
-		hierarchy.setHierarchyParent(parent);
 		visibleClass.addVisibleElement(hierarchy);
-		hierarchyStructure.addHierarchy(hierarchy,visibleClass.getVisibleElementNum()-1, connector);
+		hierarchy.setTargetPanel(targetPanel);
+
+
+		if (!(targetPanel instanceof ParentChild)){
+			List<Hierarchy> possibleParents = ((ParentChild)visibleClass).possibleParents(hierarchy, hierarchy.getLevel());
+			if (possibleParents != null && possibleParents.size() == 1){
+				hierarchy.setHierarchyParent(possibleParents.get(0));
+				hierarchy.setLevel(possibleParents.get(0).getLevel() + 1);
+				List<VisibleAssociationEnd> possibleEnds = ((ParentChild)visibleClass).possibleAssociationEnds(hierarchy);
+				if (possibleEnds != null && possibleEnds.size() == 1)
+					hierarchy.setViaAssociationEnd(possibleEnds.get(0));
+			}
+		}
+
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
+		gr.addVisibleElement(hierarchy);
+		hierarchyMap.put(connector, new HierarchyElement(hierarchy, visibleClass.getVisibleElementNum()-1, gr.getVisibleElementsNum() -1));
+		
 		hierarchy.setParentGroup(gr);
 
+
+		gr.update();
+		visibleClass.update();
 		hierarchy.forceUpdateComponent();
-		gr.addVisibleElement(hierarchy);
 	}
 
 
@@ -538,6 +553,7 @@ public class UIClassElement extends ClassElement{
 		else{
 			//ako je ovo ParentChild koji sadrzi drugi, dodaj
 			if (navigable){
+				System.out.println(getUmlType().name());
 				Hierarchy hierarchy = new Hierarchy();
 				addHierarchyElement(hierarchy, (VisibleClass) otherElement.getUmlType(), connector);
 				int level = hierarchy.getLevel();
@@ -575,12 +591,12 @@ public class UIClassElement extends ClassElement{
 			return nextMap.get(connector);
 		else if (zoomMap.containsKey(connector))
 			return zoomMap.get(connector);
-		return hierarchyStructure.getHierarchy(connector);
+		return hierarchyMap.get(connector);
 	}
 
 	private void changeCardinality(Link link, String newCardinality){
 		UIClassElement otherElement = null;
-		
+
 		Connector connector;
 		LinkProperties property = LinkProperties.DESTINATION_ROLE;
 		if (this == link.getSourceConnector().getRepresentedElement()){
@@ -596,7 +612,7 @@ public class UIClassElement extends ClassElement{
 		LinkType linkType = getLinkType((UmlClass) otherElement.getUmlType());
 		if (linkType == LinkType.HIERARCHY)
 			return;
-		
+
 		LinkEnd currenLinkEnd = LinkEnd.ZOOM;
 		NextZoomElement nextZoom = zoomMap.get(connector);
 		if (nextZoom == null){
@@ -662,7 +678,6 @@ public class UIClassElement extends ClassElement{
 
 	@Override
 	public void setOldLink(Link link, Object...args){
-
 		if (args[0] == null)
 			return;
 		boolean navigable;
@@ -687,9 +702,9 @@ public class UIClassElement extends ClassElement{
 		}
 		if (!navigable)
 			return;
-	
+
 		LinkType linkType = getLinkType((UmlClass) otherElement.getUmlType());
-		
+
 		if (linkType == LinkType.NEXT_ZOOM){
 			NextZoomElement nextZoomElement = (NextZoomElement) args[0];
 			if (nextZoomElement == null)
@@ -718,7 +733,6 @@ public class UIClassElement extends ClassElement{
 					nextMap.remove(connector);
 
 				}
-				System.out.println(nextZoomElement.getClassIndex());
 				if (linkEnd == LinkEnd.NEXT)
 					addNextElement(nextZoomElement, connector);
 				else
@@ -755,7 +769,7 @@ public class UIClassElement extends ClassElement{
 
 		if (!navigable)
 			return;
-		
+
 		//proveri da li je standardni ili parent-child panel
 		LinkType linkType;
 		if (umlClass instanceof ParentChild || otherElement.getUmlType() instanceof ParentChild)
@@ -765,21 +779,18 @@ public class UIClassElement extends ClassElement{
 
 		if (linkType == LinkType.HIERARCHY){
 			if (navigable){
-				HierarchyElement h = hierarchyStructure.getHierarchy(connector);
+				HierarchyElement h = hierarchyMap.get(connector);
 				if (h == null)
 					return;
-				hierarchyStructure.removeHierarchy(h, connector);
+				hierarchyMap.remove(connector);
 				visibleClass.removeVisibleElement(h.getHierarchy());
 				h.getHierarchy().getParentGroup().removeVisibleElement(h.getHierarchy());
 			}
 		}
 		else{
 			if (this == link.getSourceConnector().getRepresentedElement()){
-				System.out.println("sadrzi" + nextMap.containsKey(link.getSourceConnector()));
 				NextZoomElement next = nextMap.get(link.getSourceConnector());
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-				System.out.println(next);
-				System.out.println(next.getClassIndex());
 				gr.removeVisibleElement(visibleClass.getVisibleElementAt(next.getClassIndex()));
 				visibleClass.removeVisibleElement(next.getClassIndex());
 				nextMap.remove(link.getSourceConnector());
@@ -847,7 +858,7 @@ public class UIClassElement extends ClassElement{
 		visibleClass = (VisibleClass) oldClass;
 		umlPackage.addOwnedType(umlClass);
 	}
-	
+
 	private LinkType getLinkType(UmlClass otherClass){
 		//proveri da li je standardni ili parent-child panel
 		if (umlClass instanceof ParentChild ||otherClass instanceof ParentChild)
@@ -864,8 +875,8 @@ public class UIClassElement extends ClassElement{
 		return nextMap;
 	}
 
-	public HierarchyStructure getHierarchyStructure() {
-		return hierarchyStructure;
+	public HashMap<Connector, HierarchyElement> getHierarchyMap() {
+		return hierarchyMap;
 	}
 
 	@Override
@@ -876,7 +887,7 @@ public class UIClassElement extends ClassElement{
 	@Override
 	public void setUmlElement(UmlNamedElement umlElement) {
 		setOldClass((VisibleClass)umlElement);
-		
+
 	}
 
 	@Override
@@ -884,7 +895,7 @@ public class UIClassElement extends ClassElement{
 		visibleClass.setName(newName);
 		umlClass.setName(newName);
 		visibleClass.setLabel(NameTransformUtil.transformClassName(newName));
-		
+
 	}
 
 	@Override
@@ -892,6 +903,6 @@ public class UIClassElement extends ClassElement{
 		VisibleOperation operation = (VisibleOperation) method.getUmlOperation();
 		operation.setLabel(NameTransformUtil.transformClassName(newName));
 	}
-		
+
 
 }
