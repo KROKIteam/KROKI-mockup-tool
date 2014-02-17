@@ -28,18 +28,18 @@ import java.util.List;
  * This class is the graphical represent of all <code>Class</code> instances.
  */
 public class ClassPainter extends ElementPainter {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Class shortcutTo;
-	
+
 	public ClassPainter(GraphElement element) {
 		super(element);
 		font = new Font("Sans-serif", Font.PLAIN, 12);
-		
+
 		fillColor1 = Preferences.getInstance().parseColor(Preferences.CLASS_COLOR_1); 
 		fillColor2 = Preferences.getInstance().parseColor(Preferences.CLASS_COLOR_2);
-		
+
 		if (element instanceof Shortcut)
 			shortcutTo = (Class) ((Shortcut)element).shortcutTo();
 	}
@@ -55,7 +55,7 @@ public class ClassPainter extends ElementPainter {
 		g.draw(shape);
 		drawStrings(g);
 	}
-	
+
 	public void setShape(Graphics2D g) {
 		Dimension2D size = (Dimension2D) element.getProperty(GraphElementProperties.SIZE);
 		double currentWidth = 0, currentHeight = 0;
@@ -69,21 +69,21 @@ public class ClassPainter extends ElementPainter {
 				if ( attributesOrMethodsUpdated  || (currentWidth < optimalWidth || currentHeight < (optimalClassHeight + optimalAttributesHeight + optimalMethodsHeight))) {
 					if (currentWidth > optimalWidth)
 						optimalWidth = currentWidth; 
-					
+
 					if (currentHeight > (optimalClassHeight + optimalAttributesHeight + optimalMethodsHeight))
 						totalHeight = currentHeight;
 					else 
 						totalHeight = optimalClassHeight + optimalAttributesHeight + optimalMethodsHeight;
-					
+
 					totalWidth = optimalWidth;	
-					
-					
+
+
 					updateShape();
 				}
 			} else { 
 				setShape();
 			}
-					
+
 			updated = false;
 		} else {
 			mainRectangleUpperLeftX = shape.getBounds().getMinX();
@@ -106,13 +106,13 @@ public class ClassPainter extends ElementPainter {
 			shortcutInfo = ((Shortcut)element).shortcutInfo();
 			className = "Shortcut to "; 
 		}
-		
+
 		attributes = (List<Attribute>) c.getProperty(GraphElementProperties.ATTRIBUTES);
 		methods = (List<Method>) c.getProperty(GraphElementProperties.METHODS);
-		
-				
+
+
 		className += (String)c.getProperty(GraphElementProperties.NAME);
-		
+
 		g.drawString(className,
 				(int)(mainRectangleUpperLeftX + (totalWidth - fontMetrics.stringWidth(className))/2), 
 				(int)(mainRectangleUpperLeftY + fontMetrics.getHeight()));
@@ -122,15 +122,15 @@ public class ClassPainter extends ElementPainter {
 			g.drawString(stereotype,
 					(int)(mainRectangleUpperLeftX + (totalWidth - fontMetrics.stringWidth(stereotype))/2), 
 					(int)(mainRectangleUpperLeftY + optimalClassHeight - 2	 * treshold));
-		
+
 		if (c instanceof Shortcut)
 			shortcutInfo = ((Shortcut)c).shortcutInfo();
-		
+
 		if (!shortcutInfo.equals(""))
 			g.drawString(shortcutInfo,
 					(int)(mainRectangleUpperLeftX + (totalWidth - fontMetrics.stringWidth(shortcutInfo))/2), 
 					(int)(mainRectangleUpperLeftY + 2*fontMetrics.getHeight() + treshold));
-		
+
 		currentY = mainRectangleUpperLeftY + optimalClassHeight + optimalAttributesHeight - 4 * treshold;
 		//ispisi u obrnutom redosledu
 		Attribute a;
@@ -154,7 +154,7 @@ public class ClassPainter extends ElementPainter {
 					(int)(currentY));
 			currentY -= fontMetrics.getHeight() + treshold;
 		}
-		
+
 		// injects the size, this shall be done only once in painters lifetime
 		if (element.getProperty(GraphElementProperties.SIZE) == null) {
 			element.setProperty(GraphElementProperties.SIZE, new Dimension((int)totalWidth, (int)totalHeight));
@@ -169,12 +169,12 @@ public class ClassPainter extends ElementPainter {
 		}
 		else
 			result = Calculate.getOptimalMeasures((Class)element, g.getFontMetrics(font), false, shortcutInfo);
-		
+
 		optimalWidth = result[0]; 
 		optimalClassHeight = result[1]; 
 		optimalAttributesHeight = result[2]; 
 		optimalMethodsHeight = result[3];
-		
+
 		// set minimum width and height for this particular class
 		minWidth = (int)optimalWidth;
 		minHeight = (int)(optimalClassHeight + optimalAttributesHeight + optimalMethodsHeight);
@@ -194,15 +194,15 @@ public class ClassPainter extends ElementPainter {
 		mainRectangleUpperLeftX = position.getX() - totalWidth/2;
 		mainRectangleUpperLeftY = position.getY() - totalHeight/2;
 		generateGeneralPath();
-		
+
 	}
-	
+
 	/**
 	 * This method should be invoked initially when class is changes, for instance
 	 * attribut name is changed, method added, etc... 
 	 */
 	public void setShape() {
-		
+
 		Point2D position = (Point2D) ((Class)element).getProperty(GraphElementProperties.POSITION);
 		totalWidth = optimalWidth;
 		totalHeight = optimalClassHeight + optimalAttributesHeight + optimalMethodsHeight;
@@ -215,7 +215,7 @@ public class ClassPainter extends ElementPainter {
 	 * forms shape for optimal measures, taking care of its element's connectors positions
 	 */
 	public void updateShape() {
-		
+
 		// take care of connectors' positions
 		if (((LinkableElement)element).getConnectors().size() > 0 && totalWidth > 0 && totalHeight > 0) {
 			Dimension2D currentDimension = (Dimension2D) element.getProperty(GraphElementProperties.SIZE);
@@ -224,7 +224,7 @@ public class ClassPainter extends ElementPainter {
 			element.setProperty(GraphElementProperties.SIZE, new Dimension((int)totalWidth, (int)totalHeight));
 			formShape();
 			((LinkableElement)element).scaleAllConnectors(sx, sy, getShape());
-			
+
 			// temporarily... should be done in command by model.fireUpdate()
 			if (MainFrame.getInstance().getCurrentView() != null) {
 				MainFrame.getInstance().getCurrentView().getModel().fireUpdates();
@@ -234,7 +234,7 @@ public class ClassPainter extends ElementPainter {
 			formShape();
 		}
 	}
-	
+
 	public boolean isUpdated() {
 		return updated;
 	}
@@ -242,7 +242,7 @@ public class ClassPainter extends ElementPainter {
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
 	}
-	
+
 	protected void generateGeneralPath() {
 		GeneralPath path;
 		Shape mainRectangle = new Rectangle2D.Double(mainRectangleUpperLeftX, mainRectangleUpperLeftY, totalWidth,	totalHeight);
@@ -253,19 +253,28 @@ public class ClassPainter extends ElementPainter {
 		path.moveTo(mainRectangleUpperLeftX + optimalWidth, mainRectangleUpperLeftY + optimalClassHeight + optimalAttributesHeight);
 		path.lineTo(mainRectangleUpperLeftX, mainRectangleUpperLeftY + optimalClassHeight + optimalAttributesHeight);
 	}
-	
+
 	protected void setGradientPaint() {
 		paint = new GradientPaint((float) shape.getBounds().getMinX(),
 				(float) shape.getBounds().getMinY(), fillColor1, (float) shape
-						.getBounds().getMaxX(), (float) shape.getBounds()
-						.getMaxY(), fillColor2);
+				.getBounds().getMaxX(), (float) shape.getBounds()
+				.getMaxY(), fillColor2);
 	}
 
+	@Override
+	public void setElement(GraphElement newGraphElement) {
+		this.element = newGraphElement;
+		setShape();
+		if (element.isShadowElement()){
+			fillColor1 = new Color(fillColor1.getRed(), fillColor1.getGreen(), fillColor1.getBlue(), 128);
+			fillColor2 = new Color(fillColor2.getRed(), fillColor2.getGreen(), fillColor2.getBlue(), 128);
+		}
+	}
 	@Override
 	public Dimension2D getMinimumSize() {
 		return new Dimension(minWidth, minHeight);
 	}
-	
+
 	public boolean isAttributesOrMethodsUpdated() {
 		return attributesOrMethodsUpdated;
 	}
@@ -273,7 +282,7 @@ public class ClassPainter extends ElementPainter {
 	public void setAttributesOrMethodsUpdated(boolean attributesOrMethodsUpdated) {
 		this.attributesOrMethodsUpdated = attributesOrMethodsUpdated;
 	}
-	
+
 
 	protected Font font;
 	protected int minWidth, minHeight;

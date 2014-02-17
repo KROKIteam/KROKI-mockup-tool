@@ -1,5 +1,6 @@
 package graphedit.state;
 
+import graphedit.actions.popup.LinkPopupMenu;
 import graphedit.app.MainFrame;
 import graphedit.command.ChangeAssociationPropertiesCommand;
 import graphedit.command.ChangeLinkTypeCommand;
@@ -16,22 +17,52 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.view.AggregationLinkPainter;
 import graphedit.view.AssociationLinkPainter;
 import graphedit.view.CompositionLinkPainter;
+import graphedit.view.ElementPainter;
 import graphedit.view.LinkPainter;
 
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.SwingUtilities;
 
 
 public class SelectionState extends State {
 
+	private Point2D popupPoint;
+	
+	
 	public SelectionState() { 
 		super();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		GraphElement hitElement = controller.getCurrentElement();
+		Link hitLink = controller.getCurrentLink();
+		LinkNode hitNode=controller.getCurrentLinkNode();
+
+		if (SwingUtilities.isRightMouseButton(e)){
+			view.getSelectionModel().removeAllSelectedElements();
+			if (hitElement != null) {
+				view.getSelectionModel().removeAllSelectedElements();
+				view.getSelectionModel().addSelectedElement(hitElement);
+				showGraphElementPopup(e);
+			}
+			else if (hitLink != null || hitNode != null){
+				showLinkElementPopup(e);
+			}
+			else
+				showGraphElementPopup(e);
+			
+			view.repaint();
+		}
+		
+
 	}
 
 	@Override
@@ -70,20 +101,33 @@ public class SelectionState extends State {
 					hitNode=view.getSelectedLinkNode(hitLink, e.getPoint()); //kako bi pomeranje moglo odmah poctu u slucaju da se kliknulo direktno na konektor
 					view.getSelectionModel().setSelectedNode(hitNode);
 				} else {
-					// added on 19.12.2011. 
 					if (!e.isControlDown()) 
 						view.getSelectionModel().removeAllSelectedElements();
 				}
 			}
-		} else if (SwingUtilities.isRightMouseButton(e)) {
-
-			view.getSelectionModel().removeAllSelectedElements();
-			if (hitElement != null) {
-				view.getSelectionModel().removeAllSelectedElements();
+		} 
+		else if (SwingUtilities.isRightMouseButton(e)){
+			if (hitElement != null){
+				view.getSelectionModel().setSelectedLink(null);
 				view.getSelectionModel().addSelectedElement(hitElement);
 			}
-			showGraphElementPopup(e);
-
+			else if (hitNode != null){
+				view.getSelectionModel().setSelectedNode(hitNode);
+			}
+			else if (hitLink != null){
+				
+				view.getSelectionModel().removeAllSelectedElements();
+				view.getSelectionModel().setSelectedLink(hitLink);
+				hitNode=view.getSelectedLinkNode(hitLink, e.getPoint());
+				view.getSelectionModel().setSelectedNode(hitNode);
+			}
+			else{
+				view.getSelectionModel().removeAllSelectedElements();
+				view.getSelectionModel().setSelectedNode(null);
+				view.getSelectionModel().setSelectedNode(null);
+			}
+		
+			
 		}
 		// azuriraj promene
 		view.repaint();
@@ -92,9 +136,10 @@ public class SelectionState extends State {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		GraphElement hitElement = controller.getCurrentElement();
+		Link hitLink = controller.getCurrentLink();
 		LinkNode hitNode=view.getSelectionModel().getSelectedNode();
 		if (SwingUtilities.isLeftMouseButton(e)) {
-			if (hitNode!=null){ 
+			if (hitNode!=null || (hitLink != null && hitElement == null)){ 
 				//predji u move state
 				State state = MainFrame.getInstance().getCurrentView().getModel().getMoveElementState();
 				state.setView(view);
@@ -117,6 +162,8 @@ public class SelectionState extends State {
 						state.setView(view);
 						state.setController(controller);
 						state.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+						((MoveElementState)state).setElements(view.getSelectionModel().getSelectedElements());
+						((MoveElementState)state).setRightMove(false);
 						MainFrame.getInstance().setStatusTrack(state.toString());
 						controller.setCurrentState(state);
 					}else{
@@ -131,12 +178,6 @@ public class SelectionState extends State {
 					}
 				}
 			}
-
-			/*
-			else if (pogodjenKruzic) {
-				predji u RotateState
-			}
-			 */
 			else {
 				State state = MainFrame.getInstance().getCurrentView().getModel().getLassoSelectionState();
 				state.setView(view); 
@@ -145,7 +186,39 @@ public class SelectionState extends State {
 				MainFrame.getInstance().setStatusTrack(state.toString());
 				controller.setCurrentState(state);
 			}
-		} else {
+		} else if (SwingUtilities.isRightMouseButton(e) && hitElement != null) {
+			if(view.getCursor().getName().equals(Cursor.getDefaultCursor().getName())){
+				// predji u MoveState
+				State state = MainFrame.getInstance().getCurrentView().getModel().getMoveElementState();
+				state.mousePressed(e);
+				state.setView(view);
+				state.setController(controller);
+				state.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+				List<GraphElement> shadowElements = new ArrayList<GraphElement>();
+				List<ElementPainter> shadowPainters = new ArrayList<ElementPainter>();
+				for (GraphElement element : view.getSelectionModel().getSelectedElements()){
+					try {
+						GraphElement clone = (GraphElement) element.clone();
+						clone.setShadowElement(true);
+						ElementPainter clonePainter = (ElementPainter)view.getElementPainter(element).clone();
+						clonePainter.setElement(clone);
+						shadowElements.add(clone);
+						shadowPainters.add(clonePainter);
+
+					} catch (CloneNotSupportedException e1) {
+						e1.printStackTrace();
+					}
+
+				}
+				view.setShadowPainters(shadowPainters);
+				((MoveElementState)state).setElements(shadowElements);
+				((MoveElementState)state).setRightMove(true);
+				MainFrame.getInstance().setStatusTrack(state.toString());
+				controller.setCurrentState(state);
+			}
+		}
+
+		else{
 			if (hitElement != null) {
 				if (view.getSelectionModel().getSelectedElements().contains(hitElement)) {
 					// kopiraj element
@@ -230,27 +303,6 @@ public class SelectionState extends State {
 		}
 	}
 
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e) {
-		// tockic je pomeren na gore
-		if (e.getWheelRotation() < 0) {
-			if (e.isControlDown()) {
-				// zoom in nad kanvasom
-			} else if (e.isShiftDown()) {
-				// horizontalno skrolovanje na levo
-			} else {
-				// vertikalno skrolovanje na gore
-			}
-		} else {
-			if (e.isControlDown()) {
-				// zoom out nad kanvasom
-			} else if (e.isShiftDown()) {
-				// horizontalno skrolovanje na desno
-			} else {
-				// vertikalno skrolovanje na dole
-			}
-		}
-	}
 
 	@Override
 	public void mouseClicked (MouseEvent e) {
@@ -313,6 +365,13 @@ public class SelectionState extends State {
 		MainFrame.getInstance().getViewPopupMenu().show(e.getComponent(), e.getX(), e.getY());
 	}
 
+	public void showLinkElementPopup(MouseEvent e) {
+		LinkPopupMenu popup = MainFrame.getInstance().getLinkPopupMenu();
+		popup.preparePopup();
+		popup.setActionPoint(e.getPoint());
+		popup.show(e.getComponent(), e.getX(), e.getY());
+	}
+
 	@Override
 	public boolean isAutoScrollOnDragEnabled() {
 		return false;
@@ -321,5 +380,13 @@ public class SelectionState extends State {
 	@Override
 	public boolean isAutoScrollOnMoveEnabled() {
 		return false;
+	}
+
+	public Point2D getPopupPoint() {
+		return popupPoint;
+	}
+
+	public void setPopupPoint(Point2D popupPoint) {
+		this.popupPoint = popupPoint;
 	}
 }

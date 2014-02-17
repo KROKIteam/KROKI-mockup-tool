@@ -1,6 +1,7 @@
 package graphedit.view;
 
 import graphedit.model.components.GraphElement;
+import graphedit.model.components.Link;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.Preferences;
@@ -26,11 +27,11 @@ abstract class GraphEditViewPanel extends JPanel{
 	protected int metrics;
 	protected boolean rulerActive;
 	protected boolean gridActive;
-	
+
 	protected GraphEditModel model;	
-	
+
 	protected abstract void paintOurView(Graphics g, boolean includeTransform);
-	
+
 	public void paintToMyGraphics(Graphics g){
 		if(g==null) return;
 		//Graphics2D g2 = (Graphics2D)g;
@@ -41,11 +42,11 @@ abstract class GraphEditViewPanel extends JPanel{
 		super.paintComponents(g);
 		paintOurView(g, true);
 	}
-	
+
 	protected void transformFromUserSpace(Point2D userSpace) {
 		transformation.transform(userSpace, userSpace);
 	}
-	
+
 	protected void transformToUserSpace(Point2D deviceSpace) {
 		try {
 			transformation.inverseTransform(deviceSpace, deviceSpace);
@@ -53,7 +54,7 @@ abstract class GraphEditViewPanel extends JPanel{
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected double limitScaleFactor(double scale) {
 		final double scaleMax = Double.parseDouble(preferences.getProperty(Preferences.MAX_ZOOM)); 
 		final double scaleMin = Double.parseDouble(preferences.getProperty(Preferences.MIN_ZOOM)); 
@@ -63,15 +64,15 @@ abstract class GraphEditViewPanel extends JPanel{
 		}
 		return (scale < scaleMin) ? scaleMin : scale;
 	}
-	
+
 	protected Point2D getCenterPoint() {
 		return new Point2D.Double(getWidth() / 2, getHeight() / 2);
 	}
-	
+
 	public double[] getModelBounds(){
-		return getModelBounds(model.getDiagramElements());
+		return getModelBounds(model.getAllElements());
 	}
-	
+
 	public void bestFitZoom() {
 		double bestFitFactor = Double.parseDouble(Preferences.getInstance().getProperty(Preferences.BESTFIT_FACTOR));
 		double[] modelBounds = getModelBounds();
@@ -92,7 +93,7 @@ abstract class GraphEditViewPanel extends JPanel{
 		transformFromUserSpace(center);
 		zoomToPoint(scale * bestFitFactor, center);
 	}
-	
+
 	protected void zoomToPoint(double scale, Point2D position) {
 		scale = limitScaleFactor(scale);
 
@@ -121,12 +122,21 @@ abstract class GraphEditViewPanel extends JPanel{
 		Dimension2D size;
 
 		for (GraphElement element : elements) {
-			position = (Point2D) element.getProperty(GraphElementProperties.POSITION); 
-			size = (Dimension2D) element.getProperty(GraphElementProperties.SIZE);
-			x1 = position.getX() - size.getWidth() / 2;
-			y1 = position.getY() - size.getHeight() / 2;
-			x2 = position.getX() + size.getWidth() / 2;
-			y2 = position.getY() + size.getHeight() / 2;
+			position = (Point2D) element.getProperty(GraphElementProperties.POSITION);
+			if (element instanceof Link){
+				double[] linkBounds = ((Link)element).getLinkBounds();
+				x1 = linkBounds[0];
+				x2 = linkBounds[1];
+				y1 = linkBounds[2];
+				y2 = linkBounds[3];
+			}
+			else{
+				size = (Dimension2D) element.getProperty(GraphElementProperties.SIZE);
+				x1 = position.getX() - size.getWidth() / 2;
+				y1 = position.getY() - size.getHeight() / 2;
+				x2 = position.getX() + size.getWidth() / 2;
+				y2 = position.getY() + size.getHeight() / 2;
+			}
 			if (x1 < xMin) {
 				xMin = x1;
 			}

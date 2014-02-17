@@ -26,11 +26,13 @@ import graphedit.state.StateFactory;
 import graphedit.state.WaitToBeReleasedState;
 import graphedit.state.ZoomInState;
 import graphedit.state.ZoomOutState;
+import graphedit.util.Calculate;
 import graphedit.view.ClassPainter;
 import graphedit.view.ElementPainter;
 import graphedit.view.LinkPainter;
 import graphedit.view.PackagePainter;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.Serializable;
@@ -49,24 +51,24 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	private static final long serialVersionUID = 1L;
 	private Point2D pointClicked;
 	private Point2D pointReleased;
-	
+
 	private GraphEditPackage parentPackage;
 	private List<Package> containedPackages;
-	
+
 	private File file;
 
 	private transient CommandManager commandManager;	
-	
+
 	protected List<GraphElement> diagramElements;
 	private List<Link> links;
 	private Properties<DiagramProperties> properties;
 	private Map<Connector, GraphElement> elementByConnector;
-	
+
 	//state facotry for this model
 	private transient StateFactory stateFactory;
 
 	private int linkCounter, classCounter, packageCounter;
-	
+
 	public GraphEditModel(String name) {
 		commandManager = new CommandManager();
 		links = new ArrayList<Link>();
@@ -96,7 +98,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		packageCounter = model.getPackageCounter();
 		stateFactory = new StateFactory(this);
 	}
-	
+
 	public void initModel(String name){
 		commandManager = new CommandManager();
 		stateFactory = new StateFactory(this);
@@ -108,7 +110,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
+
 
 	@Override
 	public Object getNodeAt(int index) {
@@ -142,7 +144,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public String toString() {
 		return (String) properties.get(DiagramProperties.NAME);
 	}
-	
+
 
 	/**
 	 * Method removes all of the provided instances from diagram elements.
@@ -158,8 +160,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		}
 		fireUpdates();
 	}
-	
-	
+
+
 	/**
 	 * Method adds all of the provided instances to diagram elements.
 	 * @param elements represent a list of <code>GraphElement</code> instances which are to be added.
@@ -169,7 +171,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		this.diagramElements.addAll(elements);
 		fireUpdates();
 	}
-	
+
 	/**
 	 * Method removes all of the provided instances from links.
 	 * @param links represent a list of <code>Link</code> instances which are to be removed.
@@ -179,7 +181,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		this.links.removeAll(links);
 		fireUpdates();
 	}
-	
+
 	/**
 	 * Method adds all of the provided instances to links.
 	 * @param links represent a list of <code>Link</code> instances which are to be added.
@@ -189,15 +191,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		this.links.addAll(links);
 		fireUpdates();
 	}
-	
-	/**
-	 * Method pastes provided list of <code>GraphElement</code>, taking care of duplicates.
-	 * @param elementPainters represent a list of <code>ElementPainter</code> instances which 
-	 * encapsulate <code>GraphElement</code> instances, which are to be pasted.
-	 * @return a list of <code>GraphElement</code> instances which were successfully pasted.
-	 * @author specijalac
-	 */
-	public List<GraphElement> pasteDiagramElements(List<ElementPainter> elementPainters) {
+
+	public List<GraphElement> pasteDiagramElements(List<ElementPainter> elementPainters, double xDiff, double yDiff) {
 		// here we're using cloned element painter list 
 		List<GraphElement> addedElements = new ArrayList<GraphElement>();
 		List<Package> addedPackages = new ArrayList<Package>();
@@ -214,18 +209,94 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 
 				}
 				Point2D point = (Point2D) clonedElement.getProperty(GraphElementProperties.POSITION);
-				point.setLocation(point.getX() + 20, point.getY() + 20);
+				point.setLocation(point.getX() + xDiff, point.getY() + yDiff);
 				elementPainter.setElement(clonedElement);
+			}
+
+			if (clonedElement instanceof Package)
+				addedPackages.add((Package) clonedElement);
+			else
+				addedElements.add(clonedElement);	 
+		}
+
+
+		diagramElements.addAll(addedElements);
+		containedPackages.addAll(addedPackages);
+		addedElements.addAll(addedPackages);
+
+		return addedElements;
+	}
+
+
+
+	/**
+	 * Method pastes provided list of <code>GraphElement</code>, taking care of duplicates.
+	 * @param elementPainters represent a list of <code>ElementPainter</code> instances which 
+	 * encapsulate <code>GraphElement</code> instances, which are to be pasted.
+	 * @return a list of <code>GraphElement</code> instances which were successfully pasted.
+	 * @author specijalac
+	 */
+	public List<GraphElement> pasteDiagramElements(List<ElementPainter> elementPainters, Point location) {
+		// here we're using cloned element painter list 
+		List<GraphElement> addedElements = new ArrayList<GraphElement>();
+		List<Package> addedPackages = new ArrayList<Package>();
+		GraphElement clonedElement;
+		double minDist = Double.MAX_VALUE;
+		GraphElement minDistElement = null;
+		for (ElementPainter elementPainter : elementPainters) {
+			clonedElement = ((LinkableElement)elementPainter.getElement());
+			if (this.containsElement((String)clonedElement.getProperty(GraphElementProperties.NAME))) {
+				clonedElement.setProperty(GraphElementProperties.NAME, "CopyOf" + clonedElement.getProperty(GraphElementProperties.NAME));
+				if (elementPainter instanceof ClassPainter){
+					((ClassPainter) elementPainter).setUpdated(true);
+				}
+				else{
+					((PackagePainter)elementPainter).setUpdateMeasures(true);
+
+				}
+				Point2D point = (Point2D) clonedElement.getProperty(GraphElementProperties.POSITION);
+				if (location == null){
+					point.setLocation(point.getX() + 20, point.getY() + 20);
+					elementPainter.setElement(clonedElement);
+				}
+				else{
+					//nadji najblizi, stavi ga na tu poziciju, a onda pomeri sve ostale za rastojanje od pomerenog
+					double dist = Calculate.positionDiff(location, point);
+					if (dist < minDist){
+						minDist = dist;
+						minDistElement = clonedElement;
+					}
+				}
+
 			}
 			if (clonedElement instanceof Package)
 				addedPackages.add((Package) clonedElement);
 			else
 				addedElements.add(clonedElement);	 
 		}
+
+		if (location != null){
+			Point2D point = (Point2D) minDistElement.getProperty(GraphElementProperties.POSITION); 
+			Point2D oldLocation = new Point2D.Double(point.getX(),point.getY());
+			for (ElementPainter elementPainter : elementPainters){
+				clonedElement = ((LinkableElement)elementPainter.getElement());
+				point = (Point2D) clonedElement.getProperty(GraphElementProperties.POSITION);
+				if (clonedElement == minDistElement){
+					point.setLocation(location);
+				}
+				else{
+					double xDiff = oldLocation.getX() - point.getX();
+					double yDiff = oldLocation.getY() - point.getY();
+					point.setLocation(location.getX() - xDiff, location.getY() - yDiff);
+
+				}
+				elementPainter.setElement(clonedElement);
+			}
+		}
 		diagramElements.addAll(addedElements);
 		containedPackages.addAll(addedPackages);
 		addedElements.addAll(addedPackages);
-		
+
 		return addedElements;
 	}
 
@@ -271,7 +342,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 				return true;
 		return false;
 	}
-	
+
 	/**
 	 * Method checks whether this diagram contains a link with provided name. 
 	 * @param name represents a unique identifier for <code>Link</code>
@@ -295,7 +366,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		elementByConnector.putAll(map);
 		//printStructure();
 	}
-	
+
 	/**
 	 * Method adds a single entry to the hash structure determined by <code>Connector</code> 
 	 * and <code>GraphElement</code> instances.
@@ -308,7 +379,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			elementByConnector.put(connector, element);
 		//printStructure();
 	}
-	
+
 	/**
 	 * Method retrieves the <code>GraphElement</code> instance determined by the <code>Connector</code>
 	 * instance.
@@ -321,7 +392,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			return elementByConnector.get(connector);
 		return null;
 	}
-	
+
 	/**
 	 * Convenience method for elements removal. Keeps consistency between connectors and elements.
 	 * @param links represents a list of <code>Link</code> instances, which are to be removed
@@ -338,7 +409,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		}
 		return removed;
 	}
-	
+
 	/**
 	 * Convenience method for link removal. Keeps consistency between connectors and elements.
 	 * @param link represents an instance of <code>Link</code> class, which is to be removed
@@ -361,10 +432,10 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		// backup mappings (for undo)
 		removed.put(sourceConnector, sourceElement);
 		removed.put(destinationConnector, destinationElement);
-		
+
 		return removed;
 	}
-	
+
 	/**
 	 * Method returns the list of <code>Link</code> instances contained by the provided 
 	 * <code>GraphElement</code> instances. Makes use in Copy command. 
@@ -379,7 +450,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		for (Link link : links) {
 			if (elements.contains(elementByConnector.get(link.getSourceConnector())) && 
 					elements.contains(elementByConnector.get(link.getDestinationConnector())))
-					result.add(link);
+				result.add(link);
 		}
 		return result;
 	}
@@ -421,7 +492,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Method updates the <code>Connector</code>, <code>GraphElement</code> hash structure
 	 * with respect to provided list of added elements.
@@ -435,7 +506,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			updateHashStructure(element);
 		//printStructure();
 	}
-	
+
 	/**
 	 * Method updates the <code>Connector</code>, <code>GraphElement</code> hash structure
 	 * with respect to provided element.
@@ -447,7 +518,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		for (Connector c : ((LinkableElement)element).getConnectors())
 			elementByConnector.put(c, element);
 	}
-	
+
 	/**
 	 * Convenience method used for console debugging. Displays hash structure contents.
 	 * @author specijalac
@@ -459,7 +530,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			System.out.println("Entry: connector " + e.getKey().toString() + ", element " + e.getValue().toString());
 		}
 	}
-	
+
 	/**
 	 * Method used to test compatibility between source and destination elements in some cases
 	 * If there is already a link with the listed source and destination elements, we cannot create a new link
@@ -478,7 +549,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method used to test compatibility between source and destination elements
 	 * If there is already a link with the listed source and destination elements, in any direction, we cannot create a new link
@@ -494,7 +565,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			if (link.getLinkType()==linkType && ((sourceElement.equals(elementByConnector.get(link.getSourceConnector())) 
 					&& destinationElement.equals(elementByConnector.get(link.getDestinationConnector())))|| 
 					(destinationElement.equals(elementByConnector.get(link.getSourceConnector())) 
-					&& sourceElement.equals(elementByConnector.get(link.getDestinationConnector())))))
+							&& sourceElement.equals(elementByConnector.get(link.getDestinationConnector())))))
 				return true;
 		}
 		return false;
@@ -536,12 +607,12 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		fireUpdates();
 	}
 
-	
-	
+
+
 	/*
 	 * Getters and setters and other methods
 	 */
-	
+
 	public Point2D getPointClicked() {
 		return pointClicked;
 	}
@@ -591,6 +662,14 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		if (diagramElements == null)
 			diagramElements = new ArrayList<GraphElement>();
 		return diagramElements;
+	}
+
+	public List<GraphElement> getAllElements(){
+		List<GraphElement> ret = new ArrayList<GraphElement>();
+		ret.addAll(diagramElements);
+		ret.addAll(containedPackages);
+		ret.addAll(links);
+		return ret;
 	}
 
 	public Iterator<GraphElement> getIteratorDiagramElements() {
@@ -677,8 +756,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		if (links != null)
 			links.clear();
 	}
-	
-	
+
+
 	public List<Package> getGraphEditPackages() {
 		if (containedPackages == null)
 			containedPackages = new ArrayList<Package>();
@@ -734,8 +813,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		packageCounter = model.getPackageCounter();
 
 	}
-	
-	
+
+
 
 	public List<Package> getContainedPackages() {
 		return containedPackages;
@@ -751,16 +830,16 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public Object getProperty(DiagramProperties key) {
 		return properties.get(key);
 	}
-	
+
 	public Object setProperty(DiagramProperties key, Object value) {
 		Object result = properties.set(key, value);
-		
+
 		// fire-uj izmene
 		fireUpdates();
-		
+
 		return result;
 	}
-	
+
 	public CommandManager getCommandManager() {
 		return commandManager;
 	}
@@ -780,7 +859,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public LassoZoomState getLassoZoomState() {
 		return (LassoZoomState) stateFactory.getState("graphedit.state.LassoZoomState");
 	}
-	
+
 	public LinkState getLinkState() {
 		return (LinkState) stateFactory.getState("graphedit.state.LinkState");
 	}
@@ -789,7 +868,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public MoveElementState getMoveElementState() {
 		return (MoveElementState) stateFactory.getState("graphedit.state.MoveElementState");
 	}
-	
+
 	public ResizeState getResizeState() {
 		return (ResizeState) stateFactory.getState("graphedit.state.ResizeState");
 	}
@@ -805,7 +884,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public ZoomOutState getZoomOutState() {
 		return (ZoomOutState) stateFactory.getState("graphedit.state.ZoomOutState");
 	}
-	
+
 
 	public WaitToBeReleasedState getWaitToBeReleasedState() {
 		return (WaitToBeReleasedState) stateFactory.getState("graphedit.state.WaitToBeReleasedState");

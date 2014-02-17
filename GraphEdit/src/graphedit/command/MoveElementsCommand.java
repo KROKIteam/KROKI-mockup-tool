@@ -43,16 +43,6 @@ public class MoveElementsCommand extends Command {
 			oldLinkNodePositions.add(oldList);
 		}
 	}
-	
-	/* 
-	 * s obzirom da je pozicija elementa objekat klase Point2D
-	 * moguce mu je pristupiti preko element.getPosition()
-	 * 
-	 * klasa Point2D ima sopstvenu metodu za pomeranje pozicije,
-	 * pa smatram da element.setPosition(newPosition) nije potreban
-	 * u ovom slucaju
-	 *
-	 */
 
 	public void execute() {
 		

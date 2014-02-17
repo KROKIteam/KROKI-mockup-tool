@@ -29,12 +29,6 @@ public class AddElementState extends State {
 	
 	public AddElementState() { }
 
-	@Override
-	public void mousePressed(MouseEvent e) {
-		if (SwingUtilities.isRightMouseButton(e)) {
-			switchToDefaultState();
-		}
-	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -64,6 +58,9 @@ public class AddElementState extends State {
 			
 			view.getModel().getCommandManager().executeCommand(command);
 			view.getSelectionModel().removeAllSelectedElements();
+		}
+		else if (SwingUtilities.isRightMouseButton(e)) {
+			switchToDefaultState();
 		}
 	}
 	

@@ -2,6 +2,8 @@ package graphedit.app;
 
 import graphedit.actions.ActionController;
 import graphedit.actions.edit.CopyAction;
+import graphedit.actions.edit.CopyHereAction;
+import graphedit.actions.edit.CreateShortcutHereAction;
 import graphedit.actions.edit.CutAction;
 import graphedit.actions.edit.PasteAction;
 import graphedit.actions.edit.PrepareShortcutAction;
@@ -18,7 +20,6 @@ import graphedit.actions.file.NewProjectAction;
 import graphedit.actions.file.OpenDiagramAction;
 import graphedit.actions.file.SaveDiagramAction;
 import graphedit.actions.file.SaveProjectAction;
-import graphedit.actions.file.SwitchWorkspaceAction;
 import graphedit.actions.help.AboutAction;
 import graphedit.actions.help.ContentsAction;
 import graphedit.actions.help.IndexAction;
@@ -35,7 +36,9 @@ import graphedit.actions.pallete.RealizationLinkButtonAction;
 import graphedit.actions.pallete.RequireLinkButtonAction;
 import graphedit.actions.pallete.SelectButtonAction;
 import graphedit.actions.popup.ElementPopupMenu;
+import graphedit.actions.popup.LinkPopupMenu;
 import graphedit.actions.popup.MainToolBarPopupMenu;
+import graphedit.actions.popup.MoveElementPopup;
 import graphedit.actions.popup.PackagePopupMenu;
 import graphedit.actions.popup.PopupListener;
 import graphedit.actions.popup.ProjectPopupMenu;
@@ -141,12 +144,14 @@ public class MainFrame extends JDialog{
 	private JToggleButton interfaceButton, classButton, selectButton, lassoZoomButton, packageButton;
 	private JMenu fileMenu, editMenu, viewMenu, helpMenu;
 	private ViewPopupMenu viewPopupMenu;
+	private LinkPopupMenu linkPopupMenu;
 
 	private WorkspacePopupMenu workspacePopupMenu;
 	private ProjectPopupMenu projectPopupMenu;
 	private PackagePopupMenu packagePopupMenu; 
 	//private DiagramPopupMenu diagramPopupMenu;
 	private ElementPopupMenu elementPopupMenu;
+	private MoveElementPopup moveElementPopup;
 
 	private MainToolBarPopupMenu mainToolBarPopupMenu;
 	private JCheckBoxMenuItem standardToolBar;
@@ -168,7 +173,6 @@ public class MainFrame extends JDialog{
 	private ExportAction exportAction;
 	private CloseDiagramAction closeDiagramAction;
 	private CloseAllDiagramsAction closeAllDiagramsAction;
-	private SwitchWorkspaceAction switchWorkspaceAction;
 	private ExitAction exitDiagramAction;
 	// Edit Actions
 	private CutAction cutDiagramAction; 
@@ -180,6 +184,8 @@ public class MainFrame extends JDialog{
 	private RedoAction redoAction;
 	private PrepareShortcutAction prepareShortcutAction;
 	private ShortcutAction shortcutAction;
+	private CopyHereAction copyHereAction;
+	private CreateShortcutHereAction createShortcutHere;
 	// View Actions
 	private StandardToolbarAction standardToolbarDiagramAction;
 	private BestFitZoomAction bestFitZoomAction;
@@ -254,7 +260,6 @@ public class MainFrame extends JDialog{
 			exportAction = new ExportAction();
 			closeDiagramAction = new CloseDiagramAction();
 			closeAllDiagramsAction = new CloseAllDiagramsAction();
-			switchWorkspaceAction = new SwitchWorkspaceAction();
 			exitDiagramAction = new ExitAction();	
 			// Edit Actions
 			cutDiagramAction = new CutAction();		
@@ -266,6 +271,8 @@ public class MainFrame extends JDialog{
 			redoAction = new RedoAction();
 			prepareShortcutAction = new PrepareShortcutAction();
 			shortcutAction = new ShortcutAction();
+			copyHereAction = new CopyHereAction();
+			createShortcutHere = new CreateShortcutHereAction(); 
 			// View Actions
 			standardToolbarDiagramAction = new StandardToolbarAction();
 			bestFitZoomAction = new BestFitZoomAction();
@@ -327,8 +334,10 @@ public class MainFrame extends JDialog{
 			projectPopupMenu = new ProjectPopupMenu();
 			packagePopupMenu = new PackagePopupMenu();
 			elementPopupMenu = new ElementPopupMenu();
+			linkPopupMenu = new LinkPopupMenu();
 
 			viewPopupMenu = new ViewPopupMenu(cutDiagramAction, copyDiagramAction, pasteDiagramAction, prepareShortcutAction, shortcutAction, showGridAction, undoAction, redoAction);
+			moveElementPopup = new MoveElementPopup(copyHereAction, createShortcutHere);
 			mainToolBarPopupMenu = new MainToolBarPopupMenu();
 			// Subscribe Listeners For PopUp Events
 			mainTree.addMouseListener(new PopupListener(EventSource.TREE_VIEW));
@@ -411,7 +420,7 @@ public class MainFrame extends JDialog{
 			fileMenu.add(closeDiagramAction);
 			fileMenu.add(closeAllDiagramsAction);
 			fileMenu.addSeparator();
-			fileMenu.add(switchWorkspaceAction);
+			//fileMenu.add(switchWorkspaceAction);
 			fileMenu.addSeparator();
 			fileMenu.add(exitDiagramAction);
 			editMenu = new JMenu("Edit");
@@ -481,8 +490,8 @@ public class MainFrame extends JDialog{
 			mainToolBar.addSeparator();
 			mainToolBar.addSeparator();
 			mainToolBar.add(fullScreenAction);
-			mainToolBar.addSeparator();
-			mainToolBar.add(switchWorkspaceAction);
+			//mainToolBar.addSeparator();
+			//mainToolBar.add(switchWorkspaceAction);
 		}
 		private void auxiliaryToolBarInit() {
 			auxiliaryToolBar.addSeparator();
@@ -681,6 +690,7 @@ public class MainFrame extends JDialog{
 
 					// enable switching to another model
 					if (getCurrentView() != null && getCurrentView().getModel() instanceof GraphEditModel) {
+						getCurrentView().getSelectionModel().fireUpdates();
 						((PropertiesTableModel)propertiesTable.getModel()).reassignSelectionModel();
 						actionController.setSelectionModel(getCurrentView().getSelectionModel());
 						actionController.setModel(getCurrentView().getModel());
@@ -731,6 +741,9 @@ public class MainFrame extends JDialog{
 
 		public ViewPopupMenu getViewPopupMenu() {
 			return viewPopupMenu;
+		}
+		public MoveElementPopup getMoveElementPopup(){
+			return moveElementPopup;
 		}
 		public ElementPopupMenu getElementPopupMenu() {
 			return elementPopupMenu;
@@ -964,7 +977,6 @@ public class MainFrame extends JDialog{
 		}
 
 		private void generatePainters(GraphEditView view) {
-			//TODO
 			for (GraphElement element : view.getModel().getDiagramElements()) {
 				ElementPainter painter;
 				if (element instanceof Interface) { 
@@ -1206,6 +1218,21 @@ public class MainFrame extends JDialog{
 
 		public ShortcutAction getShortcutAction() {
 			return shortcutAction;
+		}
+
+
+		public CopyHereAction getCopyHereAction() {
+			return copyHereAction;
+		}
+
+
+		public CreateShortcutHereAction getCreateShortcutHere() {
+			return createShortcutHere;
+		}
+
+
+		public LinkPopupMenu getLinkPopupMenu() {
+			return linkPopupMenu;
 		}
 
 

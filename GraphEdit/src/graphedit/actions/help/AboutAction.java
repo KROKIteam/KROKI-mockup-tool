@@ -24,7 +24,7 @@ public class AboutAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		JOptionPane.showMessageDialog(MainFrame.getInstance(), "Graph Edit v1.1\nAuthors:\nIgor Cverdelj-Fogaraši\nRenata Vaderna\nMiloš Jokić\nRobert Molnar\nJan, 2012. ", 
+		JOptionPane.showMessageDialog(MainFrame.getInstance(), "Graph Edit v1.2\nAuthors:\nIgor Cverdelj-Fogaraši\nRenata Vaderna\nMiloš Jokić\nRobert Molnar\nJan, 2012.\n\nIntegration with Kroki Mockup tool:\nRenata Vaderna", 
 				"About", JOptionPane.INFORMATION_MESSAGE);
 	}
 

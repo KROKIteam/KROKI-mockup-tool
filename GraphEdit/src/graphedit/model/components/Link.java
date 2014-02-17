@@ -20,39 +20,33 @@ public class Link extends GraphElement {
 	protected ArrayList<LinkNode> nodes; 
 	public enum LinkType {ASSOCIATION,GENERALIZATION, DEPENDENCY, INNERLINK,REALIZATION,REQUIRE};
 	protected LinkType linkType;
-	protected Point2D movedNodePosition;
-	protected int movedNodeIndex;
 	protected String[] stereotypes;
 
-	
-	
 	protected Properties<LinkProperties> properties;
-	
+
 	public Link(ArrayList<LinkNode> list) {
 		super();
 		this.sourceConnector = (Connector) list.get(0);
 		this.destinationConnector = (Connector) list.get(list.size()-1);
 		this.nodes=list;
 		properties = new Properties<LinkProperties>();
-		movedNodePosition=new Point2D.Double();
-		movedNodeIndex=-1;
 	}
 
 	public Object getProperty(LinkProperties key) {
 		return properties.get(key);
 	}
-	
+
 	@Override
 	public Set<Entry<LinkProperties, Object>> getEntrySet() {
 		return properties.getEntrySet();
 	}
-	
+
 	public Object setProperty(LinkProperties key, Object value) {
 		Object result = properties.set(key, value);
 		// uradi nesto
 		return result;
 	}
-	
+
 	public void setSourceConnector(Connector sourceConnector) {
 		this.sourceConnector = sourceConnector;
 	}
@@ -63,11 +57,11 @@ public class Link extends GraphElement {
 	public Connector getDestinationConnector() {
 		return destinationConnector;
 	}
-	
+
 	public void setDestinationConnector(Connector destinationConnector) {
 		this.destinationConnector = destinationConnector;
 	}
-	
+
 	@Override
 	public String toString() {
 		return (String) properties.get(LinkProperties.NAME);
@@ -87,23 +81,13 @@ public class Link extends GraphElement {
 		return linkType;
 	}
 
-	public Point2D getMovedNodePosition() {
-		return movedNodePosition;
-	}
 
-	public void setMovedNodePosition(Point2D movedNodePosition) {
-		this.movedNodePosition = movedNodePosition;
-	}
-
-	public int getMovedNodeIndex() {
-		return movedNodeIndex;
-	}
-
-
-	public void moveNode(int deltaX, int deltaY) {
-		movedNodePosition.setLocation(movedNodePosition.getX()+deltaX, movedNodePosition.getY()+deltaY);
-	}
 	
+	public static void moveNode(LinkNode node, int deltaX, int deltaY) {
+		Point2D position = (Point2D) node.getProperty(LinkNodeProperties.POSITION);
+		position.setLocation(position.getX()+deltaX, position.getY()+deltaY);
+	}
+
 	/**
 	 * This method shifts all of the non-connector link nodes
 	 * @param deltaX 
@@ -118,25 +102,45 @@ public class Link extends GraphElement {
 			}
 		}
 	}
-	
-	public void setMoveNodePosition(Point2D position){
-		movedNodePosition.setLocation(position);
-	}
-	public void setMovedNodeIndex(int movedNodeIndex) {
-		this.movedNodeIndex = movedNodeIndex;
-	}
+
 
 	public String getStereotype() {
 		return (String)properties.get(LinkProperties.STEREOTYPE);
 	}
-	
+
 	public void setNodesWithPositions(ArrayList<Point2D>positions){
 		nodes.clear();
 		nodes.add(sourceConnector);
 		for (int i=1;i<positions.size()-1;i++)
 			nodes.add(new LinkNode(positions.get(i)));
 		nodes.add(destinationConnector);
-		
+
 	}
+
+	public double[] getLinkBounds(){
+		double xMin = Double.MAX_VALUE, xMax = Double.MIN_VALUE;
+		double yMin = Double.MAX_VALUE, yMax = Double.MIN_VALUE;
+		for (LinkNode node : nodes){
+			Point2D position = (Point2D)node.getProperty(LinkNodeProperties.POSITION);
+			double x = position.getX();
+			double y = position.getY();
+
+			if (x < xMin) 
+				xMin = x;
+			if (y < yMin) 
+				yMin = y;
+			if (x > xMax) 
+				xMax = x;
+			if (y > yMax) 
+				yMax = y;
+		}
+		double[] retVal = new double[4];
+		retVal[0] = xMin;
+		retVal[1] = xMax;
+		retVal[2] = yMin;
+		retVal[3] = yMax;
+		return retVal;
+	}
+
 	
 }

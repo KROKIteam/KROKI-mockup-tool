@@ -9,13 +9,12 @@ import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
 import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.diagram.GraphEditModel;
-import graphedit.model.elements.AbstractLinkElement;
 import graphedit.model.elements.ClassElement;
 import graphedit.model.elements.GraphEditElement;
 import graphedit.model.elements.GraphEditPackage;
-import graphedit.model.elements.UIClassElement;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
+import graphedit.util.Calculate;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import graphedit.view.LinkPainter;
@@ -264,7 +263,7 @@ public class CutElementsCommand extends Command {
 			if (s == shortcut)
 				continue;
 			if (s.shortcutToModel() == shortcut.shortcutToModel()){
-				double diff = positionDiff( (Point2D) ((GraphElement)s).getProperty(GraphElementProperties.POSITION), shortcutLocation);
+				double diff = Calculate.positionDiff( (Point2D) ((GraphElement)s).getProperty(GraphElementProperties.POSITION), shortcutLocation);
 				if (minDiff == -1 || diff < minDiff){
 					minDiff = diff;
 					replacement = (GraphElement)s;
@@ -273,7 +272,7 @@ public class CutElementsCommand extends Command {
 		}
 
 		if (shortcut.shortcutToModel().getDiagramElements().contains(element)){
-			double diff = positionDiff( (Point2D) element.getProperty(GraphElementProperties.POSITION), shortcutLocation);
+			double diff = Calculate.positionDiff( (Point2D) element.getProperty(GraphElementProperties.POSITION), shortcutLocation);
 			if (minDiff == -1 || diff < minDiff){
 				replacement = element;
 			}
@@ -282,10 +281,5 @@ public class CutElementsCommand extends Command {
 		return replacement;
 	}
 
-
-
-	private double positionDiff(Point2D p1, Point2D p2){
-		return Math.hypot(Math.abs(p1.getX() - p2.getX()), Math.abs(p1.getY() - p2.getY()));
-	}
 
 }

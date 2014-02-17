@@ -22,7 +22,7 @@ public class InnerLinkPainter extends LinkPainter{
 	private Point2D inverseTransformPoint;
 	private Ellipse2D.Double ellipse;
 	private boolean drawEllipse;
-	
+
 	public InnerLinkPainter(Link link) {
 		super(link);
 		// TODO Auto-generated constructor stub
@@ -43,7 +43,7 @@ public class InnerLinkPainter extends LinkPainter{
 		g.draw(lastSegment);
 		g.setTransform(a);
 	}
-	
+
 	@Override
 	public void setShape() {
 		if (link==null){
@@ -57,22 +57,16 @@ public class InnerLinkPainter extends LinkPainter{
 			path.reset();
 			lastSegment.reset();
 		}
-		
-		if (link.getMovedNodeIndex()==link.getNodes().size() - 1)
-			path.moveTo(link.getMovedNodePosition().getX(),link.getMovedNodePosition().getY());
-		else
-			path.moveTo(((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
+
+		path.moveTo(((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
 				((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getY());
 		for (int i=link.getNodes().size()-2; i>0;i--){
-			if (i==link.getMovedNodeIndex())
-				path.lineTo(link.getMovedNodePosition().getX(),link.getMovedNodePosition().getY());
-			else
-				path.lineTo(((Point2D)link.getNodes().get(i).getProperty(LinkNodeProperties.POSITION)).getX(),
-						((Point2D)link.getNodes().get(i).getProperty(LinkNodeProperties.POSITION)).getY());
+			path.lineTo(((Point2D)link.getNodes().get(i).getProperty(LinkNodeProperties.POSITION)).getX(),
+					((Point2D)link.getNodes().get(i).getProperty(LinkNodeProperties.POSITION)).getY());
 		}
-		
+
 		aft1=new AffineTransform();
-		
+
 		Point2D[] points=Calculate.getCirclePoints(Calculate.SOURCE,r,0, link);
 		if (points!=null)
 		{
@@ -82,15 +76,12 @@ public class InnerLinkPainter extends LinkPainter{
 			lastSegment.lineTo(points[1].getX()+crossLength,points[1].getY());
 			lastSegment.moveTo(points[1].getX(),points[1].getY()-crossLength);
 			lastSegment.lineTo(points[1].getX(),points[1].getY()+crossLength);
-			
+
 			aft1.rotate(Calculate.getRotationAngle(Calculate.SOURCE, link),points[1].getX(),points[1].getY());
 
 			aft1.transform(points[2],inverseTransformPoint );
 			path.moveTo(inverseTransformPoint.getX(),inverseTransformPoint.getY());
-			if (link.getMovedNodeIndex()==1)
-				path.lineTo(link.getMovedNodePosition().getX(),link.getMovedNodePosition().getY());
-			else
-				path.lineTo(((Point2D)link.getNodes().get(1).getProperty(LinkNodeProperties.POSITION)).getX(),((Point2D)link.getNodes().get(1).getProperty(LinkNodeProperties.POSITION)).getY());
+			path.lineTo(((Point2D)link.getNodes().get(1).getProperty(LinkNodeProperties.POSITION)).getX(),((Point2D)link.getNodes().get(1).getProperty(LinkNodeProperties.POSITION)).getY());
 
 		}
 		else

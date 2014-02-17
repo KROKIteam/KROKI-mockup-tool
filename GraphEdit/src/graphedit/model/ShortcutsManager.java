@@ -32,12 +32,13 @@ public class ShortcutsManager {
 		return shortcutsManager;
 	}
 	
-	public List<ElementPainter> createShortcutsAndPainters(){
+	public List<ElementPainter> createShortcutsAndPainters(double xDiff, double yDiff){
 		List<ElementPainter> painters = new ArrayList<ElementPainter>();
 		GraphEditModel currentModel = MainFrame.getInstance().getCurrentView().getModel();
 		for (GraphElement element : contents){
 			if (element instanceof Class){
-				ClassShortcut classShortcut = new ClassShortcut(calculatePosition((Point2D) element.getProperty(GraphElementProperties.POSITION)), (Class)element, currentModel);
+				ClassShortcut classShortcut = new ClassShortcut(calculatePosition(
+						(Point2D) element.getProperty(GraphElementProperties.POSITION), xDiff, yDiff),(Class)element, currentModel);
 				((Class)element).addShortcut(classShortcut);
 				ClassPainter painter = new ClassPainter(classShortcut);
 				painters.add(painter);
@@ -57,8 +58,8 @@ public class ShortcutsManager {
 	}
 	
 	
-	private Point2D calculatePosition(Point2D elementPosition){
-		return new Point2D.Double(elementPosition.getX() + 5, elementPosition.getY()+5);
+	private Point2D calculatePosition(Point2D elementPosition, double xDiff, double yDiff){
+		return new Point2D.Double(elementPosition.getX() + xDiff, elementPosition.getY()+yDiff);
 	}
 	
 }

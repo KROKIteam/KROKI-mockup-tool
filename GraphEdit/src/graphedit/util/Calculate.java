@@ -44,26 +44,14 @@ public class Calculate {
 
 		if (type == SOURCE) {
 			connector = link.getSourceConnector();
-			if (link.getMovedNodeIndex()==1)
-				p1=link.getMovedNodePosition();
-			else
-				p1 = (Point2D) link.getNodes().get(1).getProperty(
-						LinkNodeProperties.POSITION);
-			if (link.getMovedNodeIndex()==0)
-				p2=link.getMovedNodePosition();
-			else
-				p2 = (Point2D) connector.getProperty(LinkNodeProperties.POSITION);
+			p1 = (Point2D) link.getNodes().get(1).getProperty(
+					LinkNodeProperties.POSITION);
+			p2 = (Point2D) connector.getProperty(LinkNodeProperties.POSITION);
 		} else {
 			connector = link.getDestinationConnector();
-			if (link.getMovedNodeIndex()==link.getNodes().size() - 2)
-				p1=link.getMovedNodePosition();
-			else
-				p1 = (Point2D) link.getNodes().get(link.getNodes().size() - 2)
+			p1 = (Point2D) link.getNodes().get(link.getNodes().size() - 2)
 					.getProperty(LinkNodeProperties.POSITION);
-			if (link.getMovedNodeIndex()==link.getNodes().size()-1)
-				p2=link.getMovedNodePosition();
-			else
-				p2 = (Point2D) connector.getProperty(LinkNodeProperties.POSITION);
+			p2 = (Point2D) connector.getProperty(LinkNodeProperties.POSITION);
 		}
 		segment.setLine(p1, p2);
 
@@ -111,15 +99,9 @@ public class Calculate {
 
 		if (type == SOURCE) {
 			for (int i = 0; i < link.getNodes().size() - 1; i++) {
-				if (link.getMovedNodeIndex()==i)
-					p1=link.getMovedNodePosition();
-				else 
-					p1 = (Point2D) link.getNodes().get(i).getProperty(
+				p1 = (Point2D) link.getNodes().get(i).getProperty(
 						LinkNodeProperties.POSITION);				
-				if (link.getMovedNodeIndex()==i+1)
-					p2=link.getMovedNodePosition();
-				else
-					p2 = (Point2D) link.getNodes().get(i + 1).getProperty(
+				p2 = (Point2D) link.getNodes().get(i + 1).getProperty(
 						LinkNodeProperties.POSITION);
 				segment.setLine(p1, p2);
 				for (int j = 1; j <= 4; j++) {
@@ -136,14 +118,8 @@ public class Calculate {
 		} else {
 
 			for (int i = link.getNodes().size() - 1; i > 0; i--) {
-				if (link.getMovedNodeIndex()==i)
-					p1=link.getMovedNodePosition();
-				else
-					p1 = (Point2D) link.getNodes().get(i).getProperty(
+				p1 = (Point2D) link.getNodes().get(i).getProperty(
 						LinkNodeProperties.POSITION);
-				if (link.getMovedNodeIndex()==i-1)
-					p2=link.getMovedNodePosition();
-				else
 				p2 = (Point2D) link.getNodes().get(i - 1).getProperty(
 						LinkNodeProperties.POSITION);
 				segment.setLine(p1, p2);
@@ -161,7 +137,7 @@ public class Calculate {
 		}
 		return null;
 	}
-   
+
 	/**
 	 * Method used when stereotypes should be drawn. Calculates the stereotype position. 
 	 * Takes into consideration current positions of the elements, which might be covering  
@@ -180,126 +156,105 @@ public class Calculate {
 		Line2D.Double segment = new Line2D.Double();
 		int sourceIndex=0, destinationIndex=0;
 		Point2D sourceIntersection=null,destinationIntersection=null;
-		
-		
+
+
 		//za destination
-		 coordinates= findCoordinates(DESTINATION, link);
-			for (int i = 0; i < link.getNodes().size() - 1; i++) {
-				if (i==0)
-					p1=sourceFirstPoint;
-				else if (link.getMovedNodeIndex()==i)
-					p1=link.getMovedNodePosition();
-				else 
-					p1 = (Point2D) link.getNodes().get(i).getProperty(
-						LinkNodeProperties.POSITION);				
-				if (link.getMovedNodeIndex()==i+1)
-					p2=link.getMovedNodePosition();
-				else
-					p2 = (Point2D) link.getNodes().get(i + 1).getProperty(
-						LinkNodeProperties.POSITION);
-				if (p1==null || p2==null)
-					return null;
-				segment.setLine(p1, p2);
-				for (int j = 1; j <= 4; j++) {
-					line.setLine(coordinates[j - 1], coordinates[j % 4]);
-					if (line.intersectsLine(segment)) {
-						destinationIntersection=getIntersectionPoint(line, segment);
-						destinationIndex=i;
-						if (destinationIndex>0)
-							break;
+		coordinates= findCoordinates(DESTINATION, link);
+		for (int i = 0; i < link.getNodes().size() - 1; i++) {
+			if (i==0)
+				p1=sourceFirstPoint;
+			p1 = (Point2D) link.getNodes().get(i).getProperty(
+					LinkNodeProperties.POSITION);				
+			p2 = (Point2D) link.getNodes().get(i + 1).getProperty(
+					LinkNodeProperties.POSITION);
+			if (p1==null || p2==null)
+				return null;
+			segment.setLine(p1, p2);
+			for (int j = 1; j <= 4; j++) {
+				line.setLine(coordinates[j - 1], coordinates[j % 4]);
+				if (line.intersectsLine(segment)) {
+					destinationIntersection=getIntersectionPoint(line, segment);
+					destinationIndex=i;
+					if (destinationIndex>0)
+						break;
 				}
 				if (destinationIntersection!=null && destinationIndex>0)
 					break;
 			}
-			}
-			
+		}
+
 		//za source
-			coordinates= findCoordinates(SOURCE, link);
-			for (int i = link.getNodes().size() - 1; i > 0; i--) {
-				if (i==link.getNodes().size()-1)
-					p1=destinationFirstPoint;
-				else if (link.getMovedNodeIndex()==i)
-					p1=link.getMovedNodePosition();
-				else
-					p1 = (Point2D) link.getNodes().get(i).getProperty(
-						LinkNodeProperties.POSITION);
-					if (link.getMovedNodeIndex()==i-1)
-						p2=link.getMovedNodePosition();
-					else
-						p2 = (Point2D) link.getNodes().get(i - 1).getProperty(
-							LinkNodeProperties.POSITION);
-					if (p1==null || p2==null)
-						return null;
-					segment.setLine(p1, p2);
-					for (int j = 1; j <= 4; j++) {
-						line.setLine(coordinates[j - 1], coordinates[j % 4]);
-						if (line.intersectsLine(segment)){ 
-							sourceIndex=i;
-							sourceIntersection=getIntersectionPoint(line, segment);
-							if (sourceIndex<link.getNodes().size()-1)
-								break;
-						}
-					}
-					if (sourceIntersection!=null && sourceIndex<link.getNodes().size()-1)
+		coordinates= findCoordinates(SOURCE, link);
+		for (int i = link.getNodes().size() - 1; i > 0; i--) {
+			if (i==link.getNodes().size()-1)
+				p1=destinationFirstPoint;
+			p1 = (Point2D) link.getNodes().get(i).getProperty(
+					LinkNodeProperties.POSITION);
+			p2 = (Point2D) link.getNodes().get(i - 1).getProperty(
+					LinkNodeProperties.POSITION);
+			if (p1==null || p2==null)
+				return null;
+			segment.setLine(p1, p2);
+			for (int j = 1; j <= 4; j++) {
+				line.setLine(coordinates[j - 1], coordinates[j % 4]);
+				if (line.intersectsLine(segment)){ 
+					sourceIndex=i;
+					sourceIntersection=getIntersectionPoint(line, segment);
+					if (sourceIndex<link.getNodes().size()-1)
 						break;
 				}
-			if (destinationIndex>sourceIndex){
-				int index=sourceIndex+(destinationIndex-sourceIndex)/2;
-				if (link.getMovedNodeIndex()==index)
-					p1=link.getMovedNodePosition();
-				else
-					p1=(Point2D) link.getNodes().get(index).getProperty(LinkNodeProperties.POSITION);
-				if (link.getMovedNodeIndex()==index+1)
-					p2=link.getMovedNodePosition();
-				else
-					p2=(Point2D) link.getNodes().get(index+1).getProperty(LinkNodeProperties.POSITION);
 			}
-			else{
-				Point2D sourcePoint,destinationPoint;
-				if (sourceIndex==1)
-					sourcePoint=sourceFirstPoint;
-				else
-					sourcePoint=sourceIntersection;
-				if (destinationIndex==link.getNodes().size()-2)
-					destinationPoint=destinationFirstPoint;
-				else
-					destinationPoint=destinationIntersection;
-				
-				if (destinationIndex==sourceIndex){
+			if (sourceIntersection!=null && sourceIndex<link.getNodes().size()-1)
+				break;
+		}
+		if (destinationIndex>sourceIndex){
+			int index=sourceIndex+(destinationIndex-sourceIndex)/2;
+			p1=(Point2D) link.getNodes().get(index).getProperty(LinkNodeProperties.POSITION);
+			p2=(Point2D) link.getNodes().get(index+1).getProperty(LinkNodeProperties.POSITION);
+		}
+		else{
+			Point2D sourcePoint,destinationPoint;
+			if (sourceIndex==1)
+				sourcePoint=sourceFirstPoint;
+			else
+				sourcePoint=sourceIntersection;
+			if (destinationIndex==link.getNodes().size()-2)
+				destinationPoint=destinationFirstPoint;
+			else
+				destinationPoint=destinationIntersection;
 
-					if (sourcePoint!=null || destinationPoint!=null){
-						if (link.getMovedNodeIndex()==sourceIndex)
-							p1=link.getMovedNodePosition();
-						else
-							p1=(Point2D) link.getNodes().get(sourceIndex).getProperty(LinkNodeProperties.POSITION);
-						//uzmi veci segment
-						if (destinationPoint!=null && sourcePoint==null)
-							p2=destinationPoint;
-						else if (destinationPoint==null && sourcePoint!=null)
+			if (destinationIndex==sourceIndex){
+
+				if (sourcePoint!=null || destinationPoint!=null){
+					p1=(Point2D) link.getNodes().get(sourceIndex).getProperty(LinkNodeProperties.POSITION);
+					//uzmi veci segment
+					if (destinationPoint!=null && sourcePoint==null)
+						p2=destinationPoint;
+					else if (destinationPoint==null && sourcePoint!=null)
+						p2=sourcePoint;
+					else
+						if ((Math.pow(p1.getX()-sourcePoint.getX(),2)+Math.pow(p1.getY()-sourcePoint.getY(),2))>
+						(Math.pow(p1.getX()-destinationPoint.getX(),2)+Math.pow(p1.getY()-destinationPoint.getY(),2)))
 							p2=sourcePoint;
 						else
-							if ((Math.pow(p1.getX()-sourcePoint.getX(),2)+Math.pow(p1.getY()-sourcePoint.getY(),2))>
-								(Math.pow(p1.getX()-destinationPoint.getX(),2)+Math.pow(p1.getY()-destinationPoint.getY(),2)))
-								p2=sourcePoint;
-							else
-								p2=destinationPoint;
-						}
-					else 
-						return null;
+							p2=destinationPoint;
+				}
+				else 
+					return null;
+			}
+			else
+				if(destinationPoint!=null && sourcePoint!=null){
+					p1=sourcePoint;
+					p2=destinationPoint;
 				}
 				else
-					if(destinationPoint!=null && sourcePoint!=null){
-						p1=sourcePoint;
-						p2=destinationPoint;
-					}
-					else
-						return null;
-				}
-	
-			return new Point2D.Double((p1.getX()+p2.getX()-textWidth)/2,(p1.getY()+p2.getY())/2);		
+					return null;
+		}
+
+		return new Point2D.Double((p1.getX()+p2.getX()-textWidth)/2,(p1.getY()+p2.getY())/2);		
 	}
 
-	
+
 	/**
 	 * Method determines on which side of the rectangular element the intersection is, 
 	 * based on the positions of two vertices of the element
@@ -315,10 +270,10 @@ public class Calculate {
 		Point2D.Double[] coordinates = findCoordinates(type, link);
 		for (int j = 1; j <= 4; j++)
 			if (coordinates[j - 1].getX()==p1.getX() && coordinates[j-1].getY()==p1.getY() &&
-				coordinates[j%4].getX()==p2.getX() && coordinates[j%4].getY()==p2.getY())
-					return j;
+			coordinates[j%4].getX()==p2.getX() && coordinates[j%4].getY()==p2.getY())
+				return j;
 		return 0;
-					
+
 	}
 	/**
 	 * Determines the side of the element that intersects intersectionSegment
@@ -503,7 +458,7 @@ public class Calculate {
 	public static Point2D getCardinalityPosition(int textWidth, int textHeight,
 			int type, Link link, int xDistance, int yDistance, Point2D firstPoint,
 			Point2D secondPoint, Point2D firstElementPoint, Point2D secondElementPoint) {
-	
+
 		int i;
 
 		if (firstElementPoint!=null && secondElementPoint!=null)
@@ -540,14 +495,14 @@ public class Calculate {
 						firstPoint.getY() + textHeight);
 		return null;
 	}
-/**
- * Calculates the angle that will be used to draw an arc, which is a part of the symbol for require link
- * @param minAngle
- * @param type - destination or source 
- * @param link
- * @return angle in degrees
- * @author tim1
- */
+	/**
+	 * Calculates the angle that will be used to draw an arc, which is a part of the symbol for require link
+	 * @param minAngle
+	 * @param type - destination or source 
+	 * @param link
+	 * @return angle in degrees
+	 * @author tim1
+	 */
 	public static double getArcStart(double minAngle, int type, Link link) {
 
 		init(type, link);
@@ -566,7 +521,7 @@ public class Calculate {
 	 * @param type
 	 * @param link
 	 * @return rotation angle in radians
-     * @author tim1
+	 * @author tim1
 	 */
 	public static double getRotationAngle(int type, Link link) {
 
@@ -666,7 +621,7 @@ public class Calculate {
 		retval[1] = new Point2D.Double(x2, y2);
 		return retval;
 	}
-	
+
 	/**
 	 * 
 	 * @param c represents the class, which is to be drawn
@@ -683,56 +638,60 @@ public class Calculate {
 		for (Attribute a : attributes)
 			if (a.isVisible())
 				visibleAttributes.add(a);
-		
+
 		List<Method> visibleMethods = new ArrayList<Method>();
 		for (Method m : methods)
 			if (m.isVisible())
 				visibleMethods.add(m);
-		
+
 		attributes = visibleAttributes;
 		methods = visibleMethods;
-		
-		
+
+
 		double treshold = 2.0;
 		double[] result = { 0, 0, 0, 0 };
 		double fontHeight = fontMetrics.getHeight();
 		String stereotype = "<<" + (String) c.getProperty(GraphElementProperties.STEREOTYPE) + ">>";
-		
-		
-		
+
+
+
 		result[1] = fontHeight + 2 * treshold;
 		if (!stereotype.equals(""))
 			result[1] += fontHeight + treshold;
 		if (!shortcutInfo.equals(""))
 			result[1] += fontHeight + treshold;
-		
+
 		//result[1] = stereotype.equals("") ? fontHeight + 2 * treshold : 2 * (treshold + fontHeight) + treshold; 
 		result[2] = attributes.size() > 0 ? attributes.size() * (fontHeight + treshold) + treshold : fontHeight;
 		result[3] = methods.size() > 0 ? methods.size() * (fontHeight + treshold) + treshold : fontHeight;
-		
+
 		double maxWidth = fontMetrics.stringWidth(stereotype);
-		
+
 		String className = "";
 		if (isShortcut)
 			className = "Shortcut to ";
-		
+
 		className += (String)c.getProperty(GraphElementProperties.NAME);
-		
+
 		if (className.length() > stereotype.length())
 			maxWidth = fontMetrics.stringWidth((String)c.getProperty(GraphElementProperties.NAME));
-		
+
 		for (Attribute a : attributes)
 			if (fontMetrics.stringWidth(a.toString()) > maxWidth) 
 				maxWidth = fontMetrics.stringWidth(a.toString());
-		
+
 		for (Method m : methods)
 			if (fontMetrics.stringWidth(m.toString()) > maxWidth) 
 				maxWidth = fontMetrics.stringWidth(m.toString());
-		
+
 		double defaultClassWidth =  Double.parseDouble(Preferences.getInstance().getProperty(Preferences.CLASS_WIDTH));
 		result[0] = maxWidth > defaultClassWidth ? (maxWidth + 25 * treshold) : defaultClassWidth;
-		
-		
+
+
 		return result;
+	}
+
+	public static double positionDiff(Point2D p1, Point2D p2){
+		return Math.hypot(Math.abs(p1.getX() - p2.getX()), Math.abs(p1.getY() - p2.getY()));
 	}
 }

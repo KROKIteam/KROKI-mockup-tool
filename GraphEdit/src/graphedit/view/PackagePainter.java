@@ -47,7 +47,7 @@ public class PackagePainter extends ElementPainter{
 
 	@Override
 	public boolean elementAt(Point2D p) {
-		return path.contains(p);
+		return shape.contains(p);
 	}
 
 	/**
@@ -171,6 +171,15 @@ public class PackagePainter extends ElementPainter{
 		return new Dimension(minWidth, minHeight);
 	}
 	
+	@Override
+	public void setElement(GraphElement newGraphElement) {
+		this.element = newGraphElement;
+		setShape();
+		if (element.isShadowElement()){
+			fillColor1 = new Color(fillColor1.getRed(), fillColor1.getGreen(), fillColor1.getBlue(), 128);
+			fillColor2 = new Color(fillColor2.getRed(), fillColor2.getGreen(), fillColor2.getBlue(), 128);
+		}
+	}
 	
 	@Override
 	public void moveShape(double xPos, double yPos){

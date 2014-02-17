@@ -9,51 +9,58 @@ import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class MoveLinkNodeCommand extends Command {
-	private LinkNode linkNode;
 	private GraphEditModel model;
-	private Point2D newPosition,oldPosition,position;
 	private Link link;
-	private ArrayList<LinkNode> newLinkNodes, oldLinkNodes;
 	private LinkStrategy strategy;
+	private List<LinkNode> nodes;
+	private List<Point2D> oldPositions, newPositions;
 
-	
-	public MoveLinkNodeCommand(GraphEditView view, Point2D newPosition,Point2D oldPosition, LinkStrategy strategy) {
+
+	public MoveLinkNodeCommand(GraphEditView view, List<LinkNode> nodes, Link link, List<Point2D> newPositions, List<Point2D> oldPositions, LinkStrategy strategy) {
 		this.view = view;
+		this.nodes = nodes;
 		this.model = view.getModel();
-		this.linkNode = view.getSelectionModel().getSelectedNode();
-		this.newPosition=new Point2D.Double();
-		this.oldPosition=new Point2D.Double();
-		this.newPosition.setLocation(newPosition);
-		this.oldPosition.setLocation(oldPosition);
-		link=view.getSelectionModel().getSelectedLink();
-		oldLinkNodes=link.getNodes();
+		this.newPositions = newPositions;
+		this.link = link;
 		this.strategy=strategy;
-		position = (Point2D) linkNode.getProperty(LinkNodeProperties.POSITION);
+		this.oldPositions = oldPositions;
+
 	}
-	
+
 	public void execute() {
-		position.setLocation(newPosition);
-		newLinkNodes=strategy.setLinkNodes(link.getNodes());
-		link.setNodes(newLinkNodes);
-		if (linkNode instanceof Connector){
-			((Connector) linkNode).setRelativePositions(newPosition);
-			((Connector) linkNode).setPercents(newPosition);
+		Point2D position;
+		LinkNode node;
+		for (int i = 0; i < nodes.size(); i++){
+			node = nodes.get(i);
+			position = (Point2D) node.getProperty(LinkNodeProperties.POSITION);
+			position.setLocation(newPositions.get(i));
+			if (node instanceof Connector){
+				((Connector) node).setRelativePositions(position);
+				((Connector) node).setPercents(position);
+			}
 		}
+		link.setNodes(strategy.setLinkNodes(link.getNodes()));
 		view.setLinkNodePainters(link);
 		model.fireUpdates();
 	}
 
 	public void undo() {
-		position.setLocation(oldPosition);
-		if (linkNode instanceof Connector){
-			((Connector) linkNode).setRelativePositions(oldPosition);
-			((Connector) linkNode).setPercents(oldPosition);
+		Point2D position;
+		LinkNode node;
+		for (int i = 0; i < nodes.size(); i++){
+			node = nodes.get(i);
+			position = (Point2D) node.getProperty(LinkNodeProperties.POSITION);
+			position.setLocation(oldPositions.get(i));
+			if (node instanceof Connector){
+				((Connector) node).setRelativePositions(position);
+				((Connector) node).setPercents(position);
+			}
 		}
-		link.setNodes(oldLinkNodes);
+		link.setNodes(strategy.setLinkNodes(link.getNodes()));
 		view.setLinkNodePainters(link);
 		model.fireUpdates();
 	}

@@ -15,6 +15,7 @@ public abstract class GraphElement implements Cloneable, Serializable {
 	private static final long serialVersionUID = 1L;
 	protected Properties<GraphElementProperties> properties;
 	protected GraphEditElement representedElement;
+	protected boolean shadowElement = false;
 
 	public GraphElement() {
 		properties = new Properties<GraphElementProperties>();
@@ -46,6 +47,14 @@ public abstract class GraphElement implements Cloneable, Serializable {
 		this.representedElement = representedElement;
 	}
 
+	public boolean isShadowElement() {
+		return shadowElement;
+	}
+
+	public void setShadowElement(boolean shadowElement) {
+		this.shadowElement = shadowElement;
+	}
+	
 	@Override
 	public String toString() {
 		return (String) properties.get(GraphElementProperties.NAME);

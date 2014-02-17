@@ -1,5 +1,6 @@
 package graphedit.actions.edit;
 
+import graphedit.app.MainFrame;
 import graphedit.model.ShortcutsManager;
 import graphedit.util.ResourceLoader;
 
@@ -19,11 +20,13 @@ public class PrepareShortcutAction extends AbstractAction{
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
 		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("shortcut1.png"));
 		putValue(SHORT_DESCRIPTION, "Prepare shortcut(s) for selected element(s)...");
+		setEnabled(false);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		ShortcutsManager.getInsance().prepareContents();
+		MainFrame.getInstance().getShortcutAction().setEnabled(true);
 	}
 
 }

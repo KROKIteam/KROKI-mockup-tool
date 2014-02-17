@@ -27,20 +27,28 @@ public class ActionController implements Observer {
 		mainFrame = MainFrame.getInstance();
 		
 		if (o instanceof SelectionModel) {
+			SelectionModel model = (SelectionModel)o;
 			
-			if (selectionModel.getSelectedElements().size() > 0) { 
-				mainFrame.getCopyDiagramAction().setEnabled(true);
-				mainFrame.getCutDiagramAction().setEnabled(true);
-				
-				//mainFrame.getViewPopupMenu().getCopyAction().setEnabled(true);
-				//mainFrame.getViewPopupMenu().getCutAction().setEnabled(true);
-			} else {
-				mainFrame.getCopyDiagramAction().setEnabled(false);
-				mainFrame.getCutDiagramAction().setEnabled(false);
-				
-				//mainFrame.getViewPopupMenu().getCopyAction().setEnabled(false);
-				//mainFrame.getViewPopupMenu().getCutAction().setEnabled(false);
+			if (model.getSelectedElements().size() == 0){
+				MainFrame.getInstance().getCopyDiagramAction().setEnabled(false);
+				MainFrame.getInstance().getCutDiagramAction().setEnabled(false);
+				MainFrame.getInstance().getPrepareShortcutAction().setEnabled(false);
 			}
+			else{
+				if (!model.hasShortcut()){
+					MainFrame.getInstance().getCopyDiagramAction().setEnabled(true);
+					MainFrame.getInstance().getCutDiagramAction().setEnabled(true);
+				}
+				else{
+					MainFrame.getInstance().getCopyDiagramAction().setEnabled(false);
+					MainFrame.getInstance().getCutDiagramAction().setEnabled(false);
+				}
+				if (!model.hasShortcut() && !model.hasPackage())
+					MainFrame.getInstance().getPrepareShortcutAction().setEnabled(true);
+				else
+					MainFrame.getInstance().getPrepareShortcutAction().setEnabled(false);
+			}
+		
 		} else if (o instanceof GraphEditModel) {
 			if (!mainFrame.getSaveDiagramAction().isEnabled()) {
 				//((GraphEditModel)o).getParentProject().setChanged(true);

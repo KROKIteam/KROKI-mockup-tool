@@ -26,14 +26,16 @@ public class ShortcutAction extends AbstractAction {
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
 		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("shortcut2.png"));;
 		putValue(SHORT_DESCRIPTION, "Create shortcut here...");
+		setEnabled(false);
 	}
 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		List<ElementPainter> shortcutPainters = ShortcutsManager.getInsance().createShortcutsAndPainters();
+		List<ElementPainter> shortcutPainters = ShortcutsManager.getInsance().createShortcutsAndPainters(5,5);
 		Command command = new CreateShortcutCommand(MainFrame.getInstance().getCurrentView(), shortcutPainters);
 		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		setEnabled(false);
 		
 	}
 	

@@ -1,8 +1,11 @@
 package graphedit.view;
 
+import graphedit.app.MainFrame;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
+import graphedit.model.components.Package;
+import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.diagram.GraphEditModel;
 
 import java.util.ArrayList;
@@ -16,18 +19,29 @@ public class SelectionModel extends Observable {
 	private List<GraphElement> selectedElements;
 	private Link selectedLink;
 	private LinkNode selectedNode;
+	private List<GraphElement> packageList, shortcutsList;
+
 
 	public SelectionModel(GraphEditModel model) {
 		this.model = model;
 		selectedElements = new ArrayList<GraphElement>();
+		packageList = new ArrayList<GraphElement>();
+		shortcutsList = new ArrayList<GraphElement>();
 	}
 
 	public void inverseSelection() {
-		if (model != null && model.getDiagramElements().size() > 0) {
-			for (GraphElement element : model.getDiagramElements()) {
+		List<GraphElement> allElements = new ArrayList<GraphElement>();
+		allElements.addAll(model.getDiagramElements());
+		allElements.addAll(model.getContainedPackages());
+		if (model != null && allElements.size() > 0) {
+			for (GraphElement element : allElements) {
 				if (selectedElements.contains(element)) {
 					selectedElements.remove(element);
 				} else {
+					if(element instanceof Package)
+						packageList.add(element);
+					else if (element instanceof Shortcut)
+						shortcutsList.add(element);
 					selectedElements.add(element);
 				}
 			}
@@ -36,9 +50,16 @@ public class SelectionModel extends Observable {
 	}
 
 	public void selectAllElements() {
-		if (model != null && model.getDiagramElements().size() > 0) {
-			for (GraphElement element : model.getDiagramElements()) {
+		List<GraphElement> allElements = new ArrayList<GraphElement>();
+		allElements.addAll(model.getDiagramElements());
+		allElements.addAll(model.getContainedPackages());
+		if (model != null && allElements.size() > 0) {
+			for (GraphElement element : allElements) {
 				if (!selectedElements.contains(element)) {
+					if(element instanceof Package)
+						packageList.add(element);
+					else if (element instanceof Shortcut)
+						shortcutsList.add(element);
 					selectedElements.add(element);
 				}
 			}
@@ -75,8 +96,13 @@ public class SelectionModel extends Observable {
 			return;
 		if (this.selectedElements == null)
 			this.selectedElements = new ArrayList<GraphElement>();
-		if (!this.selectedElements.contains(newGraphElement))
+		if (!this.selectedElements.contains(newGraphElement)){
+			if(newGraphElement instanceof Package)
+				packageList.add(newGraphElement);
+			else if (newGraphElement instanceof Shortcut)
+				shortcutsList.add(newGraphElement);
 			this.selectedElements.add(newGraphElement);
+		}
 		fireUpdates();
 	}
 
@@ -84,14 +110,21 @@ public class SelectionModel extends Observable {
 		if (oldGraphElement == null)
 			return;
 		if (this.selectedElements != null)
-			if (this.selectedElements.contains(oldGraphElement))
+			if (this.selectedElements.contains(oldGraphElement)){
+				if(oldGraphElement instanceof Package)
+					packageList.add(oldGraphElement);
+				else if (oldGraphElement instanceof Shortcut)
+					shortcutsList.add(oldGraphElement);
 				this.selectedElements.remove(oldGraphElement);
+			}
 		fireUpdates();
 	}
 
 	public void removeAllSelectedElements() {
 		if (selectedElements != null)
 			selectedElements.clear();
+		packageList.clear();
+		shortcutsList.clear();
 		fireUpdates();
 	}
 
@@ -115,7 +148,8 @@ public class SelectionModel extends Observable {
 		this.notifyObservers();
 	}
 
-	// Igor: Aded new convenience method in order to ease Clipboard management
+
+
 	public void removeSelectedElements(List<GraphElement> elements) {
 		if (elements!=null){
 			selectedElements.removeAll(elements);
@@ -138,4 +172,12 @@ public class SelectionModel extends Observable {
 		this.selectedNode = selectedNode;
 	}
 
+
+	public boolean hasPackage(){
+		return packageList.size() > 0;
+	}
+
+	public boolean hasShortcut(){
+		return shortcutsList.size() > 0;
+	}
 }

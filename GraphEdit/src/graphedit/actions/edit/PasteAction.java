@@ -1,4 +1,4 @@
-package graphedit.actions.edit;
+	package graphedit.actions.edit;
 
 import graphedit.actions.popup.ViewPopupMenu;
 import graphedit.app.MainFrame;
@@ -25,7 +25,7 @@ public class PasteAction extends AbstractAction {
 	
 	private Point location;
 	
-	private boolean allowedMultiplePaste = true;
+	private boolean allowedMultiplePaste = false;
 	
 	public PasteAction() {
 		putValue(NAME, "Paste Element");
@@ -43,8 +43,9 @@ public class PasteAction extends AbstractAction {
 		
 		GraphEditView view = MainFrame.getInstance().getCurrentView();
 		Command command = new PasteElementsCommand(view, linkPainters, elementPainters);
-		if (event.getActionCommand().equals(ViewPopupMenu.POPUP_ACTION_COMMAND)) {
-			location = MainFrame.getInstance().getMousePosition();
+		System.out.println(event.getActionCommand());
+		if (event.getActionCommand() != null && event.getActionCommand().equals(ViewPopupMenu.POPUP_ACTION_COMMAND)) {
+			location = MainFrame.getInstance().getCurrentView().getCurrentState().getController().getPoint();
 			command = new PasteElementsCommand(view, linkPainters, elementPainters, location);
 		} else {
 			command = new PasteElementsCommand(view, linkPainters, elementPainters);
@@ -52,7 +53,8 @@ public class PasteAction extends AbstractAction {
 		MainFrame.getInstance().getCommandManager().executeCommand(command);
 		
 		// disable/enable Paste action
-		MainFrame.getInstance().getPasteDiagramAction().setEnabled(MainFrame.getInstance().getPasteDiagramAction().isAllowedMultiplePaste());
+		//MainFrame.getInstance().getPasteDiagramAction().setEnabled(MainFrame.getInstance().getPasteDiagramAction().isAllowedMultiplePaste());
+		setEnabled(false);
 	}
 	
 	public void setAllowedMultiplePaste(boolean allowedMultiplePaste) {
