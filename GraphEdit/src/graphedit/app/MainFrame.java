@@ -443,7 +443,6 @@ public class MainFrame extends JDialog{
 			viewMenu.add(bestFitZoomAction);
 			viewMenu.add(fullScreenAction);
 			viewMenu.addSeparator();
-			viewMenu.addSeparator();
 			viewMenu.add(standardToolBar);
 			viewMenu.add(showGridMenuItem);
 			viewMenu.addSeparator();
@@ -487,7 +486,6 @@ public class MainFrame extends JDialog{
 			mainToolBar.add(shortcutAction);
 			mainToolBar.addSeparator();
 			mainToolBar.add(bestFitZoomAction);
-			mainToolBar.addSeparator();
 			mainToolBar.addSeparator();
 			mainToolBar.add(fullScreenAction);
 			//mainToolBar.addSeparator();
@@ -863,6 +861,7 @@ public class MainFrame extends JDialog{
 				if (c instanceof ContainerPanel) {
 					if (((ContainerPanel) c).getView().getModel().equals(diagram)) {
 						view = ((ContainerPanel) c).getView();
+						container = ((ContainerPanel) c);
 					}
 				}
 			}
@@ -950,8 +949,8 @@ public class MainFrame extends JDialog{
 			// Sinhronizacija zbog StatusRefresher-a
 			synchronized (this) {
 				for (Component c : mainTabbedPane.getComponents()) {
-					if (c instanceof GraphEditView) {
-						diagram = ((GraphEditView) c).getModel();
+					if (c instanceof ContainerPanel) {
+						diagram = ((ContainerPanel) c).getView().getModel();
 
 						if (diagrams.contains(diagram)) {
 							mainTabbedPane.remove(c);
@@ -969,10 +968,12 @@ public class MainFrame extends JDialog{
 
 
 		public GraphEditView getOpenDiagram(GraphEditModel model){
-			for (Component c : getMainTabbedPane().getComponents()) 
-				if (c instanceof GraphEditView) 
-					if (((GraphEditView) c).getModel() == model)
-						return (GraphEditView)c;
+			for (Component c : getMainTabbedPane().getComponents()){
+				if (c instanceof ContainerPanel) {
+					if (((ContainerPanel) c).getView().getModel() == model)
+						return ((ContainerPanel) c).getView();
+				}
+			}
 			return null;
 		}
 

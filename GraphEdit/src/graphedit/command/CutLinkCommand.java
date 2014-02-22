@@ -29,25 +29,33 @@ public class CutLinkCommand extends Command {
 	private GraphEditModel model;
 
 	private List<Link> links;
-	
+
 	private List<LinkPainter> linkPainters;
 	private List<AbstractLinkElement> sourceLinkElements, destinationLinkElements;
 
 	private GraphEditElement sourceElement, destinationElement;
 
+
+	public CutLinkCommand (GraphEditView view, GraphEditModel model, Link link){
+		this(view, link);
+		this.model = model;
+	}
+
+
 	public CutLinkCommand(GraphEditView view, Link link) {
 		this.view = view;
-		this.model = view.getModel();
-		
-		
-		
+		if (view != null)
+			this.model = view.getModel();
+
+
+
 		links = new ArrayList<Link>();
 		linkPainters = new ArrayList<LinkPainter>();
 		sourceLinkElements = new ArrayList<AbstractLinkElement>();
 		destinationLinkElements = new ArrayList<AbstractLinkElement>();
-		
+
 		if (ApplicationMode.USER_INTERFACE == MainFrame.getInstance().getAppMode()){
-			
+
 			sourceElement = link.getSourceConnector().getRepresentedElement();
 			destinationElement = link.getDestinationConnector().getRepresentedElement();
 
@@ -62,18 +70,19 @@ public class CutLinkCommand extends Command {
 				panel.allSuccessors(successors, hierarchy);
 				successors.add(hierarchy);
 
-				
+
 				for (Connector conn : ((UIClassElement)sourceElement).getHierarchyMap().keySet()){
 					hierarchyElement = ((UIClassElement)sourceElement).getHierarchyMap().get(conn);
 					if (successors.contains(hierarchyElement.getHierarchy())){
 						links.add(conn.getLink());
-						linkPainters.add(view.getLinkPainter(conn.getLink()));
+						if (view != null)
+							linkPainters.add(view.getLinkPainter(conn.getLink()));
 						sourceElement = link.getSourceConnector().getRepresentedElement();
 						destinationElement = link.getDestinationConnector().getRepresentedElement();
 						hierarchyElement = ((UIClassElement)sourceElement).getHierarchyMap().get(conn.getLink().getSourceConnector());
 						sourceLinkElements.add(hierarchyElement);
 						destinationLinkElements.add(null);
-						
+
 					}
 				}
 
@@ -81,7 +90,8 @@ public class CutLinkCommand extends Command {
 			else{
 				//zoom and next
 				links.add(link);
-				linkPainters.add(view.getLinkPainter(link));
+				if (view != null)
+					linkPainters.add(view.getLinkPainter(link));
 				sourceLinkElements.add(((UIClassElement) sourceElement).getCurrentElement(link.getSourceConnector()));
 				destinationLinkElements.add(((UIClassElement) destinationElement).getCurrentElement(link.getDestinationConnector()));
 			}
@@ -93,45 +103,51 @@ public class CutLinkCommand extends Command {
 	public void execute() {
 
 		Link link;
-		LinkPainter linkPainter;
+		LinkPainter linkPainter = null;
 		for (int i = 0; i < links.size(); i++){
-			
+
 			link = links.get(i);
-			linkPainter = linkPainters.get(i);
+			if (view != null)
+				linkPainter = linkPainters.get(i);
 			sourceElement = link.getSourceConnector().getRepresentedElement();
 			destinationElement = link.getDestinationConnector().getRepresentedElement();
 			sourceElement.unlink(link);
 			destinationElement.unlink(link);
 			model.removeLink(link);
-			view.removeLinkPainters(linkPainter);
+			if (view != null)
+				view.removeLinkPainters(linkPainter);
 		}
 		removedMappings = model.removeFromElementByConnectorStructure(links);
-		view.getSelectionModel().removeAllSelectedElements();
-		view.getSelectionModel().setSelectedLink(null);
+		if (view != null){
+			view.getSelectionModel().removeAllSelectedElements();
+			view.getSelectionModel().setSelectedLink(null);
+		}
 	}
 
 	@Override
 	public void undo() {
 
-		
+
 		for (Connector conn : removedMappings.keySet()){
 			LinkableElement element = (LinkableElement) removedMappings.get(conn);
 			element.getConnectors().add(conn);
 		}
 		model.addToElementByConnectorStructure(removedMappings);
-		
+
 		Link link;
-		LinkPainter linkPainter;
+		LinkPainter linkPainter = null;
 		AbstractLinkElement sourceLinkElement, destinationLinkElement;
-		
+
 		for (int i = 0; i < links.size(); i++){
 			link = links.get(i);
-			linkPainter = linkPainters.get(i);
+			if (view != null)
+				linkPainter = linkPainters.get(i);
 			sourceElement = link.getSourceConnector().getRepresentedElement();
 			destinationElement = link.getDestinationConnector().getRepresentedElement();
-			
+
 			model.addLink(link);
-			view.addLinkPainter(linkPainter);
+			if (view != null)
+				view.addLinkPainter(linkPainter);
 
 			sourceLinkElement = sourceLinkElements.get(i);
 			destinationLinkElement = destinationLinkElements.get(i);
@@ -140,7 +156,8 @@ public class CutLinkCommand extends Command {
 			if (destinationLinkElement != null)
 				destinationElement.setOldLink(link, destinationLinkElement);
 		}
-		view.getSelectionModel().setSelectedLink(links.get(links.size()-1));
+		if (view != null)
+			view.getSelectionModel().setSelectedLink(links.get(links.size()-1));
 	}
 
 }

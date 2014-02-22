@@ -29,7 +29,7 @@ public class BestFitZoomAction extends AbstractAction {
 			return;
 		}
 		
-		view.bestFitZoom();
+		view.bestFitZoom(true);
 	}
 
 }

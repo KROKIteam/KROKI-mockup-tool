@@ -39,7 +39,7 @@ public class GraphEditViewMini extends GraphEditViewPanel {
 		addComponentListener(new ComponentAdapter(){
 			
 			public void componentResized(ComponentEvent e) {
-		        bestFitZoom();   
+		        bestFitZoom(false);   
 		        scaleView();
 		    }
 		});

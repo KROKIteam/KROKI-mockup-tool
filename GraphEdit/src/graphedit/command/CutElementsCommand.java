@@ -17,7 +17,6 @@ import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.util.Calculate;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
-import graphedit.view.LinkPainter;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ public class CutElementsCommand extends Command {
 	private  List<GraphElement> elements;
 	private  List<ElementPainter> elementPainters;
 	private  List<Link> links;
-	private  List<LinkPainter> linkPainters;
 	private Map<Connector, GraphElement> removedMappings;
 	private GraphEditModel model;
 	private List<GraphEditPackage> packages;
@@ -46,13 +44,13 @@ public class CutElementsCommand extends Command {
 	private List<CutLinkCommand> cutLinkCommands;
 
 
-	/*
-	 * WIP - nakon UNDO i REDO srediti
-	 */
 	public CutElementsCommand(GraphEditView view, List<GraphElement> elements, List<ElementPainter> elementPainters) {
 		packages = new ArrayList<GraphEditPackage>();
 		this.elementPainters = new ArrayList<ElementPainter>();
 		this.elements = new ArrayList<GraphElement>();
+		this.model = view.getModel();
+		this.view = view;
+		this.links = new ArrayList<Link>();
 		cutLinkCommands = new ArrayList<CutLinkCommand>();
 
 		for (GraphElement element : elements){
@@ -63,16 +61,12 @@ public class CutElementsCommand extends Command {
 				this.elementPainters.add(view.getElementPainter(element));
 			}
 		}
-		this.model = view.getModel();
-		this.view = view;
-		this.elements = new ArrayList<GraphElement>(elements);
-		this.elementPainters = new ArrayList<ElementPainter>(elementPainters);
-		this.links = new ArrayList<Link>();
+
 
 		deletePackages = new DeletePackagesCommand(packages, view);
 		umlPackage = model.getParentPackage().getUmlPackage();
 
-		for (GraphElement el : elements){
+		for (GraphElement el : this.elements){
 			if (el instanceof Shortcut){
 				Shortcut s = (Shortcut) el;
 				if (unlinkAfterDeletingShortcut(s))
@@ -81,36 +75,33 @@ public class CutElementsCommand extends Command {
 					replacements.put(s, getReplacementElement(s));
 			}
 		}
-		
-		
+
+
 		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE && links!=null)
-			for (Link link : model.getAssociatedLinks(elements)){
+			for (Link link : model.getAssociatedLinks(this.elements)){
 
 				boolean unlink = true;
 				GraphElement source = model.getElementByConnector().get(link.getSourceConnector());
 				GraphElement destination = model.getElementByConnector().get(link.getDestinationConnector());
 
-				
+
 				//brisemo ako se brise element 
 				if (!(source instanceof Shortcut) && elements.contains(source) ||
 						!(destination instanceof Shortcut) && elements.contains(destination))
-						unlink = true;
+					unlink = true;
 				else if (source instanceof Shortcut || destination instanceof Shortcut)
 					unlink = unlinked.contains(source) || unlinked.contains(destination)
 					|| (elements.contains(source) && elements.contains(destination));
 
-				
+
 				if (unlink){
 					cutLinkCommands.add(new CutLinkCommand(view, link));
 				}
 				else{
 					links.add(link);
-					
+
 				}
 			}
-		this.linkPainters = view.getLinkPainters(links);
-
-
 	}
 
 
@@ -120,11 +111,11 @@ public class CutElementsCommand extends Command {
 		view.removeElementPainters(elementPainters);
 		view.getSelectionModel().removeAllSelectedElements();
 		deletePackages.execute();
-		
+
 		removedMappings = model.removeFromElementByConnectorStructure(links);
 
 
-		
+
 		for (Connector conn : removedMappings.keySet()){
 			LinkableElement element = (LinkableElement) removedMappings.get(conn);
 			element.getConnectors().add(conn);
@@ -147,8 +138,8 @@ public class CutElementsCommand extends Command {
 				Point2D newPosition = new Point2D.Double(((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getX(),
 						((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getY());
 				link.getSourceConnector().setProperty(LinkNodeProperties.POSITION, newPosition);
-			
-				
+
+
 				model.insertIntoElementByConnectorStructure(link.getSourceConnector(), replacement);
 				link.getSourceConnector().setRelativePositions(newPosition);
 				link.getSourceConnector().setPercents(newPosition);
@@ -161,12 +152,12 @@ public class CutElementsCommand extends Command {
 						((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getY());
 
 				oldPositions.put(link.getDestinationConnector(), oldPosition);
-				
+
 				Point2D newPosition = new Point2D.Double(((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getX(),
 						((Point2D)replacement.getProperty(GraphElementProperties.POSITION)).getY());
 				link.getDestinationConnector().setProperty(LinkNodeProperties.POSITION, newPosition);
-				
-				
+
+
 				model.insertIntoElementByConnectorStructure(link.getDestinationConnector(), replacement);
 				link.getDestinationConnector().setRelativePositions(newPosition);
 				link.getDestinationConnector().setPercents(newPosition);
@@ -176,11 +167,10 @@ public class CutElementsCommand extends Command {
 			cutLink.execute();
 
 		for (GraphElement element : elements){
-			GraphElement nonShortcut = element;
 			if (element instanceof Shortcut)
-				nonShortcut = ((Shortcut)element).shortcutTo();
+				continue;
 
-			GraphEditElement gElement = nonShortcut.getRepresentedElement();
+			GraphEditElement gElement = element.getRepresentedElement();
 			umlPackage.removeOwnedType(((ClassElement)gElement).getUmlType());
 
 		}
@@ -198,7 +188,7 @@ public class CutElementsCommand extends Command {
 
 
 		for (Link link : links){
-			
+
 			GraphElement source = removedMappings.get(link.getSourceConnector());
 			GraphElement destination = removedMappings.get(link.getDestinationConnector());
 
@@ -228,11 +218,10 @@ public class CutElementsCommand extends Command {
 			cutLink.undo();
 
 		for (GraphElement element : elements){
-			GraphElement nonShortcut = element;
 			if (element instanceof Shortcut)
-				nonShortcut = ((Shortcut)element).shortcutTo();
+				continue;
 
-			GraphEditElement gElement = nonShortcut.getRepresentedElement();
+			GraphEditElement gElement = element.getRepresentedElement();
 			umlPackage.addOwnedType(((ClassElement)gElement).getUmlType());
 
 		}

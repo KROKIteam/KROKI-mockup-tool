@@ -1,6 +1,5 @@
 package graphedit.view;
 
-import graphedit.app.MainFrame;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;

@@ -277,7 +277,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 			
 
 		if (scaleMini){
-			miniView.bestFitZoom();
+			miniView.bestFitZoom(false);
 
 			scaleMini = false;
 		}
@@ -706,8 +706,8 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 	}
 
 	@Override
-	public void zoomToPoint(double scale, Point2D position) {
-		super.zoomToPoint(scale, position);
+	public void zoomToPoint(double scale, Point2D position, boolean limistScale) {
+		super.zoomToPoint(scale, position, limistScale);
 		miniView.scaleViewSize();
 		MainFrame.getInstance().updateZoomSlider(scale);
 	}
@@ -726,7 +726,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 		lassoZoomRectangle.setBounds(0, 0, 0, 0);
 		transformFromUserSpace(center);
-		zoomToPoint(scale, center);
+		zoomToPoint(scale, center, true);
 	}
 
 

@@ -73,7 +73,7 @@ abstract class GraphEditViewPanel extends JPanel{
 		return getModelBounds(model.getAllElements());
 	}
 
-	public void bestFitZoom() {
+	public void bestFitZoom(boolean limitScaleFactor) {
 		double bestFitFactor = Double.parseDouble(Preferences.getInstance().getProperty(Preferences.BESTFIT_FACTOR));
 		double[] modelBounds = getModelBounds();
 		if (modelBounds == null) {
@@ -91,11 +91,12 @@ abstract class GraphEditViewPanel extends JPanel{
 		}
 
 		transformFromUserSpace(center);
-		zoomToPoint(scale * bestFitFactor, center);
+		zoomToPoint(scale * bestFitFactor, center, limitScaleFactor);
 	}
 
-	protected void zoomToPoint(double scale, Point2D position) {
-		scale = limitScaleFactor(scale);
+	protected void zoomToPoint(double scale, Point2D position, boolean limitScaleFactor) {
+		if (limitScaleFactor)
+			scale = limitScaleFactor(scale);
 
 		transformToUserSpace(position);
 

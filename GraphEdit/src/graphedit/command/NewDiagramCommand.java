@@ -4,10 +4,6 @@ import graphedit.app.MainFrame;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
 
-import java.io.File;
-
-import kroki.uml_core_basic.UmlPackage;
-
 public class NewDiagramCommand extends Command {
 
 	private GraphEditPackage parentPackage;
