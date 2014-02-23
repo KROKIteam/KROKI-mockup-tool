@@ -14,19 +14,30 @@ import javax.swing.table.TableCellEditor;
 public class PropertiesTable extends JTable{
 
 	private boolean elementSelected = false;
-	private DefaultCellEditor cbEditor; 
+	private DefaultCellEditor cbEditor, cbCheckEditor; 
+
 
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public PropertiesTable(AbstractTableModel propertiesTableModel) {
 		super(propertiesTableModel);
 		JComboBox cbTypes = new JComboBox(ClassStereotypeUI.values());
+		JComboBox<String> cbCheck = new JComboBox<String>(new String[] {"true","false"});
+		
 		cbEditor =  new DefaultCellEditor(cbTypes);
+		cbCheckEditor = new DefaultCellEditor(cbCheck);
 	}
 
 	public TableCellEditor getCellEditor(int row, int column){
-		if (elementSelected && row==5 && column==1 && MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE)
-			return cbEditor;
+		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
+			if (elementSelected && row==5 && column==1)
+				return cbEditor;
+			else if (((row == 6 && column == 1) || (row == 7 && column == 1))){
+				return cbCheckEditor;
+			}
+			else
+				return super.getCellEditor(row, column);
+		}
 		return super.getCellEditor(row, column);
 	}
 

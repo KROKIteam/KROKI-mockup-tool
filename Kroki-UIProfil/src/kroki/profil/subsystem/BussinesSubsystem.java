@@ -7,11 +7,15 @@ package kroki.profil.subsystem;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Zoom;
+import kroki.profil.panel.StandardPanel;
 import kroki.profil.utils.DatabaseProps;
 import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
 import kroki.profil.utils.visitor.AllPosibleNextPanels;
+import kroki.profil.utils.visitor.AllPosibleNexts;
 import kroki.profil.utils.visitor.AllPosibleZoomPanels;
 import kroki.profil.utils.visitor.ContainingPanels;
 import kroki.uml_core_basic.UmlPackage;
@@ -134,6 +138,17 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
     public void accept(AllPosibleNextPanels visitor) {
         visitor.addAllObjects(ownedType);
+        for (int i = 0; i < nestedPackage.size(); i++) {
+            BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);
+            subsystem.accept(visitor);
+        }
+    }
+    
+    public void accept(AllPosibleNexts visitor) {
+       for (UmlType owned : ownedType)
+    	  if (owned instanceof StandardPanel)
+    		 visitor.addAllObjects(((StandardPanel)owned).containedZooms());
+       
         for (int i = 0; i < nestedPackage.size(); i++) {
             BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);
             subsystem.accept(visitor);

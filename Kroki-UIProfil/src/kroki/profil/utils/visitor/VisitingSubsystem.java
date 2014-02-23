@@ -12,7 +12,7 @@ public interface VisitingSubsystem {
 
     public void accept(AllPosibleZoomPanels visitor);
 
-    public void accept(AllPosibleNextPanels visitor);
+    public void accept(AllPosibleNexts visitor);
 
     public void accept(AllPosibleHierarchyPanels visitor);
 

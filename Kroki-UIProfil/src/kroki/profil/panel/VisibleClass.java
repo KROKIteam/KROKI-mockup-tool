@@ -294,15 +294,6 @@ public class VisibleClass extends VisibleElement implements UmlClass {
 		 return hierarchyList;
 	 }
 
-	 /**Vraca klasu sa kom je povezana na osnovu zoom elementa*/
-	 public Next getLinkedClass(Zoom zoom){
-		 for (VisibleElement visibleElement : visibleElementList) {
-			 if (visibleElement instanceof Next)
-				 if (((Next)visibleElement).getTargetPanel() == zoom.getActivationPanel())
-					 return (Next) visibleElement;
-		 }
-		 return null;
-	 }
 
     /**
      * Osvežava stanje svojih grafičkih komponenti.

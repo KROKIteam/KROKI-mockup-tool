@@ -130,19 +130,30 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					int groupIndex = ((ElementsGroup) visibleClass.getVisibleElementList().get(UIClassElement.STANDARD_PANEL_PROPERTIES)).getVisibleElementList().indexOf(zoom);
 					NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex,zoom.getLabel(),"1..1",zoom);
 					thisElement.getZoomMap().put(c2, zoomElement);
-					Next next = zoom.getTargetPanel().getLinkedClass(zoom);
-					UIClassElement targetElement2 = classes.get(visibleClass);
-					UIClassElement thisElement2 = classes.get(zoom.getTargetPanel());
-					classIndex = zoom.getTargetPanel().getVisibleElementList().indexOf(next);
-					groupIndex = ((ElementsGroup) zoom.getTargetPanel().getVisibleElementList().get(UIClassElement.STANDARD_PANEL_OPERATIONS)).getVisibleElementList().indexOf(next);
-					NextZoomElement nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex,next.getLabel(),"*",next);
-					thisElement2.getNextMap().put(c1, nextElement);
 
+
+					Next next = null;
+					if (zoom.opposite() != null && zoom.opposite() instanceof Next){
+						
+						next = (Next) zoom.opposite();
+						UIClassElement targetElement2 = classes.get(visibleClass);
+						UIClassElement thisElement2 = classes.get(zoom.getTargetPanel());
+						classIndex = zoom.getTargetPanel().getVisibleElementList().indexOf(next);
+						groupIndex = ((ElementsGroup) zoom.getTargetPanel().getVisibleElementList().get(UIClassElement.STANDARD_PANEL_OPERATIONS)).getVisibleElementList().indexOf(next);
+						NextZoomElement nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex,next.getLabel(),"*",next);
+						thisElement2.getNextMap().put(c1, nextElement);
+
+					}
 
 					ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
 					nodes.add(c1);
 					nodes.add(c2);
-					Link link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),next.getLabel(),"",true,true);
+					Link link;
+					if (next != null)
+						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),next.getLabel(),"",true,true);
+					else
+						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),"","",true,false);
+					
 					link.setProperty(LinkProperties.STEREOTYPE, "zoom");
 					c1.setLink(link);
 					c2.setLink(link);
@@ -156,9 +167,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
 					diagram.addLink(link);
 
-
-
 				}
+				
 				for (Hierarchy hierarchy : visibleClass.containedHierarchies()){
 
 					UIClassElement targetElement = classes.get(hierarchy.getTargetPanel());
@@ -177,7 +187,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					c2.setRepresentedElement(thisElement);
 					c1.setRepresentedElement(targetElement);
 
-					
+
 					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(1);
 					int classIndex = visibleClass.getVisibleElementList().indexOf(hierarchy);
 					int groupIndex = gr.getVisibleElementList().indexOf(hierarchy);

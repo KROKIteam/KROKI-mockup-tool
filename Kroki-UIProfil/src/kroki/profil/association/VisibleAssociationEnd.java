@@ -69,7 +69,7 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     
     @Override
     public String toString(){
-    	return label;
+    	return label + " [ " + activationPanel + " ]" ;
     }
 
     /**************************************/

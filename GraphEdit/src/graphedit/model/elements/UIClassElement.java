@@ -403,7 +403,7 @@ public class UIClassElement extends ClassElement{
 	 */
 
 
-	public void addZoomElement(String label, UIClassElement targetElement, Connector connector, int classIndex, int groupIndex){
+	public Zoom addZoomElement(String label, UIClassElement targetElement, Connector connector, int classIndex, int groupIndex){
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
 		if (classIndex == -1)
 			classIndex = visibleClass.getVisibleElementNum();
@@ -420,9 +420,11 @@ public class UIClassElement extends ClassElement{
 
 		NextZoomElement nextElement = new NextZoomElement(targetElement, classIndex, groupIndex, label, "*", zoom);
 		zoomMap.put(connector, nextElement);
+
+		return zoom;
 	}
 
-	public void addNextElement(String label, UIClassElement targetElement, Connector connector, int classIndex, int groupIndex){
+	public Next addNextElement(String label, UIClassElement targetElement, Connector connector, int classIndex, int groupIndex){
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
 		if (classIndex == -1)
 			classIndex = visibleClass.getVisibleElementNum();
@@ -436,6 +438,7 @@ public class UIClassElement extends ClassElement{
 		gr.addVisibleElement(groupIndex, next);
 		NextZoomElement nextElement = new NextZoomElement(targetElement, visibleClass.getVisibleElementNum()-1, gr.getVisibleElementsNum()-1, label, "1..1", next);
 		nextMap.put(connector, nextElement);
+		return next;
 	}
 
 	public void addNextElement(NextZoomElement next, Connector connector){
@@ -481,7 +484,7 @@ public class UIClassElement extends ClassElement{
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
 		gr.addVisibleElement(hierarchy);
 		hierarchyMap.put(connector, new HierarchyElement(hierarchy, visibleClass.getVisibleElementNum()-1, gr.getVisibleElementsNum() -1));
-		
+
 		hierarchy.setParentGroup(gr);
 
 
@@ -502,6 +505,7 @@ public class UIClassElement extends ClassElement{
 		String roleName="";
 		String label;
 		Connector connector = null;
+		Connector otherConnector = null;
 
 		if (this == link.getSourceConnector().getRepresentedElement()){
 			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
@@ -510,6 +514,7 @@ public class UIClassElement extends ClassElement{
 			navigable = (Boolean) link.getProperty(LinkProperties.DESTINATION_NAVIGABLE);
 			roleName =  (String) link.getProperty(LinkProperties.DESTINATION_ROLE);
 			connector = link.getSourceConnector();
+			otherConnector = link.getDestinationConnector();
 		}
 		else if (this == link.getDestinationConnector().getRepresentedElement()){
 			otherElement = (UIClassElement) link.getSourceConnector().getRepresentedElement();
@@ -518,6 +523,7 @@ public class UIClassElement extends ClassElement{
 			navigable = (Boolean) link.getProperty(LinkProperties.SOURCE_NAVIGABLE);
 			roleName =  (String) link.getProperty(LinkProperties.SOURCE_ROLE);
 			connector = link.getDestinationConnector();
+			otherConnector = link.getSourceConnector();
 		}
 
 		//proveri da li je standardni ili parent-child panel
@@ -538,7 +544,8 @@ public class UIClassElement extends ClassElement{
 						zoomCounter++;
 					}
 					link.setProperty(LinkProperties.SOURCE_ROLE, label);
-					addZoomElement(label, otherElement, connector, -1, -1);
+					Zoom zoom = addZoomElement(label, otherElement, connector, -1, -1);
+					setOpposite(zoom, otherConnector, otherElement);
 				}
 				else{
 					if (roleName.equals("")){
@@ -546,14 +553,14 @@ public class UIClassElement extends ClassElement{
 						linkCounter++;
 					}
 					link.setProperty(LinkProperties.DESTINATION_ROLE, label);
-					addNextElement(label, otherElement, connector, -1, -1);
+					Next next = addNextElement(label, otherElement, connector, -1, -1);
+					setOpposite(next, otherConnector, otherElement);
 				}
 			}
 		}
 		else{
 			//ako je ovo ParentChild koji sadrzi drugi, dodaj
 			if (navigable){
-				System.out.println(getUmlType().name());
 				Hierarchy hierarchy = new Hierarchy();
 				addHierarchyElement(hierarchy, (VisibleClass) otherElement.getUmlType(), connector);
 				int level = hierarchy.getLevel();
@@ -563,7 +570,6 @@ public class UIClassElement extends ClassElement{
 	}
 
 
-	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void changeLinkProperty(Link link, LinkProperties property, Object newValue) {
 		if (property.toString().startsWith("DESTINATION") && !(this.equals(link.getSourceConnector().getRepresentedElement())))
@@ -572,10 +578,10 @@ public class UIClassElement extends ClassElement{
 			return;
 		switch (property) {
 		case DESTINATION_CARDINALITY :
-			changeCardinality(link, (String) newValue);
+			changeCardinality(link, (String) newValue, property);
 			break;
 		case SOURCE_CARDINALITY : 
-			changeCardinality(link, (String) newValue);
+			changeCardinality(link, (String) newValue, property);
 			break;
 		case DESTINATION_ROLE : 
 			changeRole(link, (String) newValue);
@@ -583,6 +589,75 @@ public class UIClassElement extends ClassElement{
 		case SOURCE_ROLE : 
 			changeRole(link, (String) newValue);
 			break;
+		case DESTINATION_NAVIGABLE :
+			changeNavigable(link, property, (Boolean) newValue);
+			break;
+		case SOURCE_NAVIGABLE :
+			changeNavigable(link, property, (Boolean) newValue);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	private void changeNavigable(Link link, LinkProperties property, boolean navigable){
+
+		if (navigable == (Boolean) link.getProperty(property))
+			return;
+
+		UIClassElement otherElement = null;
+
+		Connector connector, otherConnector;
+
+		if (this == link.getDestinationConnector().getRepresentedElement() && property == LinkProperties.DESTINATION_NAVIGABLE)
+			return;
+		if (this == link.getSourceConnector().getRepresentedElement() && property == LinkProperties.SOURCE_NAVIGABLE)
+			return;
+
+		boolean source;
+
+		if (property == LinkProperties.DESTINATION_NAVIGABLE){
+			connector = link.getSourceConnector();
+			otherConnector = link.getDestinationConnector();
+
+			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
+			source = false;
+		}
+		else{
+			connector = link.getDestinationConnector();
+			otherConnector = link.getSourceConnector();
+			otherElement = (UIClassElement) link.getSourceConnector().getRepresentedElement();
+			source = true;
+		}
+		NextZoomElement nextEl = nextMap.get(connector);
+
+		if (!navigable){
+			//izbaci next
+			ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
+			gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextEl.getClassIndex()));
+			visibleClass.removeVisibleElement(nextEl.getClassIndex());
+
+			Next next = (Next) nextMap.get(connector).getVisibleElement();
+			if (next.opposite() != null)
+				next.opposite().setOpposite(null);
+
+			nextMap.remove(connector);
+			if (source)
+				link.setProperty(LinkProperties.SOURCE_ROLE, "");
+			else
+				link.setProperty(LinkProperties.DESTINATION_ROLE, "");
+		}
+		else{
+			//dodaj next
+			String label = "Link" + linkCounter ++;
+			Next next = addNextElement(label, otherElement, connector, -1, -1);
+			setOpposite(next, otherConnector, otherElement);
+			if (source)
+				link.setProperty(LinkProperties.SOURCE_ROLE, label);
+			else
+				link.setProperty(LinkProperties.DESTINATION_ROLE, label);
+
 		}
 	}
 
@@ -594,20 +669,32 @@ public class UIClassElement extends ClassElement{
 		return hierarchyMap.get(connector);
 	}
 
-	private void changeCardinality(Link link, String newCardinality){
+	private void changeCardinality(Link link, String newCardinality, LinkProperties cardProperty){
+		
+		//TODO kada se zamene, ako nije navigabilno
+		
 		UIClassElement otherElement = null;
 
-		Connector connector;
+		Connector connector, otherConnector;
 		LinkProperties property = LinkProperties.DESTINATION_ROLE;
+		
 		if (this == link.getSourceConnector().getRepresentedElement()){
 			connector = link.getSourceConnector();
+			if (cardProperty == LinkProperties.SOURCE_CARDINALITY)
+				return;
+			otherConnector = link.getDestinationConnector();
 			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
 		}
 		else{
 			property = LinkProperties.SOURCE_ROLE;
 			connector = link.getDestinationConnector();
+			if (cardProperty == LinkProperties.DESTINATION_CARDINALITY)
+				return;
+			otherConnector = link.getSourceConnector();
 			otherElement = (UIClassElement) link.getSourceConnector().getRepresentedElement();
 		}
+
+	//	link.setProperty(navigableProp, navigableValue);
 
 		LinkType linkType = getLinkType((UmlClass) otherElement.getUmlType());
 		if (linkType == LinkType.HIERARCHY)
@@ -634,22 +721,28 @@ public class UIClassElement extends ClassElement{
 					label = "Link" + linkCounter;
 					linkCounter++;
 				}
-				addNextElement(label, nextZoom.getTargetElement(), connector, -1, -1);
+				Next next = addNextElement(label, otherElement, connector, -1, -1);
+				setOpposite(next, otherConnector, otherElement);
+				link.setProperty(property, label);
 			}
 			else{
 				//izbaci next
-				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-				gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
-				visibleClass.removeVisibleElement(nextZoom.getClassIndex());
-				nextMap.remove(connector);
-				label = nextZoom.getLabel();
-				if (label.toLowerCase().startsWith("link")){
-					label = "Zoom" + zoomCounter;
-					zoomCounter++;	
+				if (nextZoom != null){
+					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
+					gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
+					visibleClass.removeVisibleElement(nextZoom.getClassIndex());
+					nextMap.remove(connector);
+					label = nextZoom.getLabel();
+					if (label.toLowerCase().startsWith("link")){
+						label = "Zoom" + zoomCounter;
+						zoomCounter++;	
+					}
+					Zoom zoom = addZoomElement(label, nextZoom.getTargetElement(), connector, -1, -1);
+					setOpposite(zoom, otherConnector, otherElement);
+					link.setProperty(property, label);
 				}
-				addZoomElement(label, nextZoom.getTargetElement(), connector, -1, -1);
+				
 			}
-			link.setProperty(property, label);
 		}
 	}
 
@@ -681,7 +774,7 @@ public class UIClassElement extends ClassElement{
 		if (args[0] == null)
 			return;
 		boolean navigable;
-		Connector connector;
+		Connector connector, otherConnector;
 		LinkProperties role;
 		String cardinality;
 		UIClassElement otherElement;
@@ -689,6 +782,7 @@ public class UIClassElement extends ClassElement{
 		if (this == link.getSourceConnector().getRepresentedElement()){
 			navigable = (Boolean) link.getProperty(LinkProperties.DESTINATION_NAVIGABLE);
 			connector = link.getSourceConnector();
+			otherConnector = link.getDestinationConnector();
 			role = LinkProperties.DESTINATION_ROLE;
 			cardinality = (String) link.getProperty(LinkProperties.DESTINATION_CARDINALITY);
 			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
@@ -696,10 +790,12 @@ public class UIClassElement extends ClassElement{
 		else{
 			navigable = (Boolean) link.getProperty(LinkProperties.SOURCE_NAVIGABLE);
 			connector = link.getDestinationConnector();
+			otherConnector = link.getSourceConnector();
 			role = LinkProperties.SOURCE_ROLE;
 			cardinality = (String) link.getProperty(LinkProperties.SOURCE_CARDINALITY);
 			otherElement = (UIClassElement) link.getSourceConnector().getRepresentedElement();
 		}
+
 		if (!navigable)
 			return;
 
@@ -711,35 +807,39 @@ public class UIClassElement extends ClassElement{
 				return;
 			LinkEnd linkEnd = zoomOrNext(cardinality);
 			String label = nextZoomElement.getLabel();
-			if (navigable){
-				if (zoomMap.containsKey(connector)){
-					//izbaci zoom
-					NextZoomElement zoomElement = zoomMap.get(connector);
-					if (visibleClass.getVisibleElementList().contains(zoomElement.getVisibleElement())){
-						ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-						gr.removeVisibleElement(visibleClass.getVisibleElementAt(zoomElement.getClassIndex()));
-						visibleClass.removeVisibleElement(zoomElement .getClassIndex());
-					}
-					zoomMap.remove(connector);
+			if (zoomMap.containsKey(connector)){
+				//izbaci zoom
+				NextZoomElement zoomElement = zoomMap.get(connector);
+				if (visibleClass.getVisibleElementList().contains(zoomElement.getVisibleElement())){
+					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
+					gr.removeVisibleElement(visibleClass.getVisibleElementAt(zoomElement.getClassIndex()));
+					visibleClass.removeVisibleElement(zoomElement .getClassIndex());
 				}
-				else if (nextMap.containsKey(connector)){
-					//izbaci next
-					NextZoomElement nextElement = nextMap.get(connector);
-					if (visibleClass.getVisibleElementList().contains(nextElement.getVisibleElement())){
-						ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-						gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextElement.getClassIndex()));
-						visibleClass.removeVisibleElement(nextElement.getClassIndex());
-					}
-					nextMap.remove(connector);
-
-				}
-				if (linkEnd == LinkEnd.NEXT)
-					addNextElement(nextZoomElement, connector);
-				else
-					addZoomElement(nextZoomElement, connector);
-
-				link.setProperty(role, label);
+				zoomMap.remove(connector);
 			}
+			else if (nextMap.containsKey(connector)){
+				//izbaci next
+				NextZoomElement nextElement = nextMap.get(connector);
+				if (visibleClass.getVisibleElementList().contains(nextElement.getVisibleElement())){
+					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
+					gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextElement.getClassIndex()));
+					visibleClass.removeVisibleElement(nextElement.getClassIndex());
+				}
+				nextMap.remove(connector);
+
+			}
+			if (linkEnd == LinkEnd.NEXT){
+				addNextElement(nextZoomElement, connector);
+				if (nextZoomElement != null)
+					setOpposite((VisibleAssociationEnd) nextZoomElement.getVisibleElement(), otherConnector, otherElement);
+
+			}
+			else{
+				addZoomElement(nextZoomElement, connector);
+				if (nextZoomElement != null)
+					setOpposite((VisibleAssociationEnd) nextZoomElement.getVisibleElement(), otherConnector, otherElement);
+			}
+			link.setProperty(role, label);
 		}
 		else{
 			HierarchyElement hierarchy = (HierarchyElement) args[0];
@@ -748,6 +848,16 @@ public class UIClassElement extends ClassElement{
 	}
 
 
+	private void setOpposite(VisibleAssociationEnd  nextZoom, Connector otherConnector, UIClassElement otherElement){
+		NextZoomElement other = otherElement.getNextMap().get(otherConnector);
+		if (other == null)
+			other = otherElement.getZoomMap().get(otherConnector);
+		if (other != null){
+			VisibleAssociationEnd otherEnd = (VisibleAssociationEnd) other.getVisibleElement();
+			otherEnd.setOpposite(nextZoom);
+			nextZoom.setOpposite(otherEnd);
+		}
+	}
 	@Override
 	public void unlink(Link link) {
 		//proveri da li je standardni ili parent-child panel

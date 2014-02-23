@@ -131,9 +131,21 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 			return false;
 
 		Object value = getValueAt(rowIndex, columnIndex - 1);
-		if(value instanceof String && properties.hasProperty(((String) value).replace(" ", "")))
-			if (!(Boolean) properties.getPropertyValue((String) value))
-				return false;
+		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE && selectionModel.getSelectedLink() != null){
+			if(value instanceof String && properties.hasProperty(((String) value).replace(" ", ""))){
+				String valueStr = (String)value;
+				Link link = selectionModel.getSelectedLink();
+				if (valueStr.endsWith("Navigable")){
+					String sourceOrDest = valueStr.substring(0,valueStr.indexOf(' '));
+					String cardinality;
+					if (sourceOrDest.equalsIgnoreCase("source"))
+						cardinality =  (String) link.getProperty(LinkProperties.SOURCE_CARDINALITY);
+					else
+						cardinality =  (String) link.getProperty(LinkProperties.DESTINATION_CARDINALITY);
+					return cardinality.endsWith("*");
+				}
+			}
+		}
 
 		return !(getValueAt(rowIndex, columnIndex) instanceof JButton);
 	}
@@ -173,7 +185,11 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 			} else if (!Validator.isJavaIdentifier((String) value)) {
 				Dialogs.showErrorMessage("Not a valid identifier name!", "Error");
 			} else {
-				ChangeElementCommand command = new ChangeElementCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedElements().get(0), (String)value, GraphElementProperties.NAME);
+				Command command ;
+				if (selectionModel.getSelectedElements().size() > 0)
+					command = new ChangeElementCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedElements().get(0), (String)value, GraphElementProperties.NAME);
+				else  //(selectionModel.getSelectedLink() != null)
+					command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.NAME);
 				MainFrame.getInstance().getCommandManager().executeCommand(command);
 			}
 		} else if  (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(GraphElementProperties.STEREOTYPE.toString()))) {
@@ -182,7 +198,11 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 				valueStr = ((ClassStereotypeUI)value).toString();
 			else
 				valueStr = (String) value;
-			ChangeElementCommand command = new ChangeElementCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedElements().get(0), valueStr, GraphElementProperties.STEREOTYPE);
+			Command command ;
+			if (selectionModel.getSelectedElements().size() > 0)
+				command = new ChangeElementCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedElements().get(0), valueStr, GraphElementProperties.STEREOTYPE);
+			else
+				command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), valueStr, LinkProperties.STEREOTYPE);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
 		} else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.STEREOTYPE.toString()))) {
 			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.STEREOTYPE);
@@ -209,6 +229,9 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.SOURCE_ROLE);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
 			//destination cardinality
+		} else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.SOURCE_NAVIGABLE.toString()))) {
+			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.SOURCE_NAVIGABLE);
+			MainFrame.getInstance().getCommandManager().executeCommand(command);
 		} else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.DESTINATION_CARDINALITY.toString()))) {
 			if (!validCardinality((String)value))
 				Dialogs.showErrorMessage("Invalid cardinality", "Error");
@@ -223,6 +246,9 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 					command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.DESTINATION_CARDINALITY);
 				MainFrame.getInstance().getCommandManager().executeCommand(command);
 			}
+		} else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.DESTINATION_NAVIGABLE.toString()))) {
+			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.DESTINATION_NAVIGABLE);
+			MainFrame.getInstance().getCommandManager().executeCommand(command);
 		} else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.DESTINATION_ROLE.toString()))) {
 			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.DESTINATION_ROLE);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
@@ -256,6 +282,7 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 		return -1;
 
 	}
+	
 
 	/**
 	 * Checks if the cardinality is valid (user interface classes cannot be linked randomly)

@@ -48,8 +48,8 @@ public class LinkElementsCommand extends Command {
 		model.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
 		model.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
 		view.addLinkPainter(linkPainter);
-		sourceGraphEditElement.link(link);
 		destinationGraphEditElement.link(link);
+		sourceGraphEditElement.link(link);
 		model.addLink(link);
 	}
 

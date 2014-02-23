@@ -9,6 +9,8 @@ import java.util.List;
 
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
+import kroki.profil.association.Next;
+import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
@@ -76,7 +78,17 @@ public class RemoveCommand implements Command {
 			if (visibleClass == null)
 				continue;
 
-
+			if (visibleElement instanceof Zoom){
+				Zoom zoom = (Zoom)visibleElement;
+				if (zoom.opposite() != null){
+					//changed opposite
+					if (zoom.opposite() instanceof Next){
+						Next next = (Next) zoom.opposite();
+						next.setOpposite(null);
+						next.setTargetPanel(null);
+					}
+			}
+			}
 			elementsGroup = visibleElement.getParentGroup();
 			if (elementsGroup != null) {
 				elementsGroup.removeVisibleElement(visibleElement);
@@ -101,7 +113,18 @@ public class RemoveCommand implements Command {
 		//add all elements first, to avoid exceptions
 
 		for (VisibleElement  visibleElement : visibleElementList){
-
+			
+			if (visibleElement instanceof Zoom){
+				Zoom zoom = (Zoom)visibleElement;
+				if (zoom.opposite() != null){
+					//changed opposite
+					if (zoom.opposite() instanceof Next){
+						Next next = (Next) zoom.opposite();
+						next.setOpposite(zoom);
+						next.setTargetPanel(zoom.getActivationPanel());
+					}
+			}
+			}
 			elementsGroup = visibleElement.getParentGroup();
 			visibleClass = getVisibleClass(visibleElement);
 			if (visibleClass == null)
