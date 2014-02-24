@@ -19,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import kroki.intl.Intl;
@@ -91,13 +92,15 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 
 	private void layoutComponents() {
 		JPanel intermediate = null;
+		JScrollPane pane;
 		if (panelMap.containsKey("group.INTERMEDIATE")) {
 			intermediate = panelMap.get("group.INTERMEDIATE");
 		} else {
 			intermediate = new JPanel();
 			intermediate.setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
 			panelMap.put("group.INTERMEDIATE", intermediate);
-			this.addTab(Intl.getValue("group.INTERMEDIATE"), intermediate);
+			pane = new JScrollPane(intermediate);
+			this.addTab(Intl.getValue("group.INTERMEDIATE"), pane);
 		}
 
 		intermediate.add(appliedToPanelLb);

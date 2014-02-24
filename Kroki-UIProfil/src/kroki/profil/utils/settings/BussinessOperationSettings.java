@@ -6,13 +6,16 @@ package kroki.profil.utils.settings;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
 import kroki.profil.operation.BussinessOperation;
@@ -54,13 +57,15 @@ public class BussinessOperationSettings extends VisibleElementSettings {
 
     private void layoutComponents() {
         JPanel intermediate = null;
+        JScrollPane pane;
         if (panelMap.containsKey("group.INTERMEDIATE")) {
             intermediate = panelMap.get("group.INTERMEDIATE");
         } else {
             intermediate = new JPanel();
             intermediate.setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
             panelMap.put("group.INTERMEDIATE", intermediate);
-            addTab(Intl.getValue("group.INTERMEDIATE"), intermediate);
+            pane = new JScrollPane(intermediate);
+            addTab(Intl.getValue("group.INTERMEDIATE"), pane);
         }
         intermediate.add(hasParamsFormLb);
         intermediate.add(hasParamsFormCb);

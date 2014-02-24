@@ -5,10 +5,13 @@
 package kroki.profil.utils.settings;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Next;
@@ -45,13 +48,15 @@ public class NextSettings extends VisibleAssociationEndSettings {
 
     private void layoutComponents() {
         JPanel intermediate = null;
+        JScrollPane pane;
         if (panelMap.containsKey("group.INTERMEDIATE")) {
             intermediate = panelMap.get("group.INTERMEDIATE");
         } else {
             intermediate = new JPanel();
             intermediate.setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
             panelMap.put("group.INTERMEDIATE", intermediate);
-            this.addTab(Intl.getValue("group.INTERMEDIATE"), intermediate);
+            pane = new JScrollPane(intermediate);
+            this.addTab(Intl.getValue("group.INTERMEDIATE"), pane);
         }
         intermediate.add(autoActivateLb);
         intermediate.add(autoActivateCb);

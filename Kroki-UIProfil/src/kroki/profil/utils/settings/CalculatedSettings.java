@@ -46,13 +46,15 @@ public class CalculatedSettings extends VisiblePropertySettings {
 
     private void layoutComponents() {
         JPanel intermediate = null;
+        JScrollPane pane;
         if (panelMap.containsKey("group.INTERMEDIATE")) {
             intermediate = panelMap.get("group.INTERMEDIATE");
         } else {
             intermediate = new JPanel();
             intermediate.setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
             panelMap.put("group.INTERMEDIATE", intermediate);
-            addTab(Intl.getValue("group.INTERMEDIATE"), intermediate);
+            pane = new JScrollPane(intermediate);
+            addTab(Intl.getValue("group.INTERMEDIATE"), pane);
         }
         intermediate.add(expressionLb);
         intermediate.add(expressionSp);

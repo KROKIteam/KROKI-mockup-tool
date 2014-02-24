@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.HashMap;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -96,13 +98,15 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 	}
 
 	private void layoutComponents() {
+		JScrollPane basicScrollPane;
 		JPanel basic = null;
 		if (panelMap.containsKey("group.BASIC")) {
 			basic = panelMap.get("group.BASIC");
 		} else {
 			basic = new JPanel();
 			basic.setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
-			addTab(Intl.getValue("group.BASIC"), basic);
+			basicScrollPane = new JScrollPane(basic);
+			addTab(Intl.getValue("group.BASIC"), basicScrollPane);
 			panelMap.put("group.BASIC", basic);
 		}
 
