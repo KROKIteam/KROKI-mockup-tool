@@ -6,6 +6,7 @@ package kroki.profil.utils.visitor;
 
 import java.util.Iterator;
 
+import kroki.profil.association.Next;
 import kroki.profil.association.Zoom;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlClass;
@@ -50,12 +51,16 @@ public class AllPosibleNexts extends Visitor {
         }
         ((BussinesSubsystem) umlPackage).accept(this);
         Iterator<Object> iter = objectList.iterator();
+        Next next = (Next) object;
+        
         while (iter.hasNext()) {
-
         	Zoom zoom =  (Zoom) iter.next();
-        	//only zooms that don't have opposite set
-        	if (zoom.getTargetPanel() != umlClass || zoom.opposite() != null)
-	        	iter.remove();
+        	//only zooms that don't have opposite and have target panel set
+        	if (zoom.getTargetPanel() == null || zoom.opposite() != null || 
+        			(next.getTargetPanel() != null && zoom.getActivationPanel() != next.getTargetPanel()) 
+        			|| (zoom.getTargetPanel() != next.getActivationPanel()))
+        		iter.remove();
+	        	
         }
     }
 }

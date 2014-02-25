@@ -35,6 +35,7 @@ import kroki.profil.panel.mode.OperationMode;
 import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
+import kroki.profil.utils.visitor.AllPosibleNextPanels;
 import kroki.profil.utils.visitor.AllPosibleNexts;
 import kroki.profil.utils.visitor.AllPosibleZoomPanels;
 import kroki.profil.utils.visitor.Visitor;
@@ -84,6 +85,9 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 	protected JTextField activationPanelTf;
 	protected JTextField targetPanelTf;
 	protected JButton targetPanelBtn;
+	protected JTextField oppositeTf;
+	protected JButton oppositeBtn;
+	protected JLabel oppositeLb;
 
 	public VisibleAssociationEndSettings(SettingsCreator settingsCreator) {
 		super(settingsCreator);
@@ -245,6 +249,9 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 			targetPanelValue = visibleAssociationEnd.getTargetPanel().toString();
 		}
 		targetPanelTf.setText(targetPanelValue);
+		
+		System.out.println(visibleAssociationEnd.opposite());
+		
 	}
 
 	private void addActions() {
@@ -444,6 +451,7 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 				}
 			}
 		});
+		
 		targetPanelBtn.addActionListener(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -456,7 +464,7 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 					info = Intl.getValue("zoom.choose.info");
 				}
 				if (visibleElement instanceof Next) {
-					visitor = new AllPosibleNexts();
+					visitor = new AllPosibleNextPanels();
 					info = Intl.getValue("next.choose.info");
 				}
 				if (visibleElement instanceof Hierarchy) {
@@ -467,18 +475,18 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 					visitor.visit(visibleElement);
 					objectList = visitor.getObjectList();
 					Object selected = ListDialog.showDialog(objectList.toArray(), info);
-					Object panel;
 					if (selected != null) {
 						if (visibleElement instanceof Next){
-							//if target was changed
-							if (visibleAssociationEnd.opposite() != null)
-								visibleAssociationEnd.opposite().setOpposite(null);
-							visibleAssociationEnd.setOpposite((Zoom)selected);
-							panel = ((Zoom)selected).getActivationPanel();
-							((Zoom)selected).setOpposite((Next) visibleElement);
+							
+							if (visibleAssociationEnd.getTargetPanel() != null
+									&& visibleAssociationEnd.getTargetPanel() != selected){
+								//if target zoom was set, remove it
+								if (visibleAssociationEnd.opposite() != null){
+									visibleAssociationEnd.opposite().setOpposite(null);
+									oppositeTf.setText("");
+								}
+							}
 						}
-						else
-							panel = selected;
 						if (visibleElement instanceof Zoom){
 							if (visibleAssociationEnd.opposite() != null && selected != visibleAssociationEnd.getTargetPanel()){
 								//changed opposite
@@ -490,8 +498,8 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 								}
 							}
 						}
-						visibleAssociationEnd.setTargetPanel((VisibleClass) panel);
-						targetPanelTf.setText(panel.toString());
+						visibleAssociationEnd.setTargetPanel((VisibleClass) selected);
+						targetPanelTf.setText(selected.toString());
 						//ako je u pitanju kraj Hijerarhija onda prisili promenu komponente
 						if (visibleElement instanceof Hierarchy) {
 							((Hierarchy) visibleElement).forceUpdateComponent();
