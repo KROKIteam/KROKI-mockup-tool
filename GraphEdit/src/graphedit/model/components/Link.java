@@ -141,6 +141,12 @@ public class Link extends GraphElement {
 		retVal[3] = yMax;
 		return retVal;
 	}
+	
+	public void changeNaviglable(LinkProperties property){
+		if (property != LinkProperties.DESTINATION_NAVIGABLE && property != LinkProperties.SOURCE_NAVIGABLE)
+			return;
+		setProperty(property, !(Boolean) getProperty(property));
+	}
 
 	
 }

@@ -12,7 +12,9 @@ public class ChangeLinkCommand extends Command {
 	private Object oldName, newName;
 	private LinkProperties property;
 	private AbstractLinkElement nextZoom;
-	
+	private boolean changeNavigable;
+	private LinkProperties navigableProperty;
+
 	public ChangeLinkCommand(GraphEditView view, Link link, String newName, LinkProperties property) {
 		this.view = view;
 		this.link = link;
@@ -62,30 +64,42 @@ public class ChangeLinkCommand extends Command {
 			this.oldName = (String)link.getProperty(LinkProperties.NAME);
 			break;
 		}
-
+		if (property == LinkProperties.DESTINATION_CARDINALITY || property == LinkProperties.SOURCE_CARDINALITY){
+			changeNavigable = !(Boolean)link.getProperty(LinkProperties.DESTINATION_NAVIGABLE) || 
+					!(Boolean)link.getProperty(LinkProperties.SOURCE_NAVIGABLE);
+			if (property == LinkProperties.DESTINATION_CARDINALITY)
+				navigableProperty = LinkProperties.DESTINATION_NAVIGABLE;
+			else
+				navigableProperty = LinkProperties.SOURCE_NAVIGABLE;
+		}
 	}
 
 	@Override
 	public void execute() {
-		
+
 		link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, newName);
 		link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, newName);
 		link.setProperty(property, newName);
+		if (changeNavigable){
+			link.changeNaviglable(navigableProperty);
+		}
 		view.getModel().fireUpdates();
+		
 	}
 
 	@Override
 	public void undo() {
 		link.setProperty(property, oldName);
-		if (nextZoom!=null){
-			if (property == LinkProperties.SOURCE_CARDINALITY)
-				link.getDestinationConnector().getRepresentedElement().setOldLink(link, nextZoom);
-			else
-				link.getSourceConnector().getRepresentedElement().setOldLink(link, nextZoom);
-		}
+		if (property == LinkProperties.SOURCE_CARDINALITY || property == LinkProperties.SOURCE_NAVIGABLE)
+			link.getDestinationConnector().getRepresentedElement().setOldLink(link, nextZoom);
+		else if (property == LinkProperties.DESTINATION_CARDINALITY || property == LinkProperties.DESTINATION_NAVIGABLE)
+			link.getSourceConnector().getRepresentedElement().setOldLink(link, nextZoom);
 		else{
-		link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, oldName);
-		link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, oldName);
+			link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, oldName);
+			link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, oldName);
+		}
+		if (changeNavigable){
+			link.changeNaviglable(navigableProperty);
 		}
 		view.getModel().fireUpdates();
 	}
