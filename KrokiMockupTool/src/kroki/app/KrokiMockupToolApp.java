@@ -10,11 +10,14 @@ import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
 
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.controller.TreeController;
@@ -25,7 +28,13 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.KrokiLookAndFeel;
 import kroki.app.utils.StringResource;
 import kroki.app.utils.TypeComponentMapper;
+import kroki.profil.VisibleElement;
+import kroki.profil.association.VisibleAssociationEnd;
+import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.visitor.ContainingPanels;
+import kroki.uml_core_basic.UmlPackage;
+import kroki.uml_core_basic.UmlType;
 
 /**
  *
@@ -240,6 +249,7 @@ public class KrokiMockupToolApp {
 	
 	//***************************************************************************************************************
 
+	
 	public KrokiMockupToolFrame getKrokiMockupToolFrame() {
 		return krokiMockupToolFrame;
 	}
