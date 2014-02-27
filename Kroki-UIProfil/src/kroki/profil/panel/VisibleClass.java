@@ -6,6 +6,7 @@ package kroki.profil.panel;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import kroki.mockup.model.Composite;
@@ -29,8 +30,8 @@ import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- * Označava klasu koja se preslikava na panel (“obični” ili tabulatorski) u okviru korisničkog interfejsa aplikacije.
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * OznaÄ�ava klasu koja se preslikava na panel (â€œobiÄ�niâ€� ili tabulatorski) u okviru korisniÄ�kog interfejsa aplikacije.
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(VisibleClassSettings.class)
 public class VisibleClass extends VisibleElement implements UmlClass {
@@ -39,9 +40,11 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     protected boolean modal = true;
     /**Lista svih elemenata koje poseduje klasa*/
     protected List<VisibleElement> visibleElementList = new ArrayList<VisibleElement>();
-    /*OBELEŽJA METAKLASE CLASS*/
+    /*OBELEÅ½JA METAKLASE CLASS*/
     protected boolean isAbstract;
     protected UmlPackage umlPackage;
+    //Component counter map used for incremental component naming
+    HashMap<ComponentType, Integer> componentCounts;
 
     /*****************/
     /*Konstruktori   */
@@ -49,16 +52,19 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     public VisibleClass(boolean modal) {
         super();
         this.modal = modal;
+        componentCounts = new HashMap<ComponentType, Integer>();
     }
 
     public VisibleClass(String label, boolean visible, ComponentType componentType, boolean modal) {
         super(label, visible, componentType);
         this.modal = modal;
+        componentCounts = new HashMap<ComponentType, Integer>();
     }
 
     public VisibleClass() {
         super();
         this.modal = true;
+        componentCounts = new HashMap<ComponentType, Integer>();
     }
 
     /**************/
@@ -96,7 +102,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Briše vidljivi element iz liste svih vidljivih elemenata koje poseduje klasa.
+     * BriÅ¡e vidljivi element iz liste svih vidljivih elemenata koje poseduje klasa.
      * @param visibleElement vidljivi element
      */
     public void removeVisibleElement(VisibleElement visibleElement) {
@@ -107,9 +113,9 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Briše vidljivi element sa određene pozicije u listi svih vidljivih elemenata klase.
+     * BriÅ¡e vidljivi element sa odreÄ‘ene pozicije u listi svih vidljivih elemenata klase.
      * @param index pozicija vidljivog elementa u listi
-     * @return vidljivi element koji je obrisan. U slučaju da je <code>index</code> van opsega povratna vrednost ove metode je <code>null</code>
+     * @return vidljivi element koji je obrisan. U sluÄ�aju da je <code>index</code> van opsega povratna vrednost ove metode je <code>null</code>
      */
     public VisibleElement removeVisibleElement(int index) {
         VisibleElement removed = null;
@@ -121,7 +127,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Vraća vidljivi element iz liste svih vidljivih elemenata sa pozicije određene prosleđenim indeksom.
+     * VraÄ‡a vidljivi element iz liste svih vidljivih elemenata sa pozicije odreÄ‘ene prosleÄ‘enim indeksom.
      * @param index indeks
      * @return vidljivi element
      */
@@ -130,7 +136,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Vraća broj vidljivih elemenata
+     * VraÄ‡a broj vidljivih elemenata
      * @return broj vidljivih elemenata
      */
     public int getVisibleElementNum() {
@@ -138,7 +144,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Pronalazi vidljiv element čija se grafička komponenta nalazi na prosleđenoj lokaciji
+     * Pronalazi vidljiv element Ä�ija se grafiÄ�ka komponenta nalazi na prosleÄ‘enoj lokaciji
      * @param point lokacija
      * @return vidljivi element
      */
@@ -187,7 +193,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Vraća sve vidljiva polja
+     * VraÄ‡a sve vidljiva polja
      * @return
      */
     public List<VisibleProperty> containedProperties() {
@@ -200,7 +206,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         return visiblePropertyList;
     }
 
-    /**Vraća listu svih perzistentnih obelezja klase*/
+    /**VraÄ‡a listu svih perzistentnih obelezja klase*/
     public List<Persistent> containedPersistents() {
         List<Persistent> persistentList = new ArrayList<Persistent>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -212,7 +218,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Vraća sve operacije
+     * VraÄ‡a sve operacije
      * @return
      */
     public List<VisibleOperation> containedOperations() {
@@ -225,7 +231,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         return visibleOperationList;
     }
 
-    /**Vraća listu svih izvesstaja*/
+    /**VraÄ‡a listu svih izvesstaja*/
     public List<Report> containedReports() {
         List<Report> reportList = new ArrayList<Report>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -236,7 +242,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         return reportList;
     }
 
-    /**Vraća listu svih transakcija*/
+    /**VraÄ‡a listu svih transakcija*/
     public List<Transaction> containedTransactions() {
         List<Transaction> transactionList = new ArrayList<Transaction>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -248,7 +254,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     }
 
     /**
-     * Vraća sve krajeve asocijacije
+     * VraÄ‡a sve krajeve asocijacije
      * @return
      */
     public List<VisibleAssociationEnd> containedAssociationEnds() {
@@ -261,7 +267,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         return visibleAssociationEndList;
     }
 
-    /**Vraća listu svih zumova*/
+    /**VraÄ‡a listu svih zumova*/
     public List<Zoom> containedZooms() {
         List<Zoom> zoomList = new ArrayList<Zoom>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -272,7 +278,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         return zoomList;
     }
 
-    /**Vraća listu sih nekstova*/
+    /**VraÄ‡a listu sih nekstova*/
     public List<Next> containedNexts() {
         List<Next> nextList = new ArrayList<Next>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -296,13 +302,47 @@ public class VisibleClass extends VisibleElement implements UmlClass {
 
 
     /**
-     * Osvežava stanje svojih grafičkih komponenti.
+     * OsveÅ¾ava stanje svojih grafiÄ�kih komponenti.
      */
     @Override
     public void update() {
         super.update();
     }
 
+    /**
+     * Gets number of components with specified type
+     */
+    public Integer getComponentCount(ComponentType type) {
+    	Integer count = 0;
+    	if(componentCounts.get(type) != null) {
+    		count = componentCounts.get(type);
+    	}
+    	return count;
+    }
+    
+    /**
+     * Increments number of components with specfied type and returns incremented count
+     * If that components type is not found in count map, it is added with count set to 1
+     */
+    public Integer incrementCount(ComponentType type) {
+    	Integer count = componentCounts.get(type);
+    	if(count != null) {
+    		count++;
+    		componentCounts.put(type, count);
+    		return count;
+    	}else {
+    		componentCounts.put(type, 1);
+    		return 1;
+    	}
+    }
+    
+    public void decrementCount(ComponentType type) {
+    	Integer count = componentCounts.get(type);
+    	if(count > 0) {
+    		count--;
+    		componentCounts.put(type, count);
+    	}
+    }
     /*******************************************/
     /*Implementirane metode interfejsa UmlClass*/
     /*******************************************/
@@ -310,7 +350,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         return isAbstract;
     }
 
-    /**Vraća listu svih atrubuta klase koji implmentiraju interfejs UmlProperty*/
+    /**VraÄ‡a listu svih atrubuta klase koji implmentiraju interfejs UmlProperty*/
     public List<UmlProperty> ownedAttribute() {
         List<UmlProperty> umlPropertyList = new ArrayList<UmlProperty>();
         for (int i = 0; i < visibleElementList.size(); i++) {
@@ -322,7 +362,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
         return umlPropertyList;
     }
 
-    /**Vraća listu svih operacija klase koji implmentiraju interfejs UmlOperation*/
+    /**VraÄ‡a listu svih operacija klase koji implmentiraju interfejs UmlOperation*/
     public List<UmlOperation> ownedOperation() {
         List<UmlOperation> umlOperationList = new ArrayList<UmlOperation>();
         for (int i = 0; i < visibleElementList.size(); i++) {

@@ -6,10 +6,13 @@ package kroki.app.state;
 
 import java.awt.Image;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+
 import kroki.app.command.AddCommand;
 import kroki.app.command.CommandManager;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.view.Canvas;
+import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
@@ -62,6 +65,12 @@ public class AddState extends State {
                     return;
                 }
                 AddCommand addCommand = new AddCommand(visibleClass, elementsGroup, element, e.getPoint());
+                //update counter for current component type on visible class
+                visibleClass.incrementCount(element.getComponentType());
+                //set label so it contains updated count
+                String newLabel = element.getComponentType().toString() + "_" + visibleClass.getComponentCount(element.getComponentType()); 
+                element.setLabel(newLabel);
+                element.update();
                 commandManager.addCommand(addCommand);
             } else {
                 return;

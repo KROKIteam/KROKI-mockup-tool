@@ -101,13 +101,10 @@ public class RemoveCommand implements Command {
 				visibleClass.removeVisibleElement(visibleElement);
 				visibleClass.update();
 			}
-
 		}
 	}
 
 	public void undoCommand() {
-
-
 		VisibleClass visibleClass;
 		ElementsGroup elementsGroup;
 		int index = 0;

@@ -4,6 +4,8 @@
  */
 package kroki.profil.panel;
 
+import java.util.HashMap;
+
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.TitledContainer;
@@ -73,7 +75,7 @@ public class StandardPanel extends VisibleClass {
     private ElementsGroup propertiesPanel;
     //panel sa desne strane u koji se smestaju operacije (transakcije, izvestaji,...)
     private ElementsGroup operationsPanel;
-
+    
     /*****************/
     /*Konstruktori   */
     /*****************/

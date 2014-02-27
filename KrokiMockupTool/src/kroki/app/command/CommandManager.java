@@ -34,6 +34,7 @@ public class CommandManager {
     public void doCommand() {
         if (currentCommand < commandList.size()) {
             commandList.get(currentCommand++).doCommand();
+            System.out.println("COMMAND");
         }
     }
 

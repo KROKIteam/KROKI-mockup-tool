@@ -37,7 +37,6 @@ public class AddCommand implements Command {
     }
 
     public void doCommand() {
-    	
         visibleClass.addVisibleElement(classIndex, element);
         elementsGroup.addVisibleElement(groupIndex, element);
         element.getComponent().setAbsolutePosition(point);
