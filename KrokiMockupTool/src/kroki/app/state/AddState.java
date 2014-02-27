@@ -23,90 +23,92 @@ import kroki.profil.panel.VisibleClass;
  */
 public class AddState extends State {
 
-    private VisibleElement element;
-    private Image addEnabledIcon;
-    private Image addDisabledIcon;
+	private VisibleElement element;
+	private Image addEnabledIcon;
+	private Image addDisabledIcon;
 
-    public AddState(Context context) {
-        super(context, "app.state.add");
-    }
+	public AddState(Context context) {
+		super(context, "app.state.add");
+	}
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        super.mouseMoved(e);
-        TabbedPaneController tabbedPaneController = context.getTabbedPaneController();
-        Canvas canvas = tabbedPaneController.getCurrentTabContent();
-        VisibleClass visibleClass = canvas.getVisibleClass();
-        VisibleElement visibleElement = visibleClass.getVisibleElementAtPoint(e.getPoint());
-        boolean flag = false;
-        if (visibleElement == null) {
-            flag = false;
-        } else if (visibleElement instanceof ElementsGroup) {
-            ElementsGroup elementsGroup = (ElementsGroup) visibleElement;
-            flag = elementsGroup.checkIfCanAdd(element);
-        }
-        if (flag) {
-            tabbedPaneController.changeCursorImage(addEnabledIcon);
-        } else {
-            tabbedPaneController.changeCursorImage(addDisabledIcon);
-        }
-    }
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		super.mouseMoved(e);
+		TabbedPaneController tabbedPaneController = context.getTabbedPaneController();
+		Canvas canvas = tabbedPaneController.getCurrentTabContent();
+		VisibleClass visibleClass = canvas.getVisibleClass();
+		VisibleElement visibleElement = visibleClass.getVisibleElementAtPoint(e.getPoint());
+		boolean flag = false;
+		if (visibleElement == null) {
+			flag = false;
+		} else if (visibleElement instanceof ElementsGroup) {
+			ElementsGroup elementsGroup = (ElementsGroup) visibleElement;
+			flag = elementsGroup.checkIfCanAdd(element);
+		}
+		if (flag) {
+			tabbedPaneController.changeCursorImage(addEnabledIcon);
+		} else {
+			tabbedPaneController.changeCursorImage(addDisabledIcon);
+		}
+	}
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        TabbedPaneController tabbedPaneController = context.getTabbedPaneController();
-        Canvas canvas = context.getTabbedPaneController().getCurrentTabContent();
-        CommandManager commandManager = canvas.getCommandManager();
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            VisibleClass visibleClass = canvas.getVisibleClass();
-            ElementsGroup elementsGroup = visibleClass.getElementsGroupAtPoint(e.getPoint());
-            if (elementsGroup != null) {
-                if (!elementsGroup.checkIfCanAdd(element)) {
-                    return;
-                }
-                AddCommand addCommand = new AddCommand(visibleClass, elementsGroup, element, e.getPoint());
-                //update counter for current component type on visible class
-                visibleClass.incrementCount(element.getComponentType());
-                //set label so it contains updated count
-                String newLabel = element.getComponentType().toString() + "_" + visibleClass.getComponentCount(element.getComponentType()); 
-                element.setLabel(newLabel);
-                element.update();
-                commandManager.addCommand(addCommand);
-            } else {
-                return;
-            }
-            element = null;
-            tabbedPaneController.changeCursorImage(null);
-            canvas.repaint();
-        } else if (e.getButton() == MouseEvent.BUTTON3) {
-            tabbedPaneController.changeCursorImage(null);
-        } else {
-            return;
-        }
-        context.goNext(SELECT_STATE);
-    }
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		TabbedPaneController tabbedPaneController = context.getTabbedPaneController();
+		Canvas canvas = context.getTabbedPaneController().getCurrentTabContent();
+		CommandManager commandManager = canvas.getCommandManager();
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			VisibleClass visibleClass = canvas.getVisibleClass();
+			ElementsGroup elementsGroup = visibleClass.getElementsGroupAtPoint(e.getPoint());
+			if (elementsGroup != null) {
+				if (!elementsGroup.checkIfCanAdd(element)) {
+					return;
+				}
+				AddCommand addCommand = new AddCommand(visibleClass, elementsGroup, element, e.getPoint());
+				//update counter for current component type on visible class
+				if (element.getComponentType() != null){
+					visibleClass.incrementCount(element.getComponentType());
+					//set label so it contains updated count
+					String newLabel = element.getComponentType().toString() + "_" + visibleClass.getComponentCount(element.getComponentType()); 
+					element.setLabel(newLabel);
+					element.update();
+				}
+				commandManager.addCommand(addCommand);
+			} else {
+				return;
+			}
+			element = null;
+			tabbedPaneController.changeCursorImage(null);
+			canvas.repaint();
+		} else if (e.getButton() == MouseEvent.BUTTON3) {
+			tabbedPaneController.changeCursorImage(null);
+		} else {
+			return;
+		}
+		context.goNext(SELECT_STATE);
+	}
 
-    public VisibleElement getElement() {
-        return element;
-    }
+	public VisibleElement getElement() {
+		return element;
+	}
 
-    public void setElement(VisibleElement element) {
-        this.element = element;
-    }
+	public void setElement(VisibleElement element) {
+		this.element = element;
+	}
 
-    public Image getAddDisabledIcon() {
-        return addDisabledIcon;
-    }
+	public Image getAddDisabledIcon() {
+		return addDisabledIcon;
+	}
 
-    public void setAddDisabledIcon(Image addDisabledIcon) {
-        this.addDisabledIcon = addDisabledIcon;
-    }
+	public void setAddDisabledIcon(Image addDisabledIcon) {
+		this.addDisabledIcon = addDisabledIcon;
+	}
 
-    public Image getAddEnabledIcon() {
-        return addEnabledIcon;
-    }
+	public Image getAddEnabledIcon() {
+		return addEnabledIcon;
+	}
 
-    public void setAddEnabledIcon(Image addEnabledIcon) {
-        this.addEnabledIcon = addEnabledIcon;
-    }
+	public void setAddEnabledIcon(Image addEnabledIcon) {
+		this.addEnabledIcon = addEnabledIcon;
+	}
 }

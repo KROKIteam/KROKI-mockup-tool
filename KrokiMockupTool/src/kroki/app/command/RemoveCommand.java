@@ -9,11 +9,9 @@ import java.util.List;
 
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
-import kroki.profil.association.Next;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.uml_core_basic.UmlOperation;
@@ -59,7 +57,7 @@ public class RemoveCommand implements Command {
 			if (panel == null)
 				panel = (ParentChild)hierarchy.umlClass();
 			currentSuccessors.clear();
-			panel.allSuccessors(currentSuccessors, hierarchy);
+			currentSuccessors = hierarchy.allSuccessors();
 			currentSuccessors.add(0,hierarchy);
 
 			for (Hierarchy h : currentSuccessors)

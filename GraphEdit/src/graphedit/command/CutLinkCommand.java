@@ -64,10 +64,7 @@ public class CutLinkCommand extends Command {
 				HierarchyElement hierarchyElement = ((UIClassElement)sourceElement).getHierarchyMap().get(link.getSourceConnector());
 				Hierarchy hierarchy = hierarchyElement.getHierarchy();
 
-				List<Hierarchy> successors = new ArrayList<Hierarchy>();
-				//delete hierarchy and all successors
-				ParentChild	panel = (ParentChild)hierarchy.umlClass();
-				panel.allSuccessors(successors, hierarchy);
+				List<Hierarchy> successors = hierarchy.allSuccessors();
 				successors.add(hierarchy);
 
 

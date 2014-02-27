@@ -14,6 +14,7 @@ import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.container.ParentChild;
 import kroki.profil.utils.DatabaseProps;
 import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
 import kroki.profil.utils.visitor.AllPosibleNextPanels;
@@ -129,9 +130,19 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
 
 
-	public void allAssociationEnds(List<VisibleAssociationEnd> ret){
+	public List<VisibleAssociationEnd> allAssociationEnds(){
+		ArrayList<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
 		allAssociationEnds(this, ret);
+		return ret;
 	}
+	
+
+	public List<VisibleClass> allPanels(){
+		ArrayList<VisibleClass> ret = new ArrayList<VisibleClass>();
+		allPanels(this, ret);
+		return ret;
+	}
+	
 
 	/**
 	 * Finds all visible association ends which are contained by the subsystem and its nested packages
@@ -150,6 +161,16 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 			allAssociationEnds((BussinesSubsystem) ownedPackage, ret);
 	 }
 
+	 protected void allPanels(BussinesSubsystem pack, List<VisibleClass> ret){
+		for (UmlType ownedType : pack.ownedType()){
+			if ((ownedType instanceof VisibleClass))
+				ret.add((VisibleClass) ownedType);
+		}
+		for (UmlPackage ownedPackage : pack.nestedPackage())
+			allPanels((BussinesSubsystem) ownedPackage, ret);
+	 }
+
+	 
 
 	 /****************************************************/
 	 /*IMPLEMENTIRANE METODE INTERFEJSA VisitingSubsystem*/

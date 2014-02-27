@@ -31,15 +31,14 @@ import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.container.ParentChild;
 import kroki.profil.panel.mode.OperationMode;
 import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
 import kroki.profil.utils.visitor.AllPosibleNextPanels;
-import kroki.profil.utils.visitor.AllPosibleNexts;
 import kroki.profil.utils.visitor.AllPosibleZoomPanels;
 import kroki.profil.utils.visitor.Visitor;
-import kroki.uml_core_basic.UmlProperty;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -497,6 +496,19 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 									visibleAssociationEnd.setOpposite(null);
 								}
 							}
+						}
+						if (visibleElement instanceof Hierarchy){
+							if (visibleAssociationEnd.getTargetPanel() != selected){
+								Hierarchy h = (Hierarchy)visibleElement;
+								ParentChild panel = (ParentChild)h.getActivationPanel(); 
+								panel.updateTargetPanel(h, (VisibleClass) selected);
+								if (h.getLevel() == 2 && h.getViaAssociationEnd() == null){
+									List<VisibleAssociationEnd> ends = panel.possibleAssociationEnds(h);
+									if (ends.size() == 1)
+										h.setViaAssociationEnd(ends.get(0));
+								}
+							}
+							
 						}
 						visibleAssociationEnd.setTargetPanel((VisibleClass) selected);
 						targetPanelTf.setText(selected.toString());

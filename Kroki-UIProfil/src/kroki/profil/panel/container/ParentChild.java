@@ -247,8 +247,7 @@ public class ParentChild extends ContainerPanel {
 		if (hierarchy.getTargetPanel() == null)
 			return null;
 		List<Hierarchy> ret = new ArrayList<Hierarchy>();
-		List<Hierarchy> successors = new ArrayList<Hierarchy>();
-		allSuccessors(successors, hierarchy);
+		List<Hierarchy> successors = hierarchy.allSuccessors();
 
 
 		//ako je parent child, proveriti za applied to
@@ -419,28 +418,20 @@ public class ParentChild extends ContainerPanel {
 		}
 	}
 
-
-	public void allSuccessors(List<Hierarchy> ret, Hierarchy hierarchy){
-		List<Hierarchy> childHierarcies = hierarchy.childHierarchies();
-		ret.addAll(childHierarcies);
-		for (Hierarchy h : childHierarcies)
-			allSuccessors(ret, h);
+	public void updateTargetPanel(Hierarchy h, VisibleClass newTarget){
+		
+		List<ParentChild> parentChildList = new ArrayList<ParentChild>(); 
+		getAllParentChildPanels(getProject(umlPackage), parentChildList);
+		for (ParentChild parentChild : parentChildList)
+			for (Hierarchy containedHierarchy : parentChild.containedHierarchies())
+				if (containedHierarchy.getTargetPanel() == this && containedHierarchy.getAppliedToPanel() == h.getTargetPanel()){
+					containedHierarchy.updateTargetPanel(null);
+				}
+		
+		h.updateTargetPanel(newTarget);
 	}
 
-
-
-	public void changeLevel (Hierarchy hierarchy, int newLevel){
-		int oldLevel = hierarchy.getLevel();
-		int diff = oldLevel - newLevel;
-
-		hierarchy.setLevel(newLevel);
-		List<Hierarchy> successors = new ArrayList<Hierarchy>();
-		allSuccessors(successors, hierarchy);
-
-		for (Hierarchy h : successors)
-			h.setLevel(h.getLevel() - diff);
-	} 	
-
+	
 
 	@Override
 	public void removeVisibleElement(VisibleElement visibleElement) {

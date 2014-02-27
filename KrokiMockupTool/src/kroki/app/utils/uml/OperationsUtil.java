@@ -8,8 +8,10 @@ import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.container.ParentChild;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.visitor.ContainingPanels;
 import kroki.uml_core_basic.UmlPackage;
@@ -17,9 +19,9 @@ import kroki.uml_core_basic.UmlType;
 
 public class OperationsUtil {
 
-	
+
 	public static void delete(VisibleElement visibleElement){
-		
+
 		if (visibleElement instanceof UmlPackage) {
 			UmlPackage subsystem = (UmlPackage) visibleElement;
 
@@ -75,17 +77,35 @@ public class OperationsUtil {
 
 	private static void updateAssociationEnds(VisibleClass panel){
 
-		for (VisibleAssociationEnd end: allAssociationEnds()){
+		//ako updatujemo hijerarhiju koja se nalazi na nekom parent child panelu
+		//koije je negde hierarhija, osvezi prikaz komponente
+		
+		BussinesSubsystem project = (BussinesSubsystem) findCurrentProject();
+		List<VisibleClass> panels = project.allPanels();
+		
+		for (VisibleAssociationEnd end: project.allAssociationEnds()){
 			if (panel == end.getTargetPanel()){
-				end.setTargetPanel(null);
-				end.setOpposite(null);
+				if (end instanceof Hierarchy){
+					((Hierarchy)end).updateTargetPanel(null);
+				}
+				else{
+					end.setTargetPanel(null);
+					end.setOpposite(null);
+				}
+			}
+			else if (end instanceof Hierarchy){
+				if (panel == ((Hierarchy)end).getAppliedToPanel()){
+					((Hierarchy)end).updateAppliedTo(null);
+				}
 			}
 		}
 	}
 
 	private static void updateAssociationEnds(List<Object> panels){
 
-		for (VisibleAssociationEnd end: allAssociationEnds()){
+		BussinesSubsystem project = (BussinesSubsystem) findCurrentProject();
+		
+		for (VisibleAssociationEnd end: project.allAssociationEnds()){
 			if (panels.contains(end.getTargetPanel())){
 				end.setTargetPanel(null);
 				end.setOpposite(null);
@@ -93,11 +113,5 @@ public class OperationsUtil {
 		}
 	}
 
-	private static List<VisibleAssociationEnd> allAssociationEnds(){
-		BussinesSubsystem project = (BussinesSubsystem) findCurrentProject();
-		List<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
-		project.allAssociationEnds(ret);
-		return ret;
-	}
-	
+
 }

@@ -4,6 +4,7 @@
  */
 package kroki.profil.utils.visitor;
 
+import java.util.Iterator;
 import java.util.List;
 
 import kroki.profil.association.Hierarchy;
@@ -54,8 +55,25 @@ public class AllPosibleHierarchyPanels extends Visitor {
 			objectList.clear();
 			objectList.addAll(parentChild.getAllPosibleTargetPanels());
 		}
-		else
+		else{
 			objectList.remove(parentChild);
+			Iterator<Object> iter = objectList.iterator();
+			ParentChild parentChild2;
+			while (iter.hasNext()){
+				Object next = iter.next();
+				if (next instanceof ParentChild){
+					parentChild2 = (ParentChild)next;
+					for (Hierarchy h : parentChild2.containedHierarchies())
+						if (h.getTargetPanel() == parentChild){
+							iter.remove();
+							break;
+						}
+
+				}
+			}
+
+		}
+
 	}
 
 	public void add(VisibleClass object) {

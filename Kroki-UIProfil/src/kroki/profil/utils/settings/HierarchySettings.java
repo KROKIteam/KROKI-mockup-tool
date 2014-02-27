@@ -134,10 +134,9 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 		ParentChild panel = (ParentChild) ((UmlProperty) visibleElement).umlClass();
 
 
-		int onSecondLevel = panel.allHierarchiesByLevel(2).size();
 
 		boolean enableLevels = false;
-		if (hierarchy.getTargetPanel()!=null && hierarchy.getLevel() != 1 && (hierarchy.getLevel() != 2 || onSecondLevel > 1)){
+		if (hierarchy.getTargetPanel()!=null && hierarchy.getLevel() != 1){
 			if ((hierarchy.getTargetPanel() instanceof ParentChild && hierarchy.getAppliedToPanel() != null) ||
 					hierarchy.getTargetPanel() instanceof StandardPanel){
 				Vector<Integer> possibleLevels = panel.possibleLevels(hierarchy);
@@ -168,9 +167,8 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 			}
 		}
 
-		//disable setting hierarchy parent for levels 1 and 2, or if target panel is null
-		if (hierarchy.getTargetPanel() == null || (hierarchy.getLevel() == 1 || 
-				(hierarchy.getLevel() == 2 && onSecondLevel == 1)))
+		//disable setting hierarchy parent for level 1
+		if (hierarchy.getTargetPanel() == null || hierarchy.getLevel() == 1)
 			hierarchyParentBtn.setEnabled(false);
 		else
 			hierarchyParentBtn.setEnabled(true);
@@ -277,7 +275,7 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 					if (hierarchy.getLevel() == level)
 						return;
 
-					panel.changeLevel(hierarchy, level);
+					hierarchy.changeLevel(level);
 
 					//set hierarchy parent if possible (only one association)
 					List<Hierarchy> possibleParents = panel.possibleParents(hierarchy, level - 1);
@@ -361,9 +359,10 @@ public class HierarchySettings extends VisibleAssociationEndSettings {
 				}
 				VisibleClass targetPanel = (VisibleClass) ListDialog.showDialog(targetPanelList.toArray(), "Choose applied to panel");
 
-				if (targetPanel != null) {
-					hierarchy.setAppliedToPanel(targetPanel);
+				if (targetPanel != null && hierarchy.getAppliedToPanel() != targetPanel) {
+					hierarchy.updateAppliedTo(targetPanel);
 					appliedToPanelTf.setText(targetPanel.toString());
+					updateComponents();
 				}
 			}
 		});
