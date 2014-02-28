@@ -67,7 +67,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	//state facotry for this model
 	private transient StateFactory stateFactory;
 
-	private int linkCounter, classCounter, packageCounter;
+	private int linkCounter, classCounter, packageCounter , interfaceCounter;
 
 	public GraphEditModel(String name) {
 		commandManager = new CommandManager();
@@ -945,6 +945,14 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 
 	public void setPackageCounter(int packageCounter) {
 		this.packageCounter = packageCounter;
+	}
+
+	public int getInterfaceCounter() {
+		return interfaceCounter;
+	}
+
+	public void setInterfaceCounter(int interfaceCounter) {
+		this.interfaceCounter = interfaceCounter;
 	}
 
 

@@ -320,19 +320,19 @@ public class SelectionState extends State {
 								if (d.isAssociation()){
 									newLink=new AssociationLink(hitLink.getNodes(),d.getSourceCardinality(),d.getDestinationCardinality(),
 											d.getSourceRole(),d.getDestinationRole(),"AssociationLink"+((AssociationLink)hitLink).getCurrentCount(),
-											d.isSourceNavigable(),d.isDestinationNavigable());
+											d.isSourceNavigable(),d.isDestinationNavigable(), MainFrame.getInstance().incrementLinkCounter());
 									painter=new AssociationLinkPainter(newLink);
 								}
 								else if (d.isAggregation()){
 									newLink=new AggregationLink(hitLink.getNodes(),d.getSourceCardinality(),d.getDestinationCardinality(),
 											d.getSourceRole(),d.getDestinationRole(),"AggregationLink"+((AssociationLink)hitLink).getCurrentCount(),
-											d.isSourceNavigable(),d.isDestinationNavigable());
+											d.isSourceNavigable(),d.isDestinationNavigable(), MainFrame.getInstance().incrementLinkCounter());
 									painter=new AggregationLinkPainter(newLink);
 								}
 								else{  //if (d.isComposition()){
 									newLink=new CompositionLink(hitLink.getNodes(),d.getSourceCardinality(),d.getDestinationCardinality(),
 											d.getSourceRole(),d.getDestinationRole(),"CompositionLink"+((AssociationLink)hitLink).getCurrentCount(),
-											d.isSourceNavigable(),d.isDestinationNavigable());
+											d.isSourceNavigable(),d.isDestinationNavigable(), MainFrame.getInstance().incrementLinkCounter());
 									painter=new CompositionLinkPainter(newLink);
 								}
 

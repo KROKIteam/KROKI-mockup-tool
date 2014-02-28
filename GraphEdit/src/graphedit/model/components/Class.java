@@ -1,6 +1,5 @@
 package graphedit.model.components;
 
-import graphedit.app.MainFrame;
 import graphedit.model.components.Link.LinkType;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
@@ -16,7 +15,7 @@ public class Class extends LinkableElement {
 
 	public Class() {}
 
-	public Class(Point2D position) {
+	public Class(Point2D position, int counter) {
 
 		appModeProperties = ApplicationModeProperties.getInstance();
 
@@ -27,7 +26,7 @@ public class Class extends LinkableElement {
 
 		String name;
 		do{
-			name = (String) appModeProperties.getPropertyValue("className") + MainFrame.getInstance().incrementClassCounter();
+			name = (String) appModeProperties.getPropertyValue("className") + counter;
 		}while(Validator.classHasName(name));
 
 
@@ -35,7 +34,7 @@ public class Class extends LinkableElement {
 		properties.set(GraphElementProperties.STEREOTYPE, (String)appModeProperties.getPropertyValue("classStereotype"));
 	}
 
-	public Class (Point2D position, boolean setName){
+	public Class (Point2D position, boolean setName, int counter){
 		appModeProperties = ApplicationModeProperties.getInstance();
 
 		properties.set(GraphElementProperties.POSITION, position);
@@ -46,7 +45,7 @@ public class Class extends LinkableElement {
 		if (setName){
 			String name;
 			do{
-				name = (String) appModeProperties.getPropertyValue("className") + MainFrame.getInstance().incrementClassCounter();
+				name = (String) appModeProperties.getPropertyValue("className") + counter;
 			}while(Validator.classHasName(name));
 			properties.set(GraphElementProperties.NAME, name);
 		}

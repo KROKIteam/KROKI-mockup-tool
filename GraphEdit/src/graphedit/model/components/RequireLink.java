@@ -13,10 +13,10 @@ public class RequireLink  extends Link{
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "RequireLink";
 	
-	public RequireLink(ArrayList<LinkNode> nodes) {
+	public RequireLink(ArrayList<LinkNode> nodes, int counter) {
 		super(nodes);
 		linkType=LinkType.REQUIRE;
-		properties.set(LinkProperties.NAME, NAME + MainFrame.getInstance().incrementLinkCounter());
+		properties.set(LinkProperties.NAME, NAME + counter);
 	}
 
 }

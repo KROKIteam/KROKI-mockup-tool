@@ -23,9 +23,9 @@ public class Package extends LinkableElement{
 	
 
 	
-	public Package(Point2D position) {
+	public Package(Point2D position, int counter) {
 		properties.set(GraphElementProperties.POSITION, position);
-		properties.set(GraphElementProperties.NAME, Package.NAME + MainFrame.getInstance().incrementPackageCounter());
+		properties.set(GraphElementProperties.NAME, Package.NAME + counter);
 	}
 
 	@Override

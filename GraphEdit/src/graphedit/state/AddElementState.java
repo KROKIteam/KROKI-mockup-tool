@@ -37,13 +37,13 @@ public class AddElementState extends State {
 		ElementPainter elementPainter = null;
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			if (view.getSelectedTool() == ToolSelected.INTERFACE_SELECTED) {
-				element = new Interface(e.getPoint());
+				element = new Interface(e.getPoint(), MainFrame.getInstance().incrementInterfaceCounter());
 				elementPainter = new InterfacePainter(element);
 			} else if (view.getSelectedTool() == ToolSelected.CLASS_SELECTED) {
-				element = new Class(e.getPoint());
+				element = new Class(e.getPoint(), MainFrame.getInstance().incrementClassCounter());
 				elementPainter = new ClassPainter(element);
 			}else if (view.getSelectedTool() == ToolSelected.PACKAGE_SELECTED){
-				element = new Package(e.getPoint());
+				element = new Package(e.getPoint(), MainFrame.getInstance().incrementPackageCounter());
 				packageSelected = true;
 			}
 			

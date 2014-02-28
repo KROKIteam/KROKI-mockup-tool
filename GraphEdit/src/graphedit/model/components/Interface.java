@@ -1,6 +1,5 @@
 package graphedit.model.components;
 
-import graphedit.app.MainFrame;
 import graphedit.model.components.Link.LinkType;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
@@ -14,12 +13,12 @@ public class Interface extends Class {
 	private ApplicationModeProperties appModeProperties;
 	
 	
-	public Interface(Point2D position) {
+	public Interface(Point2D position, int counter) {
 		super();
 		appModeProperties = ApplicationModeProperties.getInstance();
 		
 		properties.set(GraphElementProperties.POSITION, position);
-		properties.set(GraphElementProperties.NAME, (String) appModeProperties.getPropertyValue("interfaceName") + MainFrame.getInstance().incrementClassCounter());
+		properties.set(GraphElementProperties.NAME, (String) appModeProperties.getPropertyValue("interfaceName") + counter);
 		properties.set(GraphElementProperties.ATTRIBUTES, new ArrayList<Attribute>());
 		properties.set(GraphElementProperties.METHODS, new ArrayList<Method>());
 		properties.set(GraphElementProperties.STEREOTYPE, (String)appModeProperties.getPropertyValue("interfaceStereotype"));

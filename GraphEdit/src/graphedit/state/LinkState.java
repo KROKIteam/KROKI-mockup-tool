@@ -156,37 +156,40 @@ public class LinkState extends State {
 								}
 							}
 							if (associationType==AssociationType.REGULAR){  	
-								link = new AssociationLink(nodes, sourceCardinality, destinationCardinality, "", "", stereotype,sourceNavigable, destinationNavigable);
+								link = new AssociationLink(nodes, sourceCardinality, destinationCardinality, "", "", 
+										stereotype,sourceNavigable, destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 								linkPainter = new AssociationLinkPainter(link);
 							}
 							else if (associationType==AssociationType.AGGREGATION) {
-								link=new AggregationLink(nodes, sourceCardinality, destinationCardinality, "", "", stereotype,sourceNavigable, destinationNavigable);
+								link=new AggregationLink(nodes, sourceCardinality, destinationCardinality, "", "",
+										stereotype,sourceNavigable, destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 								linkPainter = new AggregationLinkPainter(link);	
 							}
 							else if(associationType==AssociationType.COMPOSITION) {
-								link=new CompositionLink(nodes, sourceCardinality, destinationCardinality, "", "", stereotype,sourceNavigable, destinationNavigable);
+								link=new CompositionLink(nodes, sourceCardinality, destinationCardinality, "", "", 
+										stereotype,sourceNavigable, destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 								linkPainter = new CompositionLinkPainter(link);	
 							}
 							link.setProperty(LinkProperties.STEREOTYPE, stereotype);
 						}
 						else if (view.getSelectedTool() == ToolSelected.DEPENDENCY) {
-							link=new DependencyLink(nodes);
+							link=new DependencyLink(nodes, MainFrame.getInstance().incrementLinkCounter());
 							linkPainter = new DependencyLinkPainter(link);	
 						}
 						else if (linkType==Link.LinkType.GENERALIZATION) {
-							link=new GeneralizationLink(nodes);
+							link=new GeneralizationLink(nodes, MainFrame.getInstance().incrementLinkCounter());
 							linkPainter = new GeneralizationLinkPainter(link);	
 						}
 						else if (linkType==Link.LinkType.INNERLINK) {
-							link=new InnerLink(nodes);
+							link=new InnerLink(nodes, MainFrame.getInstance().incrementLinkCounter());
 							linkPainter = new InnerLinkPainter(link);	
 						}
 						else if (linkType==Link.LinkType.REALIZATION) {
-							link=new RealizationLink(nodes);
+							link=new RealizationLink(nodes, MainFrame.getInstance().incrementLinkCounter());
 							linkPainter = new RealizationLinkPainter(link);	
 						}
 						else if (linkType==LinkType.REQUIRE) {
-							link=new RequireLink(nodes);
+							link=new RequireLink(nodes, MainFrame.getInstance().incrementLinkCounter());
 							linkPainter = new RequireLinkPainter(link);	
 						}
 						sourceConnector.setLink(link);

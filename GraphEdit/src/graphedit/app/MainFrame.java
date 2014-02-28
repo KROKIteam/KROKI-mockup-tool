@@ -1046,6 +1046,17 @@ public class MainFrame extends JDialog{
 			getCurrentView().getModel().setClassCounter(++result);
 			return result;
 		}
+		
+		public int incrementInterfaceCounter() {
+			if(getCurrentView() == null){
+				return 0;
+			}
+			int result = getCurrentView().getModel().getInterfaceCounter();
+			getCurrentView().getModel().setInterfaceCounter(++result);
+			return result;
+		}
+
+		
 
 		public int incrementPackageCounter(){
 			if(getCurrentView() == null){
@@ -1070,6 +1081,14 @@ public class MainFrame extends JDialog{
 				return 0;
 			}
 			int result = getCurrentView().getModel().getClassCounter();
+			return result;
+		}
+		
+		public int getClassInterface() {
+			if(getCurrentView() == null){
+				return 0;
+			}
+			int result = getCurrentView().getModel().getInterfaceCounter();
 			return result;
 		}
 

@@ -10,8 +10,9 @@ public class CompositionLink extends AssociationLink{
 	private static final long serialVersionUID = 1L;
 
 	public CompositionLink(ArrayList<LinkNode> nodes,String sourceCardinality, String destinationCardinality, String sourceRole,
-			String destinationRole,String name,boolean sourceNavigable, boolean destinationNavigable) {
-		super(nodes,sourceCardinality,destinationCardinality,sourceRole,destinationRole,name,sourceNavigable,destinationNavigable);
+			String destinationRole,String name,boolean sourceNavigable, boolean destinationNavigable, int counter) {
+		super(nodes,sourceCardinality,destinationCardinality,sourceRole,destinationRole,
+				name,sourceNavigable,destinationNavigable, counter);
 		linkType = LinkType.ASSOCIATION;
 		associationType = AssociationType.COMPOSITION;
 		if (name.equals(""))

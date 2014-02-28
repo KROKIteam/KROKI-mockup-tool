@@ -54,8 +54,7 @@ public class DeleteAction extends AbstractAction {
 			GraphEditPackage selectedPackage = (GraphEditPackage) selected;
 			
 			
-			//nadji view za njega i parenta
-			GraphEditView parentsView= MainFrame.getInstance().getOpenDiagram(selectedPackage.getParentPackage().getDiagram());
+			GraphEditView parentsView= MainFrame.getInstance().getOpenDiagram(selectedPackage.getDiagram());
 			
 			
 			List<GraphEditPackage> deleted = new ArrayList<GraphEditPackage>();

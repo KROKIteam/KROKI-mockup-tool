@@ -147,7 +147,7 @@ public class UIClassElement extends ClassElement{
 	public void initElement(Point2D position){
 		Attribute attribute;
 		Method method;
-		element = new Class(position);
+		element = new Class(position, MainFrame.getInstance().incrementClassCounter());
 		element.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(visibleClass.getLabel(),true));
 		element.setRepresentedElement(this);
 		if (visibleClass instanceof StandardPanel)

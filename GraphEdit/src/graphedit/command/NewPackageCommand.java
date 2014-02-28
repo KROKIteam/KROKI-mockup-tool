@@ -27,7 +27,7 @@ public class NewPackageCommand extends Command {
 		this.parentPackage = parentPackage;
 		this.name = name;
 		//this.view = view;
-		packageElement = new Package(new Point2D.Double(0,0));
+		packageElement = new Package(new Point2D.Double(0,0), MainFrame.getInstance().incrementPackageCounter());
 		packageElement.setProperty(GraphElementProperties.NAME, name);
 		//nije naveden view, probaj da nadjes meju otvorenima
 		for (Component c : MainFrame.getInstance().getMainTabbedPane().getComponents()) 

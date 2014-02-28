@@ -71,7 +71,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 		//nije na vrhu hijerarhije
 		if (parent != null){
-			packageElement = new Package(new Point2D.Double(0,0));
+			packageElement = new Package(new Point2D.Double(0,0), MainFrame.getInstance().incrementPackageCounter());
 			packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
 			packageElement.setRepresentedElement(this);
 			packageElement.setRepresentedElement(this);
@@ -150,9 +150,9 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					nodes.add(c2);
 					Link link;
 					if (next != null)
-						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),next.getLabel(),"",true,true);
+						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),next.getLabel(),"",true,true, MainFrame.getInstance().incrementLinkCounter());
 					else
-						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),"","",true,false);
+						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),"","",true,false, MainFrame.getInstance().incrementLinkCounter());
 					
 					link.setProperty(LinkProperties.STEREOTYPE, "zoom");
 					c1.setLink(link);
@@ -197,7 +197,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
 					nodes.add(c1);
 					nodes.add(c2);
-					Link link = new AssociationLink(nodes, "1..1", "1..1", hierarchy.getLabel(),hierarchy.getLabel(),"",false,true);
+					Link link = new AssociationLink(nodes, "1..1", "1..1", hierarchy.getLabel(),hierarchy.getLabel(),"",false,true, MainFrame.getInstance().incrementLinkCounter());
 					link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
 					c1.setLink(link);
 					c2.setLink(link);

@@ -46,7 +46,7 @@ public class Attribute implements Serializable {
 			@SuppressWarnings("unchecked")
 			List<Attribute> attributes = (List<Attribute>) MainFrame.getInstance().getCurrentView().getSelectionModel().getSelectedElements().get(0).getProperty(GraphElementProperties.ATTRIBUTES);
 			while (Validator.attributeHasName(attributes, name))
-				name = (String) appModeProperties.getPropertyValue("attributeName") + MainFrame.getInstance().incrementClassCounter();
+				name = (String) appModeProperties.getPropertyValue("attributeName") + instanceCounter++;
 		}
 		type = (String) appModeProperties.getPropertyValue("attributeType");
 		

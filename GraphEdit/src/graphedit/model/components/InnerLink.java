@@ -1,6 +1,5 @@
 package graphedit.model.components;
 
-import graphedit.app.MainFrame;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 
 import java.util.ArrayList;
@@ -9,9 +8,9 @@ import java.util.ArrayList;
 public class InnerLink extends Link{
 	public static final String NAME = "InnerLink";
 
-	public InnerLink(ArrayList<LinkNode> nodes) {
+	public InnerLink(ArrayList<LinkNode> nodes, int counter) {
 		super(nodes);
 		linkType=LinkType.INNERLINK;
-		properties.set(LinkProperties.NAME, NAME + MainFrame.getInstance().incrementLinkCounter());	}
+		properties.set(LinkProperties.NAME, NAME + counter);	}
 
 }

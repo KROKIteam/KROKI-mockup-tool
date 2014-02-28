@@ -18,7 +18,7 @@ public class ClassShortcut extends Class implements Shortcut{
 	
 	public ClassShortcut(Point2D position, Class shortcutTo, GraphEditModel shortcutToModel){
 		//sve isto samo naziv sa Shortcut to...
-		super(position, false);
+		super(position, false, 0);
 		this.shortcutTo = (Class) shortcutTo;
 		setProperty(GraphElementProperties.NAME, shortcutTo.getProperty(GraphElementProperties.NAME));
 		this.shortcutToModel = shortcutToModel;

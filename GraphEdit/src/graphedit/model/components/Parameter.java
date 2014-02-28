@@ -38,7 +38,7 @@ public class Parameter implements Serializable {
 			@SuppressWarnings("unchecked")
 			List<Attribute> attributes = (List<Attribute>) MainFrame.getInstance().getCurrentView().getSelectionModel().getSelectedElements().get(0).getProperty(GraphElementProperties.ATTRIBUTES);
 			while (Validator.attributeHasName(attributes, name))
-				name = (String) appModeProperties.getPropertyValue("parameterName") + MainFrame.getInstance().incrementClassCounter();
+				name = (String) appModeProperties.getPropertyValue("parameterName") + instanceCounter++;
 		}
 		type = (String) appModeProperties.getPropertyValue("parameterType");
 		

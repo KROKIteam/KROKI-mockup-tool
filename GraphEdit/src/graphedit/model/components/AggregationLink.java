@@ -10,8 +10,9 @@ public class AggregationLink extends AssociationLink{
 	private static final long serialVersionUID = 1L;
 
 	public AggregationLink(ArrayList<LinkNode> list,String sourceCardinality, String destinationCardinality, String sourceRole,
-			String destinationRole,String name,boolean sourceNavigable, boolean destinationNavigable) {
-		super(list,sourceCardinality,destinationCardinality,sourceRole,destinationRole,name,sourceNavigable,destinationNavigable);
+			String destinationRole,String name,boolean sourceNavigable, boolean destinationNavigable, int counter) {
+		super(list,sourceCardinality,destinationCardinality,sourceRole,destinationRole,name,
+				sourceNavigable,destinationNavigable, counter);
 		linkType = LinkType.ASSOCIATION;
 		associationType = AssociationType.AGGREGATION;
 		if (name.equals(""))

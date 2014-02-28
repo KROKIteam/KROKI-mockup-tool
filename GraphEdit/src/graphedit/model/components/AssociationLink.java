@@ -1,6 +1,5 @@
 	package graphedit.model.components;
 
-import graphedit.app.MainFrame;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class AssociationLink extends Link{
 
 	
 	public AssociationLink(ArrayList<LinkNode> list ,String sourceCardinality, String destinationCardinality, String sourceRole,
-			String destinationRole, String name, boolean sourceNavigable, boolean destinationNavigable) {
+			String destinationRole, String name, boolean sourceNavigable, boolean destinationNavigable, int counter) {
 		super(list);
 		linkType=LinkType.ASSOCIATION;
 		associationType = AssociationType.REGULAR;
@@ -29,8 +28,8 @@ public class AssociationLink extends Link{
 		properties.set(LinkProperties.DESTINATION_NAVIGABLE, destinationNavigable);
 		
 		if (name.equals("")) {
-			properties.set(LinkProperties.NAME, NAME + MainFrame.getInstance().incrementLinkCounter());
-			currentCount = MainFrame.getInstance().getLinkCounter();
+			properties.set(LinkProperties.NAME, NAME + counter);
+			currentCount = counter;
 		} else 
 			properties.set(LinkProperties.NAME, name);
 		
