@@ -496,7 +496,7 @@ public class UIClassElement extends ClassElement{
 
 
 	@Override
-	public void link(Link link){
+	public void link(Link link, Object...args){
 
 		UIClassElement otherElement = null;
 		LinkEnd linkEnd;
@@ -506,8 +506,9 @@ public class UIClassElement extends ClassElement{
 		String label;
 		Connector connector = null;
 		Connector otherConnector = null;
+		Boolean source = (Boolean) args[0];
 
-		if (this == link.getSourceConnector().getRepresentedElement()){
+		if (source){
 			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
 			//gledamo da li je zoom ili next, zavisi od kardinaliteta i da li je navigabilno
 			cardinality = (String) link.getProperty(LinkProperties.DESTINATION_CARDINALITY);
@@ -516,7 +517,7 @@ public class UIClassElement extends ClassElement{
 			connector = link.getSourceConnector();
 			otherConnector = link.getDestinationConnector();
 		}
-		else if (this == link.getDestinationConnector().getRepresentedElement()){
+		else {
 			otherElement = (UIClassElement) link.getSourceConnector().getRepresentedElement();
 			//gledamo da li je zoom ili next, zavisi od kardinaliteta i da li je navigabilno
 			cardinality = (String) link.getProperty(LinkProperties.SOURCE_CARDINALITY);
@@ -571,29 +572,33 @@ public class UIClassElement extends ClassElement{
 
 
 	@Override
-	public void changeLinkProperty(Link link, LinkProperties property, Object newValue) {
-		if (property.toString().startsWith("DESTINATION") && !(this.equals(link.getSourceConnector().getRepresentedElement())))
+	public void changeLinkProperty(Link link, LinkProperties property, Object newValue, Object...args) {
+		
+		boolean source = (Boolean)args[0];
+		
+		if (property.toString().startsWith("DESTINATION") && !source)
 			return;
-		if (property.toString().startsWith("SOURCE") && !(this.equals(link.getDestinationConnector().getRepresentedElement())))
+		if (property.toString().startsWith("SOURCE") && source)
 			return;
+		
 		switch (property) {
 		case DESTINATION_CARDINALITY :
-			changeCardinality(link, (String) newValue, property);
+			changeCardinality(link, (String) newValue, property, source);
 			break;
 		case SOURCE_CARDINALITY : 
-			changeCardinality(link, (String) newValue, property);
+			changeCardinality(link, (String) newValue, property, source);
 			break;
 		case DESTINATION_ROLE : 
-			changeRole(link, (String) newValue);
+			changeRole(link, (String) newValue, source);
 			break;
 		case SOURCE_ROLE : 
-			changeRole(link, (String) newValue);
+			changeRole(link, (String) newValue, source);
 			break;
 		case DESTINATION_NAVIGABLE :
-			changeNavigable(link, property, (Boolean) newValue);
+			changeNavigable(link, property, (Boolean) newValue, source);
 			break;
 		case SOURCE_NAVIGABLE :
-			changeNavigable(link, property, (Boolean) newValue);
+			changeNavigable(link, property, (Boolean) newValue, source);
 			break;
 		default:
 			break;
@@ -601,18 +606,19 @@ public class UIClassElement extends ClassElement{
 
 	}
 
-	private void changeNavigable(Link link, LinkProperties property, boolean navigable){
+	private void changeNavigable(Link link, LinkProperties property, boolean navigable, boolean sourceOrDestination){
 
 		if (navigable == (Boolean) link.getProperty(property))
 			return;
-
+		
 		UIClassElement otherElement = null;
 
 		Connector connector, otherConnector;
 
-		if (this == link.getDestinationConnector().getRepresentedElement() && property == LinkProperties.DESTINATION_NAVIGABLE)
+		
+		if (!sourceOrDestination && this == link.getDestinationConnector().getRepresentedElement() && property == LinkProperties.DESTINATION_NAVIGABLE)
 			return;
-		if (this == link.getSourceConnector().getRepresentedElement() && property == LinkProperties.SOURCE_NAVIGABLE)
+		if (sourceOrDestination && this == link.getSourceConnector().getRepresentedElement() && property == LinkProperties.SOURCE_NAVIGABLE)
 			return;
 
 		boolean source;
@@ -647,6 +653,7 @@ public class UIClassElement extends ClassElement{
 				link.setProperty(LinkProperties.SOURCE_ROLE, "");
 			else
 				link.setProperty(LinkProperties.DESTINATION_ROLE, "");
+			
 		}
 		else{
 			//dodaj next
@@ -669,7 +676,7 @@ public class UIClassElement extends ClassElement{
 		return hierarchyMap.get(connector);
 	}
 
-	private void changeCardinality(Link link, String newCardinality, LinkProperties cardProperty){
+	private void changeCardinality(Link link, String newCardinality, LinkProperties cardProperty, boolean source){
 
 	
 		UIClassElement otherElement = null;
@@ -677,8 +684,8 @@ public class UIClassElement extends ClassElement{
 		Connector connector, otherConnector;
 		LinkProperties property = LinkProperties.DESTINATION_ROLE;
 		boolean otherNavigable;
-
-		if (this == link.getSourceConnector().getRepresentedElement()){
+		
+		if (source){
 			connector = link.getSourceConnector();
 			if (cardProperty == LinkProperties.SOURCE_CARDINALITY)
 				return;
@@ -760,9 +767,10 @@ public class UIClassElement extends ClassElement{
 			return LinkEnd.NEXT;
 	}
 
-	public void changeRole(Link link, String newRole) {
+	public void changeRole(Link link, String newRole, boolean source) {
+		
 		Connector connector;
-		if (this == link.getSourceConnector().getRepresentedElement())
+		if (source)
 			connector = link.getSourceConnector();
 		else
 			connector = link.getDestinationConnector();
@@ -783,8 +791,9 @@ public class UIClassElement extends ClassElement{
 		LinkProperties role;
 		String cardinality;
 		UIClassElement otherElement;
+		Boolean source = (Boolean) args[1];
 
-		if (this == link.getSourceConnector().getRepresentedElement()){
+		if (source){
 			connector = link.getSourceConnector();
 			otherConnector = link.getDestinationConnector();
 			role = LinkProperties.DESTINATION_ROLE;
@@ -864,19 +873,20 @@ public class UIClassElement extends ClassElement{
 		}
 	}
 	@Override
-	public void unlink(Link link) {
+	public void unlink(Link link, Object...args) {
 		//proveri da li je standardni ili parent-child panel
 
 		UIClassElement otherElement = null;
 		boolean navigable = false;
 		Connector connector = null;
+		Boolean source = (Boolean) args[0];
 
-		if (this == link.getSourceConnector().getRepresentedElement()){
+		if (source){
 			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
 			navigable = (Boolean) link.getProperty(LinkProperties.DESTINATION_NAVIGABLE);
 			connector = link.getSourceConnector();
 		}
-		else if (this == link.getDestinationConnector().getRepresentedElement()){
+		else{
 			otherElement = (UIClassElement) link.getSourceConnector().getRepresentedElement();
 			navigable = (Boolean) link.getProperty(LinkProperties.SOURCE_NAVIGABLE);
 			connector = link.getDestinationConnector();
@@ -903,14 +913,14 @@ public class UIClassElement extends ClassElement{
 			}
 		}
 		else{
-			if (this == link.getSourceConnector().getRepresentedElement()){
+			if (source){
 				NextZoomElement next = nextMap.get(link.getSourceConnector());
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
 				gr.removeVisibleElement(visibleClass.getVisibleElementAt(next.getClassIndex()));
 				visibleClass.removeVisibleElement(next.getClassIndex());
 				nextMap.remove(link.getSourceConnector());
 			}
-			else if (this == link.getDestinationConnector().getRepresentedElement()){
+			else{
 				NextZoomElement zoom = zoomMap.get(link.getDestinationConnector());
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
 				gr.removeVisibleElement(visibleClass.getVisibleElementAt(zoom.getClassIndex()));

@@ -18,7 +18,6 @@ public class ConnectorPainter {
 
 	public ConnectorPainter(Connector connector){
 		this.connector=connector;
-		System.out.println((Point2D)connector.getProperty(LinkNodeProperties.POSITION));
 		shape = new Rectangle2D.Double(
 				((Point2D)connector.getProperty(LinkNodeProperties.POSITION)).getX() - dim/2, 
 				((Point2D)connector.getProperty(LinkNodeProperties.POSITION)).getY() - dim/2, 

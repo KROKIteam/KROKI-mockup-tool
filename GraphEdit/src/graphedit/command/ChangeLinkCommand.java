@@ -77,8 +77,8 @@ public class ChangeLinkCommand extends Command {
 	@Override
 	public void execute() {
 
-		link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, newName);
-		link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, newName);
+		link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, newName, true);
+		link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, newName, false);
 		link.setProperty(property, newName);
 		if (changeNavigable){
 			link.changeNaviglable(navigableProperty);
@@ -91,12 +91,12 @@ public class ChangeLinkCommand extends Command {
 	public void undo() {
 		link.setProperty(property, oldName);
 		if (property == LinkProperties.SOURCE_CARDINALITY || property == LinkProperties.SOURCE_NAVIGABLE)
-			link.getDestinationConnector().getRepresentedElement().setOldLink(link, nextZoom);
+			link.getDestinationConnector().getRepresentedElement().setOldLink(link, nextZoom, false);
 		else if (property == LinkProperties.DESTINATION_CARDINALITY || property == LinkProperties.DESTINATION_NAVIGABLE)
-			link.getSourceConnector().getRepresentedElement().setOldLink(link, nextZoom);
+			link.getSourceConnector().getRepresentedElement().setOldLink(link, nextZoom, true);
 		else{
-			link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, oldName);
-			link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, oldName);
+			link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, oldName, true);
+			link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, oldName, false);
 		}
 		if (changeNavigable){
 			link.changeNaviglable(navigableProperty);

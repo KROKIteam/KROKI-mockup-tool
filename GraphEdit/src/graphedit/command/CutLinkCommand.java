@@ -108,8 +108,8 @@ public class CutLinkCommand extends Command {
 				linkPainter = linkPainters.get(i);
 			sourceElement = link.getSourceConnector().getRepresentedElement();
 			destinationElement = link.getDestinationConnector().getRepresentedElement();
-			sourceElement.unlink(link);
-			destinationElement.unlink(link);
+			sourceElement.unlink(link, true);
+			destinationElement.unlink(link, false);
 			model.removeLink(link);
 			if (view != null)
 				view.removeLinkPainters(linkPainter);
@@ -149,9 +149,9 @@ public class CutLinkCommand extends Command {
 			sourceLinkElement = sourceLinkElements.get(i);
 			destinationLinkElement = destinationLinkElements.get(i);
 			if (sourceLinkElement != null)
-				sourceElement.setOldLink(link, sourceLinkElement);
+				sourceElement.setOldLink(link, sourceLinkElement, true);
 			if (destinationLinkElement != null)
-				destinationElement.setOldLink(link, destinationLinkElement);
+				destinationElement.setOldLink(link, destinationLinkElement, false);
 		}
 		if (view != null)
 			view.getSelectionModel().setSelectedLink(links.get(links.size()-1));

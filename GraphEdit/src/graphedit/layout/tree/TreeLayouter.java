@@ -103,23 +103,26 @@ public class TreeLayouter extends AbstractLayouter{
 	private void setPositions(TreeLayout<LayoutTreeNode> treeLayout, LayoutTreeNode node, int offset){
 		Rectangle2D.Double bounds = ( Rectangle2D.Double) treeLayout.getNodeBounds().get(node);
 		LinkableElement element = (LinkableElement) node.getElement();
-		if (addedElements.contains(element)){
-			//napravi shortcut
-			Shortcut shortcut = null;
-			if (element instanceof Class){
-				shortcut = new ClassShortcut(new Point(0,0), (Class)element, model);
-				model.addDiagramElement((GraphElement) shortcut);
-				ClassPainter painter = new ClassPainter((GraphElement)shortcut);
-				view.addElementPainter(painter);
-				painter.drawStrings((Graphics2D) g);
-				
-				setPosition(strategy, view, (LinkableElement)shortcut, (int)bounds.getCenterX() + offset, (int)bounds.getCenterY());
-			}
-		}
-		else{
-			addedElements.add(element);
-			setPosition(strategy, view, (LinkableElement)node.getElement(), (int)bounds.getCenterX() + offset, (int)bounds.getCenterY());
-		}
+//		if (addedElements.contains(element)){
+//			//napravi shortcut
+//			Shortcut shortcut = null;
+//			if (element instanceof Class){
+//				shortcut = new ClassShortcut(new Point(0,0), (Class)element, model);
+//				model.addDiagramElement((GraphElement) shortcut);
+//				ClassPainter painter = new ClassPainter((GraphElement)shortcut);
+//				view.addElementPainter(painter);
+//				painter.drawStrings((Graphics2D) g);
+//				
+//				setPosition(strategy, view, (LinkableElement)shortcut, (int)bounds.getCenterX() + offset, (int)bounds.getCenterY());
+//			}
+//		}
+//		else{
+//			addedElements.add(element);
+//			setPosition(strategy, view, (LinkableElement)node.getElement(), (int)bounds.getCenterX() + offset, (int)bounds.getCenterY());
+//		}
+		
+		addedElements.add(element);
+		setPosition(strategy, view, (LinkableElement)node.getElement(), (int)bounds.getCenterX() + offset, (int)bounds.getCenterY());
 		
 		for (LayoutTreeNode child : node.getChildren())
 			setPositions(treeLayout, child, offset);

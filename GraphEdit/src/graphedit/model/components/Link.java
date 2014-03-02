@@ -7,8 +7,8 @@ import graphedit.model.properties.PropertyEnums.LinkProperties;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class Link extends GraphElement {
 	/**
@@ -147,6 +147,5 @@ public class Link extends GraphElement {
 			return;
 		setProperty(property, !(Boolean) getProperty(property));
 	}
-
 	
 }

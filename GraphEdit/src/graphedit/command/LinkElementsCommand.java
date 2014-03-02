@@ -48,14 +48,14 @@ public class LinkElementsCommand extends Command {
 		model.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
 		model.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
 		view.addLinkPainter(linkPainter);
-		destinationGraphEditElement.link(link);
-		sourceGraphEditElement.link(link);
+		destinationGraphEditElement.link(link, false);
+		sourceGraphEditElement.link(link, true);
 		model.addLink(link);
 	}
 
 	public void undo() {
-		sourceGraphEditElement.unlink(link);
-		destinationGraphEditElement.unlink(link);
+		sourceGraphEditElement.unlink(link, true);
+		destinationGraphEditElement.unlink(link, false);
 		model.removeFromElementByConnectorStructure(link);
 		model.removeLink(link);
 		view.removeLinkPainters(linkPainter);

@@ -4,6 +4,7 @@ import graphedit.model.components.Class;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.diagram.GraphEditModel;
+import graphedit.model.properties.PropertyEnums.DiagramProperties;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.PackageProperties;
 

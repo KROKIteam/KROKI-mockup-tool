@@ -1,6 +1,8 @@
 package graphedit.model;
 
 import graphedit.app.MainFrame;
+import graphedit.model.components.GraphElement;
+import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.model.properties.Properties;
@@ -47,10 +49,8 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 
 	public void setPackageList(List<UmlPackage> packages){
 		packageList.clear();
-		GraphEditPackage graphPackage;
 		for (UmlPackage pack : packages){
-			graphPackage = new GraphEditPackage(pack, null);
-			packageList.add(graphPackage);
+			prepareProject(pack);
 		}
 		this.setChanged();
 		this.notifyObservers();
@@ -58,9 +58,36 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 	
 	public void setProject(UmlPackage project){
 		packageList.clear();
-		packageList.add(new GraphEditPackage(project, null));
+		prepareProject(project);
+		
 		this.setChanged();
 		this.notifyObservers();
+	}
+
+	private void prepareProject(UmlPackage project){
+		
+		GraphEditPackage projectElement = new GraphEditPackage(project, null);
+		packageList.add(projectElement);
+		
+		//System.out.println("total classes: " + projectElement.getSubClassesMap().size());
+		
+		//System.out.println("total subpackages: " + projectElement.getSubPackages().size());
+		
+		for (GraphEditPackage pack : projectElement.getSubPackages())
+			pack.generateRelationships(projectElement.getSubClassesMap());
+		
+		projectElement.generateRelationships(projectElement.getSubClassesMap());
+	}
+	
+	public GraphEditModel getDiagramContainingElement(GraphElement element){
+		for (GraphEditPackage pack : packageList){
+			if (pack.getDiagram().getDiagramElements().contains(element))
+				return pack.getDiagram();
+			for (GraphEditPackage subPackage : pack.getSubPackages())
+				if (subPackage.getDiagram().getDiagramElements().contains(element))
+					return subPackage.getDiagram();
+		}
+		return null;
 	}
 	
 
@@ -202,11 +229,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		this.file = file;
 	}
 	
-/*	public MainFrame  getMainFrame(){
-		if (mainFrame == null)
-			mainFrame = new MainFrame();
-		return mainFrame;
-	}*/
+
 
 
 }

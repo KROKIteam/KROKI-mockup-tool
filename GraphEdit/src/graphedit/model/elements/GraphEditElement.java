@@ -13,9 +13,9 @@ public interface GraphEditElement {
 	public void setUmlElement(UmlNamedElement umlElement);
 	public void setElement(GraphElement element);
 	public void setName(String newName);
-	public void link(Link link);
-	public void unlink(Link link);
-	public void changeLinkProperty(Link link, LinkProperties property, Object newValue);
+	public void link(Link link, Object...args);
+	public void unlink(Link link, Object...args);
+	public void changeLinkProperty(Link link, LinkProperties property, Object newValue, Object...args);
 	public void setOldLink(Link link, Object...args);
 
 

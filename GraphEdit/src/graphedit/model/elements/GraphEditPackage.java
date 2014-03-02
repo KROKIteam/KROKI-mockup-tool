@@ -2,13 +2,17 @@ package graphedit.model.elements;
 
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
+import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.AssociationLink;
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
+import graphedit.model.components.Class;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
+import graphedit.model.components.shortcuts.ClassShortcut;
+import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.model.properties.Properties;
@@ -22,6 +26,8 @@ import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import kroki.profil.association.Hierarchy;
@@ -33,6 +39,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlNamedElement;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
+
 public class GraphEditPackage extends Observable implements GraphEditElement, GraphEditTreeNode, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,6 +56,13 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 	//GraphElement
 	private Package packageElement;
+	
+	private Map<VisibleClass, UIClassElement> classElementsByVisibleClassesMap = new HashMap<VisibleClass, UIClassElement>();
+	
+	private Map<VisibleClass, UIClassElement> subClassesMap = new HashMap<VisibleClass, UIClassElement>();
+	
+	private List<GraphEditPackage> subPackages = new ArrayList<GraphEditPackage>();
+	
 
 	public GraphEditPackage(UmlPackage umlPackage){
 		this.umlPackage = umlPackage;
@@ -80,44 +94,65 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		}
 		//ako package ima nested
 		if (umlPackage.nestedPackage().size() > 0){
-
+			
+			GraphEditPackage subPackage;
+			
 			for (UmlPackage innerUml : umlPackage.nestedPackage()){
-				new GraphEditPackage(innerUml, this);
+				subPackage = new GraphEditPackage(innerUml, this);
+				subPackages.add(subPackage);
+				subPackages.addAll(subPackage.getSubPackages());
+				
+				subClassesMap.putAll(subPackage.getSubClassesMap());
+				
 
 			}
 		}
+		generateClasses();
+	}
+	
+	private void generateClasses(){
+		
+	
 		if (umlPackage.ownedType().size()>0){
 			UIClassElement classElement;
 
-			HashMap<VisibleClass, UIClassElement> classes = new HashMap<VisibleClass, UIClassElement>();
+			
 			int xPosition = 0;
 			for (UmlType type : umlPackage.ownedType())
 				if (type instanceof VisibleClass){
 
 					VisibleClass visibleClass = (VisibleClass)type;
 					classElement = new UIClassElement(visibleClass,new Point2D.Double(xPosition, xPosition));
-					classes.put(visibleClass, classElement);
+					classElementsByVisibleClassesMap.put(visibleClass, classElement);
 
 					xPosition = 200;
 
 					diagram.addDiagramElement(classElement.element());
 
 				}
-
-			for (VisibleClass visibleClass : classes.keySet()){
+		}
+		subClassesMap.putAll(classElementsByVisibleClassesMap);
+	}
+	
+	
+		
+		public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap){
+			
+			for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
 				for (Zoom zoom : visibleClass.containedZooms()){
 
 					//onaj koji sadrzi zoom je destination
 					//onaj koji sadrzi next je source
 
 
-					UIClassElement targetElement = classes.get(zoom.getTargetPanel());
+					UIClassElement targetElement = allElementsMap.get(zoom.getTargetPanel());
 					if (targetElement == null)
 						continue;
-					UIClassElement thisElement = classes.get(visibleClass);
+					UIClassElement thisElement = allElementsMap.get(visibleClass);
 
-					LinkableElement destinationElement = (LinkableElement) thisElement.element();
-					LinkableElement sourceElement = (LinkableElement) targetElement.element();
+					LinkableElement sourceElement = getDiagramElement(thisElement);
+					LinkableElement destinationElement = getDiagramElement(targetElement);
+					
 
 					Point  p1 = new Point(0,0);
 					Point p2 = new Point(200,200);
@@ -136,8 +171,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					if (zoom.opposite() != null && zoom.opposite() instanceof Next){
 						
 						next = (Next) zoom.opposite();
-						UIClassElement targetElement2 = classes.get(visibleClass);
-						UIClassElement thisElement2 = classes.get(zoom.getTargetPanel());
+						UIClassElement targetElement2 = allElementsMap.get(visibleClass);
+						UIClassElement thisElement2 = allElementsMap.get(zoom.getTargetPanel());
 						classIndex = zoom.getTargetPanel().getVisibleElementList().indexOf(next);
 						groupIndex = ((ElementsGroup) zoom.getTargetPanel().getVisibleElementList().get(UIClassElement.STANDARD_PANEL_OPERATIONS)).getVisibleElementList().indexOf(next);
 						NextZoomElement nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex,next.getLabel(),"*",next);
@@ -171,15 +206,15 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				
 				for (Hierarchy hierarchy : visibleClass.containedHierarchies()){
 
-					UIClassElement targetElement = classes.get(hierarchy.getTargetPanel());
+					UIClassElement targetElement = allElementsMap.get(hierarchy.getTargetPanel());
 					if (targetElement == null)
 						continue;
 
-					UIClassElement thisElement = classes.get(visibleClass);
+					UIClassElement thisElement = allElementsMap.get(visibleClass);
 
-					LinkableElement sourceElement = (LinkableElement) thisElement.element();
-					LinkableElement destinationElement = (LinkableElement) targetElement.element();
-
+					LinkableElement sourceElement = getDiagramElement(thisElement);
+					LinkableElement destinationElement = getDiagramElement(targetElement);
+					
 					Point  p1 = new Point(0,0);
 					Point p2 = new Point(200,200);
 					Connector c1 = new Connector(p1, sourceElement);
@@ -213,8 +248,24 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				}
 			}
 		}
-	}
 
+	private LinkableElement getDiagramElement(ClassElement classElement){
+		LinkableElement ret;
+		
+		//check if elements are from other diagram (package)
+		if (!diagram.getDiagramElements().contains(classElement.element())){
+			ret = new  ClassShortcut(new Point2D.Double(0,0), (Class)classElement.element(), 
+					GraphEditWorkspace.getInstance().getDiagramContainingElement(classElement.element()));
+			diagram.addDiagramElement(ret);
+			((Shortcut)ret).setShortcutInfo(diagram);
+		}
+		else
+			ret = (LinkableElement) classElement.element();
+		
+		return ret;
+	}
+		
+		
 
 	public void formPanels(){
 		if (MainFrame.getInstance().getAppMode() != ApplicationMode.USER_INTERFACE)
@@ -340,20 +391,9 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	}
 
 
-	@Override
-	public void unlink(Link link) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
-	public void link(Link link) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void changeLinkProperty(Link link, LinkProperties property, Object newValue) {
+	public void changeLinkProperty(Link link, LinkProperties property, Object newValue, Object...args) {
 		// TODO Auto-generated method stub
 
 	}
@@ -381,6 +421,26 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		if (umlPackage instanceof BussinesSubsystem)
 			((BussinesSubsystem)umlPackage).setLabel(newName);
 
+	}
+
+	public Map<VisibleClass, UIClassElement> getSubClassesMap() {
+		return subClassesMap;
+	}
+
+	public List<GraphEditPackage> getSubPackages() {
+		return subPackages;
+	}
+
+	@Override
+	public void link(Link link, Object... args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unlink(Link link, Object... args) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -46,6 +46,7 @@ public class ClassDiagramAction extends AbstractAction{
 				}
 			}
 		}
+		
 		MainFrame.getInstance().setAppMode(ApplicationMode.USER_INTERFACE);
 
 		List<UmlPackage> workspaceList = KrokiMockupToolApp.getInstance().getWorkspace().getPackageList();

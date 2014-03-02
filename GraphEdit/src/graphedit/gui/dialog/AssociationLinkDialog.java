@@ -182,7 +182,6 @@ public class AssociationLinkDialog extends JDialog{
 
 				if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
 					LinkType linkType= LinkingUtil.checkLinkType(associationLink);
-					System.out.println(linkType);
 					if (linkType == LinkType.NEXT_ZOOM){
 						if (sourceCardinality.charAt(sourceCardinality.length()-1) == destinationCardinality.charAt(destinationCardinality.length()-1)){
 							Dialogs.showErrorMessage("Invalid cardinalities", "Error");

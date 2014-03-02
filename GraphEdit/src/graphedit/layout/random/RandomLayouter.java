@@ -23,7 +23,6 @@ public class RandomLayouter extends AbstractLayouter{
 
 	public RandomLayouter(GraphEditView view) {
 		super();
-		System.out.println("pozvano");
 		this.view = view;
 		model = view.getModel();
 		//Strategy

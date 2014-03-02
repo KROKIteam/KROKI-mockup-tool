@@ -142,7 +142,6 @@ public class SelectionModel extends Observable {
 		fireUpdates();
 	}
 	public void fireUpdates() {
-		//System.out.println("Fire updates!");
 		this.setChanged();
 		this.notifyObservers();
 	}

@@ -85,20 +85,9 @@ public class PersistentClassElement extends ClassElement{
 		
 	}
 
-	@Override
-	public void unlink(Link link) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
-	public void link(Link link) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void changeLinkProperty(Link link, LinkProperties property, Object newValue) {
+	public void changeLinkProperty(Link link, LinkProperties property, Object newValue, Object...args) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -161,6 +150,20 @@ public class PersistentClassElement extends ClassElement{
 
 	@Override
 	public void renameMathod(Method method, String newName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void link(Link link, Object... args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void unlink(Link link, Object... args) {
 		// TODO Auto-generated method stub
 		
 	}

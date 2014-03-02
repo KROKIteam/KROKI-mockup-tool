@@ -28,7 +28,6 @@ public class LayoutTree extends DefaultTreeForTreeLayout<LayoutTreeNode> impleme
 	}
 
 	public int getNodesNumber(){
-		System.out.println("*************");
 		return getNodesNumber(getRoot());
 	}
 
