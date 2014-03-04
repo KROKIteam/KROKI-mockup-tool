@@ -309,7 +309,6 @@ public class ProjectExporter {
 	public EJBAttribute getZoomData(Zoom z, String className) {
 		if(z.getTargetPanel() != null) {
 			String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
-
 			ArrayList<String> anotations = new ArrayList<String>();
 			String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
 			String propName = cc.toCamelCase(className, true) + "_" + name;

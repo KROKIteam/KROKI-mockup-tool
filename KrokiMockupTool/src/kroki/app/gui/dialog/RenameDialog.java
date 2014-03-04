@@ -7,11 +7,15 @@ package kroki.app.gui.dialog;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import kroki.app.utils.StringResource;
@@ -61,6 +65,7 @@ public class RenameDialog extends JDialog {
                 cancelActionPreformed();
             }
         });
+        
         action.setLayout(new FlowLayout(FlowLayout.CENTER));
         action.add(okBtn);
         action.add(cancelBtn);
@@ -69,6 +74,24 @@ public class RenameDialog extends JDialog {
         nameTf = new JTextField(50);
         nameTf.setText(visibleElement.getLabel());
 
+        nameTf.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					okActionPreformed();
+				}
+			}
+		});
+        
         content.setLayout(new FlowLayout(FlowLayout.CENTER));
         content.add(nameLbl);
         content.add(nameTf);
@@ -78,17 +101,22 @@ public class RenameDialog extends JDialog {
         if (nameTf.getText() == null || nameTf.getText().equals("")) {
             return;
         }
-        visibleElement.setLabel(nameTf.getText());
-        if(visibleElement instanceof VisibleClass) {
-        	NamingUtil namer = new NamingUtil();
-        	if(visibleElement instanceof StandardPanel) {
-        		StandardPanel clas = (StandardPanel) visibleElement;
-            	clas.getPersistentClass().setName(namer.toCamelCase(nameTf.getText().trim(), false));
-            	visibleElement.update();
-        	}
+        NamingUtil cc = new NamingUtil();
+        if(cc.checkName(nameTf.getText())) {
+        	visibleElement.setLabel(nameTf.getText());
+            if(visibleElement instanceof VisibleClass) {
+            	NamingUtil namer = new NamingUtil();
+            	if(visibleElement instanceof StandardPanel) {
+            		StandardPanel clas = (StandardPanel) visibleElement;
+                	clas.getPersistentClass().setName(namer.toCamelCase(nameTf.getText().trim(), false));
+                	visibleElement.update();
+            	}
+            }
+            //visibleElement.getComponent().setName(nameTf.getText());
+            this.dispose();
+        }else {
+        	JOptionPane.showMessageDialog(RenameDialog.this, "New name can only start with a letter!");
         }
-        //visibleElement.getComponent().setName(nameTf.getText());
-        this.dispose();
     }
 
     private void cancelActionPreformed() {

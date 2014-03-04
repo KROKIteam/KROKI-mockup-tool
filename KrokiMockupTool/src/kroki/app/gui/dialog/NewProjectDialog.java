@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.StringResource;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.DatabaseProps;
@@ -96,15 +97,22 @@ public class NewProjectDialog extends JDialog {
     }
 
     private void okActionPreformed() {
+    	NamingUtil cc =  new NamingUtil();
         BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findProject(projectNameTf.getText());
         if(pr != null) {
         	JOptionPane.showMessageDialog(NewProjectDialog.this, "Project with specified name allready exists!");
         }else {
-        	newSubystem = new BussinesSubsystem(projectNameTf.getText(), true, ComponentType.MENU, null);
-        	newSubystem.setName(projectNameTf.getText());
-            DatabaseProps props = new DatabaseProps();
-            newSubystem.setDBConnectionProps(props);
-            this.dispose();
+        	if(projectNameTf.getText().equals("")) {
+        		return;
+        	}else if(!cc.checkName(projectNameTf.getText())) {
+        		JOptionPane.showMessageDialog(NewProjectDialog.this, "Package name can only start with a letter!");
+        	}else {
+        		newSubystem = new BussinesSubsystem(projectNameTf.getText(), true, ComponentType.MENU, null);
+            	newSubystem.setName(projectNameTf.getText());
+                DatabaseProps props = new DatabaseProps();
+                newSubystem.setDBConnectionProps(props);
+                this.dispose();
+        	}
         }
     }
 

@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.StringResource;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.subsystem.BussinesSubsystem;
 import net.miginfocom.swing.MigLayout;
@@ -109,21 +110,26 @@ public class NewPackageDialog extends JDialog {
 	}
 
 	private void okActionPreformed() {
+		NamingUtil cc = new NamingUtil();
 		if (nameTf.getText().equals("")) {
 			return;
 		}
-		//find project in which we want to make package
-		BussinesSubsystem project = KrokiMockupToolApp.getInstance().findProject(owner);
-		//check if  package with same name exists in that project (in any level)
-		BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findPackage(nameTf.getText(), owner);
-		
-		if(pr != null) {
-			JOptionPane.showMessageDialog(NewPackageDialog.this, "Package with specified name allready exists!");
+		if(cc.checkName(nameTf.getText())) {
+			//find project in which we want to make package
+			BussinesSubsystem project = KrokiMockupToolApp.getInstance().findProject(owner);
+			//check if  package with same name exists in that project (in any level)
+			BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findPackage(nameTf.getText(), owner);
+			
+			if(pr != null) {
+				JOptionPane.showMessageDialog(NewPackageDialog.this, "Package with specified name allready exists!");
+			}else {
+				newSubsystem = new BussinesSubsystem(nameTf.getText(), true, ComponentType.MENU, owner);
+				newSubsystem.setName(nameTf.getText());
+				owner.addNestedPackage(newSubsystem);
+				this.dispose();
+			}
 		}else {
-			newSubsystem = new BussinesSubsystem(nameTf.getText(), true, ComponentType.MENU, owner);
-			newSubsystem.setName(nameTf.getText());
-			owner.addNestedPackage(newSubsystem);
-			this.dispose();
+			JOptionPane.showMessageDialog(NewPackageDialog.this, "Package name can only start with a letter!");
 		}
 	}
 

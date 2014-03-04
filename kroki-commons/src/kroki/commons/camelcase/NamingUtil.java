@@ -26,25 +26,14 @@ public class NamingUtil {
 			s = s.replaceAll("đ", "dj");
 			s = s.replaceAll("Đ", "dj");
 			
-		    StringBuffer sb = new StringBuffer();
-		    String[] x = s.replaceAll("[^A-Za-z]", " ").replaceAll("\\s+", " ")
-		            .trim().split(" ");
-
-		    for (int i = 0; i < x.length; i++) {
-		        if (i == 0) {
-		            x[i] = x[i].toLowerCase();
-		        } else {
-		            String r = x[i].substring(1);
-		            x[i] = String.valueOf(x[i].charAt(0)).toUpperCase() + r;
-
-		        }
-		        sb.append(x[i]);
-		    }
+		    
+			String sb = toCamelCaseIE(s, cap);
 		    if(cap) {
 		    	return sb.toString().substring(0, 1).toLowerCase() + sb.toString().substring(1);
 		    }else {
 		    	return sb.toString().substring(0, 1).toUpperCase() + sb.toString().substring(1);
 		    }
+			
 		}else {
 			return "";
 		}
@@ -148,5 +137,13 @@ public class NamingUtil {
 				return builder.toString();
 			}
 		return "";
+	}
+	
+	/**
+	 * Checks if given string is java compliant name.
+	 *  Java names can only start with letters
+	 */
+	public boolean checkName(String name) {
+		return Character.isLetter(name.charAt(0));
 	}
 }

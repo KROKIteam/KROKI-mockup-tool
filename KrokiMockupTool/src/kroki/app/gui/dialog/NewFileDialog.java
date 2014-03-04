@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import kroki.app.KrokiMockupToolApp;
@@ -154,22 +155,26 @@ public class NewFileDialog extends JDialog {
         if (nameTf.getText().equals("")) {
             return;
         }
-        if (fileTypeCb.getSelectedItem() == FileType.STANDARD_PANEL) {
-            visibleClass = new StandardPanel();
-        } else if (fileTypeCb.getSelectedItem() == FileType.PARENT_CHILD_PANEL) {
-            visibleClass = new ParentChild();
+        if(cc.checkName(nameTf.getText())) {
+        	if (fileTypeCb.getSelectedItem() == FileType.STANDARD_PANEL) {
+                visibleClass = new StandardPanel();
+            } else if (fileTypeCb.getSelectedItem() == FileType.PARENT_CHILD_PANEL) {
+                visibleClass = new ParentChild();
+            }
+            visibleClass.setLabel(nameTf.getText());
+            visibleClass.getComponent().setName(nameTf.getText());
+            if(visibleClass instanceof StandardPanel) {
+            	StandardPanel vc = (StandardPanel) visibleClass;
+                vc.getPersistentClass().setName(cc.toCamelCase(visibleClass.getLabel(), false));
+            }
+            visibleClass.update();
+            //Dodavanje fajla u paket
+            ((BussinesSubsystem) projectCb.getSelectedItem()).addOwnedType(visibleClass);
+            
+            this.dispose();
+        }else {
+        	JOptionPane.showMessageDialog(NewFileDialog.this, "File name can only start with a letter!");
         }
-        visibleClass.setLabel(nameTf.getText());
-        visibleClass.getComponent().setName(nameTf.getText());
-        if(visibleClass instanceof StandardPanel) {
-        	StandardPanel vc = (StandardPanel) visibleClass;
-            vc.getPersistentClass().setName(cc.toCamelCase(visibleClass.getLabel(), false));
-        }
-        visibleClass.update();
-        //Dodavanje fajla u paket
-        ((BussinesSubsystem) projectCb.getSelectedItem()).addOwnedType(visibleClass);
-        
-        this.dispose();
     }
 
     private void cancelActionPreformed() {
