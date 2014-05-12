@@ -10,9 +10,15 @@ public class NameTransformUtil {
 		final StringBuilder result = new StringBuilder();
 		result.append(Character.toUpperCase(className.charAt(0)));
 		for (int i = 1; i < className.length(); i++) {
-			if (Character.isUpperCase(className.charAt(i)))
+			boolean lower = false;
+			if (Character.isUpperCase(className.charAt(i))){
 				result.append(' ');
-			result.append(className.charAt(i));
+				lower = true;
+			}
+			if (lower)
+				result.append(Character.toLowerCase(className.charAt(i)));
+			else
+				result.append(className.charAt(i));
 		}
 		return result.toString();
 	}	

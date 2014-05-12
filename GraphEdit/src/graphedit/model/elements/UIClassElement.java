@@ -181,6 +181,7 @@ public class UIClassElement extends ClassElement{
 		int groupIndex = args[1];
 
 		String propLabel = attribute.getName();
+		System.out.println(propLabel);
 		String type = attribute.getType();
 		ComponentType componentType = getComponentType(type);
 		VisibleProperty prop = makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
@@ -781,6 +782,7 @@ public class UIClassElement extends ClassElement{
 		}
 
 		nextZoom.setLabel(newRole);
+		newRole = NameTransformUtil.transformClassName(newRole);
 		visibleClass.getVisibleElementList().get(nextZoom.getClassIndex()).setLabel(newRole);
 	}
 
