@@ -50,9 +50,8 @@ public class ActionController implements Observer {
 			}
 		
 		} else if (o instanceof GraphEditModel) {
-			if (!mainFrame.getSaveDiagramAction().isEnabled()) {
+			if (!mainFrame.getSaveProjectAction().isEnabled()) {
 				//((GraphEditModel)o).getParentProject().setChanged(true);
-				mainFrame.getSaveDiagramAction().setEnabled(true);
 				mainFrame.getSaveProjectAction().setEnabled(true);
 				mainFrame.markTabWithAsterisk();
 			}

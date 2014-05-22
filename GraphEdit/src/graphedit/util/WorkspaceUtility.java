@@ -1,15 +1,27 @@
 package graphedit.util;
 
+import graphedit.app.MainFrame;
+import graphedit.model.components.Package;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
+import graphedit.model.properties.PropertyEnums.PackageProperties;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.lang.model.element.PackageElement;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import kroki.uml_core_basic.UmlPackage;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * Provides couple of utility, convenience methods for data (
@@ -27,7 +39,7 @@ public class WorkspaceUtility {
 
 	public static final String FILE_EXTENSION = ".dgm";
 
-	public static final String PROJECT_EXTENSION = ".proj";
+	public static final String PROJECT_EXTENSION = ".kroki_graph";
 
 	public static void save(GraphEditModel model) {
 	/*	xstream = new XStream(new DomDriver());
@@ -43,24 +55,53 @@ public class WorkspaceUtility {
 		}*/
 	}
 
-	public static void saveProject(UmlPackage parentProject) {
-	/*	xstream = new XStream(new DomDriver());
+	private static String chooseLocation(){
+		JFileChooser chooser = new JFileChooser();
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String path = chooser.getSelectedFile().getPath();
+			return path;
+		}
+		return null;
+	}
+	
+	public static void saveProject(GraphEditPackage project) {
+		xstream = new XStream(new DomDriver());
 		configureAliases();
 		omitObservable();
-		File parentProjectProperties = new File(parentProject.getFile(), parentProject.getProperty(ProjectProperties.NAME) + PROJECT_EXTENSION);
-		parentProject.setSerialized(true);
-		try {
-			for (GraphEditModel model : parentProject.getAllDiagrams()) {
-				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(model.getFile()), "UTF-8"));
-				xstream.toXML(model, out);
-				out.close();
+		File file = project.getFile();
+		
+		if (file == null){
+			String path = chooseLocation();
+		if (path == null)
+			return;
+		
+			file = new File(path, (String)project.getProperty(PackageProperties.NAME) + PROJECT_EXTENSION);
+			if (file.exists()){
+				if (JOptionPane.showConfirmDialog(null, "Project already exists. Overwrite?", "Confirm", JOptionPane.YES_NO_OPTION) 
+						!= JOptionPane.YES_OPTION)
+					return;
 			}
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(parentProjectProperties), "UTF-8"));
-			xstream.toXML(parentProject.getProperties(), out);
+			project.setFile(file);
+		}
+		//parentProject.setSerialized(true);
+		
+		try{
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+			xstream.toXML(project, out);
 			out.close();
+		
 		} catch (Exception e) { 
 			e.printStackTrace();
-		}*/
+			JOptionPane.showMessageDialog(MainFrame.getInstance(), 
+					"Project " +(String)project.getProperty(PackageProperties.NAME) +  " wasn't saved successfully!");
+			return;
+		}
+		
+		JOptionPane.showMessageDialog(MainFrame.getInstance(), 
+				"Project " + (String)project.getProperty(PackageProperties.NAME) +  " saved successfully!");
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -181,6 +222,24 @@ public class WorkspaceUtility {
 		}*/
 	}
 	
+	public static GraphEditPackage getTopPackage(GraphEditPackage pack){
+		while (pack.getParentPackage() != null)
+			pack = pack.getParentPackage();
+		return pack;
+	}
+	
+	public static List<GraphEditModel> allDiagramsInProject(GraphEditPackage project){
+		List<GraphEditModel> ret = new ArrayList<GraphEditModel>();
+		allDiagramsInPackage(project, ret);
+		return ret;
+	}
+	
+	private static void allDiagramsInPackage(GraphEditPackage pack, List<GraphEditModel> ret){
+		ret.add(pack.getDiagram());
+		for (Package p : pack.getDiagram().getContainedPackages())
+			allDiagramsInPackage((GraphEditPackage) p.getRepresentedElement(), ret);
+	}
+	
 	/**
 	 * Method checks whether provided a file meets the rules regarding
 	 * project's hierarchy.
@@ -221,5 +280,6 @@ public class WorkspaceUtility {
 		xstream.alias("interface", graphedit.model.components.Interface.class);
 		xstream.alias("properties", graphedit.model.properties.PropertyEnums.class);
 	}
+	
 	
 }

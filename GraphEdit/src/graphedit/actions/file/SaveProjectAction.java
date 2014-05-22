@@ -1,6 +1,7 @@
 package graphedit.actions.file;
 
 import graphedit.app.MainFrame;
+import graphedit.model.elements.GraphEditPackage;
 import graphedit.util.ResourceLoader;
 import graphedit.util.WorkspaceUtility;
 import graphedit.view.GraphEditView;
@@ -9,10 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
-
-import kroki.uml_core_basic.UmlPackage;
 
 public class SaveProjectAction extends AbstractAction {
 
@@ -22,7 +20,7 @@ public class SaveProjectAction extends AbstractAction {
 		putValue(NAME, "Save UmlPackage");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK|ActionEvent.SHIFT_MASK));
-		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("save_project.png"));
+		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("save.png"));
 		putValue(SHORT_DESCRIPTION, "Save current project...");
 		setEnabled(false);
 		
@@ -30,19 +28,19 @@ public class SaveProjectAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-	/*	if (MainFrame.getInstance().getCurrentView() instanceof GraphEditView) {
-			UmlPackage parentUmlPackage = MainFrame.getInstance().getCurrentView().getModel().getParentUmlPackage();
-			WorkspaceUtility.saveUmlPackage(parentUmlPackage);
-			parentUmlPackage.setChanged(false);
-			MainFrame.getInstance().removeAsteriskFromAllTabs();
-			MainFrame.getInstance().getSaveDiagramAction().setEnabled(false);
+		if (MainFrame.getInstance().getCurrentView() instanceof GraphEditView) {
+			GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(MainFrame.getInstance().getCurrentView().getModel().getParentPackage());
+			WorkspaceUtility.saveProject(topPackage);
+			
+			
+			//WorkspaceUtility.saveUmlPackage(parentUmlPackage);
+			//parentUmlPackage.setChanged(false);
+			MainFrame.getInstance().removeAsteriskFromAllTabsContainingToProject(topPackage);
+			MainFrame.getInstance().getSaveProjectAction().setEnabled(false);
 			MainFrame.getInstance().getCurrentView().getSelectionModel().removeAllSelectedElements();
 			setEnabled(false);
-			JOptionPane.showMessageDialog(MainFrame.getInstance(), 
-					"UmlPackage: " + parentUmlPackage.getProperty(UmlPackageProperties.NAME) + " saved successfully!");
 			
-			
-		}*/
+		}
 		
 	}
 

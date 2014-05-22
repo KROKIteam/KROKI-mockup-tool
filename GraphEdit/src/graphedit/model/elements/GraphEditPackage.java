@@ -4,9 +4,9 @@ import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.AssociationLink;
+import graphedit.model.components.Class;
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
-import graphedit.model.components.Class;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
 import graphedit.model.components.LinkableElement;
@@ -23,6 +23,7 @@ import graphedit.util.NameTransformUtil;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,14 +49,25 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 	private GraphEditPackage parentPackage;
 
-	//contained uml package
+	/**
+	 * contained uml package
+	 */
 	private UmlPackage umlPackage;
 
-	//Diagram representing contents of the package
+	/**
+	 * Diagram representing contents of the package
+	 */
 	private GraphEditModel diagram;
 
-	//GraphElement
+	/**
+	 * GraphElement
+	 */
 	private Package packageElement;
+	
+	/**
+	 * Where the project is saved
+	 */
+	private File file;
 	
 	private Map<VisibleClass, UIClassElement> classElementsByVisibleClassesMap = new HashMap<VisibleClass, UIClassElement>();
 	
@@ -441,6 +453,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	public void unlink(Link link, Object... args) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 
