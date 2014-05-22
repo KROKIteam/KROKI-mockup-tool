@@ -17,14 +17,17 @@ import graphedit.layout.LayouterException;
 import graphedit.layout.random.RandomLayouter;
 import graphedit.layout.tree.TreeLayouter;
 import graphedit.model.ClipboardManager;
+import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
 import graphedit.model.diagram.GraphEditModel;
+import graphedit.model.elements.GraphEditPackage;
 import graphedit.state.SelectionState;
 import graphedit.state.State;
+import graphedit.util.WorkspaceUtility;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -147,12 +150,12 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		scaleMini = true;
 	}
 
-	
+
 	@Override
 	protected void paintOurView(Graphics g, boolean includeTransform){
 		Graphics2D g2 = (Graphics2D)g;
 
-		// Uključujemo omekšavanje ivica (antialiasing)
+		// UkljuÄ�ujemo omekÅ¡avanje ivica (antialiasing)
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(includeTransform){
@@ -179,17 +182,21 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		}
 
 		if (setConnectors){
-			Layouter layouter = new TreeLayouter(this, g);
+			//check if layouting is necessary
+			GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(model.getParentPackage());
+			if (GraphEditWorkspace.getInstance().shoudLayout(topPackage)){
+				Layouter layouter = new TreeLayouter(this, g);
 
-			try {
-				layouter.layout();
-			} catch (LayouterException e) {
-				e.printStackTrace();
-				layouter = new RandomLayouter(this);
 				try {
 					layouter.layout();
-				} catch (LayouterException e1) {
-					e1.printStackTrace();
+				} catch (LayouterException e) {
+					e.printStackTrace();
+					layouter = new RandomLayouter(this);
+					try {
+						layouter.layout();
+					} catch (LayouterException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 			setConnectors = false;
@@ -269,12 +276,12 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		if (linkLines.size()>0)
 			for (Line2D.Double line:linkLines)
 				g2.draw(line);
-		
+
 		g2.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 		for (ElementPainter painter: shadowPainters){
 			painter.paint(g2);
 		}
-			
+
 
 		if (scaleMini){
 			miniView.bestFitZoom(false);
@@ -623,7 +630,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		}
 		return null;
 	}
-	
+
 	public ElementPainter getShadowElementPainter(GraphElement element){
 		for(ElementPainter painter : shadowPainters){
 			if(painter.getElement() == element){
@@ -804,7 +811,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		public Point getPoint() {
 			return point;
 		}
-		
+
 		public Point getMouseReleased(){
 			return mouseReleased;
 		}
@@ -833,7 +840,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 			currentLinkNode=getLinkNodeAtPosition(point);
 			mousePressedElement=getLinkableElementAtPosition(point);
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				
+
 				lastMouseEvent = e;
 			}
 
@@ -952,7 +959,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 		private void handleMouseWheelEvent(MouseWheelEvent e) {
 			if (e.isControlDown()) { // Ako je pritisnut Ctrl, radimo zoom u
-				// tački
+				// taÄ�ki
 				// Prvo je potrebno da odredimo novo skaliranje
 				double newScaling = transformation.getScaleX();
 				if (e.getWheelRotation() > 0)
@@ -969,7 +976,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 				transformation.translate(t, 0);
 				miniView.scroll();
-			} else { // u ostalim slučajevima vršimo skrolovanje po Y osi
+			} else { // u ostalim sluÄ�ajevima vrÅ¡imo skrolovanje po Y osi
 				double t = -(double) e.getWheelRotation()
 						* translationFactor / transformation.getScaleY();
 				transformation.translate(0, t);

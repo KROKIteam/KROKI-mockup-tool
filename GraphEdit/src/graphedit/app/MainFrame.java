@@ -752,7 +752,8 @@ public class MainFrame extends JDialog{
 		}
 
 		public void setPositionTrack(int x, int y) {
-			positionTrack.setText("(" + x + ", " + y + ")");
+			if (positionTrack != null)
+				positionTrack.setText("(" + x + ", " + y + ")");
 		}
 
 		public void setStatusTrack(String state) {
@@ -1185,7 +1186,6 @@ public class MainFrame extends JDialog{
 			List<GraphEditModel> diagrams = WorkspaceUtility.allDiagramsInProject(project);
 			int j = 0;
 			for (int i = 0; i < mainTabbedPane.getComponentCount(); i++){
-				System.out.println(mainTabbedPane.getComponent(i).getClass());
 				if (mainTabbedPane.getComponent(i) instanceof ContainerPanel){
 					GraphEditView view = ((ContainerPanel) mainTabbedPane.getComponent(i)).getView();
 					if (diagrams.contains(view.getModel())){

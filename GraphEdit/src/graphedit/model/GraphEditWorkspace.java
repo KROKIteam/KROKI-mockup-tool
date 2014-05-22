@@ -14,8 +14,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import kroki.profil.subsystem.BussinesSubsystem;
@@ -36,6 +38,8 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 
 	private File file;
 
+	private Map<GraphEditPackage, Boolean> layoutMap;
+
 	private static GraphEditWorkspace workspace;
 
 	private GraphEditWorkspace() {
@@ -43,6 +47,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		this.properties = new Properties<WorkspaceProperties>();
 		this.properties.set(WorkspaceProperties.NAME, DEFAULT_WORKSPACE);
 		this.preferences = Preferences.getInstance();
+		layoutMap = new HashMap<GraphEditPackage, Boolean>();
 		try {
 			setWorkspacePath();
 		} catch (Exception e) { }
@@ -69,17 +74,21 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 	private void prepareProject(UmlPackage project){
 
 		GraphEditPackage projectElement = null;
+		Boolean layout = false;
 
 		if (project instanceof BussinesSubsystem){
 			File file = ((BussinesSubsystem) project).getDiagramFile();
-			if (file != null)
+			if (file != null){
 				projectElement = WorkspaceUtility.load(file);
-			System.out.println(projectElement);
-			System.out.println(projectElement.getDiagram().getAllElements().size());
+				projectElement.setUmlElement(project);
+				projectElement.setUmlPackage(project);
+				projectElement.setChanged(false);
+			}
 		}
 
 		if (projectElement == null){
 
+			layout = true;
 			projectElement = new GraphEditPackage(project, null);
 
 
@@ -94,6 +103,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 
 		}
 		packageList.add(projectElement);
+		layoutMap.put(projectElement, layout);
 	}
 
 	public GraphEditModel getDiagramContainingElement(GraphElement element){
@@ -202,6 +212,12 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		this.notifyObservers();
 	}
 
+
+	public boolean shoudLayout(GraphEditPackage pack){
+		if (layoutMap == null || layoutMap.size() == 0)
+			return false;
+		return layoutMap.get(pack);
+	}
 	public Object getProperty(WorkspaceProperties key) {
 		return properties.get(key);
 	}

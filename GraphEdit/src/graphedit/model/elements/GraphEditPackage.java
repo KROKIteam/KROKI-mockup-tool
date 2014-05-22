@@ -75,6 +75,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	
 	private List<GraphEditPackage> subPackages = new ArrayList<GraphEditPackage>();
 	
+	private boolean changed = false;
 
 	public GraphEditPackage(UmlPackage umlPackage){
 		this.umlPackage = umlPackage;
@@ -461,6 +462,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 	public void setFile(File file) {
 		this.file = file;
+	}
+
+	public boolean isChanged() {
+		return changed;
+	}
+
+	public void setChanged(boolean changed) {
+		this.changed = changed;
 	}
 
 

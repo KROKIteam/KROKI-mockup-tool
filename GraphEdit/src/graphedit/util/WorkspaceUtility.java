@@ -17,7 +17,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.lang.model.element.PackageElement;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -69,7 +68,7 @@ public class WorkspaceUtility {
 		return null;
 	}
 	
-	public static void saveProject(GraphEditPackage project) {
+	public static boolean saveProject(GraphEditPackage project) {
 		xstream = new XStream(new DomDriver());
 		configureAliases();
 		omitObservable();
@@ -78,13 +77,13 @@ public class WorkspaceUtility {
 		if (file == null){
 			String path = chooseLocation();
 		if (path == null)
-			return;
+			return false;
 		
 			file = new File(path, (String)project.getProperty(PackageProperties.NAME) + PROJECT_EXTENSION);
 			if (file.exists()){
 				if (JOptionPane.showConfirmDialog(null, "Project already exists. Overwrite?", "Confirm", JOptionPane.YES_NO_OPTION) 
 						!= JOptionPane.YES_OPTION)
-					return;
+					return false;
 			}
 			project.setFile(file);
 		}
@@ -99,15 +98,16 @@ public class WorkspaceUtility {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(MainFrame.getInstance(), 
 					"Project " +(String)project.getProperty(PackageProperties.NAME) +  " wasn't saved successfully!");
-			return;
+			return false;
 		}
 		
 		JOptionPane.showMessageDialog(MainFrame.getInstance(), 
 				"Project " + (String)project.getProperty(PackageProperties.NAME) +  " saved successfully!");
 		
+		return true;
+		
 	}
 
-	@SuppressWarnings("unchecked")
 	
 	public static GraphEditPackage load(File file) {
 		

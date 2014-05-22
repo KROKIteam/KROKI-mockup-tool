@@ -15,7 +15,7 @@ import javax.swing.KeyStroke;
 public class SaveProjectAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public SaveProjectAction() {
 		putValue(NAME, "Save project");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
@@ -23,25 +23,24 @@ public class SaveProjectAction extends AbstractAction {
 		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("save.png"));
 		putValue(SHORT_DESCRIPTION, "Save current project...");
 		setEnabled(false);
-		
+
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (MainFrame.getInstance().getCurrentView() instanceof GraphEditView) {
 			GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(MainFrame.getInstance().getCurrentView().getModel().getParentPackage());
-			WorkspaceUtility.saveProject(topPackage);
-			
-			
-			//WorkspaceUtility.saveUmlPackage(parentUmlPackage);
-			//parentUmlPackage.setChanged(false);
-			MainFrame.getInstance().removeAsteriskFromAllTabsContainingToProject(topPackage);
-			MainFrame.getInstance().getSaveProjectAction().setEnabled(false);
-			MainFrame.getInstance().getCurrentView().getSelectionModel().removeAllSelectedElements();
-			setEnabled(false);
-			
+			if (WorkspaceUtility.saveProject(topPackage)){
+
+				topPackage.setChanged(false);
+				MainFrame.getInstance().removeAsteriskFromAllTabsContainingToProject(topPackage);
+				MainFrame.getInstance().getSaveProjectAction().setEnabled(false);
+				MainFrame.getInstance().getCurrentView().getSelectionModel().removeAllSelectedElements();
+				setEnabled(false);
+			}
+
 		}
-		
+
 	}
 
 }
