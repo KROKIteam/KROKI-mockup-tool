@@ -17,7 +17,7 @@ public class SaveProjectAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 	
 	public SaveProjectAction() {
-		putValue(NAME, "Save UmlPackage");
+		putValue(NAME, "Save project");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK|ActionEvent.SHIFT_MASK));
 		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("save.png"));

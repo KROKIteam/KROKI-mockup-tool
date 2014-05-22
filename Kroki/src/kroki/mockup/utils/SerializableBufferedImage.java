@@ -21,7 +21,10 @@ import javax.imageio.ImageIO;
  */
 public class SerializableBufferedImage implements Serializable {
 
-    BufferedImage image;
+   transient BufferedImage image;
+    
+    public SerializableBufferedImage(){
+    }
 
     public SerializableBufferedImage(ColorModel cm, WritableRaster raster, boolean isRasterPremultiplied, Hashtable<?, ?> properties) {
         image = new BufferedImage(cm, raster, isRasterPremultiplied, properties);
@@ -47,11 +50,11 @@ public class SerializableBufferedImage implements Serializable {
         this.image = image;
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        ImageIO.write(image, "png", out);
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        image = ImageIO.read(in);
-    }
+//    private void writeObject(ObjectOutputStream out) throws IOException {
+//        ImageIO.write(image, "png", out);
+//    }
+//
+//    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+//        image = ImageIO.read(in);
+//    }
 }

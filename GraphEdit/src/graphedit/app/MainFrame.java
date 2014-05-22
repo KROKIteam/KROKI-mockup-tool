@@ -17,7 +17,6 @@ import graphedit.actions.file.CloseDiagramAction;
 import graphedit.actions.file.ExitAction;
 import graphedit.actions.file.ExportAction;
 import graphedit.actions.file.NewProjectAction;
-import graphedit.actions.file.OpenDiagramAction;
 import graphedit.actions.file.SaveProjectAction;
 import graphedit.actions.help.AboutAction;
 import graphedit.actions.help.ContentsAction;
@@ -166,7 +165,6 @@ public class MainFrame extends JDialog{
 	private static MainFrame singletonMain;	
 	// File Actions
 	private NewProjectAction newProjectAction; 
-	private OpenDiagramAction openDiagramAction; 
 	private SaveProjectAction saveProjectAction; 
 	private ExportAction exportAction;
 	private CloseDiagramAction closeDiagramAction;
@@ -252,7 +250,6 @@ public class MainFrame extends JDialog{
 			actionController = new ActionController();
 			// File Actions
 			newProjectAction = new NewProjectAction();		
-			openDiagramAction = new OpenDiagramAction();		
 			saveProjectAction = new SaveProjectAction();
 			exportAction = new ExportAction();
 			closeDiagramAction = new CloseDiagramAction();
@@ -407,7 +404,6 @@ public class MainFrame extends JDialog{
 			fileMenu = new JMenu("File");
 			fileMenu.setMnemonic(KeyEvent.VK_F);
 			fileMenu.add(newProjectAction);
-			fileMenu.add(openDiagramAction);
 			fileMenu.addSeparator();
 			fileMenu.add(saveProjectAction);
 			fileMenu.addSeparator();
@@ -415,8 +411,6 @@ public class MainFrame extends JDialog{
 			fileMenu.addSeparator();
 			fileMenu.add(closeDiagramAction);
 			fileMenu.add(closeAllDiagramsAction);
-			fileMenu.addSeparator();
-			//fileMenu.add(switchWorkspaceAction);
 			fileMenu.addSeparator();
 			fileMenu.add(exitDiagramAction);
 			editMenu = new JMenu("Edit");
@@ -458,7 +452,6 @@ public class MainFrame extends JDialog{
 		private void mainToolBarInit() {
 			mainToolBar.setFloatable(false);
 			mainToolBar.add(newProjectAction);
-			mainToolBar.add(openDiagramAction);
 			mainToolBar.addSeparator();
 			mainToolBar.add(saveProjectAction);
 			mainToolBar.addSeparator();
@@ -607,11 +600,6 @@ public class MainFrame extends JDialog{
 								showDiagram(pack.getDiagram());
 							}
 						} else {
-							// enable or disable open toolbar item considering selected item's type
-							if (source instanceof GraphEditPackage)
-								openDiagramAction.setEnabled(true);
-							else
-								openDiagramAction.setEnabled(false);
 
 							// do the same for new package
 							if (source instanceof GraphEditPackage) {
@@ -1138,10 +1126,6 @@ public class MainFrame extends JDialog{
 
 		public SaveProjectAction getSaveProjectAction() {
 			return saveProjectAction;
-		}
-
-		public OpenDiagramAction getOpenDiagramAction() {
-			return openDiagramAction;
 		}
 
 		public CloseAllDiagramsAction getCloseAllDiagramsAction() {

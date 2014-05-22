@@ -9,7 +9,10 @@ import graphedit.model.properties.PropertyEnums.PackageProperties;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +108,20 @@ public class WorkspaceUtility {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void load() {
+	
+	public static GraphEditPackage load(File file) {
+		
+	try {
+		in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+		xstream = new XStream();
+		configureAliases();
+		return (GraphEditPackage) xstream.fromXML(in);
+		
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		return null;
 	/*	xstream = new XStream();
 		configureAliases();
 		GraphEditWorkspace workspace = GraphEditWorkspace.getInstance();
@@ -279,6 +295,9 @@ public class WorkspaceUtility {
 		xstream.alias("class", graphedit.model.components.Class.class);
 		xstream.alias("interface", graphedit.model.components.Interface.class);
 		xstream.alias("properties", graphedit.model.properties.PropertyEnums.class);
+		xstream.alias("umlPackage", kroki.profil.subsystem.BussinesSubsystem.class);
+		xstream.alias("nestingPackage", kroki.profil.subsystem.BussinesSubsystem.class);
+		
 	}
 	
 	

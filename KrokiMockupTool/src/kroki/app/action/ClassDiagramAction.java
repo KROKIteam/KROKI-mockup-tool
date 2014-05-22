@@ -5,6 +5,7 @@ import graphedit.app.MainFrame;
 import graphedit.model.elements.GraphEditPackage;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -62,11 +63,22 @@ public class ClassDiagramAction extends AbstractAction{
 		//graphedit.model.GraphEditWorkspace.getInstance().getMainFrame().setVisible(true);
 		List<GraphEditPackage> packageList = graphedit.model.GraphEditWorkspace.getInstance().getpackageList();
 		UmlPackage umlPackage;
+		BussinesSubsystem businessSub;
 		for (GraphEditPackage pack: packageList){
 			umlPackage = pack.getUmlPackage();
 			if (!workspaceList.contains(umlPackage))
 				workspaceList.add(umlPackage);
 			updatePanels(umlPackage);
+			if (umlPackage instanceof BussinesSubsystem){
+				businessSub = (BussinesSubsystem)umlPackage;
+				try {
+					if ((businessSub.getDiagramFile() == null && pack.getFile() != null) || (businessSub.getDiagramFile() != null && pack.getFile() != null &&
+							!businessSub.getDiagramFile().getCanonicalPath().equals(pack.getFile().getCanonicalPath())))
+							businessSub.setDiagramFile(pack.getFile());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			
 		}
 
