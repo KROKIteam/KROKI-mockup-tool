@@ -36,8 +36,6 @@ public class ExitAction extends AbstractAction {
 			}
 		}
 		
-		System.out.println(thereAreChanges);
-		
 		if (!thereAreChanges){
 			MainFrame.getInstance().setVisible(false);
 			return;

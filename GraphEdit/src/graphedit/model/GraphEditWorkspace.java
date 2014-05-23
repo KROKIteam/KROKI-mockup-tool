@@ -91,11 +91,6 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 			layout = true;
 			projectElement = new GraphEditPackage(project, null);
 
-
-			//System.out.println("total classes: " + projectElement.getSubClassesMap().size());
-
-			//System.out.println("total subpackages: " + projectElement.getSubPackages().size());
-
 			for (GraphEditPackage pack : projectElement.getSubPackages())
 				pack.generateRelationships(projectElement.getSubClassesMap());
 

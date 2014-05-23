@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
-import kroki.app.view.Canvas;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.StandardPanel;

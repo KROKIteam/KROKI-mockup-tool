@@ -44,7 +44,25 @@ public class Validator {
 	}
 	
 	/**
-	 * Check if class of attribute has given name
+	 * Check if class or attribute has given name
+	 * @param elements
+	 * @param name
+	 * @return
+	 */
+	public static boolean classHasName(GraphElement element, String name){
+		if (MainFrame.getInstance().getCurrentView()!=null){
+		List<GraphElement> elements = MainFrame.getInstance().getCurrentView().getModel().getDiagramElements();
+		for (GraphElement c : elements){
+			if (c!= element && ((String)c.getProperty(GraphElementProperties.NAME)).equals(name))
+				return true;
+		}
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Check if class or attribute has given name
 	 * @param elements
 	 * @param name
 	 * @return
@@ -52,12 +70,14 @@ public class Validator {
 	public static boolean classHasName(String name){
 		if (MainFrame.getInstance().getCurrentView()!=null){
 		List<GraphElement> elements = MainFrame.getInstance().getCurrentView().getModel().getDiagramElements();
-		for (GraphElement c : elements)
+		for (GraphElement c : elements){
 			if (((String)c.getProperty(GraphElementProperties.NAME)).equals(name))
 				return true;
 		}
+		}
 		return false;
 	}
+	
 	
 	public static boolean attributeHasName(List<Attribute> attributes, String name) {
 		for (Attribute attribute : attributes) {

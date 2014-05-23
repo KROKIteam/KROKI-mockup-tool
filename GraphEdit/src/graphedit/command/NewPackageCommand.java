@@ -4,6 +4,7 @@ import graphedit.app.MainFrame;
 import graphedit.model.components.Package;
 import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.view.ContainerPanel;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import graphedit.view.PackagePainter;
@@ -31,9 +32,9 @@ public class NewPackageCommand extends Command {
 		packageElement.setProperty(GraphElementProperties.NAME, name);
 		//nije naveden view, probaj da nadjes meju otvorenima
 		for (Component c : MainFrame.getInstance().getMainTabbedPane().getComponents()) 
-			if (c instanceof GraphEditView) 
-				if (((GraphEditView) c).getModel() == parentPackage.getDiagram())
-					view = (GraphEditView)c;
+			if (c instanceof ContainerPanel) 
+				if (((ContainerPanel) c).getView().getModel() == parentPackage.getDiagram())
+					view = ((ContainerPanel) c).getView();
 	}
 
 	public NewPackageCommand(GraphEditPackage parentPackage, Package packageElement, GraphEditView view) {

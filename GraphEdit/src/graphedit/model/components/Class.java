@@ -1,5 +1,6 @@
 package graphedit.model.components;
 
+import graphedit.app.MainFrame;
 import graphedit.model.components.Link.LinkType;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
@@ -25,9 +26,15 @@ public class Class extends LinkableElement {
 		properties.set(GraphElementProperties.METHODS, new ArrayList<Method>());
 
 		String name;
+		boolean first = true;
 		do{
-			name = (String) appModeProperties.getPropertyValue("className") + counter;
-		}while(Validator.classHasName(name));
+			
+			if (first)
+				first = false;
+			else
+				counter = MainFrame.getInstance().incrementClassCounter();
+				name = (String) appModeProperties.getPropertyValue("className") + counter;
+		}while(Validator.classHasName(this, name));
 
 
 		properties.set(GraphElementProperties.NAME, name);
@@ -46,7 +53,7 @@ public class Class extends LinkableElement {
 			String name;
 			do{
 				name = (String) appModeProperties.getPropertyValue("className") + counter;
-			}while(Validator.classHasName(name));
+			}while(Validator.classHasName(this, name));
 			properties.set(GraphElementProperties.NAME, name);
 		}
 		properties.set(GraphElementProperties.STEREOTYPE, (String)appModeProperties.getPropertyValue("classStereotype"));
