@@ -39,8 +39,8 @@ public class CheckBoxPainter extends ComponentPainter {
     }
 
     private void loadImages() {
-        checked = new SerializableBufferedImage(KrokiImagesLoader.loadImage("check-box-check"));
-        unchecked = new SerializableBufferedImage(KrokiImagesLoader.loadImage("check-box-uncheck"));
+        checked = new SerializableBufferedImage("check-box-check");
+        unchecked = new SerializableBufferedImage("check-box-uncheck");
     }
 
     @Override

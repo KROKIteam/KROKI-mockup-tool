@@ -39,8 +39,8 @@ public class RadioButtonPainter extends ComponentPainter {
     }
 
     private void loadImages() {
-        checked = new SerializableBufferedImage(KrokiImagesLoader.loadImage("radio-check"));
-        unchecked = new SerializableBufferedImage(KrokiImagesLoader.loadImage("radio-uncheck"));
+        checked = new SerializableBufferedImage("radio-check");
+        unchecked = new SerializableBufferedImage("radio-uncheck");
     }
 
     @Override

@@ -155,43 +155,43 @@ public class StandardPanel extends VisibleClass {
      */
     private void createMockupForStandardOperations() {
         addButton = new Button();
-        addButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("plus")));
+        addButton.setImage(new SerializableBufferedImage("plus"));
         addButton.updateComponent();
 
         updateButton = new Button();
-        updateButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("pencil")));
+        updateButton.setImage(new SerializableBufferedImage("pencil"));
         updateButton.updateComponent();
 
         copyButton = new Button();
-        copyButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("copy")));
+        copyButton.setImage(new SerializableBufferedImage("copy"));
         copyButton.updateComponent();
 
         deleteButton = new Button();
-        deleteButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("minus")));
+        deleteButton.setImage(new SerializableBufferedImage("minus"));
         deleteButton.updateComponent();
 
         searchButton = new Button();
-        searchButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("zoom")));
+        searchButton.setImage(new SerializableBufferedImage("zoom"));
         searchButton.updateComponent();
 
         changeModeButton = new Button();
-        changeModeButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("reload-1")));
+        changeModeButton.setImage(new SerializableBufferedImage("reload-1"));
         changeModeButton.updateComponent();
 
         firstButton = new Button();
-        firstButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("arrow-first")));
+        firstButton.setImage(new SerializableBufferedImage("arrow-first"));
         firstButton.updateComponent();
 
         previuosButton = new Button();
-        previuosButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("arrow-left")));
+        previuosButton.setImage(new SerializableBufferedImage("arrow-left"));
         previuosButton.updateComponent();
 
         nextButton = new Button();
-        nextButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("arrow-right")));
+        nextButton.setImage(new SerializableBufferedImage("arrow-right"));
         nextButton.updateComponent();
 
         lastButton = new Button();
-        lastButton.setImage(new SerializableBufferedImage(KrokiImagesLoader.loadImage("arrow-last")));
+        lastButton.setImage(new SerializableBufferedImage("arrow-last"));
         lastButton.updateComponent();
     }
 

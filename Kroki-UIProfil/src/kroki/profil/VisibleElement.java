@@ -22,8 +22,8 @@ import kroki.profil.utils.settings.VisibleElementSettings;
 import kroki.uml_core_basic.UmlNamedElement;
 
 /**
- * Klasa predstavlja element modela koji se preslikava na element korisničkog interfejsa.
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * Klasa predstavlja element modela koji se preslikava na element korisniÄ�kog interfejsa.
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(VisibleElementSettings.class)
 public class VisibleElement implements UmlNamedElement, Serializable {
@@ -38,7 +38,7 @@ public class VisibleElement implements UmlNamedElement, Serializable {
     protected ComponentType componentType;
     /**Grupa kojoj pripada*/
     protected ElementsGroup parentGroup;
-    //OBELEŽJA METAKLASE NAMEDELEMENT
+    //OBELEÅ½JA METAKLASE NAMEDELEMENT
     protected String name;
     protected String qualifiedName;
 
@@ -46,8 +46,8 @@ public class VisibleElement implements UmlNamedElement, Serializable {
         this.label = label;
         this.visible = visible;
         this.componentType = componentType;
-        //nakon ovoga je potrebno kreirati komponentu korisničkog interfejsa na koju se ovaj element mapira.
-        //to se vrši na osnovu nabrojanog tipa: Input
+        //nakon ovoga je potrebno kreirati komponentu korisniÄ�kog interfejsa na koju se ovaj element mapira.
+        //to se vrÅ¡i na osnovu nabrojanog tipa: Input
         createDefaultComponent();
     }
 
@@ -55,9 +55,9 @@ public class VisibleElement implements UmlNamedElement, Serializable {
     /*PRIVATNE METODE*/
     /*****************/
     /**
-     * Kreira podrazumevanu komponentu korisničkog interfejsa
-     * u zavisnosti tipa komponente koja mu je pridružena.
-     * Tip komponente označen je nabrojanim tipom {@link  Input}
+     * Kreira podrazumevanu komponentu korisniÄ�kog interfejsa
+     * u zavisnosti tipa komponente koja mu je pridruÅ¾ena.
+     * Tip komponente oznaÄ�en je nabrojanim tipom {@link  Input}
      */
     private void createDefaultComponent() {
         switch (componentType) {
@@ -132,7 +132,8 @@ public class VisibleElement implements UmlNamedElement, Serializable {
     }
 
     public void update() {
-        component.updateComponent();
+    	if (component != null)
+    		component.updateComponent();
     }
 
     /**************************************************/

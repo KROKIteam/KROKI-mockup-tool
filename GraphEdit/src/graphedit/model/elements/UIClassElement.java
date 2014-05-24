@@ -62,8 +62,8 @@ public class UIClassElement extends ClassElement{
 	private HashMap<Connector, NextZoomElement> zoomMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, NextZoomElement> nextMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, HierarchyElement> hierarchyMap = new HashMap<Connector, HierarchyElement>();
-
-
+	private NamingUtil namer = new NamingUtil();
+	
 	private enum LinkEnd {ZOOM, NEXT};
 
 
@@ -75,7 +75,7 @@ public class UIClassElement extends ClassElement{
 			this.umlClass = new StandardPanel();
 			visibleClass = (VisibleClass)umlClass;
 			((StandardPanel)visibleClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
-			((StandardPanel) visibleClass).getPersistentClass().setName(NameTransformUtil.labelToCamelCase((String) element.getProperty(GraphElementProperties.NAME), true));
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
 		}
 		else{
 			this.umlClass = new ParentChild();
@@ -106,7 +106,8 @@ public class UIClassElement extends ClassElement{
 		}
 		visibleClass = (VisibleClass) umlClass;
 		visibleClass.setName((String) element.getProperty(GraphElementProperties.NAME));
-
+		if (visibleClass instanceof StandardPanel)
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
 
 		//create properties
 		for (Attribute attribute : (List<Attribute>)element.getProperty(GraphElementProperties.ATTRIBUTES))
@@ -117,8 +118,10 @@ public class UIClassElement extends ClassElement{
 	}
 
 	public void formPanel(String name, String label, List<VisibleElement> visibleElements, String stereotype){
-		if (stereotype.equals(ClassStereotypeUI.STANDARD_PANEL.toString()))
+		if (stereotype.equals(ClassStereotypeUI.STANDARD_PANEL.toString())){
 			umlClass = new StandardPanel();
+			((StandardPanel) umlClass).getPersistentClass().setName(namer.toCamelCase(name, false).trim());
+		}
 		else if (stereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 			umlClass = new ParentChild();
 		visibleClass = (VisibleClass)umlClass;
@@ -1021,6 +1024,8 @@ public class UIClassElement extends ClassElement{
 		visibleClass.setName(newName);
 		umlClass.setName(newName);
 		visibleClass.setLabel(NameTransformUtil.transformClassName(newName));
+		if (visibleClass instanceof StandardPanel)
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase(newName, false).trim());
 
 	}
 

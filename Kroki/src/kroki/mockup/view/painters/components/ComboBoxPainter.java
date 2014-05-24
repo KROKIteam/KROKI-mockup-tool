@@ -53,7 +53,7 @@ public class ComboBoxPainter extends ComponentPainter {
     }
 
     private void loadImage() {
-        downArrow = new SerializableBufferedImage(KrokiImagesLoader.loadImage("control-small"));
+        downArrow = new SerializableBufferedImage("control-small");
     }
 
     @Override
