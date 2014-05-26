@@ -2,6 +2,7 @@ package graphedit.model.elements;
 
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
+import graphedit.layout.LayoutStrategy;
 import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.AssociationLink;
 import graphedit.model.components.Class;
@@ -77,6 +78,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	private List<GraphEditPackage> subPackages = new ArrayList<GraphEditPackage>();
 
 	private boolean changed = false;
+	
+	private boolean loaded;
 
 
 	public GraphEditPackage(UmlPackage umlPackage){
@@ -97,7 +100,10 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		properties.set(PackageProperties.NAME, name);
 		diagram = new GraphEditModel(name);
 		diagram.setParentPackage(this);
-
+		
+		if (loadedElement != null)
+			if (loadedElement.getClassElementsByVisibleClassesMap().size() > 0 || loadedElement.getSubPackages().size() > 0)
+				loaded = true;
 
 		//nije na vrhu hijerarhije
 		if (parent != null){
@@ -109,13 +115,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				Dimension dim = (Dimension) loadedPackage.getProperty(GraphElementProperties.SIZE);
 				String labelOld = ((BussinesSubsystem)loadedElement.getUmlPackage()).getLabel();
 				String labelNew = ((BussinesSubsystem)umlPackage).getLabel();
-				packageElement.setLoaded(true);
 				packageElement.setProperty(GraphElementProperties.POSITION, position);
 				packageElement.setProperty(GraphElementProperties.SIZE, dim);
 				if (labelOld.equals(labelNew))
 					packageElement.setProperty(GraphElementProperties.NAME, loadedPackage.getProperty(GraphElementProperties.NAME));
 				else
 					packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
+				
+				
 			}
 			else
 				packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
@@ -174,7 +181,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					classElement = new UIClassElement(visibleClass, loadedClass);
 					classElementsByVisibleClassesMap.put(visibleClass, classElement);
 
-					diagram.addDiagramElement(classElement.element());
+					diagram.addDiagramElement((Class)classElement.element());
 
 				}
 		}
@@ -303,7 +310,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		if (!diagram.getDiagramElements().contains(classElement.element())){
 			ret = new  ClassShortcut(new Point2D.Double(0,0), (Class)classElement.element(), 
 					GraphEditWorkspace.getInstance().getDiagramContainingElement(classElement.element()));
-			diagram.addDiagramElement(ret);
+			diagram.addDiagramElement((Class)ret);
 			((Shortcut)ret).setShortcutInfo(diagram);
 		}
 		else
@@ -508,6 +515,20 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 	public Map<VisibleClass, UIClassElement> getClassElementsByVisibleClassesMap() {
 		return classElementsByVisibleClassesMap;
+	}
+
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
+	}
+	
+	public LayoutStrategy getLayoutStrategy(){
+		if (loaded)
+			return LayoutStrategy.ADDING;
+		return LayoutStrategy.TREE;
 	}
 
 

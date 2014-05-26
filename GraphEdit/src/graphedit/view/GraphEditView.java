@@ -12,8 +12,10 @@ import graphedit.app.MainFrame.ToolSelected;
 import graphedit.command.CutElementsCommand;
 import graphedit.command.CutLinkCommand;
 import graphedit.concurrency.AutoScrollTask;
+import graphedit.layout.LayoutStrategy;
 import graphedit.layout.Layouter;
 import graphedit.layout.LayouterException;
+import graphedit.layout.LayouterFactory;
 import graphedit.layout.random.RandomLayouter;
 import graphedit.layout.tree.TreeLayouter;
 import graphedit.model.ClipboardManager;
@@ -153,6 +155,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 	@Override
 	protected void paintOurView(Graphics g, boolean includeTransform){
+		
 		Graphics2D g2 = (Graphics2D)g;
 
 		// UkljuÄ�ujemo omekÅ¡avanje ivica (antialiasing)
@@ -182,10 +185,9 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		}
 
 		if (setConnectors){
-			//check if layouting is necessary
-			GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(model.getParentPackage());
-			if (GraphEditWorkspace.getInstance().shoudLayout(topPackage)){
-				Layouter layouter = new TreeLayouter(this, g);
+				
+				Layouter layouter = LayouterFactory.createLayouter(model.getParentPackage().getLayoutStrategy(), 
+						this, g);
 
 				try {
 					layouter.layout();
@@ -197,7 +199,6 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 					} catch (LayouterException e1) {
 						e1.printStackTrace();
 					}
-				}
 			}
 			setConnectors = false;
 		}

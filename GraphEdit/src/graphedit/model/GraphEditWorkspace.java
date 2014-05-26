@@ -1,11 +1,10 @@
 package graphedit.model;
 
 import graphedit.app.MainFrame;
+import graphedit.layout.LayoutStrategy;
 import graphedit.model.components.GraphElement;
 import graphedit.model.diagram.GraphEditModel;
-import graphedit.model.elements.GraphEditElement;
 import graphedit.model.elements.GraphEditPackage;
-import graphedit.model.elements.UIClassElement;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.model.properties.Properties;
 import graphedit.model.properties.PropertyEnums.WorkspaceProperties;
@@ -22,10 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.uml_core_basic.UmlClass;
-import kroki.uml_core_basic.UmlElement;
 import kroki.uml_core_basic.UmlPackage;
 
 
@@ -43,7 +39,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 
 	private File file;
 
-	private Map<GraphEditPackage, Map<UmlElement, GraphEditElement>> layoutMap;
+	private Map<GraphEditPackage, LayoutStrategy> layoutMap;
 
 	private static GraphEditWorkspace workspace;
 
@@ -52,7 +48,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		this.properties = new Properties<WorkspaceProperties>();
 		this.properties.set(WorkspaceProperties.NAME, DEFAULT_WORKSPACE);
 		this.preferences = Preferences.getInstance();
-		layoutMap = new HashMap<GraphEditPackage, Map<UmlElement, GraphEditElement>>();
+		layoutMap = new HashMap<GraphEditPackage, LayoutStrategy>();
 		try {
 			setWorkspacePath();
 		} catch (Exception e) { }
@@ -80,7 +76,6 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 
 		GraphEditPackage projectElement = null;
 		GraphEditPackage loadedElement = null;
-		Boolean layout = false;
 
 		if (project instanceof BussinesSubsystem){
 			File file = ((BussinesSubsystem) project).getDiagramFile();
@@ -88,15 +83,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 				loadedElement = WorkspaceUtility.load(file);
 		}
 
-
-		//ako u ucitanom projektu postoji taj element
-		//iskoristi njegove osobine
-		//treba aktivirati layouter da bi se postavili novi elementi
-		//ali ne treba dirati stare
-		//obratiti paznju na veze
-		
-		
-			layout = true;
+			
 			projectElement = new GraphEditPackage(project, null, loadedElement);
 
 			for (GraphEditPackage pack : projectElement.getSubPackages())
@@ -105,7 +92,13 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 			projectElement.generateRelationships(projectElement.getSubClassesMap());
 
 		packageList.add(projectElement);
-		//layoutMap.put(projectElement, layout);
+		
+		//TODO pogledati kada ne treba uopste
+		LayoutStrategy layoutStrategy = LayoutStrategy.TREE;
+		if (loadedElement != null)
+			layoutStrategy = LayoutStrategy.ADDING;
+		
+		layoutMap.put(projectElement, layoutStrategy);
 	}
 
 	public GraphEditModel getDiagramContainingElement(GraphElement element){
@@ -215,12 +208,17 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 	}
 
 
-	public boolean shoudLayout(GraphEditPackage pack){
-		return true;
-//		if (layoutMap == null || layoutMap.size() == 0)
-//			return false;
-//		return layoutMap.get(pack);
+	public LayoutStrategy getLayoutStrategy(GraphEditPackage pack){
+		GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(pack);
+		LayoutStrategy topStrategy = layoutMap.get(topPackage);
+		if (topStrategy != LayoutStrategy.ADDING)
+			return topStrategy;
+		
+		if (pack.isLoaded())
+			return LayoutStrategy.ADDING;
+		return LayoutStrategy.TREE;
 	}
+	
 	public Object getProperty(WorkspaceProperties key) {
 		return properties.get(key);
 	}

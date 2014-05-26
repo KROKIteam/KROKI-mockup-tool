@@ -40,7 +40,7 @@ public class AddElementCommand extends Command {
 
 	@Override
 	public void execute() {
-		view.addElementPainter(elementPainter);
+	
 		
 		if (element.getUmlType() instanceof VisibleElement){
 			model.getParentPackage().getUmlPackage().addOwnedType(element.getUmlType());
@@ -48,6 +48,8 @@ public class AddElementCommand extends Command {
 			if (element instanceof UIClassElement)
 				model.getParentPackage().getClassElementsByVisibleClassesMap().put((VisibleClass)element.getUmlType(), (UIClassElement) element);
 		}
+		model.addDiagramElement(component);
+		view.addElementPainter(elementPainter);
 	}
 
 	@Override

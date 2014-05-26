@@ -9,7 +9,6 @@ import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.Method;
 import graphedit.model.components.MethodStereotypeUI;
-import graphedit.model.components.Package;
 import graphedit.model.components.Parameter;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
@@ -36,7 +35,6 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
-import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlNamedElement;
 import kroki.uml_core_basic.UmlOperation;
@@ -65,7 +63,7 @@ public class UIClassElement extends ClassElement{
 	private HashMap<Connector, NextZoomElement> zoomMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, NextZoomElement> nextMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, HierarchyElement> hierarchyMap = new HashMap<Connector, HierarchyElement>();
-	private NamingUtil namer = new NamingUtil();
+	private transient NamingUtil namer = new NamingUtil();
 	
 	private enum LinkEnd {ZOOM, NEXT};
 
@@ -1055,8 +1053,11 @@ public class UIClassElement extends ClassElement{
 		visibleClass.setName(newName);
 		umlClass.setName(newName);
 		visibleClass.setLabel(NameTransformUtil.transformClassName(newName));
-		if (visibleClass instanceof StandardPanel)
+		if (visibleClass instanceof StandardPanel){
+			if (namer == null)
+				namer = new NamingUtil();
 			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase(newName, false).trim());
+		}
 
 	}
 
