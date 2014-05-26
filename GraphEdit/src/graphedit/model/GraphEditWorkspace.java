@@ -87,9 +87,9 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 			projectElement = new GraphEditPackage(project, null, loadedElement);
 
 			for (GraphEditPackage pack : projectElement.getSubPackages())
-				pack.generateRelationships(projectElement.getSubClassesMap());
+				pack.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
 
-			projectElement.generateRelationships(projectElement.getSubClassesMap());
+			projectElement.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
 
 		packageList.add(projectElement);
 		
@@ -211,6 +211,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 	public LayoutStrategy getLayoutStrategy(GraphEditPackage pack){
 		GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(pack);
 		LayoutStrategy topStrategy = layoutMap.get(topPackage);
+		System.out.println(topStrategy);
 		if (topStrategy != LayoutStrategy.ADDING)
 			return topStrategy;
 		

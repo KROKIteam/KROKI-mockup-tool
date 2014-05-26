@@ -4,6 +4,7 @@ import graphedit.model.elements.GraphEditElement;
 import graphedit.model.properties.Properties;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 
+import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ public abstract class GraphElement implements Cloneable, Serializable {
 	protected GraphEditElement representedElement;
 	protected boolean shadowElement = false;
 	private boolean loaded = false;
+	private Dimension loadedDimension;
 
 	public GraphElement() {
 		properties = new Properties<GraphElementProperties>();
@@ -67,6 +69,14 @@ public abstract class GraphElement implements Cloneable, Serializable {
 
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
+	}
+
+	public Dimension getLoadedDimension() {
+		return loadedDimension;
+	}
+
+	public void setLoadedDimension(Dimension loadedDimension) {
+		this.loadedDimension = loadedDimension;
 	}
 
 }

@@ -9,6 +9,7 @@ import graphedit.strategy.AsIsStrategy;
 import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class AddingLayouter extends AbstractLayouter{
 		//strategy = new RightAngledStrategy();
 		//else 
 		strategy = new AsIsStrategy();
-		elements = model.getDiagramElements();
+		elements.addAll(model.getDiagramElements());
 		elements.addAll(model.getContainedPackages());
 	}
 
@@ -53,6 +54,14 @@ public class AddingLayouter extends AbstractLayouter{
 			if (element.isLoaded()){
 				Point2D position = (Point2D) element.getProperty(GraphElementProperties.POSITION);
 				setPosition(strategy, view, (LinkableElement)element, (int) position.getX(), (int)position.getY());
+				Dimension loadedDim = element.getLoadedDimension();
+				if (loadedDim != null){
+					Dimension setDim = (Dimension) element.getProperty(GraphElementProperties.SIZE);
+					if (loadedDim.getHeight() >= setDim.getHeight() && loadedDim.getWidth() >= setDim.getWidth()){
+						element.setProperty(GraphElementProperties.SIZE, loadedDim);
+						view.getElementPainter(element).formShape();
+					}
+				}
 			}
 			else{
 				boolean set = false;

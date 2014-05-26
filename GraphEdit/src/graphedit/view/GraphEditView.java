@@ -155,7 +155,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 	@Override
 	protected void paintOurView(Graphics g, boolean includeTransform){
-		
+
 		Graphics2D g2 = (Graphics2D)g;
 
 		// UkljuÄ�ujemo omekÅ¡avanje ivica (antialiasing)
@@ -174,10 +174,12 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 		g2.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-		for (LinkPainter lPainter : linkPainters) {
-			// promena lokacije konektora
-			lPainter.setShape();
-			lPainter.paint(g2);
+		if (!setConnectors){
+			for (LinkPainter lPainter : linkPainters) {
+				// promena lokacije konektora
+				lPainter.setShape();
+				lPainter.paint(g2);
+			}
 		}
 
 		for (ElementPainter painter : (ArrayList<ElementPainter>) elementPainters) {
@@ -185,20 +187,26 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		}
 
 		if (setConnectors){
-				
-				Layouter layouter = LayouterFactory.createLayouter(model.getParentPackage().getLayoutStrategy(), 
-						this, g);
 
+			Layouter layouter = LayouterFactory.createLayouter(model.getParentPackage().getLayoutStrategy(), 
+					this, g);
+
+			try {
+				layouter.layout();
+			} catch (LayouterException e) {
+				e.printStackTrace();
+				layouter = new RandomLayouter(this);
 				try {
 					layouter.layout();
-				} catch (LayouterException e) {
-					e.printStackTrace();
-					layouter = new RandomLayouter(this);
-					try {
-						layouter.layout();
-					} catch (LayouterException e1) {
-						e1.printStackTrace();
-					}
+				} catch (LayouterException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+			for (LinkPainter lPainter : linkPainters) {
+				// promena lokacije konektora
+				lPainter.setShape();
+				lPainter.paint(g2);
 			}
 			setConnectors = false;
 		}

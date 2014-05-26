@@ -4,8 +4,10 @@ import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.layout.LayoutStrategy;
 import graphedit.model.GraphEditWorkspace;
+import graphedit.model.components.AggregationLink;
 import graphedit.model.components.AssociationLink;
 import graphedit.model.components.Class;
+import graphedit.model.components.CompositionLink;
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
@@ -115,15 +117,15 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				Dimension dim = (Dimension) loadedPackage.getProperty(GraphElementProperties.SIZE);
 				String labelOld = ((BussinesSubsystem)loadedElement.getUmlPackage()).getLabel();
 				String labelNew = ((BussinesSubsystem)umlPackage).getLabel();
+				packageElement.setLoaded(true);
 				packageElement.setProperty(GraphElementProperties.POSITION, position);
 				packageElement.setProperty(GraphElementProperties.SIZE, dim);
 				if (labelOld.equals(labelNew))
 					packageElement.setProperty(GraphElementProperties.NAME, loadedPackage.getProperty(GraphElementProperties.NAME));
 				else
 					packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
-				
-				
 			}
+			
 			else
 				packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
 
@@ -151,6 +153,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	}
 
 	private GraphEditPackage savedPackage(UmlPackage testPackage, GraphEditPackage loadedPackage){
+		if (loadedPackage == null)
+			return null;
 		for (GraphEditPackage pack : loadedPackage.subPackages){
 			if (pack.getUmlPackage().equals(testPackage))
 				return pack;
@@ -159,6 +163,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	}
 	
 	private UIClassElement savedClass(VisibleClass testClass, GraphEditPackage loadedPackage){
+		if (loadedPackage == null)
+			return null;
 		for (UIClassElement clazz : loadedPackage.getClassElementsByVisibleClassesMap().values()){
 			if (clazz.getUmlElement().equals(testClass))
 				return clazz;
@@ -189,12 +195,32 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	}
 
 
+	
+	private Link savedLink(Zoom testZoom, UIClassElement loadedClass){
+		if (loadedClass == null)
+			return null;
+		for (NextZoomElement el : loadedClass.getZoomMap().values()){
+			if (el.getVisibleElement().equals(testZoom)){
+				//nadji konektor 
+				for (Connector c : loadedClass.getZoomMap().keySet()){
+					if (loadedClass.getZoomMap().get(c) == el)
+						return c.getLink();
+				}
+			}
+				
+		}
+		return null;
+	}
 
-	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap){
+	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap, GraphEditPackage loadedElement){
 
 		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
+			
+			UIClassElement loadedClass = savedClass(visibleClass, loadedElement);
+			
 			for (Zoom zoom : visibleClass.containedZooms()){
 
+				
 				//onaj koji sadrzi zoom je destination
 				//onaj koji sadrzi next je source
 
@@ -203,7 +229,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				if (targetElement == null)
 					continue;
 				UIClassElement thisElement = allElementsMap.get(visibleClass);
-
+				
 				LinkableElement sourceElement = getDiagramElement(thisElement);
 				LinkableElement destinationElement = getDiagramElement(targetElement);
 
@@ -237,11 +263,33 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
 				nodes.add(c1);
 				nodes.add(c2);
-				Link link;
-				if (next != null)
-					link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),next.getLabel(),"",true,true, MainFrame.getInstance().incrementLinkCounter());
-				else
-					link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),"","",true,false, MainFrame.getInstance().incrementLinkCounter());
+				Link link = null;
+				
+				 Link loadedLink = savedLink(zoom, loadedClass);
+			
+				String nextLabel = "";
+				boolean destinationNavigable = false;
+				if (next != null){
+					nextLabel = next.getLabel();
+					destinationNavigable = true;
+				}
+				
+				
+				if (loadedLink == null)
+					link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+				else{
+					if (loadedLink instanceof CompositionLink)
+						link = new CompositionLink(loadedLink.getNodes(), "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					else if (loadedLink instanceof AggregationLink)
+						link = new AggregationLink(loadedLink.getNodes(), "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					else
+						link = new AssociationLink(loadedLink.getNodes(), "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					
+					link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+					link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
+				}
+				
 
 				link.setProperty(LinkProperties.STEREOTYPE, "zoom");
 				c1.setLink(link);
