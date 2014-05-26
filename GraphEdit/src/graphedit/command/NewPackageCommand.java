@@ -61,6 +61,7 @@ public class NewPackageCommand extends Command {
 		pack.setParentPackage(parentPackage);
 		pack.setPackageElement(packageElement);
 		parentPackage.getDiagram().addGraphEditPackage(pack.getPackageElement());
+		parentPackage.getSubPackages().add(pack);
 		pack.getDiagram().setParentPackage(pack);
 
 
@@ -76,6 +77,7 @@ public class NewPackageCommand extends Command {
 	public void undo() {
 		parentPackage.getUmlPackage().removeNestedPackage(pack.getUmlPackage());
 		parentPackage.getDiagram().removeGraphEditPackage(pack.getPackageElement());
+		parentPackage.getSubPackages().remove(pack);
 		if (view != null)
 			view.removeElementPainter(packageElement);
 		MainFrame.getInstance().closeDiagram(pack.getDiagram(), false);

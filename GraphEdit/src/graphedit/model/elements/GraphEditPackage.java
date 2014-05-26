@@ -21,6 +21,7 @@ import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.util.NameTransformUtil;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.File;
@@ -63,19 +64,20 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	 * GraphElement
 	 */
 	private Package packageElement;
-	
+
 	/**
 	 * Where the project is saved
 	 */
 	private File file;
-	
+
 	private Map<VisibleClass, UIClassElement> classElementsByVisibleClassesMap = new HashMap<VisibleClass, UIClassElement>();
-	
+
 	private Map<VisibleClass, UIClassElement> subClassesMap = new HashMap<VisibleClass, UIClassElement>();
-	
+
 	private List<GraphEditPackage> subPackages = new ArrayList<GraphEditPackage>();
-	
+
 	private boolean changed = false;
+
 
 	public GraphEditPackage(UmlPackage umlPackage){
 		this.umlPackage = umlPackage;
@@ -87,7 +89,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		diagram.setParentPackage(this);
 	}
 
-	public GraphEditPackage(UmlPackage umlPackage, GraphEditPackage parent){
+	public GraphEditPackage(UmlPackage umlPackage, GraphEditPackage parent, GraphEditPackage loadedElement){
 		this.umlPackage = umlPackage;
 		String name = umlPackage.name();
 		if (umlPackage instanceof BussinesSubsystem)
@@ -96,10 +98,28 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		diagram = new GraphEditModel(name);
 		diagram.setParentPackage(this);
 
+
 		//nije na vrhu hijerarhije
 		if (parent != null){
 			packageElement = new Package(new Point2D.Double(0,0), MainFrame.getInstance().incrementPackageCounter());
-			packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
+			if (loadedElement != null){
+				Package loadedPackage = loadedElement.getPackageElement();
+				//preuzmi sta treba iz njega
+				Point2D position = (Point2D) loadedPackage.getProperty(GraphElementProperties.POSITION);
+				Dimension dim = (Dimension) loadedPackage.getProperty(GraphElementProperties.SIZE);
+				String labelOld = ((BussinesSubsystem)loadedElement.getUmlPackage()).getLabel();
+				String labelNew = ((BussinesSubsystem)umlPackage).getLabel();
+				packageElement.setLoaded(true);
+				packageElement.setProperty(GraphElementProperties.POSITION, position);
+				packageElement.setProperty(GraphElementProperties.SIZE, dim);
+				if (labelOld.equals(labelNew))
+					packageElement.setProperty(GraphElementProperties.NAME, loadedPackage.getProperty(GraphElementProperties.NAME));
+				else
+					packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
+			}
+			else
+				packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
+
 			packageElement.setRepresentedElement(this);
 			packageElement.setRepresentedElement(this);
 			this.parentPackage = parent;
@@ -107,38 +127,52 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		}
 		//ako package ima nested
 		if (umlPackage.nestedPackage().size() > 0){
-			
+
 			GraphEditPackage subPackage;
-			
+
 			for (UmlPackage innerUml : umlPackage.nestedPackage()){
-				subPackage = new GraphEditPackage(innerUml, this);
+				subPackage = new GraphEditPackage(innerUml, this, savedPackage(innerUml, loadedElement));
 				subPackages.add(subPackage);
 				subPackages.addAll(subPackage.getSubPackages());
-				
+
 				subClassesMap.putAll(subPackage.getSubClassesMap());
-				
+
 
 			}
 		}
-		generateClasses();
+		generateClasses(loadedElement);
+	}
+
+	private GraphEditPackage savedPackage(UmlPackage testPackage, GraphEditPackage loadedPackage){
+		for (GraphEditPackage pack : loadedPackage.subPackages){
+			if (pack.getUmlPackage().equals(testPackage))
+				return pack;
+		}
+		return null;
 	}
 	
-	private void generateClasses(){
-		
+	private UIClassElement savedClass(VisibleClass testClass, GraphEditPackage loadedPackage){
+		for (UIClassElement clazz : loadedPackage.getClassElementsByVisibleClassesMap().values()){
+			if (clazz.getUmlElement().equals(testClass))
+				return clazz;
+		}
+		return null;
+	}
 	
+
+	private void generateClasses(GraphEditPackage loadedElement){
+
 		if (umlPackage.ownedType().size()>0){
+			
 			UIClassElement classElement;
 
-			
-			int xPosition = 0;
 			for (UmlType type : umlPackage.ownedType())
 				if (type instanceof VisibleClass){
 
 					VisibleClass visibleClass = (VisibleClass)type;
-					classElement = new UIClassElement(visibleClass,new Point2D.Double(xPosition, xPosition));
+					UIClassElement loadedClass = savedClass(visibleClass, loadedElement);
+					classElement = new UIClassElement(visibleClass, loadedClass);
 					classElementsByVisibleClassesMap.put(visibleClass, classElement);
-
-					xPosition = 200;
 
 					diagram.addDiagramElement(classElement.element());
 
@@ -146,125 +180,125 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		}
 		subClassesMap.putAll(classElementsByVisibleClassesMap);
 	}
-	
-	
-		
-		public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap){
-			
-			for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
-				for (Zoom zoom : visibleClass.containedZooms()){
-
-					//onaj koji sadrzi zoom je destination
-					//onaj koji sadrzi next je source
 
 
-					UIClassElement targetElement = allElementsMap.get(zoom.getTargetPanel());
-					if (targetElement == null)
-						continue;
-					UIClassElement thisElement = allElementsMap.get(visibleClass);
 
-					LinkableElement sourceElement = getDiagramElement(thisElement);
-					LinkableElement destinationElement = getDiagramElement(targetElement);
-					
+	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap){
 
-					Point  p1 = new Point(0,0);
-					Point p2 = new Point(200,200);
-					Connector c1 = new Connector(p1, sourceElement);
-					Connector c2 = new Connector(p2, destinationElement);
-					c2.setRepresentedElement(thisElement);
-					c1.setRepresentedElement(targetElement);
+		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
+			for (Zoom zoom : visibleClass.containedZooms()){
 
-					int classIndex = visibleClass.getVisibleElementList().indexOf(zoom);
-					int groupIndex = ((ElementsGroup) visibleClass.getVisibleElementList().get(UIClassElement.STANDARD_PANEL_PROPERTIES)).getVisibleElementList().indexOf(zoom);
-					NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex,zoom.getLabel(),"1..1",zoom);
-					thisElement.getZoomMap().put(c2, zoomElement);
+				//onaj koji sadrzi zoom je destination
+				//onaj koji sadrzi next je source
 
 
-					Next next = null;
-					if (zoom.opposite() != null && zoom.opposite() instanceof Next){
-						
-						next = (Next) zoom.opposite();
-						UIClassElement targetElement2 = allElementsMap.get(visibleClass);
-						UIClassElement thisElement2 = allElementsMap.get(zoom.getTargetPanel());
-						classIndex = zoom.getTargetPanel().getVisibleElementList().indexOf(next);
-						groupIndex = ((ElementsGroup) zoom.getTargetPanel().getVisibleElementList().get(UIClassElement.STANDARD_PANEL_OPERATIONS)).getVisibleElementList().indexOf(next);
-						NextZoomElement nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex,next.getLabel(),"*",next);
-						thisElement2.getNextMap().put(c1, nextElement);
+				UIClassElement targetElement = allElementsMap.get(zoom.getTargetPanel());
+				if (targetElement == null)
+					continue;
+				UIClassElement thisElement = allElementsMap.get(visibleClass);
 
-					}
-
-					ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
-					nodes.add(c1);
-					nodes.add(c2);
-					Link link;
-					if (next != null)
-						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),next.getLabel(),"",true,true, MainFrame.getInstance().incrementLinkCounter());
-					else
-						link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),"","",true,false, MainFrame.getInstance().incrementLinkCounter());
-					
-					link.setProperty(LinkProperties.STEREOTYPE, "zoom");
-					c1.setLink(link);
-					c2.setLink(link);
+				LinkableElement sourceElement = getDiagramElement(thisElement);
+				LinkableElement destinationElement = getDiagramElement(targetElement);
 
 
-					sourceElement.addConnectors(link.getSourceConnector());
-					destinationElement.addConnectors(link.getDestinationConnector());
+				Point  p1 = new Point(0,0);
+				Point p2 = new Point(200,200);
+				Connector c1 = new Connector(p1, sourceElement);
+				Connector c2 = new Connector(p2, destinationElement);
+				c2.setRepresentedElement(thisElement);
+				c1.setRepresentedElement(targetElement);
+
+				int classIndex = visibleClass.getVisibleElementList().indexOf(zoom);
+				int groupIndex = ((ElementsGroup) visibleClass.getVisibleElementList().get(UIClassElement.STANDARD_PANEL_PROPERTIES)).getVisibleElementList().indexOf(zoom);
+				NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex,zoom.getLabel(),"1..1",zoom);
+				thisElement.getZoomMap().put(c2, zoomElement);
 
 
-					diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
-					diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
-					diagram.addLink(link);
+				Next next = null;
+				if (zoom.opposite() != null && zoom.opposite() instanceof Next){
+
+					next = (Next) zoom.opposite();
+					UIClassElement targetElement2 = allElementsMap.get(visibleClass);
+					UIClassElement thisElement2 = allElementsMap.get(zoom.getTargetPanel());
+					classIndex = zoom.getTargetPanel().getVisibleElementList().indexOf(next);
+					groupIndex = ((ElementsGroup) zoom.getTargetPanel().getVisibleElementList().get(UIClassElement.STANDARD_PANEL_OPERATIONS)).getVisibleElementList().indexOf(next);
+					NextZoomElement nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex,next.getLabel(),"*",next);
+					thisElement2.getNextMap().put(c1, nextElement);
 
 				}
-				
-				for (Hierarchy hierarchy : visibleClass.containedHierarchies()){
 
-					UIClassElement targetElement = allElementsMap.get(hierarchy.getTargetPanel());
-					if (targetElement == null)
-						continue;
+				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
+				nodes.add(c1);
+				nodes.add(c2);
+				Link link;
+				if (next != null)
+					link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),next.getLabel(),"",true,true, MainFrame.getInstance().incrementLinkCounter());
+				else
+					link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),"","",true,false, MainFrame.getInstance().incrementLinkCounter());
 
-					UIClassElement thisElement = allElementsMap.get(visibleClass);
-
-					LinkableElement sourceElement = getDiagramElement(thisElement);
-					LinkableElement destinationElement = getDiagramElement(targetElement);
-					
-					Point  p1 = new Point(0,0);
-					Point p2 = new Point(200,200);
-					Connector c1 = new Connector(p1, sourceElement);
-					Connector c2 = new Connector(p2, destinationElement);
-					c2.setRepresentedElement(thisElement);
-					c1.setRepresentedElement(targetElement);
+				link.setProperty(LinkProperties.STEREOTYPE, "zoom");
+				c1.setLink(link);
+				c2.setLink(link);
 
 
-					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(1);
-					int classIndex = visibleClass.getVisibleElementList().indexOf(hierarchy);
-					int groupIndex = gr.getVisibleElementList().indexOf(hierarchy);
-					thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
+				sourceElement.addConnectors(link.getSourceConnector());
+				destinationElement.addConnectors(link.getDestinationConnector());
 
 
-					ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
-					nodes.add(c1);
-					nodes.add(c2);
-					Link link = new AssociationLink(nodes, "1..1", "1..1", hierarchy.getLabel(),hierarchy.getLabel(),"",false,true, MainFrame.getInstance().incrementLinkCounter());
-					link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
-					c1.setLink(link);
-					c2.setLink(link);
+				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
+				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
+				diagram.addLink(link);
+
+			}
+
+			for (Hierarchy hierarchy : visibleClass.containedHierarchies()){
+
+				UIClassElement targetElement = allElementsMap.get(hierarchy.getTargetPanel());
+				if (targetElement == null)
+					continue;
+
+				UIClassElement thisElement = allElementsMap.get(visibleClass);
+
+				LinkableElement sourceElement = getDiagramElement(thisElement);
+				LinkableElement destinationElement = getDiagramElement(targetElement);
+
+				Point  p1 = new Point(0,0);
+				Point p2 = new Point(200,200);
+				Connector c1 = new Connector(p1, sourceElement);
+				Connector c2 = new Connector(p2, destinationElement);
+				c2.setRepresentedElement(thisElement);
+				c1.setRepresentedElement(targetElement);
 
 
-					sourceElement.addConnectors(link.getSourceConnector());
-					destinationElement.addConnectors(link.getDestinationConnector());
+				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(1);
+				int classIndex = visibleClass.getVisibleElementList().indexOf(hierarchy);
+				int groupIndex = gr.getVisibleElementList().indexOf(hierarchy);
+				thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
 
 
-					diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
-					diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
-					diagram.addLink(link);
-				}
+				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
+				nodes.add(c1);
+				nodes.add(c2);
+				Link link = new AssociationLink(nodes, "1..1", "1..1", hierarchy.getLabel(),hierarchy.getLabel(),"",false,true, MainFrame.getInstance().incrementLinkCounter());
+				link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
+				c1.setLink(link);
+				c2.setLink(link);
+
+
+				sourceElement.addConnectors(link.getSourceConnector());
+				destinationElement.addConnectors(link.getDestinationConnector());
+
+
+				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
+				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
+				diagram.addLink(link);
 			}
 		}
+	}
 
 	private LinkableElement getDiagramElement(ClassElement classElement){
 		LinkableElement ret;
-		
+
 		//check if elements are from other diagram (package)
 		if (!diagram.getDiagramElements().contains(classElement.element())){
 			ret = new  ClassShortcut(new Point2D.Double(0,0), (Class)classElement.element(), 
@@ -274,11 +308,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		}
 		else
 			ret = (LinkableElement) classElement.element();
-		
+
 		return ret;
 	}
-		
-		
+
+
 
 	public void formPanels(){
 		if (MainFrame.getInstance().getAppMode() != ApplicationMode.USER_INTERFACE)
@@ -447,13 +481,13 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	@Override
 	public void link(Link link, Object... args) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void unlink(Link link, Object... args) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public File getFile() {
@@ -470,6 +504,10 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 	public void setChanged(boolean changed) {
 		this.changed = changed;
+	}
+
+	public Map<VisibleClass, UIClassElement> getClassElementsByVisibleClassesMap() {
+		return classElementsByVisibleClassesMap;
 	}
 
 

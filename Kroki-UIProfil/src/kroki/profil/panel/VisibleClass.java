@@ -30,8 +30,8 @@ import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- * OznaÄ�ava klasu koja se preslikava na panel (â€œobiÄ�niâ€� ili tabulatorski) u okviru korisniÄ�kog interfejsa aplikacije.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Označava klasu koja se preslikava na panel (obični ili tabulatorski) u okviru korisničkog interfejsa aplikacije.
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(VisibleClassSettings.class)
 public class VisibleClass extends VisibleElement implements UmlClass {

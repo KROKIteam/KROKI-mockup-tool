@@ -9,11 +9,13 @@ import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.Method;
 import graphedit.model.components.MethodStereotypeUI;
+import graphedit.model.components.Package;
 import graphedit.model.components.Parameter;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.util.NameTransformUtil;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +36,7 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlNamedElement;
 import kroki.uml_core_basic.UmlOperation;
@@ -83,11 +86,11 @@ public class UIClassElement extends ClassElement{
 			((ParentChild)visibleClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
 		}
 	}
-
-	public UIClassElement(VisibleClass visibleClass, Point2D position){
+	
+	public UIClassElement(VisibleClass visibleClass, UIClassElement loadedElement){
 		umlClass = visibleClass;
 		this.visibleClass = visibleClass;
-		initElement(position);
+		initElement(loadedElement);
 	}
 
 	/**
@@ -147,11 +150,38 @@ public class UIClassElement extends ClassElement{
 	}
 
 	@SuppressWarnings("unchecked")
-	public void initElement(Point2D position){
+	public void initElement(UIClassElement loadedElement){
 		Attribute attribute;
 		Method method;
-		element = new Class(position, MainFrame.getInstance().incrementClassCounter());
-		element.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(visibleClass.getLabel(),true));
+		element = new Class(new Point2D.Double(0,0), MainFrame.getInstance().incrementClassCounter());
+		
+		
+		//ako je klasa sacuvana, izvuci sta moze
+		if (loadedElement != null){
+			//preuzmi sta treba iz njega
+			GraphElement loadedClass = loadedElement.element();
+			Point2D position = (Point2D) loadedClass.getProperty(GraphElementProperties.POSITION);
+			Dimension dim = (Dimension) loadedClass.getProperty(GraphElementProperties.SIZE);
+			String labelOld = ((VisibleClass)loadedElement.getUmlElement()).getLabel();
+			String labelNew = visibleClass.getLabel();
+			
+			element.setLoaded(true);		
+			element.setLoaded(true);
+			element.setProperty(GraphElementProperties.POSITION, position);
+			element.setProperty(GraphElementProperties.SIZE, dim);
+			
+			if (labelOld.equals(labelNew))
+				element.setProperty(GraphElementProperties.NAME, loadedClass.getProperty(GraphElementProperties.NAME));
+			else
+				element.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(visibleClass.getLabel(),true));
+		}
+		
+		else
+			element.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(visibleClass.getLabel(),true));
+		
+		
+		
+		
 		element.setRepresentedElement(this);
 		if (visibleClass instanceof StandardPanel)
 			element.setProperty(GraphElementProperties.STEREOTYPE,ClassStereotypeUI.STANDARD_PANEL.toString());
@@ -176,7 +206,8 @@ public class UIClassElement extends ClassElement{
 			}
 		}
 	}
-
+	
+	
 
 
 	public void addAttribute(Attribute attribute, int ... args) {
@@ -1034,6 +1065,6 @@ public class UIClassElement extends ClassElement{
 		VisibleOperation operation = (VisibleOperation) method.getUmlOperation();
 		operation.setLabel(NameTransformUtil.transformClassName(newName));
 	}
-
+	
 
 }

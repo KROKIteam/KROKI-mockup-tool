@@ -18,6 +18,7 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -113,12 +114,12 @@ public class DeepCopy {
 	public static Object loadXStream(File file) {
 
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
 			XStream xstream = new XStream();
 			//configureAliases();
 			return xstream.fromXML(in);
 
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
