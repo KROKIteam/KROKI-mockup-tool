@@ -211,6 +211,22 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		}
 		return null;
 	}
+	
+	private Link savedHierarchyLink(Hierarchy testHierarchy, UIClassElement loadedClass){
+		if (loadedClass == null)
+			return null;
+		for (HierarchyElement el : loadedClass.getHierarchyMap().values()){
+			if (el.getHierarchy().equals(testHierarchy)){
+				//nadji konektor 
+				for (Connector c : loadedClass.getHierarchyMap().keySet()){
+					if (loadedClass.getHierarchyMap().get(c) == el)
+						return c.getLink();
+				}
+			}
+				
+		}
+		return null;
+	}
 
 	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap, GraphEditPackage loadedElement){
 
@@ -334,7 +350,26 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
 				nodes.add(c1);
 				nodes.add(c2);
-				Link link = new AssociationLink(nodes, "1..1", "1..1", hierarchy.getLabel(),hierarchy.getLabel(),"",false,true, MainFrame.getInstance().incrementLinkCounter());
+				
+				Link loadedLink = savedHierarchyLink(hierarchy, loadedClass);
+				Link link;
+				
+				if (loadedLink == null)
+					link = new AssociationLink(nodes, "1..1", "1..1", hierarchy.getLabel(),hierarchy.getLabel(),"",false,true, MainFrame.getInstance().incrementLinkCounter());
+				else{
+					if (loadedLink instanceof CompositionLink)
+						link = new CompositionLink(loadedLink.getNodes(), "1..1", "1..1", hierarchy.getLabel(), hierarchy.getLabel(),"",false, true, MainFrame.getInstance().incrementLinkCounter());
+					else if (loadedLink instanceof AggregationLink)
+						link = new AggregationLink(loadedLink.getNodes(), "1..1", "1..1", hierarchy.getLabel(), hierarchy.getLabel(),"",false, true, MainFrame.getInstance().incrementLinkCounter());
+					else
+						link = new AssociationLink(loadedLink.getNodes(), "1..1", "1..1", hierarchy.getLabel(), hierarchy.getLabel(),"",false, true, MainFrame.getInstance().incrementLinkCounter());
+					
+					link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+					link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
+				}
+				
+				
 				link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
 				c1.setLink(link);
 				c2.setLink(link);
