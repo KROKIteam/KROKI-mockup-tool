@@ -209,6 +209,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	}
 
 	public void generateShortcuts(GraphEditPackage loadedElement){
+		if (loadedElement == null)
+			return;
 		GraphEditPackage loadedPackage = savedPackage(umlPackage, loadedElement);
 		for (GraphElement diagramElement : loadedPackage.getDiagram().getDiagramElements()){
 			if (diagramElement instanceof Shortcut){
