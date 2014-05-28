@@ -25,19 +25,19 @@ import javax.swing.table.AbstractTableModel;
 public class MethodTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private GraphElement element;
 	private List<Method> methods;
-	
+
 	public MethodTableModel(GraphElement element, List<Method> methods) {
 		this.element = element;
 		this.methods = methods;
 	}
-	
+
 	private static final String[] COLUMN_NAMES = {
 		"", "Owner", "Name", "Stereotype", "Return Type", "Modifier", "Constructor", "Static", "Final", "Abstract", "Parameters", "Display"
 	};
-	
+
 	@Override
 	public int getRowCount() {
 		return methods.size() + 1;
@@ -47,7 +47,7 @@ public class MethodTableModel extends AbstractTableModel {
 	public int getColumnCount() {
 		return COLUMN_NAMES.length;
 	}
-	
+
 	@Override
 	public String getColumnName(int column) {
 		return COLUMN_NAMES[column];
@@ -55,6 +55,8 @@ public class MethodTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (rowIndex == methods.size())
+			return false;
 		if (columnIndex == 0)
 			return false;
 		if (columnIndex == COLUMN_NAMES.length - 1)
@@ -69,7 +71,7 @@ public class MethodTableModel extends AbstractTableModel {
 		}
 		return columnIndex != 10;
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -100,7 +102,7 @@ public class MethodTableModel extends AbstractTableModel {
 		}
 		return super.getColumnClass(columnIndex);
 	}
-	
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		if (rowIndex > methods.size() - 1)
@@ -134,7 +136,7 @@ public class MethodTableModel extends AbstractTableModel {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
 		if (getValueAt(rowIndex, columnIndex).equals(value)) {
@@ -195,9 +197,11 @@ public class MethodTableModel extends AbstractTableModel {
 		}
 		MainFrame.getInstance().getCurrentView().repaint();
 	}
-	
+
 	public Method getMethod(int index) {
-		return methods.get(index);
+		if (index < methods.size())
+			return methods.get(index);
+		return null;
 	}
 
 	public void removeMethod(int rowIndex) {
@@ -209,25 +213,25 @@ public class MethodTableModel extends AbstractTableModel {
 						element, 
 						methods.get(i));
 				MainFrame.getInstance().getCommandManager().executeCommand(command);
-				
+
 				fireTableDataChanged();
 				return;
 			}
 		}
 	}
-	
+
 	public void addMethod(Method method) {
 		AddMethodCommand command = new AddMethodCommand(
 				MainFrame.getInstance().getCurrentView(),
 				element, 
 				method);
 		MainFrame.getInstance().getCommandManager().executeCommand(command);
-		
+
 		fireTableDataChanged();
 	}
-	
+
 	private ApplicationMode currentApplicationMode(){
 		return MainFrame.getInstance().getAppMode();
 	}
-	
+
 }

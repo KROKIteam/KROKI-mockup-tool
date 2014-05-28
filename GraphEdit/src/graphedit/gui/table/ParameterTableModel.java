@@ -46,6 +46,8 @@ public class ParameterTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (rowIndex == parameters.size())
+			return false;
 		if (columnIndex == 0)
 			return false;
 		return true;

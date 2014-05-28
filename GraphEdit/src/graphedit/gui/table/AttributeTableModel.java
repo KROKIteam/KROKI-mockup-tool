@@ -56,6 +56,8 @@ public class AttributeTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (rowIndex == attributes.size())
+			return false;
 		if (columnIndex == 0)
 			return false;
 		if (columnIndex == COLUMN_NAMES.length - 1)
