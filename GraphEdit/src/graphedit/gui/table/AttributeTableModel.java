@@ -97,7 +97,7 @@ public class AttributeTableModel extends AbstractTableModel {
 		Attribute attribute = attributes.get(rowIndex);
 		switch (columnIndex) {
 		case 0:
-			return rowIndex;
+			return rowIndex + 1;
 		case 1:
 			return element.getProperty(GraphElementProperties.NAME);
 		case 2:
@@ -168,7 +168,7 @@ public class AttributeTableModel extends AbstractTableModel {
 	}
 
 	public void removeAttribute(int rowIndex) {
-		String name = (String) getValueAt(rowIndex, 1);
+		String name = (String) getValueAt(rowIndex, 2);
 		for (int i = 0; i < attributes.size(); i++) {
 			if (attributes.get(i).getName().equals(name)) {
 				RemoveAttributeCommand command = new RemoveAttributeCommand(

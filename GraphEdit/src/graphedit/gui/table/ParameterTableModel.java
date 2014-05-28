@@ -26,12 +26,12 @@ public class ParameterTableModel extends AbstractTableModel {
 	}
 	
 	private static final String[] COLUMN_NAMES = {
-		"Name", "Type", "Final"
+		"","Name", "Type", "Final"
 	};
 
 	@Override
 	public int getRowCount() {
-		return parameters.size();
+		return parameters.size() + 1;
 	}
 
 	@Override
@@ -46,6 +46,8 @@ public class ParameterTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (columnIndex == 0)
+			return false;
 		return true;
 	}
 	
@@ -53,10 +55,12 @@ public class ParameterTableModel extends AbstractTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return String.class;
+			return Integer.class;
 		case 1:
 			return String.class;
-		case 2: 
+		case 2:
+			return String.class;
+		case 3: 
 			return Boolean.class;
 		}
 		return super.getColumnClass(columnIndex);
@@ -64,13 +68,17 @@ public class ParameterTableModel extends AbstractTableModel {
 	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		if (rowIndex > parameters.size() - 1)
+			return null;
 		Parameter parameter = parameters.get(rowIndex);
 		switch (columnIndex) {
 		case 0:
-			return parameter.getName();
+			return rowIndex + 1;
 		case 1:
+			return parameter.getName();
+		case 2:
 			return parameter.getType();
-		case 2: 
+		case 3: 
 			return parameter.isFinalParameter();
 		}
 		return null;
@@ -86,7 +94,7 @@ public class ParameterTableModel extends AbstractTableModel {
 		String type = parameter.getType();
 		Boolean finalParameter = parameter.isFinalParameter();
 		switch (columnIndex) {
-		case 0:
+		case 1:
 			if (Validator.parameterHasName(parameters, (String) value)) {
 				Dialogs.showErrorMessage("Name already exists!", "Error");
 			} else if (!Validator.isJavaIdentifier((String) value)) {
@@ -95,10 +103,10 @@ public class ParameterTableModel extends AbstractTableModel {
 				name = (String) value;
 			}
 			break;
-		case 1:
+		case 2:
 			type = (String) value;
 			break;
-		case 2: 
+		case 3: 
 			finalParameter = (Boolean) value;
 			break;
 		}
@@ -108,7 +116,7 @@ public class ParameterTableModel extends AbstractTableModel {
 	}
 	
 	public void removeParameter(int rowIndex) {
-		String name = (String) getValueAt(rowIndex, 0);
+		String name = (String) getValueAt(rowIndex, 1);
 		for (int i = 0; i < parameters.size(); i++) {
 			if (parameters.get(i).getName().equals(name)) {
 				RemoveParameterCommand command = new RemoveParameterCommand(
