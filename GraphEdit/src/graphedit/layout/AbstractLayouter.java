@@ -30,41 +30,50 @@ public abstract class AbstractLayouter implements Layouter{
 			for (Connector conn : linkableElement.getConnectors()) {
 				if (resursiveConnectors.contains(conn))
 					continue;
-				
+
 				link=conn.getLink();
 				if (recursiveLink(graphElement, link)){
+
+
 					Connector sourceConnector = link.getSourceConnector();
 					Connector destinationConnector = link.getDestinationConnector();
-					resursiveConnectors.add(sourceConnector);
-					resursiveConnectors.add(destinationConnector);
-					
-					conPosition = (Point2D) sourceConnector.getProperty(LinkNodeProperties.POSITION);
-					conPosition.setLocation(xPosition + xConnOffset, yPosition  - yConnOffset);
-					conPosition = (Point2D) destinationConnector.getProperty(LinkNodeProperties.POSITION);
-					conPosition.setLocation(xPosition + xConnOffset, yPosition  + yConnOffset);
-					
-					int xDim = ((Dimension)graphElement.getProperty(GraphElementProperties.SIZE)).width;
-					Point2D nodeLocation1 = new Point2D.Double(xPosition - xDim/2 - xNodeOffset, yPosition - yConnOffset);
-					LinkNode newNode1 = new LinkNode(nodeLocation1);
-					link.getNodes().add(1, newNode1);
-					Point2D nodeLocation2 = new Point2D.Double(xPosition - xDim/2 - xNodeOffset, yPosition + yConnOffset);
-					LinkNode newNode2 = new LinkNode(nodeLocation2);
-					link.getNodes().add(2, newNode2);
-					
-					sourceConnector.setRelativePositions((Point2D) sourceConnector.getProperty(LinkNodeProperties.POSITION));
-					destinationConnector.setRelativePositions((Point2D) destinationConnector.getProperty(LinkNodeProperties.POSITION));
-					
+
+					if (!sourceConnector.isLoaded() || !destinationConnector.isLoaded()){
+						resursiveConnectors.add(sourceConnector);
+						resursiveConnectors.add(destinationConnector);
+
+
+						conPosition = (Point2D) sourceConnector.getProperty(LinkNodeProperties.POSITION);
+						conPosition.setLocation(xPosition + xConnOffset, yPosition  - yConnOffset);
+						conPosition = (Point2D) destinationConnector.getProperty(LinkNodeProperties.POSITION);
+						conPosition.setLocation(xPosition + xConnOffset, yPosition  + yConnOffset);
+
+						int xDim = ((Dimension)graphElement.getProperty(GraphElementProperties.SIZE)).width;
+						Point2D nodeLocation1 = new Point2D.Double(xPosition - xDim/2 - xNodeOffset, yPosition - yConnOffset);
+						LinkNode newNode1 = new LinkNode(nodeLocation1);
+						link.getNodes().add(1, newNode1);
+						Point2D nodeLocation2 = new Point2D.Double(xPosition - xDim/2 - xNodeOffset, yPosition + yConnOffset);
+						LinkNode newNode2 = new LinkNode(nodeLocation2);
+						link.getNodes().add(2, newNode2);
+
+						sourceConnector.setRelativePositions((Point2D) sourceConnector.getProperty(LinkNodeProperties.POSITION));
+						destinationConnector.setRelativePositions((Point2D) destinationConnector.getProperty(LinkNodeProperties.POSITION));
+					}
+
 				}
 				else{
-					conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
-					conPosition.setLocation(xPosition, yPosition);
-					conn.setRelativePositions((Point2D) conn.getProperty(LinkNodeProperties.POSITION));
+
+					if (!conn.isLoaded()){
+						conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
+						conPosition.setLocation(xPosition, yPosition);
+						conn.setRelativePositions((Point2D) conn.getProperty(LinkNodeProperties.POSITION));
+					}
 				}
 				link.setNodes(strategy.setLinkNodes(link.getNodes()));
 			}
 		}
 	}
-	
+
 	protected boolean recursiveLink(LinkableElement graphElement, Link link){
 		return graphElement.getConnectors().contains(link.getSourceConnector()) && 
 				graphElement.getConnectors().contains(link.getDestinationConnector());

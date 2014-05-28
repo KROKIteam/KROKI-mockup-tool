@@ -20,6 +20,7 @@ import graphedit.layout.random.RandomLayouter;
 import graphedit.layout.tree.TreeLayouter;
 import graphedit.model.ClipboardManager;
 import graphedit.model.GraphEditWorkspace;
+import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
@@ -27,6 +28,7 @@ import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.state.SelectionState;
 import graphedit.state.State;
 import graphedit.util.WorkspaceUtility;
@@ -130,7 +132,6 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 			}
 		});
 
-
 	}
 
 	/**
@@ -155,7 +156,8 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 	@Override
 	protected void paintOurView(Graphics g, boolean includeTransform){
-
+		
+		
 		Graphics2D g2 = (Graphics2D)g;
 
 		// UkljuÄ�ujemo omekÅ¡avanje ivica (antialiasing)
@@ -175,6 +177,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		g2.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
 		if (!setConnectors){
+			
 			for (LinkPainter lPainter : linkPainters) {
 				// promena lokacije konektora
 				lPainter.setShape();
@@ -182,12 +185,14 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 			}
 		}
 
+		
 		for (ElementPainter painter : (ArrayList<ElementPainter>) elementPainters) {
 			painter.paint(g2);
 		}
-
+		
 		if (setConnectors){
 
+			
 			Layouter layouter = LayouterFactory.createLayouter(model.getParentPackage().getLayoutStrategy(), 
 					this, g);
 

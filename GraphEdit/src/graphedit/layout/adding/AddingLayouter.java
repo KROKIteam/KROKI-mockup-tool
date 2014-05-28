@@ -1,10 +1,12 @@
 package graphedit.layout.adding;
 
 import graphedit.layout.AbstractLayouter;
+import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.strategy.AsIsStrategy;
 import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
@@ -52,8 +54,6 @@ public class AddingLayouter extends AbstractLayouter{
 
 			//pogledaj da li je elementu podesena pozicija, ako jeste ostavi je
 			if (element.isLoaded()){
-				Point2D position = (Point2D) element.getProperty(GraphElementProperties.POSITION);
-				setPosition(strategy, view, (LinkableElement)element, (int) position.getX(), (int)position.getY());
 				Dimension loadedDim = element.getLoadedDimension();
 				if (loadedDim != null){
 					Dimension setDim = (Dimension) element.getProperty(GraphElementProperties.SIZE);
@@ -62,6 +62,13 @@ public class AddingLayouter extends AbstractLayouter{
 						view.getElementPainter(element).formShape();
 					}
 				}
+				
+				for (Connector conn : ((LinkableElement)element).getConnectors()){
+					Point2D conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
+					conPosition.setLocation(conn.getLoadedPosition());
+					conn.setRelativePositions((Point2D) conn.getProperty(LinkNodeProperties.POSITION));
+				}
+					
 			}
 			else{
 				boolean set = false;

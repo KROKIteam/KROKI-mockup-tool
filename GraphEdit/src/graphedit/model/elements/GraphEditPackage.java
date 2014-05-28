@@ -20,9 +20,11 @@ import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.model.properties.Properties;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.util.NameTransformUtil;
+import graphedit.util.WorkspaceUtility;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -80,7 +82,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	private List<GraphEditPackage> subPackages = new ArrayList<GraphEditPackage>();
 
 	private boolean changed = false;
-	
+
 	private boolean loaded;
 
 
@@ -102,7 +104,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		properties.set(PackageProperties.NAME, name);
 		diagram = new GraphEditModel(name);
 		diagram.setParentPackage(this);
-		
+
 		if (loadedElement != null)
 			if (loadedElement.getClassElementsByVisibleClassesMap().size() > 0 || loadedElement.getSubPackages().size() > 0)
 				loaded = true;
@@ -125,7 +127,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				else
 					packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
 			}
-			
+
 			else
 				packageElement.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(((BussinesSubsystem)umlPackage).getLabel(),true));
 
@@ -155,13 +157,15 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	private GraphEditPackage savedPackage(UmlPackage testPackage, GraphEditPackage loadedPackage){
 		if (loadedPackage == null)
 			return null;
+		if (loadedPackage.getUmlPackage().equals(testPackage))
+			return loadedPackage;
 		for (GraphEditPackage pack : loadedPackage.subPackages){
 			if (pack.getUmlPackage().equals(testPackage))
 				return pack;
 		}
 		return null;
 	}
-	
+
 	private UIClassElement savedClass(VisibleClass testClass, GraphEditPackage loadedPackage){
 		if (loadedPackage == null)
 			return null;
@@ -171,12 +175,12 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		}
 		return null;
 	}
-	
+
 
 	private void generateClasses(GraphEditPackage loadedElement){
 
 		if (umlPackage.ownedType().size()>0){
-			
+
 			UIClassElement classElement;
 
 			for (UmlType type : umlPackage.ownedType())
@@ -194,8 +198,38 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		subClassesMap.putAll(classElementsByVisibleClassesMap);
 	}
 
+	private UIClassElement shortcutElement(Shortcut shortcut){
+		GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(this);
 
-	
+		VisibleClass loadedClass = (VisibleClass)shortcut.shortcutTo().getRepresentedElement().getUmlElement();
+		for (VisibleClass visibleClass : topPackage.getSubClassesMap().keySet())
+			if (visibleClass.equals(loadedClass))
+				return topPackage.getSubClassesMap().get(visibleClass);
+		return null;
+	}
+
+	public void generateShortcuts(GraphEditPackage loadedElement){
+		GraphEditPackage loadedPackage = savedPackage(umlPackage, loadedElement);
+		for (GraphElement diagramElement : loadedPackage.getDiagram().getDiagramElements()){
+			if (diagramElement instanceof Shortcut){
+				Shortcut shortcut = (Shortcut) diagramElement;
+				UIClassElement shortcutTo = shortcutElement(shortcut);
+				if (shortcutTo == null)
+					continue;
+				if (shortcut.shortcutTo() instanceof Class){
+					ClassShortcut newShortcut = new ClassShortcut((Point2D)((ClassShortcut)shortcut).getProperty(GraphElementProperties.POSITION),
+							(Class) shortcutTo.element(), diagram, shortcut.shortcutId());
+					newShortcut.setProperty(GraphElementProperties.SIZE, ((ClassShortcut)shortcut).getProperty(GraphElementProperties.SIZE));
+					newShortcut.setLoaded(true);
+					newShortcut.setLoadedDimension((Dimension)((ClassShortcut)shortcut).getProperty(GraphElementProperties.SIZE));
+					diagram.addDiagramElement(newShortcut);
+					if (!loaded)
+						loaded = true;
+				}
+			}
+		}
+	}
+
 	private Link savedLink(Zoom testZoom, UIClassElement loadedClass){
 		if (loadedClass == null)
 			return null;
@@ -207,11 +241,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 						return c.getLink();
 				}
 			}
-				
+
 		}
 		return null;
 	}
-	
+
 	private Link savedHierarchyLink(Hierarchy testHierarchy, UIClassElement loadedClass){
 		if (loadedClass == null)
 			return null;
@@ -223,20 +257,28 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 						return c.getLink();
 				}
 			}
-				
+
 		}
 		return null;
 	}
 
-	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap, GraphEditPackage loadedElement){
+	private ClassShortcut findShortcut(ClassShortcut shortcut){
+		for (GraphElement element : diagram.getDiagramElements())
+			if (shortcut.equals(element))
+				return (ClassShortcut) element;
+		return null;
+	}
+
+	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap,
+			GraphEditPackage loadedElement){
 
 		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
-			
+
 			UIClassElement loadedClass = savedClass(visibleClass, loadedElement);
-			
+
 			for (Zoom zoom : visibleClass.containedZooms()){
 
-				
+
 				//onaj koji sadrzi zoom je destination
 				//onaj koji sadrzi next je source
 
@@ -245,9 +287,44 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				if (targetElement == null)
 					continue;
 				UIClassElement thisElement = allElementsMap.get(visibleClass);
-				
-				LinkableElement sourceElement = getDiagramElement(thisElement);
-				LinkableElement destinationElement = getDiagramElement(targetElement);
+
+				Link loadedLink = savedLink(zoom, loadedClass);
+				LinkableElement sourceElement = null;
+				LinkableElement destinationElement = null;
+
+				//proveri da li je source ili destination shortcut
+
+				boolean switchSourceAndDestination = false;
+
+				if (loadedLink != null){
+					String sourceCardinality = (String) loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY);
+
+					GraphElement origSourceElement;
+					GraphElement origDestinationElement;
+					if (sourceCardinality.endsWith("*"))
+						switchSourceAndDestination = true;
+
+					if (!switchSourceAndDestination){
+						origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
+						origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
+					}
+					else{
+						origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
+						origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
+					}
+
+					if (origSourceElement instanceof ClassShortcut)
+						sourceElement = findShortcut((ClassShortcut) origSourceElement);
+					if (origDestinationElement instanceof ClassShortcut)
+						destinationElement = findShortcut((ClassShortcut) origDestinationElement);
+
+				}
+
+				if (sourceElement == null)
+					sourceElement = getDiagramElement(targetElement);
+				if (destinationElement == null)
+					destinationElement = getDiagramElement(thisElement);
+
 
 
 				Point  p1 = new Point(0,0);
@@ -280,37 +357,54 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				nodes.add(c1);
 				nodes.add(c2);
 				Link link = null;
-				
-				 Link loadedLink = savedLink(zoom, loadedClass);
-			
+
+
 				String nextLabel = "";
 				boolean destinationNavigable = false;
 				if (next != null){
 					nextLabel = next.getLabel();
 					destinationNavigable = true;
 				}
-				
-				
+
 				if (loadedLink == null)
 					link = new AssociationLink(nodes, "1..1", "*", zoom.getLabel(),nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 				else{
+
+					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
+					loadedNodes.addAll(loadedLink.getNodes());
+					Point2D sourcePosition = (Point2D) loadedLink.getNodes().get(0).getProperty(LinkNodeProperties.POSITION);
+					Point2D destinationPosition = (Point2D) loadedLink.getNodes().get(loadedNodes.size() - 1).getProperty(LinkNodeProperties.POSITION);
+					loadedNodes.remove(0);
+					loadedNodes.remove(loadedNodes.size() - 1);
+					loadedNodes.add(0, c1);
+					loadedNodes.add(loadedNodes.size(), c2);
+
+					c1.setLoadedPosition(sourcePosition);
+					c2.setLoadedPosition(destinationPosition);
+
+
 					if (loadedLink instanceof CompositionLink)
-						link = new CompositionLink(loadedLink.getNodes(), "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new CompositionLink(loadedNodes, "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 					else if (loadedLink instanceof AggregationLink)
-						link = new AggregationLink(loadedLink.getNodes(), "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new AggregationLink(loadedNodes, "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 					else
-						link = new AssociationLink(loadedLink.getNodes(), "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
-					
-					link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
-					link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+						link = new AssociationLink(loadedNodes, "1..1", "*", zoom.getLabel(), nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+
+					if (!switchSourceAndDestination){
+						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+					}
+					else{
+						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+					}
 					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
 				}
-				
+
 
 				link.setProperty(LinkProperties.STEREOTYPE, "zoom");
 				c1.setLink(link);
 				c2.setLink(link);
-
 
 				sourceElement.addConnectors(link.getSourceConnector());
 				destinationElement.addConnectors(link.getDestinationConnector());
@@ -319,6 +413,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
 				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
 				diagram.addLink(link);
+
+
 
 			}
 
@@ -330,8 +426,44 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 				UIClassElement thisElement = allElementsMap.get(visibleClass);
 
-				LinkableElement sourceElement = getDiagramElement(thisElement);
-				LinkableElement destinationElement = getDiagramElement(targetElement);
+				Link loadedLink = savedHierarchyLink(hierarchy, loadedClass);
+				LinkableElement sourceElement = null;
+				LinkableElement destinationElement = null;
+
+				//proveri da li je source ili destination shortcut
+
+				boolean switchSourceAndDestination = false;
+
+				if (loadedLink != null){
+					String sourceCardinality = (String) loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY);
+
+					GraphElement origSourceElement;
+					GraphElement origDestinationElement;
+					if (sourceCardinality.endsWith("*"))
+						switchSourceAndDestination = true;
+
+					if (!switchSourceAndDestination){
+						origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
+						origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
+					}
+					else{
+						origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
+						origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
+					}
+
+					if (origSourceElement instanceof ClassShortcut)
+						sourceElement = findShortcut((ClassShortcut) origSourceElement);
+					if (origDestinationElement instanceof ClassShortcut)
+						destinationElement = findShortcut((ClassShortcut) origDestinationElement);
+
+				}
+
+				if (sourceElement == null)
+					sourceElement = getDiagramElement(thisElement);
+				if (destinationElement == null)
+					destinationElement = getDiagramElement(targetElement);
+
+
 
 				Point  p1 = new Point(0,0);
 				Point p2 = new Point(200,200);
@@ -350,26 +482,46 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
 				nodes.add(c1);
 				nodes.add(c2);
-				
-				Link loadedLink = savedHierarchyLink(hierarchy, loadedClass);
+
 				Link link;
-				
+
 				if (loadedLink == null)
-					link = new AssociationLink(nodes, "1..1", "1..1", hierarchy.getLabel(),hierarchy.getLabel(),"",false,true, MainFrame.getInstance().incrementLinkCounter());
+					link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, MainFrame.getInstance().incrementLinkCounter());
 				else{
+
+					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
+					loadedNodes.addAll(loadedLink.getNodes());
+					Point2D sourcePosition = (Point2D) loadedLink.getNodes().get(0).getProperty(LinkNodeProperties.POSITION);
+					Point2D destinationPosition = (Point2D) loadedLink.getNodes().get(loadedNodes.size() - 1).getProperty(LinkNodeProperties.POSITION);
+					loadedNodes.remove(0);
+					loadedNodes.remove(loadedNodes.size() - 1);
+					loadedNodes.add(0, c1);
+					loadedNodes.add(loadedNodes.size(), c2);
+
+					c1.setLoadedPosition(sourcePosition);
+					c2.setLoadedPosition(destinationPosition);
+
+
 					if (loadedLink instanceof CompositionLink)
-						link = new CompositionLink(loadedLink.getNodes(), "1..1", "1..1", hierarchy.getLabel(), hierarchy.getLabel(),"",false, true, MainFrame.getInstance().incrementLinkCounter());
+						link = new CompositionLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
 					else if (loadedLink instanceof AggregationLink)
-						link = new AggregationLink(loadedLink.getNodes(), "1..1", "1..1", hierarchy.getLabel(), hierarchy.getLabel(),"",false, true, MainFrame.getInstance().incrementLinkCounter());
+						link = new AggregationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
 					else
-						link = new AssociationLink(loadedLink.getNodes(), "1..1", "1..1", hierarchy.getLabel(), hierarchy.getLabel(),"",false, true, MainFrame.getInstance().incrementLinkCounter());
-					
-					link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
-					link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+						link = new AssociationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
+
+
+					if (!switchSourceAndDestination){
+						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+					}
+					else{
+						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+					}
 					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
 				}
-				
-				
+
+
 				link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
 				c1.setLink(link);
 				c2.setLink(link);
@@ -607,7 +759,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	public void setLoaded(boolean loaded) {
 		this.loaded = loaded;
 	}
-	
+
 	public LayoutStrategy getLayoutStrategy(){
 		if (loaded)
 			return LayoutStrategy.ADDING;

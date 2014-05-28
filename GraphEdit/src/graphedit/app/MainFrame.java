@@ -61,17 +61,20 @@ import graphedit.model.components.AggregationLink;
 import graphedit.model.components.AssociationLink;
 import graphedit.model.components.Class;
 import graphedit.model.components.CompositionLink;
+import graphedit.model.components.Connector;
 import graphedit.model.components.DependencyLink;
 import graphedit.model.components.GeneralizationLink;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.InnerLink;
 import graphedit.model.components.Interface;
 import graphedit.model.components.Link;
+import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
 import graphedit.model.components.RealizationLink;
 import graphedit.model.components.RequireLink;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.properties.ApplicationModeProperties;
 import graphedit.properties.Preferences;
 import graphedit.util.WorkspaceUtility;
@@ -839,6 +842,7 @@ public class MainFrame extends JDialog{
 		}
 
 		public void showDiagram(GraphEditModel diagram) {
+			
 			GraphEditView view = null;
 			ContainerPanel container = null;
 			for (Component c : mainTabbedPane.getComponents()) {
@@ -853,6 +857,8 @@ public class MainFrame extends JDialog{
 			if (view == null) {
 				view = new GraphEditView(diagram);
 				container = new ContainerPanel(view);
+				
+			
 
 				// diagram is just deserialized, generete its painters on the fly
 				if (diagram.getDiagramElements().size() != 0 && view.getElementPainters().size() == 0)
@@ -861,7 +867,6 @@ public class MainFrame extends JDialog{
 				view.generatePackagePainters();
 				mainTabbedPane.addTab(diagram.toString(), null, container, null);
 				diagram.addObserver((Observer) mainTree);
-
 
 
 			}
@@ -881,9 +886,9 @@ public class MainFrame extends JDialog{
 			actionController.setSelectionModel(getCurrentView().getSelectionModel());
 			actionController.setModel(getCurrentView().getModel());
 			container.requestFocusInWindow();
-
+			
+			
 			view.repaint();
-
 
 
 		}

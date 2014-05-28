@@ -67,7 +67,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 	public void setProject(UmlPackage project){
 		packageList.clear();
 		prepareProject(project);
-
+		
 		this.setChanged();
 		this.notifyObservers();
 	}
@@ -86,9 +86,13 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 			
 			projectElement = new GraphEditPackage(project, null, loadedElement);
 
-			for (GraphEditPackage pack : projectElement.getSubPackages())
+			for (GraphEditPackage pack : projectElement.getSubPackages()){
+				pack.generateShortcuts(loadedElement);
 				pack.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
+			}
 
+			projectElement.generateShortcuts(loadedElement);
+			
 			projectElement.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
 
 		packageList.add(projectElement);
@@ -99,6 +103,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 			layoutStrategy = LayoutStrategy.ADDING;
 		
 		layoutMap.put(projectElement, layoutStrategy);
+		
 	}
 
 	public GraphEditModel getDiagramContainingElement(GraphElement element){
@@ -211,7 +216,6 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 	public LayoutStrategy getLayoutStrategy(GraphEditPackage pack){
 		GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(pack);
 		LayoutStrategy topStrategy = layoutMap.get(topPackage);
-		System.out.println(topStrategy);
 		if (topStrategy != LayoutStrategy.ADDING)
 			return topStrategy;
 		

@@ -19,6 +19,7 @@ public class Connector extends LinkNode {
 	
 	private double minXRelative, maxXRelative, minYRelative, maxYRelative;
 	private double percentX, percentY;
+	private Point2D loadedPosition;
 
 	public Connector(Point2D position, LinkableElement element) {
 		super(position);
@@ -132,6 +133,14 @@ public class Connector extends LinkNode {
 		minXRelative*=scaleX;
 		maxYRelative*=scaleY;
 		minYRelative*=scaleY;	
+	}
+
+	public Point2D getLoadedPosition() {
+		return loadedPosition;
+	}
+
+	public void setLoadedPosition(Point2D loadedPosition) {
+		this.loadedPosition = loadedPosition;
 	}
 
 	
