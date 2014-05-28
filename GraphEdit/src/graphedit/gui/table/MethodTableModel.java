@@ -40,7 +40,7 @@ public class MethodTableModel extends AbstractTableModel {
 	
 	@Override
 	public int getRowCount() {
-		return methods.size();
+		return methods.size() + 1;
 	}
 
 	@Override
@@ -99,6 +99,8 @@ public class MethodTableModel extends AbstractTableModel {
 	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		if (rowIndex > methods.size() - 1)
+			return null;
 		Method method = methods.get(rowIndex);
 		switch (columnIndex) {
 		case 0:

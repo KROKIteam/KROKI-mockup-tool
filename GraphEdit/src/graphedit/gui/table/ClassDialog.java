@@ -14,6 +14,7 @@ import graphedit.model.components.Parameter;
 import graphedit.properties.ApplicationModeProperties;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.text.JTextComponent;
 
 public class ClassDialog extends JDialog {
 
@@ -34,7 +39,6 @@ public class ClassDialog extends JDialog {
 
 
 	private JTable table;
-	private JButton add;
 	private JButton remove;
 	private ClassToolBar toolBar;
 
@@ -48,14 +52,14 @@ public class ClassDialog extends JDialog {
 		MainFrame mf = MainFrame.getInstance(); 
 		setSize(new Dimension(mf.getWidth()/2, mf.getHeight()/2));
 
-		table = new JTable();
+		table = new RXTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		add = new JButton("Add");
 		remove = new JButton("Remove");
-		toolBar = new ClassToolBar(add, remove);
+		toolBar = new ClassToolBar(remove);
 
 		add(toolBar, BorderLayout.SOUTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
+		
 
 		setLocationRelativeTo(mf);
 	}
@@ -76,37 +80,37 @@ public class ClassDialog extends JDialog {
 
 
 		if (!(Boolean) properties.getPropertyValue("attributeClassEditable")){
-			table.removeColumn(table.getColumnModel().getColumn(0));
+			table.removeColumn(table.getColumnModel().getColumn(1));
 			removedColumns++;
 		}
 		else
-			table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(cbElements));
+			table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(cbElements));
 		if (!(Boolean) properties.getPropertyValue("attributeNameEditable")){
-			table.removeColumn(table.getColumnModel().getColumn(1 - removedColumns));
+			table.removeColumn(table.getColumnModel().getColumn(2 - removedColumns));
 			removedColumns++;
 		}
 		if (!(Boolean) properties.getPropertyValue("attributeTypeEditable")){
-			table.removeColumn(table.getColumnModel().getColumn(2 - removedColumns));
+			table.removeColumn(table.getColumnModel().getColumn(3 - removedColumns));
 			removedColumns++;
 		}
 		else if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
 			JComboBox cbTypes = new JComboBox(AttributeTypeUI.values());
-			table.getColumnModel().getColumn(2 - removedColumns).setCellEditor(new DefaultCellEditor(cbTypes));
+			table.getColumnModel().getColumn(3 - removedColumns).setCellEditor(new DefaultCellEditor(cbTypes));
 		}
 
 		if (!(Boolean) properties.getPropertyValue("attributeModifierEditable")){
-			table.removeColumn(table.getColumnModel().getColumn(3 - removedColumns));
-			removedColumns++;
-		}
-		else
-			table.getColumnModel().getColumn(3 - removedColumns).setCellEditor(new DefaultCellEditor(cbModifiers));
-
-		if (!(Boolean) properties.getPropertyValue("attributeStaticEditable")){
 			table.removeColumn(table.getColumnModel().getColumn(4 - removedColumns));
 			removedColumns++;
 		}
-		if (!(Boolean) properties.getPropertyValue("attributeFinalEditable")){
+		else
+			table.getColumnModel().getColumn(4 - removedColumns).setCellEditor(new DefaultCellEditor(cbModifiers));
+
+		if (!(Boolean) properties.getPropertyValue("attributeStaticEditable")){
 			table.removeColumn(table.getColumnModel().getColumn(5 - removedColumns));
+			removedColumns++;
+		}
+		if (!(Boolean) properties.getPropertyValue("attributeFinalEditable")){
+			table.removeColumn(table.getColumnModel().getColumn(6 - removedColumns));
 			removedColumns++;
 		}
 
@@ -115,20 +119,29 @@ public class ClassDialog extends JDialog {
 		setSize((int) ((mf.getWidth())*0.5 * percent) , mf.getHeight() / 2);
 		setLocationRelativeTo(mf);
 
+		table.getColumnModel().getColumn(0).setMaxWidth(20);
+		table.getColumnModel().getColumn(0).setMinWidth(20);
+		table.setCellSelectionEnabled(true);
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	int index = table.getSelectedRow();
+	          boolean last = table.getSelectedRow() == table.getModel().getRowCount() - 1;
+	          //add new attribute
+	          if (last){
+	        		Attribute attribute = new Attribute();
+					if (element instanceof Interface) {
+						attribute.setFinalAttribute(true);
+						attribute.setModifier(Modifier.PUBLIC);
+						attribute.setStaticAttribute(true);
+					}
+					((AttributeTableModel)table.getModel()).addAttribute(attribute);
+					 table.changeSelection(index, 2, true, true);
+					 ((RXTable) table).setSelectAllForEdit(true);
+	          }
+	        }
+	    });
+		
 
-		add.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Attribute attribute = new Attribute();
-				if (element instanceof Interface) {
-					attribute.setFinalAttribute(true);
-					attribute.setModifier(Modifier.PUBLIC);
-					attribute.setStaticAttribute(true);
-				}
-				((AttributeTableModel)table.getModel()).addAttribute(attribute);
-			}
-		});
 		remove.addActionListener(new ActionListener() {
 
 			@Override
@@ -217,19 +230,19 @@ public class ClassDialog extends JDialog {
 		setLocationRelativeTo(mf);
 
 
-		add.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Method method = new Method();
-				if (element instanceof Interface) {
-					method.setAbstractMethod(true);
-					method.setConstructorMethod(false);
-					method.setModifier(Modifier.PUBLIC);
-				}
-				((MethodTableModel)table.getModel()).addMethod(method);
-			}
-		});
+//		add.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Method method = new Method();
+//				if (element instanceof Interface) {
+//					method.setAbstractMethod(true);
+//					method.setConstructorMethod(false);
+//					method.setModifier(Modifier.PUBLIC);
+//				}
+//				((MethodTableModel)table.getModel()).addMethod(method);
+//			}
+//		});
 		remove.addActionListener(new ActionListener() {
 
 			@Override
@@ -271,14 +284,14 @@ public class ClassDialog extends JDialog {
 		setSize((int) ((mf.getWidth())*0.3 * percent) , mf.getHeight() / 2);
 		setLocationRelativeTo(mf);
 		
-		add.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Parameter parameter = new Parameter();
-				((ParameterTableModel)table.getModel()).addParameter(parameter);
-			}
-		});
+//		add.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				Parameter parameter = new Parameter();
+//				((ParameterTableModel)table.getModel()).addParameter(parameter);
+//			}
+//		});
 		remove.addActionListener(new ActionListener() {
 
 			@Override

@@ -32,15 +32,16 @@ public class AttributeTableModel extends AbstractTableModel {
 	public AttributeTableModel(GraphElement element, List<Attribute> attributes) { 
 		this.element = element;
 		this.attributes = attributes;
+		
 	}
 
 	private static final String[] COLUMN_NAMES = {
-		"Owner","Name", "Type", "Modifier", "Static", "Final", "Display"
+		"", "Owner","Name", "Type", "Modifier", "Static", "Final", "Display"
 	};
 
 	@Override
 	public int getRowCount() {
-		return attributes.size();
+		return attributes.size() + 1;
 	}
 
 	@Override
@@ -55,30 +56,35 @@ public class AttributeTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (columnIndex == 0)
+			return false;
 		if (columnIndex == COLUMN_NAMES.length - 1)
 			return true;
 		if (element instanceof Interface || currentApplicationMode() == ApplicationMode.USER_INTERFACE) {
-			return columnIndex < 3;
+			return columnIndex < 4;
 		} 
 		return true;
 	}
+	
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return GraphElement.class;
+			return Integer.class;
 		case 1:
-			return String.class;
+			return GraphElement.class;
 		case 2:
 			return String.class;
 		case 3:
-			return Modifier.class;
+			return String.class;
 		case 4:
+			return Modifier.class;
+		case 5:
 			return Boolean.class;
-		case 5: 
+		case 6: 
 			return Boolean.class;
-		case 6:
+		case 7:
 			return Boolean.class;
 		}
 		return super.getColumnClass(columnIndex);
@@ -86,21 +92,25 @@ public class AttributeTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		if (rowIndex > attributes.size() - 1)
+			return null;
 		Attribute attribute = attributes.get(rowIndex);
 		switch (columnIndex) {
 		case 0:
-			return element.getProperty(GraphElementProperties.NAME);
+			return rowIndex;
 		case 1:
-			return attribute.getName();
+			return element.getProperty(GraphElementProperties.NAME);
 		case 2:
-			return attribute.getType();
+			return attribute.getName();
 		case 3:
-			return attribute.getModifier();
+			return attribute.getType();
 		case 4:
+			return attribute.getModifier();
+		case 5:
 			return attribute.isStaticAttribute();
-		case 5: 
+		case 6: 
 			return attribute.isFinalAttribute();
-		case 6:
+		case 7:
 			return attribute.isVisible();
 		}
 		return null;
@@ -113,14 +123,14 @@ public class AttributeTableModel extends AbstractTableModel {
 		}
 		Attribute attribute = attributes.get(rowIndex);
 		switch (columnIndex) {
-		case 0:
+		case 1:
 			if (element != (GraphElement)value){
 				ChangeAttributeOwnerCommand command1 = new ChangeAttributeOwnerCommand(MainFrame.getInstance().getCurrentView(), element, (GraphElement) value,  attribute);
 				MainFrame.getInstance().getCommandManager().executeCommand(command1);
 				fireTableDataChanged();
 			}
 			break;
-		case 1:
+		case 2:
 			if (Validator.attributeHasName(attributes, (String) value)) {
 				Dialogs.showErrorMessage("Name already exists!", "Error");
 			} else if (!Validator.isJavaIdentifier((String) value)) {
@@ -130,7 +140,7 @@ public class AttributeTableModel extends AbstractTableModel {
 				MainFrame.getInstance().getCommandManager().executeCommand(command);
 			}
 			break;
-		case 2:
+		case 3:
 			String valueStr;
 			if (value instanceof AttributeTypeUI)
 				valueStr = ((AttributeTypeUI)value).toString();
@@ -139,16 +149,16 @@ public class AttributeTableModel extends AbstractTableModel {
 			ChangeAttributeTypeCommand command = new ChangeAttributeTypeCommand(MainFrame.getInstance().getCurrentView(), element, attribute, valueStr);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
 			break;
-		case 3:
+		case 4:
 			attribute.setModifier((Modifier) value);
 			break;
-		case 4:
+		case 5:
 			attribute.setStaticAttribute((Boolean) value);
 			break;
-		case 5: 
+		case 6: 
 			attribute.setFinalAttribute((Boolean) value);
 			break;
-		case 6:
+		case 7:
 			attribute.setVisible((Boolean)value);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setUpdated(true);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setAttributesOrMethodsUpdated(true);
