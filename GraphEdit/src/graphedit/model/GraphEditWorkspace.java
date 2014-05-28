@@ -85,6 +85,8 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 
 			
 			projectElement = new GraphEditPackage(project, null, loadedElement);
+			if (loadedElement != null)
+				projectElement.setFile(loadedElement.getFile());
 
 			for (GraphEditPackage pack : projectElement.getSubPackages()){
 				pack.generateShortcuts(loadedElement);

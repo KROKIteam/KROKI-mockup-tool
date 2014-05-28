@@ -42,6 +42,7 @@ public class WorkspaceUtility {
 	public static final String FILE_EXTENSION = ".dgm";
 
 	public static final String PROJECT_EXTENSION = ".kroki_graph";
+	private static JFileChooser chooser = new JFileChooser();
 
 	public static void save(GraphEditModel model) {
 	/*	xstream = new XStream(new DomDriver());
@@ -58,9 +59,8 @@ public class WorkspaceUtility {
 	}
 
 	private static String chooseLocation(){
-		JFileChooser chooser = new JFileChooser();
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = chooser.showOpenDialog(null);
+		int returnVal = chooser.showSaveDialog(MainFrame.getInstance());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			String path = chooser.getSelectedFile().getPath();
 			return path;
