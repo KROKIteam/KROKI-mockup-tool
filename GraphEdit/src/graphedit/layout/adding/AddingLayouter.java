@@ -67,6 +67,7 @@ public class AddingLayouter extends AbstractLayouter{
 					Point2D conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
 					conPosition.setLocation(conn.getLoadedPosition());
 					conn.setRelativePositions((Point2D) conn.getProperty(LinkNodeProperties.POSITION));
+					conn.setPercents(conPosition);
 				}
 					
 			}

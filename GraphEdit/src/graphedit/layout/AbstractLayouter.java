@@ -67,6 +67,7 @@ public abstract class AbstractLayouter implements Layouter{
 						conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
 						conPosition.setLocation(xPosition, yPosition);
 						conn.setRelativePositions((Point2D) conn.getProperty(LinkNodeProperties.POSITION));
+						conn.setPercents((Point2D) conn.getProperty(LinkNodeProperties.POSITION));
 					}
 				}
 				link.setNodes(strategy.setLinkNodes(link.getNodes()));
