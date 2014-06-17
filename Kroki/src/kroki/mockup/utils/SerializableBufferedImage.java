@@ -4,16 +4,9 @@
  */
 package kroki.mockup.utils;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Hashtable;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -21,37 +14,42 @@ import javax.imageio.ImageIO;
  */
 public class SerializableBufferedImage implements Serializable {
 
-    BufferedImage image;
+	transient Image image;
+	private int width;
+	private int height;
+	private int imageType;
+	private String alias;
 
-    public SerializableBufferedImage(ColorModel cm, WritableRaster raster, boolean isRasterPremultiplied, Hashtable<?, ?> properties) {
-        image = new BufferedImage(cm, raster, isRasterPremultiplied, properties);
-    }
+	public SerializableBufferedImage(){
+	}
 
-    public SerializableBufferedImage(int width, int height, int imageType, IndexColorModel cm) {
-        image = new BufferedImage(width, height, imageType, cm);
-    }
 
-    public SerializableBufferedImage(int width, int height, int imageType) {
-        image = new BufferedImage(width, height, imageType);
-    }
+	public SerializableBufferedImage(int width, int height, int imageType) {
+		image = new BufferedImage(width, height, imageType);
+		this.width = width;
+		this.height = height;
+		this.imageType = imageType;
+	}
 
-    public SerializableBufferedImage(BufferedImage image) {
-        this.image = image;
-    }
 
-    public BufferedImage getSource() {
-        return image;
-    }
+	public SerializableBufferedImage(String alias){
+		image = KrokiImagesLoader.loadImage(alias);
+		this.alias = alias;
+	}
 
-    public void setSource(BufferedImage image) {
-        this.image = image;
-    }
+	public BufferedImage getSource() {
+		if (image == null){
+			if (alias == null)	
+				image = new BufferedImage(width, height, imageType);
+			else
+				image = KrokiImagesLoader.loadImage(alias);
+		}
+		return (BufferedImage) image;
+	}
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        ImageIO.write(image, "png", out);
-    }
+	public void setSource(BufferedImage image) {
+		this.image = image;
+	}
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        image = ImageIO.read(in);
-    }
+
 }

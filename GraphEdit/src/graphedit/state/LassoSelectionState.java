@@ -29,6 +29,8 @@ public class LassoSelectionState extends State {
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		if (view == null || controller == null)
+			return;
 		view.getSelectionModel().setSelectedLink(null);
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			view.setLassoRectangle((int)controller.getPoint().getX(), (int)controller.getPoint().getY(), e.getX(), e.getY());

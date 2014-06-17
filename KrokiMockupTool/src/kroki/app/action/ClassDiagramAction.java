@@ -5,6 +5,7 @@ import graphedit.app.MainFrame;
 import graphedit.model.elements.GraphEditPackage;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
+import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
@@ -60,11 +62,23 @@ public class ClassDiagramAction extends AbstractAction{
 		//graphedit.model.GraphEditWorkspace.getInstance().getMainFrame().setVisible(true);
 		List<GraphEditPackage> packageList = graphedit.model.GraphEditWorkspace.getInstance().getpackageList();
 		UmlPackage umlPackage;
+		BussinesSubsystem businessSub;
 		for (GraphEditPackage pack: packageList){
 			umlPackage = pack.getUmlPackage();
 			if (!workspaceList.contains(umlPackage))
 				workspaceList.add(umlPackage);
 			updatePanels(umlPackage);
+			if (umlPackage instanceof BussinesSubsystem){
+				businessSub = (BussinesSubsystem)umlPackage;
+				try {
+					if ((businessSub.getDiagramFile() == null && pack.getFile() != null) || (businessSub.getDiagramFile() != null && pack.getFile() != null &&
+							!businessSub.getDiagramFile().getCanonicalPath().equals(pack.getFile().getCanonicalPath())))
+							businessSub.setDiagramFile(pack.getFile());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		}
 
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
@@ -76,8 +90,14 @@ public class ClassDiagramAction extends AbstractAction{
 		for (UmlType ownedType : pack.ownedType()){
 			if (ownedType instanceof StandardPanel){
 				panel = (StandardPanel) ownedType;
-				((ElementsGroup) panel.getVisibleElementList().get(1)).update();
-				((ElementsGroup) panel.getVisibleElementList().get(2)).update();;
+				ElementsGroup gr1 = (ElementsGroup) panel.getVisibleElementList().get(1);
+				ElementsGroup gr2 = (ElementsGroup) panel.getVisibleElementList().get(2);
+				for (VisibleElement el : gr1.getVisibleElementList())
+					el.update();
+				for (VisibleElement el : gr2.getVisibleElementList())
+					el.update();
+				gr1.update();
+				gr2.update();
 				/*NamingUtil cc = new NamingUtil();
 				System.out.println(panel.getPersistentClass().name());
 				panel.getPersistentClass().setName(cc.toCamelCase(panel.getLabel(), false));

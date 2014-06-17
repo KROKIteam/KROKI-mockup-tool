@@ -32,7 +32,7 @@ public class RandomLayouter extends AbstractLayouter{
 		//strategy = new RightAngledStrategy();
 		//else 
 		strategy = new AsIsStrategy();
-		elements = model.getDiagramElements();
+		elements.addAll(model.getDiagramElements());
 		elements.addAll(model.getContainedPackages());
 	}
 
@@ -59,7 +59,5 @@ public class RandomLayouter extends AbstractLayouter{
 		model.fireUpdates();
 	}
 	
-	
-
 
 }

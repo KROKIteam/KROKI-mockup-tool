@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
+import javax.swing.tree.TreePath;
 
 public class NewProjectAction extends AbstractAction {
 
@@ -29,7 +30,12 @@ public class NewProjectAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		Object selected = MainFrame.getInstance().getMainTree().getSelectionPath().getLastPathComponent();
+		TreePath path =  MainFrame.getInstance().getMainTree().getSelectionPath();
+		Object selected;
+		if (path == null)
+			selected = MainFrame.getInstance().getMainTree().getModel().getRoot();
+		else
+		  selected = path.getLastPathComponent();
 		Command command = null;
 		
 		String name = null;

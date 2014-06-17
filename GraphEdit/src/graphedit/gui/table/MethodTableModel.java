@@ -25,29 +25,29 @@ import javax.swing.table.AbstractTableModel;
 public class MethodTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private GraphElement element;
 	private List<Method> methods;
-	
+
 	public MethodTableModel(GraphElement element, List<Method> methods) {
 		this.element = element;
 		this.methods = methods;
 	}
-	
+
 	private static final String[] COLUMN_NAMES = {
-		"Owner", "Name", "Stereotype", "Return Type", "Modifier", "Constructor", "Static", "Final", "Abstract", "Parameters", "Display"
+		"", "Owner", "Name", "Stereotype", "Return Type", "Modifier", "Constructor", "Static", "Final", "Abstract", "Parameters", "Display"
 	};
-	
+
 	@Override
 	public int getRowCount() {
-		return methods.size();
+		return methods.size() + 1;
 	}
 
 	@Override
 	public int getColumnCount() {
 		return COLUMN_NAMES.length;
 	}
-	
+
 	@Override
 	public String getColumnName(int column) {
 		return COLUMN_NAMES[column];
@@ -55,78 +55,88 @@ public class MethodTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (rowIndex == methods.size())
+			return false;
+		if (columnIndex == 0)
+			return false;
 		if (columnIndex == COLUMN_NAMES.length - 1)
 			return true;
 		if (element instanceof Interface) {
-			if (columnIndex == 4 || columnIndex == 5 || columnIndex == 8) {
+			if (columnIndex == 5 || columnIndex == 6 || columnIndex == 9) {
 				return false;
 			}
 		}
 		else if (currentApplicationMode() == ApplicationMode.USER_INTERFACE){
-			return columnIndex < 3;
+			return columnIndex < 4;
 		}
-		return columnIndex != 9;
+		return columnIndex != 10;
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return GraphElement.class;
+			return Integer.class;
 		case 1:
-			return String.class;
+			return GraphElement.class;
 		case 2:
 			return String.class;
 		case 3:
 			return String.class;
 		case 4:
-			return Modifier.class;
+			return String.class;
 		case 5:
+			return Modifier.class;
+		case 6:
 			return Boolean.class;
-		case 6: 
-			return Boolean.class;
-		case 7:
+		case 7: 
 			return Boolean.class;
 		case 8:
 			return Boolean.class;
 		case 9:
-			return JButton.class;
+			return Boolean.class;
 		case 10:
+			return JButton.class;
+		case 11:
 			return Boolean.class;
 		}
 		return super.getColumnClass(columnIndex);
 	}
-	
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		if (rowIndex > methods.size() - 1)
+			return null;
 		Method method = methods.get(rowIndex);
 		switch (columnIndex) {
 		case 0:
-			return element;
+			return rowIndex + 1;
 		case 1:
-			return method.getName();
+			return element;
 		case 2:
-			return method.getStereotype();
+			return method.getName();
 		case 3:
-			return method.getReturnType();
+			return method.getStereotype();
 		case 4:
-			return method.getModifier();
+			return method.getReturnType();
 		case 5:
+			return method.getModifier();
+		case 6:
 			return method.isConstructorMethod();
-		case 6: 
+		case 7: 
 			return method.isStaticMethod();
-		case 7:
-			return method.isFinalMethod();
 		case 8:
-			return method.isAbstractMethod();
+			return method.isFinalMethod();
 		case 9:
-			return method.getParameters();
+			return method.isAbstractMethod();
 		case 10:
+			return method.getParameters();
+		case 11:
 			return method.isVisible();
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void setValueAt(Object value, int rowIndex, int columnIndex) {
 		if (getValueAt(rowIndex, columnIndex).equals(value)) {
@@ -134,14 +144,14 @@ public class MethodTableModel extends AbstractTableModel {
 		}
 		Method method = methods.get(rowIndex);
 		switch (columnIndex) {
-		case 0:
+		case 1:
 			if (element != (GraphElement)value){
 				ChangeMethodOwnerCommand command1 = new ChangeMethodOwnerCommand(MainFrame.getInstance().getCurrentView(), element, (GraphElement) value,  method);
 				MainFrame.getInstance().getCommandManager().executeCommand(command1);
 				fireTableDataChanged();
 			}
 			break;
-		case 1:
+		case 2:
 			if (Validator.methodHasName(methods, (String) value)) {
 				Dialogs.showErrorMessage("Name already exists!", "Error");
 			} else if (!Validator.isJavaIdentifier((String) value)) {
@@ -151,7 +161,7 @@ public class MethodTableModel extends AbstractTableModel {
 				MainFrame.getInstance().getCommandManager().executeCommand(command);
 			}
 			break;
-		case 2:
+		case 3:
 			if (value instanceof MethodStereotypeUI){
 				String newStereotype = ((MethodStereotypeUI) value).toString();
 				ChangeMethodStereotypeCommand command = new ChangeMethodStereotypeCommand(MainFrame.getInstance().getCurrentView(), element, method, newStereotype);
@@ -160,26 +170,26 @@ public class MethodTableModel extends AbstractTableModel {
 			else
 				method.setStereotype((String) value);
 			break;
-		case 3:
+		case 4:
 			ChangeMethodReturnTypeCommand command = new ChangeMethodReturnTypeCommand(MainFrame.getInstance().getCurrentView(), element, method, (String) value);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
 			break;
-		case 4:
+		case 5:
 			method.setModifier((Modifier) value);
 			break;
-		case 5:
+		case 6:
 			method.setConstructorMethod((Boolean) value);
 			break;
-		case 6: 
+		case 7: 
 			method.setStaticMethod((Boolean) value);
 			break;
-		case 7:
+		case 8:
 			method.setFinalMethod((Boolean) value);
 			break;
-		case 8:
+		case 9:
 			method.setAbstractMethod((Boolean) value);
 			break;
-		case 10:
+		case 11:
 			method.setVisible((Boolean)value);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setUpdated(true);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setAttributesOrMethodsUpdated(true);
@@ -187,13 +197,15 @@ public class MethodTableModel extends AbstractTableModel {
 		}
 		MainFrame.getInstance().getCurrentView().repaint();
 	}
-	
+
 	public Method getMethod(int index) {
-		return methods.get(index);
+		if (index < methods.size())
+			return methods.get(index);
+		return null;
 	}
 
 	public void removeMethod(int rowIndex) {
-		String name = (String) getValueAt(rowIndex, 1);
+		String name = (String) getValueAt(rowIndex, 2);
 		for (int i = 0; i < methods.size(); i++) {
 			if (methods.get(i).getName().equals(name)) {
 				RemoveMethodCommand command = new RemoveMethodCommand(
@@ -201,25 +213,25 @@ public class MethodTableModel extends AbstractTableModel {
 						element, 
 						methods.get(i));
 				MainFrame.getInstance().getCommandManager().executeCommand(command);
-				
+
 				fireTableDataChanged();
 				return;
 			}
 		}
 	}
-	
+
 	public void addMethod(Method method) {
 		AddMethodCommand command = new AddMethodCommand(
 				MainFrame.getInstance().getCurrentView(),
 				element, 
 				method);
 		MainFrame.getInstance().getCommandManager().executeCommand(command);
-		
+
 		fireTableDataChanged();
 	}
-	
+
 	private ApplicationMode currentApplicationMode(){
 		return MainFrame.getInstance().getAppMode();
 	}
-	
+
 }

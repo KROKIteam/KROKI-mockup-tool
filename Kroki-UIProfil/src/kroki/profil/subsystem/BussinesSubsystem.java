@@ -36,6 +36,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private List<UmlType> ownedType = new ArrayList<UmlType>();
 	private DatabaseProps DBConnectionProps = new DatabaseProps();
 	private File file;
+	private File diagramFile;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
 		super();
@@ -222,4 +223,12 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	 public String toString() {
 		 return label;
 	 }
+
+	public File getDiagramFile() {
+		return diagramFile;
+	}
+
+	public void setDiagramFile(File diagramFile) {
+		this.diagramFile = diagramFile;
+	}
 }

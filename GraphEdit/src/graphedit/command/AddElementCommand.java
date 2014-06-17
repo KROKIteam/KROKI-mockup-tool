@@ -11,6 +11,7 @@ import graphedit.model.elements.UIClassElement;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import kroki.profil.VisibleElement;
+import kroki.profil.panel.VisibleClass;
 
 public class AddElementCommand extends Command {
 
@@ -39,13 +40,16 @@ public class AddElementCommand extends Command {
 
 	@Override
 	public void execute() {
-		view.addElementPainter(elementPainter);
-		model.addDiagramElement(component);
+	
 		
 		if (element.getUmlType() instanceof VisibleElement){
 			model.getParentPackage().getUmlPackage().addOwnedType(element.getUmlType());
 			element.getUmlType().setUmlPackage(model.getParentPackage().getUmlPackage());
+			if (element instanceof UIClassElement)
+				model.getParentPackage().getClassElementsByVisibleClassesMap().put((VisibleClass)element.getUmlType(), (UIClassElement) element);
 		}
+		model.addDiagramElement(component);
+		view.addElementPainter(elementPainter);
 	}
 
 	@Override
@@ -54,6 +58,9 @@ public class AddElementCommand extends Command {
 		model.removeDiagramElement(component);
 		view.removeElementPainter(component);
 		view.getSelectionModel().removeAllSelectedElements();
+		
+		if (element instanceof UIClassElement)
+			model.getParentPackage().getClassElementsByVisibleClassesMap().remove((VisibleClass)element.getUmlType());
 	}
 
 }

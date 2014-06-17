@@ -412,6 +412,7 @@ public class ProjectExporter {
 		EJBClass clas = null;
 		for(int i=0; i<classes.size(); i++) {
 			EJBClass cl = classes.get(i);
+			System.out.println(cl.getName());
 			if(cl.getName().equalsIgnoreCase(name)) {
 				clas = cl;
 			}

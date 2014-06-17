@@ -3,6 +3,8 @@ package graphedit.actions;
 import graphedit.app.MainFrame;
 import graphedit.command.CommandManager;
 import graphedit.model.diagram.GraphEditModel;
+import graphedit.model.elements.GraphEditPackage;
+import graphedit.util.WorkspaceUtility;
 import graphedit.view.SelectionModel;
 
 import java.util.Observable;
@@ -50,11 +52,12 @@ public class ActionController implements Observer {
 			}
 		
 		} else if (o instanceof GraphEditModel) {
-			if (!mainFrame.getSaveDiagramAction().isEnabled()) {
+			if (!mainFrame.getSaveProjectAction().isEnabled()) {
 				//((GraphEditModel)o).getParentProject().setChanged(true);
-				mainFrame.getSaveDiagramAction().setEnabled(true);
 				mainFrame.getSaveProjectAction().setEnabled(true);
 				mainFrame.markTabWithAsterisk();
+				GraphEditPackage topPackage = WorkspaceUtility.getTopPackage(((GraphEditModel)o).getParentPackage());
+				topPackage.setChanged(true);
 			}
 			
 			if (model.getDiagramElements().size() > 0) {

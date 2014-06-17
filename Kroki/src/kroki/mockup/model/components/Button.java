@@ -61,6 +61,7 @@ public class Button extends Component {
         min.width = 0;
         min.height = 0;
 
+        
         if (image != null) {
             min.width += image.getSource().getWidth();
             min.height += image.getSource().getHeight();

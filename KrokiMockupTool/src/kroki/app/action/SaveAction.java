@@ -7,6 +7,7 @@ package kroki.app.action;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -79,7 +80,14 @@ public class SaveAction extends AbstractAction {
 			//if project allready has a file to save, save to that file, else display choose file dialog
 			if(proj.getFile() != null) {
 				System.out.println("saving to file: " + proj.getFile().getAbsolutePath());
-				DeepCopy.save(proj, proj.getFile());
+				if (DeepCopy.saveXStream(proj, proj.getFile())){
+					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
+							"Project " + (String)proj.getLabel() +  " successfully saved!");
+				}
+				else{
+					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
+							"Project " + (String)proj.getLabel() +  " wasn't successfully saved");
+				}
 			}else {
 				JFileChooser jfc = new JFileChooser();
 				jfc.setSelectedFile(new File(proj.getLabel().replace(" ", "_")));
@@ -94,7 +102,14 @@ public class SaveAction extends AbstractAction {
 					}
 					System.out.println("saving to file: " + file.getAbsolutePath());
 					proj.setFile(file);
-					DeepCopy.save(proj, file);
+					if (DeepCopy.saveXStream(proj, proj.getFile())){
+						JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
+								"Project " + (String)proj.getLabel() +  " successfully saved!");
+					}
+					else{
+						JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
+								"Project " + (String)proj.getLabel() +  " wasn't saved successfully");
+					}
 				} else {
 					System.out.println("saving canceled: ");
 				}

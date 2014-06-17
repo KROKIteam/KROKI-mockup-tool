@@ -14,6 +14,7 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.util.NameTransformUtil;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +63,7 @@ public class UIClassElement extends ClassElement{
 	private HashMap<Connector, NextZoomElement> zoomMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, NextZoomElement> nextMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, HierarchyElement> hierarchyMap = new HashMap<Connector, HierarchyElement>();
-
+	private transient NamingUtil namer = new NamingUtil();
 
 	private enum LinkEnd {ZOOM, NEXT};
 
@@ -75,7 +76,7 @@ public class UIClassElement extends ClassElement{
 			this.umlClass = new StandardPanel();
 			visibleClass = (VisibleClass)umlClass;
 			((StandardPanel)visibleClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
-			((StandardPanel) visibleClass).getPersistentClass().setName(NameTransformUtil.labelToCamelCase((String) element.getProperty(GraphElementProperties.NAME), true));
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
 		}
 		else{
 			this.umlClass = new ParentChild();
@@ -84,10 +85,10 @@ public class UIClassElement extends ClassElement{
 		}
 	}
 
-	public UIClassElement(VisibleClass visibleClass, Point2D position){
+	public UIClassElement(VisibleClass visibleClass, UIClassElement loadedElement){
 		umlClass = visibleClass;
 		this.visibleClass = visibleClass;
-		initElement(position);
+		initElement(loadedElement);
 	}
 
 	/**
@@ -106,7 +107,8 @@ public class UIClassElement extends ClassElement{
 		}
 		visibleClass = (VisibleClass) umlClass;
 		visibleClass.setName((String) element.getProperty(GraphElementProperties.NAME));
-
+		if (visibleClass instanceof StandardPanel)
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
 
 		//create properties
 		for (Attribute attribute : (List<Attribute>)element.getProperty(GraphElementProperties.ATTRIBUTES))
@@ -117,8 +119,10 @@ public class UIClassElement extends ClassElement{
 	}
 
 	public void formPanel(String name, String label, List<VisibleElement> visibleElements, String stereotype){
-		if (stereotype.equals(ClassStereotypeUI.STANDARD_PANEL.toString()))
+		if (stereotype.equals(ClassStereotypeUI.STANDARD_PANEL.toString())){
 			umlClass = new StandardPanel();
+			((StandardPanel) umlClass).getPersistentClass().setName(namer.toCamelCase(name, false).trim());
+		}
 		else if (stereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 			umlClass = new ParentChild();
 		visibleClass = (VisibleClass)umlClass;
@@ -144,11 +148,37 @@ public class UIClassElement extends ClassElement{
 	}
 
 	@SuppressWarnings("unchecked")
-	public void initElement(Point2D position){
+	public void initElement(UIClassElement loadedElement){
 		Attribute attribute;
 		Method method;
-		element = new Class(position, MainFrame.getInstance().incrementClassCounter());
-		element.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(visibleClass.getLabel(),true));
+		element = new Class(new Point2D.Double(0,0), MainFrame.getInstance().incrementClassCounter());
+
+
+		//ako je klasa sacuvana, izvuci sta moze
+		if (loadedElement != null){
+			//preuzmi sta treba iz njega
+			GraphElement loadedClass = loadedElement.element();
+			Point2D position = (Point2D) loadedClass.getProperty(GraphElementProperties.POSITION);
+			Dimension dim = (Dimension) loadedClass.getProperty(GraphElementProperties.SIZE);
+			String labelOld = ((VisibleClass)loadedElement.getUmlElement()).getLabel();
+			String labelNew = visibleClass.getLabel();
+
+			element.setLoaded(true);		
+			element.setProperty(GraphElementProperties.POSITION, position);
+			element.setLoadedDimension(dim);
+
+			if (labelOld.equals(labelNew))
+				element.setProperty(GraphElementProperties.NAME, loadedClass.getProperty(GraphElementProperties.NAME));
+			else
+				element.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(visibleClass.getLabel(),true));
+		}
+
+		else
+			element.setProperty(GraphElementProperties.NAME, NameTransformUtil.labelToCamelCase(visibleClass.getLabel(),true));
+
+
+
+
 		element.setRepresentedElement(this);
 		if (visibleClass instanceof StandardPanel)
 			element.setProperty(GraphElementProperties.STEREOTYPE,ClassStereotypeUI.STANDARD_PANEL.toString());
@@ -159,19 +189,58 @@ public class UIClassElement extends ClassElement{
 			if (type instanceof Zoom || type instanceof Next )
 				continue;
 			if (type instanceof VisibleProperty){
+				Attribute loadedAttribute = savedAttribute((VisibleProperty) type, loadedElement);
 				attribute = new Attribute(NameTransformUtil.labelToCamelCase(type.getLabel(), true), NameTransformUtil.transformUppercaseWithoutSpaces(type.getComponentType().toString()));
 				((List<Attribute>) element.getProperty(GraphElementProperties.ATTRIBUTES)).add(attribute);
 				attribute.setUmlProperty((VisibleProperty)type);
+				if (loadedAttribute != null){
+					attribute.setVisible(loadedAttribute.isVisible());
+					if (((VisibleProperty)attribute.getUmlProperty()).getLabel().equals(
+						(((VisibleProperty)loadedAttribute.getUmlProperty()).getLabel())))
+						attribute.setName(loadedAttribute.getName());
+				}
 			}
 			else if (type instanceof BussinessOperation){
 				if (type instanceof Report)
 					method = new Method(NameTransformUtil.labelToCamelCase(((BussinessOperation) type).getLabel(), false),"void","Report"); 
 				else
 					method = new Method(NameTransformUtil.labelToCamelCase(((BussinessOperation) type).getLabel(), false),"void", "Transaction");
+				Method loadedMethod = savedMethod((BussinessOperation) type, loadedElement);
+
 				method.setUmlOperation(( BussinessOperation)type);
 				((List<Method>) element.getProperty(GraphElementProperties.METHODS)).add(method);
+				if (loadedMethod != null){
+					method.setParameters(loadedMethod.getParameters());
+					method.setVisible(loadedMethod.isVisible());
+					if (((BussinessOperation)method.getUmlOperation()).getLabel().equals(
+							(((BussinessOperation)loadedMethod.getUmlOperation()).getLabel())))
+							method.setName(loadedMethod.getName());
+				}
 			}
 		}
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private Attribute savedAttribute(VisibleProperty prop, UIClassElement loadedClass){
+		if (loadedClass == null)
+			return null;
+		List<Attribute> attributes = (List<Attribute>) loadedClass.element().getProperty(GraphElementProperties.ATTRIBUTES);
+		for (Attribute a : attributes)
+			if (((VisibleProperty)a.getUmlProperty()).equals(prop))
+				return a;
+		return  null;
+	}
+
+	@SuppressWarnings("unchecked")
+	private Method savedMethod(BussinessOperation operation, UIClassElement loadedClass){
+		if (loadedClass == null)
+			return null;
+		List<Method> methods = (List<Method>) loadedClass.element().getProperty(GraphElementProperties.METHODS);
+		for (Method m : methods)
+			if (((BussinessOperation)m.getUmlOperation()).equals(operation))
+				return m;
+		return  null;
 	}
 
 
@@ -573,14 +642,14 @@ public class UIClassElement extends ClassElement{
 
 	@Override
 	public void changeLinkProperty(Link link, LinkProperties property, Object newValue, Object...args) {
-		
+
 		boolean source = (Boolean)args[0];
-		
+
 		if (property.toString().startsWith("DESTINATION") && !source)
 			return;
 		if (property.toString().startsWith("SOURCE") && source)
 			return;
-		
+
 		switch (property) {
 		case DESTINATION_CARDINALITY :
 			changeCardinality(link, (String) newValue, property, source);
@@ -610,12 +679,12 @@ public class UIClassElement extends ClassElement{
 
 		if (navigable == (Boolean) link.getProperty(property))
 			return;
-		
+
 		UIClassElement otherElement = null;
 
 		Connector connector, otherConnector;
 
-		
+
 		if (!sourceOrDestination && this == link.getDestinationConnector().getRepresentedElement() && property == LinkProperties.DESTINATION_NAVIGABLE)
 			return;
 		if (sourceOrDestination && this == link.getSourceConnector().getRepresentedElement() && property == LinkProperties.SOURCE_NAVIGABLE)
@@ -653,7 +722,7 @@ public class UIClassElement extends ClassElement{
 				link.setProperty(LinkProperties.SOURCE_ROLE, "");
 			else
 				link.setProperty(LinkProperties.DESTINATION_ROLE, "");
-			
+
 		}
 		else{
 			//dodaj next
@@ -678,13 +747,13 @@ public class UIClassElement extends ClassElement{
 
 	private void changeCardinality(Link link, String newCardinality, LinkProperties cardProperty, boolean source){
 
-	
+
 		UIClassElement otherElement = null;
 
 		Connector connector, otherConnector;
 		LinkProperties property = LinkProperties.DESTINATION_ROLE;
 		boolean otherNavigable;
-		
+
 		if (source){
 			connector = link.getSourceConnector();
 			if (cardProperty == LinkProperties.SOURCE_CARDINALITY)
@@ -768,7 +837,7 @@ public class UIClassElement extends ClassElement{
 	}
 
 	public void changeRole(Link link, String newRole, boolean source) {
-		
+
 		Connector connector;
 		if (source)
 			connector = link.getSourceConnector();
@@ -781,6 +850,7 @@ public class UIClassElement extends ClassElement{
 		}
 
 		nextZoom.setLabel(newRole);
+		newRole = NameTransformUtil.transformClassName(newRole);
 		visibleClass.getVisibleElementList().get(nextZoom.getClassIndex()).setLabel(newRole);
 	}
 
@@ -1020,6 +1090,11 @@ public class UIClassElement extends ClassElement{
 		visibleClass.setName(newName);
 		umlClass.setName(newName);
 		visibleClass.setLabel(NameTransformUtil.transformClassName(newName));
+		if (visibleClass instanceof StandardPanel){
+			if (namer == null)
+				namer = new NamingUtil();
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase(newName, false).trim());
+		}
 
 	}
 

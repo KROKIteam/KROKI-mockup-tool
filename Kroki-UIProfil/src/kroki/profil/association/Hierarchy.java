@@ -44,7 +44,7 @@ public class Hierarchy extends VisibleAssociationEnd {
 	/**Roditelj hijerarhije. Na osnovu njega se vrsi odredjivanje viaAssociationEnd, level*/
 	Hierarchy hierarchyParent;
 	/**Ovaj atribut predstavlja klon targetPanela - potreban je za iscrtavanja i prikazivanja promena koje su nastale na njemu*/
-	private VisibleClass targetPanelClone;
+	transient private VisibleClass targetPanelClone;
 
 	public Hierarchy(String label, boolean visible, ComponentType componentType) {
 		super(label, visible, componentType);

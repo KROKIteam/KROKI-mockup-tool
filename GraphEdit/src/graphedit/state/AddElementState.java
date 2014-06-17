@@ -47,11 +47,14 @@ public class AddElementState extends State {
 				packageSelected = true;
 			}
 			
+			System.out.println(element);
+			
 			
 			// command pattern
 			Command command;
-			if (!packageSelected)
+			if (!packageSelected){
 				command = new AddElementCommand(view, element, elementPainter);
+			}
 			else{
 				command = new NewPackageCommand(model.getParentPackage(), (Package) element, view);
 			}

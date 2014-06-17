@@ -13,7 +13,7 @@ import kroki.mockup.view.painters.components.ComboBoxPainter;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 public class ComboBox extends Component {
 
@@ -64,7 +64,7 @@ public class ComboBox extends Component {
         elementPainter = new ComboBoxPainter(this);
     }
 
-    /**Izračunava dimenziju koju zauzima tekst uračunavajući i prazan prostor između teksta i polja za unos*/
+    /**IzraÄ�unava dimenziju koju zauzima tekst uraÄ�unavajuÄ‡i i prazan prostor izmeÄ‘u teksta i polja za unos*/
     private Dimension calculateLabelDim() {
         Dimension dim = new Dimension();
         if (name != null && !name.equals("")) {
@@ -80,7 +80,7 @@ public class ComboBox extends Component {
         return dim;
     }
 
-    /**Izračunava dimenziju koju zauzima polje za unos teksta*/
+    /**IzraÄ�unava dimenziju koju zauzima polje za unos teksta*/
     private Dimension calculateFieldDim() {
         Dimension dim = KrokiTextMeasurer.measureText("M", getFont());
         dim.width *= (cols > 0) ? cols : MIN_COLS;
@@ -91,7 +91,7 @@ public class ComboBox extends Component {
         return dim;
     }
 
-    /**Izračunava minimalnu dimenziju polja za unos teksta*/
+    /**IzraÄ�unava minimalnu dimenziju polja za unos teksta*/
     private Dimension calculateMinFieldDim() {
         Dimension dim = KrokiTextMeasurer.measureText("M", getFont());
         dim.width *= MIN_COLS;
@@ -163,12 +163,12 @@ public class ComboBox extends Component {
         elementPainter.update();
     }
 
-    /**Uzima u obzir promene nad komponentom i izračunava novu dimenziju koju zauzima labela*/
+    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima labela*/
     private void updateLabel() {
         labelDim = calculateLabelDim();
     }
 
-    /**Uzima u obzir promene nad komponentom i izračunava novu dimenziju koju zauzima tekstualno polje*/
+    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima tekstualno polje*/
     private void updateField() {
         int fieldWidth = dimension.width - labelDim.width - insets.left - insets.right;
         int fieldHeight = dimension.height - insets.top - insets.bottom;
@@ -185,7 +185,7 @@ public class ComboBox extends Component {
         fieldDim.height = fieldHeight;
     }
 
-    /**Uzima u obzir promene nad komponentom i izračunava novu dimenziju koju zauzima cela komponenta*/
+    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima cela komponenta*/
     private void updateTextField() {
         updateLabel();
         updateField();

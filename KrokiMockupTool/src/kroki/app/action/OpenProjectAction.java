@@ -46,7 +46,7 @@ public class OpenProjectAction extends AbstractAction {
         if (retValue == JFileChooser.APPROVE_OPTION) {
             File file = jfc.getSelectedFile();
             System.out.println("opening from file: " + file.getAbsolutePath());
-            BussinesSubsystem bussinesSubsystem = (BussinesSubsystem) DeepCopy.open(file);
+            BussinesSubsystem bussinesSubsystem = (BussinesSubsystem) DeepCopy.loadXStream(file);
             if(bussinesSubsystem != null) {
             	BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findProject(file);
             	if(pr != null) {

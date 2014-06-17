@@ -133,6 +133,7 @@ public class AggregationLinkPainter extends AssociationLinkPainter{
 		}
 		sourcePosition=sourceFirstPoint;
 		destinationPosition=destinationFirstPoint;
+		
 	}	
 }
 

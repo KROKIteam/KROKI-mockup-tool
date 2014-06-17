@@ -841,6 +841,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	}
 
 	public CommandManager getCommandManager() {
+		if (commandManager == null)
+			commandManager = new CommandManager();
 		return commandManager;
 	}
 
@@ -874,6 +876,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	}
 
 	public SelectionState getSelectionState() {
+		if (stateFactory == null) 
+			stateFactory = new StateFactory(this);
 		return (SelectionState) stateFactory.getState("graphedit.state.SelectionState");
 	}
 

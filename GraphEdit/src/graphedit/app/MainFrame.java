@@ -17,8 +17,6 @@ import graphedit.actions.file.CloseDiagramAction;
 import graphedit.actions.file.ExitAction;
 import graphedit.actions.file.ExportAction;
 import graphedit.actions.file.NewProjectAction;
-import graphedit.actions.file.OpenDiagramAction;
-import graphedit.actions.file.SaveDiagramAction;
 import graphedit.actions.file.SaveProjectAction;
 import graphedit.actions.help.AboutAction;
 import graphedit.actions.help.ContentsAction;
@@ -167,8 +165,6 @@ public class MainFrame extends JDialog{
 	private static MainFrame singletonMain;	
 	// File Actions
 	private NewProjectAction newProjectAction; 
-	private OpenDiagramAction openDiagramAction; 
-	private SaveDiagramAction saveDiagramAction; 
 	private SaveProjectAction saveProjectAction; 
 	private ExportAction exportAction;
 	private CloseDiagramAction closeDiagramAction;
@@ -254,8 +250,6 @@ public class MainFrame extends JDialog{
 			actionController = new ActionController();
 			// File Actions
 			newProjectAction = new NewProjectAction();		
-			openDiagramAction = new OpenDiagramAction();		
-			saveDiagramAction = new SaveDiagramAction();		
 			saveProjectAction = new SaveProjectAction();
 			exportAction = new ExportAction();
 			closeDiagramAction = new CloseDiagramAction();
@@ -410,17 +404,13 @@ public class MainFrame extends JDialog{
 			fileMenu = new JMenu("File");
 			fileMenu.setMnemonic(KeyEvent.VK_F);
 			fileMenu.add(newProjectAction);
-			fileMenu.add(openDiagramAction);
 			fileMenu.addSeparator();
-			fileMenu.add(saveDiagramAction);
 			fileMenu.add(saveProjectAction);
 			fileMenu.addSeparator();
 			fileMenu.add(exportAction);
 			fileMenu.addSeparator();
 			fileMenu.add(closeDiagramAction);
 			fileMenu.add(closeAllDiagramsAction);
-			fileMenu.addSeparator();
-			//fileMenu.add(switchWorkspaceAction);
 			fileMenu.addSeparator();
 			fileMenu.add(exitDiagramAction);
 			editMenu = new JMenu("Edit");
@@ -462,9 +452,7 @@ public class MainFrame extends JDialog{
 		private void mainToolBarInit() {
 			mainToolBar.setFloatable(false);
 			mainToolBar.add(newProjectAction);
-			mainToolBar.add(openDiagramAction);
 			mainToolBar.addSeparator();
-			mainToolBar.add(saveDiagramAction);
 			mainToolBar.add(saveProjectAction);
 			mainToolBar.addSeparator();
 			mainToolBar.add(exportAction);
@@ -612,11 +600,6 @@ public class MainFrame extends JDialog{
 								showDiagram(pack.getDiagram());
 							}
 						} else {
-							// enable or disable open toolbar item considering selected item's type
-							if (source instanceof GraphEditPackage)
-								openDiagramAction.setEnabled(true);
-							else
-								openDiagramAction.setEnabled(false);
 
 							// do the same for new package
 							if (source instanceof GraphEditPackage) {
@@ -713,7 +696,7 @@ public class MainFrame extends JDialog{
 
 					// enable or disable, considering the diagram state
 					boolean closeable = isCloseable();
-					saveDiagramAction.setEnabled(isMarkedWithAsterisk());
+					saveProjectAction.setEnabled(isMarkedWithAsterisk());
 					closeAllDiagramsAction.setEnabled(closeable);
 					closeDiagramAction.setEnabled(closeable);
 					showGridMenuItem.setEnabled(closeable);
@@ -769,7 +752,8 @@ public class MainFrame extends JDialog{
 		}
 
 		public void setPositionTrack(int x, int y) {
-			positionTrack.setText("(" + x + ", " + y + ")");
+			if (positionTrack != null)
+				positionTrack.setText("(" + x + ", " + y + ")");
 		}
 
 		public void setStatusTrack(String state) {
@@ -792,7 +776,7 @@ public class MainFrame extends JDialog{
 
 			if (mainTabbedPane.getSelectedComponent() == null)
 				return null;
-			
+
 			return ((ContainerPanel) mainTabbedPane.getSelectedComponent()).getView();
 		}
 
@@ -855,6 +839,7 @@ public class MainFrame extends JDialog{
 		}
 
 		public void showDiagram(GraphEditModel diagram) {
+			
 			GraphEditView view = null;
 			ContainerPanel container = null;
 			for (Component c : mainTabbedPane.getComponents()) {
@@ -869,6 +854,8 @@ public class MainFrame extends JDialog{
 			if (view == null) {
 				view = new GraphEditView(diagram);
 				container = new ContainerPanel(view);
+				
+			
 
 				// diagram is just deserialized, generete its painters on the fly
 				if (diagram.getDiagramElements().size() != 0 && view.getElementPainters().size() == 0)
@@ -877,7 +864,6 @@ public class MainFrame extends JDialog{
 				view.generatePackagePainters();
 				mainTabbedPane.addTab(diagram.toString(), null, container, null);
 				diagram.addObserver((Observer) mainTree);
-
 
 
 			}
@@ -897,9 +883,9 @@ public class MainFrame extends JDialog{
 			actionController.setSelectionModel(getCurrentView().getSelectionModel());
 			actionController.setModel(getCurrentView().getModel());
 			container.requestFocusInWindow();
-
+			
+			
 			view.repaint();
-
 
 
 		}
@@ -1046,7 +1032,7 @@ public class MainFrame extends JDialog{
 			getCurrentView().getModel().setClassCounter(++result);
 			return result;
 		}
-		
+
 		public int incrementInterfaceCounter() {
 			if(getCurrentView() == null){
 				return 0;
@@ -1056,7 +1042,7 @@ public class MainFrame extends JDialog{
 			return result;
 		}
 
-		
+
 
 		public int incrementPackageCounter(){
 			if(getCurrentView() == null){
@@ -1083,7 +1069,7 @@ public class MainFrame extends JDialog{
 			int result = getCurrentView().getModel().getClassCounter();
 			return result;
 		}
-		
+
 		public int getClassInterface() {
 			if(getCurrentView() == null){
 				return 0;
@@ -1140,16 +1126,9 @@ public class MainFrame extends JDialog{
 			zoomSlider.setValue((int) Math.round(factor * SLIDER_SCALE_FACTOR));
 		}
 
-		public SaveDiagramAction getSaveDiagramAction() {
-			return saveDiagramAction;
-		}
 
 		public SaveProjectAction getSaveProjectAction() {
 			return saveProjectAction;
-		}
-
-		public OpenDiagramAction getOpenDiagramAction() {
-			return openDiagramAction;
 		}
 
 		public CloseAllDiagramsAction getCloseAllDiagramsAction() {
@@ -1199,6 +1178,26 @@ public class MainFrame extends JDialog{
 			for (int i = 0; i < mainTabbedPane.getTabCount(); i++)
 				if (mainTabbedPane.getTitleAt(i).startsWith("*"))
 					mainTabbedPane.setTitleAt(i, mainTabbedPane.getTitleAt(i).substring(1));
+		}
+
+		/**
+		 * Removes asterisk from all tabs showing diagrams from project 
+		 * @param project
+		 */
+		public void removeAsteriskFromAllTabsContainingToProject(GraphEditPackage project){
+			List<GraphEditModel> diagrams = WorkspaceUtility.allDiagramsInProject(project);
+			int j = 0;
+			for (int i = 0; i < mainTabbedPane.getComponentCount(); i++){
+				if (mainTabbedPane.getComponent(i) instanceof ContainerPanel){
+					GraphEditView view = ((ContainerPanel) mainTabbedPane.getComponent(i)).getView();
+					if (diagrams.contains(view.getModel())){
+						if (mainTabbedPane.getTitleAt(i - j).startsWith("*"))
+							mainTabbedPane.setTitleAt(i - j, mainTabbedPane.getTitleAt(i - j).substring(1));
+					}
+				}
+				else
+					j++;
+			}
 		}
 
 		/**
