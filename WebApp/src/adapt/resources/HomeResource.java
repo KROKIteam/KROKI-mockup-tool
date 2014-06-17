@@ -32,8 +32,8 @@ public class HomeResource extends BaseResource {
 		AdaptApplication app = (AdaptApplication) getApplication();
 		EntityManager em = app.getEmf().createEntityManager();
 		Form form = getRequest().getEntityAsForm();
-		String username = (String)form.getFirstValue("username");
-		String password = (String)form.getFirstValue("password");
+		String username = (String)form.getFirstValue("korki-username");
+		String password = (String)form.getFirstValue("korki-password");
 		String usernameIzmena = form.getFirstValue("usernameIzmena");
 		String passwordIzmena = form.getFirstValue("passwordIzmena");
 		String idIzmena = form.getFirstValue("idIzmena");

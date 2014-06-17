@@ -31,6 +31,7 @@ WebApp/src/adapt/templates/treemenuGenerated.html
 ######################################################
 SwingApp/bin/
 SwingApp/props/META-INF/persistence.xml
+SwingApp/props/main.properties
 SwingApp/src/hibernate.cfg.xml
 SwingApp/src/ejb/
 SwingApp/model/xml-mapping.xml
@@ -40,6 +41,7 @@ SwingApp/model/panel-map.xml
 SwingApp/model/enumeration.xml
 SwingApp/model/ejb/
 SwingApp/ddl_createDatabase.sql
+
 
 # ignore generated but skip default enumerations
 !SwingApp/src/com/panelcomposer/enumerations
@@ -53,4 +55,3 @@ SwingApp/ddl_createDatabase.sql
 SwingApp/src/panelcomposer/enumerations/
 SwingApp/model/menu.xml
 SwingApp/model/panel/
-SwingApp/props/main.properties

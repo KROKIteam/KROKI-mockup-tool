@@ -1,0 +1,401 @@
+@charset "utf-8";
+/*****************************************************************
+	KROKI Web Application Flat UI - CSS Stylesheet
+	
+	Author: Milorad Filipovic [mfili@uns.ac.rs]
+	Copyrigth (c) 2014 KROKI Team, 
+					   Chair of Informatics
+					   Faculty of Technical Sciences
+					   Novi Sad, Serbia
+	
+	https://github.com/KROKIteam
+*****************************************************************/
+
+/*****************************************************************
+												INITAL FORMATTING
+*****************************************************************/
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Lato",Helvetica,Arial,sans-serif;
+}
+
+html {
+	height: 100%;
+	width: 100%;	
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	background: url(../images/back.png) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	overflow: hidden;
+}
+
+
+/*****************************************************************
+												   MENU FORMATTING
+*****************************************************************/
+nav {
+	width: 100%;
+	height: 38px;
+	background-color: #f3f4f5;
+	display: none;
+}
+
+#mainMenu {
+	width: 80%;
+	height: 30px;
+	padding: 3px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	position: absolute;
+	z-index: 1000;
+	display: none;
+}
+
+#mainMenu > li.mainMenuItems {
+	height: 70%;
+	background-color: #346789;
+	font-size: 100%;
+	color: #fff;
+	display: inline-block;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	float: left;
+	margin-left: 5px;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.menu {
+	float: left;
+	width: 100%;
+}
+
+.mainMenuText {
+	float: left;
+}
+
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 7px solid #16a085;
+	float: right;
+	margin-left: 10px;
+	margin-top: 8px;
+	float: left;
+}
+
+#mainMenu > li.hover {
+	background-color: #48c9b0;
+}
+
+.arrow-down-hover {
+	width: 0; 
+	height: 0; 
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 7px solid #16a085;
+	float: right;
+	margin-left: 10px;
+	margin-top: 8px;	
+}
+
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 7px solid #346789;
+	float: right;
+	margin-top: 4px
+}
+
+.arrow-right-hover {
+	width: 0; 
+	height: 0; 
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 7px solid #16a085;
+	float: right;
+	margin-top: 4px
+}
+
+ul.L1SubMenu{
+	width: 120%;
+	background-color: #f3f4f5;
+	color: #346789;
+	list-style: none;
+	margin-top: 35px;
+	margin-left: -10px;
+	border-radius: 5px;
+	display: none;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+}
+
+ul.L1SubMenu li {
+	border-bottom: 1px solid #346789;
+	text-align: center;
+	width: 92%;
+	padding: 5px;
+}
+
+ul.L1SubMenu li.last-child {
+	border: none;	
+}
+
+ul.L1SubMenu li.hover-li {
+	color: #16a085;
+}
+
+.subMenuLink {
+	position: relative;	
+}
+
+ul.L2SubMenu {
+	width: 100%;
+	background-color: #f3f4f5;
+	color: #346789;
+	list-style: none;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	/*
+		Offset for submenus of level 2 and higher
+		These are shown on the right of their parent menu
+		by setting absolute position with left == 110%
+		(100% is width of parent menu + 10% gap) 
+	*/
+	position: absolute;
+	top: 0;
+	left: 110%;
+	display: none;
+}
+
+
+#logoutDiv {
+	width: 20%;
+	height: 100%;
+	padding-top: 4px;
+	float: right;
+	display: none;
+}
+
+#logoutDiv a#logoutLink {
+	height: 60%;
+	background-color: #16a085;
+	color: #fff;
+	display: inline-block;
+	border-radius: 5px;
+	padding: 4px 20px;
+	float: right;
+	border: none;
+	margin-right: 10px;
+	text-decoration: none;
+	text-align: center;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#logoutDiv a#logoutLink:hover {
+	background-color: #e74c3c;
+}
+/*****************************************************************
+												 FORMS FORMATTING
+*****************************************************************/
+.forms {
+	margin: 0 auto;
+	width: 950px;
+	max-height: 500px;
+	position: absolute;
+	top: 50px;
+	left: 200px;
+	background-color: #ECF0F1;
+	border-radius: 5px;
+	z-index: -1;
+	display: none;
+}
+
+.focused {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	z-index: 100;
+}
+
+.unfocused {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	z-index: 1;
+}
+
+.formHeaders {
+	background-color: #346789;
+	color: #ECF0F1;
+	border-radius: 5px 5px 0 0;
+	width: 100%;
+	height: 35px;
+	cursor: move;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.formName {
+	width: 80%;
+	height: 100%;
+	float: left;
+	margin-left: 10px;
+	font-size: 110%;
+	padding-top: 5px;
+}
+
+.headerButtons {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+	margin-top: 4px;
+	float: right;
+	text-align: center;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.headerButtons img {
+	width: 100%;
+	height: 100%;
+}
+
+.formBody {
+	width: 98%;
+	height: 460px;
+	clear: both;
+	padding: 10px;
+}
+
+.tableDiv {
+	height: 96%;
+	width: 75%;
+	border-right: 1px solid black;
+	padding-left: 2%;
+	padding-right: 2%;
+	float: left;
+}
+
+.operationsDiv {
+	width: 20%;
+	text-align: center;
+	float: right;
+}
+
+.operationButton {
+	margin: 5px auto;
+	width: 80%;
+}
+
+.formToolbar {
+	width: 100%;
+	height: 35px;
+}
+
+.controlsPanel {
+	border-right: 1px solid black;
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.formToolbar button {
+	background: none;
+	border: none;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+#tableControls {
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.toolbarButton {
+	width: 32px;
+	height: 32px;
+}
+
+.tablePanel {
+	width: 100%;
+	margin-top: 10px;
+	height: 350px;
+	overflow: auto;
+}
+
+.mainTable {
+	width: 100%;
+	height: 300px;
+	border-radius: 5px;
+	border: 1px solid #346789;
+}
+
+.mainTable thead {
+	background-color: #346789;
+	color: #ECF0F1;
+	text-align: center;
+	height: 10%;
+}
+
+.mainTable tbody {
+	cursor: pointer;
+	
+}
+
+.mainTable tbody tr.selectedTr {
+	background-color: #16a085;
+	color: #fff;
+}
+
+.mainTable tbody tr:hover {
+	background-color: #16a085;
+	color: #fff;
+}
+
+.mainTable td {
+	border: 1px solid #346789;
+	padding: 2px;
+}
+
+.buttons-blue {
+	width: 90%;
+	border: medium none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1.4;
+    transition: border 0.25s linear 0s, color 0.25s linear 0s, background-color 0.25s linear 0s;
+	background-color: #346789;
+	color: #fff;
+	cursor: pointer;
+}
+
+.buttons-blue:hover {
+	background-color: #16a085;
+}
