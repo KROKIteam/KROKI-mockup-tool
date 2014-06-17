@@ -40,11 +40,11 @@ $(document).ready(function(e) {
 	
 	//MAKE MAIN MENU ITEMS INVERT COLORS ON MOUSE HOVER
 	$(".menu").hover(function(e) {
-		if(!$(this).parent().find("ul.L1SubMenu").is(":visible")) {
+		if($(this).parent().find("ul.L1SubMenu").css('visibility') === 'hidden') {
 			$(this).parent().addClass("hover");
 		}
 	}, function(e) {
-		if(!$(this).parent().find("ul.L1SubMenu").is(":visible")) {
+		if($(this).parent().find("ul.L1SubMenu").css('visibility') === 'hidden') {
 			$(this).parent().removeClass("hover");	
 		}
 	});
@@ -54,18 +54,18 @@ $(document).ready(function(e) {
 	// so getting parent of $(".menu") we get the actual <li> element
 	$(".menu").click(function(e) {
 		//if corresponding submenu is not allready open, open it while closing all other submenus
-		if(!$(this).parent().find("ul.L1SubMenu").is(":visible")) {
+		if($(this).parent().find("ul.L1SubMenu").css('visibility') === 'hidden') {
 			$(".menu").each(function(index, element) {
             	$(this).parent().removeClass("hover");
-				$(this).parent().find("ul.L1SubMenu").hide();
+				$(this).parent().find("ul.L1SubMenu").css({"visibility":"hidden"});
 				$(this).parent().find("ul.L2SubMenu").hide();
         	});
 			$(this).parent().addClass("hover");
-			$(this).parent().find("ul.L1SubMenu").show();
+			$(this).parent().find("ul.L1SubMenu").css({"visibility":"visible"});
 		}else {
 			//if a submenu is open, just close it on click
 			$(this).parent().addClass("hover");
-			$(this).parent().find("ul.L1SubMenu").toggle();
+			$(this).parent().find("ul.L1SubMenu").css({"visibility":"hidden"});
 		}
     });
 	
@@ -117,7 +117,7 @@ $(document).ready(function(e) {
         if(!$(this).hasClass("subMenuLink")) {
 			// Hide all the submenus
 			$(".L1SubMenu").each(function(index, element) {
-                $(this).hide();
+                $(this).css({"visibility":"hidden"});;
             });
 			// Return the main menu color to inital values
 			$("li.mainMenuItems").each(function(index, element) {
