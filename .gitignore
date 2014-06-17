@@ -53,3 +53,4 @@ SwingApp/ddl_createDatabase.sql
 SwingApp/src/panelcomposer/enumerations/
 SwingApp/model/menu.xml
 SwingApp/model/panel/
+SwingApp/props/main.properties
