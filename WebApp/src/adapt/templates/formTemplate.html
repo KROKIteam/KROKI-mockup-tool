@@ -1,0 +1,84 @@
+					<!------------------------------------STANDARD FORM------------------------------------------>
+					<!-- FORM HEADER -->
+					<div class="formHeaders">
+						<div class="formName">${resource.label}</div>
+						<div class="headerButtons" title="Close form">
+							<img src="/files/images/icons/close.png">
+						</div>
+					</div>	
+					<!-- /FORM HEADER -->
+					<!--  FORM BODY -->
+					<div class="formBody">
+						<!--  TABLE DIV -->
+						<div class="tableDiv" <#if operations??>style="width: 75%; border-right: 1px solid black;"</#if>>
+							<!-- FORM TOOLBAR -->
+							<div class="formToolbar">
+								<div id="viewControls" class="controlsPanel">
+									<button type="button" title="Switch views">
+										<img class="toolbarButton" src="/files/images/icons/swich.png"/>
+									</button>
+									<button type="button" title="Refresh data">
+										<img class="toolbarButton" src="/files/images/icons/refresh.png"/>
+									</button>
+								</div>
+								<!-- VIEW CONTROLS -->
+								<div id="navigationControls" class="controlsPanel">
+									<button type="button" id="btnFirst" title="Go to the first row in table">
+										<img class="toolbarButton" src="/files/images/icons/first.png"/>
+									</button>
+									<button type="button" id="btnPrev" title="Go to the previous row">
+										<img class="toolbarButton" src="/files/images/icons/prev.png"/>
+									</button>
+									<button type="button" id="btnNext" title="Go to the next row">
+										<img class="toolbarButton" src="/files/images/icons/next.png"/>
+									</button>
+									<button type="button" id="btnLast" title="Go to the last row in table">
+										<img class="toolbarButton" src="/files/images/icons/last.png">
+									</button>
+								</div>
+								<!-- NAVIGATION CONTROLS -->
+								<div id="tableControls">
+									<button type="button" title="Add a new row">
+										<img class="toolbarButton" src="/files/images/icons/add.png"/>
+									</button>
+								</div>
+								<!-- TABLE CONTROLS -->
+							</div>
+							<!-- /FORM TOOLBAR -->
+							<!-- TABLE PANEL -->
+							<div class="tablePanel">
+								<#if mainFormHeaders??>
+								<table class="mainTable">
+									<thead>
+										<tr>
+											<#list mainFormHeaders as header>
+												<th>${header}</th>
+											</#list>
+										</tr>
+									</thead>
+										<tbody>
+											<#if entities??>
+												<#if entities?has_content>
+												
+												</#if>
+											<#else>
+												<tr></tr>
+											</#if>
+										</tbody>
+									</#if>
+								</table>
+								
+							</div>
+							<!-- /TABLE PANEL -->
+						</div>
+						<!-- /TABLE DIV -->
+						<!--  OPERATIONS DIV -->
+						<#if operations??>
+						<div class="operationsDiv">
+					
+						</div>
+						</#if>
+						<!-- /OPERATIONS DIV -->
+					</div>
+					<!--  /FORM BODY -->
+					<!------------------------------------/STANDARD FORM------------------------------------------>

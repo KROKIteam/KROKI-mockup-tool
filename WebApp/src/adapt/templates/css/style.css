@@ -294,8 +294,7 @@ ul.L2SubMenu {
 
 .tableDiv {
 	height: 96%;
-	width: 75%;
-	border-right: 1px solid black;
+	width: 97%;
 	padding-left: 2%;
 	padding-right: 2%;
 	float: left;
@@ -360,6 +359,10 @@ ul.L2SubMenu {
 	background-color: #346789;
 	color: #ECF0F1;
 	text-align: center;
+	height: 10%;
+}
+
+.mainTable thead tr th{
 	height: 10%;
 }
 

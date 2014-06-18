@@ -285,7 +285,6 @@ public class ViewResource extends Resource {
 					//objekte koje nam vrati upit pomocu klase EntityCreator
 					//pretvorimo u objekte klase EntityClass
 					//i smestimo u data model
-					System.out.println("Trazim za resurs " + resource.getName());
 					entities = creator.getEntities(ress);
 					if(!entities.isEmpty()) {
 						Map<String, String> childMap = new LinkedHashMap<String, String>();
@@ -305,7 +304,7 @@ public class ViewResource extends Resource {
 							
 							childMap.put(Id, name);
 						}
-						
+						System.out.println("[ENTITIES] " + entities.size());
 						dataModel.put("entities", entities);
 						dataModel.put("childMap", childMap);
 						
@@ -619,6 +618,6 @@ public class ViewResource extends Resource {
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
 		dataModel.put("title", Settings.APP_TITLE);
-		return getHTMLTemplateRepresentation("viewTemplate.html", dataModel);
+		return getHTMLTemplateRepresentation("formTemplate.html", dataModel);
 	}
 }

@@ -123,7 +123,13 @@ $(document).ready(function(e) {
 			$("li.mainMenuItems").each(function(index, element) {
 				$(this).removeClass("hover");
 			});
-			makeNewForm($(this).text());
+			var activateLink = $(this).attr("data-activate");
+			$.ajax({url: activateLink,
+		        type: 'GET', 
+		        success: function(data) {
+		        	makeNewForm(data);
+		        }
+		    });
 		}
     });
 	
@@ -140,31 +146,20 @@ $(document).ready(function(e) {
 	});
 	
 	//FUNCTION THAT CREATES HTML FORMS
-	function makeNewForm(name) {
-		/*
+	function makeNewForm(data) {
 		var newForm = $(document.createElement("div"));
 		newForm.addClass("forms");
-		var newHeader = $(document.createElement("div"));
-		newHeader.addClass("formHeaders");
-		var newHeaderName = $(document.createElement("div"));
-		newHeaderName.addClass("formName");
-		newHeaderName.text(name);
-		var newFormButton = $(document.createElement("div"));
-		newFormButton.addClass("headerButtons");
-		newFormButton.html("&#10006;");
-		newFormButton.attr("title", "Close form");
-		newHeader.append(newHeaderName);
-		newHeader.append(newFormButton);
-		newForm.append(newHeader);
-		var newContent = $(document.createElement("div"));
-		newContent.addClass("formBody");
-		newForm.append(newContent);
+		newForm.html(data);
 		$("#container").append(newForm);
 		
-		focus(newForm);
-		*/
-		var newForm = $("#formaPrimer").clone().appendTo("#container");
-		newForm.find(".formName").text(name);
+		/*
+		 * If number of columns is more than 6, add 200 pixels for each
+		 */
+		var columns = newForm.find("th").length;
+		if(columns > 6 && columns < 15) {
+			newForm.width(columns*200);
+		}
+		
 		newForm.show();
 		focus(newForm);
 	}
