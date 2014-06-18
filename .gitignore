@@ -24,8 +24,8 @@ WebApp/config/*
 !WebApp/config/forms.xml
 !WebApp/config/resources.xml
 WebApp/src/config/resources-generated.xml
-WebApp/src/adapt/templates/treemenuGenerated.html
-
+WebApp/src/adapt/templates/menu.html
+WebApp/props/app.properties
 
 #                                    SwingApp excludes
 ######################################################
@@ -55,3 +55,5 @@ SwingApp/ddl_createDatabase.sql
 SwingApp/src/panelcomposer/enumerations/
 SwingApp/model/menu.xml
 SwingApp/model/panel/
+WebApp/props/app.properties
+WebApp/src/adapt/templates/menu.html
