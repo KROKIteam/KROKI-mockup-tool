@@ -55,5 +55,3 @@ SwingApp/ddl_createDatabase.sql
 SwingApp/src/panelcomposer/enumerations/
 SwingApp/model/menu.xml
 SwingApp/model/panel/
-WebApp/props/app.properties
-WebApp/src/adapt/templates/menu.html
