@@ -81,6 +81,7 @@ nav {
 .menu {
 	float: left;
 	width: 100%;
+	text-align: center;
 }
 
 .mainMenuText {
@@ -96,7 +97,6 @@ nav {
 	float: right;
 	margin-left: 10px;
 	margin-top: 8px;
-	float: left;
 }
 
 #mainMenu > li.hover {
@@ -142,10 +142,10 @@ ul.L1SubMenu{
 	margin-top: 35px;
 	margin-left: -10px;
 	border-radius: 5px;
-	display: none;
 	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
 	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
 	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	visibility: hidden;
 }
 
 ul.L1SubMenu li {
@@ -155,7 +155,7 @@ ul.L1SubMenu li {
 	padding: 5px;
 }
 
-ul.L1SubMenu li.last-child {
+ul.L1SubMenu li:last-child {
 	border: none;	
 }
 
@@ -177,9 +177,9 @@ ul.L2SubMenu {
 	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
 	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
 	/*
-		Offset for submenus of level 2 and higher
+		Offset for submenus of level 2 and higher.
 		These are shown on the right of their parent menu
-		by setting absolute position with left == 110%
+		by setting absolute position with left = 110%
 		(100% is width of parent menu + 10% gap) 
 	*/
 	position: absolute;
