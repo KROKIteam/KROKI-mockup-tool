@@ -223,11 +223,12 @@ ul.L2SubMenu {
 	position: fixed;
 	bottom: 0;
 	color: #fff;
-	padding: 5px;
+	padding: 5px 5px 5px 15px;
 	width: 100%;
 	-webkit-box-shadow: 0px -2px 5px 0px rgba(50, 50, 50, 0.75);
 	-moz-box-shadow:    0px -2px 5px 0px rgba(50, 50, 50, 0.75);
 	box-shadow:         0px -2px 5px 0px rgba(50, 50, 50, 0.75);
+	font-size: 1.3em;
 	display: none;
 }
 

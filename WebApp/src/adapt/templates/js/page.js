@@ -10,7 +10,9 @@
 	https://github.com/KROKIteam
  *****************************************************************/
 $(document).ready(function(e) {
-
+	
+	//number of miliseconds that popup messages are being visible for
+	var delay = 2000;
 	//form (div.forms) that is currently being dragged
 	var dragged = null;
 	//offsets for dragging forms
@@ -128,7 +130,12 @@ $(document).ready(function(e) {
 				type: 'GET', 
 				success: function(data) {
 					makeNewForm(data);
-				}
+				},
+			    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			        $("#messagePopup").html(errorThrown);
+			        $("#messagePopup").attr("class", "messageError");
+					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+			    }
 			});
 		}
 	});
@@ -156,8 +163,17 @@ $(document).ready(function(e) {
 		 * If number of columns is more than 6, add 200 pixels for each
 		 */
 		var columns = newForm.find("th").length;
-		if(columns > 6 && columns < 15) {
-			newForm.width(columns*200);
+		if(columns > 6) {
+			var newWidth = columns*200;
+			if(newWidth<$("#container").width()) {
+				newForm.width(newWidth);
+			}else {
+				newForm.width("98%");
+				newForm.css({
+				    "top": 60,
+				    "left": 20,
+				});
+			}
 		}
 
 		newForm.show();
@@ -331,9 +347,14 @@ $(document).ready(function(e) {
 			success: function (data) {
 				$("#messagePopup").html(data);
 				var clas = $("#messagePopup").find("p").attr("class");
-				$("#messagePopup").addClass(clas);
-				$("#messagePopup").slideToggle(300).delay(2000).slideToggle(500);
-			}
+				$("#messagePopup").attr("class", clas);
+				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+			},
+		    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		        $("#messagePopup").html(errorThrown);
+				$("#messagePopup").attr("class", "messageError");
+				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+		    }
 		});
 	});
 });
