@@ -82,7 +82,6 @@ public class ViewResource extends Resource {
 			String resName	= (String)getRequest().getAttributes().get("resName");
 			String delid	= (String)getRequest().getAttributes().get("delid");
 			String modid	= (String)getRequest().getAttributes().get("modid");
-			String aresName = (String)getRequest().getAttributes().get("arName");
 			String cresName = (String)getRequest().getAttributes().get("cresName");
 			String mcresName = (String)getRequest().getAttributes().get("mcresName");
 			String mtmResName = (String)getRequest().getAttributes().get("mtmResName");
@@ -98,7 +97,7 @@ public class ViewResource extends Resource {
 				Long delIdLong = Long.parseLong(delid);
 				remove(dresName, delIdLong);
 			}
-			if (modid != null) {//izmena
+			/*if (modid != null) {//izmena
 				System.out.println("[VIEW RESOURCE] handleGet");
 				String mresName = (String) getRequest().getAttributes().get("mresName");
 				resource = application.getXMLResource(mresName);
@@ -110,16 +109,8 @@ public class ViewResource extends Resource {
 				} catch (RightAlreadyDefinedException e) {
 					e.printStackTrace();
 				}
-			}
-			if(aresName != null) {//dodavanje
-				resource = application.getXMLResource(aresName);
-				Form form = getRequest().getEntityAsForm();
-				ArrayList<Object> values = getFormData(form);
-				try {
-					modify(values, null);
-				} catch (RightAlreadyDefinedException e) {
-				}
-			}
+			}*/
+			
 			if(cresName != null) {//child forma
 				resource = application.getXMLResource(cresName);
 				Form form = getRequest().getEntityAsForm();
@@ -304,10 +295,8 @@ public class ViewResource extends Resource {
 							
 							childMap.put(Id, name);
 						}
-						System.out.println("[ENTITIES] " + entities.size());
 						dataModel.put("entities", entities);
 						dataModel.put("childMap", childMap);
-						
 					}else {
 						dataModel.put("msg", "No entries in the database for requested resource!");
 					}
@@ -328,7 +317,67 @@ public class ViewResource extends Resource {
 					e.printStackTrace();
 				}
 			}
+			prepareAdd();
 		}
+	}
+	
+	public void prepareAdd() {
+		AdaptApplication app = (AdaptApplication) getApplication();
+		EntityManager em = app.getEmf().createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		tx.begin();
+		/*
+		 * Child elements map.
+		 * Map key is element label, and values are map with entity id as key and value is name if child class has attribute called 'name',
+		 * else id attribute is used.
+		 * This map is used to generate content for zoom combo boxes
+		 */
+		LinkedHashMap<String, Map<String, String>> childFormMap = new LinkedHashMap<String, Map<String,String>>();
+		//get all child attributes from database and generate EntityClass object for each
+		for(int i=0; i<resource.getManyToOneAttributes().size(); i++) {
+			XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(i);
+			XMLResource ress = app.getXMLResource(mattr.getType());
+			ArrayList<Object> objects = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList();
+			ArrayList<EntityClass> entities;
+			try {
+				entities = creator.getEntities(objects);
+				Map<String, String> childMap = new LinkedHashMap<String, String>();
+				if(!mattr.getMandatory()) {
+					childMap.put("null", "-- None --");
+				}
+				for(int j=0; j<entities.size(); j++) {
+					EntityClass ecl = entities.get(j);
+					String Id = creator.getEntityPropertyValue(ecl, "id");
+					String name = "";
+					
+					for (XMLAttribute attr : ress.getRepresentativeAttributes()) {
+						name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
+					}
+					
+					name = name.substring(0, name.length()-2);
+					
+					childMap.put(Id, name);
+				}
+				childFormMap.put(mattr.getLabel(), childMap);
+			} catch (NoSuchFieldException e) {
+//				try {
+//					entities = EntityCreator.getEntities(objects, "id");
+//					Map<String, String> childMap = new TreeMap<String, String>();
+//					for(int j=0; j<entities.size(); j++) {
+//						EntityClass ecl = entities.get(j);
+//						String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
+//						childMap.put(Id, Id);
+//					}
+//					childFormMap.put(mattr.getLabel(), childMap);
+//				} catch (NoSuchFieldException e1) {
+//					e1.printStackTrace();
+//				}
+				e.printStackTrace();
+			}
+		}
+		tx.commit();
+		em.close();
+		dataModel.put("childFormMap", childFormMap);
 	}
 	
 	public void prepareChildern(AdaptApplication application, String cresName, String id, String child) {
@@ -523,81 +572,6 @@ public class ViewResource extends Resource {
 		}
 	}
 	
-//------------------------------DODAVANJE I IZMENA-------------------------------
-	public Object modify(ArrayList<Object> values, Long id) throws RightAlreadyDefinedException {
-		String table = resource.getName();
-		AdaptApplication application = (AdaptApplication) getApplication();
-		EntityManager em = application.getEmf().createEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		try {
-			Class s = Class.forName("adapt.entities." + table);
-			Object o;
-			if(id == null) {//if no ID is passed, add operation is executed
-				//new object
-				o = s.newInstance();
-			}else {//if ID is not null, entity with that id gets modified
-				//get object from database
-				o = em.createQuery("FROM " + table + " o WHERE o.id=:oid").setParameter("oid", id).getSingleResult();
-			}
-				//prvo setujem collumn atribute
-				for(int j=0; j<resource.getAttributes().size(); j++) {
-					XMLAttribute attr = resource.getAttributes().get(j);
-					String setName = "set" + Character.toUpperCase(attr.getName().charAt(0)) + attr.getName().substring(1);
-					try {
-						//ignore suffix on type
-						Class aClass = Class.forName(attr.getType().split(":")[0]);
-						Method setter = s.getMethod(setName, aClass);
-						setter.setAccessible(true);
-						try {
-							Object value = values.get(j);
-							if(attr.getType().equals("java.lang.Boolean")) {
-								value = Boolean.parseBoolean(value.toString());
-							}else if (attr.getType().equals("java.util.Date")) {
-								SimpleDateFormat formatter = new SimpleDateFormat("dd.MMM.yyyy.", Locale.JAPAN);
-								value = (Date)formatter.parse(value.toString().replaceAll("\\p{Cntrl}", "").replaceAll(",", "."));
-							}else if (attr.getType().equals("java.math.BigDecimal")) {
-								value = new BigDecimal(value.toString().replaceAll(",", "."));
-							}
-//							else if (attr.getType().equals("java.lang.String") && attr.getValues() != null) {
-//								System.out.println("TREBA COMBOBOX ZA " + attr.getName());
-//							}
-							setter.invoke(o, value);
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							e.printStackTrace();
-						}
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						System.out.println("nema klase za atribut: " + attr.getName());
-					}
-				}
-				//zatim manyToOne atribute
-				for(int k=resource.getAttributes().size(); k<resource.getManyToOneAttributes().size() + resource.getAttributes().size(); k++) {
-					int mattrIndex = k-resource.getAttributes().size();
-					XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(mattrIndex);
-					String setName = "set" + Character.toUpperCase(mattr.getName().charAt(0)) + mattr.getName().substring(1);
-					Class mClass = Class.forName("adapt.entities." + mattr.getType());
-					Method mSetter = s.getMethod(setName, mClass);
-					mSetter.setAccessible(true);
-					mSetter.invoke(o, values.get(k));
-				}
-			if(id == null) {
-				em.persist(o);
-			}else {
-				em.flush();
-			}
-			t.commit();
-			em.close();
-			return o;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-//---------------------------------------------------------------------------
 	
 	public Map<String, Object> getDataModel() {
 		return dataModel;

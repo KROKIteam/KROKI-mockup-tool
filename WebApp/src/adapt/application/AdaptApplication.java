@@ -117,14 +117,12 @@ public class AdaptApplication extends Application {
 		router.attach("/homepage", HomeResource.class);
 		router.attach("/profilIzmena", ProfilIzmenaResource.class);
 		router.attach("/resources/{resName}", ViewResource.class);
-		router.attach("/add/{aresName}", AddResource.class);
+		router.attach("/add/resources/{resName}", AddResource.class);
 		router.attach("/delete/{dresName}/{delid}", ViewResource.class); //delete page URI
-		router.attach("/added/resources/{arName}", ViewResource.class);
 		router.attach("/edit/{aresName}/{mid}", ModifyResource.class);//edit page URI
 		router.attach("/edited/resources/{mresName}/{modid}", ViewResource.class);
 		router.attach("/showChildern/{cresName}", ViewResource.class);
 		router.attach("/showMTMChildern/{mcresName}", ViewResource.class);
-		router.attach("/mtmadd/{amtmresName}/{mtmid}/{mtmchild}", AddResource.class);
 		router.attach("/mtmadded/{mtmResName}/{mtmResId}/{mtmcresName}", ViewResource.class);
 		router.attach("/mtmdelete/{mtmResName}/{mtmResId}/{mtmcresName}/{mtmChId}", ViewResource.class);
 		
