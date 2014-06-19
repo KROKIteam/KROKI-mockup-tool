@@ -212,12 +212,12 @@ $(document).ready(function(e) {
 		//since the offsets stay the same during the dragging process
 	});
 
-	// mouseup on .formheaders - stop dragging forms
-	$("#container").on("mouseup", ".formHeaders", function() {
+	// mouseup  - stop dragging forms
+	$("html").mouseup(function() {
 		dragged = null;
 	});
 
-	$("#container").mousemove(function(e) {
+	$("html").mousemove(function(e) {
 		if(dragged != null) {
 			var ex = e.pageX;
 			var ey = e.pageY;
