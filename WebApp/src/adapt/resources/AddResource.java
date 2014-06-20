@@ -68,9 +68,9 @@ public class AddResource extends Resource {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleGet() {
-		System.out.println("[HANDLE GET]");
 		AdaptApplication application = (AdaptApplication) getApplication();
 		String resName = (String)getRequest().getAttributes().get("resName");
+		String modid	= (String)getRequest().getAttributes().get("modid");
 		if(resName != null) {//dodavanje
 			resource = application.getXMLResource(resName);
 			Form form = getRequest().getEntityAsForm();
@@ -80,25 +80,44 @@ public class AddResource extends Resource {
 				Object o = modify(values, null);
 				if(o != null) {
 					System.out.println("OK");
-					dataModel.put("css", "class=\"messageOk\"");
+					dataModel.put("css", "messageOk");
 					dataModel.put("message", "Row has been successfuly added to table \"" + resource.getLabel() + "\"");
 				}else {
 					System.out.println("ERROR");
-					dataModel.put("css", "class=\"messageError\"");
+					dataModel.put("css", "messageError");
 					dataModel.put("message", "Error occured while adding row to \"" + resource.getLabel() + "\". Please check your data.");
 				}
 			} catch (RightAlreadyDefinedException e) {
 			}
+		}else if (modid != null) {//izmena
+			String mresName = (String) getRequest().getAttributes().get("mresName");
+			resource = application.getXMLResource(mresName);
+			Form form = getRequest().getEntityAsForm();
+			ArrayList<Object> values = getFormData(form);
+			Long id = Long.parseLong(modid);
+			try {
+				Object o = modify(values, id);
+				if(o != null) {
+					System.out.println("OK");
+					dataModel.put("css", "messageOk");
+					dataModel.put("message", "Row has been successfuly modified");
+				}else {
+					System.out.println("ERROR");
+					dataModel.put("css", "messageError");
+					dataModel.put("message", "Error occured while row. Please check your data.");
+				}
+			} catch (RightAlreadyDefinedException e) {
+				e.printStackTrace();
+			}
 		}else {
-			dataModel.put("css", "class=\"messageError\"");
-			dataModel.put("message", "Error occured while adding row to \"" + resource.getLabel() + "\". Please check your data.");
+			dataModel.put("css", "messageError");
+			dataModel.put("message", "Error getting data from the server.");
 		}
 		super.handleGet();
 	}
 	
 	@Override
 	public void handlePost() {
-		System.out.println("[HANDLE POST]");
 		handleGet();
 	}
 	
@@ -237,7 +256,6 @@ public class AddResource extends Resource {
 
 		@Override
 		public Representation represent(Variant variant) throws ResourceException {
-			System.out.println("REPRESENT");
 			return getHTMLTemplateRepresentation("popupTemplate.html", getDataModel());
 		}
 		

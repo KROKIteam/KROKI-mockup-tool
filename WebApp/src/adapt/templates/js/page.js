@@ -10,7 +10,7 @@
 	https://github.com/KROKIteam
  *****************************************************************/
 $(document).ready(function(e) {
-	
+
 	//number of miliseconds that popup messages are being visible for
 	var delay = 2000;
 	//form (div.forms) that is currently being dragged
@@ -29,6 +29,8 @@ $(document).ready(function(e) {
 	$(".arrow-down").empty();
 	$(".arrow-right").empty();
 
+	//cache container div for later use
+	var container = $("#container");
 	/**************************************************************************************************************************
 													   															   MENU EFFECTS
 	 **************************************************************************************************************************/
@@ -126,76 +128,26 @@ $(document).ready(function(e) {
 				$(this).removeClass("hover");
 			});
 			var activateLink = $(this).attr("data-activate");
-			$.ajax({url: activateLink,
-				type: 'GET', 
-				success: function(data) {
-					makeNewForm(data);
-				},
-			    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-			        $("#messagePopup").html(errorThrown);
-			        $("#messagePopup").attr("class", "messageError");
-					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-			    }
-			});
+			makeNewForm(activateLink);
 		}
 	});
 
-	//FOCUS FORM ON CLICK
-	$("#container").on("click", ".forms", function() {
-		focus($(this));
-	});
-
 	//CLOSE FORM ON 'X' BUTTON CLICK
-	$("#container").on("click", ".headerButtons", function(e) {
+	container.on("click", ".headerButtons", function(e) {
 		e.stopPropagation();
 		$(this).parent().parent().remove();
 		delete $(this).parent().parent();
 	});
 
-	//FUNCTION THAT CREATES HTML FORMS
-	function makeNewForm(data) {
-		var newForm = $(document.createElement("div"));
-		newForm.addClass("forms");
-		newForm.html(data);
-		$("#container").append(newForm);
-
-		/*
-		 * If number of columns is more than 6, add 200 pixels for each
-		 */
-		var columns = newForm.find("th").length;
-		if(columns > 6) {
-			var newWidth = columns*200;
-			if(newWidth<$("#container").width()) {
-				newForm.width(newWidth);
-			}else {
-				newForm.width("98%");
-				newForm.css({
-				    "top": 60,
-				    "left": 20,
-				});
-			}
-		}
-
-		newForm.show();
-		focus(newForm);
-	}
-
-	// Form is focused by applying 'focused' css class
-	// which adds drop-shadow effect to it and puts the form in front of the others.
-	// Only one form can be focused at a time.
-	function focus(form) {
-		$(".forms").each(function(index, element) {
-			$(this).removeClass("focused");
-			$(this).addClass("unfocused");
-		});
-		form.removeClass("unfocused");
-		form.addClass("focused");
-	}
+	//FOCUS FORM ON CLICK
+	container.on("click", ".forms", function() {
+		focus($(this));
+	});
 
 	//DRAG FORMS WHEN DRAGGING HEADERS
 
 	// mousedown on .formheaders - make current form draggable
-	$("#container").on("mousedown", ".formHeaders", function(e) {
+	container.on("mousedown", ".formHeaders", function(e) {
 		dragged = $(this).parent();
 		focus(dragged);
 		//coordinates of a mouse
@@ -228,20 +180,96 @@ $(document).ready(function(e) {
 		}
 	});
 
+
+	//FUNCTION THAT CREATES HTML FORMS
+	function makeNewForm(activateLink) {
+		var newForm = $(document.createElement("div"));
+		newForm.addClass("forms");
+		newForm.attr("data-activate", activateLink);
+		loadDataToForm(newForm);
+		container.append(newForm);
+
+		/*
+		 * If number of columns is more than 6, add 200 pixels for each
+		 */
+		var columns = newForm.find("th").length;
+		if(columns > 6) {
+			var newWidth = columns*200;
+			if(newWidth<$("#container").width()) {
+				newForm.width(newWidth);
+			}else {
+				newForm.width("98%");
+				newForm.css({
+					"top": 60,
+					"left": 20,
+				});
+			}
+		}
+
+		newForm.show();
+		focus(newForm);
+	}
 	/**************************************************************************************************************************
 													   															 TABLE EFFECTS
 	 **************************************************************************************************************************/
 
 	// SELECT TABLE ROWS ON MOUSE CLICK
 	// Only one row can be selected at a time
-	$("#container").on("click", ".mainTable tbody tr", function() {
+	container.on("click", ".mainTable tbody tr", function() {
 		$(this).parent().find("tr").removeClass("selectedTr");
 		$(this).addClass("selectedTr");
 	});
 
+	//"SWITCH VIEW" BUTTON:
+	// - Shows forms for adding new and editing existent rows in table
+	container.on("click", "#btnSwitch", function(e) {
+		var tableDiv = $(this).closest("div.tableDiv");
+		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
+		var formBody = $(this).closest(".formBody");
+		var form = $(this).closest("div.forms");
+
+		//if a row is selected, edit form needs to be displayed,
+		//otherwise, an empty form for adding is shown
+		if(selectedRow.length > 0) {
+			var id = selectedRow.find("#idCell").text();
+			var activateLinkSplit = form.attr("data-activate").split("/");
+			var resName = activateLinkSplit[activateLinkSplit.length-1];
+			//since edit form is fetched from server on each click, remove previous one
+			formBody.remove(".inputForm[name=editForm]");
+			$.ajax({
+				url: "/edit/" + resName + "/" + id,
+				type: 'GET', 
+				success: function(data) {
+					formBody.append(data);
+					form.find(".nextPopup").hide();
+					formBody.fadeOut("slow", function(e) {
+						formBody.find(".tableDiv").hide();
+						formBody.find(".operationsDiv").hide();
+						formBody.find(".inputForm[name=editForm]").show();
+						formBody.fadeIn("slow");
+					});
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) { 
+					$("#messagePopup").html("<p>" + errorThrown + "</p>");
+					$("#messagePopup").attr("class", "messageError");
+					$("#messagePopup").prepend("<div></div>");
+					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+				}
+			});
+		}else {
+			form.find(".nextPopup").hide();
+			formBody.fadeOut("slow", function(e) {
+				formBody.find(".tableDiv").hide();
+				formBody.find(".operationsDiv").hide();
+				formBody.find(".inputForm[name=addForm]").show();
+				formBody.fadeIn("slow");
+			});
+		}
+	});
+
 	// FIRST, LAST, PREVIOUS AND NEXT BUTTONS IMPLEMENTATIONS
 
-	$("#container").on("click", "#btnFirst", function(e) {
+	container.on("click", "#btnFirst", function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var firstTR = tableDiv.find(".mainTable tbody tr:first-child");
 		tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
@@ -251,7 +279,7 @@ $(document).ready(function(e) {
 		tableDiv.find(".tablePanel").scrollTop(0);
 	});
 
-	$("#container").on("click", "#btnPrev", function(e) {
+	container.on("click", "#btnPrev", function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var tablePanel = tableDiv.find(".tablePanel");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
@@ -269,7 +297,7 @@ $(document).ready(function(e) {
 		}
 	});
 
-	$("#container").on("click", "#btnNext", function(e) {
+	container.on("click", "#btnNext", function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var tablePanel = tableDiv.find(".tablePanel");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
@@ -286,7 +314,7 @@ $(document).ready(function(e) {
 		}
 	});
 
-	$("#container").on("click", "#btnLast", function(e) {
+	container.on("click", "#btnLast", function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var lastTR = tableDiv.find(".mainTable tbody tr:last-child");
 		tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
@@ -298,9 +326,11 @@ $(document).ready(function(e) {
 	});
 
 	/* SHOW NEXT POPUP BUTTON CLICK */
-	$("#container").on("click", "#btnNextForms", function(e) {
+	container.on("click", "#btnNextForms", function(e) {
 		var form = $(this).closest("div.forms");
 		var popup = form.find(".nextPopup");
+		var tableDiv = $(this).closest("div.tableDiv");
+		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 		popup.css({
 			'position': 'absolute',
 			'left': $(this).position().left,
@@ -309,33 +339,60 @@ $(document).ready(function(e) {
 		popup.fadeToggle();
 	});
 
-	/**************************************************************************************************************************
-													   														INPUT PANEL EFFECTS
-	 **************************************************************************************************************************/
-	$("#container").on("click", "#btnSwitch", function(e) {
+	container.on("click", ".nextList li", function(e) {
+		var form = $(this).closest("div.forms");
+		var tableDiv = form.find("div.tableDiv");
+		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
+		
+		if(selectedRow.length > 0) {
+			var id = selectedRow.find("#idCell").text();
+			var activateLinkSplit = form.attr("data-activate").split("/");
+			var cresName = $(this).attr("data-childid");
+			var activateLinkSplit = form.attr("data-activate").split("/");
+			var presName = activateLinkSplit[activateLinkSplit.length-1];
+			
+			alert("/showChildren/" + cresName + "/" + presName + "/" + id);
+		}
+	});
+	
+	container.on("click", "#btnRefresh", function(e) {
+		var form = $(this).closest("div.forms");
+		refreshFormData(form);
+	});
+
+	container.on("click", "#btnAdd", function(e) {
+		var tableDiv = $(this).closest("div.tableDiv");
+		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 		var formBody = $(this).closest(".formBody");
 		var form = $(this).closest("div.forms");
+
 		form.find(".nextPopup").hide();
 		formBody.fadeOut("slow", function(e) {
 			formBody.find(".tableDiv").hide();
 			formBody.find(".operationsDiv").hide();
-			formBody.find(".inputForm").show();
+			formBody.find(".inputForm[name=addForm]").show();
 			formBody.fadeIn("slow");
 		});
 	});
 
-	$("#container").on("click", "#button-cancel", function(e) {
+	/**************************************************************************************************************************
+													   														INPUT PANEL EFFECTS
+	 **************************************************************************************************************************/
+	container.on("click", "#button-cancel", function(e) {
 		e.preventDefault();
+		var form = $(this).closest("div.forms");
 		var formBody = $(this).closest(".formBody");
 		formBody.fadeOut("slow", function(e) {
+			refreshFormData(form);
 			formBody.find(".tableDiv").show();
 			formBody.find(".operationsDiv").show();
 			formBody.find(".inputForm").hide();
 			formBody.fadeIn("slow");
 		});
+		form.trigger("reset");
 	});
 
-	$("#container").on("click", "#button-ok", function(e) {
+	container.on("click", "#button-ok", function(e) {
 		e.preventDefault();
 		var form = $(this).closest(".inputForm");
 		var act = form.attr('action');
@@ -346,15 +403,65 @@ $(document).ready(function(e) {
 			data: form.serialize(),
 			success: function (data) {
 				$("#messagePopup").html(data);
-				var clas = $("#messagePopup").find("p").attr("class");
+				var clas = $("#messagePopup").find("p").attr("data-cssClass");
 				$("#messagePopup").attr("class", clas);
+				$("#messagePopup").prepend("<div></div>");
 				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+				if(clas == "messageOk") {
+					if(form.attr("name") == "addForm") {
+						form.trigger("reset");
+					}
+				}
 			},
-		    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-		        $("#messagePopup").html(errorThrown);
+			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				$("#messagePopup").html("<p>" + errorThrown + "</p>");
 				$("#messagePopup").attr("class", "messageError");
+				$("#messagePopup").prepend("<div></div>");
 				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-		    }
+			}
 		});
 	});
 });
+//---------------------------------------------------------------------//           UTIL FUNCTIONS
+
+/*
+ * Fetches the data from server to form element
+ * */
+function loadDataToForm(form) {
+	var activateLink = form.attr("data-activate");
+	$.ajax({
+		url: activateLink,
+		type: 'GET', 
+		success: function(data) {
+			form.html(data);
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			$("#messagePopup").html("<p>" + errorThrown + "</p>");
+			$("#messagePopup").attr("class", "messageError");
+			$("#messagePopup").prepend("<div></div>");
+			$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+		}
+	});
+}
+
+//Form is focused by applying 'focused' css class
+//which adds drop-shadow effect to it and puts the form in front of the others.
+//Only one form can be focused at a time.
+function focus(form) {
+	$(".forms").each(function(index, element) {
+		$(this).removeClass("focused");
+		$(this).addClass("unfocused");
+	});
+	form.removeClass("unfocused");
+	form.addClass("focused");
+}
+
+/*
+ * Refresh form data from database
+ */
+function refreshFormData(form) {
+	form.find(".formBody").fadeOut("fast", function() {
+		loadDataToForm(form);
+		$(this).fadeIn("fast");
+	});
+}

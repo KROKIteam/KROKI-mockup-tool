@@ -9,8 +9,22 @@
 					   Novi Sad, Serbia
 	
 	https://github.com/KROKIteam
-*****************************************************************/
-
+******************************************************************
+Theme colors:
+		BLUE:	#346789	-- dark
+				#415b76	-- light
+		GREEN:	#16a085	-- dark
+				#48c9b0	-- light
+		RED:	#e74c3c
+		GREY:	#f3f4f5
+		
+Z-indexes:
+		Forms unfocused:	1;
+		Forms focused:		100;
+		Next popup menu:	100;		
+		Main navigation:	1000;
+		Message popup:		1001;
+******************************************************************/
 /*****************************************************************
 												INITAL FORMATTING
 *****************************************************************/
@@ -45,6 +59,7 @@ nav {
 	height: 38px;
 	background-color: #f3f4f5;
 	display: none;
+	z-index: 1000;
 }
 
 #mainMenu {
@@ -57,7 +72,6 @@ nav {
 	-o-user-select: none;
 	user-select: none;
 	position: absolute;
-	z-index: 1000;
 	display: none;
 }
 
@@ -230,6 +244,7 @@ ul.L2SubMenu {
 	box-shadow:         0px -2px 5px 0px rgba(50, 50, 50, 0.75);
 	font-size: 1.3em;
 	display: none;
+	z-index: 1001;
 }
 
 #messagePopup.messageOk {
@@ -238,6 +253,25 @@ ul.L2SubMenu {
 
 #messagePopup.messageError {
 	background-color: #e74c3c;
+}
+
+#messagePopup p {
+	padding-top: 6px;	
+}
+
+#messagePopup div {
+	width: 35px;
+	height: 35px;
+	float: left;
+	margin-right: 10px;
+}
+
+#messagePopup.messageOk div {
+	background: url("/files/images/icons/success.png") no-repeat center center;
+}
+
+#messagePopup.messageError div {
+	background: url("/files/images/icons/warning.png") no-repeat center center;
 }
 /*****************************************************************
 												 FORMS FORMATTING
@@ -251,7 +285,7 @@ ul.L2SubMenu {
 	left: 200px;
 	background-color: #ECF0F1;
 	border-radius: 5px;
-	z-index: -1;
+	z-index: 1;
 	display: none;
 }
 

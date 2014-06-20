@@ -143,7 +143,6 @@ public class ModifyResource extends BaseResource {
 				dataModel.put("attributeValues", attributeValues);
 				dataModel.put("childFormMap", childFormMap);
 				dataModel.put("modid", creator.getEntityPropertyValue(entity, "id"));
-				
 			}
 			em.close();
 		}
@@ -161,6 +160,6 @@ public class ModifyResource extends BaseResource {
 		EntityManager em = app.getEmf().createEntityManager();
 		prepareContent(dataModel, em);
 		dataModel.put("title", Settings.APP_TITLE);
-		return getHTMLTemplateRepresentation("modifyTemplate.html", dataModel);
+		return getHTMLTemplateRepresentation("editFormTemplate.html", dataModel);
 	}
 }
