@@ -26,6 +26,7 @@ import adapt.entities.Action;
 import adapt.entities.Resource;
 import adapt.entities.User;
 import adapt.entities.UserRights;
+import adapt.resources.DeleteResource;
 import adapt.resources.HomeResource;
 import adapt.resources.IndexResource;
 import adapt.resources.ModifyResource;
@@ -118,7 +119,7 @@ public class AdaptApplication extends Application {
 		router.attach("/profilIzmena", ProfilIzmenaResource.class);
 		router.attach("/resources/{resName}", ViewResource.class);
 		router.attach("/add/resources/{resName}", AddResource.class);
-		router.attach("/delete/{dresName}/{delid}", ViewResource.class); //delete page URI
+		router.attach("/delete/{dresName}/{delid}", DeleteResource.class); //delete page URI
 		router.attach("/edit/{aresName}/{mid}", ModifyResource.class);   //edit page URI - this goes to ModifyResource which just prepares modify form form given resouce
 		router.attach("/edited/resources/{mresName}/{modid}", AddResource.class); //Add resource does the actual modifiy action
 		router.attach("/showChildren/{cresName}/{presName}/{cid}", ViewResource.class);

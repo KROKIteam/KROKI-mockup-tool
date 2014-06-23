@@ -24,6 +24,22 @@
     	<div id="messagePopup">
 		</div>
     	<!--container-->
+    	<div id="overlay">
+		<div id="confirmDialog">
+			<div class="windowHeaders">
+				<div class="windowName">Confirm delete</div>
+				<div id="closeConfirm" class="headerButtons" title="Close form">
+					<img src="/files/images/icons/close.png">
+				</div>
+			</div>
+			<div class="windowBody">
+				<p>Are you sure you wish to delete the selected row?</p>
+				<button class="buttons-blue" id="cconfirmBtn">Confirm</button>
+				<button class="buttons-blue" id="cancelConfirm">Cancel</button>
+			</div>
+		</div>
+	</div>
+	<!-- overlay -->
 	<#else>
 			<p style="color:red"> You are not logged in! </p>
 		</#if>

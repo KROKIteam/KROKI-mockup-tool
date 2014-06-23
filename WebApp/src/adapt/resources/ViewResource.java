@@ -91,12 +91,6 @@ public class ViewResource extends Resource {
 			if(resName != null) {
 				resource = application.getXMLResource(resName);
 			}
-			if (delid != null) {//brisanje
-				String dresName	= (String)getRequest().getAttributes().get("dresName");
-				resource = application.getXMLResource(dresName);
-				Long delIdLong = Long.parseLong(delid);
-				remove(dresName, delIdLong);
-			}
 			/*if (modid != null) {//izmena
 				System.out.println("[VIEW RESOURCE] handleGet");
 				String mresName = (String) getRequest().getAttributes().get("mresName");
@@ -553,23 +547,6 @@ public class ViewResource extends Resource {
 			}
 		}
 		return values;
-	}
-	
-//------------------------------------BRISANJE------------------------------
-
-	public void remove(String table, Long id) {
-		AdaptApplication application = (AdaptApplication) getApplication();
-		EntityManager em = application.getEmf().createEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		String q = "FROM " + table + " t WHERE t.id=:did";
-		Object o = em.createQuery(q).setParameter("did", id).getSingleResult();
-		em.remove(o);
-		try {
-			t.commit();
-		} catch (Exception e1) {
-			dataModel.put("msg", "Unable to delete entity. Delete child entries first!");
-		}
 	}
 	
 	

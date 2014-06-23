@@ -273,49 +273,22 @@ ul.L2SubMenu {
 #messagePopup.messageError div {
 	background: url("/files/images/icons/warning.png") no-repeat center center;
 }
-/*****************************************************************
-												 FORMS FORMATTING
-*****************************************************************/
-.forms {
-	margin: 0 auto;
-	width: 950px;
-	max-height: 500px;
-	position: absolute;
-	top: 50px;
-	left: 200px;
-	background-color: #ECF0F1;
-	border-radius: 5px;
-	z-index: 1;
-	display: none;
-}
 
-.focused {
-	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
-	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
-	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
-	z-index: 100;
-}
-
-.unfocused {
-	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-	z-index: 1;
-}
-
-.formHeaders {
+/*common formatting for forms and other windows
+*/
+.windowHeaders  {
 	background-color: #346789;
 	color: #ECF0F1;
 	border-radius: 5px 5px 0 0;
 	width: 100%;
-	height: 35px;
+	height: 32px;
 	cursor: move;
 	-webkit-user-select: none;        
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
 
-.formName {
+.windowName {
 	width: 80%;
 	height: 100%;
 	float: left;
@@ -340,11 +313,41 @@ ul.L2SubMenu {
 	height: 100%;
 }
 
-.formBody {
-	width: 98%;
-	height: 440px;
+.windowBody {
+	width: 94%;
+	height: 65%;
 	clear: both;
+	text-align: center;
 	padding: 10px;
+}
+/*****************************************************************
+												 FORMS FORMATTING
+*****************************************************************/
+.forms {
+	margin: 0 auto;
+	width: 950px;
+	height: 500px;
+	position: absolute;
+	top: 50px;
+	left: 200px;
+	background-color: #ECF0F1;
+	border-radius: 5px;
+	z-index: 1;
+	display: none;
+}
+
+.focused {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	z-index: 100;
+}
+
+.unfocused {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	z-index: 1;
 }
 
 .tableDiv {
@@ -532,4 +535,59 @@ textarea {
 .nextList li:hover {
 	background-color: #16a085;
 	color: #f3f4f5;
+}
+
+/*****************************************************************
+										OVERLAY AND CONFIRM DIALOG
+******************************************************************
+Overlay is used to dim background components when confirm dialog 
+is shown and to stop click propagation, making the dialog modal
+*/
+
+#overlay {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 1003;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	display: none;
+}
+
+#confirmDialog {
+	width: 300px;
+	height: 160px;
+	margin: 15% auto;
+	background-color: #ECF0F1;
+	color: #346789;
+	border-radius: 5px 5px 0 0;
+}
+
+#confirmDialog .windowHeaders {
+	cursor: default;
+}
+
+#confirmDialog .windowBody {
+	padding: 5px;
+	text-align: center;
+}
+
+#confirmDialog .windowBody button.buttons-blue {
+	width: 40%;
+	margin: 5px;
+}
+
+#confirmDialog #cancelConfirm:hover {
+	background-color: #e74c3c;
+}
+
+#confirmDialog .windowBody p {
+	margin-top: 10px;
+	height: 65%;
 }

@@ -31,6 +31,9 @@ $(document).ready(function(e) {
 
 	//cache container div for later use
 	var container = $("#container");
+	
+	//if the confirm dialog is shown, remember which form to refresh after hiding the overlay
+	var formToRefresh;
 	/**************************************************************************************************************************
 													   															   MENU EFFECTS
 	 **************************************************************************************************************************/
@@ -147,7 +150,7 @@ $(document).ready(function(e) {
 	//DRAG FORMS WHEN DRAGGING HEADERS
 
 	// mousedown on .formheaders - make current form draggable
-	container.on("mousedown", ".formHeaders", function(e) {
+	container.on("mousedown", ".windowHeaders", function(e) {
 		dragged = $(this).parent();
 		focus(dragged);
 		//coordinates of a mouse
@@ -225,7 +228,7 @@ $(document).ready(function(e) {
 	container.on("click", "#btnSwitch", function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
-		var formBody = $(this).closest(".formBody");
+		var formBody = $(this).closest(".windowBody");
 		var form = $(this).closest("div.forms");
 
 		//if a row is selected, edit form needs to be displayed,
@@ -363,7 +366,7 @@ $(document).ready(function(e) {
 	container.on("click", "#btnAdd", function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
-		var formBody = $(this).closest(".formBody");
+		var formBody = $(this).closest(".windowBody");
 		var form = $(this).closest("div.forms");
 
 		form.find(".nextPopup").hide();
@@ -375,13 +378,58 @@ $(document).ready(function(e) {
 		});
 	});
 
+	container.on("click", "#btnDelete", function(e) {
+		var form = $(this).closest("div.forms");
+		var tableDiv = form.find("div.tableDiv");
+		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
+		
+		if(selectedRow.length > 0) {
+			var id = selectedRow.find("#idCell").text();
+			var activateLinkSplit = form.attr("data-activate").split("/");
+			var activateLinkSplit = form.attr("data-activate").split("/");
+			var presName = activateLinkSplit[activateLinkSplit.length-1];
+			
+			$("#confirmDialog").attr("data-confirmLink", "/delete/" + presName + "/" + id);
+			formToRefresh = form;
+			$("#overlay").show();
+		}
+	});
+	
+	$("#cancelConfirm").click(function(e) {
+		$("#overlay").hide();
+	});
+	
+	$("#cconfirmBtn").click(function(e) {
+		$("#overlay").hide();
+		var link = $(this).closest("#confirmDialog").attr("data-confirmLink");
+		
+		$.ajax({
+			url: link,
+			type: 'GET', 
+			success: function(data) {
+				$("#messagePopup").html(data);
+				var clas = $("#messagePopup").find("p").attr("data-cssClass");
+				$("#messagePopup").attr("class", clas);
+				$("#messagePopup").prepend("<div></div>");
+				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+				refreshFormData(formToRefresh);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				$("#messagePopup").html("<p>" + errorThrown + "</p>");
+				$("#messagePopup").attr("class", "messageError");
+				$("#messagePopup").prepend("<div></div>");
+				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+			}
+		});
+	});
+	
 	/**************************************************************************************************************************
 													   														INPUT PANEL EFFECTS
 	 **************************************************************************************************************************/
 	container.on("click", "#button-cancel", function(e) {
 		e.preventDefault();
 		var form = $(this).closest("div.forms");
-		var formBody = $(this).closest(".formBody");
+		var formBody = $(this).closest(".windowBody");
 		formBody.fadeOut("slow", function(e) {
 			refreshFormData(form);
 			formBody.find(".tableDiv").show();
@@ -460,7 +508,7 @@ function focus(form) {
  * Refresh form data from database
  */
 function refreshFormData(form) {
-	form.find(".formBody").fadeOut("fast", function() {
+	form.find(".windowBody").fadeOut("fast", function() {
 		loadDataToForm(form);
 		$(this).fadeIn("fast");
 	});
