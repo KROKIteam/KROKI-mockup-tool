@@ -25,7 +25,6 @@ public class NamingUtil {
 			s = s.replace('Š', 's');
 			s = s.replaceAll("đ", "dj");
 			s = s.replaceAll("Đ", "dj");
-			
 		    
 			String sb = toCamelCaseIE(s, cap);
 		    if(cap) {

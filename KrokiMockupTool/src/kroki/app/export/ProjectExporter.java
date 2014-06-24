@@ -292,7 +292,7 @@ public class ProjectExporter {
 		}
 
 		ArrayList<String> anotations = new ArrayList<String>();
-		String name = cc.toCamelCase(vp.getLabel(), true);
+		String name = cc.toCamelCase(vp.name(), true);
 		String label = vp.getLabel();
 		String columnLabel = vp.getColumnLabel();
 

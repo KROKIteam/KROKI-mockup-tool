@@ -80,164 +80,45 @@ public class ViewResource extends Resource {
 	public void handleGet() {
 		AdaptApplication application = (AdaptApplication) getApplication();
 			String resName	= (String)getRequest().getAttributes().get("resName");
-			String delid	= (String)getRequest().getAttributes().get("delid");
-			String modid	= (String)getRequest().getAttributes().get("modid");
 			String cresName = (String)getRequest().getAttributes().get("cresName");
-			String mcresName = (String)getRequest().getAttributes().get("mcresName");
-			String mtmResName = (String)getRequest().getAttributes().get("mtmResName");
-			
 			creator = new EntityCreator(application);
+			String query = "";
+			String windowName = "";
 			
 			if(resName != null) {
 				resource = application.getXMLResource(resName);
+				query = "FROM " + resource.getName(); 
+				windowName = resource.getLabel();
 			}
-			/*if (modid != null) {//izmena
-				System.out.println("[VIEW RESOURCE] handleGet");
-				String mresName = (String) getRequest().getAttributes().get("mresName");
-				resource = application.getXMLResource(mresName);
-				Form form = getRequest().getEntityAsForm();
-				ArrayList<Object> values = getFormData(form);
-				Long id = Long.parseLong(modid);
-				try {
-					modify(values, id);
-				} catch (RightAlreadyDefinedException e) {
-					e.printStackTrace();
-				}
-			}*/
-			
+
 			if(cresName != null) {//child forma
+				String presName = (String)getRequest().getAttributes().get("presName");
+				String cid = (String)getRequest().getAttributes().get("cid");
 				resource = application.getXMLResource(cresName);
-				Form form = getRequest().getEntityAsForm();
-				String child = form.getFirstValue("childern");
-				String id = form.getFirstValue("selectChild");
-				prepareChildern(application, cresName, id, child);
-			}
-			if(mcresName != null) {//many-to-many forma
-				resource = application.getXMLResource(mcresName);
-				Form form = getRequest().getEntityAsForm();
-				String child = form.getFirstValue("MTMchildern");
-				String id = form.getFirstValue("selectMTMChild");
-				prepareMTMChildern(application, mcresName, id, child);
-				dataModel.put("id", id);
-				dataModel.put("childname", child);
-			}
-			if(mtmResName != null) {
-				String reff = getRequest().getResourceRef().toString();
-				if(reff.contains("dod")) {//many-to-many dodavanje
-					String mtmcresName = (String)getRequest().getAttributes().get("mtmcresName");
-					Form form = getRequest().getEntityAsForm();
-					//id entiteta koji je izabran iz combo-boxa
-					String sid = "mtmSelect" + mtmcresName;
-					String cid = form.getFirstValue(sid);
-					//id entiteta u koji se dodaje, prosledjuje se u zahtevu
-					String mtmResId = (String)getRequest().getAttributes().get("mtmResId");
-					
-					XMLResource resXML = application.getXMLResource(mtmResName);
-					XMLResource childXML = application.getXMLResource(mtmcresName);
-					if(resXML != null && childXML != null) {
-						resource = resXML;
-						try {
-							Class recClass = Class.forName("adapt.entities." + resXML.getName());
-							Class childClass = Class.forName("adapt.entities." + childXML.getName());
-							Long cidl = Long.parseLong(cid);
-							Long resIdl = Long.parseLong(mtmResId);
-							EntityManager em = application.getEmf().createEntityManager();
-							EntityTransaction tx = em.getTransaction();
-							tx.begin();
-							//nadjemo entitet koji se dodaje
-							Object childObj = em.find(childClass, cidl);
-							//i entitet u koji se dodaje
-							Object resObj = em.find(recClass, resIdl);
-							if(childObj != null && resObj != null) {
-								String mtmatt = "";
-								XMLManyToManyAttribute mattr = null;
-								//nadjemo naziv mtm atributa
-								for(int i=0; i<resXML.getManyToManyAttributes().size(); i++) {
-									XMLManyToManyAttribute mtmattr = resXML.getManyToManyAttributes().get(i);
-									if(mtmattr.getType().equals(childXML.getName())) {
-										mattr = mtmattr;
-									}
-								}
-								//pozovemo add metodu
-								String addName = "add" + Character.toUpperCase(mattr.getType().charAt(0)) + mattr.getType().substring(1);
-								Method add = recClass.getDeclaredMethod(addName, childObj.getClass());
-								add.invoke(resObj, childObj);
-							}
-							em.flush();
-							tx.commit();
-							em.close();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						} catch (SecurityException e) {
-							e.printStackTrace();
-						} catch (NoSuchMethodException e) {
-							e.printStackTrace();
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							e.printStackTrace();
-						}
-					}
-				}else { //many-to-many brisanje
-					String mtmResId = (String)getRequest().getAttributes().get("mtmResId");
-					String mtmcresName = (String)getRequest().getAttributes().get("mtmcresName");
-					String mtmChId = (String)getRequest().getAttributes().get("mtmChId");
-					
-					XMLResource resXML = application.getXMLResource(mtmResName);
-					XMLResource childXML = application.getXMLResource(mtmcresName);
-					if(resXML != null && childXML != null) {
-						resource = resXML;
-						try {
-							Class recClass = Class.forName("adapt.entities." + resXML.getName());
-							Class childClass = Class.forName("adapt.entities." + childXML.getName());
-							Long cidl = Long.parseLong(mtmChId);
-							Long resIdl = Long.parseLong(mtmResId);
-							EntityManager em = application.getEmf().createEntityManager();
-							EntityTransaction tx = em.getTransaction();
-							tx.begin();
-							Object childObj = em.find(childClass, cidl);
-							Object resObj = em.find(recClass, resIdl);
-							if(childObj != null && resObj != null) {
-								String mtmatt = "";
-								XMLManyToManyAttribute mattr = null;
-								for(int i=0; i<resXML.getManyToManyAttributes().size(); i++) {
-									XMLManyToManyAttribute mtmattr = resXML.getManyToManyAttributes().get(i);
-									if(mtmattr.getType().equals(childXML.getName())) {
-										mattr = mtmattr;
-									}
-								}
-								
-								String remName = "remove" + Character.toUpperCase(mattr.getType().charAt(0)) + mattr.getType().substring(1);
-								Method rem = recClass.getDeclaredMethod(remName, childObj.getClass());
-								rem.invoke(resObj, childObj);
-							}
-							em.flush();
-							tx.commit();
-							em.close();
-						} catch (ClassNotFoundException e) {
-							e.printStackTrace();
-						} catch (SecurityException e) {
-							e.printStackTrace();
-						} catch (NoSuchMethodException e) {
-							e.printStackTrace();
-						} catch (IllegalArgumentException e) {
-							e.printStackTrace();
-						} catch (IllegalAccessException e) {
-							e.printStackTrace();
-						} catch (InvocationTargetException e) {
-							e.printStackTrace();
+				XMLResource parentResource = application.getXMLResource(presName);
+				if(parentResource != null) {
+					System.out.println("[PAREN] " + parentResource.getLabel());
+				}else {
+					System.out.println("[PARENT] null");
+				}
+				
+				if(resource != null) {
+					for (XMLManyToOneAttribute mattr : resource.getManyToOneAttributes()) {
+						if(mattr.getType().equals(presName)) {
+							query = "FROM " + resource.getName() + " o WHERE o." + mattr.getName() + ".id = " + cid;
+							windowName = resource.getLabel() + " from " + parentResource.getLabel();
+							dataModel.put("windowName", windowName);
 						}
 					}
 				}
 			}
-			prepareContent();
+			prepareContent(query);
 		super.handleGet();
 	}
 
 	@SuppressWarnings("unchecked")
-	public void prepareContent() {
+	public void prepareContent(String query) {
+		System.out.println("[PREPARE CONTENT] query = " + query);
 		AdaptApplication application = (AdaptApplication) getApplication();
 		EntityManager em =application.getEmf().createEntityManager();
 		if (resource != null) {
@@ -260,7 +141,7 @@ public class ViewResource extends Resource {
 			EntityTransaction tx = em.getTransaction();
 			tx.begin();
 			//iz baze se ucitaju svi entiteti koji pripadaju trezenom resursu
-			Query q = em.createQuery("FROM " + resource.getName());
+			Query q = em.createQuery(query);
 			ArrayList<Object> ress = (ArrayList<Object>) q.getResultList();
 			tx.commit();
 			em.close();
@@ -374,182 +255,11 @@ public class ViewResource extends Resource {
 		dataModel.put("childFormMap", childFormMap);
 	}
 	
-	public void prepareChildern(AdaptApplication application, String cresName, String id, String child) {
-		EntityManager em = application.getEmf().createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		childResource = application.getXMLResource(child);
-		if(childResource != null) {
-			for(int i=0; i<childResource.getManyToOneAttributes().size(); i++) {
-				XMLManyToOneAttribute mattr = childResource.getManyToOneAttributes().get(i);
-				XMLResource childRes = application.getXMLResource(mattr.getType());
-				if(mattr.getType().equals(resource.getName())) {
-					String q = "FROM " + child + " o WHERE o." + mattr.getName() + ".id = " + id;
-					Query query = em.createQuery(q);
-					ArrayList<Object> objs = (ArrayList<Object>) query.getResultList();
-					try {
-						ArrayList<EntityClass> childEntities = creator.getEntities(objs);
-						dataModel.put("childEntities", childEntities);
-					} catch (NoSuchFieldException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			for(int k=0;k<resource.getManyToManyAttributes().size();k++) {
-				XMLManyToManyAttribute mtmattr = resource.getManyToManyAttributes().get(k);
-				if(mtmattr.getType().equals(child)) {
-					System.out.println("mtm atribut: " + mtmattr.getName());
-					Class rClass;
-					try {
-						rClass = Class.forName("adapt.entities." + resource.getName());
-						System.out.println("klasa: " + rClass.getSimpleName());
-						Object rObj = em.find(rClass, Long.parseLong(id));
-						String getName = "get" + Character.toUpperCase(mtmattr.getName().charAt(0)) + mtmattr.getName().substring(1);
-						System.out.println("metoda: " + getName);
-						Method get = rClass.getDeclaredMethod(getName);
-						get.setAccessible(true);
-						ArrayList<Object> objs =  new ArrayList<Object>((Collection<Object>) get.invoke(rObj));
-						System.out.println("objekata: " + objs.size());
-						try {
-							ArrayList<EntityClass> childEntities = creator.getEntities(objs);
-							dataModel.put("childEntities", childEntities);
-						} catch (NoSuchFieldException e) {
-//							try {
-//								ArrayList<EntityClass> childEntities = EntityCreator.getEntities(objs, "id");
-//								dataModel.put("childEntities", childEntities);
-//							} catch (NoSuchFieldException e1) {
-//								e1.printStackTrace();
-//							}
-							e.printStackTrace();
-						}
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					} catch (NoSuchMethodException e) {
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			ArrayList<String> childFormHeaders = new ArrayList<String>();
-			//childFormHeaders.add("ID");
-			for(int j=0; j<childResource.getAttributes().size(); j++) {
-				XMLAttribute attr = childResource.getAttributes().get(j);
-				childFormHeaders.add(attr.getLabel());
-			}
-			for(int k=0; k<childResource.getManyToOneAttributes().size(); k++) {
-				XMLManyToOneAttribute mattr = childResource.getManyToOneAttributes().get(k);
-				childFormHeaders.add(mattr.getLabel());
-			}
-			dataModel.put("childFormHeaders", childFormHeaders);
-			dataModel.put("childResource", childResource);
-		}
-	}
-	
-	public void prepareMTMChildern(AdaptApplication application, String mcresName, String id, String child) {
-		EntityManager em = application.getEmf().createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		tx.begin();
-		String mtmattrName = "";
-		childResource = application.getXMLResource(child);
-		if(childResource != null) {
-			for(int i=0; i<resource.getManyToManyAttributes().size(); i++) {
-				XMLManyToManyAttribute mtmattr = resource.getManyToManyAttributes().get(i);
-				if(mtmattr.getType().equals(childResource.getName())) {
-					mtmattrName = mtmattr.getName();
-				}
-			}
-			try {
-				Class rClass = Class.forName("adapt.entities." + resource.getName());
-				Object rObj = em.find(rClass, Long.parseLong(id));
-				String getName = "get" + Character.toUpperCase(mtmattrName.charAt(0)) + mtmattrName.substring(1);
-				Method get = rClass.getDeclaredMethod(getName);
-				get.setAccessible(true);
-				ArrayList<Object> objs =  new ArrayList<Object>((Collection<Object>) get.invoke(rObj));
-				ArrayList<EntityClass> ents = creator.getEntities(objs);
-				dataModel.put("mtmchildEntities", ents);
-				ArrayList<String> childFormHeaders = new ArrayList<String>();
-				childFormHeaders.add("ID");
-				for(int j=0; j<childResource.getAttributes().size(); j++) {
-					XMLAttribute attr = childResource.getAttributes().get(j);
-					childFormHeaders.add(attr.getLabel());
-				}
-				for(int k=0; k<childResource.getManyToOneAttributes().size(); k++) {
-					XMLManyToOneAttribute mattr = childResource.getManyToOneAttributes().get(k);
-					childFormHeaders.add(mattr.getLabel());
-				}
-				dataModel.put("mtmheaders", childFormHeaders);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	@Override
 	public void handlePost() {
 		handleGet();
 	}
 
-//---------------------------------------CITANJE FORME-----------------------------------------------
-	public ArrayList<Object> getFormData(Form form) {
-		ArrayList<Object> values = new ArrayList<Object>();
-		AdaptApplication application = (AdaptApplication) getApplication();
-		
-		Map<String, String> vals = form.getValuesMap();
-		Iterator i = vals.entrySet().iterator();
-		while(i.hasNext()) {
-			Map.Entry pairs = (Map.Entry)i.next();
-			if(!pairs.getKey().toString().equals("submit")) {
-				//atributi
-				if(pairs.getKey().toString().startsWith("attr")) {
-					if(pairs.getKey().toString().startsWith("attrSelectBool")) { //ako ima combobox, onda je boolean
-						Boolean b = Boolean.parseBoolean(pairs.getValue().toString());
-						values.add(b);
-					}else {
-						values.add(pairs.getValue().toString());
-					}
-				}else if(pairs.getKey().toString().startsWith("mattr")) { //manyToOne atributi
-					int ind = pairs.getKey().toString().length()-1;
-					System.out.println("pairs.getKey() = " + pairs.getKey().toString());
-					System.out.println("charAt(" + ind + ")");
-					String index = Character.toString( pairs.getKey().toString().charAt(ind));
-					System.out.println("index = " + index);
-					XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(Integer.parseInt(index));
-					EntityManager e = application.getEmf().createEntityManager();
-					EntityTransaction tx = e.getTransaction();
-					tx.begin();
-					String q = "FROM " + mattr.getType() + " o WHERE o.id=:oid";
-					Object o = null;
-					if(!pairs.getValue().toString().equals("null")) {
-						o = e.createQuery(q).setParameter("oid", Long.parseLong(pairs.getValue().toString())).getSingleResult();
-					}
-					tx.commit();
-					values.add(o);
-				}
-			}
-		}
-		return values;
-	}
-	
-	
 	public Map<String, Object> getDataModel() {
 		return dataModel;
 	}

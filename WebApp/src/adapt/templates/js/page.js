@@ -34,6 +34,7 @@ $(document).ready(function(e) {
 	
 	//if the confirm dialog is shown, remember which form to refresh after hiding the overlay
 	var formToRefresh;
+	
 	/**************************************************************************************************************************
 													   															   MENU EFFECTS
 	 **************************************************************************************************************************/
@@ -219,8 +220,13 @@ $(document).ready(function(e) {
 	// SELECT TABLE ROWS ON MOUSE CLICK
 	// Only one row can be selected at a time
 	container.on("click", ".mainTable tbody tr", function() {
+		var form = $(this).closest(".forms");
 		$(this).parent().find("tr").removeClass("selectedTr");
 		$(this).addClass("selectedTr");
+		form.find("#btnPrev").removeAttr("disabled");
+		form.find("#btnNext").removeAttr("disabled");
+		form.find("#btnDelete").removeAttr("disabled");
+		form.find("#btnNextForms").removeAttr("disabled");
 	});
 
 	//"SWITCH VIEW" BUTTON:
@@ -273,6 +279,7 @@ $(document).ready(function(e) {
 	// FIRST, LAST, PREVIOUS AND NEXT BUTTONS IMPLEMENTATIONS
 
 	container.on("click", "#btnFirst", function(e) {
+		var form = $(this).closest("div.forms");
 		var tableDiv = $(this).closest("div.tableDiv");
 		var firstTR = tableDiv.find(".mainTable tbody tr:first-child");
 		tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
@@ -280,6 +287,10 @@ $(document).ready(function(e) {
 		firstTR.addClass("selectedTr");
 		//scroll to top
 		tableDiv.find(".tablePanel").scrollTop(0);
+		form.find("#btnPrev").removeAttr("disabled");
+		form.find("#btnNext").removeAttr("disabled");
+		form.find("#btnDelete").removeAttr("disabled");
+		form.find("#btnNextForms").removeAttr("disabled");
 	});
 
 	container.on("click", "#btnPrev", function(e) {
@@ -318,6 +329,7 @@ $(document).ready(function(e) {
 	});
 
 	container.on("click", "#btnLast", function(e) {
+		var form = $(this).closest("div.forms");
 		var tableDiv = $(this).closest("div.tableDiv");
 		var lastTR = tableDiv.find(".mainTable tbody tr:last-child");
 		tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
@@ -326,6 +338,10 @@ $(document).ready(function(e) {
 		//scroll to bottom
 		var position = lastTR.position();
 		tableDiv.find(".tablePanel").scrollTop(position.top);
+		form.find("#btnPrev").removeAttr("disabled");
+		form.find("#btnNext").removeAttr("disabled");
+		form.find("#btnDelete").removeAttr("disabled");
+		form.find("#btnNextForms").removeAttr("disabled");
 	});
 
 	/* SHOW NEXT POPUP BUTTON CLICK */
@@ -351,10 +367,10 @@ $(document).ready(function(e) {
 			var id = selectedRow.find("#idCell").text();
 			var activateLinkSplit = form.attr("data-activate").split("/");
 			var cresName = $(this).attr("data-childid");
-			var activateLinkSplit = form.attr("data-activate").split("/");
-			var presName = activateLinkSplit[activateLinkSplit.length-1];
+			var presName = form.attr("data-resourceId");
 			
-			alert("/showChildren/" + cresName + "/" + presName + "/" + id);
+			makeNewForm("/showChildren/" + cresName  + "/" + id + "/" + presName);
+			$(this).closest(".nextPopup").hide();
 		}
 	});
 	
@@ -482,12 +498,13 @@ function loadDataToForm(form) {
 		type: 'GET', 
 		success: function(data) {
 			form.html(data);
+			form.attr("data-resourceId", form.find(".windowHeaders").attr("data-resourceId"));
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
 			$("#messagePopup").html("<p>" + errorThrown + "</p>");
 			$("#messagePopup").attr("class", "messageError");
 			$("#messagePopup").prepend("<div></div>");
-			$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+			$("#messagePopup").slideToggle(300).delay(2000).slideToggle(500);
 		}
 	});
 }

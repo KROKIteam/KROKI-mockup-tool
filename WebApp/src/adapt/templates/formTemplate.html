@@ -1,9 +1,9 @@
 					<!------------------------------------STANDARD FORM------------------------------------------>
 					<!-- FORM HEADER -->
-					<div class="windowHeaders">
-						<div class="windowName">${resource.label}</div>
+					<div class="windowHeaders" data-resourceId=${resource.name}>
+						<div class="windowName"><#if windowName??>${windowName}<#else>${resource.label}</#if></div>
 						<div class="headerButtons" title="Close form">
-							<img src="/files/images/icons/close.png">
+							<img src="/files/images/icons-white/close.png">
 						</div>
 					</div>	
 					<!-- /FORM HEADER -->
@@ -15,37 +15,37 @@
 							<div class="formToolbar">
 								<div id="viewControls" class="controlsPanel">
 									<button type="button" id="btnSwitch" title="Switch views" >
-										<img class="toolbarButton" src="/files/images/icons/swich.png"/>
+										<img class="toolbarButton" src="/files/images/icons-white/swich.png"/>
 									</button>
 									<button type="button" id="btnRefresh" title="Refresh data">
-										<img class="toolbarButton" src="/files/images/icons/refresh.png"/>
+										<img class="toolbarButton" src="/files/images/icons-white/refresh.png"/>
 									</button>
 								</div>
 								<!-- VIEW CONTROLS -->
 								<div id="navigationControls" class="controlsPanel">
 									<button type="button" id="btnFirst" title="Go to the first row in table">
-										<img class="toolbarButton" src="/files/images/icons/first.png"/>
+										<img class="toolbarButton" src="/files/images/icons-white/first.png"/>
 									</button>
-									<button type="button" id="btnPrev" title="Go to the previous row">
-										<img class="toolbarButton" src="/files/images/icons/prev.png"/>
+									<button type="button" id="btnPrev" title="Go to the previous row" disabled>
+										<img class="toolbarButton" src="/files/images/icons-white/prev.png"/>
 									</button>
-									<button type="button" id="btnNext" title="Go to the next row">
-										<img class="toolbarButton" src="/files/images/icons/next.png"/>
+									<button type="button" id="btnNext" title="Go to the next row" disabled>
+										<img class="toolbarButton" src="/files/images/icons-white/next.png"/>
 									</button>
 									<button type="button" id="btnLast" title="Go to the last row in table">
-										<img class="toolbarButton" src="/files/images/icons/last.png">
+										<img class="toolbarButton" src="/files/images/icons-white/last.png">
 									</button>
 								</div>
 								<!-- NAVIGATION CONTROLS -->
-								<div id="tableControls">
+								<div id="tableControls" class="controlsPanel">
 									<button type="button" id="btnAdd" title="Add a new row">
-										<img class="toolbarButton" src="/files/images/icons/add.png"/>
+										<img class="toolbarButton" src="/files/images/icons-white/add.png"/>
 									</button>
-									<button type="button" id="btnDelete" title="Delete row">
-										<img class="toolbarButton" src="/files/images/icons/delete.png"/>
+									<button type="button" id="btnDelete" title="Delete row" disabled>
+										<img class="toolbarButton" src="/files/images/icons-white/delete.png"/>
 									</button>
-									<button type="button" title="View connected forms" id="btnNextForms">
-										<img class="toolbarButton" src="/files/images/icons/next-forms.png"/>
+									<button type="button" id="btnNextForms" title="View connected forms" disabled>
+										<img class="toolbarButton" src="/files/images/icons-white/next-forms.png"/>
 									</button>
 								</div>
 								<!-- TABLE CONTROLS -->
@@ -54,7 +54,7 @@
 							<!-- TABLE PANEL -->
 							<div class="tablePanel">
 								<#if mainFormHeaders??>
-								<table class="mainTable">
+								<table class="mainTable" cellspacing=0>
 									<thead>
 										<tr>
 											<#list mainFormHeaders as header>
@@ -71,7 +71,7 @@
 															<#if prop.name == "id">
 															<td id="idCell" style="display:none;">${prop.value}</td>
 															<#else>
-															<td>${prop.value}</td>
+															<td title="${prop.value}">${prop.value}</td>
 															</#if>
 														</#list>
 													</tr>
