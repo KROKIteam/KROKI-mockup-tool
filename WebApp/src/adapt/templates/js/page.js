@@ -209,9 +209,6 @@ $(document).ready(function(e) {
 				});
 			}
 		}
-
-		newForm.show();
-		focus(newForm);
 	}
 	/**************************************************************************************************************************
 													   															 TABLE EFFECTS
@@ -499,9 +496,13 @@ function loadDataToForm(form) {
 		success: function(data) {
 			form.html(data);
 			form.attr("data-resourceId", form.find(".windowHeaders").attr("data-resourceId"));
+			form.show();
+			focus(form);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
-			$("#messagePopup").html("<p>" + errorThrown + "</p>");
+			form.remove();
+			delete form;
+			$("#messagePopup").html("<p><b>ERROR:</b> " + errorThrown + "</p>");
 			$("#messagePopup").attr("class", "messageError");
 			$("#messagePopup").prepend("<div></div>");
 			$("#messagePopup").slideToggle(300).delay(2000).slideToggle(500);

@@ -35,6 +35,10 @@ Z-indexes:
 	font-family: "Lato",Helvetica,Arial,sans-serif;
 }
 
+*:focus {
+    outline: none;
+}
+
 html {
 	height: 100%;
 	width: 100%;	
@@ -77,13 +81,13 @@ nav {
 }
 
 #mainMenu > li.mainMenuItems {
-	height: 70%;
+	height: 60%;
 	background-color: #346789;
 	font-size: 100%;
 	color: #fff;
 	display: inline-block;
 	border-radius: 5px;
-	padding: 5px 10px;
+	padding: 7px 10px;
 	cursor: pointer;
 	float: left;
 	margin-left: 5px;
@@ -213,12 +217,12 @@ ul.L2SubMenu {
 }
 
 #logoutDiv a#logoutLink {
-	height: 60%;
+	height: 45%;
 	background-color: #16a085;
 	color: #fff;
 	display: inline-block;
 	border-radius: 5px;
-	padding: 4px 20px;
+	padding: 7px 20px;
 	float: right;
 	border: none;
 	margin-right: 10px;
@@ -257,7 +261,8 @@ ul.L2SubMenu {
 }
 
 #messagePopup p {
-	padding-top: 6px;	
+	font-size: 16px;
+	padding-top: 10px;	
 }
 
 #messagePopup div {
@@ -373,6 +378,8 @@ ul.L2SubMenu {
 .formToolbar {
 	width: 100%;
 	height: 32px;
+	border-top: 1px solid #346789;
+	border-bottom: 1px solid #346789;
 }
 
 .controlsPanel {
@@ -390,6 +397,10 @@ ul.L2SubMenu {
 	width: 28px;
 }
 
+.formToolbar button[disabled] {
+	opacity: 0.3;
+}
+
 #tableControls {
 	float: left;
 	padding-left: 5px;
@@ -402,15 +413,15 @@ ul.L2SubMenu {
 
 .tablePanel {
 	width: 100%;
-	margin-top: 10px;
+	margin-top: 20px;
 	height: 350px;
 	overflow: auto;
 }
 
 .mainTable {
 	width: 100%;
-	border-radius: 3px;
-	border: 1px solid #346789;
+	border-left: 1px solid #000;
+	border-bottom: 1px solid #000;
 }
 
 .mainTable thead {
@@ -441,8 +452,9 @@ ul.L2SubMenu {
 }
 
 .mainTable td,th {
-	border: 1px solid #000;
 	padding: 2px;
+	border-right: 1px solid #000;
+	border-top: 1px solid #000;
 }
 
 .buttons-blue {
