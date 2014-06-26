@@ -68,7 +68,7 @@
 					<flattenmapper />
 
 					<!-- add props/ prefix to .properties files-->
-					<globmapper from="*" to="/props/*" />
+					<globmapper from="*" to="props/*" />
 				</chainedmapper>
 			</mapper>
 			<path>
@@ -87,7 +87,7 @@
 					<flattenmapper />
 
 					<!-- add lib/ prefix to jar files-->
-					<globmapper from="*" to="/templates/*" />
+					<globmapper from="*" to="templates/*" />
 				</chainedmapper>
 			</mapper>
 			<path>
@@ -98,13 +98,31 @@
 			</path>
 		</pathconvert>
 
+		<pathconvert property="config.project" pathsep=" ">
+			<mapper>
+				<chainedmapper>
+					<!-- remove absolute path -->
+					<flattenmapper />
+
+					<!-- add lib/ prefix to jar files-->
+					<globmapper from="*" to="config/*" />
+				</chainedmapper>
+			</mapper>
+			<path>
+				<!-- lib.home contains all jar files, in several subdirectories -->
+				<fileset dir="${build.home}/config">
+					<include name="*" />
+				</fileset>
+			</path>
+		</pathconvert>
+		
 		<!-- create the jar -->
 		<jar jarfile="${deploy.home}/${jar.name}">
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
 
 				<!-- Finally, use the generated libs path -->
-				<attribute name="Class-Path" value="${libs.project} ${props.project} ${templates.project}" />
+				<attribute name="Class-Path" value="${libs.project} ${props.project} ${templates.project} ${config.project}" />
 			</manifest>
 			<!-- Files to be included in jar -->
 			<!-- All contents from bin folder (class files) except compiled configuration files -->
@@ -127,13 +145,18 @@
 			</fileset>
 		</copy>
 		<copy todir="${deploy.home}/config">
-			<fileset dir="${build.home}/src/config">
+			<fileset dir="${build.home}/config">
 				<include name="**/*.xml"/>
 			</fileset>
 		</copy>
 		<copy todir="${deploy.home}/templates">
 			<fileset dir="${build.home}/src/adapt/templates">
 				<include name="**/*"/>
+			</fileset>
+		</copy>
+		<copy todir="${deploy.home}/props">
+			<fileset dir="${build.home}/props">
+				<include name="**/*.properties"/>
 			</fileset>
 		</copy>
 	</target>
