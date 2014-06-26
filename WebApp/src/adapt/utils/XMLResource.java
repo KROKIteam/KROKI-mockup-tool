@@ -39,7 +39,6 @@ public class XMLResource {
 				repAttributes.add(attribute);
 			}
 		}
-		
 		return repAttributes;
 	}
 	

@@ -131,13 +131,12 @@ public class ViewResource extends Resource {
 			//pokupimo labele atributa resursa koje sluze kao zaglavlja tabele
 			ArrayList<String> headers = new ArrayList<String>();
 			//headers.add("ID");
-			for(int i=0; i<resource.getAttributes().size(); i++) {
-				headers.add(resource.getAttributes().get(i).getLabel());
-			}
-			for(int i=0; i<resource.getManyToOneAttributes().size(); i++) {
+			/*for(int i=0; i<resource.getManyToOneAttributes().size(); i++) {
 				headers.add(resource.getManyToOneAttributes().get(i).getLabel());
 			}
-			dataModel.put("mainFormHeaders", headers);
+			for(int i=0; i<resource.getAttributes().size(); i++) {
+				headers.add(resource.getAttributes().get(i).getLabel());
+			}*/
 			EntityTransaction tx = em.getTransaction();
 			tx.begin();
 			//iz baze se ucitaju svi entiteti koji pripadaju trezenom resursu
@@ -151,7 +150,7 @@ public class ViewResource extends Resource {
 					//objekte koje nam vrati upit pomocu klase EntityCreator
 					//pretvorimo u objekte klase EntityClass
 					//i smestimo u data model
-					entities = creator.getEntities(ress);
+					entities = creator.getEntities(ress, headers, resource);
 					if(!entities.isEmpty()) {
 						Map<String, String> childMap = new LinkedHashMap<String, String>();
 						
@@ -170,6 +169,7 @@ public class ViewResource extends Resource {
 							
 							childMap.put(Id, name);
 						}
+						dataModel.put("mainFormHeaders", headers);
 						dataModel.put("entities", entities);
 						dataModel.put("childMap", childMap);
 					}else {
@@ -215,7 +215,7 @@ public class ViewResource extends Resource {
 			ArrayList<Object> objects = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList();
 			ArrayList<EntityClass> entities;
 			try {
-				entities = creator.getEntities(objects);
+				entities = creator.getEntities(objects, null, null);
 				Map<String, String> childMap = new LinkedHashMap<String, String>();
 				if(!mattr.getMandatory()) {
 					childMap.put("null", "-- None --");
@@ -229,7 +229,11 @@ public class ViewResource extends Resource {
 						name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
 					}
 					
-					name = name.substring(0, name.length()-2);
+					if(!name.equals("")) {
+						name = name.substring(0, name.length()-2);
+					}else {
+						name = Id;
+					}
 					
 					childMap.put(Id, name);
 				}

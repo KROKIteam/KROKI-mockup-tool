@@ -63,7 +63,7 @@ public class ModifyResource extends BaseResource {
 			obejcts.add(o);
 			EntityClass entity = null;
 			try {
-				entity = creator.getEntities(obejcts).get(0);
+				entity = creator.getEntities(obejcts, null, null).get(0);
 			} catch (NoSuchFieldException e) {
 //				try {
 //					entity = EntityCreator.getEntities(obejcts, "id").get(0);
@@ -99,7 +99,7 @@ public class ModifyResource extends BaseResource {
 							ArrayList<Object> objs = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList(); 
 							ArrayList<EntityClass> entities;
 							try {
-								entities = creator.getEntities(objs);
+								entities = creator.getEntities(objs, null, null);
 								Map<String, String> childMap = new TreeMap<String, String>();
 								if(!mattr.getMandatory()) {
 									childMap.put("null", "-- None --");

@@ -111,7 +111,7 @@ public class ProjectExporter {
 			menuGenerator.generateWEBMenu(menus);
 		}
 
-		writeProjectName(proj.getLabel());
+		writeProjectName(proj.getLabel(), "Please log in to continue.");
 
 		runAnt(file, proj, message);
 	}
@@ -441,30 +441,36 @@ public class ProjectExporter {
 	 * Writes name of current project to corresponding configuration file
 	 * @param name
 	 */
-	public void writeProjectName(String name) {
+	public void writeProjectName(String name, String description) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		
 		//Configuration file
 		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main.properties");
-		String toAppend = "main.form.name";
+		String toAppendName = "main.form.name";
+		String toAppendDescription = "app.description";
 
 		if(!swing) {
 			propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "props" + File.separator + "app.properties");
-			toAppend = "app.title";
+			toAppendName = "app.title";
 		}
 
 		//read properties file
 		//and append first line which contains main form title
 		Scanner scan;
 		ArrayList<String> lines = new ArrayList<String>();
-		lines.add(toAppend + " = " + name);
+		lines.add(toAppendName + " = " + name);
+		if(!swing) {
+			lines.add(toAppendDescription + " = " + description);
+		}
 		try {
 			scan = new Scanner(propertiesFile);
 			while(scan.hasNext()){
 				String line = scan.nextLine();
-				if(!line.startsWith(toAppend)) {
-					lines.add(line);
+				if(!line.startsWith(toAppendName)) {
+					if(!line.startsWith(toAppendDescription)) {
+						lines.add(line);
+					}
 				}
 			}
 			scan.close();

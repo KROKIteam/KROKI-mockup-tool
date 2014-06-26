@@ -26,7 +26,7 @@ public class EntityCreator {
 	 * @throws NoSuchFieldException 
 	 */
 	@SuppressWarnings("rawtypes")
-	public ArrayList<EntityClass> getEntities(ArrayList<Object> objects) throws NoSuchFieldException {
+	public ArrayList<EntityClass> getEntities(ArrayList<Object> objects, ArrayList<String> headers, XMLResource resource) throws NoSuchFieldException {
 		ArrayList<EntityClass> entities = new ArrayList<EntityClass>();
 		if(!objects.isEmpty()) {
 			for(int i=0; i<objects.size(); i++) {
@@ -44,7 +44,7 @@ public class EntityCreator {
 						//ocitamo ime i vrednost atributa
 						String fname = fields[j].getName();
 						Object value = fields[j].get(o);
-
+						
 						if (value == null) {
 							value = new String("None");
 							EntityProperty pr = new EntityProperty(fname,value.toString());
@@ -54,6 +54,14 @@ public class EntityCreator {
 							if (!value.getClass().getSimpleName().equals("PersistentSet")) {
 								if(!value.getClass().getSimpleName().equals("PersistentBag")) {
 									if(!fname.equals("serialVersionUID")) {
+										if(headers != null && resource != null) {
+											if(!fname.equals("id")) {
+												String label = getAttributeLabel(resource, fname);
+												if(!headers.contains(label)) {
+													headers.add(label);
+												}
+											}
+										}
 										//ako ima referenca na neku drugu klasu
 										//treba dovuci representativna obelezja
 										if (value.toString().startsWith("adapt")) {
@@ -63,8 +71,14 @@ public class EntityCreator {
 												Field f = value.getClass().getDeclaredField(xmlAttribute.getName());
 												f.setAccessible(true);
 												values += f.get(value).toString() + ", ";
+												values = values.substring(0, values.length()-2);
 											}
-											EntityProperty pr = new EntityProperty(fname, values.substring(0, values.length()-2));
+											if(values.equals("")) {
+												Field id = value.getClass().getDeclaredField("id");
+												id.setAccessible(true);
+												values = id.get(value).toString();
+											}
+											EntityProperty pr = new EntityProperty(fname, values);
 											entity.getProperties().add(pr);
 											//ako je Boolean, pretvorim u da ili ne
 										} else if (value.getClass().getSimpleName().equals("Boolean")) {
@@ -121,6 +135,33 @@ public class EntityCreator {
 			}
 		}
 		return val;
+	}
+	
+	public String getAttributeLabel(XMLResource resource, String name) {
+		for (XMLAttribute attribute : resource.getAttributes()) {
+			if(attribute.getName().equals(name)) {
+				return attribute.getLabel();
+			}
+		}
+		
+		for(XMLOneToManyAttribute attribute : resource.getOneToManyAttributes()) {
+			if(attribute.getName().equals(name)) {
+				return attribute.getLabel();
+			}
+		}
+		
+		for(XMLManyToOneAttribute attribute : resource.getManyToOneAttributes()) {
+			if(attribute.getName().equals(name)) {
+				return attribute.getLabel();
+			}
+		}
+		
+		for (XMLManyToManyAttribute attribute : resource.getManyToManyAttributes()) {
+			if(attribute.getName().equals(name)) {
+				return attribute.getLabel();
+			}
+		}
+		return "";
 	}
 
 }
