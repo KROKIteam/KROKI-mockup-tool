@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.ChangeLayoutCommand;
 import kroki.app.command.CommandManager;
@@ -166,6 +168,7 @@ public class NewFileDialog extends JDialog {
             if(visibleClass instanceof StandardPanel) {
             	StandardPanel vc = (StandardPanel) visibleClass;
                 vc.getPersistentClass().setName(cc.toCamelCase(visibleClass.getLabel(), false));
+                vc.setName(cc.toCamelCase(visibleClass.getLabel(), false));
             }
             visibleClass.update();
             //Dodavanje fajla u paket

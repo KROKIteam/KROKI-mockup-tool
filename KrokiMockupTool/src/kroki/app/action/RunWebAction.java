@@ -86,7 +86,7 @@ public class RunWebAction extends AbstractAction {
 						RunAnt runner = new RunAnt();
 						runner.runRun(proj.getLabel().replace(" ", "_"), tempDir, false);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					} catch (NullPointerException e) {
+					} catch (Exception e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("An error occured. Running aborted", 3);
 						e.printStackTrace();

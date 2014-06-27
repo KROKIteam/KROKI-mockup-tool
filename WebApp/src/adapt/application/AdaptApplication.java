@@ -96,8 +96,6 @@ public class AdaptApplication extends Application {
 		tt.begin();
 		ee.persist(ress);
 		tt.commit();
-		ee.close();
-		
 //		for(int i=0; i<XMLResources.size(); i++) {
 //			XMLResource r = XMLResources.get(i);
 //			if(r.getRouted()) {
@@ -159,7 +157,8 @@ public class AdaptApplication extends Application {
 			
 			XMLForm form = new XMLForm(name, fileName, actions, controls);
 			forms.add(form);
-			System.out.println("[" + formatter.format(today)  + "] Form '" + form.getName() + "' parsed");
+			//System.out.println("[" + formatter.format(today)  + "] Form '" + form.getName() + "' parsed");
+			mainFrame.displayText("Form '" + form.getName() + "' parsed", 0);
 		}
 		return forms;
 	}
@@ -193,8 +192,9 @@ public class AdaptApplication extends Application {
 			action.setTip(tip);
 			
 			actions.add(action);
-	        System.out.println("[" + formatter.format(today)  + "] Action '" + action.getName() + "' parsed");
-	       
+
+			mainFrame.displayText("Action '" + action.getName() + "' parsed", 0);
+			
 	        if(!action.getName().startsWith("mtm")) {
 	        	EntityManager em = emf.createEntityManager();
 		        EntityTransaction tx = em.getTransaction();
@@ -214,7 +214,8 @@ public class AdaptApplication extends Application {
 		NodeList resNodes = resDoc.getElementsByTagName("resource");
 		ArrayList<XMLResource> ress = new ArrayList<XMLResource>();
 
-		System.out.println("[ADAPT] fetching resources from file: " + resDoc.getBaseURI());
+		mainFrame.displayText("Fetching resources from file: " + resDoc.getBaseURI().substring(8), 0);
+		
 		
 		for(int i=0; i<resNodes.getLength(); i++) {
 			ArrayList<XMLForm> forms = new ArrayList<XMLForm>();
@@ -352,7 +353,7 @@ public class AdaptApplication extends Application {
 	        
 	        XMLResource res = new XMLResource(name, label, link, routed, forms, attributes, manyToOneAttributes, oneToManyAttributes, manyToManyAttributes);
 
-	        System.out.println("[" + formatter.format(today)  + "] XML Resource '" + res.getName() + "' parsed");
+	        mainFrame.displayText("XML Resource '" + res.getName() + "' parsed", 0);
 	        ress.add(res);
 		}
 		return ress;
@@ -378,7 +379,6 @@ public class AdaptApplication extends Application {
 			Resource res = new Resource();
 			res.setLink(resource.getLink());
 			res.setName(resource.getName());
-			System.out.println("persisting resource " + res.getName());
 			em.persist(res);
 			
 			for (Action action : actions) {
@@ -396,6 +396,8 @@ public class AdaptApplication extends Application {
 		}
 		
 		em.getTransaction().commit();
+		//em.flush();
+		//em.close();
 	}
 	
 	//returns list with names of all resources which reference passed resource (ManyToOne)

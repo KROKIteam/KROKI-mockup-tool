@@ -475,7 +475,7 @@ public class ProjectExporter {
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("[ERROR] Pproperties file not found");
+			System.out.println("[PROJECT EXPORTER] Pproperties file not found. Creating a new one.");
 		}
 
 		//write main.properties file with main form title

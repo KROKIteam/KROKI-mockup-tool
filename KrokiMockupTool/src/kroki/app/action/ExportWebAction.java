@@ -58,10 +58,11 @@ public class ExportWebAction extends AbstractAction {
 			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
 			if (retValue == JFileChooser.APPROVE_OPTION) {
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);
 				File file = jfc.getSelectedFile();
 				//pass selected project and directory to exporter class
 				ProjectExporter exporter = new ProjectExporter(false);
-				exporter.export(file, proj, "OK");
+				exporter.export(file, proj, "Project exported successfuly to " + file.getAbsolutePath());
 			} else {
 				System.out.println("Export canceled");
 			}

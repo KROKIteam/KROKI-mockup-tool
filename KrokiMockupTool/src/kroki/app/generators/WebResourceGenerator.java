@@ -49,14 +49,14 @@ public class WebResourceGenerator {
 				resourcesRoot.appendChild(resourceTag);
 				
 				//atributi za <resounce> tag
-				String name = cc.toCamelCase(element.name(), false);
+				String name = vClass.name();
 				String label = element.getLabel();
 				String link = "/resources/" + name;
 				Boolean routed = element.isVisible();
 				String forms = "StandardForm";
 				
 				if(element instanceof ParentChild) {
-					forms += ",ParentChildForm";
+					forms = "ParentChildForm";
 				}
 				
 				//System.out.println("\n[RESOURCE]" + "\n\tName: " + name + "\n\tLabel: " + label + "\n\tLink: " + link + "\n\tRouted: " + routed + "\n\tForms: " + forms + "\n");
