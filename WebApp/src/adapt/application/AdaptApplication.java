@@ -344,11 +344,14 @@ public class AdaptApplication extends Application {
 	        Boolean routed = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element) nRouted.item(0)));
 	        if(!(nForms.getLength() == 0)) {
 	        	String sforms = XMLParser.getCharacterDataFromElement((Element) nForms.item(0));
-	 	        String[] fform = sforms.split(",");
+	 	        /*String[] fform = sforms.split(",");
 	 	        for(int in=0; in<fform.length; in++) {
 	 	        	XMLForm ff = getForm(fform[in]);
 	 	        	forms.add(ff);
-	 	        }
+	 	        }*/
+	        	//Ovo je bilo u starom frameworku iz mog master rada, sada vise ne treba
+	        	XMLForm form = new XMLForm(sforms, "", true, true);
+	        	forms.add(form);
 	        }
 	        
 	        XMLResource res = new XMLResource(name, label, link, routed, forms, attributes, manyToOneAttributes, oneToManyAttributes, manyToManyAttributes);

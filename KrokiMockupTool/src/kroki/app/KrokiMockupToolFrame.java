@@ -25,6 +25,8 @@ import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
+import org.eclipse.uml2.uml.UMLPackage;
+
 import kroki.app.action.AboutAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
@@ -46,10 +48,14 @@ import kroki.app.action.SaveAsAction;
 import kroki.app.action.UndoAction;
 import kroki.app.gui.GuiManager;
 import kroki.app.gui.console.CommandPanel;
+import kroki.app.model.Workspace;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 import kroki.app.utils.uml.OperationsUtil;
 import kroki.profil.VisibleElement;
+import kroki.profil.panel.VisibleClass;
+import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.uml_core_basic.UmlPackage;
 
 /**
  *
@@ -338,6 +344,43 @@ public class KrokiMockupToolFrame extends JFrame {
 		this.add(c, BorderLayout.SOUTH);
 	}
 
+	/**
+	 * Returns currently selected project from workspace with regard to these rules:
+	 * 	- If a project is selected, returns it
+	 * 	- If package or panel is selected, finds containing project and returns it
+	 *  - If nothing is selected and only one project exists in workspace, return that project
+	 * @return
+	 */
+	public BussinesSubsystem getCurrentProject() {
+		BussinesSubsystem proj = null;
+		
+		TreePath path = getTree().getSelectionPath();
+		if(path != null) {
+			Object node = path.getLastPathComponent();
+			//if package is selected, find parent project
+			if(node instanceof BussinesSubsystem) {
+				BussinesSubsystem subsys = (BussinesSubsystem) node;
+				proj = KrokiMockupToolApp.getInstance().findProject(subsys);
+			}else if(node instanceof VisibleClass) {
+				//if panel is selected, get parent node from tree and find project
+				Object parent = getTree().getSelectionPath().getParentPath().getLastPathComponent();
+				if(parent instanceof BussinesSubsystem) {
+					proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
+				}
+			}
+		}else {
+			Workspace workspace = KrokiMockupToolApp.getInstance().getWorkspace();
+			if(workspace.getPackageCount() == 1) {
+				UmlPackage pack = workspace.getPackageAt(0);
+				if(pack instanceof BussinesSubsystem) {
+					proj = (BussinesSubsystem) pack;
+				}
+			}
+		}
+		
+		return proj;
+	}
+	
 	/*****************/
 	/*GETERI I SETERI*/
 	/*****************/

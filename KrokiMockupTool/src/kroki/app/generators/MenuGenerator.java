@@ -172,6 +172,7 @@ public class MenuGenerator {
 			l1SubmenuLi.setAttributeNode(l1SubmenuLiClass);
 			l1SubmenuLi.setTextContent(submenu.getLabel());
 			l1SubmenuLi.setAttribute("data-activate", submenu.getActivate());
+			l1SubmenuLi.setAttribute("data-panelType", submenu.getPanel_type());
 			l1SubmenuUl.appendChild(l1SubmenuLi);
 		}
 		
@@ -207,6 +208,7 @@ public class MenuGenerator {
 			submenuItemLi.setAttribute("class", "subMenuItem");
 			submenuItemLi.setTextContent(submenu.getLabel());
 			submenuItemLi.setAttribute("data-activate", submenu.getActivate());
+			submenuItemLi.setAttribute("data-panelType", submenu.getPanel_type());
 			submenuUl.appendChild(submenuItemLi);
 		}
 		

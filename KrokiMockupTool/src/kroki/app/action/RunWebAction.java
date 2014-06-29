@@ -10,7 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
+import kroki.app.KrokiDiagramFrame;
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.KrokiMockupToolFrame;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
@@ -42,27 +44,8 @@ public class RunWebAction extends AbstractAction {
 			@Override
 			public void run() {
 				//find selected project from workspace
-				BussinesSubsystem proj = null;
+				BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
 				
-				//get selected item from jtree and find its project
-				TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
-				Object node = path.getLastPathComponent();
-				if(node != null) {
-					//if package is selected, find parent project
-					if(node instanceof BussinesSubsystem) {
-						BussinesSubsystem subsys = (BussinesSubsystem) node;
-						proj = KrokiMockupToolApp.getInstance().findProject(subsys);
-					}else if(node instanceof VisibleClass) {
-						//if panel is selected, get parent node from tree and find project
-						JTree tree = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree();
-						Object parent = tree.getSelectionPath().getParentPath().getLastPathComponent();
-						if(parent instanceof BussinesSubsystem) {
-							proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
-						}
-					}
-					
-				}
-
 				if(proj != null) {
 					try {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);

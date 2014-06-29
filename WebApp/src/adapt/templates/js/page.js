@@ -132,7 +132,9 @@ $(document).ready(function(e) {
 				$(this).removeClass("hover");
 			});
 			var activateLink = $(this).attr("data-activate");
-			makeNewForm(activateLink);
+			
+			makeNewWindow(activateLink, $(this).text());
+			
 		}
 	});
 
@@ -144,7 +146,7 @@ $(document).ready(function(e) {
 	});
 
 	//FOCUS FORM ON CLICK
-	container.on("click", ".forms", function() {
+	container.on("click", ".windows", function() {
 		focus($(this));
 	});
 
@@ -184,26 +186,56 @@ $(document).ready(function(e) {
 		}
 	});
 
-
-	//FUNCTION THAT CREATES HTML FORMS
-	function makeNewForm(activateLink) {
-		var newForm = $(document.createElement("div"));
-		newForm.addClass("forms");
-		newForm.attr("data-activate", activateLink);
-		loadDataToForm(newForm);
-		container.append(newForm);
+	//FUNCTION THAT CREATES HTML WINDOWS
+	function makeNewWindow(activateLink, label) {
+		//make div.window
+		var newWindow = $(document.createElement("div"));
+		newWindow.addClass("windows");
+		//make div.windowHeaders and it's contents
+		var newWindowHeader = $(document.createElement("div"));
+		newWindowHeader.addClass("windowHeaders");
+		var newWindowName = $(document.createElement("div"));
+		newWindowName.addClass("windowName");
+		newWindowName.text(label);
+		var newHeaderButtonDiv = $(document.createElement("div"));
+		newHeaderButtonDiv.addClass("headerButtons");
+		newHeaderButtonDiv.attr("title", "Close window");
+		var newHeaderButtonImage = $(document.createElement("img"));
+		newHeaderButtonImage.attr("src", "/files/images/icons-white/close.png");
+		
+		newHeaderButtonDiv.append(newHeaderButtonImage);
+		newWindowHeader.append(newWindowName);
+		newWindowHeader.append(newHeaderButtonDiv);
+		
+		var activateSplit = activateLink.split("/");
+		newWindow.attr("data-resourceId", activateSplit[activateSplit.length-1])
+		/*
+		window.attr("data-resourceId", window.find(".standardForms").attr("data-resourceId"));
+		window.find(".windowName").text(window.find(".standardForms").attr("data-windowName"));
+		*/
+		
+		//make div.windowBody
+		newWindowBody = $(document.createElement("div"));
+		newWindowBody.addClass("windowBody");
+		
+		newWindow.attr("data-activate", activateLink);
+		newWindow.append(newWindowHeader)
+		newWindow.append(newWindowBody);
+		
+		loadDataToForm(newWindow);
+		container.append(newWindow);
 
 		/*
 		 * If number of columns is more than 6, add 200 pixels for each
 		 */
-		var columns = newForm.find("th").length;
+		var columns = newWindow.find("th").length;
 		if(columns > 6) {
 			var newWidth = columns*200;
 			if(newWidth<$("#container").width()) {
-				newForm.width(newWidth);
+				newWindow.width(newWidth);
 			}else {
-				newForm.width("98%");
-				newForm.css({
+				newWindow.width("98%");
+				newWindow.css({
 					"top": 60,
 					"left": 20,
 				});
@@ -217,7 +249,7 @@ $(document).ready(function(e) {
 	// SELECT TABLE ROWS ON MOUSE CLICK
 	// Only one row can be selected at a time
 	container.on("click", ".mainTable tbody tr", function() {
-		var form = $(this).closest(".forms");
+		var form = $(this).closest(".standardForms");
 		$(this).parent().find("tr").removeClass("selectedTr");
 		$(this).addClass("selectedTr");
 		form.find("#btnPrev").removeAttr("disabled");
@@ -232,27 +264,26 @@ $(document).ready(function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 		var formBody = $(this).closest(".windowBody");
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.standardForms");
 
 		//if a row is selected, edit form needs to be displayed,
 		//otherwise, an empty form for adding is shown
 		if(selectedRow.length > 0) {
 			var id = selectedRow.find("#idCell").text();
-			var activateLinkSplit = form.attr("data-activate").split("/");
-			var resName = activateLinkSplit[activateLinkSplit.length-1];
+			var resName = form.attr("data-resourceId");
 			//since edit form is fetched from server on each click, remove previous one
 			formBody.remove(".inputForm[name=editForm]");
 			$.ajax({
 				url: "/edit/" + resName + "/" + id,
 				type: 'GET', 
 				success: function(data) {
-					formBody.append(data);
+					form.append(data);
 					form.find(".nextPopup").hide();
-					formBody.fadeOut("slow", function(e) {
-						formBody.find(".tableDiv").hide();
-						formBody.find(".operationsDiv").hide();
-						formBody.find(".inputForm[name=editForm]").show();
-						formBody.fadeIn("slow");
+					form.fadeOut("slow", function(e) {
+						form.find(".tableDiv").hide();
+						form.find(".operationsDiv").hide();
+						form.find(".inputForm[name=editForm]").show();
+						form.fadeIn("slow");
 					});
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -264,11 +295,11 @@ $(document).ready(function(e) {
 			});
 		}else {
 			form.find(".nextPopup").hide();
-			formBody.fadeOut("slow", function(e) {
-				formBody.find(".tableDiv").hide();
-				formBody.find(".operationsDiv").hide();
-				formBody.find(".inputForm[name=addForm]").show();
-				formBody.fadeIn("slow");
+			form.fadeOut("slow", function(e) {
+				form.find(".tableDiv").hide();
+				form.find(".operationsDiv").hide();
+				form.find(".inputForm[name=addForm]").show();
+				form.fadeIn("slow");
 			});
 		}
 	});
@@ -276,18 +307,20 @@ $(document).ready(function(e) {
 	// FIRST, LAST, PREVIOUS AND NEXT BUTTONS IMPLEMENTATIONS
 
 	container.on("click", "#btnFirst", function(e) {
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.standardForms");
 		var tableDiv = $(this).closest("div.tableDiv");
 		var firstTR = tableDiv.find(".mainTable tbody tr:first-child");
-		tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
-		//select first element
-		firstTR.addClass("selectedTr");
-		//scroll to top
-		tableDiv.find(".tablePanel").scrollTop(0);
-		form.find("#btnPrev").removeAttr("disabled");
-		form.find("#btnNext").removeAttr("disabled");
-		form.find("#btnDelete").removeAttr("disabled");
-		form.find("#btnNextForms").removeAttr("disabled");
+		if(firstTR.length > 0) {
+			tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
+			//select first element
+			firstTR.addClass("selectedTr");
+			//scroll to top
+			tableDiv.find(".tablePanel").scrollTop(0);
+			form.find("#btnPrev").removeAttr("disabled");
+			form.find("#btnNext").removeAttr("disabled");
+			form.find("#btnDelete").removeAttr("disabled");
+			form.find("#btnNextForms").removeAttr("disabled");
+		}
 	});
 
 	container.on("click", "#btnPrev", function(e) {
@@ -326,24 +359,26 @@ $(document).ready(function(e) {
 	});
 
 	container.on("click", "#btnLast", function(e) {
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.standardForms");
 		var tableDiv = $(this).closest("div.tableDiv");
 		var lastTR = tableDiv.find(".mainTable tbody tr:last-child");
-		tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
-		//select last element
-		lastTR.addClass("selectedTr");
-		//scroll to bottom
-		var position = lastTR.position();
-		tableDiv.find(".tablePanel").scrollTop(position.top);
-		form.find("#btnPrev").removeAttr("disabled");
-		form.find("#btnNext").removeAttr("disabled");
-		form.find("#btnDelete").removeAttr("disabled");
-		form.find("#btnNextForms").removeAttr("disabled");
+		if(lastTR.length > 0) {
+			tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
+			//select last element
+			lastTR.addClass("selectedTr");
+			//scroll to bottom
+			var position = lastTR.position();
+			tableDiv.find(".tablePanel").scrollTop(position.top);
+			form.find("#btnPrev").removeAttr("disabled");
+			form.find("#btnNext").removeAttr("disabled");
+			form.find("#btnDelete").removeAttr("disabled");
+			form.find("#btnNextForms").removeAttr("disabled");
+		}
 	});
 
 	/* SHOW NEXT POPUP BUTTON CLICK */
 	container.on("click", "#btnNextForms", function(e) {
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.standardForms");
 		var popup = form.find(".nextPopup");
 		var tableDiv = $(this).closest("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
@@ -356,23 +391,22 @@ $(document).ready(function(e) {
 	});
 
 	container.on("click", ".nextList li", function(e) {
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.standardForms");
 		var tableDiv = form.find("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 		
 		if(selectedRow.length > 0) {
 			var id = selectedRow.find("#idCell").text();
-			var activateLinkSplit = form.attr("data-activate").split("/");
 			var cresName = $(this).attr("data-childid");
 			var presName = form.attr("data-resourceId");
 			
-			makeNewForm("/showChildren/" + cresName  + "/" + id + "/" + presName);
+			makeNewWindow("/showChildren/" + cresName  + "/" + id + "/" + presName);
 			$(this).closest(".nextPopup").hide();
 		}
 	});
 	
 	container.on("click", "#btnRefresh", function(e) {
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.standardForms");
 		refreshFormData(form);
 	});
 
@@ -380,7 +414,7 @@ $(document).ready(function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 		var formBody = $(this).closest(".windowBody");
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.windows");
 
 		form.find(".nextPopup").hide();
 		formBody.fadeOut("slow", function(e) {
@@ -392,15 +426,13 @@ $(document).ready(function(e) {
 	});
 
 	container.on("click", "#btnDelete", function(e) {
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.standardForms");
 		var tableDiv = form.find("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 		
 		if(selectedRow.length > 0) {
 			var id = selectedRow.find("#idCell").text();
-			var activateLinkSplit = form.attr("data-activate").split("/");
-			var activateLinkSplit = form.attr("data-activate").split("/");
-			var presName = activateLinkSplit[activateLinkSplit.length-1];
+			var presName = form.attr("data-resourceId");
 			
 			$("#confirmDialog").attr("data-confirmLink", "/delete/" + presName + "/" + id);
 			formToRefresh = form;
@@ -441,7 +473,7 @@ $(document).ready(function(e) {
 	 **************************************************************************************************************************/
 	container.on("click", "#button-cancel", function(e) {
 		e.preventDefault();
-		var form = $(this).closest("div.forms");
+		var form = $(this).closest("div.windows");
 		var formBody = $(this).closest(".windowBody");
 		formBody.fadeOut("slow", function(e) {
 			refreshFormData(form);
@@ -488,20 +520,19 @@ $(document).ready(function(e) {
 /*
  * Fetches the data from server to form element
  * */
-function loadDataToForm(form) {
-	var activateLink = form.attr("data-activate");
+function loadDataToForm(window) {
+	var activateLink = window.attr("data-activate");
 	$.ajax({
 		url: activateLink,
 		type: 'GET', 
 		success: function(data) {
-			form.html(data);
-			form.attr("data-resourceId", form.find(".windowHeaders").attr("data-resourceId"));
-			form.show();
-			focus(form);
+			window.find(".windowBody").html(data);
+			window.show();
+			focus(window);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { 
-			form.remove();
-			delete form;
+			window.remove();
+			delete window;
 			$("#messagePopup").html("<p><b>ERROR:</b> " + errorThrown + "</p>");
 			$("#messagePopup").attr("class", "messageError");
 			$("#messagePopup").prepend("<div></div>");
@@ -514,7 +545,7 @@ function loadDataToForm(form) {
 //which adds drop-shadow effect to it and puts the form in front of the others.
 //Only one form can be focused at a time.
 function focus(form) {
-	$(".forms").each(function(index, element) {
+	$(".windows").each(function(index, element) {
 		$(this).removeClass("focused");
 		$(this).addClass("unfocused");
 	});
@@ -526,8 +557,9 @@ function focus(form) {
  * Refresh form data from database
  */
 function refreshFormData(form) {
-	form.find(".windowBody").fadeOut("fast", function() {
-		loadDataToForm(form);
+	var win = form.closest("div.windows");
+	win.find(".windowBody").fadeOut("fast", function() {
+		loadDataToForm(win);
 		$(this).fadeIn("fast");
 	});
 }

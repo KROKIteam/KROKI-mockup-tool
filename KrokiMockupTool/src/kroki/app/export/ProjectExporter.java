@@ -89,7 +89,7 @@ public class ProjectExporter {
 	 */
 	public void export(File file, BussinesSubsystem proj, String message) {
 		this.project = proj;
-		
+
 		//collecting the data from KROKI project
 		getData(proj);
 
@@ -159,10 +159,8 @@ public class ProjectExporter {
 				throw new NoZoomPanelException(e.getMessage());
 			}
 		}else if (el instanceof ParentChild) {
-			if(swing) {
-				//parent-child panel don't need to be visible in web application menu [FOR NOW]
-				getParentChildData(el, menu);
-			}
+			//parent-child panel don't need to be visible in web application menu [FOR NOW]
+			getParentChildData(el, menu);
 		}
 		//after data fetching is done, put current element in elements list
 		elements.add(el);
@@ -223,7 +221,6 @@ public class ProjectExporter {
 		String panel_type = "standard-panel";
 		if(!swing) {
 			activate = "/resources/" + ejb.getName();
-			panel_type = "";
 		}
 		Submenu sub = new Submenu(activate, label, panel_type);
 		//if it is in a subsystem, it is added as sub-menu item
@@ -247,6 +244,9 @@ public class ProjectExporter {
 		String activate = cc.toCamelCase(pcPanel.name(), false) + "_pc";
 		String label = pcPanel.getLabel();
 		String panel_type = "parent-child";
+		if(!swing) {
+			activate = "/resources/" + cc.toCamelCase(pcPanel.name(), false);
+		}
 		Submenu sub = new Submenu(activate, label, panel_type);
 		if(menu != null) {
 			menu.addSubmenu(sub);
@@ -444,7 +444,7 @@ public class ProjectExporter {
 	public void writeProjectName(String name, String description) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-		
+
 		//Configuration file
 		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main.properties");
 		String toAppendName = "main.form.name";
@@ -712,7 +712,7 @@ public class ProjectExporter {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------ || GETTERS AND SETTERS
-	
+
 	public ArrayList<EJBClass> getClasses() {
 		return classes;
 	}
@@ -744,5 +744,5 @@ public class ProjectExporter {
 	public void setEnumerations(ArrayList<Enumeration> enumerations) {
 		this.enumerations = enumerations;
 	}
-	
+
 }

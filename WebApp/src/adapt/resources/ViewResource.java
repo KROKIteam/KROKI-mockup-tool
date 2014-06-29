@@ -46,78 +46,108 @@ import freemarker.template.Configuration;
 public class ViewResource extends Resource {
 
 	Map<String, Object> dataModel = new TreeMap<String, Object>();
-	XMLResource resource;
+	
+	/*
+	 * Since the new WEB framework now supports standard parent-child forms with multi-level hierarchy,
+	 * all data for inidividual standard forms (form headers, entities lists and child maps) are stored in maps
+	 * with corresponding resource name as key
+	 */
+	ArrayList<XMLResource> resources = new ArrayList<XMLResource>();
+	Map<String, ArrayList<EntityClass>> entityMap = new TreeMap<String, ArrayList<EntityClass>>();
+	Map<String, ArrayList<String>> formHeadersMap = new TreeMap<String, ArrayList<String>>();
+	Map<String, LinkedHashMap<String, Map<String, String>>> childFormMaps = new TreeMap<String, LinkedHashMap<String,Map<String,String>>>();
+	
 	XMLResource childResource;
 	EntityCreator creator;
-	
+
 	public ViewResource(Context context, Request request, Response response) {
 		super(context, request, response);
 		setModifiable(true);
 		getVariants().add(new Variant(MediaType.TEXT_HTML));
 	}
-	
+
 	public Representation getTemplateRepresentation(String templateName,
-            Map<String, Object> dataModel, MediaType mt) {
-        // The template representation is based on Freemarker.
-        return new TemplateRepresentation(templateName, getFmcConfiguration(),
-                dataModel, mt);
-    }
-    
+			Map<String, Object> dataModel, MediaType mt) {
+		// The template representation is based on Freemarker.
+		return new TemplateRepresentation(templateName, getFmcConfiguration(),
+				dataModel, mt);
+	}
+
 	public Representation getHTMLTemplateRepresentation(String templateName,
-            Map<String, Object> dataModel) {
-        // The template representation is based on Freemarker.
-        return new TemplateRepresentation(templateName, getFmcConfiguration(),
-                dataModel, MediaType.TEXT_HTML);
-    }
-	
-    private Configuration getFmcConfiguration() {
-        final AdaptApplication application = (AdaptApplication) getApplication();
-    	return application.getFmc();
-    }
+			Map<String, Object> dataModel) {
+		// The template representation is based on Freemarker.
+		return new TemplateRepresentation(templateName, getFmcConfiguration(),
+				dataModel, MediaType.TEXT_HTML);
+	}
+
+	private Configuration getFmcConfiguration() {
+		final AdaptApplication application = (AdaptApplication) getApplication();
+		return application.getFmc();
+	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleGet() {
 		AdaptApplication application = (AdaptApplication) getApplication();
-			String resName	= (String)getRequest().getAttributes().get("resName");
-			String cresName = (String)getRequest().getAttributes().get("cresName");
-			creator = new EntityCreator(application);
-			String query = "";
-			String windowName = "";
+		String resName	= (String)getRequest().getAttributes().get("resName");
+		String cresName = (String)getRequest().getAttributes().get("cresName");
+		creator = new EntityCreator(application);
+		String query = "";
+		String windowName = "";
+		
+		if(resName != null) {
+			XMLResource resource = application.getXMLResource(resName);
+			String formType = resource.getForms().get(0).getName();
+			if(formType.startsWith("ParentChildForm")) {
+				String forms = formType.substring(formType.indexOf("[") + 1, formType.length()-1);
+				String[] panels = forms.split(":");
+				for (int i = 0; i < panels.length; i++) {
+					XMLResource res = application.getXMLResource(panels[i]);
+					query = "FROM " + res.getName();
+					resources.add(res);
+					prepareContent(query, res);
+				}
+			}else if(formType.startsWith("StandardForm")) {
+				query = "FROM " + resource.getName();
+				resources.add(resource);
+				prepareContent(query, resource);
+			}
 			
-			if(resName != null) {
-				resource = application.getXMLResource(resName);
-				query = "FROM " + resource.getName(); 
-				windowName = resource.getLabel();
+			windowName = resource.getLabel();
+		}
+
+		if(cresName != null) {//child forma
+			String presName = (String)getRequest().getAttributes().get("presName");
+			String cid = (String)getRequest().getAttributes().get("cid");
+			XMLResource resource = application.getXMLResource(cresName);
+			XMLResource parentResource = application.getXMLResource(presName);
+			if(parentResource != null) {
+				System.out.println("[PAREN] " + parentResource.getLabel());
+			}else {
+				System.out.println("[PARENT] null");
 			}
 
-			if(cresName != null) {//child forma
-				String presName = (String)getRequest().getAttributes().get("presName");
-				String cid = (String)getRequest().getAttributes().get("cid");
-				resource = application.getXMLResource(cresName);
-				XMLResource parentResource = application.getXMLResource(presName);
-				if(parentResource != null) {
-					System.out.println("[PAREN] " + parentResource.getLabel());
-				}else {
-					System.out.println("[PARENT] null");
-				}
-				
-				if(resource != null) {
-					for (XMLManyToOneAttribute mattr : resource.getManyToOneAttributes()) {
-						if(mattr.getType().equals(presName)) {
-							query = "FROM " + resource.getName() + " o WHERE o." + mattr.getName() + ".id = " + cid;
-							windowName = resource.getLabel() + " from " + parentResource.getLabel();
-							dataModel.put("windowName", windowName);
-						}
+			if(resource != null) {
+				for (XMLManyToOneAttribute mattr : resource.getManyToOneAttributes()) {
+					if(mattr.getType().equals(presName)) {
+						query = "FROM " + resource.getName() + " o WHERE o." + mattr.getName() + ".id = " + cid;
+						windowName = resource.getLabel() + " from " + parentResource.getLabel();
+						dataModel.put("windowName", windowName);
+						resources.add(resource);
+						prepareContent(query, resource);
 					}
 				}
 			}
-			prepareContent(query);
+		}
+		dataModel.put("resources", resources);
+		dataModel.put("formHeadersMap", formHeadersMap);
+		dataModel.put("entityMap", entityMap);
+		dataModel.put("childFormMaps", childFormMaps);
 		super.handleGet();
 	}
 
 	@SuppressWarnings("unchecked")
-	public void prepareContent(String query) {
+	public void prepareContent(String query, XMLResource resource) {
 		System.out.println("[PREPARE CONTENT] query = " + query);
 		AdaptApplication application = (AdaptApplication) getApplication();
 		EntityManager em =application.getEmf().createEntityManager();
@@ -153,50 +183,52 @@ public class ViewResource extends Resource {
 					entities = creator.getEntities(ress, headers, resource);
 					if(!entities.isEmpty()) {
 						Map<String, String> childMap = new LinkedHashMap<String, String>();
-						
+
 						for(int j=0; j<entities.size(); j++) {
 							EntityClass ecl = entities.get(j);
 							String Id = creator.getEntityPropertyValue(ecl, "id");
 							String name = "";
-							
+
 							for (XMLAttribute attr : resource.getRepresentativeAttributes()) {
 								name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
 							}
-							
+
 							if(!name.equals("")) {
 								name = name.substring(0, name.length()-2);
 							}
-							
+
 							childMap.put(Id, name);
 						}
-						dataModel.put("mainFormHeaders", headers);
-						dataModel.put("entities", entities);
+						//dataModel.put("mainFormHeaders", headers);
+						//dataModel.put("entities", entities);
+						entityMap.put(resource.getName(), entities);
 						dataModel.put("childMap", childMap);
 					}else {
 						dataModel.put("msg", "No entries in the database for requested resource!");
 					}
 				} catch (NoSuchFieldException e) {
-//					try {
-//						//ako klasa nema name polje, ispisuje se ID
-//						entities = EntityCreator.getEntities(ress, "id");
-//						System.err.println("[INFO]Klasa nema 'name' polje, ispisujem ID");
-//						if(!entities.isEmpty()) {
-//							dataModel.put("entities", entities);
-//						}else {
-//							dataModel.put("msg", "No entries in the database for requested resource!");
-//						}
-//					} catch (NoSuchFieldException e1) {
-//						//ovo ne bi trebalo nikada da se desi
-//						System.err.println("[ERROR]Klasa nema ID polje :(");
-//					}
+					//					try {
+					//						//ako klasa nema name polje, ispisuje se ID
+					//						entities = EntityCreator.getEntities(ress, "id");
+					//						System.err.println("[INFO]Klasa nema 'name' polje, ispisujem ID");
+					//						if(!entities.isEmpty()) {
+					//							dataModel.put("entities", entities);
+					//						}else {
+					//							dataModel.put("msg", "No entries in the database for requested resource!");
+					//						}
+					//					} catch (NoSuchFieldException e1) {
+					//						//ovo ne bi trebalo nikada da se desi
+					//						System.err.println("[ERROR]Klasa nema ID polje :(");
+					//					}
 					e.printStackTrace();
 				}
 			}
-			prepareAdd();
+			formHeadersMap.put(resource.getName(), headers);
+			prepareAdd(resource);
 		}
 	}
-	
-	public void prepareAdd() {
+
+	public void prepareAdd(XMLResource resource) {
 		AdaptApplication app = (AdaptApplication) getApplication();
 		EntityManager em = app.getEmf().createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -224,41 +256,42 @@ public class ViewResource extends Resource {
 					EntityClass ecl = entities.get(j);
 					String Id = creator.getEntityPropertyValue(ecl, "id");
 					String name = "";
-					
+
 					for (XMLAttribute attr : ress.getRepresentativeAttributes()) {
 						name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
 					}
-					
+
 					if(!name.equals("")) {
 						name = name.substring(0, name.length()-2);
 					}else {
 						name = Id;
 					}
-					
+
 					childMap.put(Id, name);
 				}
 				childFormMap.put(mattr.getLabel(), childMap);
 			} catch (NoSuchFieldException e) {
-//				try {
-//					entities = EntityCreator.getEntities(objects, "id");
-//					Map<String, String> childMap = new TreeMap<String, String>();
-//					for(int j=0; j<entities.size(); j++) {
-//						EntityClass ecl = entities.get(j);
-//						String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-//						childMap.put(Id, Id);
-//					}
-//					childFormMap.put(mattr.getLabel(), childMap);
-//				} catch (NoSuchFieldException e1) {
-//					e1.printStackTrace();
-//				}
+				//				try {
+				//					entities = EntityCreator.getEntities(objects, "id");
+				//					Map<String, String> childMap = new TreeMap<String, String>();
+				//					for(int j=0; j<entities.size(); j++) {
+				//						EntityClass ecl = entities.get(j);
+				//						String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
+				//						childMap.put(Id, Id);
+				//					}
+				//					childFormMap.put(mattr.getLabel(), childMap);
+				//				} catch (NoSuchFieldException e1) {
+				//					e1.printStackTrace();
+				//				}
 				e.printStackTrace();
 			}
 		}
 		tx.commit();
 		em.close();
-		dataModel.put("childFormMap", childFormMap);
+		//dataModel.put("childFormMap", childFormMap);
+		childFormMaps.put(resource.getName(), childFormMap);
 	}
-	
+
 	@Override
 	public void handlePost() {
 		handleGet();
@@ -273,13 +306,9 @@ public class ViewResource extends Resource {
 	}
 
 	public XMLResource getResource() {
-		return resource;
+		return resources.get(0);
 	}
-
-	public void setResource(XMLResource resource) {
-		this.resource = resource;
-	}
-
+	
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
 		dataModel.put("title", Settings.APP_TITLE);

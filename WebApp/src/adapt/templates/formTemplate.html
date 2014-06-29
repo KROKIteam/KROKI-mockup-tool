@@ -1,14 +1,9 @@
-					<!------------------------------------STANDARD FORM------------------------------------------>
-					<!-- FORM HEADER -->
-					<div class="windowHeaders" data-resourceId=${resource.name}>
-						<div class="windowName"><#if windowName??>${windowName}<#else>${resource.label}</#if></div>
-						<div class="headerButtons" title="Close form">
-							<img src="/files/images/icons-white/close.png">
-						</div>
-					</div>	
-					<!-- /FORM HEADER -->
-					<!--  FORM BODY -->
-					<div class="windowBody">
+<#list resources as resource>				
+				<!------------------------------------ ${resource.name} Standard form ------------------------------------------>
+					<div class="standardForms"  <#if (resources?size > 1)>style="height:40%"</#if> data-resourceId="${resource.name}" data-windowName=<#if windowName??>"${windowName}"<#else>"${resource.label}"</#if>>
+						<#if (resources?size > 1)>
+						<h1 class="formTitle">${resource.label}</h1>
+						</#if>
 						<!--  TABLE DIV -->
 						<div class="tableDiv" <#if operations??>style="width: 75%; border-right: 1px solid black;"</#if>>
 							<!-- FORM TOOLBAR -->
@@ -53,19 +48,20 @@
 							<!-- /FORM TOOLBAR -->
 							<!-- TABLE PANEL -->
 							<div class="tablePanel">
-								<#if mainFormHeaders??>
+								<#if formHeadersMap??>
+								<#if formHeadersMap[resource.name]?has_content>
 								<table class="mainTable" cellspacing=0>
 									<thead>
 										<tr>
-											<#list mainFormHeaders as header>
+											<#list formHeadersMap[resource.name] as header>
 												<th>${header}</th>
 											</#list>
 										</tr>
 									</thead>
 										<tbody>
-											<#if entities??>
-												<#if entities?has_content>
-												<#list entities as entity>
+											<#if entityMap??>
+												<#if entityMap[resource.name]?has_content>
+												<#list entityMap[resource.name] as entity>
 													<tr>
 														<#list entity.properties as prop>
 															<#if prop.name == "id">
@@ -81,6 +77,7 @@
 												<tr></tr>
 											</#if>
 										</tbody>
+									</#if>
 									</#if>
 								</table>
 							</div>
@@ -136,14 +133,14 @@
 								</#if>
 								</tr>
 								</#list>
-								<#if childFormMap??>
-								<#list childFormMap?keys as childRow>
+								<#if childFormMaps??>
+								<#list childFormMaps[resource.name]?keys as childRow>
 								<tr>
 									<td class="labelColumn">${childRow}:</td>
 									<td class="inputColumn" style="float: left;">
-										<select name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
-										<#list childFormMap[childRow]?keys as id>
-											<option value="${id}">${childFormMap[childRow][id]}</option>
+										<select name="mattrSelect${childFormMaps[resource.name]?keys?seq_index_of(childRow)}">
+										<#list childFormMaps[resource.name][childRow]?keys as id>
+											<option value="${id}">${childFormMaps[resource.name][childRow][id]}</option>
 										</#list>
 										</select>
 									</td>
@@ -163,19 +160,20 @@
 							</div>
 							<!-- INPUT FORM Buttons -->
 						</form>
+						<!-- NEXT POPUP -->
+						<div class="nextPopup">
+							<#if childList??>
+							<#if childList?has_content>
+							<ul class="nextList">
+								<#list childList as child>
+									<li data-childId="${child.name}">${child.label}</li>
+								</#list>
+							</ul>
+							</#if>
+							</#if>
+						</div>
+						<!-- /NEXT POPUP -->
 					</div>
 					<!--  /FORM BODY -->
-					<!-- NEXT POPUP -->
-					<div class="nextPopup">
-						<#if childList??>
-						<#if childList?has_content>
-						<ul class="nextList">
-							<#list childList as child>
-								<li data-childId="${child.name}">${child.label}</li>
-							</#list>
-						</ul>
-						</#if>
-						</#if>
-					</div>
-					<!-- /NEXT POPUP -->
-					<!------------------------------------/STANDARD FORM------------------------------------------>
+					<!------------------------------------ ${resource.name} Standard form END ------------------------------------------>
+</#list>
