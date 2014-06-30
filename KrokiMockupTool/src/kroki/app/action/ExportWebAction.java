@@ -36,24 +36,6 @@ public class ExportWebAction extends AbstractAction {
 		BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
 		
 		if(proj != null) {
-			//get selected item from jtree and find its project
-			TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
-			Object node = path.getLastPathComponent();
-			if(node != null) {
-				//if package is selected, find parent project
-				if(node instanceof BussinesSubsystem) {
-					BussinesSubsystem subsys = (BussinesSubsystem) node;
-					proj = KrokiMockupToolApp.getInstance().findProject(subsys);
-				}else if(node instanceof VisibleClass) {
-					//panel is selected, get parent node from tree and find project
-					JTree tree = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree();
-					Object parent = tree.getSelectionPath().getParentPath().getLastPathComponent();
-					if(parent instanceof BussinesSubsystem) {
-						proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
-					}
-				}
-				
-			}
 			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);
 			JFileChooser jfc = new JFileChooser();
 			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

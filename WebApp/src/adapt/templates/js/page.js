@@ -132,8 +132,9 @@ $(document).ready(function(e) {
 				$(this).removeClass("hover");
 			});
 			var activateLink = $(this).attr("data-activate");
+			var panelType = $(this).attr("data-paneltype");
 			
-			makeNewWindow(activateLink, $(this).text());
+			makeNewWindow(activateLink, $(this).text(), panelType);
 			
 		}
 	});
@@ -187,7 +188,7 @@ $(document).ready(function(e) {
 	});
 
 	//FUNCTION THAT CREATES HTML WINDOWS
-	function makeNewWindow(activateLink, label) {
+	function makeNewWindow(activateLink, label, panelType) {
 		//make div.window
 		var newWindow = $(document.createElement("div"));
 		newWindow.addClass("windows");
@@ -208,7 +209,7 @@ $(document).ready(function(e) {
 		newWindowHeader.append(newHeaderButtonDiv);
 		
 		var activateSplit = activateLink.split("/");
-		newWindow.attr("data-resourceId", activateSplit[activateSplit.length-1])
+		//newWindow.attr("data-resourceId", activateSplit[activateSplit.length-1])
 		/*
 		window.attr("data-resourceId", window.find(".standardForms").attr("data-resourceId"));
 		window.find(".windowName").text(window.find(".standardForms").attr("data-windowName"));
@@ -218,13 +219,37 @@ $(document).ready(function(e) {
 		newWindowBody = $(document.createElement("div"));
 		newWindowBody.addClass("windowBody");
 		
-		newWindow.attr("data-activate", activateLink);
 		newWindow.append(newWindowHeader)
 		newWindow.append(newWindowBody);
 		
-		loadDataToForm(newWindow);
 		container.append(newWindow);
-
+		//if the form that needs to ne displayed is parent-child form
+		//get containing forms names by parsing the 'data-paneltype' attribute
+		//and get data for each form by envoking ajax call to server
+		if(panelType.indexOf("parent-child") != -1) {
+			//remove the 'parent-child', strip the square brackets and split attribute by ':'
+			var formsSplit = panelType.substring(13, panelType.length-1).split(":");
+			
+			for(var i=0; i<formsSplit.length; i++) {
+				var newStandardForm = $(document.createElement("div"));
+				newStandardForm.addClass("standardForms");
+				newStandardForm.attr("data-activate", "/resources/" + formsSplit[i]);
+				newStandardForm.attr("data-resourceId", formsSplit[i]);
+				newStandardForm.css({"height":"40%"});
+				
+				newWindowBody.append(newStandardForm);
+				loadDataToForm(newStandardForm);
+			}
+			
+		}else {
+			var newStandardForm = $(document.createElement("div"));
+			newStandardForm.addClass("standardForms");
+			newStandardForm.attr("data-activate", activateLink);
+			newStandardForm.attr("data-resourceId", activateSplit[activateSplit.length-1]);
+			newWindowBody.append(newStandardForm);
+			loadDataToForm(newStandardForm);
+		}
+		
 		/*
 		 * If number of columns is more than 6, add 200 pixels for each
 		 */
@@ -242,6 +267,7 @@ $(document).ready(function(e) {
 			}
 		}
 	}
+	
 	/**************************************************************************************************************************
 													   															 TABLE EFFECTS
 	 **************************************************************************************************************************/
@@ -400,7 +426,7 @@ $(document).ready(function(e) {
 			var cresName = $(this).attr("data-childid");
 			var presName = form.attr("data-resourceId");
 			
-			makeNewWindow("/showChildren/" + cresName  + "/" + id + "/" + presName);
+			makeNewWindow("/showChildren/" + cresName + "/" + presName  + "/" + id, cresName + " from " + presName ,"next-panel");
 			$(this).closest(".nextPopup").hide();
 		}
 	});
@@ -414,14 +440,14 @@ $(document).ready(function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 		var formBody = $(this).closest(".windowBody");
-		var form = $(this).closest("div.windows");
+		var form = $(this).closest("div.standardForms");
 
 		form.find(".nextPopup").hide();
-		formBody.fadeOut("slow", function(e) {
-			formBody.find(".tableDiv").hide();
-			formBody.find(".operationsDiv").hide();
-			formBody.find(".inputForm[name=addForm]").show();
-			formBody.fadeIn("slow");
+		form.fadeOut("slow", function(e) {
+			form.find(".tableDiv").hide();
+			form.find(".operationsDiv").hide();
+			form.find(".inputForm[name=addForm]").show();
+			form.fadeIn("slow");
 		});
 	});
 
@@ -473,14 +499,13 @@ $(document).ready(function(e) {
 	 **************************************************************************************************************************/
 	container.on("click", "#button-cancel", function(e) {
 		e.preventDefault();
-		var form = $(this).closest("div.windows");
-		var formBody = $(this).closest(".windowBody");
-		formBody.fadeOut("slow", function(e) {
+		var form = $(this).closest("div.standardForms");
+		form.fadeOut("slow", function(e) {
 			refreshFormData(form);
-			formBody.find(".tableDiv").show();
-			formBody.find(".operationsDiv").show();
-			formBody.find(".inputForm").hide();
-			formBody.fadeIn("slow");
+			form.find(".tableDiv").show();
+			form.find(".operationsDiv").show();
+			form.find(".inputForm").hide();
+			form.fadeIn("slow");
 		});
 		form.trigger("reset");
 	});
@@ -520,17 +545,18 @@ $(document).ready(function(e) {
 /*
  * Fetches the data from server to form element
  * */
-function loadDataToForm(window) {
-	var activateLink = window.attr("data-activate");
+function loadDataToForm(form) {
+	var activateLink = form.attr("data-activate");
+	var window = form.closest(".windows");
 	$.ajax({
 		url: activateLink,
 		type: 'GET', 
 		success: function(data) {
-			window.find(".windowBody").html(data);
+			form.html(data);
 			window.show();
 			focus(window);
 		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			window.remove();
 			delete window;
 			$("#messagePopup").html("<p><b>ERROR:</b> " + errorThrown + "</p>");
@@ -558,8 +584,8 @@ function focus(form) {
  */
 function refreshFormData(form) {
 	var win = form.closest("div.windows");
-	win.find(".windowBody").fadeOut("fast", function() {
-		loadDataToForm(win);
+	form.fadeOut("fast", function() {
+		loadDataToForm(form);
 		$(this).fadeIn("fast");
 	});
 }

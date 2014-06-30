@@ -27,6 +27,7 @@ import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
@@ -246,6 +247,13 @@ public class ProjectExporter {
 		String panel_type = "parent-child";
 		if(!swing) {
 			activate = "/resources/" + cc.toCamelCase(pcPanel.name(), false);
+			
+			//add list to contained panels enclosed in square brackets
+			panel_type += "[";
+			for(Hierarchy hierarchy: pcPanel.containedHierarchies()) {
+				panel_type += hierarchy.getTargetPanel().getComponent().getName() + ":";
+			}
+			panel_type = panel_type.substring(0, panel_type.length()-1) + "]";
 		}
 		Submenu sub = new Submenu(activate, label, panel_type);
 		if(menu != null) {

@@ -1,9 +1,5 @@
-<#list resources as resource>				
 				<!------------------------------------ ${resource.name} Standard form ------------------------------------------>
-					<div class="standardForms"  <#if (resources?size > 1)>style="height:40%"</#if> data-resourceId="${resource.name}" data-windowName=<#if windowName??>"${windowName}"<#else>"${resource.label}"</#if>>
-						<#if (resources?size > 1)>
 						<h1 class="formTitle">${resource.label}</h1>
-						</#if>
 						<!--  TABLE DIV -->
 						<div class="tableDiv" <#if operations??>style="width: 75%; border-right: 1px solid black;"</#if>>
 							<!-- FORM TOOLBAR -->
@@ -39,29 +35,33 @@
 									<button type="button" id="btnDelete" title="Delete row" disabled>
 										<img class="toolbarButton" src="/files/images/icons-white/delete.png"/>
 									</button>
+									<#if childList??>
+									<#if childList?has_content>
 									<button type="button" id="btnNextForms" title="View connected forms" disabled>
 										<img class="toolbarButton" src="/files/images/icons-white/next-forms.png"/>
 									</button>
+									</#if>
+									</#if>
 								</div>
 								<!-- TABLE CONTROLS -->
 							</div>
 							<!-- /FORM TOOLBAR -->
 							<!-- TABLE PANEL -->
 							<div class="tablePanel">
-								<#if formHeadersMap??>
-								<#if formHeadersMap[resource.name]?has_content>
+								<#if mainFormHeaders??>
+								<#if mainFormHeaders?has_content>
 								<table class="mainTable" cellspacing=0>
 									<thead>
 										<tr>
-											<#list formHeadersMap[resource.name] as header>
+											<#list mainFormHeaders as header>
 												<th>${header}</th>
 											</#list>
 										</tr>
 									</thead>
 										<tbody>
-											<#if entityMap??>
-												<#if entityMap[resource.name]?has_content>
-												<#list entityMap[resource.name] as entity>
+											<#if entities??>
+												<#if entities?has_content>
+												<#list entities as entity>
 													<tr>
 														<#list entity.properties as prop>
 															<#if prop.name == "id">
@@ -133,14 +133,14 @@
 								</#if>
 								</tr>
 								</#list>
-								<#if childFormMaps??>
-								<#list childFormMaps[resource.name]?keys as childRow>
+								<#if childFormMap??>
+								<#list childFormMap?keys as childRow>
 								<tr>
 									<td class="labelColumn">${childRow}:</td>
 									<td class="inputColumn" style="float: left;">
-										<select name="mattrSelect${childFormMaps[resource.name]?keys?seq_index_of(childRow)}">
-										<#list childFormMaps[resource.name][childRow]?keys as id>
-											<option value="${id}">${childFormMaps[resource.name][childRow][id]}</option>
+										<select name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
+										<#list childFormMap[childRow]?keys as id>
+											<option value="${id}">${childFormMap[childRow][id]}</option>
 										</#list>
 										</select>
 									</td>
@@ -160,20 +160,17 @@
 							</div>
 							<!-- INPUT FORM Buttons -->
 						</form>
+						<#if childList??>
+						<#if childList?has_content>
 						<!-- NEXT POPUP -->
 						<div class="nextPopup">
-							<#if childList??>
-							<#if childList?has_content>
-							<ul class="nextList">
-								<#list childList as child>
-									<li data-childId="${child.name}">${child.label}</li>
-								</#list>
-							</ul>
-							</#if>
-							</#if>
+						<ul class="nextList">
+							<#list childList as child>
+								<li data-childId="${child.name}">${child.label}</li>
+							</#list>
+						</ul>
 						</div>
 						<!-- /NEXT POPUP -->
-					</div>
-					<!--  /FORM BODY -->
+						</#if>
+						</#if>
 					<!------------------------------------ ${resource.name} Standard form END ------------------------------------------>
-</#list>

@@ -46,16 +46,12 @@ import freemarker.template.Configuration;
 public class ViewResource extends Resource {
 
 	Map<String, Object> dataModel = new TreeMap<String, Object>();
-	
-	/*
-	 * Since the new WEB framework now supports standard parent-child forms with multi-level hierarchy,
-	 * all data for inidividual standard forms (form headers, entities lists and child maps) are stored in maps
-	 * with corresponding resource name as key
-	 */
-	ArrayList<XMLResource> resources = new ArrayList<XMLResource>();
-	Map<String, ArrayList<EntityClass>> entityMap = new TreeMap<String, ArrayList<EntityClass>>();
-	Map<String, ArrayList<String>> formHeadersMap = new TreeMap<String, ArrayList<String>>();
-	Map<String, LinkedHashMap<String, Map<String, String>>> childFormMaps = new TreeMap<String, LinkedHashMap<String,Map<String,String>>>();
+
+	XMLResource resource;
+	//ArrayList<XMLResource> resources = new ArrayList<XMLResource>();
+	//Map<String, ArrayList<EntityClass>> entityMap = new TreeMap<String, ArrayList<EntityClass>>();
+	//Map<String, ArrayList<String>> formHeadersMap = new TreeMap<String, ArrayList<String>>();
+	//Map<String, LinkedHashMap<String, Map<String, String>>> childFormMaps = new TreeMap<String, LinkedHashMap<String,Map<String,String>>>();
 	
 	XMLResource childResource;
 	EntityCreator creator;
@@ -93,12 +89,11 @@ public class ViewResource extends Resource {
 		String cresName = (String)getRequest().getAttributes().get("cresName");
 		creator = new EntityCreator(application);
 		String query = "";
-		String windowName = "";
 		
 		if(resName != null) {
-			XMLResource resource = application.getXMLResource(resName);
+			resource = application.getXMLResource(resName);
 			String formType = resource.getForms().get(0).getName();
-			if(formType.startsWith("ParentChildForm")) {
+			/*if(formType.startsWith("ParentChildForm")) {
 				String forms = formType.substring(formType.indexOf("[") + 1, formType.length()-1);
 				String[] panels = forms.split(":");
 				for (int i = 0; i < panels.length; i++) {
@@ -111,38 +106,34 @@ public class ViewResource extends Resource {
 				query = "FROM " + resource.getName();
 				resources.add(resource);
 				prepareContent(query, resource);
-			}
+			}*/
 			
-			windowName = resource.getLabel();
+			query = "FROM " + resource.getName();
+			prepareContent(query, resource);
 		}
 
 		if(cresName != null) {//child forma
 			String presName = (String)getRequest().getAttributes().get("presName");
-			String cid = (String)getRequest().getAttributes().get("cid");
-			XMLResource resource = application.getXMLResource(cresName);
+			String pid = (String)getRequest().getAttributes().get("pid");
+			System.out.println("[PRESNAME] " + presName + "\n[PID] " + pid);
+			resource = application.getXMLResource(cresName);
 			XMLResource parentResource = application.getXMLResource(presName);
-			if(parentResource != null) {
-				System.out.println("[PAREN] " + parentResource.getLabel());
-			}else {
-				System.out.println("[PARENT] null");
-			}
-
+			
 			if(resource != null) {
 				for (XMLManyToOneAttribute mattr : resource.getManyToOneAttributes()) {
 					if(mattr.getType().equals(presName)) {
-						query = "FROM " + resource.getName() + " o WHERE o." + mattr.getName() + ".id = " + cid;
-						windowName = resource.getLabel() + " from " + parentResource.getLabel();
-						dataModel.put("windowName", windowName);
-						resources.add(resource);
+						query = "FROM " + resource.getName() + " o WHERE o." + mattr.getName() + ".id = " + pid;
 						prepareContent(query, resource);
 					}
 				}
 			}
 		}
-		dataModel.put("resources", resources);
+		dataModel.put("resource", resource);
+		/*
 		dataModel.put("formHeadersMap", formHeadersMap);
 		dataModel.put("entityMap", entityMap);
 		dataModel.put("childFormMaps", childFormMaps);
+		*/
 		super.handleGet();
 	}
 
@@ -199,9 +190,9 @@ public class ViewResource extends Resource {
 
 							childMap.put(Id, name);
 						}
-						//dataModel.put("mainFormHeaders", headers);
-						//dataModel.put("entities", entities);
-						entityMap.put(resource.getName(), entities);
+						dataModel.put("mainFormHeaders", headers);
+						dataModel.put("entities", entities);
+						//entityMap.put(resource.getName(), entities);
 						dataModel.put("childMap", childMap);
 					}else {
 						dataModel.put("msg", "No entries in the database for requested resource!");
@@ -223,7 +214,6 @@ public class ViewResource extends Resource {
 					e.printStackTrace();
 				}
 			}
-			formHeadersMap.put(resource.getName(), headers);
 			prepareAdd(resource);
 		}
 	}
@@ -288,8 +278,7 @@ public class ViewResource extends Resource {
 		}
 		tx.commit();
 		em.close();
-		//dataModel.put("childFormMap", childFormMap);
-		childFormMaps.put(resource.getName(), childFormMap);
+		dataModel.put("childFormMap", childFormMap);
 	}
 
 	@Override
@@ -306,9 +295,13 @@ public class ViewResource extends Resource {
 	}
 
 	public XMLResource getResource() {
-		return resources.get(0);
+		return resource;
 	}
-	
+
+	public void setResource(XMLResource resource) {
+		this.resource = resource;
+	}
+
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
 		dataModel.put("title", Settings.APP_TITLE);

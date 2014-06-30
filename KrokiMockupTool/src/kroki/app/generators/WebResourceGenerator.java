@@ -58,6 +58,7 @@ public class WebResourceGenerator {
 				
 				if(element instanceof ParentChild) {
 					forms = "ParentChildForm";
+					/*
 					ParentChild pc = (ParentChild)element;
 					if(pc.getHierarchyCount() > 0) {
 						forms += "[";
@@ -65,7 +66,7 @@ public class WebResourceGenerator {
 							forms += hierarchy.getTargetPanel().getComponent().getName() + ":";
 						}
 						forms = forms.substring(0, forms.length()-1) + "]";
-					}
+					}*/
 				}
 				
 				//System.out.println("\n[RESOURCE]" + "\n\tName: " + name + "\n\tLabel: " + label + "\n\tLink: " + link + "\n\tRouted: " + routed + "\n\tForms: " + forms + "\n");
