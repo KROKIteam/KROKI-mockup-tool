@@ -60,7 +60,6 @@ body {
 	overflow: hidden;
 }
 
-
 /*****************************************************************
 												   MENU FORMATTING
 *****************************************************************/
@@ -510,7 +509,7 @@ ul.L2SubMenu {
 
 .formTableContainer {
 	height: 98%;
-	width: 75%;
+	width: 79%;
 	border-right: 1px solid black;
 	float: left;
 	overflow: auto;

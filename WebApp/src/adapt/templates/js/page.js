@@ -13,6 +13,8 @@ $(document).ready(function(e) {
 
 	//number of miliseconds that popup messages are being visible for
 	var delay = 2000;
+	//speed of fade out and fade in effects
+	var fadeSpeed = 300;
 	//form (div.forms) that is currently being dragged
 	var dragged = null;
 	//offsets for dragging forms
@@ -209,11 +211,6 @@ $(document).ready(function(e) {
 		newWindowHeader.append(newHeaderButtonDiv);
 		
 		var activateSplit = activateLink.split("/");
-		//newWindow.attr("data-resourceId", activateSplit[activateSplit.length-1])
-		/*
-		window.attr("data-resourceId", window.find(".standardForms").attr("data-resourceId"));
-		window.find(".windowName").text(window.find(".standardForms").attr("data-windowName"));
-		*/
 		
 		//make div.windowBody
 		newWindowBody = $(document.createElement("div"));
@@ -238,7 +235,7 @@ $(document).ready(function(e) {
 				newStandardForm.css({"height":"40%"});
 				
 				newWindowBody.append(newStandardForm);
-				loadDataToForm(newStandardForm);
+				loadDataToForm(newStandardForm, true);
 			}
 			
 		}else {
@@ -247,7 +244,7 @@ $(document).ready(function(e) {
 			newStandardForm.attr("data-activate", activateLink);
 			newStandardForm.attr("data-resourceId", activateSplit[activateSplit.length-1]);
 			newWindowBody.append(newStandardForm);
-			loadDataToForm(newStandardForm);
+			loadDataToForm(newStandardForm, false);
 		}
 		
 		/*
@@ -305,11 +302,11 @@ $(document).ready(function(e) {
 				success: function(data) {
 					form.append(data);
 					form.find(".nextPopup").hide();
-					form.fadeOut("slow", function(e) {
+					form.fadeOut(fadeSpeed, function(e) {
 						form.find(".tableDiv").hide();
 						form.find(".operationsDiv").hide();
 						form.find(".inputForm[name=editForm]").show();
-						form.fadeIn("slow");
+						form.fadeIn(fadeSpeed);
 					});
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -321,11 +318,11 @@ $(document).ready(function(e) {
 			});
 		}else {
 			form.find(".nextPopup").hide();
-			form.fadeOut("slow", function(e) {
+			form.fadeOut(fadeSpeed, function(e) {
 				form.find(".tableDiv").hide();
 				form.find(".operationsDiv").hide();
 				form.find(".inputForm[name=addForm]").show();
-				form.fadeIn("slow");
+				form.fadeIn(fadeSpeed);
 			});
 		}
 	});
@@ -459,13 +456,12 @@ $(document).ready(function(e) {
 		if(selectedRow.length > 0) {
 			var id = selectedRow.find("#idCell").text();
 			var presName = form.attr("data-resourceId");
-			
-			$("#confirmDialog").attr("data-confirmLink", "/delete/" + presName + "/" + id);
 			formToRefresh = form;
-			$("#overlay").show();
+			showConfirmDialog("Confirm delete", "/delete/" + presName + "/" + id, "Are you sure you wish to delete the selected row?");
 		}
 	});
 	
+	//OK i Cancel buttons on confirm dialogs
 	$("#cancelConfirm").click(function(e) {
 		$("#overlay").hide();
 	});
@@ -473,25 +469,42 @@ $(document).ready(function(e) {
 	$("#cconfirmBtn").click(function(e) {
 		$("#overlay").hide();
 		var link = $(this).closest("#confirmDialog").attr("data-confirmLink");
+		if(link != "justClose") {
+			$.ajax({
+				url: link,
+				type: 'GET', 
+				success: function(data) {
+					$("#messagePopup").html(data);
+					var clas = $("#messagePopup").find("p").attr("data-cssClass");
+					$("#messagePopup").attr("class", clas);
+					$("#messagePopup").prepend("<div></div>");
+					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+					refreshFormData(formToRefresh);
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) { 
+					$("#messagePopup").html("<p>" + errorThrown + "</p>");
+					$("#messagePopup").attr("class", "messageError");
+					$("#messagePopup").prepend("<div></div>");
+					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+				}
+			});
+		}
+	});
+	
+	function showConfirmDialog(name, confirmLink, text) {
+		$("#confirmDialog .windowName").text(name);
+		$("#confirmDialog").attr("data-confirmLink", confirmLink);
+		$("#confirmDialog p").text(text);
+		$("#overlay").show();
+	}
+
+	//OPERATION BUTTON CLICKS
+	container.on("click", ".operationButton button[data-operation]", function(e) {
+		var name = $(this).text();
+		var link = $(this).attr("data-confirmLink");
+		var text = $(this).attr("data-confirmText");
+		showConfirmDialog(name, link, text);
 		
-		$.ajax({
-			url: link,
-			type: 'GET', 
-			success: function(data) {
-				$("#messagePopup").html(data);
-				var clas = $("#messagePopup").find("p").attr("data-cssClass");
-				$("#messagePopup").attr("class", clas);
-				$("#messagePopup").prepend("<div></div>");
-				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-				refreshFormData(formToRefresh);
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) { 
-				$("#messagePopup").html("<p>" + errorThrown + "</p>");
-				$("#messagePopup").attr("class", "messageError");
-				$("#messagePopup").prepend("<div></div>");
-				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-			}
-		});
 	});
 	
 	/**************************************************************************************************************************
@@ -505,7 +518,7 @@ $(document).ready(function(e) {
 			form.find(".tableDiv").show();
 			form.find(".operationsDiv").show();
 			form.find(".inputForm").hide();
-			form.fadeIn("slow");
+			form.fadeIn(fadeSpeed);
 		});
 		form.trigger("reset");
 	});
@@ -545,7 +558,7 @@ $(document).ready(function(e) {
 /*
  * Fetches the data from server to form element
  * */
-function loadDataToForm(form) {
+function loadDataToForm(form, displayTitle) {
 	var activateLink = form.attr("data-activate");
 	var window = form.closest(".windows");
 	$.ajax({
@@ -555,6 +568,9 @@ function loadDataToForm(form) {
 			form.html(data);
 			window.show();
 			focus(window);
+			if(!displayTitle) {
+				form.find("h1").remove();
+			}
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			window.remove();
@@ -585,7 +601,11 @@ function focus(form) {
 function refreshFormData(form) {
 	var win = form.closest("div.windows");
 	form.fadeOut("fast", function() {
-		loadDataToForm(form);
+		var showTitle = false;
+		if((win.find(".standardForms").length) > 1) {
+			showTitle =  true;
+		}
+		loadDataToForm(form, showTitle);
 		$(this).fadeIn("fast");
 	});
 }

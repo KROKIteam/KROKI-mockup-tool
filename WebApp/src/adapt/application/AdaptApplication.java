@@ -38,6 +38,7 @@ import adapt.utils.XMLForm;
 import adapt.utils.XMLManyToManyAttribute;
 import adapt.utils.XMLManyToOneAttribute;
 import adapt.utils.XMLOneToManyAttribute;
+import adapt.utils.XMLOperation;
 import adapt.utils.XMLParser;
 import adapt.utils.XMLResource;
 import freemarker.cache.ClassTemplateLoader;
@@ -223,6 +224,7 @@ public class AdaptApplication extends Application {
 			ArrayList<XMLManyToOneAttribute> manyToOneAttributes = new ArrayList<XMLManyToOneAttribute>();
 			ArrayList<XMLOneToManyAttribute> oneToManyAttributes = new ArrayList<XMLOneToManyAttribute>();
 			ArrayList<XMLManyToManyAttribute> manyToManyAttributes = new ArrayList<XMLManyToManyAttribute>();
+			ArrayList<XMLOperation> operations = new ArrayList<XMLOperation>();
 			
 			Element element = (Element) resNodes.item(i);
 			NodeList nname = element.getElementsByTagName("Name");
@@ -234,6 +236,7 @@ public class AdaptApplication extends Application {
 			NodeList nOneToMany = element.getElementsByTagName("OneToManyAttributes");
 			NodeList nManyToOne = element.getElementsByTagName("ManyToOneAttributes");
 			NodeList nManyToMany = element.getElementsByTagName("ManyToManyAttributes");
+			NodeList nOperations = element.getElementsByTagName("Operations");
 			
 			for(int j=0; j<nAttributes.getLength(); j++) {
 				Element element1 = (Element) nAttributes.item(j);
@@ -338,6 +341,28 @@ public class AdaptApplication extends Application {
 				}
 			}
 			
+			
+			/*
+			 * 	<operation allowed="true" label="Transaction" name="Transaction" target="null" type="transaction"/>
+				<operation allowed="true" label="Report" name="Report" target="null" type="report"/>
+			 */
+			for(int n=0; n<nOperations.getLength(); n++) {
+				Element operationElement = (Element) nOperations.item(n);
+				NodeList nOps = operationElement.getElementsByTagName("operation");
+				for(int s=0; s<nOps.getLength(); s++) {
+					Element nOp = (Element) nOps.item(s);
+					String allowed = nOp.getAttribute("allowed");
+					String label = nOp.getAttribute("label");
+					String name = nOp.getAttribute("name");
+					String target = nOp.getAttribute("target");
+					String type = nOp.getAttribute("type");
+					
+					XMLOperation op = new XMLOperation(Boolean.parseBoolean(allowed), label, name, target, type, "");
+					operations.add(op);
+				}
+			}
+			
+			
 	        String name = XMLParser.getCharacterDataFromElement((Element) nname.item(0));
 	        String label = XMLParser.getCharacterDataFromElement((Element) nLabel.item(0));
 	        String link = XMLParser.getCharacterDataFromElement((Element)nLink.item(0));
@@ -354,7 +379,7 @@ public class AdaptApplication extends Application {
 	        	forms.add(form);
 	        }
 	        
-	        XMLResource res = new XMLResource(name, label, link, routed, forms, attributes, manyToOneAttributes, oneToManyAttributes, manyToManyAttributes);
+	        XMLResource res = new XMLResource(name, label, link, routed, forms, attributes, manyToOneAttributes, oneToManyAttributes, manyToManyAttributes, operations);
 
 	        mainFrame.displayText("XML Resource '" + res.getName() + "' parsed", 0);
 	        ress.add(res);

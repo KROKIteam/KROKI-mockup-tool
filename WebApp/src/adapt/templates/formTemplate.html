@@ -1,7 +1,7 @@
 				<!------------------------------------ ${resource.name} Standard form ------------------------------------------>
 						<h1 class="formTitle">${resource.label}</h1>
 						<!--  TABLE DIV -->
-						<div class="tableDiv" <#if operations??>style="width: 75%; border-right: 1px solid black;"</#if>>
+						<div class="tableDiv" <#if resource.operations??><#if resource.operations?has_content>style="width: 75%; border-right: 1px solid black;"</#if></#if>>
 							<!-- FORM TOOLBAR -->
 							<div class="formToolbar">
 								<div id="viewControls" class="controlsPanel">
@@ -85,10 +85,16 @@
 						</div>
 						<!-- /TABLE DIV -->
 						<!--  OPERATIONS DIV -->
-						<#if operations??>
+						<#if resource.operations??>
+						<#if resource.operations?has_content>
 						<div class="operationsDiv">
-					
+							<#list resource.operations as operation>
+								<div class="operationButton">
+									<button class="buttons-blue" data-confirmLink="justClose" data-confirmText="Not implemented jet!" data-operation>${operation.label}</button>
+								</div>
+							</#list>
 						</div>
+						</#if>
 						</#if>
 						<!-- /OPERATIONS DIV -->
 						<form class="inputForm" action="/add${resource.link}" name="addForm" method="post">
@@ -108,10 +114,7 @@
 								<#else>
 									<#if attr.type == "java.lang.Boolean">
 									<td class="inputColumn" style="float: left;">
-										<select  name="attrSelectBool${attr.name}">
-											<option value="true">YES</option>
-											<option value="false">NO</option>
-										</select>
+										<input class="stdFormInputs" type="checkbox" name="attrSelectBool${attr.name}">
 									</td>
 									<#elseif attr.name == "password">
 									<td class="inputColumn" >

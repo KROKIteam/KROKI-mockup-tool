@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,10 +19,15 @@ import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Zoom;
+import kroki.profil.operation.BussinessOperation;
+import kroki.profil.operation.Report;
+import kroki.profil.operation.Transaction;
+import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
+import kroki.uml_core_basic.UmlParameter;
 
 public class WebResourceGenerator {
 	
@@ -58,15 +64,6 @@ public class WebResourceGenerator {
 				
 				if(element instanceof ParentChild) {
 					forms = "ParentChildForm";
-					/*
-					ParentChild pc = (ParentChild)element;
-					if(pc.getHierarchyCount() > 0) {
-						forms += "[";
-						for(Hierarchy hierarchy: pc.allContainedHierarchies()) {
-							forms += hierarchy.getTargetPanel().getComponent().getName() + ":";
-						}
-						forms = forms.substring(0, forms.length()-1) + "]";
-					}*/
 				}
 				
 				//System.out.println("\n[RESOURCE]" + "\n\tName: " + name + "\n\tLabel: " + label + "\n\tLink: " + link + "\n\tRouted: " + routed + "\n\tForms: " + forms + "\n");
@@ -217,38 +214,102 @@ public class WebResourceGenerator {
 						Element zoomMandatoryTag = doc.createElement("Mandatory");
 						zoomMandatoryTag.setTextContent(Boolean.toString(zoomMandatory));
 						zoomElement.appendChild(zoomMandatoryTag);
-						
-						//treba naci <resource> tag sa imenom  koje je isto kao i <Type> tag i dodati mu parent-child formu u listu formi
-						/*
-						for(int l=0; l<doc.getChildNodes().getLength(); l++) {
-							Node node = doc.getChildNodes().item(l);
-
-							NodeList resourceNodes = node.getChildNodes();
+					}
+					
+				}
+				
+				//<operations> tag
+				if(!vClass.containedOperations().isEmpty()) {
+					Element operationsTag = doc.createElement("Operations");
+					resourceTag.appendChild(operationsTag);
+					
+					for(int k=0; k<vClass.containedOperations().size(); k++) {
+						VisibleOperation vo = vClass.containedOperations().get(k);
+						System.out.println("[GENERISEM OPERACIJU] " + vo.getLabel());
+						if(vo instanceof BussinessOperation) {
 							
-							for(int m=0; m<resourceNodes.getLength(); m++) {
-								Node resNode = resourceNodes.item(m);
-
-								NodeList resChildNodes = resNode.getChildNodes();
-								
-								for(int n=0; n<resChildNodes.getLength(); n++) {
-									Node resChildNode = resChildNodes.item(n);
-									if(resChildNode.getNodeName().equals("Name")) {
-										if(resChildNode.getTextContent().equals(zoomType)) {
-											for(int o=0; o<resChildNodes.getLength(); o++) {
-												Node rresChildNode = resChildNodes.item(o);
-												if(rresChildNode.getNodeName().equals("Forms")) {
-													rresChildNode.setTextContent("StandardForm,ParentChildForm");
-												}
-											}
-										}
-									}
-								}
-								
+							Element opTag = doc.createElement("operation");
+							
+							//atribut "name"
+							Attr opNameAttr = doc.createAttribute("name");
+							opNameAttr.setValue(vo.name());
+							opTag.setAttributeNode(opNameAttr);
+							
+							//atribut "label"
+							Attr opLabelAttr = doc.createAttribute("label");
+							opLabelAttr.setValue(vo.getLabel());
+							opTag.setAttributeNode(opLabelAttr);
+							
+							//atribut "type"
+							Attr opTypeAttr = doc.createAttribute("type");
+							
+							//ako je transakcija ide type="report"
+							if(vo instanceof Report) {
+								opTypeAttr.setValue("report");
+							//ako je transakcija ide type="transaction"
+							}else if (vo instanceof Transaction) {
+								opTypeAttr.setValue("transaction");
 							}
 							
-						}*/
-						
+							opTag.setAttributeNode(opTypeAttr);
+							
+							//atribut "target"
+							Attr opTargetAttr = doc.createAttribute("target");
+							//nije implementirano u krokiju pa je null
+							if(((BussinessOperation) vo).getPersistentOperation() == null) {
+								opTargetAttr.setValue("null");
+							}else {
+								opTargetAttr.setValue(((BussinessOperation) vo).getPersistentOperation().name());
+							}
+							opTag.setAttributeNode(opTargetAttr);
+							
+							//atribut "allowed"
+							//za sada samo true
+							Attr opAllowedAttr = doc.createAttribute("allowed");
+							opAllowedAttr.setValue("true");
+							opTag.setAttributeNode(opAllowedAttr);
+							
+							//za svaki paraterar ide 
+							//<parameter name="sifra" label="Šifra" type="java.lang.String" parameter-type="in" /> tag
+							if(vo.ownedParameter() != null) {
+								if(!vo.ownedParameter().isEmpty()) {
+									for(int l=0;l<vo.ownedParameter().size();l++) {
+										UmlParameter param = vo.ownedParameter().get(l);
+										
+										Element paramTag = doc.createElement("parameter");
+										
+										//atribut "name"
+										Attr paramNameAttr = doc.createAttribute("name");
+										paramNameAttr.setValue(param.name());
+										paramTag.setAttributeNode(paramNameAttr);
+										
+										//atribut "label"
+										//nema :(
+										Attr paramLabelAttr = doc.createAttribute("label");
+										paramLabelAttr.setValue(param.name());
+										paramTag.setAttributeNode(paramLabelAttr);
+										
+										//atribut "type"
+										Attr paramTypeAttr = doc.createAttribute("type");
+										paramTypeAttr.setValue(param.type().toString());
+										paramTag.setAttributeNode(paramTypeAttr);
+										
+										//atribut "parameter-type"
+										//za sada samo in 
+										Attr paramPTypeAttr = doc.createAttribute("parameter-type");
+										paramPTypeAttr.setValue("in");
+										paramTag.setAttributeNode(paramPTypeAttr);
+										
+										opTag.appendChild(paramTag);
+									}
+								}
+							}
+							operationsTag.appendChild(opTag);
+						}else {
+							System.out.println("[ELSE]");
+						}
 					}
+					
 					
 				}
 				

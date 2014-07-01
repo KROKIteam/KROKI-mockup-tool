@@ -150,7 +150,7 @@ public class AddResource extends Resource {
 							try {
 								Object value = values.get(j);
 								if(attr.getType().equals("java.lang.Boolean")) {
-									value = Boolean.parseBoolean(value.toString());
+									value = value != null;
 								}else if (attr.getType().equals("java.util.Date")) {
 									SimpleDateFormat formatter = new SimpleDateFormat("dd.MMM.yyyy.", Locale.JAPAN);
 									value = (Date)formatter.parse(value.toString().replaceAll("\\p{Cntrl}", "").replaceAll(",", "."));
@@ -225,8 +225,8 @@ public class AddResource extends Resource {
 				if(!pairs.getKey().toString().equals("submit")) {
 					//atributi
 					if(pairs.getKey().toString().startsWith("attr")) {
-						if(pairs.getKey().toString().startsWith("attrSelectBool")) { //ako ima combobox, onda je boolean
-							Boolean b = Boolean.parseBoolean(pairs.getValue().toString());
+						if(pairs.getKey().toString().startsWith("attrSelectBool")) { //ako ima checkBox, onda je boolean
+							Boolean b = (pairs.getValue()!= null);
 							values.add(b);
 						}else {
 							values.add(pairs.getValue().toString());

@@ -192,6 +192,7 @@ public class ViewResource extends Resource {
 						}
 						dataModel.put("mainFormHeaders", headers);
 						dataModel.put("entities", entities);
+						//dataModel.put("operations", resource.getOperations());
 						//entityMap.put(resource.getName(), entities);
 						dataModel.put("childMap", childMap);
 					}else {
