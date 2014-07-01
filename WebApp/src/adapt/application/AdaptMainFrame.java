@@ -44,6 +44,7 @@ public class AdaptMainFrame extends JFrame {
 		setMaximumSize(new Dimension(800, 400));
 		setMinimumSize(new Dimension(600, 400));
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		component = new Component();
 		init();
 	}

@@ -113,7 +113,11 @@ public class ModifyResource extends BaseResource {
 										name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
 									}
 									
-									name = name.substring(0, name.length()-2);
+									if(!name.equals("")) {
+										name = name.substring(0, name.length()-2);
+									}else {
+										name = Id;
+									}
 									//objekte iz baze pretvorimo u EntityClass objekte
 									//i spremimo u mapu sa vrednostima za combo box
 									childMap.put(Id, name);

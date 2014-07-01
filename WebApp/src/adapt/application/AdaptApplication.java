@@ -120,7 +120,7 @@ public class AdaptApplication extends Application {
 		router.attach("/delete/{dresName}/{delid}", DeleteResource.class); //delete page URI
 		router.attach("/edit/{aresName}/{mid}", ModifyResource.class);   //edit page URI - this goes to ModifyResource which just prepares modify form form given resouce
 		router.attach("/edited/resources/{mresName}/{modid}", AddResource.class); //Add resource does the actual modifiy action
-		router.attach("/showChildren/{cresName}/{cid}/{presName}", ViewResource.class);
+		router.attach("/showChildren/{cresName}/{presName}/{pid}", ViewResource.class);
 		router.attach("/showMTMChildern/{mcresName}", ViewResource.class);
 		router.attach("/mtmadded/{mtmResName}/{mtmResId}/{mtmcresName}", ViewResource.class);
 		router.attach("/mtmdelete/{mtmResName}/{mtmResId}/{mtmcresName}/{mtmChId}", ViewResource.class);
@@ -344,11 +344,14 @@ public class AdaptApplication extends Application {
 	        Boolean routed = Boolean.parseBoolean(XMLParser.getCharacterDataFromElement((Element) nRouted.item(0)));
 	        if(!(nForms.getLength() == 0)) {
 	        	String sforms = XMLParser.getCharacterDataFromElement((Element) nForms.item(0));
-	 	        String[] fform = sforms.split(",");
+	 	        /*String[] fform = sforms.split(",");
 	 	        for(int in=0; in<fform.length; in++) {
 	 	        	XMLForm ff = getForm(fform[in]);
 	 	        	forms.add(ff);
-	 	        }
+	 	        }*/
+	        	//Ovo je bilo u starom frameworku iz mog master rada, sada vise ne treba
+	        	XMLForm form = new XMLForm(sforms, "", true, true);
+	        	forms.add(form);
 	        }
 	        
 	        XMLResource res = new XMLResource(name, label, link, routed, forms, attributes, manyToOneAttributes, oneToManyAttributes, manyToManyAttributes);

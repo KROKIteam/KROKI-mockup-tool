@@ -33,6 +33,11 @@ Z-indexes:
 	padding: 0;
 	font-size: 14px;
 	font-family: "Lato",Helvetica,Arial,sans-serif;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 
 *:focus {
@@ -71,11 +76,6 @@ nav {
 	width: 80%;
 	height: 30px;
 	padding: 3px;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
 	position: absolute;
 	display: none;
 }
@@ -320,19 +320,20 @@ ul.L2SubMenu {
 }
 
 .windowBody {
-	width: 98%;
-	height: 89%;
+	width: 97%;
+	height: 88%;
 	clear: both;
 	text-align: center;
 	padding: 10px;
 	-webkit-user-select: none;        
 	-moz-user-select: none;
 	-ms-user-select: none;
+	overflow: auto;
 }
 /*****************************************************************
 												 FORMS FORMATTING
 *****************************************************************/
-.forms {
+.windows {
 	margin: 0 auto;
 	width: 950px;
 	height: 500px;
@@ -343,6 +344,9 @@ ul.L2SubMenu {
 	border-radius: 5px;
 	z-index: 1;
 	display: none;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
 }
 
 .focused {
@@ -357,6 +361,20 @@ ul.L2SubMenu {
 	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 0.5);
 	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 0.5);
 	z-index: 1;
+}
+
+.standardForms {
+	width: 100%;
+	height: 100%;
+	clear: both;
+}
+
+.formTitle {
+	color: #346789;
+	text-align: left;
+	margin-bottom: 5px;
+	margin-left: 20px;
+	font-size: 16px;
 }
 
 .tableDiv {
@@ -417,7 +435,7 @@ ul.L2SubMenu {
 .tablePanel {
 	width: 100%;
 	margin-top: 20px;
-	height: 350px;
+	height: 65%;
 	overflow: auto;
 }
 

@@ -16,6 +16,7 @@ import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
@@ -57,6 +58,15 @@ public class WebResourceGenerator {
 				
 				if(element instanceof ParentChild) {
 					forms = "ParentChildForm";
+					/*
+					ParentChild pc = (ParentChild)element;
+					if(pc.getHierarchyCount() > 0) {
+						forms += "[";
+						for(Hierarchy hierarchy: pc.allContainedHierarchies()) {
+							forms += hierarchy.getTargetPanel().getComponent().getName() + ":";
+						}
+						forms = forms.substring(0, forms.length()-1) + "]";
+					}*/
 				}
 				
 				//System.out.println("\n[RESOURCE]" + "\n\tName: " + name + "\n\tLabel: " + label + "\n\tLink: " + link + "\n\tRouted: " + routed + "\n\tForms: " + forms + "\n");
@@ -209,6 +219,7 @@ public class WebResourceGenerator {
 						zoomElement.appendChild(zoomMandatoryTag);
 						
 						//treba naci <resource> tag sa imenom  koje je isto kao i <Type> tag i dodati mu parent-child formu u listu formi
+						/*
 						for(int l=0; l<doc.getChildNodes().getLength(); l++) {
 							Node node = doc.getChildNodes().item(l);
 
@@ -235,7 +246,7 @@ public class WebResourceGenerator {
 								
 							}
 							
-						}
+						}*/
 						
 					}
 					

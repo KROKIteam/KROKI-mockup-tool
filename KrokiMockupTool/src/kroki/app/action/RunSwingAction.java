@@ -44,26 +44,7 @@ public class RunSwingAction extends AbstractAction {
 			@Override
 			public void run() {
 				//find selected project from workspace
-				BussinesSubsystem proj = null;
-				
-				//get selected item from jtree and find its project
-				TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
-				Object node = path.getLastPathComponent();
-				if(node != null) {
-					//if package is selected, find parent project
-					if(node instanceof BussinesSubsystem) {
-						BussinesSubsystem subsys = (BussinesSubsystem) node;
-						proj = KrokiMockupToolApp.getInstance().findProject(subsys);
-					}else if(node instanceof VisibleClass) {
-						//if panel is selected, get parent node from tree and find project
-						JTree tree = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree();
-						Object parent = tree.getSelectionPath().getParentPath().getLastPathComponent();
-						if(parent instanceof BussinesSubsystem) {
-							proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
-						}
-					}
-					
-				}
+				BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
 
 				if(proj != null) {
 					try {

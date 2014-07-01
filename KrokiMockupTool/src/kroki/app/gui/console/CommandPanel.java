@@ -79,13 +79,13 @@ public class CommandPanel extends JPanel {
 	public void initGUI() {
 
 		previousLines = new JTextPane();
-		previousLines.setFont(new Font("Monospaced",Font.PLAIN,15));
+		previousLines.setFont(new Font("Monospaced",Font.PLAIN,12));
 		previousLines.setEditable(false);
 
 		consoleScroll = new JScrollPane(previousLines);
 
 		currentLine = new JTextField();
-		currentLine.setFont(new Font("Monospaced",Font.PLAIN,15));
+		currentLine.setFont(new Font("Monospaced",Font.PLAIN,14));
 
 
 		//*********************************************************************************
