@@ -1,4 +1,4 @@
-				<!------------------------------------ ${resource.name} Standard form ------------------------------------------>
+﻿				<!------------------------------------ ${resource.name} Standard form ------------------------------------------>
 						<h1 class="formTitle">${resource.label}</h1>
 						<!--  TABLE DIV -->
 						<div class="tableDiv" <#if resource.operations??><#if resource.operations?has_content>style="width: 75%; border-right: 1px solid black;"</#if></#if>>
@@ -114,7 +114,8 @@
 								<#else>
 									<#if attr.type == "java.lang.Boolean">
 									<td class="inputColumn" style="float: left;">
-										<input class="stdFormInputs" type="checkbox" name="attrSelectBool${attr.name}">
+										<input class="stdFormInputs" type="checkbox" name="attrSelectBool${attr.name}" value="true">
+										<input type="hidden" name="attrSelectBool${attr.name}" value="false">
 									</td>
 									<#elseif attr.name == "password">
 									<td class="inputColumn" >

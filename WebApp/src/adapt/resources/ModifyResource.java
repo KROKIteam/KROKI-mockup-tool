@@ -86,6 +86,7 @@ public class ModifyResource extends BaseResource {
 						if(prop.getName().equals(attr.getName())) {
 							attributeLabels.add(attr.getLabel());
 							attributeValues.add(prop.getValue().toString());
+							System.out.println("[IMAM] " + prop.getValue());
 						}
 					}
 					//za child atribute

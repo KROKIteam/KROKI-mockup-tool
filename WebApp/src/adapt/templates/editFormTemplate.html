@@ -1,4 +1,4 @@
-						<form class="inputForm" action="/edited${resource.link}/${modid}" name="editForm" method="post">
+﻿						<form class="inputForm" action="/edited${resource.link}/${modid}" name="editForm" method="post">
 							<div class="formTableContainer">
 								<table class="inputFormFields">
 									<#if attributeLabels??>
@@ -8,7 +8,8 @@
 									<#if resource.attributes[label_index].type == "java.lang.Boolean">
 										<td class="labelColumn">${label}:</td>
 										<td class="inputColumn" style="float: left;">
-											<input class="stdFormInputs" type="checkbox" name="attrSelectBool${label_index}" <#if attributeValues[label_index] == "YES">checked</#if>>
+											<input class="stdFormInputs" type="checkbox" name="attrSelectBool${label_index}" <#if attributeValues[label_index] == "YES">checked</#if> value="true">
+											<input type="hidden" name="attrSelectBool${label_index}" value="false">
 										</td>
 									<#elseif resource.attributes[label_index].values??>
 									<td class="labelColumn">${label}:</td>

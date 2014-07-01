@@ -150,7 +150,7 @@ public class AddResource extends Resource {
 							try {
 								Object value = values.get(j);
 								if(attr.getType().equals("java.lang.Boolean")) {
-									value = value != null;
+									value = Boolean.parseBoolean(value.toString());
 								}else if (attr.getType().equals("java.util.Date")) {
 									SimpleDateFormat formatter = new SimpleDateFormat("dd.MMM.yyyy.", Locale.JAPAN);
 									value = (Date)formatter.parse(value.toString().replaceAll("\\p{Cntrl}", "").replaceAll(",", "."));
@@ -226,9 +226,9 @@ public class AddResource extends Resource {
 					//atributi
 					if(pairs.getKey().toString().startsWith("attr")) {
 						if(pairs.getKey().toString().startsWith("attrSelectBool")) { //ako ima checkBox, onda je boolean
-							Boolean b = (pairs.getValue()!= null);
-							values.add(b);
+							values.add(pairs.getValue().toString());
 						}else {
+							System.out.println("[SNIMAM] " + pairs.getValue().toString());
 							values.add(pairs.getValue().toString());
 						}
 					}else if(pairs.getKey().toString().startsWith("mattr")) { //manyToOne atributi

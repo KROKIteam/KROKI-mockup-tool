@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import kroki.app.KrokiMockupToolApp;
@@ -287,8 +288,10 @@ public class ProjectExporter {
 			enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
 			String enumClass = vp.umlClass().name();
 			String enumProp = cc.toCamelCase(vp.getLabel(), true);
-			System.out.println(vp.getEnumeration());
-			String[] enumValues = vp.getEnumeration().split(";");
+			String[] enumValues = {"-- None --"};
+			if(vp.getEnumeration() != null) {
+				enumValues = vp.getEnumeration().split(";");
+			}
 			enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
 			enumerations.add(enumeration);
 		}

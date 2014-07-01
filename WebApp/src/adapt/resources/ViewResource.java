@@ -179,7 +179,6 @@ public class ViewResource extends Resource {
 							EntityClass ecl = entities.get(j);
 							String Id = creator.getEntityPropertyValue(ecl, "id");
 							String name = "";
-
 							for (XMLAttribute attr : resource.getRepresentativeAttributes()) {
 								name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
 							}

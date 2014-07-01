@@ -298,7 +298,9 @@ $(document).ready(function(e) {
 			formBody.remove(".inputForm[name=editForm]");
 			$.ajax({
 				url: "/edit/" + resName + "/" + id,
-				type: 'GET', 
+				type: 'GET',
+				encoding:"UTF-8",
+				contentType: "text/html; charset=UTF-8",
 				success: function(data) {
 					form.append(data);
 					form.find(".nextPopup").hide();
@@ -472,7 +474,9 @@ $(document).ready(function(e) {
 		if(link != "justClose") {
 			$.ajax({
 				url: link,
-				type: 'GET', 
+				type: 'GET',
+				encoding:"UTF-8",
+				contentType: "text/html; charset=UTF-8",
 				success: function(data) {
 					$("#messagePopup").html(data);
 					var clas = $("#messagePopup").find("p").attr("data-cssClass");
@@ -532,6 +536,8 @@ $(document).ready(function(e) {
 			type: method,
 			url: act,
 			data: form.serialize(),
+			encoding:"UTF-8",
+			contentType: "text/html; charset=UTF-8",
 			success: function (data) {
 				$("#messagePopup").html(data);
 				var clas = $("#messagePopup").find("p").attr("data-cssClass");
@@ -563,7 +569,9 @@ function loadDataToForm(form, displayTitle) {
 	var window = form.closest(".windows");
 	$.ajax({
 		url: activateLink,
-		type: 'GET', 
+		type: 'GET',
+		encoding:"UTF-8",
+		contentType: "text/html; charset=UTF-8",
 		success: function(data) {
 			form.html(data);
 			window.show();

@@ -11,7 +11,9 @@ ${doc}
 			<property name="hibernate.connection.username" value="${username}" />
 			<property name="hibernate.connection.password" value="${password}" />
 	        <property name="hibernate.dialect" value="org.hibernate.dialect.${dialect}" />
-		  	<property name="hibernate.hbm2ddl.auto" value="create"/> 
+		  	<property name="hibernate.hbm2ddl.auto" value="create"/>
+		  	<property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding" value="UTF-8" />
       </properties>
    </persistence-unit>
 </persistence>
