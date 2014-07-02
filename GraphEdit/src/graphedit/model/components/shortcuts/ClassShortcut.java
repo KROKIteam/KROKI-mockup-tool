@@ -73,6 +73,7 @@ public class ClassShortcut extends Class implements Shortcut{
 	
 	@Override
 	public void setShortcutInfo(GraphEditModel currentModel){
+		if (currentModel != null && shortcutToModel != null)
 			if (!currentModel.getDiagramElements().contains(shortcutTo))
 				shortcutInfo = "( " + (String)shortcutToModel.getParentPackage().getProperty(PackageProperties.NAME) + " )";
 	}
