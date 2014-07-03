@@ -142,7 +142,7 @@
 								<tr>
 									<td class="labelColumn">${childRow}:</td>
 									<td class="inputColumn" style="float: left;">
-										<select name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
+										<select class="stdFormInputs" name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
 										<#list childFormMap[childRow]?keys as id>
 											<option value="${id}">${childFormMap[childRow][id]}</option>
 										</#list>

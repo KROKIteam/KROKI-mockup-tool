@@ -64,6 +64,9 @@ nav {
 	background-color: #f3f4f5;
 	display: none;
 	z-index: 1000;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
 }
 
 #mainMenu {
@@ -89,6 +92,9 @@ nav {
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
 }
 
 .menu {
@@ -541,6 +547,8 @@ textarea {
 
 .labelColumn {
 	font-weight: bold;
+	text-align: right;
+	padding-right: 20px;
 }
 
 .nextPopup {
