@@ -51,7 +51,7 @@ public class RunWebAction extends AbstractAction {
 				
 				if(proj != null) {
 					try {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 						//get temporary location in KROKI directory

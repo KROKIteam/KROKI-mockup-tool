@@ -54,7 +54,7 @@ public class ExportSwingAction extends AbstractAction {
 					}
 				}
 			}
-			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 			JFileChooser jfc = new JFileChooser();
 			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());

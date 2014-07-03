@@ -81,7 +81,7 @@ public class SaveAction extends AbstractAction {
 			if(proj.getFile() != null) {
 				System.out.println("saving to file: " + proj.getFile().getAbsolutePath());
 				if (DeepCopy.saveXStream(proj, proj.getFile())){
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project " + (String)proj.getLabel() +  " successfully saved!", 0);
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved!", 0);
 				}
 				else{
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Error saving the project!", 3);
@@ -101,7 +101,7 @@ public class SaveAction extends AbstractAction {
 					System.out.println("saving to file: " + file.getAbsolutePath());
 					proj.setFile(file);
 					if (DeepCopy.saveXStream(proj, proj.getFile())){
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project " + (String)proj.getLabel() +  " successfully saved to" + file.getAbsolutePath() + "!", 0);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved to " + file.getAbsolutePath() + "!", 0);
 					}
 					else{
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Error saving the project!", 3);

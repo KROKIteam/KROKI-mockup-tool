@@ -36,10 +36,6 @@ public class ViewResource extends Resource {
 	Map<String, Object> dataModel = new TreeMap<String, Object>();
 
 	XMLResource resource;
-	//ArrayList<XMLResource> resources = new ArrayList<XMLResource>();
-	//Map<String, ArrayList<EntityClass>> entityMap = new TreeMap<String, ArrayList<EntityClass>>();
-	//Map<String, ArrayList<String>> formHeadersMap = new TreeMap<String, ArrayList<String>>();
-	//Map<String, LinkedHashMap<String, Map<String, String>>> childFormMaps = new TreeMap<String, LinkedHashMap<String,Map<String,String>>>();
 	
 	XMLResource childResource;
 	EntityCreator creator;
@@ -126,11 +122,6 @@ public class ViewResource extends Resource {
 			}
 		}
 		dataModel.put("resource", resource);
-		/*
-		dataModel.put("formHeadersMap", formHeadersMap);
-		dataModel.put("entityMap", entityMap);
-		dataModel.put("childFormMaps", childFormMaps);
-		*/
 		super.handleGet();
 	}
 
@@ -188,8 +179,6 @@ public class ViewResource extends Resource {
 						}
 						dataModel.put("mainFormHeaders", headers);
 						dataModel.put("entities", entities);
-						//dataModel.put("operations", resource.getOperations());
-						//entityMap.put(resource.getName(), entities);
 						dataModel.put("childMap", childMap);
 					}else {
 						dataModel.put("msg", "No entries in the database for requested resource!");

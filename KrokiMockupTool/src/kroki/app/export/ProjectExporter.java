@@ -197,6 +197,7 @@ public class ProjectExporter {
 				if(attribute != null) {
 					attributes.add(attribute);
 				}else {
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 3);
 					throw new NoZoomPanelException("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.");
 				}
 			}
@@ -252,7 +253,7 @@ public class ProjectExporter {
 			//add list to contained panels enclosed in square brackets
 			panel_type += "[";
 			for(Hierarchy hierarchy: pcPanel.containedHierarchies()) {
-				panel_type += hierarchy.getTargetPanel().getComponent().getName() + ":";
+				panel_type += cc.toCamelCase(hierarchy.getTargetPanel().getComponent().getName(), false) + ":";
 			}
 			panel_type = panel_type.substring(0, panel_type.length()-1) + "]";
 		}
