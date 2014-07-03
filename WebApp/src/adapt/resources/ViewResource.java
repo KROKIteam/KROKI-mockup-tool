@@ -1,28 +1,18 @@
 package adapt.resources;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Locale;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.smartcardio.ATR;
-import javax.swing.text.DateFormatter;
 
 import org.restlet.Context;
-import org.restlet.data.Form;
+import org.restlet.data.CharacterSet;
+import org.restlet.data.Encoding;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -33,12 +23,10 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
 
 import adapt.application.AdaptApplication;
-import adapt.exception.RightAlreadyDefinedException;
 import adapt.utils.EntityClass;
 import adapt.utils.EntityCreator;
 import adapt.utils.Settings;
 import adapt.utils.XMLAttribute;
-import adapt.utils.XMLManyToManyAttribute;
 import adapt.utils.XMLManyToOneAttribute;
 import adapt.utils.XMLResource;
 import freemarker.template.Configuration;
@@ -59,7 +47,9 @@ public class ViewResource extends Resource {
 	public ViewResource(Context context, Request request, Response response) {
 		super(context, request, response);
 		setModifiable(true);
-		getVariants().add(new Variant(MediaType.TEXT_HTML));
+		Variant variant = new Variant();
+		variant.setMediaType(MediaType.TEXT_HTML);
+		getVariants().add(variant);
 	}
 
 	public Representation getTemplateRepresentation(String templateName,
@@ -71,9 +61,15 @@ public class ViewResource extends Resource {
 
 	public Representation getHTMLTemplateRepresentation(String templateName,
 			Map<String, Object> dataModel) {
+			TemplateRepresentation represntation = new TemplateRepresentation(templateName, getFmcConfiguration(),
+					dataModel, MediaType.TEXT_HTML);
+			Encoding enc = new Encoding("UTF-8");
+			List<Encoding> encodings = new ArrayList<Encoding>();
+			encodings.add(enc);
+			represntation.setCharacterSet(CharacterSet.UTF_8);
+			represntation.setEncodings(encodings);
 		// The template representation is based on Freemarker.
-		return new TemplateRepresentation(templateName, getFmcConfiguration(),
-				dataModel, MediaType.TEXT_HTML);
+		return represntation; 
 	}
 
 	private Configuration getFmcConfiguration() {
@@ -81,6 +77,7 @@ public class ViewResource extends Resource {
 		return application.getFmc();
 	}
 
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void handleGet() {

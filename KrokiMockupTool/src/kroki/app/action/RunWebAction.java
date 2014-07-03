@@ -3,12 +3,15 @@ package kroki.app.action;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
+
+import org.apache.commons.io.FileDeleteStrategy;
 
 import kroki.app.KrokiDiagramFrame;
 import kroki.app.KrokiMockupToolApp;
@@ -103,9 +106,12 @@ public class RunWebAction extends AbstractAction {
 			if(file.isDirectory()) {
 				deleteFiles(file);
 			}
-			if(!file.delete()) {
-				success = false;
-			}
+			try {
+				FileDeleteStrategy.FORCE.delete(file);
+				success =  !file.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
 		}
 		return success;
 	}

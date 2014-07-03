@@ -99,6 +99,7 @@ public class EntityCreator {
 											EntityProperty prop = new EntityProperty(fname, niceFormatter.format(dateValue).toString());
 											entity.getProperties().add(prop);
 										}else {
+											System.out.println("[IMAM] " + fname + " = " + value.toString());
 											EntityProperty pr = new EntityProperty(fname,value.toString());
 											entity.getProperties().add(pr);
 										}

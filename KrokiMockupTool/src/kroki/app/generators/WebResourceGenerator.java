@@ -164,7 +164,11 @@ public class WebResourceGenerator {
 						
 						if(prop.getComponentType() == ComponentType.COMBO_BOX) {
 							Element attrValuesTag = doc.createElement("Values");
-							attrValuesTag.setTextContent(prop.getEnumeration());
+							if(prop.getEnumeration() != null) {
+								attrValuesTag.setTextContent(prop.getEnumeration());
+							}else {
+								attrValuesTag.setTextContent("-- None --");
+							}
 							attributeTag.appendChild(attrValuesTag);
 						}
 						//System.out.println("\t[ATTRIBUTE] \n\t\tName: " + attrName + "\n\t\tLabel: " + attrLabel + "\n\t\tType: " + type + "\n\t\tUnique: " + unique + "\n\t \tMandatory: " + mandatory);

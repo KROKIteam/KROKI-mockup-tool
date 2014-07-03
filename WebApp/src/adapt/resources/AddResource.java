@@ -98,12 +98,9 @@ public class AddResource extends Resource {
 			try {
 				Object o = modify(values, id);
 				if(o != null) {
-					System.out.println("OK");
 					dataModel.put("css", "messageOk");
 					dataModel.put("message", "Row has been successfuly modified");
 				}else {
-					System.out.println("ERROR");
-					dataModel.put("css", "messageError");
 					dataModel.put("message", "Error occured while row. Please check your data.");
 				}
 			} catch (RightAlreadyDefinedException e) {
