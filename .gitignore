@@ -31,7 +31,6 @@ WebApp/props/app.properties
 ######################################################
 SwingApp/bin/
 SwingApp/props/META-INF/persistence.xml
-SwingApp/props/main.properties
 SwingApp/src/hibernate.cfg.xml
 SwingApp/src/ejb/
 SwingApp/model/xml-mapping.xml
