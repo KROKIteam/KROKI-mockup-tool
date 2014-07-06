@@ -98,7 +98,10 @@ public class ClassDiagramAction extends AbstractAction{
 					el.update();
 				gr1.update();
 				gr2.update();
-				/*NamingUtil cc = new NamingUtil();
+				//set component name as it is required for exporting applications
+				panel.getComponent().setName(panel.getPersistentClass().name());
+				
+				/*
 				System.out.println(panel.getPersistentClass().name());
 				panel.getPersistentClass().setName(cc.toCamelCase(panel.getLabel(), false));
 				System.out.println(panel.getPersistentClass().name());

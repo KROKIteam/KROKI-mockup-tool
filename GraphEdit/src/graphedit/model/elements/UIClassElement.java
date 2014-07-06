@@ -14,6 +14,7 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.util.NameTransformUtil;
 
+
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -57,12 +58,11 @@ public class UIClassElement extends ClassElement{
 	private  int propertiesGroup = STANDARD_PANEL_PROPERTIES;
 	private  int operationsGroup = STANDARD_PANEL_OPERATIONS;
 
-	private int zoomCounter = 0;
-	private int linkCounter = 0;
 
 	private HashMap<Connector, NextZoomElement> zoomMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, NextZoomElement> nextMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, HierarchyElement> hierarchyMap = new HashMap<Connector, HierarchyElement>();
+
 	private transient NamingUtil namer = new NamingUtil();
 
 	private enum LinkEnd {ZOOM, NEXT};
@@ -196,7 +196,7 @@ public class UIClassElement extends ClassElement{
 				if (loadedAttribute != null){
 					attribute.setVisible(loadedAttribute.isVisible());
 					if (((VisibleProperty)attribute.getUmlProperty()).getLabel().equals(
-						(((VisibleProperty)loadedAttribute.getUmlProperty()).getLabel())))
+							(((VisibleProperty)loadedAttribute.getUmlProperty()).getLabel())))
 						attribute.setName(loadedAttribute.getName());
 				}
 			}
@@ -214,7 +214,7 @@ public class UIClassElement extends ClassElement{
 					method.setVisible(loadedMethod.isVisible());
 					if (((BussinessOperation)method.getUmlOperation()).getLabel().equals(
 							(((BussinessOperation)loadedMethod.getUmlOperation()).getLabel())))
-							method.setName(loadedMethod.getName());
+						method.setName(loadedMethod.getName());
 				}
 			}
 		}
@@ -250,6 +250,8 @@ public class UIClassElement extends ClassElement{
 		int groupIndex = args[1];
 
 		String propLabel = attribute.getName();
+
+
 		String type = attribute.getType();
 		ComponentType componentType = getComponentType(type);
 		VisibleProperty prop = makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
@@ -299,6 +301,7 @@ public class UIClassElement extends ClassElement{
 		NamingUtil namer = new NamingUtil();
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(propertiesGroup);
 		VisibleProperty property = new VisibleProperty(label, visible, type);	
+		property.setName(label);
 		if(type == ComponentType.TEXT_FIELD) 
 			property.setDataType("String");
 		property.setColumnLabel(namer.toDatabaseFormat(panel.getLabel(), label));
@@ -400,8 +403,9 @@ public class UIClassElement extends ClassElement{
 
 	public void renameAttribute(Attribute attribute, String newName) {
 		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
-		property.setLabel(NameTransformUtil.transformClassName(newName));
+		property.setLabel(namer.transformClassName(newName));
 		NamingUtil namer = new NamingUtil();
+		property.setName(newName);
 		property.setColumnLabel(namer.toDatabaseFormat(visibleClass.getLabel(),newName));
 	}
 
@@ -479,7 +483,7 @@ public class UIClassElement extends ClassElement{
 		if (groupIndex == -1)
 			groupIndex = gr.getVisibleElementsNum();
 
-		VisibleProperty property = new VisibleProperty(label, true,  ComponentType.COMBO_BOX);
+		VisibleProperty property = new VisibleProperty(namer.transformClassName(label), true,  ComponentType.COMBO_BOX);
 		Zoom zoom = new Zoom(property);
 		zoom.setActivationPanel(visibleClass);
 		zoom.setTargetPanel((VisibleClass) targetElement.getUmlType());
@@ -500,7 +504,7 @@ public class UIClassElement extends ClassElement{
 		if (groupIndex == -1)
 			groupIndex = gr.getVisibleElementsNum();
 
-		Next next = new Next(label);
+		Next next = new Next(namer.transformClassName(label));
 		next.setTargetPanel((VisibleClass) targetElement.getUmlType());
 		next.setActivationPanel(visibleClass);
 		visibleClass.addVisibleElement(classIndex, next);
@@ -608,20 +612,16 @@ public class UIClassElement extends ClassElement{
 			if (navigable){
 				linkEnd = zoomOrNext(cardinality);
 				label = roleName;
+				if (label.equals("")){
+					String otherName = (String) otherElement.element().getProperty(GraphElementProperties.NAME);
+					label = namer.lowerFirstLetter(otherName);
+				}
 				if (linkEnd == LinkEnd.ZOOM){
-					if (roleName.equals("")){
-						label = "Zoom" + zoomCounter;
-						zoomCounter++;
-					}
 					link.setProperty(LinkProperties.SOURCE_ROLE, label);
 					Zoom zoom = addZoomElement(label, otherElement, connector, -1, -1);
 					setOpposite(zoom, otherConnector, otherElement);
 				}
 				else{
-					if (roleName.equals("")){
-						label = "Link" + linkCounter;
-						linkCounter++;
-					}
 					link.setProperty(LinkProperties.DESTINATION_ROLE, label);
 					Next next = addNextElement(label, otherElement, connector, -1, -1);
 					setOpposite(next, otherConnector, otherElement);
@@ -726,7 +726,8 @@ public class UIClassElement extends ClassElement{
 		}
 		else{
 			//dodaj next
-			String label = "Link" + linkCounter ++;
+			String otherName = (String) otherElement.element().getProperty(GraphElementProperties.NAME);
+			String label = namer.lowerFirstLetter(otherName);
 			Next next = addNextElement(label, otherElement, connector, -1, -1);
 			setOpposite(next, otherConnector, otherElement);
 			if (source)
@@ -787,18 +788,19 @@ public class UIClassElement extends ClassElement{
 
 		LinkEnd linkEnd = zoomOrNext(newCardinality);
 		if (linkEnd != currenLinkEnd){
-			String label = null;
+			String label = nextZoom.getLabel();
 			if (linkEnd == LinkEnd.NEXT){
 				//izbaci zoom
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
 				gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
 				visibleClass.removeVisibleElement(nextZoom.getClassIndex());
 				zoomMap.remove(connector);
-				label = nextZoom.getLabel();
-				if (label.toLowerCase().startsWith("zoom")){
-					label = "Link" + linkCounter;
-					linkCounter++;
-				}
+				
+//				label = nextZoom.getLabel();
+//				if (label.toLowerCase().startsWith("zoom")){
+//					label = "Link" + linkCounter;
+//					linkCounter++;
+//				}
 				if (otherNavigable){
 					Next next = addNextElement(label, otherElement, connector, -1, -1);
 					setOpposite(next, otherConnector, otherElement);
@@ -815,12 +817,12 @@ public class UIClassElement extends ClassElement{
 					gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
 					visibleClass.removeVisibleElement(nextZoom.getClassIndex());
 					nextMap.remove(connector);
-					label = nextZoom.getLabel();
+				//	label = nextZoom.getLabel();
 				}
-				if (label == null || label.toLowerCase().startsWith("link")){
-					label = "Zoom" + zoomCounter;
-					zoomCounter++;	
-				}
+//				if (label == null || label.toLowerCase().startsWith("link")){
+//					label = "Zoom" + zoomCounter;
+//					zoomCounter++;	
+//				}
 				Zoom zoom = addZoomElement(label, otherElement, connector, -1, -1);
 				setOpposite(zoom, otherConnector, otherElement);
 				link.setProperty(property, label);
@@ -850,7 +852,7 @@ public class UIClassElement extends ClassElement{
 		}
 
 		nextZoom.setLabel(newRole);
-		newRole = NameTransformUtil.transformClassName(newRole);
+		newRole = namer.transformClassName(newRole);
 		visibleClass.getVisibleElementList().get(nextZoom.getClassIndex()).setLabel(newRole);
 	}
 
@@ -1062,6 +1064,19 @@ public class UIClassElement extends ClassElement{
 			return LinkType.NEXT_ZOOM;
 	}
 
+//	/**
+//	 * Return name of the association role and updates association map
+//	 * @param otherName
+//	 * @return
+//	 */
+//	private String getAssociationNameFormMap(String otherName){
+//		Integer count = associationNameMap.get(otherName);
+//		if (count == null)
+//			count = 0;
+//		associationNameMap.put(otherName, ++count);
+//		return otherName + "_" + count;
+//	}
+
 	public HashMap<Connector, NextZoomElement> getZoomMap() {
 		return zoomMap;
 	}
@@ -1089,7 +1104,7 @@ public class UIClassElement extends ClassElement{
 	public void setName(String newName) {
 		visibleClass.setName(newName);
 		umlClass.setName(newName);
-		visibleClass.setLabel(NameTransformUtil.transformClassName(newName));
+		visibleClass.setLabel(namer.transformClassName(newName));
 		if (visibleClass instanceof StandardPanel){
 			if (namer == null)
 				namer = new NamingUtil();
@@ -1101,7 +1116,7 @@ public class UIClassElement extends ClassElement{
 	@Override
 	public void renameMathod(Method method, String newName) {
 		VisibleOperation operation = (VisibleOperation) method.getUmlOperation();
-		operation.setLabel(NameTransformUtil.transformClassName(newName));
+		operation.setLabel(namer.transformClassName(newName));
 	}
 
 
