@@ -1,6 +1,7 @@
 package kroki.app.utils.uml;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
@@ -54,7 +55,7 @@ public class OperationsTypeDialog extends JDialog implements ActionListener{
 	 * @param frame       parent dialog
 	 * @param operations  operations for which to check what type of operation to create
 	 */
-	public OperationsTypeDialog(JDialog frame, List<Operation> operations){
+	public OperationsTypeDialog(Frame frame, List<Operation> operations){
 		super(frame,true);
 		//determine
 		setTitle("Determine type of operation");
