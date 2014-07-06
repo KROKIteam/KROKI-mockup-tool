@@ -184,6 +184,18 @@ public class NamingUtil {
 		}
 		return result.toString();
 	}	
+	
+	public String transformLabelToJavaName(String name){
+		String[] split = name.split(" ");
+		StringBuilder builder = new StringBuilder();
+		for (String s : split){
+			builder.append(Character.toUpperCase(s.charAt(0)));
+			if (s.length()>1)
+				builder.append(s.substring(1));
+		}
+		return lowerFirstLetter(builder.toString().trim());
+	}
+
 
 	
 }
