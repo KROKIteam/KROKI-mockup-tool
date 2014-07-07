@@ -160,12 +160,13 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 	 * UML diagram, if <code>false</code> exports to version 3.0 Eclipse UML diagram  
 	 */
 	public ExportProjectToEclipseUML(File file,BussinesSubsystem project,boolean withStereotypes,boolean version4) {
-		super("Exporting to UML Diagram");
+		super();
 		this.version4=version4;
 		//synchronizationObject.wait();
 		this.file=file;
 		this.project=project;
 		this.withStereotypes=withStereotypes;
+		execute();
 	}
 	
 	/**
@@ -228,6 +229,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			if(!version4)
 				changeVersion(file);
 			publishText("Exporting Eclipse UML diagram finished successfully.");
+			JOptionPane.showMessageDialog(getFrame(), "Exporting Eclipse UML diagram finished successfully.");
 		}catch(Exception e)
 	    {
 			publishText(e.getMessage());

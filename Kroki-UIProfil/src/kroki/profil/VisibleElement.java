@@ -17,7 +17,6 @@ import kroki.mockup.model.components.RadioButton;
 import kroki.mockup.model.components.TextArea;
 import kroki.mockup.model.components.TextField;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.NamingUtils;
 import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.VisibleElementSettings;

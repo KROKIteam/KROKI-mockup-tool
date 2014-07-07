@@ -145,4 +145,57 @@ public class NamingUtil {
 	public boolean checkName(String name) {
 		return Character.isLetter(name.charAt(0));
 	}
+	
+	/**
+	 * Returns given string with the first letter transformed to lower case
+	 * @param string
+	 * @return
+	 */
+	public String lowerFirstLetter(String string){
+		if (string.equals(""))
+			return "";
+		
+		Character c1 = string.charAt(0);
+		c1 = Character.toLowerCase(c1);
+		if (string.length() == 1)
+			return c1 + "";
+		
+		return c1 + string.substring(1);
+	}
+	
+	
+	/**
+	 * Transforms class name into label by adding spaces before capital letters
+	 * @return
+	 */
+	public String transformClassName(String className){
+		final StringBuilder result = new StringBuilder();
+		result.append(Character.toUpperCase(className.charAt(0)));
+		for (int i = 1; i < className.length(); i++) {
+			boolean lower = false;
+			if (Character.isUpperCase(className.charAt(i))){
+				result.append(' ');
+				lower = true;
+			}
+			if (lower)
+				result.append(Character.toLowerCase(className.charAt(i)));
+			else
+				result.append(className.charAt(i));
+		}
+		return result.toString();
+	}	
+	
+	public String transformLabelToJavaName(String name){
+		String[] split = name.split(" ");
+		StringBuilder builder = new StringBuilder();
+		for (String s : split){
+			builder.append(Character.toUpperCase(s.charAt(0)));
+			if (s.length()>1)
+				builder.append(s.substring(1));
+		}
+		return lowerFirstLetter(builder.toString().trim());
+	}
+
+
+	
 }

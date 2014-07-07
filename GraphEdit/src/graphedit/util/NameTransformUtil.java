@@ -2,27 +2,7 @@ package graphedit.util;
 
 public class NameTransformUtil {
 
-	/**
-	 * 
-	 * @return
-	 */
-	public static String transformClassName(String className){
-		final StringBuilder result = new StringBuilder();
-		result.append(Character.toUpperCase(className.charAt(0)));
-		for (int i = 1; i < className.length(); i++) {
-			boolean lower = false;
-			if (Character.isUpperCase(className.charAt(i))){
-				result.append(' ');
-				lower = true;
-			}
-			if (lower)
-				result.append(Character.toLowerCase(className.charAt(i)));
-			else
-				result.append(className.charAt(i));
-		}
-		return result.toString();
-	}	
-
+	
 	public static String labelToCamelCase(String s, boolean firstCap){
 		String[] split = s.split(" ");
 		StringBuilder builder = new StringBuilder();

@@ -87,8 +87,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @param file  file to be imported.
 	 */
 	public ImportEclipseUMLToProject(File file){
-		super("Importing UML diagram");
+		super();
 		this.file=file;
+		execute();
 	}
 	
 	/**
@@ -152,11 +153,12 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			{
 				if(project!=null)
 				{
+					project.setFile(file);
 					KrokiMockupToolApp.getInstance().getWorkspace().addPackage(project);
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
 					publishText("Project for Eclipse UML model created successfully");
 					publishText("Importing Eclipse UML diagram finished successfully.");
-					JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Importing Eclipse UML diagram finished successfully.");
+					JOptionPane.showMessageDialog(getFrame(), "Importing Eclipse UML diagram finished successfully.");
 				}else{
 					publishText("Error occurred while creating project from Eclipse UML model.");
 					throw new Exception("Error while creating project from Eclipse UML model.");
@@ -201,6 +203,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		publishErrorText("Error happened while importing");
 		publishErrorText(e.getMessage());
 		showError(e.getMessage(), "Error while importing");
+		
 		//e.printStackTrace();
 	}
 	/**
@@ -515,6 +518,11 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 					createdObject=property;
 				}else
 				{
+					if(dataType.getName()==null)
+					{
+						throw new Exception("Data type for property "+attribute.getName()+" can not be determined.\n"
+								+"File beeing imported is missing profile files. Try exporting again and then importing to KROKI.");
+					}else
 					if(dataType.getName().toLowerCase().contains(ExportProjectToEclipseUML.ENUMERATION_ELEMENT_TYPE.toLowerCase()))
 					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.COMBO_BOX,"", panel,true);
@@ -675,6 +683,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	private VisibleProperty createVisibleProperty(String label, boolean visible, ComponentType type,String dataType, VisibleClass panel,boolean visiblePropertyOnly){
 		int group=1;
 		VisibleProperty property = new VisibleProperty(namingUtil.fromCamelCase(label), visible, type);
+		property.setLabel(namingUtil.fromCamelCase(label));
 		if(type == ComponentType.TEXT_FIELD) {
 			property.setDataType(dataType);
 		}
