@@ -5,9 +5,6 @@
 							<!-- FORM TOOLBAR -->
 							<div class="formToolbar">
 								<div id="viewControls" class="controlsPanel">
-									<button type="button" id="btnSwitch" title="Switch views" >
-										<img class="toolbarButton" src="/files/images/icons-white/swich.png"/>
-									</button>
 									<button type="button" id="btnRefresh" title="Refresh data">
 										<img class="toolbarButton" src="/files/images/icons-white/refresh.png"/>
 									</button>
@@ -29,12 +26,15 @@
 								</div>
 								<!-- NAVIGATION CONTROLS -->
 								<div id="tableControls" class="controlsPanel">
-									<button type="button" id="btnAdd" title="Add a new row">
-										<img class="toolbarButton" src="/files/images/icons-white/add.png"/>
+									<#if actions??>
+									<#if actions?has_content>
+									<#list actions as action>
+									<button type="button" id="${action.btnID}" title="${action.tip}" <#if action.type == "action"> disabled</#if>>
+										<img class="toolbarButton" src="${action.imagePath}"/>
 									</button>
-									<button type="button" id="btnDelete" title="Delete row" disabled>
-										<img class="toolbarButton" src="/files/images/icons-white/delete.png"/>
-									</button>
+									</#list>
+									</#if>
+									</#if>
 									<#if childList??>
 									<#if childList?has_content>
 									<button type="button" id="btnNextForms" title="View connected forms" disabled>

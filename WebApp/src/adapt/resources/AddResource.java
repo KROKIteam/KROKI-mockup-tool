@@ -126,7 +126,7 @@ public class AddResource extends Resource {
 			EntityTransaction t = em.getTransaction();
 			t.begin();
 			try {
-				Class s = Class.forName("adapt.entities." + table);
+				Class s = Class.forName("adapt.entities.generated." + table);
 				Object o;
 				if(id == null) {//if no ID is passed, add operation is executed
 					//new object
@@ -154,9 +154,6 @@ public class AddResource extends Resource {
 								}else if (attr.getType().equals("java.math.BigDecimal")) {
 									value = new BigDecimal(value.toString().replaceAll(",", "."));
 								}
-//								else if (attr.getType().equals("java.lang.String") && attr.getValues() != null) {
-//									System.out.println("TREBA COMBOBOX ZA " + attr.getName());
-//								}
 								setter.invoke(o, value);
 							} catch (IllegalArgumentException e) {
 								e.printStackTrace();
@@ -174,7 +171,7 @@ public class AddResource extends Resource {
 						int mattrIndex = k-resource.getAttributes().size();
 						XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(mattrIndex);
 						String setName = "set" + Character.toUpperCase(mattr.getName().charAt(0)) + mattr.getName().substring(1);
-						Class mClass = Class.forName("adapt.entities." + mattr.getType());
+						Class mClass = Class.forName("adapt.entities.generated." + mattr.getType());
 						Method mSetter = s.getMethod(setName, mClass);
 						mSetter.setAccessible(true);
 						mSetter.invoke(o, values.get(k));
@@ -255,6 +252,4 @@ public class AddResource extends Resource {
 		public Representation represent(Variant variant) throws ResourceException {
 			return getHTMLTemplateRepresentation("popupTemplate.html", getDataModel());
 		}
-		
-		
 }

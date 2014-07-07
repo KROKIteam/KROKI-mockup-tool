@@ -69,7 +69,6 @@ public class IndexResource extends BaseResource {
 	
 	@Override
     public Representation represent(Variant variant) throws ResourceException {
-        //dataModel  = new TreeMap<String, Object>();
 		dataModel.put("title", Settings.APP_TITLE);
 		dataModel.put("description", Settings.APP_DESC);
         return getHTMLTemplateRepresentation("login.html", dataModel);

@@ -86,21 +86,6 @@ public class ViewResource extends Resource {
 		if(resName != null) {
 			resource = application.getXMLResource(resName);
 			String formType = resource.getForms().get(0).getName();
-			/*if(formType.startsWith("ParentChildForm")) {
-				String forms = formType.substring(formType.indexOf("[") + 1, formType.length()-1);
-				String[] panels = forms.split(":");
-				for (int i = 0; i < panels.length; i++) {
-					XMLResource res = application.getXMLResource(panels[i]);
-					query = "FROM " + res.getName();
-					resources.add(res);
-					prepareContent(query, res);
-				}
-			}else if(formType.startsWith("StandardForm")) {
-				query = "FROM " + resource.getName();
-				resources.add(resource);
-				prepareContent(query, resource);
-			}*/
-			
 			query = "FROM " + resource.getName();
 			prepareContent(query, resource);
 		}
@@ -139,13 +124,6 @@ public class ViewResource extends Resource {
 			dataModel.put("XMLresources", XMLresources);
 			//pokupimo labele atributa resursa koje sluze kao zaglavlja tabele
 			ArrayList<String> headers = new ArrayList<String>();
-			//headers.add("ID");
-			/*for(int i=0; i<resource.getManyToOneAttributes().size(); i++) {
-				headers.add(resource.getManyToOneAttributes().get(i).getLabel());
-			}
-			for(int i=0; i<resource.getAttributes().size(); i++) {
-				headers.add(resource.getAttributes().get(i).getLabel());
-			}*/
 			EntityTransaction tx = em.getTransaction();
 			tx.begin();
 			//iz baze se ucitaju svi entiteti koji pripadaju trezenom resursu
@@ -184,19 +162,6 @@ public class ViewResource extends Resource {
 						dataModel.put("msg", "No entries in the database for requested resource!");
 					}
 				} catch (NoSuchFieldException e) {
-					//					try {
-					//						//ako klasa nema name polje, ispisuje se ID
-					//						entities = EntityCreator.getEntities(ress, "id");
-					//						System.err.println("[INFO]Klasa nema 'name' polje, ispisujem ID");
-					//						if(!entities.isEmpty()) {
-					//							dataModel.put("entities", entities);
-					//						}else {
-					//							dataModel.put("msg", "No entries in the database for requested resource!");
-					//						}
-					//					} catch (NoSuchFieldException e1) {
-					//						//ovo ne bi trebalo nikada da se desi
-					//						System.err.println("[ERROR]Klasa nema ID polje :(");
-					//					}
 					e.printStackTrace();
 				}
 			}
@@ -247,18 +212,6 @@ public class ViewResource extends Resource {
 				}
 				childFormMap.put(mattr.getLabel(), childMap);
 			} catch (NoSuchFieldException e) {
-				//				try {
-				//					entities = EntityCreator.getEntities(objects, "id");
-				//					Map<String, String> childMap = new TreeMap<String, String>();
-				//					for(int j=0; j<entities.size(); j++) {
-				//						EntityClass ecl = entities.get(j);
-				//						String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-				//						childMap.put(Id, Id);
-				//					}
-				//					childFormMap.put(mattr.getLabel(), childMap);
-				//				} catch (NoSuchFieldException e1) {
-				//					e1.printStackTrace();
-				//				}
 				e.printStackTrace();
 			}
 		}

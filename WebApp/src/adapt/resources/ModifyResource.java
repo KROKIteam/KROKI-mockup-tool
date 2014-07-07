@@ -65,11 +65,6 @@ public class ModifyResource extends BaseResource {
 			try {
 				entity = creator.getEntities(obejcts, null, null).get(0);
 			} catch (NoSuchFieldException e) {
-//				try {
-//					entity = EntityCreator.getEntities(obejcts, "id").get(0);
-//				} catch (NoSuchFieldException e1) {
-//					e1.printStackTrace();
-//				}
 				e.printStackTrace();
 			}
 			if(entity != null) {
@@ -125,18 +120,6 @@ public class ModifyResource extends BaseResource {
 								}
 								childFormMap.put(mattr.getLabel(), childMap);
 							} catch (NoSuchFieldException e) {
-//								try {
-//									entities = EntityCreator.getEntities(objs, "id");
-//									Map<String, String> childMap = new TreeMap<String, String>();
-//									for(int j=0; j<entities.size(); j++) {
-//										EntityClass ecl = entities.get(j);
-//										String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-//										childMap.put(Id, Id);
-//									}
-//									childFormMap.put(mattr.getLabel(), childMap);
-//								} catch (NoSuchFieldException e1) {
-//									e1.printStackTrace();
-//								}
 								e.printStackTrace();
 							}
 							t.commit();

@@ -143,7 +143,7 @@ public class ProjectExporter {
 		//Add one-to-many attributes to classes
 		addReferences();
 		//add default data
-		addDefaultData(proj);
+		addDefaultSwingData(proj);
 	}
 
 	/**
@@ -212,7 +212,7 @@ public class ProjectExporter {
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
 		if(!swing) {
-			pack = "adapt.entities";
+			pack = "adapt.entities.generated";
 		}
 		EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes);
 		classes.add(ejb);
@@ -458,7 +458,7 @@ public class ProjectExporter {
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 
 		//Configuration file
-		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main.properties");
+		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main-generated.properties");
 		String toAppendName = "main.form.name";
 		String toAppendDescription = "app.description";
 
@@ -527,18 +527,6 @@ public class ProjectExporter {
 		RunAnt runner = new RunAnt();
 		runner.runBuild(jarName + ".jar", buildFile, outputFile);
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, 0);
-	}
-
-	/**
-	 * Adds default data needed to properly run generated applicaions
-	 * @param proj
-	 */
-	public void addDefaultData(BussinesSubsystem proj) {
-		if(swing) {
-			addDefaultSwingData(proj);
-		}else {
-			addDefaultClasses(classes);
-		}
 	}
 
 	/**
