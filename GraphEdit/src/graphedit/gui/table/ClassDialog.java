@@ -37,6 +37,8 @@ public class ClassDialog extends JDialog {
 
 	private JTable table;
 	private JButton remove;
+	JButton btnUp;
+	JButton btnDown;
 	private ClassToolBar toolBar;
 
 	private ApplicationModeProperties properties;
@@ -52,13 +54,19 @@ public class ClassDialog extends JDialog {
 		table = new RXTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		remove = new JButton("Remove");
-		toolBar = new ClassToolBar(remove);
+		btnUp = new JButton("\u25B2");
+		btnDown = new JButton("\u25BC");
+		toolBar = new ClassToolBar(remove, btnUp, btnDown);
 
 		add(toolBar, BorderLayout.SOUTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 
 
 		setLocationRelativeTo(mf);
+		
+		
+		
+		
 	}
 
 
@@ -149,6 +157,35 @@ public class ClassDialog extends JDialog {
 				}
 			}
 		});
+		
+		
+		btnUp.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow <= 0)
+					return;
+				((AttributeTableModel)table.getModel()).moveAttributeUp(selectedRow);
+				table.getSelectionModel().setSelectionInterval(selectedRow - 1, selectedRow - 1);
+
+			}
+		});
+
+		btnDown.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedRow = table.getSelectedRow();
+				int rowsNum = table.getRowCount();
+				if (selectedRow == -1 || selectedRow == rowsNum - 1)
+					return;
+				((AttributeTableModel)table.getModel()).moveAttributeDown(selectedRow);
+				table.getSelectionModel().setSelectionInterval(selectedRow + 1, selectedRow + 1);
+
+			}
+		});
+		
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -256,6 +293,34 @@ public class ClassDialog extends JDialog {
 				if (answer == JOptionPane.YES_OPTION) {
 					((MethodTableModel)table.getModel()).removeMethod(selectedRow);
 				}
+			}
+		});
+		
+		
+		btnUp.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow <= 0)
+					return;
+				((MethodTableModel)table.getModel()).moveMethodUp(selectedRow);
+				table.getSelectionModel().setSelectionInterval(selectedRow - 1, selectedRow - 1);
+
+			}
+		});
+
+		btnDown.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedRow = table.getSelectedRow();
+				int rowsNum = table.getRowCount();
+				if (selectedRow == -1 || selectedRow == rowsNum - 1)
+					return;
+				((MethodTableModel)table.getModel()).moveMethodDown(selectedRow);
+				table.getSelectionModel().setSelectionInterval(selectedRow + 1, selectedRow + 1);
+
 			}
 		});
 	}

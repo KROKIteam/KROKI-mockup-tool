@@ -5,6 +5,7 @@ import graphedit.app.MainFrame;
 import graphedit.command.AddAttributeCommand;
 import graphedit.command.ChangeAttributeOwnerCommand;
 import graphedit.command.ChangeAttributeTypeCommand;
+import graphedit.command.MoveAttributeCommand;
 import graphedit.command.RemoveAttributeCommand;
 import graphedit.command.RenameAttributeCommand;
 import graphedit.gui.utils.Dialogs;
@@ -32,7 +33,7 @@ public class AttributeTableModel extends AbstractTableModel {
 	public AttributeTableModel(GraphElement element, List<Attribute> attributes) { 
 		this.element = element;
 		this.attributes = attributes;
-		
+
 	}
 
 	private static final String[] COLUMN_NAMES = {
@@ -67,7 +68,7 @@ public class AttributeTableModel extends AbstractTableModel {
 		} 
 		return true;
 	}
-	
+
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
@@ -97,7 +98,9 @@ public class AttributeTableModel extends AbstractTableModel {
 		if (rowIndex > attributes.size() - 1)
 			return null;
 		Attribute attribute = attributes.get(rowIndex);
-		switch (columnIndex) {
+		switch (columnIndex){
+		case -1:
+			return attribute;
 		case 0:
 			return rowIndex + 1;
 		case 1:
@@ -184,6 +187,22 @@ public class AttributeTableModel extends AbstractTableModel {
 			}
 		}
 	}
+
+	public void moveAttributeUp(int rowIndex) {
+		MoveAttributeCommand command = new MoveAttributeCommand(MainFrame.getInstance().getCurrentView(),
+				element, (Attribute)getValueAt(rowIndex, -1), rowIndex, MoveAttributeCommand.DIRECTION.UP);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		fireTableDataChanged();
+	}
+
+	public void moveAttributeDown(int rowIndex) {
+		MoveAttributeCommand command = new MoveAttributeCommand(MainFrame.getInstance().getCurrentView(),
+				element, (Attribute)getValueAt(rowIndex, -1), rowIndex, MoveAttributeCommand.DIRECTION.DOWN);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		fireTableDataChanged();
+	}
+
+
 
 	public void addAttribute(Attribute attribute) {
 		AddAttributeCommand command = new AddAttributeCommand(

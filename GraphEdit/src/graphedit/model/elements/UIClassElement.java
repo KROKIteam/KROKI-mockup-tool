@@ -14,7 +14,6 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.util.NameTransformUtil;
 
-
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -795,12 +794,12 @@ public class UIClassElement extends ClassElement{
 				gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
 				visibleClass.removeVisibleElement(nextZoom.getClassIndex());
 				zoomMap.remove(connector);
-				
-//				label = nextZoom.getLabel();
-//				if (label.toLowerCase().startsWith("zoom")){
-//					label = "Link" + linkCounter;
-//					linkCounter++;
-//				}
+
+				//				label = nextZoom.getLabel();
+				//				if (label.toLowerCase().startsWith("zoom")){
+				//					label = "Link" + linkCounter;
+				//					linkCounter++;
+				//				}
 				if (otherNavigable){
 					Next next = addNextElement(label, otherElement, connector, -1, -1);
 					setOpposite(next, otherConnector, otherElement);
@@ -817,12 +816,12 @@ public class UIClassElement extends ClassElement{
 					gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
 					visibleClass.removeVisibleElement(nextZoom.getClassIndex());
 					nextMap.remove(connector);
-				//	label = nextZoom.getLabel();
+					//	label = nextZoom.getLabel();
 				}
-//				if (label == null || label.toLowerCase().startsWith("link")){
-//					label = "Zoom" + zoomCounter;
-//					zoomCounter++;	
-//				}
+				//				if (label == null || label.toLowerCase().startsWith("link")){
+				//					label = "Zoom" + zoomCounter;
+				//					zoomCounter++;	
+				//				}
 				Zoom zoom = addZoomElement(label, otherElement, connector, -1, -1);
 				setOpposite(zoom, otherConnector, otherElement);
 				link.setProperty(property, label);
@@ -1064,18 +1063,18 @@ public class UIClassElement extends ClassElement{
 			return LinkType.NEXT_ZOOM;
 	}
 
-//	/**
-//	 * Return name of the association role and updates association map
-//	 * @param otherName
-//	 * @return
-//	 */
-//	private String getAssociationNameFormMap(String otherName){
-//		Integer count = associationNameMap.get(otherName);
-//		if (count == null)
-//			count = 0;
-//		associationNameMap.put(otherName, ++count);
-//		return otherName + "_" + count;
-//	}
+	//	/**
+	//	 * Return name of the association role and updates association map
+	//	 * @param otherName
+	//	 * @return
+	//	 */
+	//	private String getAssociationNameFormMap(String otherName){
+	//		Integer count = associationNameMap.get(otherName);
+	//		if (count == null)
+	//			count = 0;
+	//		associationNameMap.put(otherName, ++count);
+	//		return otherName + "_" + count;
+	//	}
 
 	public HashMap<Connector, NextZoomElement> getZoomMap() {
 		return zoomMap;
@@ -1118,6 +1117,83 @@ public class UIClassElement extends ClassElement{
 		VisibleOperation operation = (VisibleOperation) method.getUmlOperation();
 		operation.setLabel(namer.transformClassName(newName));
 	}
+
+	/**
+	 * args[0] class index
+	 * args[1] group index
+	 * args[2] type - 1 for attributes, 2 for methods
+	 */
+	@Override
+	public void moveElementUp(int... args) {
+		int  classIndex = args[0];
+		int groupIndex = args[1];
+		int type = args[2];
+
+		ElementsGroup gr;
+		if (type == 1)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
+		else if (type == 2)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
+		else 
+			return;
+
+		//izbaci oba i dodaj na suprotne pozicije
+		VisibleElement thisProp = (VisibleElement) gr.getVisibleElementAt(groupIndex);
+		VisibleElement otherProp = (VisibleElement) gr.getVisibleElementAt(groupIndex - 1);
+
+		swapProperties(thisProp, otherProp, groupIndex - 1, groupIndex, classIndex - 1, classIndex, gr);
+
+	}
+
+	@Override
+	public void moveElementDown(int... args) {
+		int  classIndex = args[0];
+		int groupIndex = args[1];
+		int type = args[2];
+
+		ElementsGroup gr;
+		if (type == 1)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
+		else if (type == 2)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
+		else 
+			return;
+
+		//izbaci oba i dodaj na suprotne pozicije
+		VisibleElement thisProp = (VisibleElement) gr.getVisibleElementAt(groupIndex);
+		VisibleElement otherProp = (VisibleElement) gr.getVisibleElementAt(groupIndex + 1);
+
+		swapProperties(thisProp, otherProp, groupIndex + 1, groupIndex, classIndex + 1, classIndex, gr);
+
+	}
+
+	private void swapProperties(VisibleElement p1, VisibleElement p2, int firstIndexGr, int secondIndexGr,
+			int firstIndexCl, int secondIndexCl, ElementsGroup gr){
+
+
+		gr.removeVisibleElement(p1);
+		gr.removeVisibleElement(p2);
+		if (firstIndexGr < secondIndexGr){
+			gr.addVisibleElement(firstIndexGr, p1);
+			gr.addVisibleElement(secondIndexGr, p2);
+		}
+		else{
+			gr.addVisibleElement(secondIndexGr, p2);
+			gr.addVisibleElement(firstIndexGr, p1);
+		}
+
+		visibleClass.removeVisibleElement(p1);
+		visibleClass.removeVisibleElement(p2);
+		if (firstIndexCl < secondIndexCl){
+			visibleClass.addVisibleElement(firstIndexCl, p1);
+			visibleClass.addVisibleElement(secondIndexCl, p2);
+		}
+		else{
+			visibleClass.addVisibleElement(secondIndexCl, p2);
+			visibleClass.addVisibleElement(firstIndexCl, p1);
+		}
+	}
+
 
 
 }

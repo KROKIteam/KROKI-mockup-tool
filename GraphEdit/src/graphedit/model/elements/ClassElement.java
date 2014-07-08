@@ -38,6 +38,8 @@ public abstract class ClassElement implements Serializable, GraphEditElement{
 	}
 	
 	public abstract void addAttribute(Attribute attribute, int ...args);
+	public abstract void moveElementUp(int ...args);
+	public abstract void moveElementDown( int ...args);
 	public abstract void addMethod(Method method, int ...args);
 	public abstract void removeAttribute(int index);
 	public abstract void removeMethod(int index);
@@ -51,6 +53,8 @@ public abstract class ClassElement implements Serializable, GraphEditElement{
 	public abstract void changeClassStereotype(String stereotype);
 	public abstract void setOldClass(UmlClass oldClass);
 	public abstract void renameMathod(Method method, String newName);
+	
+	
 
 
 }
