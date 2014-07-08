@@ -62,6 +62,8 @@ public class UIClassElement extends ClassElement{
 	private HashMap<Connector, NextZoomElement> zoomMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, NextZoomElement> nextMap  = new HashMap<Connector, NextZoomElement>();
 	private HashMap<Connector, HierarchyElement> hierarchyMap = new HashMap<Connector, HierarchyElement>();
+	
+	private transient HashMap<UIClassElement, Integer> relationshipsCounterMap = new HashMap<UIClassElement, Integer>();
 
 	private transient NamingUtil namer = new NamingUtil();
 
@@ -618,6 +620,14 @@ public class UIClassElement extends ClassElement{
 				if (label.equals("")){
 					String otherName = (String) otherElement.element().getProperty(GraphElementProperties.NAME);
 					label = namer.lowerFirstLetter(otherName);
+					Integer count = relationshipsCounterMap.get(otherElement);
+					if (count == null)
+						count = 0;
+					if (count > 0)
+						label = label + "_" + count;
+					count ++;
+					relationshipsCounterMap.put(otherElement, count);
+					
 				}
 				if (linkEnd == LinkEnd.ZOOM){
 					link.setProperty(LinkProperties.SOURCE_ROLE, label);
@@ -1196,6 +1206,15 @@ public class UIClassElement extends ClassElement{
 			visibleClass.addVisibleElement(secondIndexCl, p2);
 			visibleClass.addVisibleElement(firstIndexCl, p1);
 		}
+	}
+
+	public HashMap<UIClassElement, Integer> getRelationshipsCounterMap() {
+		return relationshipsCounterMap;
+	}
+
+	public void setRelationshipsCounterMap(
+			HashMap<UIClassElement, Integer> relationshipsCounterMap) {
+		this.relationshipsCounterMap = relationshipsCounterMap;
 	}
 
 

@@ -84,7 +84,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	private boolean changed = false;
 
 	private boolean loaded;
-	
+
 	private transient NamingUtil namer = new NamingUtil();
 
 
@@ -337,13 +337,19 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				Connector c2 = new Connector(p2, destinationElement);
 				c2.setRepresentedElement(thisElement);
 				c1.setRepresentedElement(targetElement);
-				
+
 				String zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
 				int classIndex = visibleClass.getVisibleElementList().indexOf(zoom);
 				int groupIndex = ((ElementsGroup) visibleClass.getVisibleElementList().get(UIClassElement.STANDARD_PANEL_PROPERTIES)).getVisibleElementList().indexOf(zoom);
 				NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex, zoomLabel,"1..1",zoom);
 				thisElement.getZoomMap().put(c2, zoomElement);
+
+				Integer count = thisElement.getRelationshipsCounterMap().get(targetElement);
+				if (count == null)
+					count = 0;
+				count ++;
+				thisElement.getRelationshipsCounterMap().put(targetElement, count);
 
 
 				Next next = null;
@@ -371,6 +377,13 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				if (next != null){
 					nextLabel = namer.transformLabelToJavaName(next.getLabel());
 					destinationNavigable = true;
+
+					count = targetElement.getRelationshipsCounterMap().get(thisElement);
+					if (count == null)
+						count = 0;
+					count ++;
+					targetElement.getRelationshipsCounterMap().put(thisElement, count);
+
 				}
 
 				if (loadedLink == null)
@@ -388,8 +401,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 					c1.setLoadedPosition(sourcePosition);
 					c2.setLoadedPosition(destinationPosition);
-					
-					 zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
+
+					zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
 
 					if (loadedLink instanceof CompositionLink)
