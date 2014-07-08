@@ -17,6 +17,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
@@ -63,10 +65,10 @@ public class ClassDialog extends JDialog {
 
 
 		setLocationRelativeTo(mf);
-		
-		
-		
-		
+
+
+
+
 	}
 
 
@@ -126,8 +128,11 @@ public class ClassDialog extends JDialog {
 
 		table.getColumnModel().getColumn(0).setMaxWidth(20);
 		table.getColumnModel().getColumn(0).setMinWidth(20);
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-			public void valueChanged(ListSelectionEvent event) {
+		table.addMouseListener(new MouseAdapter() {
+
+
+			@Override
+			public void mousePressed(MouseEvent e) {
 				int index = table.getSelectedRow();
 				boolean last = table.getSelectedRow() == table.getModel().getRowCount() - 1;
 				//add new attribute
@@ -142,6 +147,7 @@ public class ClassDialog extends JDialog {
 					table.changeSelection(index, 2, true, true);
 					((RXTable) table).setSelectAllForEdit(true);
 				}
+
 			}
 		});
 
@@ -154,11 +160,12 @@ public class ClassDialog extends JDialog {
 				int answer = Dialogs.showYesNoDialog("Are you sure you want to delete '" + name + "'?", "Delete");
 				if (answer == JOptionPane.YES_OPTION) {
 					((AttributeTableModel)table.getModel()).removeAttribute(selectedRow);
+					selectPrevious(selectedRow);
 				}
 			}
 		});
-		
-		
+
+
 		btnUp.addActionListener(new ActionListener() {
 
 			@Override
@@ -185,7 +192,7 @@ public class ClassDialog extends JDialog {
 
 			}
 		});
-		
+
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -263,8 +270,10 @@ public class ClassDialog extends JDialog {
 
 		table.getColumnModel().getColumn(0).setMaxWidth(20);
 		table.getColumnModel().getColumn(0).setMinWidth(20);
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-			public void valueChanged(ListSelectionEvent event) {
+		table.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
 				int index = table.getSelectedRow();
 				boolean last = table.getSelectedRow() == table.getModel().getRowCount() - 1;
 				//add new method
@@ -279,8 +288,10 @@ public class ClassDialog extends JDialog {
 					table.changeSelection(index, 2, true, true);
 					((RXTable) table).setSelectAllForEdit(true);
 				}
+
 			}
 		});
+
 
 
 		remove.addActionListener(new ActionListener() {
@@ -292,11 +303,12 @@ public class ClassDialog extends JDialog {
 				int answer = Dialogs.showYesNoDialog("Are you sure you want to delete '" + name + "'?", "Delete");
 				if (answer == JOptionPane.YES_OPTION) {
 					((MethodTableModel)table.getModel()).removeMethod(selectedRow);
+					selectPrevious(selectedRow);
 				}
 			}
 		});
-		
-		
+
+
 		btnUp.addActionListener(new ActionListener() {
 
 			@Override
@@ -325,10 +337,10 @@ public class ClassDialog extends JDialog {
 		});
 	}
 
-	public void setParameters(Method method, List<Parameter> parameters) {
+	public void setParameters(final GraphElement element, Method method, List<Parameter> parameters) {
 		setTitle("Parameters");
 
-		table.setModel(new ParameterTableModel(method, parameters));
+		table.setModel(new ParameterTableModel(element, method, parameters));
 
 		int removedColumns = 0;
 
@@ -377,8 +389,49 @@ public class ClassDialog extends JDialog {
 				int answer = Dialogs.showYesNoDialog("Are you sure you want to delete '" + name + "'?", "Delete");
 				if (answer == JOptionPane.YES_OPTION) {
 					((ParameterTableModel)table.getModel()).removeParameter(selectedRow);
+					selectPrevious(selectedRow);
 				}
 			}
 		});
+		
+		btnUp.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow <= 0)
+					return;
+				((ParameterTableModel)table.getModel()).moveParameterUp(selectedRow);
+				table.getSelectionModel().setSelectionInterval(selectedRow - 1, selectedRow - 1);
+
+			}
+		});
+
+		btnDown.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedRow = table.getSelectedRow();
+				int rowsNum = table.getRowCount();
+				if (selectedRow == -1 || selectedRow == rowsNum - 1)
+					return;
+				((ParameterTableModel)table.getModel()).moveParameterDown(selectedRow);
+				table.getSelectionModel().setSelectionInterval(selectedRow + 1, selectedRow + 1);
+
+			}
+		});
+	}
+	
+	
+	private void selectPrevious(int selectedRow){
+		//select previous row if row count > 1
+		if (table.getRowCount() <= 1)
+			return;
+		int toSelect;
+		if (selectedRow == 0)
+			toSelect = selectedRow;
+		else 
+			toSelect = selectedRow - 1;
+		table.getSelectionModel().setSelectionInterval(toSelect, toSelect);
 	}
 }

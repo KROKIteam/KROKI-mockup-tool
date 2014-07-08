@@ -49,8 +49,8 @@ public class PropertiesButtonMouseListener implements MouseListener {
 		table.repaint();
 */
 		ClassDialog dialog = new ClassDialog();
+		GraphElement element = MainFrame.getInstance().getCurrentView().getSelectionModel().getSelectedElements().get(0);
 		if (table.getModel() instanceof PropertiesTableModel) {
-			GraphElement element = MainFrame.getInstance().getCurrentView().getSelectionModel().getSelectedElements().get(0);
 			String selected = (String)table.getValueAt(row, 0); 
 			if (selected.equals("Attributes"))
 				dialog.setAttributes(element, (List<Attribute>) value);
@@ -58,7 +58,7 @@ public class PropertiesButtonMouseListener implements MouseListener {
 				dialog.setMethods(element, (List<Method>) value);
 		} else if (table.getModel() instanceof MethodTableModel) {
 			Method method = ((MethodTableModel)table.getModel()).getMethod(table.getSelectedRow());
-			dialog.setParameters(method, (List<Parameter>) value);
+			dialog.setParameters(element, method, (List<Parameter>) value);
 		}
 		dialog.setVisible(true);
 	}
