@@ -15,6 +15,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.action.BusinessProcessModelingAction;
 import kroki.app.action.ClassDiagramAction;
 import kroki.app.action.CreatePresistentDiagramAction;
 import kroki.app.action.CreateUIDiagramAction;
@@ -149,6 +150,8 @@ public class TreeController extends AbstractTreeController {
                 popupMenu.add(new DBConneectionSettingsAction());
                 popupMenu.add(diagramMenu);
                 popupMenu.add(new ClassDiagramAction());
+                popupMenu.add(new BusinessProcessModelingAction());
+                
             } else if (node instanceof VisibleClass) {
                 popupMenu.add(new RenameAction((VisibleClass) node));
                 popupMenu.add(new DeleteAction((VisibleClass) node));

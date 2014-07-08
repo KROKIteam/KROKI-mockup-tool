@@ -6,6 +6,7 @@ package kroki.app.gui.toolbar;
 
 import javax.swing.JToolBar;
 
+import kroki.app.action.BusinessProcessModelingAction;
 import kroki.app.action.ClassDiagramAction;
 import kroki.app.action.NewFileAction;
 import kroki.app.action.NewProjectAction;
@@ -21,7 +22,12 @@ import kroki.app.action.UndoAction;
  */
 public class MainToolbar extends JToolBar {
 
-    public MainToolbar() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public MainToolbar() {
         setOrientation(JToolBar.HORIZONTAL);
         setFloatable(false);
         initComponents();
@@ -39,5 +45,7 @@ public class MainToolbar extends JToolBar {
         add(new RedoAction());
         addSeparator();
         add(new ClassDiagramAction());
+        add(new BusinessProcessModelingAction());
+        addSeparator();
     }
 }

@@ -5,8 +5,9 @@
 package kroki.profil.operation;
 
 import java.util.List;
+
+import kroki.profil.BusinessProcessModelingSubject;
 import kroki.profil.ComponentType;
-import kroki.profil.VisibleElement;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlParameter;
@@ -19,7 +20,7 @@ import kroki.uml_core_basic.UmlType;
  * korisnika.
  * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
-public class VisibleOperation extends VisibleElement implements UmlOperation {
+public class VisibleOperation extends BusinessProcessModelingSubject implements UmlOperation {
 
     /*OBELEÅ½JA METAKLASE OPERATION*/
     protected UmlClass umlClass;
@@ -104,4 +105,10 @@ public class VisibleOperation extends VisibleElement implements UmlOperation {
     public int upper() {
         return upper;
     }
+
+	@Override
+	public String toString() {
+		//this.qualifiedName() does not return anything 
+		return umlClass.name() + "." + label;
+	}
 }

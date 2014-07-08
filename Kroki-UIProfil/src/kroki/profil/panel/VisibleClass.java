@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import kroki.mockup.model.Composite;
+import kroki.profil.BusinessProcessModelingSubject;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
@@ -34,7 +35,7 @@ import kroki.uml_core_basic.UmlProperty;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(VisibleClassSettings.class)
-public class VisibleClass extends VisibleElement implements UmlClass {
+public class VisibleClass extends BusinessProcessModelingSubject implements UmlClass {
 
     /**Indikator modalnosti klase*/
     protected boolean modal = true;
@@ -45,7 +46,7 @@ public class VisibleClass extends VisibleElement implements UmlClass {
     protected UmlPackage umlPackage;
     //Component counter map used for incremental component naming
     HashMap<ComponentType, Integer> componentCounts;
-
+    
     /*****************/
     /*Konstruktori   */
     /*****************/

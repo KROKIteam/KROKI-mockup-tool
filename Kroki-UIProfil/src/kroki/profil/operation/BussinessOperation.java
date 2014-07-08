@@ -63,4 +63,5 @@ public class BussinessOperation extends VisibleOperation {
     public void setPersistentOperation(PersistentOperation persistentOperation) {
         this.persistentOperation = persistentOperation;
     }
+
 }
