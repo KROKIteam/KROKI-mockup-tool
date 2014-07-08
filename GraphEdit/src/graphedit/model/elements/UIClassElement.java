@@ -13,6 +13,7 @@ import graphedit.model.components.Parameter;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.util.NameTransformUtil;
+import graphedit.util.Utility;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
@@ -188,6 +189,7 @@ public class UIClassElement extends ClassElement{
 			if (type instanceof Zoom || type instanceof Next )
 				continue;
 			if (type instanceof VisibleProperty){
+				VisibleProperty visibleProperty = (VisibleProperty) type;
 				Attribute loadedAttribute = savedAttribute((VisibleProperty) type, loadedElement);
 				attribute = new Attribute(NameTransformUtil.labelToCamelCase(type.getLabel(), true), NameTransformUtil.transformUppercaseWithoutSpaces(type.getComponentType().toString()));
 				((List<Attribute>) element.getProperty(GraphElementProperties.ATTRIBUTES)).add(attribute);
@@ -198,6 +200,8 @@ public class UIClassElement extends ClassElement{
 							(((VisibleProperty)loadedAttribute.getUmlProperty()).getLabel())))
 						attribute.setName(loadedAttribute.getName());
 				}
+				if (visibleProperty.getEnumeration() != null && visibleProperty.getEnumeration().length() > 0)
+					attribute.setPossibleValues(Utility.formPossibleValues(visibleProperty.getEnumeration()));
 			}
 			else if (type instanceof BussinessOperation){
 				if (type instanceof Report)

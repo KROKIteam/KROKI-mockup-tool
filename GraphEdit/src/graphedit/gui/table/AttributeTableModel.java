@@ -20,6 +20,7 @@ import graphedit.view.ClassPainter;
 
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 public class AttributeTableModel extends AbstractTableModel {
@@ -37,7 +38,7 @@ public class AttributeTableModel extends AbstractTableModel {
 	}
 
 	private static final String[] COLUMN_NAMES = {
-		"", "Owner","Name", "Type", "Modifier", "Static", "Final", "Display"
+		"", "Owner","Name", "Type", "Modifier", "Static", "Final", "Possible values", "Display"
 	};
 
 	@Override
@@ -63,6 +64,7 @@ public class AttributeTableModel extends AbstractTableModel {
 			return false;
 		if (columnIndex == COLUMN_NAMES.length - 1)
 			return true;
+			
 		if (element instanceof Interface || currentApplicationMode() == ApplicationMode.USER_INTERFACE) {
 			return columnIndex < 4;
 		} 
@@ -88,6 +90,8 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 6: 
 			return Boolean.class;
 		case 7:
+			return JButton.class;
+		case 8:
 			return Boolean.class;
 		}
 		return super.getColumnClass(columnIndex);
@@ -98,6 +102,7 @@ public class AttributeTableModel extends AbstractTableModel {
 		if (rowIndex > attributes.size() - 1)
 			return null;
 		Attribute attribute = attributes.get(rowIndex);
+		boolean combo = attribute.getType().equals("ComboBox");
 		switch (columnIndex){
 		case -1:
 			return attribute;
@@ -116,6 +121,10 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 6: 
 			return attribute.isFinalAttribute();
 		case 7:
+			if (combo)
+				return attribute.getPossibleValues();
+			return null;
+		case 8:
 			return attribute.isVisible();
 		}
 		return null;
@@ -153,6 +162,7 @@ public class AttributeTableModel extends AbstractTableModel {
 				valueStr = (String) value;
 			ChangeAttributeTypeCommand command = new ChangeAttributeTypeCommand(MainFrame.getInstance().getCurrentView(), element, attribute, valueStr);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
+			fireTableDataChanged();
 			break;
 		case 4:
 			attribute.setModifier((Modifier) value);
@@ -163,7 +173,7 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 6: 
 			attribute.setFinalAttribute((Boolean) value);
 			break;
-		case 7:
+		case 8:
 			attribute.setVisible((Boolean)value);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setUpdated(true);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setAttributesOrMethodsUpdated(true);

@@ -6,6 +6,7 @@ import graphedit.properties.ApplicationModeProperties;
 import graphedit.util.Validator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import kroki.uml_core_basic.UmlProperty;
@@ -33,6 +34,8 @@ public class Attribute implements Serializable {
 	
 	private ApplicationModeProperties appModeProperties;
 	
+	private List<String> possibleValues;
+	
 	/*
 	 * UmlProperty nema modifier, static, final, pa ne moze za sada drugacije
 	 */
@@ -40,6 +43,7 @@ public class Attribute implements Serializable {
 	public Attribute() { 
 		
 		appModeProperties = ApplicationModeProperties.getInstance();
+		possibleValues = new ArrayList<String>();
 		
 		name = (String) appModeProperties.getPropertyValue("attributeName") + instanceCounter++;
 		if (MainFrame.getInstance().getCurrentView() != null){
@@ -116,6 +120,14 @@ public class Attribute implements Serializable {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+
+	public List<String> getPossibleValues() {
+		return possibleValues;
+	}
+
+	public void setPossibleValues(List<String> possibleValues) {
+		this.possibleValues = possibleValues;
 	}
 
 	
