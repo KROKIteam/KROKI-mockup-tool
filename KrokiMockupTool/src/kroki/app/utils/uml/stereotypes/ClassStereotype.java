@@ -2,14 +2,12 @@ package kroki.app.utils.uml.stereotypes;
 
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.internal.impl.ClassImpl;
 
 import kroki.app.utils.uml.ProgressWorker;
 import kroki.profil.panel.StandardPanel;
-import kroki.profil.panel.VisibleClass;
 
 /**
- * Used to check if the stereotypes StandardPanel,VisibleClass and ParentChild
+ * Used to check if the stereotypes StandardPanel and ParentChild
  * are set for the UML Class element, and to retrieve values set for the corresponding stereotypes.
  * 
  * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
@@ -21,10 +19,7 @@ public class ClassStereotype {
 	 * Name of the StandardPanel stereotype that can be applied to a UML Class element.
 	 */
 	public static final String STEREOTYPE_STANDARD_PANEL_NAME="StandardPanel";
-	/**
-	 * Name of the VisibleClass stereotype that can be applied to a UML Class element.
-	 */
-	public static final String STEREOTYPE_VISIBLE_CLASS_NAME="VisibleClass";
+	
 	/**
 	 * Name of the ParentChild stereotype that can be applied to a UML Class element.
 	 */
@@ -63,41 +58,72 @@ public class ClassStereotype {
 		{
 			thread.publishText(stereotypeName+" stereotype applied");
 			Object value;
+			boolean stereotypeButtons;
 			if((value=getProperty(object, stereotypeObject, "add", thread))!=null)
 			{
-				krokiObject.setAdd((boolean)value);
+				stereotypeButtons=(boolean)value;
+				if(stereotypeButtons!=krokiObject.isAdd())
+					krokiObject.setAdd((boolean)value);
 			}else
 				krokiObject.setAdd(false);
 			if((value=getProperty(object, stereotypeObject, "update", thread))!=null)
 			{
-				krokiObject.setUpdate((boolean)value);
+				stereotypeButtons=(boolean)value;
+				if(stereotypeButtons!=krokiObject.isUpdate())
+					krokiObject.setUpdate((boolean)value);
 			}else
 				krokiObject.setUpdate(false);
 			if((value=getProperty(object, stereotypeObject, "copy", thread))!=null)
 			{
-				krokiObject.setCopy((boolean)value);
+				stereotypeButtons=(boolean)value;
+				if(stereotypeButtons!=krokiObject.isCopy())
+					krokiObject.setCopy((boolean)value);
 			}else
 				krokiObject.setCopy(false);
 			if((value=getProperty(object, stereotypeObject, "delete", thread))!=null)
 			{
-				krokiObject.setDelete((boolean)value);
+				stereotypeButtons=(boolean)value;
+				if(stereotypeButtons!=krokiObject.isDelete())
+					krokiObject.setDelete((boolean)value);
 			}else
 				krokiObject.setDelete(false);
 			if((value=getProperty(object, stereotypeObject, "search", thread))!=null)
 			{
-				krokiObject.setSearch((boolean)value);
+				stereotypeButtons=(boolean)value;
+				if(stereotypeButtons!=krokiObject.isSearch())
+					krokiObject.setSearch((boolean)value);
 			}else
 				krokiObject.setSearch(false);
 			if((value=getProperty(object, stereotypeObject, "changeMode", thread))!=null)
 			{
-				krokiObject.setChangeMode((boolean)value);
+				stereotypeButtons=(boolean)value;
+				if(stereotypeButtons!=krokiObject.isChangeMode())
+					krokiObject.setChangeMode((boolean)value);
 			}else
 				krokiObject.setChangeMode(false);
 			if((value=getProperty(object, stereotypeObject, "dataNavigation", thread))!=null)
 			{
-				krokiObject.setDataNavigation((boolean)value);
+				stereotypeButtons=(boolean)value;
+				if(stereotypeButtons!=krokiObject.isDataNavigation())
+					krokiObject.setDataNavigation((boolean)value);
 			}else
 				krokiObject.setDataNavigation(false);
+			
+			if((value=getProperty(object, stereotypeObject, "modal", thread))!=null)
+			{
+				krokiObject.setModal((boolean)value);
+			}else
+				krokiObject.setModal(false);
+			
+			if((value=getProperty(object, stereotypeObject, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
 		}
 		else
 			thread.publishText(stereotypeName+" stereotype not applied");
@@ -138,6 +164,16 @@ public class ClassStereotype {
 			setProperty(object,stereotypeObject,"changeMode",krokiObject.isChangeMode(),thread);
 			
 			setProperty(object,stereotypeObject,"dataNavigation",krokiObject.isDataNavigation(),thread);
+			
+			//VisibleClass attribute
+			setProperty(object,stereotypeObject,"modal",krokiObject.isModal(),thread);
+			
+			//VisibleElemente attributes
+            setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
+			
+			
 			thread.removeIndentation(1);
 		}
 		else
@@ -189,62 +225,5 @@ public class ClassStereotype {
 			return true;
 		else
 			return false;
-	}
-	
-	/**
-	 * For a UML Class element retrieves all the property values of the VisibleClass stereotype, if it is applied
-	 * to the UML Class element and sets the retrieved values to the corresponding attributes of the
-	 * Kroki VisibleClass object.    
-	 * @param object        UML Class element for which to retrieve the property values of the VisibleClass stereotype
-	 * @param krokiObject   Kroki VisibleClass object for which to set the retrieved values
-	 * @param thread        background worker thread, implementing the import functionality, used to output messages
-	 * of the current progress of the values that are being retrieved 
-	 */
-	public static void stereotypeVisibleClassImport(org.eclipse.uml2.uml.Class object,VisibleClass krokiObject,ProgressWorker thread){
-		String stereotypeName=STEREOTYPE_VISIBLE_CLASS_NAME;
-		thread.publishText("Checking "+stereotypeName+" stereotype");
-		thread.addIndentation();
-		Stereotype stereotypeObject=object.getAppliedStereotype(StereotypeUtil.EUIS_DSL_PROFILE+stereotypeName);		
-		if(stereotypeObject!=null)
-		{
-			thread.publishText(stereotypeName+" stereotype applied");
-			Object value;
-			if((value=getProperty(object, stereotypeObject, "modal", thread))!=null)
-			{
-				krokiObject.setModal((boolean)value);
-			}else
-				krokiObject.setModal(false);
-		}
-		else
-			thread.publishText(stereotypeName+" stereotype not applied");
-		thread.removeIndentation(1);
-	}
-	
-	/**
-	 * For a Kroki VisibleClass object retrieves all the values corresponding to the property values of the VisibleClass
-	 * stereotype and sets them to the UML Class element.
-	 * @param profile      UML profile that defines a VisibleClass stereotype
-	 * @param object       UML Class element for which to set the property values of the VisibleClass stereotype corresponding  
-	 * to the attribute values of the Kroki VisibleClass object
-	 * @param krokiObject  Kroki VisibleClass object from which to retrieve the attribute values to be set to the
-	 * stereotype property values of the UML Class element
-	 * @param thread       background worker thread, implementing the export functionality, used to output messages of
-	 * the current progress of the property values that are being set
-	 */
-	public static void stereotypeVisibleClassExport(Profile profile,org.eclipse.uml2.uml.Class object,VisibleClass krokiObject,ProgressWorker thread){
-		String stereotypeName=STEREOTYPE_VISIBLE_CLASS_NAME;
-		
-		Stereotype stereotypeObject=profile.getOwnedStereotype(stereotypeName);
-		if(stereotypeObject!=null)
-		{
-			thread.publishText("Applaying stereotype "+stereotypeName);
-			thread.addIndentation();
-			object.applyStereotype(stereotypeObject);
-			
-			setProperty(object,stereotypeObject,"modal",krokiObject.isModal(),thread);
-			thread.removeIndentation(1);
-		}
-		else
-			thread.publishText(stereotypeName+" stereotype could not be applied");
 	}
 }

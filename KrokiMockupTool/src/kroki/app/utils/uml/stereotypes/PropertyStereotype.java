@@ -6,6 +6,7 @@ import kroki.app.utils.uml.ProgressWorker;
 import kroki.profil.association.Next;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
+import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.Report;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
@@ -26,10 +27,6 @@ import org.eclipse.uml2.uml.Stereotype;
  */
 public class PropertyStereotype {
 
-	/**
-	 * Name of the VisibleAssociationEnd stereotype that can be applied to a UML Property element.
-	 */
-	public static final String STEREOTYPE_VISIBLE_ASSOCIATION_END_NAME="VisibleAssociationEnd";
 	/**
 	 * Name of the Zoom stereotype that can be applied to a UML Property element.
 	 */
@@ -143,6 +140,70 @@ public class PropertyStereotype {
 		else
 			thread.publishText(stereotypeName+" stereotype not applied");
 		
+	}
+	
+	/**
+	 * For a UML Property element retrieves all the property values of the ElementsGroupProperty stereotype, if it is applied
+	 * to the UML Property element and sets the retrieved values to the corresponding attributes of the
+	 * Kroki ElementsGroup object.    
+	 * @param object        UML Property element for which to retrieve the property values of the ElementsGroupProperty stereotype
+	 * @param krokiObject   Kroki ElementsGroup object for which to set the retrieved values
+	 * @param thread        background worker thread, implementing the import functionality, used to output messages
+	 * of the current progress of the values that are being retrieved 
+	 */
+	public static void stereotypeElementsGroupOperationImport(Property object,ElementsGroup krokiObject,ProgressWorker thread){
+		String stereotypeName=STEREOTYPE_ELEMENTS_GROUP_PROPERTY_NAME;
+		thread.publishText("Checking "+stereotypeName+" stereotype");
+		thread.addIndentation();
+		Stereotype stereotypeObject=object.getAppliedStereotype(StereotypeUtil.EUIS_DSL_PROFILE+stereotypeName);
+		
+		if(stereotypeObject!=null)
+		{
+			thread.publishText(stereotypeName+" stereotype applied");
+			Object value;
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
+		}
+		else
+			thread.publishText(stereotypeName+" stereotype not applied");
+		thread.removeIndentation(1);
+	}
+	
+	/**
+	 * For a Kroki ElementsGroup object retrieves all the values corresponding to the property values of the ElementsGroupProperty
+	 * stereotype and sets them to the UML Property element.
+	 * @param profile      UML profile that defines a ElementsGroupProperty stereotype
+	 * @param object       UML Property element for which to set the property values of the ElementsGroupProperty stereotype corresponding  
+	 * to the attribute values of the Kroki ElementsGroup object
+	 * @param krokiObject  Kroki ElementsGroup object from which to retrieve the attribute values to be set to the
+	 * stereotype property values of the UML Property element
+	 * @param thread       background worker thread, implementing the export functionality, used to output messages of
+	 * the current progress of the property values that are being set
+	 */
+	public static void stereotypeElementsGroupOperationExport(Profile profile,Property object,ElementsGroup krokiObject,ProgressWorker thread){
+		String stereotypeName=STEREOTYPE_ELEMENTS_GROUP_PROPERTY_NAME;
+		
+		Stereotype stereotypeObject=profile.getOwnedStereotype(stereotypeName);
+		if(stereotypeObject!=null)
+		{
+			thread.publishText("Applaying stereotype "+stereotypeName);
+			thread.addIndentation();
+			object.applyStereotype(stereotypeObject);
+			
+			setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
+			thread.removeIndentation(1);
+		}
+		else
+			thread.publishText(stereotypeName+" stereotype could not be applied");
 	}
 	
 	/**
@@ -324,98 +385,6 @@ public class PropertyStereotype {
 		StereotypeUtil.outputMessage(thread, propertyName);
 	}
 	
-	/**
-	 * For a UML Property element retrieves all the property values of the VisibleAssociationEnd stereotype, if it is applied
-	 * to the UML Property element and sets the retrieved values to the corresponding attributes of the
-	 * Kroki VisibleAssociationEnd object.    
-	 * @param object        UML Property element for which to retrieve the property values of the VisibleAssociationEnd stereotype
-	 * @param krokiObject   Kroki VisibleAssociationEnd object for which to set the retrieved values
-	 * @param thread        background worker thread, implementing the import functionality, used to output messages
-	 * of the current progress of the values that are being retrieved 
-	 */
-	public static void stereotypeVisibleAssociationEndImport(Property object,VisibleAssociationEnd krokiObject,ProgressWorker thread){
-		String stereotypeName=STEREOTYPE_VISIBLE_ASSOCIATION_END_NAME;
-		thread.publishText("Checking "+stereotypeName+" stereotype");
-		thread.addIndentation();
-		Stereotype stereotypeObject=object.getAppliedStereotype(StereotypeUtil.EUIS_DSL_PROFILE+stereotypeName);
-		
-		if(stereotypeObject!=null)
-		{
-			thread.publishText(stereotypeName+" stereotype applied");
-			Object value;
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "add", thread))!=null)
-			{
-				krokiObject.setAdd((boolean)value);
-			}
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "update", thread))!=null)
-			{
-				krokiObject.setUpdate((boolean)value);
-			}
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "copy", thread))!=null)
-			{
-				krokiObject.setCopy((boolean)value);
-			}
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "delete", thread))!=null)
-			{
-				krokiObject.setDelete((boolean)value);
-			}
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "search", thread))!=null)
-			{
-				krokiObject.setSearch((boolean)value);
-			}
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "changeMode", thread))!=null)
-			{
-				krokiObject.setChangeMode((boolean)value);
-			}
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "dataNavigation", thread))!=null)
-			{
-				krokiObject.setDataNavigation((boolean)value);
-			}
-		}
-		else
-			thread.publishText(stereotypeName+" stereotype not applied");
-		thread.removeIndentation(1);
-	}
-	
-	/**
-	 * For a Kroki VisibleAssociationEnd object retrieves all the values corresponding to the property values 
-	 * of the VisibleAssociationEnd stereotype and sets them to the UML Property element.
-	 * @param profile      UML profile that defines a VisibleAssociationEnd stereotype
-	 * @param object       UML Property element for which to set the property values of the VisibleAssociationEnd
-	 * stereotype corresponding to the attribute values of the Kroki VisibleAssociationEnd object
-	 * @param krokiObject  Kroki VisibleAssociationEnd object from which to retrieve the attribute values to be set to the
-	 * stereotype property values of the UML Property element
-	 * @param thread       background worker thread, implementing the export functionality, used to output messages of
-	 * the current progress of the property values that are being set
-	 */
-	public static void stereotypeVisibleAssociationEndExport(Profile profile,Property object,VisibleAssociationEnd krokiObject,ProgressWorker thread){
-		String stereotypeName=STEREOTYPE_VISIBLE_ASSOCIATION_END_NAME;
-		
-		Stereotype stereotypeObject=profile.getOwnedStereotype(stereotypeName);
-		if(stereotypeObject!=null)
-		{
-			thread.publishText("Applaying stereotype "+stereotypeName);
-			thread.addIndentation();
-			object.applyStereotype(stereotypeObject);
-			
-			setProperty(object,stereotypeObject,"add",krokiObject.isAdd(),thread);
-			
-			setProperty(object,stereotypeObject,"update",krokiObject.isUpdate(),thread);
-			
-			setProperty(object,stereotypeObject,"copy",krokiObject.isCopy(),thread);
-			
-			setProperty(object,stereotypeObject,"delete",krokiObject.isDelete(),thread);
-			
-			setProperty(object,stereotypeObject,"search",krokiObject.isSearch(),thread);
-			
-			setProperty(object,stereotypeObject,"changeMode",krokiObject.isChangeMode(),thread);
-			
-			setProperty(object,stereotypeObject,"dataNavigation",krokiObject.isDataNavigation(),thread);
-			thread.removeIndentation(1);
-		}
-		else
-			thread.publishText(stereotypeName+" stereotype could not be applied");
-	}
 
 	/**
 	 * For a UML Property element retrieves all the property values of the VisibleProperty stereotype, if it is applied
@@ -459,6 +428,17 @@ public class PropertyStereotype {
 				krokiObject.setDisabled((boolean)value);
 			}else
 				krokiObject.setDisabled(false);
+			
+			//VisibleElement attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
 		}
 		else
 			thread.publishText(stereotypeName+" stereotype not applied");
@@ -495,6 +475,11 @@ public class PropertyStereotype {
 			setProperty(object,stereotypeObject,"autoGo",krokiObject.isAutoGo(),thread);
 			
 			setProperty(object,stereotypeObject,"disabled",krokiObject.isDisabled(),thread);
+			
+			//VisibleElement attributes
+            setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
 			thread.removeIndentation(1);
 		}
 		else
@@ -535,6 +520,47 @@ public class PropertyStereotype {
 				krokiObject.setDisplayRepresentative((boolean)value);
 			}else
 				krokiObject.setDisplayRepresentative(false);
+			
+			//VisibleAssociationEnd attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "add", thread))!=null)
+			{
+				krokiObject.setAdd((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "update", thread))!=null)
+			{
+				krokiObject.setUpdate((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "copy", thread))!=null)
+			{
+				krokiObject.setCopy((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "delete", thread))!=null)
+			{
+				krokiObject.setDelete((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "search", thread))!=null)
+			{
+				krokiObject.setSearch((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "changeMode", thread))!=null)
+			{
+				krokiObject.setChangeMode((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "dataNavigation", thread))!=null)
+			{
+				krokiObject.setDataNavigation((boolean)value);
+			}
+			
+			//VisibleElement attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
 		}
 		else
 			thread.publishText(stereotypeName+" stereotype not applied");
@@ -553,7 +579,7 @@ public class PropertyStereotype {
 	 * the current progress of the property values that are being set
 	 */
 	public static void stereotypeNextExport(Profile profile,Property object,Next krokiObject,ProgressWorker thread){
-		String stereotypeName=STEREOTYPE_VISIBLE_PROPERTY_NAME;
+		String stereotypeName=STEREOTYPE_NEXT_NAME;
 		
 		Stereotype stereotypeObject=profile.getOwnedStereotype(stereotypeName);
 		if(stereotypeObject!=null)
@@ -567,6 +593,26 @@ public class PropertyStereotype {
 			setProperty(object,stereotypeObject,"displayIdentifier",krokiObject.isDisplayIdentifier(),thread);
 			
 			setProperty(object,stereotypeObject,"displayRepresentative",krokiObject.isDisplayRepresentative(),thread);
+			
+			//VisibleAssociationEnd attributes
+            setProperty(object,stereotypeObject,"add",krokiObject.isAdd(),thread);
+			
+			setProperty(object,stereotypeObject,"update",krokiObject.isUpdate(),thread);
+			
+			setProperty(object,stereotypeObject,"copy",krokiObject.isCopy(),thread);
+			
+			setProperty(object,stereotypeObject,"delete",krokiObject.isDelete(),thread);
+			
+			setProperty(object,stereotypeObject,"search",krokiObject.isSearch(),thread);
+			
+			setProperty(object,stereotypeObject,"changeMode",krokiObject.isChangeMode(),thread);
+			
+			setProperty(object,stereotypeObject,"dataNavigation",krokiObject.isDataNavigation(),thread);
+			
+			//VisibleElement attributes
+            setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
 			thread.removeIndentation(1);
 		}
 		else
@@ -597,6 +643,47 @@ public class PropertyStereotype {
 				krokiObject.setCombozoom((boolean)value);
 			}else
 				krokiObject.setCombozoom(false);
+			
+			//VisibleAssociationEnd attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "add", thread))!=null)
+			{
+				krokiObject.setAdd((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "update", thread))!=null)
+			{
+				krokiObject.setUpdate((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "copy", thread))!=null)
+			{
+				krokiObject.setCopy((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "delete", thread))!=null)
+			{
+				krokiObject.setDelete((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "search", thread))!=null)
+			{
+				krokiObject.setSearch((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "changeMode", thread))!=null)
+			{
+				krokiObject.setChangeMode((boolean)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "dataNavigation", thread))!=null)
+			{
+				krokiObject.setDataNavigation((boolean)value);
+			}
+			
+			//VisibleElement attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
 		}
 		else
 			thread.publishText(stereotypeName+" stereotype not applied");
@@ -625,6 +712,26 @@ public class PropertyStereotype {
 			object.applyStereotype(stereotypeObject);
 			
 			setProperty(object,stereotypeObject,"combozoom",krokiObject.isCombozoom(),thread);
+			
+			//VisibleAssociationEnd attributes
+            setProperty(object,stereotypeObject,"add",krokiObject.isAdd(),thread);
+			
+			setProperty(object,stereotypeObject,"update",krokiObject.isUpdate(),thread);
+			
+			setProperty(object,stereotypeObject,"copy",krokiObject.isCopy(),thread);
+			
+			setProperty(object,stereotypeObject,"delete",krokiObject.isDelete(),thread);
+			
+			setProperty(object,stereotypeObject,"search",krokiObject.isSearch(),thread);
+			
+			setProperty(object,stereotypeObject,"changeMode",krokiObject.isChangeMode(),thread);
+			
+			setProperty(object,stereotypeObject,"dataNavigation",krokiObject.isDataNavigation(),thread);
+			
+			//VisibleElement attributes
+            setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
 			thread.removeIndentation(1);
 		}
 		else

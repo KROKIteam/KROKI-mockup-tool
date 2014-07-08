@@ -17,8 +17,8 @@ import kroki.app.utils.uml.OperationsTypeDialog;
 import kroki.app.utils.uml.ProgressWorker;
 import kroki.app.utils.uml.UMLResourcesUtil;
 import kroki.app.utils.uml.stereotypes.ClassStereotype;
-import kroki.app.utils.uml.stereotypes.NamedElementStereotype;
 import kroki.app.utils.uml.stereotypes.OperationStereotype;
+import kroki.app.utils.uml.stereotypes.PackageStereotype;
 import kroki.app.utils.uml.stereotypes.PropertyStereotype;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.mockup.model.Composite;
@@ -60,6 +60,8 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
+
+import sun.org.mozilla.javascript.internal.ast.WithStatement;
 
 import com.sun.org.apache.xpath.internal.operations.And;
 
@@ -164,6 +166,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 					throw new Exception("Error while creating project from Eclipse UML model.");
 				}
 			}
+	    }else
+	    {
+	    	throw new Exception("File you are trying to import is in unrecognizable format.");
 	    }
 		return null;
 	}
@@ -239,7 +244,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	private  void extractModel(Model model) throws Exception{
 		if(model!=null)
 		{
-			project=new BussinesSubsystem(namingUtil.fromCamelCase(model.getName()), true, ComponentType.MENU, null);
+			project=new BussinesSubsystem(createHumanReadableLabel(model.getName()), true, ComponentType.MENU, null);
 			addIndentation();
 			publishText("Project with name "+project.getLabel()+" created");
 			addIndentation();
@@ -270,6 +275,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @throws Exception      forwards any Exception that is thrown from method {@link #extractClass}
 	 */
 	private void extractPackage(Package packageElem,BussinesSubsystem subsystemOwner) throws Exception{
+		
+		PackageStereotype.stereotypeBusinessSubsystemImport(packageElem, subsystemOwner, this);
+		
 		EList<Package> packages=packageElem.getNestedPackages();
 		for(Package packageHelp:packages)
 		{
@@ -295,8 +303,6 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				{
 					VisibleClass panel = createStandardPanel(classHelper.getName(),subsystemOwner);
 					addIndentation();
-					ClassStereotype.stereotypeVisibleClassImport(classHelper, panel, this);
-					NamedElementStereotype.stereotypeVisibleElementImport(classHelper, panel, this);
 					classMap.put(classHelper, panel);
 					extractClass(classHelper,panel);
 					removeIndentation(1);
@@ -349,8 +355,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	public VisibleClass createStandardPanel(String name,BussinesSubsystem classOwner){
 		StandardPanel panel = new StandardPanel();
-		panel.setLabel(namingUtil.fromCamelCase(name));
-		panel.getComponent().setName(namingUtil.fromCamelCase(name));
+		panel.setLabel(createHumanReadableLabel(name));
+		panel.getComponent().setName(createHumanReadableLabel(name));
 		panel.getPersistentClass().setName(namingUtil.toCamelCase(panel.getLabel(), false));
 		/*
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(1);
@@ -358,9 +364,10 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		((Composite) gr.getComponent()).layout();
 		gr.update();
 		*/
-		panel.update();
+		
 		classOwner.addOwnedType(panel);
 		panel.setUmlPackage(classOwner);
+		panel.update();
 		publishText("Created "+StandardPanel.class.getSimpleName()+" "+panel.getLabel());
 		return panel;
 	}
@@ -375,7 +382,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	public BussinesSubsystem createBussinesSubsystem(String name, BussinesSubsystem subsystemOwner){
 		BussinesSubsystem pack = new BussinesSubsystem(subsystemOwner);
-		pack.setLabel(namingUtil.fromCamelCase(name));
+		pack.setLabel(createHumanReadableLabel(name));
 		subsystemOwner.addNestedPackage(pack);
 		return pack;
 	}
@@ -417,16 +424,12 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			{
 				createdObject=createReportOnly(operation.getName(),panel);
 				addIndentation();
-				NamedElementStereotype.stereotypeVisibleElementImport(operation, (VisibleElement) createdObject, this);
-				OperationStereotype.stereotypeBusinessOperationImport(operation, (BussinessOperation) createdObject, this);
 				OperationStereotype.stereotypeReportImport(operation, (Report) createdObject, this);
 				removeIndentation(1);
 			}else if(OperationStereotype.isTransactionStereotypeApplied(operation))
 			{
 				createdObject=createTransactionOnly(operation.getName(),panel);
 				addIndentation();
-				NamedElementStereotype.stereotypeVisibleElementImport(operation, (VisibleElement) createdObject, this);
-				OperationStereotype.stereotypeBusinessOperationImport(operation, (BussinessOperation) createdObject, this);
 				OperationStereotype.stereotypeTransactionImport(operation, (Transaction) createdObject, this);
 				removeIndentation(1);
 			}else if(OperationStereotype.isElementsGroupOperationStereotypeApplied(operation))
@@ -434,7 +437,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				createdObject=createElementsGroupOnly(operation.getName(),true,panel,false);
 				publishText("Created group for UML Operation "+operation.getName());
 				addIndentation();
-				NamedElementStereotype.stereotypeVisibleElementImport(operation, (VisibleElement) createdObject, this);
+				OperationStereotype.stereotypeElementsGroupOperationImport(operation, (ElementsGroup)createdObject, this);
 				removeIndentation(1);
 			}else
 			{
@@ -494,7 +497,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				createdObject=createElementsGroupOnly(attribute.getName(), true,panel,true);
 				publishText("Created group for UML Property "+attribute.getName());
 				addIndentation();
-				NamedElementStereotype.stereotypeVisibleElementImport(attribute, (VisibleElement) createdObject, this);
+				PropertyStereotype.stereotypeElementsGroupOperationImport(attribute, (ElementsGroup) createdObject, this);
 				removeIndentation(1);
 			}else
 			{
@@ -556,7 +559,6 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				if(createdObject!=null)
 				{
 					addIndentation();
-					NamedElementStereotype.stereotypeVisibleElementImport(attribute, (VisibleElement) createdObject, this);
 					PropertyStereotype.stereotypeVisiblePropertyImport(attribute, (VisibleProperty) createdObject, this);
 					removeIndentation(1);
 				}
@@ -595,8 +597,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * if this ElementsGroup element will contain business operations
 	 * @return                 created ElementsGroup element
 	 */
-	private Object createElementsGroupOnly(String name,boolean visible,VisibleClass panel,boolean visibleProperty) {
-		ElementsGroup elementsGroup = new ElementsGroup(namingUtil.fromCamelCase(name), visible, ComponentType.PANEL);
+	private ElementsGroup createElementsGroupOnly(String name,boolean visible,VisibleClass panel,boolean visibleProperty) {
+		ElementsGroup elementsGroup = new ElementsGroup(createHumanReadableLabel(name), visible, ComponentType.PANEL);
         elementsGroup.setGroupOrientation(GroupOrientation.vertical);
         /*
         if(visibleProperty)
@@ -629,7 +631,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	protected VisibleOperation createVisibleOperation(String name,VisibleClass panel){
 		int group;//(0-toolbar, 1-Properties, 2-Operations)
 		group=2;
-		VisibleOperation visibleOperation = new Report(namingUtil.fromCamelCase(name), true, ComponentType.BUTTON);
+		VisibleOperation visibleOperation = new Report(createHumanReadableLabel(name), true, ComponentType.BUTTON);
 		panel.addVisibleElement(visibleOperation);
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(group);
 		gr.addVisibleElement(visibleOperation);
@@ -647,7 +649,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @return       created Report element
 	 */
 	protected Report createReportOnly(String name,VisibleClass panel){
-		Report report= new Report(namingUtil.fromCamelCase(name), true, ComponentType.BUTTON);
+		Report report= new Report(createHumanReadableLabel(name), true, ComponentType.BUTTON);
 		report.setUmlClass(panel);
 		publishText("Created Report operation for UML Operation "+name);
 		return report;
@@ -662,7 +664,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @return       created Transaction element
 	 */
 	protected Transaction createTransactionOnly(String name,VisibleClass panel){
-		Transaction transaction= new Transaction(namingUtil.fromCamelCase(name), true, ComponentType.BUTTON);
+		Transaction transaction= new Transaction(createHumanReadableLabel(name), true, ComponentType.BUTTON);
 		transaction.setUmlClass(panel);
 		publishText("Created Transaction operation for UML Operation "+name);
 		return transaction;
@@ -682,8 +684,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	private VisibleProperty createVisibleProperty(String label, boolean visible, ComponentType type,String dataType, VisibleClass panel,boolean visiblePropertyOnly){
 		int group=1;
-		VisibleProperty property = new VisibleProperty(namingUtil.fromCamelCase(label), visible, type);
-		property.setLabel(namingUtil.fromCamelCase(label));
+		String humanReadable=createHumanReadableLabel(label);
+		VisibleProperty property = new VisibleProperty(humanReadable, visible, type);
+		property.setLabel(humanReadable);
 		if(type == ComponentType.TEXT_FIELD) {
 			property.setDataType(dataType);
 		}
@@ -761,17 +764,47 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @param second  Property element that has cardinality set to 0..*
 	 */
 	private void createZoom(Property first,Property second){
-		int group=1;
-		
-		publishText("Creating zoom for property "+first.getName());
-		addIndentation();
 		ClassImpl firstClass=(ClassImpl) first.getType();
 		ClassImpl secondClass=(ClassImpl) second.getType();
 		VisibleClass firstVisibleClass=classMap.get(secondClass);
 		VisibleClass secondVisibleClass=classMap.get(firstClass);
 		
+		String zoomName=first.getName();
+		//If name of the association end is not set, set the name of the Class
+		boolean nameNotSet=false;
+		if(zoomName==null)
+			nameNotSet=true;
+		else if(zoomName.isEmpty())
+			nameNotSet=true;
 		
-		VisibleProperty visibleProperty=createVisibleProperty(namingUtil.fromCamelCase(first.getName()), true, ComponentType.COMBO_BOX, "", firstVisibleClass,true);
+		if(nameNotSet)
+		{
+			String base=secondVisibleClass.getLabel();
+			int[] sufix=updateSufix(null);
+			zoomName=createText(base, sufix);
+			Map<Object,Object> properties= propertiesOperations.get(secondClass).get(PROPERTY);
+			VisibleElement element;
+			for(Entry<Object, Object> value:properties.entrySet())
+			{
+				element=(VisibleElement)value.getValue();
+				if(zoomName!=null && element.getLabel()!=null)
+					while(zoomName.equals(element.getLabel()))
+					{
+						sufix=updateSufix(sufix);
+						zoomName=createText(base, sufix);
+					}
+			}
+			publishWarning("Creating zoom for association end that has no name set");
+			publishWarning("Name for association end set to be "+zoomName);
+		}
+		else
+			publishText("Creating zoom for property "+zoomName);
+		
+		addIndentation();
+		
+		
+		
+		VisibleProperty visibleProperty=createVisibleProperty(createHumanReadableLabel(zoomName), true, ComponentType.COMBO_BOX, "", firstVisibleClass,true);
 		/*
 		ElementsGroup elg = (ElementsGroup) firstVisibleClass.getVisibleElementList().get(group);
         if (elg != null) {
@@ -791,15 +824,127 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
             zoom.setTargetPanel(secondVisibleClass);
             //zoom.setParentGroup(elg);
             zoom.setUmlClass(firstVisibleClass);
-            publishText("Created Zoom field for UML Property "+first.getName()+" in Class "+secondClass.getName());
+            publishText("Created Zoom field with name "+zoomName+" in Class "+secondClass.getName());            
+            if(second.isNavigable())
+            {
+            	publishText("Navigable property is set to true for property with maximum cardinality * Next element is beeing created");
+            	Next next=createNext(second, first);
+            	zoom.setOpposite(next);
+            	next.setOpposite(zoom);
+            }else
+            {
+            	publishText("Navigable property is not set for property with maximum cardinality * Next element will not be created");
+            }
             addIndentation();
-            NamedElementStereotype.stereotypeVisibleElementImport(first, zoom, this);
             PropertyStereotype.stereotypeZoomImport(first, zoom, this);
             removeIndentation(1);
         //}
             //Has to go secondClass because it coresponds to the firstVisibleClass StandardPanel where the zoom is located
         propertiesOperations.get(secondClass).get(PROPERTY).put(first, zoom);
         removeIndentation(1);
+	}
+	
+	/**
+	 * Method that receives a string and checks if it contains all upper case letters
+	 * or if it is in camel case notation and does the corresponding formating of the
+	 * string.
+	 * @param text string to be formated into human readable text.
+	 * @return human readable text
+	 */
+	protected String createHumanReadableLabel(String text){
+		if(text!=null)
+			if(!text.isEmpty())
+			{
+				String label=text.replaceAll("_", " "); 
+				boolean maloSlovo=false;
+				for(int i=0;i<label.length();i++)
+				{
+					if(Character.isLowerCase(label.charAt(i)))
+					{
+						maloSlovo=true;
+						break;
+					}
+				}
+				
+				if(maloSlovo)
+				{
+					label= namingUtil.fromCamelCase(label);
+				}
+				else
+				{
+					StringBuilder builder=new StringBuilder();
+					for(int i=0;i<label.length();i++)
+					{
+						if(i==0)
+						{
+							builder.append(Character.toUpperCase(label.charAt(i)));
+						}else
+							builder.append(Character.toLowerCase(label.charAt(i)));
+					}
+					label= builder.toString();
+				}
+				label=label.replaceAll("[ ]+", " ");
+				label=label.replaceAll("[\t]+", " ");
+				label=label.replaceAll("[\n]+", " ");
+				return label.trim();
+				
+			}
+		return "";
+	}
+	
+	/**
+	 * Method that receives a set of characters represented as integers. And increments characters to get
+	 * the next combination. It iterates through characters starting from 'a' to 'z' and when it gets to 'z'
+	 * it adds a new character to the end of the set if it iterated through the whole set or if it has more
+	 * characters in the set it changes the next character.
+	 * Calling this method continuously with the sets returned by this method will create sets with characters
+	 * shown in the example: a,b,c,d,....,z,aa,ba,ca,da,....,zz,aaa etc.
+	 * @param sufix Set of characters to be updated by changing the characters or by adding new characters to
+	 * the set. Initially this parameter should have a <code>null</code> value.
+	 * @return a set with characters that is different than the set the method received.
+	 */
+	protected static int[] updateSufix(int[] sufix){
+		if(sufix==null)
+		{
+			sufix=new int[]{'a'};
+		}else
+		{
+			int i=0;
+			sufix[i]++;
+			while(sufix[i]>'z')
+			{
+				sufix[i]='a';
+				if(i==sufix.length-1)
+				{
+					int[] pomSufix=new int[sufix.length+1];
+					pomSufix[pomSufix.length-1]='a';
+					for(int j=0;j<sufix.length;j++)
+						pomSufix[j]=sufix[j];
+					sufix=pomSufix;
+				}else
+				{
+					i++;
+					sufix[i]++;
+				}
+			}
+		}
+		return sufix;
+	}
+	
+	/**
+	 * Method that takes a base string and a set of characters represented by integers
+	 * and creates a new string starting with the base string and appending all the
+	 * characters represented by integer values in the set.
+	 * @param base starting string
+	 * @param sufix set of integers that will be turned into characters and appended to the
+	 * starting string
+	 * @return  string created by uniting the starting string with the characters in the set
+	 */
+	protected static String createText(String base,int [] sufix){
+		StringBuilder builder=new StringBuilder(base);
+		for(int i=0;i<sufix.length;i++)
+			builder.append(Character.toChars(sufix[i]));
+		return builder.toString();
 	}
 	
 	/**
@@ -810,27 +955,64 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @param first  Property element that has cardinality set to 0..*
 	 * @param second Property element that has cardinality set to 0..1
 	 */
-	private void createNext(Property first,Property second){
+	private Next createNext(Property first,Property second){
 		ClassImpl firstClass=(ClassImpl) first.getType();
 		ClassImpl secondClass=(ClassImpl) second.getType();
 		VisibleClass firstVisibleClass=classMap.get(secondClass);
 		VisibleClass secondVisibleClass=classMap.get(firstClass);
 		
-		ElementsGroup group = (ElementsGroup) firstVisibleClass.getVisibleElementList().get(2);
-		String name=first.getName();
-		if(name!=null)
-			if(name.isEmpty())
-				name="Next"+group.getVisibleElementList().size();
-			
-		Next next = new Next(namingUtil.fromCamelCase(name));		
-		next.setActivationPanel(firstVisibleClass);
-		firstVisibleClass.addVisibleElement(next);
+		addIndentation();
 		
-		group.addVisibleElement(next);
-		group.update();
-		firstVisibleClass.update();
+		String nextName=first.getName();
+		//If name of the association end is not set, set the name of the Class
+		boolean nameNotSet=false;
+		if(nextName==null)
+			nameNotSet=true;
+		else if(nextName.isEmpty())
+			nameNotSet=true;
+		
+		if(nameNotSet)
+		{
+			String base=secondVisibleClass.getLabel();
+			int[] sufix=updateSufix(null);
+			nextName=createText(base, sufix);
+			Map<Object,Object> properties= propertiesOperations.get(secondClass).get(PROPERTY);
+			VisibleElement element;
+			for(Entry<Object, Object> value:properties.entrySet())
+			{
+				element=(VisibleElement)value.getValue();
+				if(nextName!=null && element.getLabel()!=null)
+					while(nextName.equals(element.getLabel()))
+					{
+						sufix=updateSufix(sufix);
+						nextName=createText(base, sufix);
+					}
+			}
+			properties= propertiesOperations.get(secondClass).get(OPERATION);
+			for(Entry<Object, Object> value:properties.entrySet())
+			{
+				element=(VisibleElement)value.getValue();
+				if(nextName!=null && element.getLabel()!=null)
+					while(nextName.equals(element.getLabel()))
+					{
+						sufix=updateSufix(sufix);
+						nextName=createText(base, sufix);
+					}
+			}
+			publishWarning("Creating next for association end that has no name set");
+			publishWarning("Name for association end set to be "+nextName);
+		}
+		else
+			publishText("Creating next for property "+nextName);
+			
+		Next next = new Next(createHumanReadableLabel(nextName));
+		next.setActivationPanel(firstVisibleClass);
 		
 		next.setTargetPanel(secondVisibleClass);
+		
+		propertiesOperations.get(secondClass).get(OPERATION).put(first, next);
+		removeIndentation(1);
+		return next;
 	}
 	
 	/**
@@ -1051,65 +1233,66 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			publishText("Placing business operations and groups for the "+standardPanel.getLabel()+" Standard panel window");
 			addIndentation();
 			for(Entry<Object,Object> entry:propertiesMap.entrySet())
-			{
-				mapOpeartion=(Operation) entry.getKey();
-				value=entry.getValue();
-				if(value instanceof ElementsGroup)
+				if(entry.getKey() instanceof Operation)
 				{
-					
-					group=(ElementsGroup) value;
-					publishText("Placing business operations and groups into the "+group.getLabel()+" group");
-					addIndentation();
-					EList<Operation> elements=OperationStereotype.getStereotypeElementsGroupOperationNestedElements(mapOpeartion, this);
-					if(elements!=null)
-						for(Operation operation:elements)
-						{
-							if(referencedValues.contains(operation))
-								throw new Exception("Operation "+operation.getLabel()+" can not be refrenced in"
-										+ " two different nestedElements properties of the "
-										+OperationStereotype.STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME
-										+ " stereotype in the "+classForStandardPanel.getLabel()+" Class element");
-							else
+					mapOpeartion=(Operation) entry.getKey();
+					value=entry.getValue();
+					if(value instanceof ElementsGroup)
+					{
+						
+						group=(ElementsGroup) value;
+						publishText("Placing business operations and groups into the "+group.getLabel()+" group");
+						addIndentation();
+						EList<Operation> elements=OperationStereotype.getStereotypeElementsGroupOperationNestedElements(mapOpeartion, this);
+						if(elements!=null)
+							for(Operation operation:elements)
 							{
-								referencedValues.add(operation);
-								visibleElement=(VisibleElement) propertiesMap.get(operation);
-								if(visibleElement==null)
-									throw new Exception("Operation element "+operation.getLabel()+" is not in the same "
-											+ " class as the Operation element "+mapOpeartion.getLabel()+" and so it can not "
-											+ " be refrenced in the nestedElements property of the "+OperationStereotype.STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME
+								if(referencedValues.contains(operation))
+									throw new Exception("Operation "+operation.getLabel()+" can not be refrenced in"
+											+ " two different nestedElements properties of the "
+											+OperationStereotype.STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME
 											+ " stereotype in the "+classForStandardPanel.getLabel()+" Class element");
 								else
 								{
-									rootValues.remove(visibleElement);
-									
-									if(visibleElement instanceof ElementsGroup)
-										layout=((Composite)visibleElement.getComponent()).getLayoutManager();
-									
-									standardPanel.addVisibleElement(visibleElement);
-									group.addVisibleElement(visibleElement);
-									if(checkContainsElement(group.getVisibleElementList().toArray(), group))
-										throw new Exception("Operation element "+mapOpeartion.getLabel()+" is in a loop after"
-												+ " adding the Operation element "+operation.getLabel()+" that is"
-												+ " refrenced in the nestedElements property of the "+OperationStereotype.STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME
+									referencedValues.add(operation);
+									visibleElement=(VisibleElement) propertiesMap.get(operation);
+									if(visibleElement==null)
+										throw new Exception("Operation element "+operation.getLabel()+" is not in the same "
+												+ " class as the Operation element "+mapOpeartion.getLabel()+" and so it can not "
+												+ " be refrenced in the nestedElements property of the "+OperationStereotype.STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME
 												+ " stereotype in the "+classForStandardPanel.getLabel()+" Class element");
-									if(visibleElement instanceof ElementsGroup)
-									{
-										((Composite)visibleElement.getComponent()).setLayoutManager(layout);
-										publishText("Added "+visibleElement.getLabel()+" group");
-									}
 									else
-										publishText("Added "+visibleElement.getLabel()+" operation");
-
-									//visibleElement.setParentGroup(group);
-									
-									group.update();
-									//standardPanel.update();
+									{
+										rootValues.remove(visibleElement);
+										
+										if(visibleElement instanceof ElementsGroup)
+											layout=((Composite)visibleElement.getComponent()).getLayoutManager();
+										
+										standardPanel.addVisibleElement(visibleElement);
+										group.addVisibleElement(visibleElement);
+										if(checkContainsElement(group.getVisibleElementList().toArray(), group))
+											throw new Exception("Operation element "+mapOpeartion.getLabel()+" is in a loop after"
+													+ " adding the Operation element "+operation.getLabel()+" that is"
+													+ " refrenced in the nestedElements property of the "+OperationStereotype.STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME
+													+ " stereotype in the "+classForStandardPanel.getLabel()+" Class element");
+										if(visibleElement instanceof ElementsGroup)
+										{
+											((Composite)visibleElement.getComponent()).setLayoutManager(layout);
+											publishText("Added "+visibleElement.getLabel()+" group");
+										}
+										else
+											publishText("Added "+visibleElement.getLabel()+" operation");
+	
+										//visibleElement.setParentGroup(group);
+										
+										group.update();
+										//standardPanel.update();
+									}
 								}
 							}
-						}
-					removeIndentation(1);
+						removeIndentation(1);
+					}
 				}
-			}
 			if(numberOfElements>0)
 				if(rootValues.size()==0)
 					throw new Exception("Not all the Operation elements should be refrenced by the"

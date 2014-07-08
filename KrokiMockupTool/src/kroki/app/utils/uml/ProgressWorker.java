@@ -37,6 +37,15 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	}
 	
 	/**
+	 * Shows a message of the current progress in the KROKI console as a WARNING.
+	 * @param text  message of the current progress
+	 */
+	public void publishWarning(String text){
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
+				indentation+text, 2);
+	}
+	
+	/**
 	 * Shows an error message in the KROKI console.
 	 * @param text  error message
 	 */

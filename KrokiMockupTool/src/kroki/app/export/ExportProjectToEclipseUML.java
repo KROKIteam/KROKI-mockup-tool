@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -24,15 +23,15 @@ import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.uml.ProgressWorker;
 import kroki.app.utils.uml.UMLResourcesUtil;
 import kroki.app.utils.uml.stereotypes.ClassStereotype;
-import kroki.app.utils.uml.stereotypes.NamedElementStereotype;
 import kroki.app.utils.uml.stereotypes.OperationStereotype;
+import kroki.app.utils.uml.stereotypes.PackageStereotype;
 import kroki.app.utils.uml.stereotypes.PropertyStereotype;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Next;
 import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
 import kroki.profil.operation.VisibleOperation;
@@ -331,6 +330,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			if(nestedSubsystem instanceof BussinesSubsystem)
 			{
 				nestedPaskage=packageObject.createNestedPackage(cc.toCamelCaseIE(((BussinesSubsystem) nestedSubsystem).getLabel(),true));
+				PackageStereotype.stereotypeBusinessSbsystemExport(stereotypeProfile, nestedPaskage, (BussinesSubsystem) nestedSubsystem, this);
 				publishText("Created UML Package "+nestedPaskage.getName());
 				extractBussinesSubsystem((BussinesSubsystem) nestedSubsystem, nestedPaskage);
 			}
@@ -349,9 +349,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 				nestedClass=packageObject.createOwnedClass(cc.toCamelCaseIE(((StandardPanel) nestedType).getLabel(),true), isAbstract);
 				publishText("Created UML Class "+nestedClass.getName());
 				if(withStereotypes)
-				{
-					NamedElementStereotype.stereotypeVisibleElementExport(stereotypeProfile, nestedClass, (VisibleElement)nestedType,this);
-					ClassStereotype.stereotypeVisibleClassExport(stereotypeProfile, nestedClass, (VisibleClass) nestedType, this);
+				{					
 					ClassStereotype.stereotypeStandardPanelExport(stereotypeProfile, nestedClass, (StandardPanel) nestedType, this);
 				}
 				classesMap.put((VisibleClass) nestedType, nestedClass);
@@ -455,7 +453,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			createdOperation=classObject.createOwnedOperation(cc.toCamelCaseIE(group.getLabel(),false), null, null);
 			publishText("Created UML Operation for group "+group.getLabel());
 			
-			NamedElementStereotype.stereotypeVisibleElementExport(stereotypeProfile, createdOperation, group, this);
+			OperationStereotype.stereotypeElementsGroupOperationExport(stereotypeProfile, createdOperation, group, this);
 			
 			propertiesOperations.get(classObject).get(OPERATION).put(group,createdOperation);
 		}
@@ -494,8 +492,6 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			}
 		if(withStereotypes)
 		{
-			OperationStereotype.stereotypeBusinessOperationExport(stereotypeProfile, object, (BussinessOperation) krokiObject, this);
-			NamedElementStereotype.stereotypeVisibleElementExport(stereotypeProfile, object, krokiObject, this);
 			propertiesOperations.get(classObject).get(OPERATION).put(krokiObject,object);
 		}
 		removeIndentation(1);
@@ -545,7 +541,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		{
 			createdProperty=classObject.createOwnedAttribute(cc.toCamelCaseIE(group.getLabel(),false), null);
 			publishText("Created UML Property for group "+group.getLabel());
-			NamedElementStereotype.stereotypeVisibleElementExport(stereotypeProfile, createdProperty, group, this);
+			PropertyStereotype.stereotypeElementsGroupOperationExport(stereotypeProfile, createdProperty, group, this);
 			
 			propertiesOperations.get(classObject).get(PROPERTY).put(group,createdProperty);			
 		}
@@ -623,7 +619,6 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		addIndentation();
 		if(withStereotypes)
 		{
-			NamedElementStereotype.stereotypeVisibleElementExport(stereotypeProfile, propertyUML, property, this);
 			PropertyStereotype.stereotypeVisiblePropertyExport(stereotypeProfile, propertyUML, property, this);
 		}
 		removeIndentation(1);
@@ -742,8 +737,16 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			targetPanel=zoom.getTargetPanel();
 			activationClass=classesMap.get(activationPanel);
 			targetClass=classesMap.get(targetPanel);
+			Next next=(Next)zoom.opposite();
+			String nextName=activationClass.getLabel()+zoomFieldName;
+			boolean nextNavigable=false;
+			if(next!=null)
+			{
+				nextName=next.getLabel();
+				nextNavigable=true;
+			}
 			Association association=activationClass.createAssociation(true,AggregationKind.NONE_LITERAL, cc.toCamelCaseIE(zoomFieldName,false), 0,1, targetClass,
-					false, AggregationKind.SHARED_LITERAL, cc.toCamelCaseIE(activationClass.getLabel()+zoomFieldName,false), 0, LiteralUnlimitedNatural.UNLIMITED);
+					nextNavigable, AggregationKind.SHARED_LITERAL, cc.toCamelCaseIE(nextName,false), 0, LiteralUnlimitedNatural.UNLIMITED);
                     //false, AggregationKind.NONE_LITERAL, cc.toCamelCaseIE("nextTo"+activationClass.getLabel(),false), 0, LiteralUnlimitedNatural.UNLIMITED);
 			if(withStereotypes)
 			{
@@ -755,12 +758,16 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 						System.out.println("Many-to-Many not suported");
 					else{
 						setStereotypeForZoom(activationClass,second,zoom);
+						if(next!=null)
+							setStereotypeForNext(targetClass, first, next);
 					}
 				}
 				else{
 					if(second.getUpper()==LiteralUnlimitedNatural.UNLIMITED)
 					{
 						setStereotypeForZoom(activationClass,first,zoom);
+						if(next!=null)
+							setStereotypeForNext(targetClass, second, next);
 					}
 					else
 						System.out.println("One-to-One not suported");
@@ -786,12 +793,28 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 	 * was created that has the received Property element as one of the ends
 	 */
 	public void setStereotypeForZoom(Class classObject,Property object,Zoom krokiObject){
-		PropertyStereotype.stereotypeVisibleAssociationEndExport(stereotypeProfile, object, krokiObject, this);
 		PropertyStereotype.stereotypeZoomExport(stereotypeProfile, object, krokiObject, this);
-		NamedElementStereotype.stereotypeVisibleElementExport(stereotypeProfile, object, krokiObject, this);
 		propertiesOperations.get(classObject).get(PROPERTY).put(krokiObject,object);
 	}
 	
+	
+	/**
+	 * Sets the stereotypes for the received UML Property that 
+	 * represents the end of an UML Association element created
+	 * for a next element.
+	 * @param classObject   UML Class element that was created for the
+	 * StandardPanel element that contains the next element that corresponds
+	 * to the received Property that is one of the ends of the UML Association
+	 * element
+	 * @param object       UML Property for which the stereotypes are to
+	 * be set
+	 * @param krokiObject  next element object that corresponds
+	 * to the received Property that is one of the ends of the UML Association
+	 * element
+	 */
+	public void setStereotypeForNext(Class classObject,Property object,Next krokiObject){
+		PropertyStereotype.stereotypeNextExport(stereotypeProfile, object, krokiObject, this);
+	}
 	/**
 	 * For every UML Property and Operation element that was created for
 	 * a Kroki ElementsGroup element sets the value of the nestedElements
