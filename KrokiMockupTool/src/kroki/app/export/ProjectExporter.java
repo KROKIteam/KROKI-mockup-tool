@@ -319,7 +319,9 @@ public class ProjectExporter {
 	 */
 	public EJBAttribute getZoomData(Zoom z, String className) {
 		if(z.getTargetPanel() != null) {
-			String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
+			
+			String type = cc.toCamelCaseCheck(z.getTargetPanel().getComponent().getName(), false);
+				
 			ArrayList<String> anotations = new ArrayList<String>();
 			//String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);//OVO JE BILO ORIGINALNO
 			String name = cc.toCamelCase(z.getLabel(), true);
@@ -328,6 +330,7 @@ public class ProjectExporter {
 			String databaseName = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
 			String label = z.getLabel();
 			Boolean mandatory = z.lower() != 0;
+			
 
 			anotations.add("@ManyToOne");
 			anotations.add("@JoinColumn(name=\"" + propName + "\", referencedColumnName=\"ID\",  nullable = " + !mandatory + ")");
