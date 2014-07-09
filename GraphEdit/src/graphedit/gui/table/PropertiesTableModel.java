@@ -131,7 +131,7 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 			return false;
 
 		Object value = getValueAt(rowIndex, columnIndex - 1);
-		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE && selectionModel.getSelectedLink() != null){
+		if (MainFrame.getInstance().getAppMode() != ApplicationMode.PERSISTENT && selectionModel.getSelectedLink() != null){
 			if(value instanceof String && properties.hasProperty(((String) value).replace(" ", ""))){
 				String valueStr = (String)value;
 				Link link = selectionModel.getSelectedLink();
@@ -146,13 +146,14 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 				}
 			}
 		}
+		
+		//Ignore parent-child
+		if (value.equals("Stereotype") && selectionModel.getSelectedLink() == null){
+			return MainFrame.getInstance().getAppMode() != ApplicationMode.USER_INTERFACE_PERSISTENT;
+		}
 
 		return !(getValueAt(rowIndex, columnIndex) instanceof JButton);
 	}
-
-	/*public Class<?> getColumnClass(int columnIndex) {
-		return JButton.class;
-	}*/
 
 	private Object getCellValue(Entry<? extends PropertyEnums, Object> entry) {
 		if (entry.getKey() == GraphElementProperties.SIZE) {

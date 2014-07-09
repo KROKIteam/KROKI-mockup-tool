@@ -392,15 +392,18 @@ public class UIClassElement extends ClassElement{
 		int groupIndex = args[1];
 
 		String component = getType(newType);
+		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
 		if (!component.equals(attribute.getType())){
 			ComponentType componentType = getComponentType(component);
-			VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
 			removeProperty(classIndex);
 			VisibleProperty prop = makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 			attribute.setUmlProperty(prop);
 			attribute.setType(component);
 		}
-		
+		if (component.equals("TextField"))
+			property.setDataType(newType);
+		else
+			property.setDataType(null);
 	}
 
 	public void setOldProperty(Attribute attribute, UmlProperty oldProperty, int ...args){

@@ -65,6 +65,7 @@ public class ClassDialog extends JDialog {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 
 		setLocationRelativeTo(mf);
+		
 
 	}
 

@@ -28,6 +28,13 @@ public class ApplicationModeProperties implements Serializable{
 	public ApplicationModeProperties(){
 
 		properties = new Properties();
+		loadProperties();
+		
+	}
+	
+	
+	public void loadProperties(){
+		propertiesMap.clear();
 		try {
 			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE)
 				properties.load(this.getClass().getResourceAsStream(UI_PATH));

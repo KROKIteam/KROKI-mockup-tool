@@ -1,6 +1,10 @@
 package graphedit.view;
 
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
 import graphedit.model.components.GraphElement;
+import graphedit.model.components.Link;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -43,11 +47,8 @@ public class GraphEditViewMini extends GraphEditViewPanel {
 		        scaleView();
 		    }
 		});
-
-
 	}
 	
-
 
 	protected void paintOurView(Graphics g, boolean includeTransform){
 		Graphics2D g2 = (Graphics2D)g;
@@ -63,15 +64,33 @@ public class GraphEditViewMini extends GraphEditViewPanel {
 
 		g2.setColor(Color.BLACK);
 		g2.setStroke(new BasicStroke(1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-
+		
+		Link link;
+		GraphElement element;
 		for (LinkPainter lPainter : view.getLinkPainters()) {
-			// promena lokacije konektora
+			
+			//only paint links not including parent-child panels if in persistent mode
+			if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
+				link = lPainter.getLink();
+				element = model.getElementByConnector().get(link.getSourceConnector());
+				if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+					continue;
+				element = model.getElementByConnector().get(link.getDestinationConnector());
+				if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+					continue;
+			}
 			lPainter.setShape();
 			lPainter.paint(g2);
 		}
 
 		for (ElementPainter painter : (ArrayList<ElementPainter>) view.getElementPainters()) {
-			painter.paint(g2);
+			if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
+				 element = painter.getElement();
+				 if (!element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+					 painter.paint(g2);
+				}
+				else
+					 painter.paint(g2);
 		}
 
 		Iterator<GraphElement> iter = view.getSelectionModel().getIteratorSelectedElements();

@@ -41,7 +41,7 @@ public class AttributeTableModel extends AbstractTableModel {
 	}
 
 	private static final String[] COLUMN_NAMES = {
-		"", "Owner","Name", "Type", "Data type", "Modifier", "Static", "Final", "Possible values", "Display"
+		"", "Owner","Name", "Type", "Data type", "Modifier", "Static", "Final", "Values", "Display"
 	};
 
 	@Override
