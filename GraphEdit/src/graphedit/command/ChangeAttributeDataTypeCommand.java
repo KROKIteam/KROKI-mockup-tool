@@ -1,30 +1,30 @@
 package graphedit.command;
 
 import graphedit.model.components.Attribute;
+import graphedit.model.components.Class;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.elements.ClassElement;
 import graphedit.model.elements.UIClassElement;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.view.GraphEditView;
+import kroki.uml_core_basic.UmlProperty;
 
-import java.util.List;
-
-public class AddAttributeCommand extends Command {
+public class ChangeAttributeDataTypeCommand extends Command {
 
 	private GraphElement element;
 	private Attribute attribute;
-	private int index;
+	private String oldName, newName;
 	private ClassElement classElement;
+	private UmlProperty oldProperty;
 	private int classIndex, groupIndex;
-
-	@SuppressWarnings("unchecked")
-	public AddAttributeCommand(GraphEditView view, GraphElement element, Attribute attribute) {
+	private String oldType;
+	
+	public ChangeAttributeDataTypeCommand(GraphEditView view, GraphElement element, Attribute attribute, String newName) {
 		this.view = view;
-		
 		this.attribute = attribute;
-		index = ((List<Attribute>)element.getProperty(GraphElementProperties.ATTRIBUTES)).size();
+		this.oldName = attribute.getDataType();
+		this.newName = newName;
 		
 		if (element instanceof Shortcut)
 			this.element = ((Shortcut) element).shortcutTo();
@@ -33,38 +33,38 @@ public class AddAttributeCommand extends Command {
 		
 		
 		classElement = (ClassElement) this.element.getRepresentedElement();
+		oldProperty = attribute.getUmlProperty();
+		
 		if (classElement instanceof UIClassElement){
 			classIndex = ((UIClassElement)classElement).getClassIndexForAttribute(attribute);
 			groupIndex = ((UIClassElement)classElement).getGroupIndexForAttribute(attribute);
+			oldType = attribute.getType();
 		}
-		
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void execute() {
-		List<Attribute> list = ((List<Attribute>)element.getProperty(GraphElementProperties.ATTRIBUTES));
-		list.add(index, attribute);
-		
-		if (classElement instanceof UIClassElement)
-			classElement.addAttribute(attribute, classIndex, groupIndex);
-		
-		updatePainters((LinkableElement) element);
-		
+	
+		if (element instanceof Class) {
+			updatePainters((LinkableElement) element);
+			if (classElement instanceof UIClassElement)
+				((UIClassElement) classElement).changeAttributeDataType(attribute, newName, classIndex, groupIndex);
+		}
+		attribute.setDataType(newName);
 		view.getModel().fireUpdates();
+		
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void undo() {
-		classElement.removeAttribute(classIndex);
-		((List<Attribute>)element.getProperty(GraphElementProperties.ATTRIBUTES)).remove(attribute);
-		
-		updatePainters((LinkableElement) element);
-		
+		attribute.setDataType(oldName);
+		if (element instanceof Class) {
+			updatePainters((LinkableElement) element);
+			if (classElement instanceof UIClassElement)
+				classElement.setOldProperty(attribute, oldProperty, classIndex, groupIndex);
+				attribute.setType(oldType);
+		}
 		view.getModel().fireUpdates();
 	}
-	
-
 
 }

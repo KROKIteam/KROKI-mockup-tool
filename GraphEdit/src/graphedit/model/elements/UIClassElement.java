@@ -3,13 +3,15 @@ package graphedit.model.elements;
 import graphedit.app.MainFrame;
 import graphedit.model.components.Attribute;
 import graphedit.model.components.Class;
-import graphedit.model.components.ClassStereotypeUI;
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.Method;
 import graphedit.model.components.MethodStereotypeUI;
 import graphedit.model.components.Parameter;
+import graphedit.model.enums.AttributeDataTypeUI;
+import graphedit.model.enums.AttributeTypeUI;
+import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.util.NameTransformUtil;
@@ -194,6 +196,14 @@ public class UIClassElement extends ClassElement{
 				VisibleProperty visibleProperty = (VisibleProperty) type;
 				Attribute loadedAttribute = savedAttribute((VisibleProperty) type, loadedElement);
 				attribute = new Attribute(NameTransformUtil.labelToCamelCase(type.getLabel(), true), NameTransformUtil.transformUppercaseWithoutSpaces(type.getComponentType().toString()));
+				
+				//set data type
+				String dataType = visibleProperty.getDataType();
+				if (visibleProperty.getDataType() != null)
+					attribute.setDataType(dataType);
+				else
+					attribute.setDataType(getDataTypeFor(attribute.getType()));
+				
 				((List<Attribute>) element.getProperty(GraphElementProperties.ATTRIBUTES)).add(attribute);
 				attribute.setUmlProperty((VisibleProperty)type);
 				if (loadedAttribute != null){
@@ -260,6 +270,7 @@ public class UIClassElement extends ClassElement{
 		String type = attribute.getType();
 		ComponentType componentType = getComponentType(type);
 		VisibleProperty prop = makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
+		prop.setDataType(attribute.getDataType());
 		attribute.setUmlProperty(prop);
 	}
 
@@ -373,6 +384,26 @@ public class UIClassElement extends ClassElement{
 		removeProperty(classIndex);
 		VisibleProperty prop = makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 		attribute.setUmlProperty(prop);
+		attribute.setDataType(getDataTypeFor(newType));
+	}
+	
+	public void changeAttributeDataType(Attribute attribute, String newType, int ...args){
+		int classIndex = args[0];
+		int groupIndex = args[1];
+
+		String component = getType(newType);
+		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
+		if (!component.equals(attribute.getType())){
+			ComponentType componentType = getComponentType(component);
+			removeProperty(classIndex);
+			VisibleProperty prop = makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
+			attribute.setUmlProperty(prop);
+			attribute.setType(component);
+		}
+		if (component.equals("TextField"))
+			property.setDataType(newType);
+		else
+			property.setDataType(null);
 	}
 
 	public void setOldProperty(Attribute attribute, UmlProperty oldProperty, int ...args){
@@ -1076,19 +1107,35 @@ public class UIClassElement extends ClassElement{
 		else
 			return LinkType.NEXT_ZOOM;
 	}
+	
+	/**
+	 * Return default data type for given component type
+	 * @param type
+	 * @return
+	 */
+	private String getDataTypeFor(String type){
+		if (type.equals("TextField") || type.equals("TextArea"))
+			return AttributeDataTypeUI.STRING.toString();
+		if (type.equals("ComboBox"))
+			return AttributeDataTypeUI.ENUMERATION.toString();
+		if (type.equals("CheckBox"))
+			return AttributeDataTypeUI.BOOLEAN.toString();
+		return null;
+	}
+	
+	/**
+	 * Return default component type for given data type
+	 * @param dataType
+	 * @return
+	 */
+	private String getType(String dataType){
+		if (dataType.equals("Boolean"))
+			return AttributeTypeUI.CHECK_BOX.toString();
+		if (dataType.equals("Enumeration"))
+			return AttributeTypeUI.COMBO_BOX.toString();
+		return AttributeTypeUI.TEXT_FILED.toString();
+	}
 
-	//	/**
-	//	 * Return name of the association role and updates association map
-	//	 * @param otherName
-	//	 * @return
-	//	 */
-	//	private String getAssociationNameFormMap(String otherName){
-	//		Integer count = associationNameMap.get(otherName);
-	//		if (count == null)
-	//			count = 0;
-	//		associationNameMap.put(otherName, ++count);
-	//		return otherName + "_" + count;
-	//	}
 
 	public HashMap<Connector, NextZoomElement> getZoomMap() {
 		return zoomMap;
@@ -1216,6 +1263,7 @@ public class UIClassElement extends ClassElement{
 			HashMap<UIClassElement, Integer> relationshipsCounterMap) {
 		this.relationshipsCounterMap = relationshipsCounterMap;
 	}
+	
 
 
 

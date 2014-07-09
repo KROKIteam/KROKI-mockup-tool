@@ -54,7 +54,7 @@ public class CutLinkCommand extends Command {
 		sourceLinkElements = new ArrayList<AbstractLinkElement>();
 		destinationLinkElements = new ArrayList<AbstractLinkElement>();
 
-		if (ApplicationMode.USER_INTERFACE == MainFrame.getInstance().getAppMode()){
+		if (ApplicationMode.PERSISTENT != MainFrame.getInstance().getAppMode()){
 
 			sourceElement = link.getSourceConnector().getRepresentedElement();
 			destinationElement = link.getDestinationConnector().getRepresentedElement();

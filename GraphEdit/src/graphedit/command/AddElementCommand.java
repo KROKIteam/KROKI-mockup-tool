@@ -2,12 +2,12 @@ package graphedit.command;
 
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
-import graphedit.model.components.ClassStereotypeUI;
 import graphedit.model.components.GraphElement;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.ClassElement;
 import graphedit.model.elements.PersistentClassElement;
 import graphedit.model.elements.UIClassElement;
+import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import kroki.profil.VisibleElement;
@@ -28,7 +28,7 @@ public class AddElementCommand extends Command {
 		this.elementPainter = elementPainter;
 		
 		if (component instanceof graphedit.model.components.Class){
-			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE)
+			if (MainFrame.getInstance().getAppMode() != ApplicationMode.PERSISTENT)
 				element = new UIClassElement(component, ClassStereotypeUI.STANDARD_PANEL);
 			else 
 				element = new PersistentClassElement(component);
@@ -44,6 +44,7 @@ public class AddElementCommand extends Command {
 		
 		if (element.getUmlType() instanceof VisibleElement){
 			model.getParentPackage().getUmlPackage().addOwnedType(element.getUmlType());
+			
 			element.getUmlType().setUmlPackage(model.getParentPackage().getUmlPackage());
 			if (element instanceof UIClassElement)
 				model.getParentPackage().getClassElementsByVisibleClassesMap().put((VisibleClass)element.getUmlType(), (UIClassElement) element);

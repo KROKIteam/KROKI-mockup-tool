@@ -3,17 +3,20 @@ package graphedit.gui.table;
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.command.AddAttributeCommand;
+import graphedit.command.ChangeAttributeDataTypeCommand;
 import graphedit.command.ChangeAttributeOwnerCommand;
 import graphedit.command.ChangeAttributeTypeCommand;
+import graphedit.command.Command;
 import graphedit.command.MoveAttributeCommand;
 import graphedit.command.RemoveAttributeCommand;
 import graphedit.command.RenameAttributeCommand;
 import graphedit.gui.utils.Dialogs;
 import graphedit.model.components.Attribute;
-import graphedit.model.components.AttributeTypeUI;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Interface;
 import graphedit.model.components.Modifier;
+import graphedit.model.enums.AttributeDataTypeUI;
+import graphedit.model.enums.AttributeTypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.util.Validator;
 import graphedit.view.ClassPainter;
@@ -38,7 +41,7 @@ public class AttributeTableModel extends AbstractTableModel {
 	}
 
 	private static final String[] COLUMN_NAMES = {
-		"", "Owner","Name", "Type", "Modifier", "Static", "Final", "Possible values", "Display"
+		"", "Owner","Name", "Type", "Data type", "Modifier", "Static", "Final", "Values", "Display"
 	};
 
 	@Override
@@ -58,6 +61,7 @@ public class AttributeTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		
 		if (rowIndex == attributes.size())
 			return false;
 		if (columnIndex == 0)
@@ -84,14 +88,16 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 3:
 			return String.class;
 		case 4:
-			return Modifier.class;
+			return String.class;
 		case 5:
+			return Modifier.class;
+		case 6:
 			return Boolean.class;
-		case 6: 
+		case 7: 
 			return Boolean.class;
-		case 7:
-			return JButton.class;
 		case 8:
+			return JButton.class;
+		case 9:
 			return Boolean.class;
 		}
 		return super.getColumnClass(columnIndex);
@@ -115,16 +121,18 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 3:
 			return attribute.getType();
 		case 4:
-			return attribute.getModifier();
+			return attribute.getDataType();
 		case 5:
+			return attribute.getModifier();
+		case 6:
 			return attribute.isStaticAttribute();
-		case 6: 
+		case 7: 
 			return attribute.isFinalAttribute();
-		case 7:
+		case 8:
 			if (combo)
 				return attribute.getPossibleValues();
 			return null;
-		case 8:
+		case 9:
 			return attribute.isVisible();
 		}
 		return null;
@@ -160,20 +168,31 @@ public class AttributeTableModel extends AbstractTableModel {
 				valueStr = ((AttributeTypeUI)value).toString();
 			else
 				valueStr = (String) value;
-			ChangeAttributeTypeCommand command = new ChangeAttributeTypeCommand(MainFrame.getInstance().getCurrentView(), element, attribute, valueStr);
+			if (attribute.getType().equals(valueStr))
+				break;
+			Command command = new ChangeAttributeTypeCommand(MainFrame.getInstance().getCurrentView(), element, attribute, valueStr);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
 			fireTableDataChanged();
 			break;
 		case 4:
-			attribute.setModifier((Modifier) value);
+			if (value instanceof AttributeDataTypeUI)
+				valueStr = ((AttributeDataTypeUI)value).toString();
+			else
+				valueStr = (String) value;
+			command = new ChangeAttributeDataTypeCommand(MainFrame.getInstance().getCurrentView(), element, attribute, valueStr);
+			MainFrame.getInstance().getCommandManager().executeCommand(command);
+			fireTableDataChanged();
 			break;
 		case 5:
+			attribute.setModifier((Modifier) value);
+			break;
+		case 6:
 			attribute.setStaticAttribute((Boolean) value);
 			break;
-		case 6: 
+		case 7: 
 			attribute.setFinalAttribute((Boolean) value);
 			break;
-		case 8:
+		case 9:
 			attribute.setVisible((Boolean)value);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setUpdated(true);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setAttributesOrMethodsUpdated(true);

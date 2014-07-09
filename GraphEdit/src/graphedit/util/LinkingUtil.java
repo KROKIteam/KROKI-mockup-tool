@@ -3,10 +3,10 @@ package graphedit.util;
 import kroki.profil.panel.container.ParentChild;
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
-import graphedit.model.components.ClassStereotypeUI;
 import graphedit.model.components.Link;
 import graphedit.model.elements.ClassElement;
 import graphedit.model.elements.LinkType;
+import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 

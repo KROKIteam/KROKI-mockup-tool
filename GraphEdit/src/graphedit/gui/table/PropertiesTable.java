@@ -2,7 +2,7 @@ package graphedit.gui.table;
 
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
-import graphedit.model.components.ClassStereotypeUI;
+import graphedit.model.enums.ClassStereotypeUI;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
@@ -29,9 +29,13 @@ public class PropertiesTable extends JTable{
 	}
 
 	public TableCellEditor getCellEditor(int row, int column){
-		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
-			if (elementSelected && row==5 && column==1)
+		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE || 
+				MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED ){
+			System.out.println(elementSelected);
+			if (elementSelected && row==5 && column==1){
+				System.out.println(cbEditor);
 				return cbEditor;
+			}
 			else if (((row == 6 && column == 1) || (row == 7 && column == 1))){
 				return cbCheckEditor;
 			}

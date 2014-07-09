@@ -97,6 +97,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -110,6 +112,7 @@ import java.util.Observer;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -196,6 +199,9 @@ public class MainFrame extends JDialog{
 	// Action Controller
 	private ActionController actionController;
 
+	//Application mode
+	private JComboBox<String> cbAppMode;
+
 	// Prefs singleton instance
 	private Preferences preferences; 
 	private ApplicationModeProperties properties;
@@ -228,7 +234,7 @@ public class MainFrame extends JDialog{
 		public static final int ZOOM_MIN = 20;
 		public static final int ZOOM_MAX = 500;
 		public static final int ZOOM_INIT = 100;
-		public static final String MAINFRAME_TITLE = "Graph Edit v1.2";
+		public static final String MAINFRAME_TITLE = "Kroki Graph Edit";
 
 		public MainFrame() {
 			setSize(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().getSize());
@@ -273,6 +279,47 @@ public class MainFrame extends JDialog{
 			preferencesAction = new PreferencesAction();
 			fullScreenAction = new FullScreenAction();
 			showGridAction = new ShowGridAction();
+			//Application mode
+			cbAppMode = new JComboBox<String>(new String[] {"User interface", "Useri interface persistent", "User interface all"});
+			cbAppMode.setPreferredSize(new Dimension(150,20));
+			cbAppMode.setMaximumSize(cbAppMode.getPreferredSize());
+			cbAppMode.addItemListener(new ItemListener() {
+
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					if (e.getStateChange() == ItemEvent.SELECTED) {
+						if (cbAppMode.getSelectedIndex() == 0)
+							appMode = ApplicationMode.USER_INTERFACE;
+						else if (cbAppMode.getSelectedIndex() == 1)
+							appMode = ApplicationMode.USER_INTERFACE_PERSISTENT;
+						else
+							appMode = ApplicationMode.USER_INTERFACE_MIXED;
+						
+						properties.loadProperties();
+
+
+						//update open diagrams
+						GraphEditView currentView;
+
+						for (Component c : getMainTabbedPane().getComponents()){
+							if (c instanceof ContainerPanel) {
+								currentView = ((ContainerPanel) c).getView();
+								currentView.getSelectionModel().removeAllSelectedElements();
+								currentView.getSelectionModel().setSelectedLink(null);
+								for (ElementPainter painter : currentView.getElementPainters()){
+									if (painter instanceof ClassPainter){
+										((ClassPainter)painter).setUpdated(true);
+										((ClassPainter)painter).setAttributesOrMethodsUpdated(true);
+									}
+									currentView.repaint();
+								}
+							}
+
+						}
+					}
+				}
+			});
+
 
 			showGridMenuItem = new JCheckBoxMenuItem(showGridAction);
 
@@ -476,7 +523,8 @@ public class MainFrame extends JDialog{
 			mainToolBar.add(bestFitZoomAction);
 			mainToolBar.addSeparator();
 			mainToolBar.add(fullScreenAction);
-			//mainToolBar.addSeparator();
+			mainToolBar.addSeparator();
+			mainToolBar.add(cbAppMode);
 			//mainToolBar.add(switchWorkspaceAction);
 		}
 		private void auxiliaryToolBarInit() {
@@ -839,7 +887,7 @@ public class MainFrame extends JDialog{
 		}
 
 		public void showDiagram(GraphEditModel diagram) {
-			
+
 			GraphEditView view = null;
 			ContainerPanel container = null;
 			for (Component c : mainTabbedPane.getComponents()) {
@@ -854,8 +902,8 @@ public class MainFrame extends JDialog{
 			if (view == null) {
 				view = new GraphEditView(diagram);
 				container = new ContainerPanel(view);
-				
-			
+
+
 
 				// diagram is just deserialized, generete its painters on the fly
 				if (diagram.getDiagramElements().size() != 0 && view.getElementPainters().size() == 0)
@@ -883,8 +931,8 @@ public class MainFrame extends JDialog{
 			actionController.setSelectionModel(getCurrentView().getSelectionModel());
 			actionController.setModel(getCurrentView().getModel());
 			container.requestFocusInWindow();
-			
-			
+
+
 			view.repaint();
 
 
@@ -1003,7 +1051,7 @@ public class MainFrame extends JDialog{
 
 
 		public void prepareTable(boolean clazz){
-			if (appMode == ApplicationMode.USER_INTERFACE && clazz){
+			if ((appMode == ApplicationMode.USER_INTERFACE || appMode == ApplicationMode.USER_INTERFACE_MIXED) && clazz){
 				propertiesTable.setElementSelected(true);
 			}
 			else

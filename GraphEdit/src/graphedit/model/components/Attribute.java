@@ -1,5 +1,6 @@
 package graphedit.model.components;
 
+import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
@@ -20,6 +21,9 @@ public class Attribute implements Serializable {
 	
 	private String name;
 	
+	/**
+	 * Component type in UI modes
+	 */
 	private String type;
 	
 	private boolean staticAttribute = false;
@@ -35,6 +39,8 @@ public class Attribute implements Serializable {
 	private ApplicationModeProperties appModeProperties;
 	
 	private List<String> possibleValues;
+	
+	private String dataType;
 	
 	/*
 	 * UmlProperty nema modifier, static, final, pa ne moze za sada drugacije
@@ -54,9 +60,12 @@ public class Attribute implements Serializable {
 		}
 		type = (String) appModeProperties.getPropertyValue("attributeType");
 		
+		dataType = (String) appModeProperties.getPropertyValue("attributeDataType");
+		
 	}
 	
 	public Attribute(String name, String type) {
+		possibleValues = new ArrayList<String>();
 		this.name = name;
 		this.type = type;
 	}
@@ -103,7 +112,13 @@ public class Attribute implements Serializable {
 
 	@Override
 	public String toString() {
-		return modifier + " " + name + " : " + type;
+		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE ||
+				MainFrame.getInstance().getAppMode() == ApplicationMode.PERSISTENT)
+			return modifier + " " + name + " : " + type;
+		else if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED)
+			return modifier + " " + name + " : " + type + " (" + getDataType() + ")";
+		else
+			return modifier + " " + name + " : "  + getDataType();
 	}
 
 	public UmlProperty getUmlProperty() {
@@ -130,5 +145,13 @@ public class Attribute implements Serializable {
 		this.possibleValues = possibleValues;
 	}
 
+	public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+	
 	
 }
