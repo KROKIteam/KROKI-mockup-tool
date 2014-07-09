@@ -62,6 +62,9 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		}
 		this.setChanged();
 		this.notifyObservers();
+		for (GraphEditPackage pack : packageList){
+			MainFrame.getInstance().showDiagram(pack.getDiagram());
+		}
 	}
 
 	public void setProject(UmlPackage project){
@@ -70,6 +73,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		
 		this.setChanged();
 		this.notifyObservers();
+		MainFrame.getInstance().showDiagram(packageList.get(0).getDiagram());
 	}
 
 	private void prepareProject(UmlPackage project){

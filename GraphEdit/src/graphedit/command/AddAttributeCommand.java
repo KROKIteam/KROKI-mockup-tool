@@ -62,7 +62,6 @@ public class AddAttributeCommand extends Command {
 		
 		updatePainters((LinkableElement) element);
 		
-		//((ClassPainter)view.getElementPainter(element)).formShape();
 		view.getModel().fireUpdates();
 	}
 	

@@ -1,5 +1,7 @@
 package adapt.resources;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -7,6 +9,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import org.restlet.Context;
+import org.restlet.data.CharacterSet;
+import org.restlet.data.Encoding;
 import org.restlet.data.Form;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
@@ -24,7 +28,9 @@ public class HomeResource extends BaseResource {
 	public HomeResource(Context context, Request request, Response response) {
 		super(context, request, response);
 		setModifiable(true);
-		getVariants().add(new Variant(MediaType.TEXT_HTML));
+		Variant variant = new Variant();
+		variant.setMediaType(MediaType.TEXT_HTML);
+		getVariants().add(variant);
 	}
 	
 	@Override
@@ -32,8 +38,8 @@ public class HomeResource extends BaseResource {
 		AdaptApplication app = (AdaptApplication) getApplication();
 		EntityManager em = app.getEmf().createEntityManager();
 		Form form = getRequest().getEntityAsForm();
-		String username = (String)form.getFirstValue("username");
-		String password = (String)form.getFirstValue("password");
+		String username = (String)form.getFirstValue("korki-username");
+		String password = (String)form.getFirstValue("korki-password");
 		String usernameIzmena = form.getFirstValue("usernameIzmena");
 		String passwordIzmena = form.getFirstValue("passwordIzmena");
 		String idIzmena = form.getFirstValue("idIzmena");

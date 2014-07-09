@@ -47,8 +47,6 @@ public class AddElementState extends State {
 				packageSelected = true;
 			}
 			
-			System.out.println(element);
-			
 			
 			// command pattern
 			Command command;

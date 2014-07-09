@@ -2,7 +2,6 @@ package graphedit.state;
 
 import graphedit.app.MainFrame;
 import graphedit.model.diagram.GraphEditModel;
-import graphedit.util.NameTransformUtil;
 import graphedit.view.GraphEditView;
 import graphedit.view.GraphEditView.GraphEditController;
 
@@ -15,6 +14,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import kroki.commons.camelcase.NamingUtil;
+
 public abstract class State implements MouseListener, MouseMotionListener,
 		MouseWheelListener, KeyListener {
 	
@@ -25,6 +26,7 @@ public abstract class State implements MouseListener, MouseMotionListener,
 	protected GraphEditController controller; 
 	protected GraphEditModel model;
 	protected GraphEditView view;
+	protected NamingUtil namer = new NamingUtil();
 
 	public State(GraphEditController controller) {
 		this.controller = controller;
@@ -110,7 +112,7 @@ public abstract class State implements MouseListener, MouseMotionListener,
 
 	@Override
 	public String toString() {
-		return NameTransformUtil.transformClassName(getClass().getSimpleName());
+		return namer.transformClassName(getClass().getSimpleName());
 	}
 
 	protected void switchToDefaultState() {

@@ -7,12 +7,15 @@ import java.io.File;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
+import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
+import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.DatabaseProps;
 
@@ -41,18 +44,11 @@ public class RunSwingAction extends AbstractAction {
 			@Override
 			public void run() {
 				//find selected project from workspace
-				BussinesSubsystem proj = null;
-				String selectedNoded = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
-				for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
-					BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
-					if(pack.getLabel().equals(selectedNoded)) {
-						proj = pack;
-					}
-				}
+				BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
 
 				if(proj != null) {
 					try {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 						//get temporary location in KROKI directory

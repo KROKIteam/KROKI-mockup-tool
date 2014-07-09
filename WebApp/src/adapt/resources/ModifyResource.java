@@ -63,13 +63,8 @@ public class ModifyResource extends BaseResource {
 			obejcts.add(o);
 			EntityClass entity = null;
 			try {
-				entity = creator.getEntities(obejcts).get(0);
+				entity = creator.getEntities(obejcts, null, null).get(0);
 			} catch (NoSuchFieldException e) {
-//				try {
-//					entity = EntityCreator.getEntities(obejcts, "id").get(0);
-//				} catch (NoSuchFieldException e1) {
-//					e1.printStackTrace();
-//				}
 				e.printStackTrace();
 			}
 			if(entity != null) {
@@ -86,6 +81,7 @@ public class ModifyResource extends BaseResource {
 						if(prop.getName().equals(attr.getName())) {
 							attributeLabels.add(attr.getLabel());
 							attributeValues.add(prop.getValue().toString());
+							System.out.println("[IMAM] " + prop.getValue());
 						}
 					}
 					//za child atribute
@@ -99,7 +95,7 @@ public class ModifyResource extends BaseResource {
 							ArrayList<Object> objs = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList(); 
 							ArrayList<EntityClass> entities;
 							try {
-								entities = creator.getEntities(objs);
+								entities = creator.getEntities(objs, null, null);
 								Map<String, String> childMap = new TreeMap<String, String>();
 								if(!mattr.getMandatory()) {
 									childMap.put("null", "-- None --");
@@ -113,25 +109,17 @@ public class ModifyResource extends BaseResource {
 										name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
 									}
 									
-									name = name.substring(0, name.length()-2);
+									if(!name.equals("")) {
+										name = name.substring(0, name.length()-2);
+									}else {
+										name = Id;
+									}
 									//objekte iz baze pretvorimo u EntityClass objekte
 									//i spremimo u mapu sa vrednostima za combo box
 									childMap.put(Id, name);
 								}
 								childFormMap.put(mattr.getLabel(), childMap);
 							} catch (NoSuchFieldException e) {
-//								try {
-//									entities = EntityCreator.getEntities(objs, "id");
-//									Map<String, String> childMap = new TreeMap<String, String>();
-//									for(int j=0; j<entities.size(); j++) {
-//										EntityClass ecl = entities.get(j);
-//										String Id = EntityCreator.getEntityPropertyValue(ecl, "id");
-//										childMap.put(Id, Id);
-//									}
-//									childFormMap.put(mattr.getLabel(), childMap);
-//								} catch (NoSuchFieldException e1) {
-//									e1.printStackTrace();
-//								}
 								e.printStackTrace();
 							}
 							t.commit();
@@ -143,7 +131,6 @@ public class ModifyResource extends BaseResource {
 				dataModel.put("attributeValues", attributeValues);
 				dataModel.put("childFormMap", childFormMap);
 				dataModel.put("modid", creator.getEntityPropertyValue(entity, "id"));
-				
 			}
 			em.close();
 		}
@@ -161,6 +148,6 @@ public class ModifyResource extends BaseResource {
 		EntityManager em = app.getEmf().createEntityManager();
 		prepareContent(dataModel, em);
 		dataModel.put("title", Settings.APP_TITLE);
-		return getHTMLTemplateRepresentation("modifyTemplate.html", dataModel);
+		return getHTMLTemplateRepresentation("editFormTemplate.html", dataModel);
 	}
 }

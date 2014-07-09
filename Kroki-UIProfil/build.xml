@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
@@ -10,10 +11,6 @@
 <project name="Kroki-UIProfil" default="default" basedir=".">
     <description>Builds, tests, and runs the project Kroki-UIProfil.</description>
     <import file="nbproject/build-impl.xml"/>
-	
-	<target name="default">
-		<echo>This is a default target.</echo>
-	</target>
     <!--
 
     There exist several targets which are by default empty and which can be 
@@ -76,3 +73,4 @@
 
     -->
 </project>
+

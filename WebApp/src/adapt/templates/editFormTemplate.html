@@ -1,0 +1,64 @@
+					<form class="inputForm" action="/edited${resource.link}/${modid}" name="editForm" method="post">
+							<div class="formTableContainer">
+								<table class="inputFormFields">
+									<#if attributeLabels??>
+									<#if attributeValues??>
+									<#list attributeLabels as label>
+									<tr>
+									<#if resource.attributes[label_index].type == "java.lang.Boolean">
+										<td class="labelColumn">${label}:</td>
+										<td class="inputColumn" style="float: left;">
+											<input class="stdFormInputs" type="checkbox" name="attrSelectBool${label_index}" <#if attributeValues[label_index] == "YES">checked</#if> value="true">
+											<input type="hidden" name="attrSelectBool${label_index}" value="false">
+										</td>
+									<#elseif resource.attributes[label_index].values??>
+									<td class="labelColumn">${label}:</td>
+									<td class="inputColumn">
+										<select class="stdFormInputs" name="attrSelectCombo${label_index}">
+										<#list resource.attributes[label_index].values as value>
+											<option value="${value}" <#if attributeValues[label_index] == "${value}">selected = "selected"</#if>>${value}</option>
+										</#list>
+										</select>
+									</td>
+									<#elseif resource.attributes[label_index].type?ends_with("TextArea")>
+									<td class="labelColumn">${label}:</td>
+									<td class="inputColumn">
+									<textarea class="stdFormInputs" rows="4" name="attr${label_index}izmena">${attributeValues[label_index]}</textarea>
+									</td>
+									<#else>
+										<td class="labelColumn">${label}:</td>
+										<td class="inputColumn">
+											<input class="stdFormInputs" type="text" name="attr${label_index}izmena" value="${attributeValues[label_index]}">
+										</td>
+									</#if>
+									</tr>
+									</#list>
+									</#if>
+									</#if>
+									<#if childFormMap??>
+									<#list childFormMap?keys as childRow>
+									<tr>
+										<td class="labelColumn">${childRow}:</td>
+										<td class="inputColumn">
+											<select class="stdFormInputs" name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
+											<#list childFormMap[childRow]?keys as id>
+												<option value="${id}">${childFormMap[childRow][id]}</option>
+											</#list>
+											</select>
+										</td>
+									</tr>
+									</#list>
+									</#if>
+								</table>
+							</div>
+							<!-- INPUT FORM FIELDS -->
+							<div class="inputFormButtons">
+								<div class="operationButton">
+									<button class="buttons-blue" id="button-ok" type="submit">Ok</button>
+								</div>
+								<div class="operationButton">
+									<button class="buttons-blue" id="button-cancel">Cancel</button>
+								</div>
+							</div>
+							<!-- INPUT FORM Buttons -->
+						</form>

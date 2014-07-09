@@ -1,7 +1,7 @@
 package kroki.app.utils.uml;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import kroki.app.KrokiMockupToolApp;
@@ -15,58 +15,67 @@ import kroki.app.KrokiMockupToolApp;
 public abstract class ProgressWorker extends SwingWorker<Void, String> {
 
 	/**
-	 * Dialog that is used for showing the current progress
-	 * of the background worker thread.
+	 * Saves the current indentation used when showing messages from the
+	 * background worker thread. 
 	 */
-	private ProgressWorkerFrame frame;
-
+	private String indentation;
+	
 	/**
-	 * Creates a background worker thread and a
-	 * dialog for showing progress of the
-	 * background worker thread.
-	 * Shows the dialog to the user.
-	 * Dialog should start this background worker
-	 * thread.
-	 * @param title  title of the dialog that shows
-	 * the progress of the background worker thread
+	 * Creates a background worker thread.
 	 */
-	public ProgressWorker(String title){
-		frame=new ProgressWorkerFrame(this, title);
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				frame.setVisible(true);
-			}
-		});
+	public ProgressWorker(){
+		indentation="";
 	}
 	
 	/**
-	 * Shows a message of the current progress on the dialog.
+	 * Shows a message of the current progress in the KROKI console.
 	 * @param text  message of the current progress
 	 */
 	public void publishText(String text){
-		frame.appendText(text);
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
+				indentation+text, 0);
 	}
 	
 	/**
-	 * Shows an error message in the dialog.
+	 * Shows a message of the current progress in the KROKI console as a WARNING.
+	 * @param text  message of the current progress
+	 */
+	public void publishWarning(String text){
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
+				indentation+text, 2);
+	}
+	
+	/**
+	 * Shows an error message in the KROKI console.
 	 * @param text  error message
 	 */
 	public void publishErrorText(String text){
-		frame.appendErrorText(text);
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
+				text, 3);
 	}
 	
 	/**
-	 * When the background worker thread finishes
-	 * the {@link ProgressWorkerFrame#cancelToCloseButton()}
-	 * method is called that turns the button for canceling
-	 * the background worker thread to a button for closing
-	 * the dialog that shows the current progress.
+	 * Method that removes the exception class from the Exception 
+	 * message and returns only the message left.
+	 * @param e Exception for which to remove the class of the
+	 * Exception 
+	 * @return message from the Exception with out the class of
+	 * the Exception
 	 */
-	@Override	
-	public void done(){
-		frame.cancelToCloseButton();
+	public String exceptionMessage(Exception e){
+		String message=e.getMessage();
+		if(message!=null)
+		{
+			int index=message.indexOf(':');
+			if(index>-1&&(index+1)<message.length())
+			{
+				message=message.substring(index+1);
+				message=message.trim();
+				if(!message.isEmpty())
+					return message;
+			}
+		}
+		return "Unspecified error ocured";
 	}
 /*Should not use publish because there is a problem of synchronizing
  * the message with the added indentations. 
@@ -83,7 +92,7 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	 * Adds indentation to the message that should be displayed.
 	 */
 	public void addIndentation(){
-		frame.addIndentation();
+		indentation+="  ";
 	}
 
 	/**
@@ -93,7 +102,7 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	 * @param indentations  amount of indentations to remove
 	 */
 	public void removeIndentation(int indentations){
-		frame.removeIndentation(indentations);
+		indentation=indentation.substring(0, indentation.length()-(indentations*2));
 	}
 	
 	/**
@@ -106,11 +115,11 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	}
 	
 	/**
-	 * Gets the dialog that is used to show the current progress
+	 * Gets the Frame that is used to show the current progress
 	 * of this background worker thread. 
 	 * @return dialog  showing the current progress
 	 */
-	public ProgressWorkerFrame getFrame(){
-		return frame;
+	public JFrame getFrame(){
+		return KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame();
 	}
 }

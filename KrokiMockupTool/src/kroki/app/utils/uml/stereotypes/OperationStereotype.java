@@ -3,6 +3,8 @@ package kroki.app.utils.uml.stereotypes;
 import java.util.List;
 
 import kroki.app.utils.uml.ProgressWorker;
+import kroki.profil.VisibleElement;
+import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
@@ -13,18 +15,14 @@ import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
 
 /**
- * Used to check if the stereotypes BusinessOperation, Report, Transaction and ElementsGroupOperation
- * are set for the UML NamedElement element, and to retrieve values set for the corresponding stereotypes.
+ * Used to check if the stereotypes Report, Transaction and ElementsGroupOperation
+ * are set for the UML Operation element, and to retrieve values set for the corresponding stereotypes.
  * 
  * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
  *
  */
 public class OperationStereotype {
 
-	/**
-	 * Name of the BusinessOperation stereotype that can be applied to a UML Operation element.
-	 */
-	public static final String STEREOTYPE_BUSINESS_OPERATION_NAME="BusinessOperation";
 	/**
 	 * Name of the Report stereotype that can be applied to a UML Operation element.
 	 */
@@ -117,6 +115,70 @@ public class OperationStereotype {
 	}
 	
 	/**
+	 * For a UML Operation element retrieves all the property values of the ElementsGroupOperation stereotype, if it is applied
+	 * to the UML Operation element and sets the retrieved values to the corresponding attributes of the
+	 * Kroki ElementsGroup object.    
+	 * @param object        UML Operation element for which to retrieve the property values of the ElementsGroupOperation stereotype
+	 * @param krokiObject   Kroki ElementsGroup object for which to set the retrieved values
+	 * @param thread        background worker thread, implementing the import functionality, used to output messages
+	 * of the current progress of the values that are being retrieved 
+	 */
+	public static void stereotypeElementsGroupOperationImport(Operation object,ElementsGroup krokiObject,ProgressWorker thread){
+		String stereotypeName=STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME;
+		thread.publishText("Checking "+stereotypeName+" stereotype");
+		thread.addIndentation();
+		Stereotype stereotypeObject=object.getAppliedStereotype(StereotypeUtil.EUIS_DSL_PROFILE+stereotypeName);
+		
+		if(stereotypeObject!=null)
+		{
+			thread.publishText(stereotypeName+" stereotype applied");
+			Object value;
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
+		}
+		else
+			thread.publishText(stereotypeName+" stereotype not applied");
+		thread.removeIndentation(1);
+	}
+	
+	/**
+	 * For a Kroki ElementsGroup object retrieves all the values corresponding to the property values of the ElementsGroupOperation
+	 * stereotype and sets them to the UML Operation element.
+	 * @param profile      UML profile that defines a ElementsGroupOperation stereotype
+	 * @param object       UML Operation element for which to set the property values of the ElementsGroupOperation stereotype corresponding  
+	 * to the attribute values of the Kroki ElementsGroup object
+	 * @param krokiObject  Kroki ElementsGroup object from which to retrieve the attribute values to be set to the
+	 * stereotype property values of the UML Operation element
+	 * @param thread       background worker thread, implementing the export functionality, used to output messages of
+	 * the current progress of the property values that are being set
+	 */
+	public static void stereotypeElementsGroupOperationExport(Profile profile,Operation object,ElementsGroup krokiObject,ProgressWorker thread){
+		String stereotypeName=STEREOTYPE_ELEMENTS_GROUP_OPERATION_NAME;
+		
+		Stereotype stereotypeObject=profile.getOwnedStereotype(stereotypeName);
+		if(stereotypeObject!=null)
+		{
+			thread.publishText("Applaying stereotype "+stereotypeName);
+			thread.addIndentation();
+			object.applyStereotype(stereotypeObject);
+			
+			setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
+			thread.removeIndentation(1);
+		}
+		else
+			thread.publishText(stereotypeName+" stereotype could not be applied");
+	}
+	
+	/**
 	 * Checks if Report stereotype is applied for the received UML Operation element.
 	 * @param object     UML Operation element for which to check if Report stereotype is applied
 	 * @return           <code>true</code> if Report stereotype is applied, <code>false</code> otherwise
@@ -162,6 +224,28 @@ public class OperationStereotype {
 			{
 				krokiObject.setSortBy((String)value);
 			}
+			//BusinessOperation attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "hasParametersForm", thread))!=null)
+			{
+				krokiObject.setHasParametersForm((boolean)value);
+			}else
+				krokiObject.setHasParametersForm(false);
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "filteredBy", thread))!=null)
+			{
+				krokiObject.setFilteredByKey((boolean)value);
+			}else
+				krokiObject.setFilteredByKey(false);
+			
+			//VisibleElement attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
 		}
 		else
 			thread.publishText(stereotypeName+" stereotype not applied");
@@ -194,6 +278,16 @@ public class OperationStereotype {
 			setProperty(object,stereotypeObject,"dataFilter",krokiObject.getDataFilter(),thread);
 			
 			setProperty(object,stereotypeObject,"sortBy",krokiObject.getSortBy(),thread);
+			
+			//BusinessOperation attributes
+            setProperty(object,stereotypeObject,"hasParametersForm",krokiObject.isHasParametersForm(),thread);
+			
+			setProperty(object,stereotypeObject,"filteredBy",krokiObject.isFilteredByKey(),thread);
+			
+			//VisibleElemente attributes
+            setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
 			thread.removeIndentation(1);
 		}
 		else
@@ -291,6 +385,28 @@ public class OperationStereotype {
 				krokiObject.setShowErrors((boolean)value);
 			}else
 				krokiObject.setShowErrors(false);
+			
+			//BusinessOperation attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "hasParametersForm", thread))!=null)
+			{
+				krokiObject.setHasParametersForm((boolean)value);
+			}else
+				krokiObject.setHasParametersForm(false);
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "filteredBy", thread))!=null)
+			{
+				krokiObject.setFilteredByKey((boolean)value);
+			}else
+				krokiObject.setFilteredByKey(false);
+			//VisibleElement attributes
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "label", thread))!=null)
+			{
+				krokiObject.setLabel((String)value);
+			}
+			if((value=getProperty(object, stereotypeObject,stereotypeName, "visible", thread))!=null)
+			{
+				krokiObject.setVisible((boolean)value);
+			}else
+				krokiObject.setVisible(false);
 		}
 		else
 			thread.publishText(stereotypeName+" stereotype not applied");
@@ -327,72 +443,16 @@ public class OperationStereotype {
 			setProperty(object,stereotypeObject,"confirmationMessage",krokiObject.getConfirmationMessage(),thread);
 			
 			setProperty(object,stereotypeObject,"showErrors",krokiObject.isShowErrors(),thread);
-			thread.removeIndentation(1);
-		}
-		else
-			thread.publishText(stereotypeName+" stereotype could not be applied");
-	}
-	
-	/**
-	 * For a UML Operation element retrieves all the property values of the BusinessOperation stereotype, if it is applied
-	 * to the UML Operation element and sets the retrieved values to the corresponding attributes of the
-	 * Kroki BussinessOperation object.    
-	 * @param object        UML Operation element for which to retrieve the property values of the BusinessOperation stereotype
-	 * @param krokiObject   Kroki BussinessOperation object for which to set the retrieved values
-	 * @param thread        background worker thread, implementing the import functionality, used to output messages
-	 * of the current progress of the values that are being retrieved 
-	 */
-	public static void stereotypeBusinessOperationImport(Operation object,BussinessOperation krokiObject,ProgressWorker thread){
-		String stereotypeName=STEREOTYPE_BUSINESS_OPERATION_NAME;
-		thread.publishText("Checking "+stereotypeName+" stereotype");
-		thread.addIndentation();
-		Stereotype stereotypeObject=object.getAppliedStereotype(StereotypeUtil.EUIS_DSL_PROFILE+stereotypeName);
-		
-		
-		if(stereotypeObject!=null)
-		{
-			thread.publishText(stereotypeName+" stereotype applied");
-			Object value;
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "hasParametersForm", thread))!=null)
-			{
-				krokiObject.setHasParametersForm((boolean)value);
-			}else
-				krokiObject.setHasParametersForm(false);
-			if((value=getProperty(object, stereotypeObject,stereotypeName, "filteredBy", thread))!=null)
-			{
-				krokiObject.setFilteredByKey((boolean)value);
-			}else
-				krokiObject.setFilteredByKey(false);
-		}
-		else
-			thread.publishText(stereotypeName+" stereotype not applied");
-		thread.removeIndentation(1);
-	}
-	
-	/**
-	 * For a Kroki BussinessOperation object retrieves all the values corresponding to the property values of the BusinessOperation
-	 * stereotype and sets them to the UML Operation element.
-	 * @param profile      UML profile that defines a BusinessOperation stereotype
-	 * @param object       UML Operation element for which to set the property values of the BusinessOperation stereotype corresponding  
-	 * to the attribute values of the Kroki BussinessOperation object
-	 * @param krokiObject  Kroki BussinessOperation object from which to retrieve the attribute values to be set to the
-	 * stereotype property values of the UML Operation element
-	 * @param thread       background worker thread, implementing the export functionality, used to output messages of
-	 * the current progress of the property values that are being set
-	 */
-	public static void stereotypeBusinessOperationExport(Profile profile,Operation object,BussinessOperation krokiObject,ProgressWorker thread){
-		String stereotypeName=STEREOTYPE_BUSINESS_OPERATION_NAME;
-		
-		Stereotype stereotypeObject=profile.getOwnedStereotype(stereotypeName);
-		if(stereotypeObject!=null)
-		{
-			thread.publishText("Applaying stereotype "+stereotypeName);
-			thread.addIndentation();
-			object.applyStereotype(stereotypeObject);
 			
-			setProperty(object,stereotypeObject,"hasParametersForm",krokiObject.isHasParametersForm(),thread);
+			//BusinessOperation attributes
+            setProperty(object,stereotypeObject,"hasParametersForm",krokiObject.isHasParametersForm(),thread);
 			
 			setProperty(object,stereotypeObject,"filteredBy",krokiObject.isFilteredByKey(),thread);
+			
+			//VisibleElemente attributes
+            setProperty(object,stereotypeObject,"label",krokiObject.getLabel(),thread);
+			
+			setProperty(object,stereotypeObject,"visible",krokiObject.isVisible(),thread);
 			thread.removeIndentation(1);
 		}
 		else

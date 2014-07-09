@@ -7,7 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,13 +81,13 @@ public class CommandPanel extends JPanel {
 	public void initGUI() {
 
 		previousLines = new JTextPane();
-		previousLines.setFont(new Font("Monospaced",Font.PLAIN,15));
+		previousLines.setFont(new Font("Monospaced",Font.PLAIN,12));
 		previousLines.setEditable(false);
 
 		consoleScroll = new JScrollPane(previousLines);
 
 		currentLine = new JTextField();
-		currentLine.setFont(new Font("Monospaced",Font.PLAIN,15));
+		currentLine.setFont(new Font("Monospaced",Font.PLAIN,14));
 
 
 		//*********************************************************************************
@@ -524,6 +526,9 @@ public class CommandPanel extends JPanel {
 	 * @param type indicates message type (0 - KROKI response, 1 - user echo, 2 - KROKI warning, 3 - KROKI error)
 	 */
 	public void displayText(String text, int type) {
+		Date now = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  H:mm:ss");
+		String d = formatter.format(now);
 		//previousLines.append(text);
 		StyledDocument document = previousLines.getStyledDocument();
 		SimpleAttributeSet set = new SimpleAttributeSet();
@@ -532,7 +537,7 @@ public class CommandPanel extends JPanel {
 		switch (type) {
 		case 0:
 			StyleConstants.setForeground(set, Color.blue);
-			prefix = "[KROKI] ";
+			prefix = "[" + d + "] ";
 			break;
 		case 1:
 			StyleConstants.setForeground(set, Color.black);
@@ -540,11 +545,11 @@ public class CommandPanel extends JPanel {
 			break;
 		case 2:
 			StyleConstants.setForeground(set, Color.blue);
-			prefix = "[WARNING] ";
+			prefix = "[" + d + "] " + "WARNING: ";
 			break;
 		case 3:
 			StyleConstants.setForeground(set, Color.red);
-			prefix = "[ERROR] ";
+			prefix =  "[" + d + "] " + "ERROR: ";
 			break;
 		}
 		try {

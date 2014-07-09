@@ -34,8 +34,9 @@ public class ExportSwingAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		//find selected project from workspace
-		BussinesSubsystem proj = null;
-		try {
+		BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
+		
+		if(proj != null) {
 			//get selected item from jtree and find its project
 			TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
 			Object node = path.getLastPathComponent();
@@ -53,7 +54,7 @@ public class ExportSwingAction extends AbstractAction {
 					}
 				}
 			}
-
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 			JFileChooser jfc = new JFileChooser();
 			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
@@ -61,15 +62,14 @@ public class ExportSwingAction extends AbstractAction {
 				File file = jfc.getSelectedFile();
 				//pass selected project and directory to exporter class
 				ProjectExporter exporter = new ProjectExporter(true);
-				exporter.export(file, proj, "Project exported OK!");
+				exporter.export(file, proj, "Project exported successfuly to " + file.getAbsolutePath());
 			} else {
-				System.out.println("Export canceled");
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Export canceled by user.", 0);
 			}
 			
-		} catch (NullPointerException e2) {
+		} else {
 			//if no project is selected, inform user to select one
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
-			e2.printStackTrace();
 		}
 	}
 

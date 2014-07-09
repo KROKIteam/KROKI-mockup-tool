@@ -1,5 +1,6 @@
 package util.staticnames;
 
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Settings {
@@ -30,6 +31,10 @@ public class Settings {
 	public static final String LOGIN = read("login");
 
 	public static String read(String name) {
-		return ResourceBundle.getBundle("props.main").getString(name);
+		try {
+			return ResourceBundle.getBundle("props.main").getString(name);
+		} catch (MissingResourceException e) {
+			return ResourceBundle.getBundle("props.main-generated").getString(name);
+		}
 	}
 }

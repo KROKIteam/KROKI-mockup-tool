@@ -1,56 +1,47 @@
-﻿<html>
-	<head>
-		<title> ${title}::home page </title>
-		<meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
-		<meta HTTP-EQUIV="Expires" CONTENT="-1">
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" href="/files/style.css" type="text/css" />
-		<link rel="stylesheet" href="/files/simpletree.css" type="text/css" />
-		<script type="text/javascript" src="/files/simpletreemenu.js"></script>
-		</script>
-	</head>
-	<body onload="highlight();">
-		<div id="wrapper" >
-		<#if user??>
-			<div id="menu">
-				<#include "/treemenuGenerated.html" parse=true>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> ${title}::Home page </title>
+	<link rel="stylesheet" type="text/css" href="/files/css/style.css">
+	<link rel="icon" type="image/png" href="/files/images/logo32x32.png">
+	<script src="/files/js/jquery-2.0.3.min.js"> </script>
+	<script src="/files/js/page.js"></script>
+</head>
+<body>
+	<#if user??>
+		<nav>
+			<#include "/menu.html" parse=true>
+			<!--ul.mainMenu-->
+			<div id="logoutDiv">
+				<a id="logoutLink" href="/">${user.username}</a>
 			</div>
-			<div id="content">
-				<div id="leftpane">
-					<h1>Wellcome, ${user.username}!</h1>
-					<h2>Your profile</h2>
-					&nbsp;
-					<p>
-						<table align="center">
-						<tbody>
-						<tr>
-							<td><b>Username:</b></td>
-							<td>${user.username}</td>
-						</tr>
-						<tr>
-							<td><b>Password:</b></td>
-							<td><input type="password" name="password" readonly="readonly" value="${user.password}"></td>
-						</tr>
-						<tr>
-							<td colspan="2"><td>&nbsp;</td></td>
-						</tr>
-						<tr>
-							<td align="center" colspan="2"><a href="/profilIzmena">[Modify account]</a></td>
-						</tr>
-						</tbody>
-						</table>
-					</p>
-				</div>
-				<div id="rightpane">
-					<#include "/rightpane.html" parse=true>
+			<!--logoutDiv-->
+		</nav>
+    	<!--mainNavigation-->
+    	<div id="container">
+    	</div>
+    	<div id="messagePopup">
+		</div>
+    	<!--container-->
+    	<div id="overlay">
+		<div id="confirmDialog">
+			<div class="windowHeaders">
+				<div class="windowName"></div>
+				<div id="closeConfirm" class="headerButtons" title="Close form">
+					<img src="/files/images/icons-white/close.png">
 				</div>
 			</div>
-			<div id="footer">
-				<img src="/files/images/logo.png" >
+			<div class="windowBody">
+				<p></p>
+				<button class="buttons-blue" id="cconfirmBtn">Confirm</button>
+				<button class="buttons-blue" id="cancelConfirm">Cancel</button>
 			</div>
-		<#else>
+		</div>
+	</div>
+	<!-- overlay -->
+	<#else>
 			<p style="color:red"> You are not logged in! </p>
 		</#if>
-		</div>
-	</body>
+</body>
 </html>

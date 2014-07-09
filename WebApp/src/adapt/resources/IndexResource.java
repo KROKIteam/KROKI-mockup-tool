@@ -32,8 +32,8 @@ public class IndexResource extends BaseResource {
 	@Override
 	public void handleGet() {
 		Form form = getRequest().getEntityAsForm();
-		String username = form.getFirstValue("username");
-		String password = form.getFirstValue("password");
+		String username = form.getFirstValue("korki-username");
+		String password = form.getFirstValue("korki-password");
 		if(username != null && password != null) {
 			register(username, password);
 		}
@@ -69,10 +69,9 @@ public class IndexResource extends BaseResource {
 	
 	@Override
     public Representation represent(Variant variant) throws ResourceException {
-        //dataModel  = new TreeMap<String, Object>();
 		dataModel.put("title", Settings.APP_TITLE);
 		dataModel.put("description", Settings.APP_DESC);
-        return getHTMLTemplateRepresentation("index.html", dataModel);
+        return getHTMLTemplateRepresentation("login.html", dataModel);
     }
 
 	@Override

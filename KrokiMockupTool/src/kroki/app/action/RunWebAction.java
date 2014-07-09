@@ -3,16 +3,24 @@ package kroki.app.action;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
+import javax.swing.tree.TreePath;
 
+import org.apache.commons.io.FileDeleteStrategy;
+
+import kroki.app.KrokiDiagramFrame;
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.KrokiMockupToolFrame;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
+import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.DatabaseProps;
 
@@ -39,18 +47,11 @@ public class RunWebAction extends AbstractAction {
 			@Override
 			public void run() {
 				//find selected project from workspace
-				BussinesSubsystem proj = null;
-				String selectedNode = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath().getLastPathComponent().toString();
-				for(int j=0; j<KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount(); j++) {
-					BussinesSubsystem pack = (BussinesSubsystem)KrokiMockupToolApp.getInstance().getWorkspace().getPackageAt(j);
-					if(pack.getLabel().equals(selectedNode)) {
-						proj = pack;
-					}
-				}
-
+				BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
+				
 				if(proj != null) {
 					try {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project. Please wait...", 0);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 						//get temporary location in KROKI directory
@@ -71,7 +72,7 @@ public class RunWebAction extends AbstractAction {
 						RunAnt runner = new RunAnt();
 						runner.runRun(proj.getLabel().replace(" ", "_"), tempDir, false);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					} catch (NullPointerException e) {
+					} catch (Exception e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("An error occured. Running aborted", 3);
 						e.printStackTrace();
@@ -105,9 +106,12 @@ public class RunWebAction extends AbstractAction {
 			if(file.isDirectory()) {
 				deleteFiles(file);
 			}
-			if(!file.delete()) {
-				success = false;
-			}
+			try {
+				FileDeleteStrategy.FORCE.delete(file);
+				success =  !file.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
 		}
 		return success;
 	}

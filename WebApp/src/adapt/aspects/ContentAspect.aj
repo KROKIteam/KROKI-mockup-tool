@@ -28,15 +28,6 @@ public aspect ContentAspect {
 		call (public void *.prepareContent(..)) && 
 		args(model, e);
 	
-	public pointcut prepareChildernControls(ViewResource vr, String cresName) :
-		call(public void ViewResource.prepareChildern(..)) &&
-		args(AdaptApplication, String, String, cresName) &&
-		this(vr);
-	
-	public pointcut prepareMTMChildernControls(ViewResource vr, String child) :
-		call(public void ViewResource.prepareMTMChildern(..)) &&
-		args(AdaptApplication, String, String, child) &&
-		this(vr);
 	
 	@SuppressWarnings("unchecked")
 	after (ViewResource vr) : prepareContent(vr){
@@ -61,83 +52,6 @@ public aspect ContentAspect {
 		}
 	}
 
-	after(ViewResource vr, String child) : prepareMTMChildernControls(vr, child) {
-		ArrayList<Action> controls = new ArrayList<Action>();
-		ArrayList<Action> actions = new ArrayList<Action>();
-		User curr = SessionAspect.getCurrentUser();
-		
-		AdaptApplication app = (AdaptApplication) vr.getApplication();
-		XMLResource childRes = app.getXMLResource(child);
-		EntityManager e = app.getEmf().createEntityManager();
-		EntityTransaction tx = e.getTransaction();
-		tx.begin();
-		
-		//get user rights for resource
-		Query q = e.createQuery("FROM UserRights ur WHERE ur.user.id =:uid  AND ur.resource.name =:res AND ur.allowed = TRUE");
-		q.setParameter("uid", curr.getId());
-		q.setParameter("res", childRes.getLabel());
-		ArrayList<UserRights> r = (ArrayList<UserRights>) q.getResultList();
-		for (int i = 0; i < r.size(); i++) {
-			UserRights ur = r.get(i);
-			//generate UI action for every allowed permission
-			Action action = app.getAction(ur.getAction().getName());
-			//based on its type, action is added to corresponding list
-			if(action.getType().equals("control")) {
-				if(action.getName().equals("add")) {
-					Action act = app.getAction("mtmadd");
-					controls.add(act);
-				}
-			}else if (action.getType().equals("action")) {
-				if(action.getName().equals("remove")) {
-					Action act = app.getAction("mtmremove");
-					actions.add(act);
-				}
-			}
-		}
-		
-		tx.commit();
-		e.close();
-		
-		vr.getDataModel().put("childControls", controls);
-		vr.getDataModel().put("childActions", actions);
-	}
-	
-	//preparing controls for child table
-	after(ViewResource vr, String cresName) : prepareChildernControls(vr, cresName) {
-		ArrayList<Action> controls = new ArrayList<Action>();
-		ArrayList<Action> actions = new ArrayList<Action>();
-		User curr = SessionAspect.getCurrentUser();
-		
-		AdaptApplication app = (AdaptApplication) vr.getApplication();
-		XMLResource childRes = app.getXMLResource(cresName);
-		EntityManager e = app.getEmf().createEntityManager();
-		EntityTransaction tx = e.getTransaction();
-		tx.begin();
-		
-		//get user rights for resource
-		Query q = e.createQuery("FROM UserRights ur WHERE ur.user.id =:uid  AND ur.resource.name =:res AND ur.allowed = TRUE");
-		q.setParameter("uid", curr.getId());
-		q.setParameter("res", childRes.getLabel());
-		ArrayList<UserRights> r = (ArrayList<UserRights>) q.getResultList();
-		for (int i = 0; i < r.size(); i++) {
-			UserRights ur = r.get(i);
-			//generate UI action for every allowed permission
-			Action action = app.getAction(ur.getAction().getName());
-			//based on its type, action is added to corresponding list
-			if(action.getType().equals("control")) {
-				controls.add(action);
-			}else if (action.getType().equals("action")) {
-				actions.add(action);
-			}
-		}
-		
-		tx.commit();
-		e.close();
-		
-		vr.getDataModel().put("childControls", controls);
-		vr.getDataModel().put("childActions", actions);
-	}
-	
 //------------------------------------------METODE-------------------------------------------------------------
 	@SuppressWarnings("unchecked")
 	public void prepareMenu(Map<String, Object> model, EntityManager e, User c) {
@@ -180,7 +94,6 @@ public aspect ContentAspect {
 	
 	@SuppressWarnings("unchecked")
 	public void prepareControls(Map<String, Object> model, EntityManager e,User c, String rname, AdaptApplication app) {
-		ArrayList<Action> controls = new ArrayList<Action>();
 		ArrayList<Action> actions = new ArrayList<Action>();
 		
 		EntityTransaction tx = e.getTransaction();
@@ -196,18 +109,14 @@ public aspect ContentAspect {
 			//generate UI action for every allowed permission
 			Action action = app.getAction(ur.getAction().getName());
 			//based on its type, action is added to corresponding list
-			if(action.getType().equals("control")) {
-				controls.add(action);
-			}else if (action.getType().equals("action")) {
+			if(!action.getName().equals("view")) {
 				actions.add(action);
 			}
 		}
 		
 		tx.commit();
 		e.close();
-		
-		model.put("resourceControls", controls);
-		model.put("resourceActions", actions);
+		model.put("actions", actions);
 	}
 	
 	public void prepareChildern(ViewResource resource, User user) {

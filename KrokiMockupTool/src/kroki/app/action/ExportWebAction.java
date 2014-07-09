@@ -33,27 +33,10 @@ public class ExportWebAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 
 		//find selected project from workspace
-		BussinesSubsystem proj = null;
-		try {
-			//get selected item from jtree and find its project
-			TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
-			Object node = path.getLastPathComponent();
-			if(node != null) {
-				//if package is selected, find parent project
-				if(node instanceof BussinesSubsystem) {
-					BussinesSubsystem subsys = (BussinesSubsystem) node;
-					proj = KrokiMockupToolApp.getInstance().findProject(subsys);
-				}else if(node instanceof VisibleClass) {
-					//panel is selected, get parent node from tree and find project
-					JTree tree = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree();
-					Object parent = tree.getSelectionPath().getParentPath().getLastPathComponent();
-					if(parent instanceof BussinesSubsystem) {
-						proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
-					}
-				}
-				
-			}
-
+		BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
+		
+		if(proj != null) {
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 			JFileChooser jfc = new JFileChooser();
 			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
@@ -61,16 +44,13 @@ public class ExportWebAction extends AbstractAction {
 				File file = jfc.getSelectedFile();
 				//pass selected project and directory to exporter class
 				ProjectExporter exporter = new ProjectExporter(false);
-				exporter.export(file, proj, "OK");
+				exporter.export(file, proj, "Project exported successfuly to " + file.getAbsolutePath());
 			} else {
-				System.out.println("Export canceled");
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Export canceled by user.", 0);
 			}
-			
-			
-		} catch (NullPointerException e2) {
+		} else {
 			//if no project is selected, inform user to select one
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
-			e2.printStackTrace();
 		}
 	}
 }

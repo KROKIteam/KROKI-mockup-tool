@@ -77,7 +77,7 @@ public class CutElementsCommand extends Command {
 		}
 
 
-		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE && links!=null)
+		if (MainFrame.getInstance().getAppMode() != ApplicationMode.PERSISTENT && links!=null)
 			for (Link link : model.getAssociatedLinks(this.elements)){
 
 				boolean unlink = true;

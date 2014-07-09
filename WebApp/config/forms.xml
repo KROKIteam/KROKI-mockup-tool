@@ -4,7 +4,7 @@
 <name>StandardForm</name>
 <allowActions>true</allowActions>
 <allowControls>true</allowControls>
-<filename>standardForm.html</filename>
+<filename>formTemplate.html</filename>
 </form>
 <form>
 <name>ParentChildForm</name>

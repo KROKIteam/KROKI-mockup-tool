@@ -13,12 +13,14 @@ public class XMLResource {
 	private ArrayList<XMLManyToOneAttribute> manyToOneAttributes;
 	private ArrayList<XMLOneToManyAttribute> oneToManyAttributes;
 	private ArrayList<XMLManyToManyAttribute> manyToManyAttributes;
+	private ArrayList<XMLOperation> operations;
 	
 	public XMLResource(String name, String label, String link, Boolean routed,
 			ArrayList<XMLForm> forms, ArrayList<XMLAttribute> attributes,
 			ArrayList<XMLManyToOneAttribute> manyToOneAttributes,
 			ArrayList<XMLOneToManyAttribute> oneToManyAttributes,
-			ArrayList<XMLManyToManyAttribute> manyToManyAttributes) {
+			ArrayList<XMLManyToManyAttribute> manyToManyAttributes,
+			ArrayList<XMLOperation> operations) {
 		super();
 		this.name = name;
 		this.label = label;
@@ -29,6 +31,7 @@ public class XMLResource {
 		this.manyToOneAttributes = manyToOneAttributes;
 		this.oneToManyAttributes = oneToManyAttributes;
 		this.manyToManyAttributes = manyToManyAttributes;
+		this.operations = operations;
 	}
 
 	public ArrayList<XMLAttribute> getRepresentativeAttributes() {
@@ -39,7 +42,6 @@ public class XMLResource {
 				repAttributes.add(attribute);
 			}
 		}
-		
 		return repAttributes;
 	}
 	
@@ -116,5 +118,13 @@ public class XMLResource {
 	public void setManyToManyAttributes(
 			ArrayList<XMLManyToManyAttribute> manyToManyAttributes) {
 		this.manyToManyAttributes = manyToManyAttributes;
+	}
+
+	public ArrayList<XMLOperation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(ArrayList<XMLOperation> operations) {
+		this.operations = operations;
 	}
 }

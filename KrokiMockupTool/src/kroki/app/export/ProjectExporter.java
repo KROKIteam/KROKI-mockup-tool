@@ -15,18 +15,16 @@ import kroki.app.generators.EnumerationGenerator;
 import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.PanelGenerator;
 import kroki.app.generators.WebResourceGenerator;
-import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
-import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.Menu;
-import kroki.app.generators.utils.OneToManyAttribute;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
@@ -89,7 +87,7 @@ public class ProjectExporter {
 	 */
 	public void export(File file, BussinesSubsystem proj, String message) {
 		this.project = proj;
-		
+
 		//collecting the data from KROKI project
 		getData(proj);
 
@@ -111,7 +109,7 @@ public class ProjectExporter {
 			menuGenerator.generateWEBMenu(menus);
 		}
 
-		writeProjectName(proj.getLabel());
+		writeProjectName(proj.getLabel(), "Please log in to continue.");
 
 		runAnt(file, proj, message);
 	}
@@ -141,7 +139,9 @@ public class ProjectExporter {
 		//Add one-to-many attributes to classes
 		addReferences();
 		//add default data
-		addDefaultData(proj);
+		if(swing) {
+			addDefaultSwingData(proj);
+		}
 	}
 
 	/**
@@ -159,10 +159,7 @@ public class ProjectExporter {
 				throw new NoZoomPanelException(e.getMessage());
 			}
 		}else if (el instanceof ParentChild) {
-			if(swing) {
-				//parent-child panel don't need to be visible in web application menu [FOR NOW]
-				getParentChildData(el, menu);
-			}
+			getParentChildData(el, menu);
 		}
 		//after data fetching is done, put current element in elements list
 		elements.add(el);
@@ -197,6 +194,7 @@ public class ProjectExporter {
 				if(attribute != null) {
 					attributes.add(attribute);
 				}else {
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 3);
 					throw new NoZoomPanelException("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.");
 				}
 			}
@@ -211,7 +209,7 @@ public class ProjectExporter {
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
 		if(!swing) {
-			pack = "adapt.entities";
+			pack = "adapt.entities.generated";
 		}
 		EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes);
 		classes.add(ejb);
@@ -223,7 +221,6 @@ public class ProjectExporter {
 		String panel_type = "standard-panel";
 		if(!swing) {
 			activate = "/resources/" + ejb.getName();
-			panel_type = "";
 		}
 		Submenu sub = new Submenu(activate, label, panel_type);
 		//if it is in a subsystem, it is added as sub-menu item
@@ -247,6 +244,16 @@ public class ProjectExporter {
 		String activate = cc.toCamelCase(pcPanel.name(), false) + "_pc";
 		String label = pcPanel.getLabel();
 		String panel_type = "parent-child";
+		if(!swing) {
+			activate = "/resources/" + cc.toCamelCase(pcPanel.name(), false);
+			
+			//add list to contained panels enclosed in square brackets
+			panel_type += "[";
+			for(Hierarchy hierarchy: pcPanel.containedHierarchies()) {
+				panel_type += cc.toCamelCase(hierarchy.getTargetPanel().getComponent().getName(), false) + ":";
+			}
+			panel_type = panel_type.substring(0, panel_type.length()-1) + "]";
+		}
 		Submenu sub = new Submenu(activate, label, panel_type);
 		if(menu != null) {
 			menu.addSubmenu(sub);
@@ -279,8 +286,10 @@ public class ProjectExporter {
 			enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
 			String enumClass = vp.umlClass().name();
 			String enumProp = cc.toCamelCase(vp.getLabel(), true);
-			System.out.println(vp.getEnumeration());
-			String[] enumValues = vp.getEnumeration().split(";");
+			String[] enumValues = {"None"};
+			if(vp.getEnumeration() != null) {
+				enumValues = vp.getEnumeration().split(";");
+			}
 			enumeration = new Enumeration(enumName, vp.getLabel(), enumClass, enumProp, enumValues);
 			enumerations.add(enumeration);
 		}
@@ -292,7 +301,9 @@ public class ProjectExporter {
 		}
 
 		ArrayList<String> anotations = new ArrayList<String>();
-		String name = cc.toCamelCase(vp.getLabel(), true);
+		//String name = cc.toCamelCase(vp.name(), true);//OVO JE BILO ORIGINALNO
+		String name = "a_"+cc.toCamelCase(vp.name(), true);
+		////////////////////////////////////////////////////////////////////////
 		String label = vp.getLabel();
 		String columnLabel = vp.getColumnLabel();
 
@@ -310,7 +321,9 @@ public class ProjectExporter {
 		if(z.getTargetPanel() != null) {
 			String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 			ArrayList<String> anotations = new ArrayList<String>();
-			String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
+			//String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);//OVO JE BILO ORIGINALNO
+			String name = cc.toCamelCase(z.getLabel(), true);
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			String propName = cc.toCamelCase(className, true) + "_" + name;
 			String databaseName = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
 			String label = z.getLabel();
@@ -377,7 +390,9 @@ public class ProjectExporter {
 				if(getAttributeType(attribute).equals("ManyToOne")) {
 					EJBClass oppositeCLass = getClass(attribute.getType());
 					if(oppositeCLass != null) {
-						String name = ejbClass.getName() + "Set";
+						//String name = ejbClass.getName() + "Set";//OVO JE BILO ORIGINALNO
+						String name = attribute.getName() + "Set";
+						//////////////////////////////////////////////////////////////////
 						String type = "Set<" + ejbClass.getName() + ">";
 						String label = attribute.getLabel();
 						String mappedBy = attribute.getName();
@@ -441,35 +456,41 @@ public class ProjectExporter {
 	 * Writes name of current project to corresponding configuration file
 	 * @param name
 	 */
-	public void writeProjectName(String name) {
+	public void writeProjectName(String name, String description) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-		
+
 		//Configuration file
-		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main.properties");
-		String toAppend = "main.form.name";
+		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main-generated.properties");
+		String toAppendName = "main.form.name";
+		String toAppendDescription = "app.description";
 
 		if(!swing) {
 			propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "props" + File.separator + "app.properties");
-			toAppend = "app.title";
+			toAppendName = "app.title";
 		}
 
 		//read properties file
 		//and append first line which contains main form title
 		Scanner scan;
 		ArrayList<String> lines = new ArrayList<String>();
-		lines.add(toAppend + " = " + name);
+		lines.add(toAppendName + " = " + name);
+		if(!swing) {
+			lines.add(toAppendDescription + " = " + description);
+		}
 		try {
 			scan = new Scanner(propertiesFile);
 			while(scan.hasNext()){
 				String line = scan.nextLine();
-				if(!line.startsWith(toAppend)) {
-					lines.add(line);
+				if(!line.startsWith(toAppendName)) {
+					if(!line.startsWith(toAppendDescription)) {
+						lines.add(line);
+					}
 				}
 			}
 			scan.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("[ERROR] Pproperties file not found");
+			System.out.println("[PROJECT EXPORTER] Pproperties file not found. Creating a new one.");
 		}
 
 		//write main.properties file with main form title
@@ -509,18 +530,6 @@ public class ProjectExporter {
 		RunAnt runner = new RunAnt();
 		runner.runBuild(jarName + ".jar", buildFile, outputFile);
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, 0);
-	}
-
-	/**
-	 * Adds default data needed to properly run generated applicaions
-	 * @param proj
-	 */
-	public void addDefaultData(BussinesSubsystem proj) {
-		if(swing) {
-			addDefaultSwingData(proj);
-		}else {
-			addDefaultClasses(classes);
-		}
 	}
 
 	/**
@@ -706,7 +715,7 @@ public class ProjectExporter {
 	}
 
 	//------------------------------------------------------------------------------------------------------------------ || GETTERS AND SETTERS
-	
+
 	public ArrayList<EJBClass> getClasses() {
 		return classes;
 	}
@@ -738,5 +747,5 @@ public class ProjectExporter {
 	public void setEnumerations(ArrayList<Enumeration> enumerations) {
 		this.enumerations = enumerations;
 	}
-	
+
 }

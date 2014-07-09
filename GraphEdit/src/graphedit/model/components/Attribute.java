@@ -1,11 +1,13 @@
 package graphedit.model.components;
 
+import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
 import graphedit.util.Validator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import kroki.uml_core_basic.UmlProperty;
@@ -19,6 +21,9 @@ public class Attribute implements Serializable {
 	
 	private String name;
 	
+	/**
+	 * Component type in UI modes
+	 */
 	private String type;
 	
 	private boolean staticAttribute = false;
@@ -33,6 +38,10 @@ public class Attribute implements Serializable {
 	
 	private ApplicationModeProperties appModeProperties;
 	
+	private List<String> possibleValues;
+	
+	private String dataType;
+	
 	/*
 	 * UmlProperty nema modifier, static, final, pa ne moze za sada drugacije
 	 */
@@ -40,6 +49,7 @@ public class Attribute implements Serializable {
 	public Attribute() { 
 		
 		appModeProperties = ApplicationModeProperties.getInstance();
+		possibleValues = new ArrayList<String>();
 		
 		name = (String) appModeProperties.getPropertyValue("attributeName") + instanceCounter++;
 		if (MainFrame.getInstance().getCurrentView() != null){
@@ -50,9 +60,12 @@ public class Attribute implements Serializable {
 		}
 		type = (String) appModeProperties.getPropertyValue("attributeType");
 		
+		dataType = (String) appModeProperties.getPropertyValue("attributeDataType");
+		
 	}
 	
 	public Attribute(String name, String type) {
+		possibleValues = new ArrayList<String>();
 		this.name = name;
 		this.type = type;
 	}
@@ -99,7 +112,13 @@ public class Attribute implements Serializable {
 
 	@Override
 	public String toString() {
-		return modifier + " " + name + " : " + type;
+		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE ||
+				MainFrame.getInstance().getAppMode() == ApplicationMode.PERSISTENT)
+			return modifier + " " + name + " : " + type;
+		else if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED)
+			return modifier + " " + name + " : " + type + " (" + getDataType() + ")";
+		else
+			return modifier + " " + name + " : "  + getDataType();
 	}
 
 	public UmlProperty getUmlProperty() {
@@ -118,5 +137,21 @@ public class Attribute implements Serializable {
 		this.visible = visible;
 	}
 
+	public List<String> getPossibleValues() {
+		return possibleValues;
+	}
+
+	public void setPossibleValues(List<String> possibleValues) {
+		this.possibleValues = possibleValues;
+	}
+
+	public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
+	}
+	
 	
 }

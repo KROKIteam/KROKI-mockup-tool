@@ -55,7 +55,7 @@ public class ChangeElementCommand extends Command {
 		this.links =view.getModel().getAssociatedLinks(element);
 		this.linkPainters = view.getLinkPainters(links);
 		
-		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE && links!=null)
+		if (MainFrame.getInstance().getAppMode() != ApplicationMode.PERSISTENT && links!=null)
 			for (Link link : links){
 				sourceList.add(((UIClassElement)link.getSourceConnector().getRepresentedElement()).getCurrentElement(link.getSourceConnector()));
 				destinationList.add(((UIClassElement)link.getDestinationConnector().getRepresentedElement()).getCurrentElement(link.getDestinationConnector()));

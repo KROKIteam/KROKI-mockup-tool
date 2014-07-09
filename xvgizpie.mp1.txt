@@ -1,0 +1,433 @@
+﻿Merge branch 'master' of https://github.com/KROKIteam/KROKI-mockup-tool
+
+Conflicts:
+	GraphEdit/.classpath
+	Kroki-UIProfil/.classpath
+	Kroki-UIProfil/build.xml
+	Kroki/.classpath
+	SwingApp/.classpath
+	SwingApp/props/main.properties
+	WebApp/.classpath
+	kroki-commons/.classpath
+	kroki-intl/.classpath
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	modified:   .gitignore
+#	deleted:    Cars.kroki
+#	modified:   GraphEdit/.classpath
+#	modified:   GraphEdit/src/graphedit/app/ApplicationMode.java
+#	modified:   GraphEdit/src/graphedit/app/MainFrame.java
+#	modified:   GraphEdit/src/graphedit/command/AddAttributeCommand.java
+#	modified:   GraphEdit/src/graphedit/command/AddElementCommand.java
+#	new file:   GraphEdit/src/graphedit/command/ChangeAttributeDataTypeCommand.java
+#	modified:   GraphEdit/src/graphedit/command/ChangeAttributeTypeCommand.java
+#	modified:   GraphEdit/src/graphedit/command/ChangeElementCommand.java
+#	modified:   GraphEdit/src/graphedit/command/CutElementsCommand.java
+#	modified:   GraphEdit/src/graphedit/command/CutLinkCommand.java
+#	new file:   GraphEdit/src/graphedit/command/MoveAttributeCommand.java
+#	new file:   GraphEdit/src/graphedit/command/MoveMethodCommand.java
+#	new file:   GraphEdit/src/graphedit/command/MoveParameterCommand.java
+#	deleted:    GraphEdit/src/graphedit/command/RotateElementsCommand.java
+#	modified:   GraphEdit/src/graphedit/gui/table/AttributeTableModel.java
+#	modified:   GraphEdit/src/graphedit/gui/table/ClassDialog.java
+#	modified:   GraphEdit/src/graphedit/gui/table/ClassToolBar.java
+#	new file:   GraphEdit/src/graphedit/gui/table/EnumValuesButtonMouseListener.java
+#	new file:   GraphEdit/src/graphedit/gui/table/EnumValuesTableModel.java
+#	modified:   GraphEdit/src/graphedit/gui/table/MethodTableModel.java
+#	modified:   GraphEdit/src/graphedit/gui/table/ParameterTableModel.java
+#	modified:   GraphEdit/src/graphedit/gui/table/PropertiesButtonMouseListener.java
+#	modified:   GraphEdit/src/graphedit/gui/table/PropertiesTable.java
+#	modified:   GraphEdit/src/graphedit/gui/table/PropertiesTableModel.java
+#	modified:   GraphEdit/src/graphedit/model/GraphEditWorkspace.java
+#	modified:   GraphEdit/src/graphedit/model/components/Attribute.java
+#	modified:   GraphEdit/src/graphedit/model/components/shortcuts/ClassShortcut.java
+#	modified:   GraphEdit/src/graphedit/model/elements/ClassElement.java
+#	modified:   GraphEdit/src/graphedit/model/elements/GraphEditPackage.java
+#	modified:   GraphEdit/src/graphedit/model/elements/PersistentClassElement.java
+#	modified:   GraphEdit/src/graphedit/model/elements/UIClassElement.java
+#	new file:   GraphEdit/src/graphedit/model/enums/AttributeDataTypeUI.java
+#	renamed:    GraphEdit/src/graphedit/model/components/AttributeTypeUI.java -> GraphEdit/src/graphedit/model/enums/AttributeTypeUI.java
+#	renamed:    GraphEdit/src/graphedit/model/components/ClassStereotypeUI.java -> GraphEdit/src/graphedit/model/enums/ClassStereotypeUI.java
+#	modified:   GraphEdit/src/graphedit/properties/ApplicationModeProperties.java
+#	modified:   GraphEdit/src/graphedit/state/AddElementState.java
+#	modified:   GraphEdit/src/graphedit/state/LinkState.java
+#	modified:   GraphEdit/src/graphedit/state/State.java
+#	modified:   GraphEdit/src/graphedit/util/LinkingUtil.java
+#	modified:   GraphEdit/src/graphedit/util/NameTransformUtil.java
+#	new file:   GraphEdit/src/graphedit/util/Utility.java
+#	modified:   GraphEdit/src/graphedit/view/GraphEditView.java
+#	modified:   GraphEdit/src/graphedit/view/GraphEditViewMini.java
+#	modified:   GraphEdit/src/properties/UI.properties
+#	new file:   GraphEdit/src/properties/UI_mixed.properties
+#	new file:   GraphEdit/src/properties/UI_persistent.properties
+#	modified:   GraphEdit/src/properties/persistent.properties
+#	modified:   Kroki-UIProfil/.classpath
+#	modified:   Kroki-UIProfil/.project
+#	modified:   Kroki-UIProfil/build.xml
+#	modified:   Kroki-UIProfil/lib/nblibraries.properties
+#	modified:   Kroki-UIProfil/manifest.mf
+#	modified:   Kroki-UIProfil/src/kroki/profil/VisibleElement.java
+#	modified:   Kroki-UIProfil/src/kroki/profil/utils/DatabaseProps.java
+#	modified:   Kroki/.classpath
+#	modified:   Kroki/.project
+#	modified:   Kroki/build.xml
+#	modified:   Kroki/lib/nblibraries.properties
+#	modified:   KrokiMockupTool/.externalToolBuilders/ImportExportNeededUMLFiles.launch
+#	modified:   KrokiMockupTool/build.xml
+#	modified:   KrokiMockupTool/lib/nblibraries.properties
+#	modified:   KrokiMockupTool/libECore/.gitignore
+#	modified:   KrokiMockupTool/libECore/EUISDSLProfile/EUISDSLProfile.profile.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/EcorePrimitiveTypes.library.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/EcorePrimitiveTypes.library.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/JavaPrimitiveTypes.library.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/JavaPrimitiveTypes.library.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/UMLPrimitiveTypes.library.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/UMLPrimitiveTypes.library.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/XMLPrimitiveTypes.library.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/libraries/XMLPrimitiveTypes.library.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/metamodels/Ecore.metamodel.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/metamodels/Ecore.metamodel.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/metamodels/UML.metamodel.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/metamodels/UML.metamodel.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/Ecore.profile.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/Ecore.profile.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/StandardL2.profile.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/StandardL2.profile.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/StandardL3.profile.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/StandardL3.profile.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/UML2.profile.properties
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources/profiles/UML2.profile.uml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/CMOF.ecore
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/CMOF20.ecore
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/CMOF20_2_UML.ecore2xml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/CMOF24.ecore
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/CMOF24_2_UML.ecore2xml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/CMOF_2_UML.ecore2xml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/UML.ecore
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/UML.genmodel
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/UML21_2_UML.ecore2xml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/UML2_2_UML.ecore2xml
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/UML30.ecore
+#	new file:   KrokiMockupTool/libECore/org.eclipse.uml2.uml/model/UML30_2_UML.ecore2xml
+#	modified:   KrokiMockupTool/manifest.mf
+#	modified:   KrokiMockupTool/src/kroki/app/KrokiDiagramFrame.java
+#	modified:   KrokiMockupTool/src/kroki/app/KrokiMockupToolFrame.java
+#	modified:   KrokiMockupTool/src/kroki/app/KrokiMockupToolSplashScreen.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/ClassDiagramAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/CreatePresistentDiagramAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/CreateUIDiagramAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/DBConneectionSettingsAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/ExportAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/ExportEclipseUMLDiagramAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/ExportSwingAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/ExportWebAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/HelpAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/OpenProjectAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/RunSwingAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/RunWebAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/SaveAction.java
+#	modified:   KrokiMockupTool/src/kroki/app/exceptions/NoZoomPanelException.java
+#	modified:   KrokiMockupTool/src/kroki/app/export/ExportProjectToEclipseUML.java
+#	modified:   KrokiMockupTool/src/kroki/app/export/ProjectExporter.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/DatabaseConfigGenerator.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/EJBGenerator.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/EnumerationGenerator.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/MenuGenerator.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/PanelGenerator.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/WebResourceGenerator.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/templates/EJBClass.ftl
+#	modified:   KrokiMockupTool/src/kroki/app/generators/templates/database.properties.ftl
+#	modified:   KrokiMockupTool/src/kroki/app/generators/templates/enumeration.ftl
+#	modified:   KrokiMockupTool/src/kroki/app/generators/templates/hibernate.cfg.ftl
+#	modified:   KrokiMockupTool/src/kroki/app/generators/templates/persistence.ftl
+#	modified:   KrokiMockupTool/src/kroki/app/generators/templates/persistenceSwing.ftl
+#	modified:   KrokiMockupTool/src/kroki/app/generators/templates/persistenceWeb.ftl
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/Attribute.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/EJBAttribute.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/EJBClass.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/Enumeration.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/ManyToOneAttribute.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/Menu.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/OneToManyAttribute.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/Submenu.java
+#	modified:   KrokiMockupTool/src/kroki/app/generators/utils/XMLWriter.java
+#	modified:   KrokiMockupTool/src/kroki/app/gui/console/CommandPanel.java
+#	modified:   KrokiMockupTool/src/kroki/app/gui/dialog/DBConnectionPropsDialog.java
+#	modified:   KrokiMockupTool/src/kroki/app/gui/dialog/KrokiMockupToolAboutDialog.java
+#	modified:   KrokiMockupTool/src/kroki/app/gui/dialog/KrokiMockupToolHelpDialog.java
+#	modified:   KrokiMockupTool/src/kroki/app/gui/dialog/NewFileDialog.java
+#	modified:   KrokiMockupTool/src/kroki/app/importt/ImportEclipseUMLToProject.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/DiagramProfile.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/DriverShim.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/JARMaker.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/RunAnt.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/TypeComponentMapper.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/XMLParser.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/uml/OperationsTypeDialog.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/uml/ProgressWorker.java
+#	deleted:    KrokiMockupTool/src/kroki/app/utils/uml/ProgressWorkerFrame.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/uml/stereotypes/ClassStereotype.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/uml/stereotypes/OperationStereotype.java
+#	renamed:    KrokiMockupTool/src/kroki/app/utils/uml/stereotypes/NamedElementStereotype.java -> KrokiMockupTool/src/kroki/app/utils/uml/stereotypes/PackageStereotype.java
+#	modified:   KrokiMockupTool/src/kroki/app/utils/uml/stereotypes/PropertyStereotype.java
+#	modified:   KrokiMockupTool/src/kroki/resources/type-component-mappings.xml
+#	modified:   LICENSE.txt
+#	modified:   SwingApp/.classpath
+#	modified:   SwingApp/.project
+#	modified:   SwingApp/build.xml
+#	modified:   SwingApp/buld.xml
+#	modified:   SwingApp/model/type-component-mappings.xml
+#	modified:   SwingApp/model/users/admin.xml
+#	modified:   SwingApp/props/META-INF/persistence2.xml
+#	modified:   SwingApp/props/databases.properties
+#	modified:   SwingApp/props/log4j.properties
+#	modified:   SwingApp/props/main.properties
+#	modified:   SwingApp/props/mapping-types.xml
+#	modified:   SwingApp/props/messagesform.properties
+#	modified:   SwingApp/props/tagutil.properties
+#	modified:   SwingApp/props/toolbar.properties
+#	modified:   SwingApp/props/xmlpaths.properties
+#	modified:   SwingApp/run.xml
+#	modified:   SwingApp/src/com/panelcomposer/aspects/InputPanelAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/ObserverPanelAgent.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/ParentChildObserver.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/SPanelAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/STableAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/SToolBarAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/UserRightsAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/sform/ManyToManyAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/sform/ParentChildAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/aspects/sform/StandardPanelAspect.aj
+#	modified:   SwingApp/src/com/panelcomposer/business/procedure/ProcedureParameter.java
+#	modified:   SwingApp/src/com/panelcomposer/business/procedure/StoredProcedure.java
+#	modified:   SwingApp/src/com/panelcomposer/business/report/AbstractReportView.java
+#	modified:   SwingApp/src/com/panelcomposer/business/report/jasper/JasperReportUtil.java
+#	modified:   SwingApp/src/com/panelcomposer/business/report/jasper/JasperReportView.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/AbstractConverter.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/BigDecimalConverter.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/BooleanConverter.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/ConverterUtil.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/DateConverter.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/IntegerConverter.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/LongConverter.java
+#	modified:   SwingApp/src/com/panelcomposer/converters/StringConverter.java
+#	modified:   SwingApp/src/com/panelcomposer/core/AppCache.java
+#	modified:   SwingApp/src/com/panelcomposer/core/MainApp.java
+#	modified:   SwingApp/src/com/panelcomposer/core/UserLoginDialog.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/SForm.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/SMainForm.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/STModel.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/STable.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/SToolBar.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/spanel/InputPanel.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/spanel/OperationsPanel.java
+#	modified:   SwingApp/src/com/panelcomposer/elements/spanel/SPanel.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/ComponentCreationException.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/DatabaseConnectionException.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/EntityAttributeNotFoundException.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/OperationNotFoundException.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/PanelTypeParsingException.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/ParseEJBException.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/ReportException.java
+#	modified:   SwingApp/src/com/panelcomposer/exceptions/StoredProcedureException.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/ComponentFocusAdapter.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/MySubMenuActionListener.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/NextActionListener.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/OperationActionListener.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/TableCellEditorListener.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/TableKeyAdapter.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/TableMouseAdapter.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/ZoomActionListener.java
+#	modified:   SwingApp/src/com/panelcomposer/listeners/ZoomFocusListener.java
+#	modified:   SwingApp/src/com/panelcomposer/model/AbstractElement.java
+#	modified:   SwingApp/src/com/panelcomposer/model/Model.java
+#	modified:   SwingApp/src/com/panelcomposer/model/attribute/AbsAttribute.java
+#	modified:   SwingApp/src/com/panelcomposer/model/attribute/ColumnAttribute.java
+#	modified:   SwingApp/src/com/panelcomposer/model/attribute/JoinColumnAttribute.java
+#	modified:   SwingApp/src/com/panelcomposer/model/ejb/EntityBean.java
+#	modified:   SwingApp/src/com/panelcomposer/model/enumeration/Enumeration.java
+#	modified:   SwingApp/src/com/panelcomposer/model/menu/MyMenu.java
+#	modified:   SwingApp/src/com/panelcomposer/model/menu/MySubMenu.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/MManyToManyPanel.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/MPanel.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/MParentChildPanel.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/MStandardPanel.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/DataSettings.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/Next.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/PanelSettings.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/Zoom.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/operation/Operation.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/operation/Parameter.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/operation/ParameterType.java
+#	modified:   SwingApp/src/com/panelcomposer/model/panel/configuration/operation/SpecificOperations.java
+#	modified:   SwingApp/src/com/panelcomposer/model/type/Type.java
+#	modified:   SwingApp/src/com/panelcomposer/observe/ObserverPanel.java
+#	modified:   SwingApp/src/log/Logger.java
+#	modified:   SwingApp/src/util/AnnotationConfigurationWithWildcard.java
+#	modified:   SwingApp/src/util/ConsoleUtil.java
+#	modified:   SwingApp/src/util/EntityHelper.java
+#	modified:   SwingApp/src/util/ExpressionHelper.java
+#	modified:   SwingApp/src/util/PersistenceHelper.java
+#	modified:   SwingApp/src/util/SchemaGenerator.java
+#	modified:   SwingApp/src/util/StringUtil.java
+#	modified:   SwingApp/src/util/TypesConverterFromXML.java
+#	modified:   SwingApp/src/util/column/XTableCellRenderer.java
+#	modified:   SwingApp/src/util/column/XTableColumnModel.java
+#	modified:   SwingApp/src/util/resolvers/ComponentResolver.java
+#	modified:   SwingApp/src/util/resolvers/PanelTypeResolver.java
+#	modified:   SwingApp/src/util/staticnames/Buttons.java
+#	modified:   SwingApp/src/util/staticnames/Messages.java
+#	modified:   SwingApp/src/util/staticnames/ReadersPathConst.java
+#	modified:   SwingApp/src/util/staticnames/Settings.java
+#	modified:   SwingApp/src/util/staticnames/Tags.java
+#	modified:   SwingApp/src/util/xml_readers/EntityReader.java
+#	modified:   SwingApp/src/util/xml_readers/EnumerationReader.java
+#	modified:   SwingApp/src/util/xml_readers/MenuReader.java
+#	modified:   SwingApp/src/util/xml_readers/PanelReader.java
+#	modified:   SwingApp/src/util/xml_readers/TypeComponentReader.java
+#	modified:   SwingApp/src/util/xml_readers/TypeMapping.java
+#	modified:   SwingApp/src/util/xml_readers/XMLUtil.java
+#	modified:   SwingApp/xsd/entity.xsd
+#	modified:   SwingApp/xsd/enumerations.xsd
+#	modified:   SwingApp/xsd/menu.xsd
+#	modified:   SwingApp/xsd/panel-map.xsd
+#	modified:   SwingApp/xsd/panels.xsd
+#	modified:   SwingApp/xsd/xml-map.xsd
+#	new file:   WEB_Shop_Example.kroki
+#	modified:   WebApp/.classpath
+#	modified:   WebApp/.project
+#	modified:   WebApp/.settings/org.eclipse.jdt.core.prefs
+#	modified:   WebApp/.settings/org.eclipse.ltk.core.refactoring.prefs
+#	modified:   WebApp/WebApp.jar
+#	modified:   WebApp/build.xml
+#	modified:   WebApp/config/actions.xml
+#	modified:   WebApp/config/forms.xml
+#	modified:   WebApp/kroki-build.xml
+#	deleted:    WebApp/props/app.properties
+#	new file:   WebApp/props/gitkeep
+#	deleted:    WebApp/script.js
+#	modified:   WebApp/src/adapt/application/AdaptApplication.java
+#	modified:   WebApp/src/adapt/application/AdaptMainFrame.java
+#	modified:   WebApp/src/adapt/application/Application.java
+#	modified:   WebApp/src/adapt/aspects/ContentAspect.aj
+#	modified:   WebApp/src/adapt/aspects/EJBGenerator.aj
+#	modified:   WebApp/src/adapt/aspects/MyResourcesAspect.aj
+#	modified:   WebApp/src/adapt/aspects/RightsRuleAspect.aj
+#	modified:   WebApp/src/adapt/aspects/SessionAspect.aj
+#	new file:   WebApp/src/adapt/entities/Action.java
+#	new file:   WebApp/src/adapt/entities/MyResource.java
+#	new file:   WebApp/src/adapt/entities/Resource.java
+#	new file:   WebApp/src/adapt/entities/User.java
+#	new file:   WebApp/src/adapt/entities/UserRights.java
+#	modified:   WebApp/src/adapt/exception/RightAlreadyDefinedException.java
+#	modified:   WebApp/src/adapt/resources/AddResource.java
+#	modified:   WebApp/src/adapt/resources/BaseResource.java
+#	new file:   WebApp/src/adapt/resources/DeleteResource.java
+#	modified:   WebApp/src/adapt/resources/HomeResource.java
+#	modified:   WebApp/src/adapt/resources/IndexResource.java
+#	modified:   WebApp/src/adapt/resources/ModifyResource.java
+#	modified:   WebApp/src/adapt/resources/ProfilIzmenaResource.java
+#	modified:   WebApp/src/adapt/resources/RegisterResource.java
+#	modified:   WebApp/src/adapt/resources/ViewResource.java
+#	modified:   WebApp/src/adapt/templates/EJBClass.ftl
+#	deleted:    WebApp/src/adapt/templates/addTemplate.html
+#	deleted:    WebApp/src/adapt/templates/childForm.html
+#	new file:   WebApp/src/adapt/templates/css/login.css
+#	new file:   WebApp/src/adapt/templates/css/style.css
+#	new file:   WebApp/src/adapt/templates/editFormTemplate.html
+#	new file:   WebApp/src/adapt/templates/formTemplate.html
+#	modified:   WebApp/src/adapt/templates/homepage.html
+#	deleted:    WebApp/src/adapt/templates/images/add.png
+#	new file:   WebApp/src/adapt/templates/images/back.png
+#	deleted:    WebApp/src/adapt/templates/images/closed.gif
+#	deleted:    WebApp/src/adapt/templates/images/delete.png
+#	deleted:    WebApp/src/adapt/templates/images/down.png
+#	deleted:    WebApp/src/adapt/templates/images/edit.png
+#	deleted:    WebApp/src/adapt/templates/images/form.png
+#	deleted:    WebApp/src/adapt/templates/images/go1.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/add.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/close.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/delete.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/first.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/last.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/next-forms.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/next.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/prev.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/refresh.png
+#	new file:   WebApp/src/adapt/templates/images/icons-white/swich.png
+#	new file:   WebApp/src/adapt/templates/images/icons/add.png
+#	new file:   WebApp/src/adapt/templates/images/icons/close.png
+#	new file:   WebApp/src/adapt/templates/images/icons/delete.png
+#	new file:   WebApp/src/adapt/templates/images/icons/first.png
+#	new file:   WebApp/src/adapt/templates/images/icons/last.png
+#	new file:   WebApp/src/adapt/templates/images/icons/next-forms.png
+#	new file:   WebApp/src/adapt/templates/images/icons/next.png
+#	new file:   WebApp/src/adapt/templates/images/icons/prev.png
+#	new file:   WebApp/src/adapt/templates/images/icons/refresh.png
+#	new file:   WebApp/src/adapt/templates/images/icons/success.png
+#	new file:   WebApp/src/adapt/templates/images/icons/swich.png
+#	new file:   WebApp/src/adapt/templates/images/icons/warning.png
+#	deleted:    WebApp/src/adapt/templates/images/list.gif
+#	deleted:    WebApp/src/adapt/templates/images/logo16x16.png
+#	new file:   WebApp/src/adapt/templates/images/logo32x32.png
+#	deleted:    WebApp/src/adapt/templates/images/open.gif
+#	deleted:    WebApp/src/adapt/templates/images/up.png
+#	deleted:    WebApp/src/adapt/templates/index.html
+#	new file:   WebApp/src/adapt/templates/js/jquery-2.0.3.min.js
+#	new file:   WebApp/src/adapt/templates/js/login.js
+#	new file:   WebApp/src/adapt/templates/js/page.js
+#	new file:   WebApp/src/adapt/templates/login.html
+#	deleted:    WebApp/src/adapt/templates/manyToManyForm.html
+#	deleted:    WebApp/src/adapt/templates/modifyTemplate.html
+#	deleted:    WebApp/src/adapt/templates/myResourceForm.html
+#	new file:   WebApp/src/adapt/templates/popupTemplate.html
+#	deleted:    WebApp/src/adapt/templates/profilIzmena.html
+#	deleted:    WebApp/src/adapt/templates/register.html
+#	deleted:    WebApp/src/adapt/templates/rightpane.html
+#	deleted:    WebApp/src/adapt/templates/script.js
+#	deleted:    WebApp/src/adapt/templates/simpletree.css
+#	deleted:    WebApp/src/adapt/templates/simpletreemenu.js
+#	deleted:    WebApp/src/adapt/templates/standardForm.html
+#	deleted:    WebApp/src/adapt/templates/style.css
+#	deleted:    WebApp/src/adapt/templates/viewTemplate.html
+#	modified:   WebApp/src/adapt/utils/EntityClass.java
+#	modified:   WebApp/src/adapt/utils/EntityCreator.java
+#	modified:   WebApp/src/adapt/utils/EntityProperty.java
+#	modified:   WebApp/src/adapt/utils/Settings.java
+#	modified:   WebApp/src/adapt/utils/XMLAttribute.java
+#	modified:   WebApp/src/adapt/utils/XMLForm.java
+#	modified:   WebApp/src/adapt/utils/XMLManyToManyAttribute.java
+#	modified:   WebApp/src/adapt/utils/XMLManyToOneAttribute.java
+#	modified:   WebApp/src/adapt/utils/XMLOneToManyAttribute.java
+#	new file:   WebApp/src/adapt/utils/XMLOperation.java
+#	modified:   WebApp/src/adapt/utils/XMLParser.java
+#	modified:   WebApp/src/adapt/utils/XMLResource.java
+#	modified:   WebApp/src/config/actions.xml
+#	modified:   WebApp/sve.sql
+#	modified:   help.txt
+#	modified:   komande.txt
+#	modified:   kroki-commons/.classpath
+#	modified:   kroki-commons/.project
+#	modified:   kroki-commons/build.xml
+#	modified:   kroki-commons/lib/nblibraries.properties
+#	modified:   kroki-commons/src/kroki/commons/camelcase/NamingUtil.java
+#	modified:   kroki-intl/.classpath
+#	modified:   kroki-intl/.project
+#	modified:   kroki-intl/build.xml
+#	modified:   kroki-intl/lib/nblibraries.properties
+#	modified:   kroki-intl/manifest.mf
+#
+

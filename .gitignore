@@ -16,7 +16,7 @@ KrokiMockupTool/Temp/
 #######################################################
 WebApp/bin/
 WebApp/etc/META-INF/persistence.xml
-WebApp/src/adapt/entities/
+WebApp/src/adapt/entities/generated
 WebApp/src/adapt/enumerations/
 !WebApp/config
 WebApp/config/*
@@ -24,8 +24,8 @@ WebApp/config/*
 !WebApp/config/forms.xml
 !WebApp/config/resources.xml
 WebApp/src/config/resources-generated.xml
-WebApp/src/adapt/templates/treemenuGenerated.html
-
+WebApp/src/adapt/templates/menu.html
+WebApp/props/app.properties
 
 #                                    SwingApp excludes
 ######################################################
@@ -40,6 +40,7 @@ SwingApp/model/panel-map.xml
 SwingApp/model/enumeration.xml
 SwingApp/model/ejb/
 SwingApp/ddl_createDatabase.sql
+SwingApp/props/main-generated.properties
 
 # ignore generated but skip default enumerations
 !SwingApp/src/com/panelcomposer/enumerations
