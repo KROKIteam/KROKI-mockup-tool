@@ -168,6 +168,22 @@ public class PersistentClassElement extends ClassElement{
 		
 	}
 
+
+	@Override
+	public void moveElementUp(int... args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void moveElementDown(int... args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 	
 
 }

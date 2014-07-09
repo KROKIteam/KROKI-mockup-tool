@@ -5,6 +5,7 @@ import graphedit.app.MainFrame;
 import graphedit.command.AddAttributeCommand;
 import graphedit.command.ChangeAttributeOwnerCommand;
 import graphedit.command.ChangeAttributeTypeCommand;
+import graphedit.command.MoveAttributeCommand;
 import graphedit.command.RemoveAttributeCommand;
 import graphedit.command.RenameAttributeCommand;
 import graphedit.gui.utils.Dialogs;
@@ -19,6 +20,7 @@ import graphedit.view.ClassPainter;
 
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
 public class AttributeTableModel extends AbstractTableModel {
@@ -32,11 +34,11 @@ public class AttributeTableModel extends AbstractTableModel {
 	public AttributeTableModel(GraphElement element, List<Attribute> attributes) { 
 		this.element = element;
 		this.attributes = attributes;
-		
+
 	}
 
 	private static final String[] COLUMN_NAMES = {
-		"", "Owner","Name", "Type", "Modifier", "Static", "Final", "Display"
+		"", "Owner","Name", "Type", "Modifier", "Static", "Final", "Possible values", "Display"
 	};
 
 	@Override
@@ -62,12 +64,13 @@ public class AttributeTableModel extends AbstractTableModel {
 			return false;
 		if (columnIndex == COLUMN_NAMES.length - 1)
 			return true;
+			
 		if (element instanceof Interface || currentApplicationMode() == ApplicationMode.USER_INTERFACE) {
 			return columnIndex < 4;
 		} 
 		return true;
 	}
-	
+
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
@@ -87,6 +90,8 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 6: 
 			return Boolean.class;
 		case 7:
+			return JButton.class;
+		case 8:
 			return Boolean.class;
 		}
 		return super.getColumnClass(columnIndex);
@@ -97,7 +102,10 @@ public class AttributeTableModel extends AbstractTableModel {
 		if (rowIndex > attributes.size() - 1)
 			return null;
 		Attribute attribute = attributes.get(rowIndex);
-		switch (columnIndex) {
+		boolean combo = attribute.getType().equals("ComboBox");
+		switch (columnIndex){
+		case -1:
+			return attribute;
 		case 0:
 			return rowIndex + 1;
 		case 1:
@@ -113,6 +121,10 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 6: 
 			return attribute.isFinalAttribute();
 		case 7:
+			if (combo)
+				return attribute.getPossibleValues();
+			return null;
+		case 8:
 			return attribute.isVisible();
 		}
 		return null;
@@ -150,6 +162,7 @@ public class AttributeTableModel extends AbstractTableModel {
 				valueStr = (String) value;
 			ChangeAttributeTypeCommand command = new ChangeAttributeTypeCommand(MainFrame.getInstance().getCurrentView(), element, attribute, valueStr);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
+			fireTableDataChanged();
 			break;
 		case 4:
 			attribute.setModifier((Modifier) value);
@@ -160,7 +173,7 @@ public class AttributeTableModel extends AbstractTableModel {
 		case 6: 
 			attribute.setFinalAttribute((Boolean) value);
 			break;
-		case 7:
+		case 8:
 			attribute.setVisible((Boolean)value);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setUpdated(true);
 			((ClassPainter)MainFrame.getInstance().getCurrentView().getElementPainter(element)).setAttributesOrMethodsUpdated(true);
@@ -184,6 +197,22 @@ public class AttributeTableModel extends AbstractTableModel {
 			}
 		}
 	}
+
+	public void moveAttributeUp(int rowIndex) {
+		MoveAttributeCommand command = new MoveAttributeCommand(MainFrame.getInstance().getCurrentView(),
+				element, (Attribute)getValueAt(rowIndex, -1), rowIndex, MoveAttributeCommand.DIRECTION.UP);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		fireTableDataChanged();
+	}
+
+	public void moveAttributeDown(int rowIndex) {
+		MoveAttributeCommand command = new MoveAttributeCommand(MainFrame.getInstance().getCurrentView(),
+				element, (Attribute)getValueAt(rowIndex, -1), rowIndex, MoveAttributeCommand.DIRECTION.DOWN);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		fireTableDataChanged();
+	}
+
+
 
 	public void addAttribute(Attribute attribute) {
 		AddAttributeCommand command = new AddAttributeCommand(

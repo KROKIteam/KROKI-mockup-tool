@@ -139,7 +139,9 @@ public class ProjectExporter {
 		//Add one-to-many attributes to classes
 		addReferences();
 		//add default data
-		addDefaultSwingData(proj);
+		if(swing) {
+			addDefaultSwingData(proj);
+		}
 	}
 
 	/**

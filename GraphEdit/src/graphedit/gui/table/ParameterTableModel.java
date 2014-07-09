@@ -3,8 +3,10 @@ package graphedit.gui.table;
 import graphedit.app.MainFrame;
 import graphedit.command.AddParameterCommand;
 import graphedit.command.ChangeParameterCommand;
+import graphedit.command.MoveParameterCommand;
 import graphedit.command.RemoveParameterCommand;
 import graphedit.gui.utils.Dialogs;
+import graphedit.model.components.GraphElement;
 import graphedit.model.components.Method;
 import graphedit.model.components.Parameter;
 import graphedit.util.Validator;
@@ -19,10 +21,12 @@ public class ParameterTableModel extends AbstractTableModel {
 	
 	private Method method;
 	private List<Parameter> parameters;
+	private GraphElement element;
 	
-	public ParameterTableModel(Method method, List<Parameter> parameters) { 
+	public ParameterTableModel(GraphElement element, Method method, List<Parameter> parameters) { 
 		this.method = method;
 		this.parameters = parameters;
+		this.element = element;
 	}
 	
 	private static final String[] COLUMN_NAMES = {
@@ -74,6 +78,8 @@ public class ParameterTableModel extends AbstractTableModel {
 			return null;
 		Parameter parameter = parameters.get(rowIndex);
 		switch (columnIndex) {
+		case -1:
+			return parameter;
 		case 0:
 			return rowIndex + 1;
 		case 1:
@@ -142,6 +148,20 @@ public class ParameterTableModel extends AbstractTableModel {
 				parameter);
 		MainFrame.getInstance().getCommandManager().executeCommand(command);
 		
+		fireTableDataChanged();
+	}
+	
+	public void moveParameterUp(int rowIndex) {
+		MoveParameterCommand command = new MoveParameterCommand(MainFrame.getInstance().getCurrentView(),
+				element, method, rowIndex, MoveParameterCommand.DIRECTION.UP);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		fireTableDataChanged();
+	}
+
+	public void moveParameterDown(int rowIndex) {
+		MoveParameterCommand command = new MoveParameterCommand(MainFrame.getInstance().getCurrentView(),
+				element, method, rowIndex, MoveParameterCommand.DIRECTION.DOWN);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
 		fireTableDataChanged();
 	}
 

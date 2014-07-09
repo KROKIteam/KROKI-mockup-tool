@@ -8,11 +8,12 @@ public class ClassToolBar extends JToolBar {
 
 	private static final long serialVersionUID = 1L;
 
-	public ClassToolBar(JButton remove) {
+	public ClassToolBar(JButton...args) {
 		super(SwingConstants.HORIZONTAL);
 		
 		setFloatable(false);
-		add(remove);
+		for (JButton btn : args)
+			add(btn);
 	}
 
 }

@@ -232,7 +232,7 @@ $(document).ready(function(e) {
 				newStandardForm.addClass("standardForms");
 				newStandardForm.attr("data-activate", "/resources/" + formsSplit[i]);
 				newStandardForm.attr("data-resourceId", formsSplit[i]);
-				newStandardForm.css({"height":"40%"});
+				newStandardForm.css({"height": (90/formsSplit.length) + "%"});
 				
 				newWindowBody.append(newStandardForm);
 				loadDataToForm(newStandardForm, true);
@@ -242,21 +242,39 @@ $(document).ready(function(e) {
 			var newStandardForm = $(document.createElement("div"));
 			newStandardForm.addClass("standardForms");
 			newStandardForm.attr("data-activate", activateLink);
-			newStandardForm.attr("data-resourceId", activateSplit[activateSplit.length-1]);
+			if(activateSplit.length > 3) {
+				newStandardForm.attr("data-resourceId", activateSplit[activateSplit.length-3]);
+			}else {
+				newStandardForm.attr("data-resourceId", activateSplit[activateSplit.length-1]);
+			}
 			newWindowBody.append(newStandardForm);
 			loadDataToForm(newStandardForm, false);
 		}
 		
 		/*
 		 * If number of columns is more than 6, add 200 pixels for each
+		 * and 200 px in height for each standard form 
 		 */
 		var columns = newWindow.find("th").length;
+		var forms = newWindow.find(".standardForms").length;
 		if(columns > 6) {
 			var newWidth = columns*200;
 			if(newWidth<$("#container").width()) {
 				newWindow.width(newWidth);
 			}else {
 				newWindow.width("98%");
+				newWindow.css({
+					"top": 60,
+					"left": 20,
+				});
+			}
+		}
+		if(forms > 2) {
+			var newHeight = forms*200;
+			if(newHeight < $("#container").height()) {
+				newWindow.height(newHeight);
+			}else {
+				newWindow.height("85%");
 				newWindow.css({
 					"top": 60,
 					"left": 20,
@@ -273,12 +291,46 @@ $(document).ready(function(e) {
 	// Only one row can be selected at a time
 	container.on("click", ".mainTable tbody tr", function() {
 		var form = $(this).closest(".standardForms");
+		var window = $(this).closest(".windows");
 		$(this).parent().find("tr").removeClass("selectedTr");
 		$(this).addClass("selectedTr");
 		form.find("#btnPrev").removeAttr("disabled");
 		form.find("#btnNext").removeAttr("disabled");
 		form.find("#btnDelete").removeAttr("disabled");
 		form.find("#btnNextForms").removeAttr("disabled");
+		
+		//if the table is on parent-child panel, filter data on table below and select first row
+		if(window.find(".standardForms").length > 1) {
+			var parentId = form.attr("data-resourceId");
+			var childForm = form.next();
+			var childId = childForm.attr("data-resourceId");
+			var rowId = $(this).find("#idCell").text();
+			//call server method only if child form exists below this form
+			if(childForm.length > 0) {
+				$.ajax({
+				url: "/showChildren/" + childId + "/" + parentId + "/" + rowId,
+				type: 'GET',
+				encoding:"UTF-8",
+				contentType: "text/html; charset=UTF-8",
+				success: function(data) {
+					childForm.html(data);
+					var firstRow = childForm.find(".mainTable tbody tr:first-child");
+					if(firstRow.length > 0) {
+						firstRow.trigger("click");
+					}else {
+						childForm.next().find(".tablePanel").empty();
+					}
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) { 
+					$("#messagePopup").html("<p>" + errorThrown + "</p>");
+					$("#messagePopup").attr("class", "messageError");
+					$("#messagePopup").prepend("<div></div>");
+					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+				}
+			});
+			}
+		}
+		
 	});
 
 	//"SWITCH VIEW" BUTTON:
@@ -336,9 +388,10 @@ $(document).ready(function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var firstTR = tableDiv.find(".mainTable tbody tr:first-child");
 		if(firstTR.length > 0) {
-			tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
+			/*tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
 			//select first element
-			firstTR.addClass("selectedTr");
+			firstTR.addClass("selectedTr");*/
+			firstTR.trigger("click");
 			//scroll to top
 			tableDiv.find(".tablePanel").scrollTop(0);
 			form.find("#btnPrev").removeAttr("disabled");
@@ -356,8 +409,7 @@ $(document).ready(function(e) {
 		if(selectedRow.length > 0) {
 			if(selectedRow.prev().length > 0) {
 				var position = selectedRow.prev().position();
-				selectedRow.removeClass("selectedTr");
-				selectedRow.prev().addClass("selectedTr");
+				selectedRow.prev().trigger("click");
 				//detect whent the selected row gets out of the view port, and scroll so it gets on top
 				if(position.top < tablePanel.position().top) {
 					tablePanel.scrollTop((selectedRow.next().index()-2) * selectedRow.next().outerHeight());
@@ -373,8 +425,7 @@ $(document).ready(function(e) {
 		if(selectedRow.length > 0) {
 			if(selectedRow.next().length > 0) {
 				var position = selectedRow.next().position();
-				selectedRow.removeClass("selectedTr");
-				selectedRow.next().addClass("selectedTr");
+				selectedRow.next().trigger("click");
 				//detect whent the selected row gets out of the view port, and scroll so it gets on top
 				if((position.top + selectedRow.next().outerHeight()) > (tablePanel.position().top + tablePanel.outerHeight()) ) {
 					tablePanel.scrollTop((selectedRow.next().index()+2) * selectedRow.next().outerHeight());
@@ -388,9 +439,8 @@ $(document).ready(function(e) {
 		var tableDiv = $(this).closest("div.tableDiv");
 		var lastTR = tableDiv.find(".mainTable tbody tr:last-child");
 		if(lastTR.length > 0) {
-			tableDiv.find(".mainTable tbody tr").removeClass("selectedTr");
 			//select last element
-			lastTR.addClass("selectedTr");
+			lastTR.trigger("click");
 			//scroll to bottom
 			var position = lastTR.position();
 			tableDiv.find(".tablePanel").scrollTop(position.top);
@@ -614,6 +664,10 @@ function refreshFormData(form) {
 			showTitle =  true;
 		}
 		loadDataToForm(form, showTitle);
-		$(this).fadeIn("fast");
+		$(this).fadeIn("fast", function(e) {
+			if(form.next().length > 0) {
+				refreshFormData(form.next());
+			}
+		});
 	});
 }

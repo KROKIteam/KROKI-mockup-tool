@@ -6,6 +6,7 @@ import graphedit.command.AddMethodCommand;
 import graphedit.command.ChangeMethodOwnerCommand;
 import graphedit.command.ChangeMethodReturnTypeCommand;
 import graphedit.command.ChangeMethodStereotypeCommand;
+import graphedit.command.MoveMethodCommand;
 import graphedit.command.RemoveMethodCommand;
 import graphedit.command.RenameMethodCommand;
 import graphedit.gui.utils.Dialogs;
@@ -109,6 +110,8 @@ public class MethodTableModel extends AbstractTableModel {
 			return null;
 		Method method = methods.get(rowIndex);
 		switch (columnIndex) {
+		case -1:
+			return method;
 		case 0:
 			return rowIndex + 1;
 		case 1:
@@ -204,6 +207,23 @@ public class MethodTableModel extends AbstractTableModel {
 		return null;
 	}
 
+	
+	public void moveMethodUp(int rowIndex) {
+		MoveMethodCommand command = new MoveMethodCommand(MainFrame.getInstance().getCurrentView(),
+				element, (Method)getValueAt(rowIndex, -1), rowIndex, MoveMethodCommand.DIRECTION.UP);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		fireTableDataChanged();
+	}
+
+	public void moveMethodDown(int rowIndex) {
+		MoveMethodCommand command = new MoveMethodCommand(MainFrame.getInstance().getCurrentView(),
+				element, (Method)getValueAt(rowIndex, -1), rowIndex, MoveMethodCommand.DIRECTION.DOWN);
+		MainFrame.getInstance().getCommandManager().executeCommand(command);
+		fireTableDataChanged();
+	}
+
+	
+	
 	public void removeMethod(int rowIndex) {
 		String name = (String) getValueAt(rowIndex, 2);
 		for (int i = 0; i < methods.size(); i++) {
