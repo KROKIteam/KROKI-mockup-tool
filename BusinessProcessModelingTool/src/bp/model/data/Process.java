@@ -31,6 +31,7 @@ public class Process implements Serializable {
     private String description;
     private String data;
 
+    //private ProcessDetails details;
     private transient ProcessDetails details;
     
     /* Had to make this association link mutual... */
@@ -41,7 +42,7 @@ public class Process implements Serializable {
     private transient Set<AttributeChangeListener> acListeners;
     private transient Set<ElementsListener> eListeners;
 
-    private transient BPNameGenerator nameGenerator;
+    private BPNameGenerator nameGenerator;
     
     public Process reloadTransientFields() {
     	
@@ -49,7 +50,7 @@ public class Process implements Serializable {
     	acListeners = new HashSet<>();
         eListeners = new HashSet<>();
     	details = new ProcessDetails(this);
-    	nameGenerator = new BPNameGenerator();
+    	//nameGenerator = new BPNameGenerator();
     	
     	updateUniqueName(uniqueName, null);
     	

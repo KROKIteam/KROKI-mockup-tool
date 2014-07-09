@@ -20,7 +20,7 @@ public class LaneDetails extends ElementDetails{
     public static final String PARENT_LABEL = "Parent:";
     public static final String ACTOR_LABEL = "Actor:";
 
-    private final Lane lane = (Lane) getElement();
+    private Lane lane = (Lane) getElement();
 
     private JLabel parentLb;
     private JLabel actorLb;
@@ -28,7 +28,7 @@ public class LaneDetails extends ElementDetails{
     private JTextArea actorTa;
     private JScrollPane actorScroll;
 
-    public LaneDetails(final Lane lane) {
+    public LaneDetails(Lane lane) {
         super(lane);
     }
 
@@ -42,6 +42,13 @@ public class LaneDetails extends ElementDetails{
         this.parentTf = new JTextField(20);
         this.actorTa = new JTextArea(5, 20);
         this.actorScroll = new JScrollPane(this.actorTa);
+        
+        // Set the texts if available
+        lane = (Lane) getElement();
+        if (lane.getParent() != null)
+        	parentTf.setText(lane.getParent().getUniqueName());
+        if (lane.getActor() != null)
+        	actorTa.setText(lane.getActor());
     }
 
     @Override

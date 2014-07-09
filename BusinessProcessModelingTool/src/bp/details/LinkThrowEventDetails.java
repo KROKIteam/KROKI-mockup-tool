@@ -18,12 +18,12 @@ public class LinkThrowEventDetails extends ElementDetails{
 
     public static final String CATCH_LINK_LABEL = "Catch link:";
 
-    private final LinkThrowEvent event = (LinkThrowEvent) getElement();
+    private LinkThrowEvent event = (LinkThrowEvent) getElement();
 
     private JLabel catchLinkLb;
     private JComboBox<String> catchLinkCb;
 
-    public LinkThrowEventDetails(final LinkThrowEvent element) {
+    public LinkThrowEventDetails(LinkThrowEvent element) {
         super(element);
     }
 
@@ -33,6 +33,10 @@ public class LinkThrowEventDetails extends ElementDetails{
 
         this.catchLinkLb = new JLabel(CATCH_LINK_LABEL);
         this.catchLinkCb = new JComboBox<>();
+        
+        // Set the texts if available
+        event = (LinkThrowEvent) getElement();
+        //if (event.get...)
     }
 
     @Override

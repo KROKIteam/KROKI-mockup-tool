@@ -20,7 +20,7 @@ public class ErrorEndEventDetails extends EndEventDetails{
     public static final String ERROR_NAME_LABEL = "Error name:";
     public static final String ERROR_DATA_LABEL = "Error data:";
 
-    private final ErrorEndEvent event = (ErrorEndEvent) getElement();
+    private ErrorEndEvent event = (ErrorEndEvent) getElement();
 
     private JLabel errorNameLb;
     private JLabel errorDataLb;
@@ -29,7 +29,7 @@ public class ErrorEndEventDetails extends EndEventDetails{
     private JTextArea errorDataTa;
     private JScrollPane errorDataScroll;
 
-    public ErrorEndEventDetails(final ErrorEndEvent element) {
+    public ErrorEndEventDetails(ErrorEndEvent element) {
         super(element);
     }
 
@@ -44,6 +44,14 @@ public class ErrorEndEventDetails extends EndEventDetails{
 
         this.errorDataTa = new JTextArea(5, 20);
         this.errorDataScroll = new JScrollPane(this.errorDataTa);
+        
+        // Set the texts if available
+        event = (ErrorEndEvent) getElement();
+        if (event.getErrorName() != null)
+        	errorNameTf.setText(event.getErrorName());
+        if (event.getErrorData() != null)
+        	errorDataTa.setText(event.getErrorData());
+
     }
 
     @Override

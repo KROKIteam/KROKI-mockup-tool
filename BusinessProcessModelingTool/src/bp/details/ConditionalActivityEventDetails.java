@@ -23,7 +23,7 @@ public class ConditionalActivityEventDetails extends ActivityEventDetails{
     public static final String CONDITION_LABEL = "Condition:";
     public static final String STOP_ACTIVITY_LABEL = "Stop activity:";
 
-    private final ConditionalActivityEvent event = (ConditionalActivityEvent) getElement();
+    private ConditionalActivityEvent event = (ConditionalActivityEvent) getElement();
 
     private JLabel conditionLb;
     private JLabel stopActivityLb;
@@ -32,7 +32,7 @@ public class ConditionalActivityEventDetails extends ActivityEventDetails{
     private JScrollPane conditionScroll;
     private JCheckBox stopActivityCb;
 
-    public ConditionalActivityEventDetails(final ConditionalActivityEvent element) {
+    public ConditionalActivityEventDetails(ConditionalActivityEvent element) {
         super(element);
     }
 
@@ -47,6 +47,12 @@ public class ConditionalActivityEventDetails extends ActivityEventDetails{
         this.conditionScroll = new JScrollPane(this.conditionTa);
         this.stopActivityCb = new JCheckBox();
         this.stopActivityCb.setSelected(false);
+        
+        // Set the texts if available
+        event = (ConditionalActivityEvent) getElement();
+        if (event.getCondition() != null)
+        	conditionTa.setText(event.getCondition());
+        
     }
 
     @Override

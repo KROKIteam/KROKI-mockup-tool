@@ -1,7 +1,6 @@
 package bp.text.box;
 
 import bp.event.AttributeChangeListener;
-import bp.event.ElementsListener;
 import bp.model.data.Activity;
 import bp.model.data.ActivityEvent;
 import bp.model.data.ConditionalActivityEvent;
@@ -68,55 +67,7 @@ public class ProcessTextBox extends BlockTextBox {
     }
 
     private void addElementsListener() {
-        this.process.addElementsListener(new ElementsListener() {
-
-            @Override
-            public void elementRemoved(final Element e) {
-                getTextBoxes().remove(e);
-                textChanged();
-            }
-
-            @Override
-            public void elementAdded(final Element e) {
-                if (!getTextBoxes().contains(e)) {
-                    if (e instanceof Task) {
-                        appendTextBox(new TaskTextBox((Task) e, BPKeyWords.TASK, ProcessTextBox.this));
-                        textChanged();
-                    } else if (e instanceof Edge) {
-                        appendTextBox(new EdgeTextBox((Edge) e, BPKeyWords.EDGE, ProcessTextBox.this));
-                        textChanged();
-                    } else if (e instanceof ActivityEvent) {
-                        final ActivityEvent aEvent = (ActivityEvent) e;
-                        final Activity a = aEvent.getActivity();
-                        for (final TextBox tb : getTextBoxes()) {
-                            if (tb instanceof TaskTextBox) {
-                                final TaskTextBox ttb = (TaskTextBox) tb;
-                                if (ttb.getTask().equals(a)) {
-                                    if (aEvent instanceof MessageActivityEvent) {
-                                        ttb.appendTextBox(new ActivityEventTextBox(aEvent,
-                                                BPKeyWords.MESSAGE_ACTIVITY_EVENT, ttb));
-                                    } else if (aEvent instanceof ConditionalActivityEvent) {
-                                        ttb.appendTextBox(new ActivityEventTextBox(aEvent,
-                                                BPKeyWords.CONDITIONAL_ACTIVITY_EVENT, ttb));
-                                    } else if (aEvent instanceof TimerActivityEvent) {
-                                        ttb.appendTextBox(new ActivityEventTextBox(aEvent,
-                                                BPKeyWords.TIMER_ACTIVITY_EVENT, ttb));
-                                    } else if (aEvent instanceof SignalActivityEvent) {
-                                        ttb.appendTextBox(new ActivityEventTextBox(aEvent,
-                                                BPKeyWords.SIGNAL_ACTIVITY_EVENT, ttb));
-                                    } else if (aEvent instanceof ErrorActivityEvent) {
-                                        ttb.appendTextBox(new ActivityEventTextBox(aEvent,
-                                                BPKeyWords.ERROR_ACTIVITY_EVENT, ttb));
-                                    }
-                                    textChanged();
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-        });
+        this.process.addElementsListener(new ElementsListener());
     }
 
 	public Process getProcess() {
@@ -125,6 +76,58 @@ public class ProcessTextBox extends BlockTextBox {
 
 	public void setProcess(Process process) {
 		this.process = process;
+	}
+	
+	public class ElementsListener extends bp.event.ElementsListener {
+		
+		public ElementsListener() { }
+		
+		@Override
+        public void elementRemoved(final Element e) {
+            getTextBoxes().remove(e);
+            textChanged();
+        }
+
+        @Override
+        public void elementAdded(final Element e) {
+            if (!getTextBoxes().contains(e)) {
+                if (e instanceof Task) {
+                    appendTextBox(new TaskTextBox((Task) e, BPKeyWords.TASK, ProcessTextBox.this));
+                    textChanged();
+                } else if (e instanceof Edge) {
+                    appendTextBox(new EdgeTextBox((Edge) e, BPKeyWords.EDGE, ProcessTextBox.this));
+                    textChanged();
+                } else if (e instanceof ActivityEvent) {
+                    final ActivityEvent aEvent = (ActivityEvent) e;
+                    final Activity a = aEvent.getActivity();
+                    for (final TextBox tb : getTextBoxes()) {
+                        if (tb instanceof TaskTextBox) {
+                            final TaskTextBox ttb = (TaskTextBox) tb;
+                            if (ttb.getTask().equals(a)) {
+                                if (aEvent instanceof MessageActivityEvent) {
+                                    ttb.appendTextBox(new ActivityEventTextBox(aEvent,
+                                            BPKeyWords.MESSAGE_ACTIVITY_EVENT, ttb));
+                                } else if (aEvent instanceof ConditionalActivityEvent) {
+                                    ttb.appendTextBox(new ActivityEventTextBox(aEvent,
+                                            BPKeyWords.CONDITIONAL_ACTIVITY_EVENT, ttb));
+                                } else if (aEvent instanceof TimerActivityEvent) {
+                                    ttb.appendTextBox(new ActivityEventTextBox(aEvent,
+                                            BPKeyWords.TIMER_ACTIVITY_EVENT, ttb));
+                                } else if (aEvent instanceof SignalActivityEvent) {
+                                    ttb.appendTextBox(new ActivityEventTextBox(aEvent,
+                                            BPKeyWords.SIGNAL_ACTIVITY_EVENT, ttb));
+                                } else if (aEvent instanceof ErrorActivityEvent) {
+                                    ttb.appendTextBox(new ActivityEventTextBox(aEvent,
+                                            BPKeyWords.ERROR_ACTIVITY_EVENT, ttb));
+                                }
+                                textChanged();
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
 	}
 
 

@@ -25,7 +25,7 @@ public abstract class ActivityDetails extends ElementDetails{
     public static final String LOOP_EXPRESSION_LABEL = "Loop expression:";
     public static final String MIN_INPUT_LABEL = "Minimal input:";
 
-    private final Activity activity = (Activity) getElement();
+    private Activity activity = (Activity) getElement();
 
     private JLabel dataLb;
     private JLabel loopExpressionLb;
@@ -36,7 +36,7 @@ public abstract class ActivityDetails extends ElementDetails{
     private JScrollPane loopExpressionScroll;
     private JSpinner minInputSp;
 
-    public ActivityDetails(final Activity activity) {
+    public ActivityDetails(Activity activity) {
         super(activity);
     }
 
@@ -56,6 +56,12 @@ public abstract class ActivityDetails extends ElementDetails{
 
         final SpinnerModel sm = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         this.minInputSp = new JSpinner(sm);
+        
+        // Set the texts if available
+        activity = (Activity) getElement();
+        if (activity.getData() != null) dataTa.setText(activity.getData());
+        if (activity.getLoopExpression() != null) loopExpressionTa.setText(activity.getLoopExpression());
+        
     }
 
     @Override

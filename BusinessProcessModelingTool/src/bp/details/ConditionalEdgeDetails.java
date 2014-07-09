@@ -18,13 +18,13 @@ public class ConditionalEdgeDetails extends EdgeDetails {
 
     public static final String CONDITION_LABEL = "Condition:";
 
-    private final ConditionalEdge edge = (ConditionalEdge) getElement();
+    private ConditionalEdge edge = (ConditionalEdge) getElement();
 
     private JLabel conditionLb;
     private JTextArea conditionTa;
     private JScrollPane conditionScroll;
 
-    public ConditionalEdgeDetails(final ConditionalEdge edge) {
+    public ConditionalEdgeDetails(ConditionalEdge edge) {
         super(edge);
     }
 
@@ -35,6 +35,11 @@ public class ConditionalEdgeDetails extends EdgeDetails {
         this.conditionLb = new JLabel(CONDITION_LABEL);
         this.conditionTa = new JTextArea(5, 20);
         this.conditionScroll = new JScrollPane(this.conditionTa);
+
+        // Set the texts if available
+        edge = (ConditionalEdge) getElement();
+        if (edge.getCondition() != null)
+        	conditionTa.setText(edge.getCondition());
     }
 
     @Override

@@ -22,6 +22,8 @@ import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import bp.app.AppCore;
+import bp.util.WorkspaceUtility;
+import bp.model.data.Process;
 
 public class BusinessProcessModelingAction extends AbstractAction {
 
@@ -71,7 +73,16 @@ public class BusinessProcessModelingAction extends AbstractAction {
 	        		System.out.println("Enclosing project file path: " + projectFile.getAbsolutePath());
 	
 	        		/* Unless a deep copy is used, user won't be able NOT (to choose) to save the changes */
-	        		if (modelingSubject.getProcess() == null) appCore.createBPPanel(modelingSubject.toString());
+	        		if (modelingSubject.getProcess() == null) {
+	        			
+	        			String uniqueName = modelingSubject.toString();
+	        			Process process = WorkspaceUtility.load(appCore.getProjectFile(), uniqueName);
+	        			
+	        			if (process instanceof Process)      				
+	        				appCore.loadProcess(process);
+	        			else 
+	        				appCore.createBPPanel(uniqueName);
+	        		}
 	        		//else appCore.loadProcess((Process) DeepCopy.copy(modelingSubject.getProcess()));
 	        		else appCore.loadProcess(modelingSubject.getProcess());
 		        	

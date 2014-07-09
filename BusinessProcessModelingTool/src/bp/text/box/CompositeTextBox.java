@@ -9,7 +9,7 @@ public abstract class CompositeTextBox extends TextBox {
 
     private List<TextBox> textBoxes;
 
-    public CompositeTextBox(final BPKeyWords key, final Object value, final TextBox owner) {
+    public CompositeTextBox(BPKeyWords key, Object value, TextBox owner) {
         super(key, value, owner);
         this.textBoxes = new ArrayList<>();
     }

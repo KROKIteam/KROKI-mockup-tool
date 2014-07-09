@@ -18,13 +18,13 @@ public class MessageThrowEventDetails extends IntermediateEventDetails{
 
     public static final String MESSAGE_LABEL = "Message label:";
 
-    private final MessageThrowEvent event = (MessageThrowEvent) getElement();
+    private MessageThrowEvent event = (MessageThrowEvent) getElement();
 
     private JLabel messageLb;
     private JTextArea messageTa;
     private JScrollPane messageScroll;
 
-    public MessageThrowEventDetails(final MessageThrowEvent element) {
+    public MessageThrowEventDetails(MessageThrowEvent element) {
         super(element);
     }
 
@@ -35,6 +35,11 @@ public class MessageThrowEventDetails extends IntermediateEventDetails{
         this.messageLb = new JLabel(MESSAGE_LABEL);
         this.messageTa = new JTextArea(5, 20);
         this.messageScroll = new JScrollPane(this.messageTa);
+        
+        // Set the texts if available
+        event = (MessageThrowEvent) getElement();
+        if (event.getMessage() != null)
+        	messageTa.setText(event.getMessage());
     }
 
     @Override

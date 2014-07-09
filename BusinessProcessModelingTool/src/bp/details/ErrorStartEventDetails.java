@@ -18,13 +18,13 @@ public class ErrorStartEventDetails extends StartEventDetails{
 
     public static final String ERROR_NAME = "Error name:";
 
-    private final ErrorStartEvent event = (ErrorStartEvent) getElement();
+    private ErrorStartEvent event = (ErrorStartEvent) getElement();
 
     private JLabel errorNameLb;
     private JTextArea errorNameTa;
     private JScrollPane errorNameScroll;
 
-    public ErrorStartEventDetails(final ErrorStartEvent element) {
+    public ErrorStartEventDetails(ErrorStartEvent element) {
         super(element);
     }
 
@@ -35,6 +35,11 @@ public class ErrorStartEventDetails extends StartEventDetails{
         this.errorNameLb = new JLabel(ERROR_NAME);
         this.errorNameTa = new JTextArea(5, 20);
         this.errorNameScroll = new JScrollPane(this.errorNameTa);
+        
+        // Set the texts if available
+        event = (ErrorStartEvent) getElement();
+        if (event.getErrorName() != null)
+        	errorNameTa.setText(event.getErrorName());
     }
 
     @Override

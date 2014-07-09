@@ -29,7 +29,9 @@ public class EdgeDetails extends ElementDetails {
     private JTextField targetTf;
     private JTextField sourceTf;
 
-    public EdgeDetails(final Edge edge) {
+    private Edge edge = (Edge) getElement();
+    
+    public EdgeDetails(Edge edge) {
         super(edge);
     }
 
@@ -48,6 +50,11 @@ public class EdgeDetails extends ElementDetails {
 
         this.sourceVertex = null;
         this.targetVertex = null;
+        
+        // Set the texts if available
+        edge = (Edge) getElement();
+        if (edge.getTarget() != null) targetTf.setText(edge.getTarget().getUniqueName());
+        if (edge.getSource() != null) sourceTf.setText(edge.getSource().getUniqueName());
     }
 
     @Override
@@ -90,10 +97,8 @@ public class EdgeDetails extends ElementDetails {
         }
     }
 
-    private class SourceChangeListener implements AttributeChangeListener {
+    private class SourceChangeListener extends AttributeChangeListener {
 
-    	SourceChangeListener() { }
-    	
         @Override
         public void fireAttributeChanged(final BPKeyWords keyWord, final Object value) {
             if (keyWord == BPKeyWords.UNIQUE_NAME) {
@@ -108,7 +113,7 @@ public class EdgeDetails extends ElementDetails {
 
     }
 
-    private class TargetChangeListener implements AttributeChangeListener {
+    private class TargetChangeListener extends AttributeChangeListener {
 
         @Override
         public void fireAttributeChanged(final BPKeyWords keyWord, final Object value) {

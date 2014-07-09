@@ -18,13 +18,13 @@ public class ConditionalCatchEventDetails extends IntermediateEventDetails{
 
     public static final String CONDITION_LABEL = "Condition:";
 
-    private final ConditionalCatchEvent event = (ConditionalCatchEvent) getElement();
+    private ConditionalCatchEvent event = (ConditionalCatchEvent) getElement();
 
     private JLabel conditionLb;
     private JTextArea conditionTa;
     private JScrollPane conditionScroll;
 
-    public ConditionalCatchEventDetails(final ConditionalCatchEvent element) {
+    public ConditionalCatchEventDetails(ConditionalCatchEvent element) {
         super(element);
     }
 
@@ -35,6 +35,11 @@ public class ConditionalCatchEventDetails extends IntermediateEventDetails{
         this.conditionLb = new JLabel(CONDITION_LABEL);
         this.conditionTa = new JTextArea(5, 20);
         this.conditionScroll = new JScrollPane(this.conditionTa);
+        
+        // Set the texts if available
+        event = (ConditionalCatchEvent) getElement();
+        if (event.getCondition() != null)
+        	conditionTa.setText(event.getCondition());
     }
 
     @Override

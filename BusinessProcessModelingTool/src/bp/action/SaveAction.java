@@ -9,6 +9,7 @@ import javax.swing.KeyStroke;
 
 import bp.app.AppCore;
 import bp.model.data.Process;
+import bp.util.WorkspaceUtility;
 
 public class SaveAction extends AbstractAction{
 
@@ -33,16 +34,17 @@ public class SaveAction extends AbstractAction{
     	AppCore appCore = AppCore.getInstance();
     	Process process = appCore.getBpPanel().getProcess();
     	
-    	/*
     	if (WorkspaceUtility.saveProcess(process)) {
-    		JOptionPane.showMessageDialog(AppCore.getInstance(), "Business process " + process.getUniqueName() +  " is saved successfully!", "Business Process Modeling Tool", JOptionPane.INFORMATION_MESSAGE);
+    		//JOptionPane.showMessageDialog(AppCore.getInstance(), "Business process " + process.getUniqueName() +  " is saved successfully!", "Business Process Modeling Tool", JOptionPane.INFORMATION_MESSAGE);
     		System.out.println("Business process saved successfully...");
+    		
+    		appCore.setSaveActionInvoked(true);
+        	JOptionPane.showMessageDialog(AppCore.getInstance(), "Business process " + process.getUniqueName() +  " is saved successfully!", "Business Process Modeling Tool", JOptionPane.INFORMATION_MESSAGE);
     	} else {
     		JOptionPane.showMessageDialog(AppCore.getInstance(), "Business process " + process.getUniqueName() +  " wasn't saved or is saved with errors!", "Business Process Modeling Tool", JOptionPane.ERROR_MESSAGE);
     	}
-    	*/
-    	appCore.setSaveActionInvoked(true);
-    	JOptionPane.showMessageDialog(AppCore.getInstance(), "Business process " + process.getUniqueName() +  " is saved successfully!", "Business Process Modeling Tool", JOptionPane.INFORMATION_MESSAGE);
+
+    	
     }
     
 }

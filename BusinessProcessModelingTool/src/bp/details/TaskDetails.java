@@ -34,7 +34,7 @@ public class TaskDetails extends ActivityDetails {
     public static final String MULTIPLE_EXECUTION = "Multiple Execution";
     public static final String MULTIPLE_EXECUTION_TYPE = "Multiple Execution Type";
 
-    private final Task task = (Task) getElement();
+    private Task task = (Task) getElement();
 
     private JLabel actorLb;
     private JLabel laneActorLb;
@@ -48,7 +48,7 @@ public class TaskDetails extends ActivityDetails {
     private JSpinner multipleExecutionSp;
     private JComboBox<String> multipleExecutionTypeCb;
 
-    public TaskDetails(final Task element) {
+    public TaskDetails(Task element) {
         super(element);
     }
 
@@ -79,6 +79,15 @@ public class TaskDetails extends ActivityDetails {
         }
         this.multipleExecutionTypeCb = new JComboBox<>(elements);
         this.multipleExecutionTypeCb.setSelectedIndex(0);
+        
+        // Set the texts if available
+        task = (Task) getElement();
+        if (task.getActor() != null) actorTa.setText(task.getActor());
+        if (task.getLaneActor() != null) laneActorTf.setText(task.getLaneActor().getActor());
+        if (task.getAutoAssign() != null) autoAssignCb.setSelected(task.getAutoAssign());
+        if (task.getMultipleExecution() != null) multipleExecutionSp.setValue(task.getMultipleExecution());
+        if (task.getMultipleExecutionType() != null) multipleExecutionTypeCb.setSelectedItem(task.getMultipleExecutionType());
+        
     }
 
     @Override

@@ -9,8 +9,8 @@ public class ActivityEventDetails extends ElementDetails {
      */
     private static final long serialVersionUID = 2950972218420274008L;
 
-    public ActivityEventDetails(final ActivityEvent element) {
+    public ActivityEventDetails(ActivityEvent element) {
         super(element);
     }
-
+    
 }

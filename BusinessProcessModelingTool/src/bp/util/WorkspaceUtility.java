@@ -90,7 +90,14 @@ public class WorkspaceUtility {
 		
 	}
 
+	public static Process load(File projectFile, String uniqueName) {
+		File processFile = new File(projectFile.getParentFile(), uniqueName + BUSINESS_PROCESS_EXTENSION);
+		return processFile.exists() ? load(processFile) : null;
+	}
+	
 	public static Process load(File file) {
+		
+		System.out.println("Loading: " + file.getAbsolutePath());
 		
 		try {
 			xstream = new XStream();

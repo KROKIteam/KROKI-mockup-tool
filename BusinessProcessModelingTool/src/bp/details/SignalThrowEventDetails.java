@@ -20,7 +20,7 @@ public class SignalThrowEventDetails extends IntermediateEventDetails{
     public static final String SIGNAL_NAME_LABEL = "Signal name:";
     public static final String SIGNAL_DATA_LABEL = "Signal data:";
 
-    private final SignalThrowEvent event = (SignalThrowEvent) getElement();
+    private SignalThrowEvent event = (SignalThrowEvent) getElement();
 
     private JLabel signalNameLb;
     private JLabel signalDataLb;
@@ -29,7 +29,7 @@ public class SignalThrowEventDetails extends IntermediateEventDetails{
     private JTextArea signalDataTa;
     private JScrollPane signalDataScroll;
 
-    public SignalThrowEventDetails(final SignalThrowEvent element) {
+    public SignalThrowEventDetails(SignalThrowEvent element) {
         super(element);
     }
 
@@ -43,6 +43,13 @@ public class SignalThrowEventDetails extends IntermediateEventDetails{
         this.signalNameTf = new JTextField(20);
         this.signalDataTa = new JTextArea(5, 20);
         this.signalDataScroll = new JScrollPane(this.signalDataTa);
+        
+        // Set the texts if available
+        event = (SignalThrowEvent) getElement();
+        if (event.getSignalName() != null)
+        	signalNameTf.setText(event.getSignalName());
+        if (event.getSignalData() != null)
+        	signalDataTa.setText(event.getSignalData());
     }
 
     @Override

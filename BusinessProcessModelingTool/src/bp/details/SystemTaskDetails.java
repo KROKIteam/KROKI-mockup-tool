@@ -18,13 +18,13 @@ public class SystemTaskDetails extends TaskDetails {
 
     public static final String IMPLEMENTATION_LABEL = "Implementation:";
 
-    private final SystemTask systemTask = (SystemTask) getElement();
+    private SystemTask systemTask = (SystemTask) getElement();
 
     private JLabel implementationLb;
     private JTextArea implementationTa;
     private JScrollPane implementationScroll;
 
-    public SystemTaskDetails(final SystemTask element) {
+    public SystemTaskDetails(SystemTask element) {
         super(element);
     }
 
@@ -35,6 +35,11 @@ public class SystemTaskDetails extends TaskDetails {
         this.implementationLb = new JLabel(IMPLEMENTATION_LABEL);
         this.implementationTa = new JTextArea(5, 20);
         this.implementationScroll = new JScrollPane(this.implementationTa);
+        
+        // Set the texts if available
+        systemTask = (SystemTask) getElement();
+        if (systemTask.getImplementation() != null)
+        	implementationTa.setText(systemTask.getImplementation());
     }
 
     @Override

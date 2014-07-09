@@ -20,7 +20,7 @@ public class SignalCatchEventDetails extends IntermediateEventDetails{
     public static final String SIGNAL_NAME = "Signal name:";
     public static final String DATA_FORMAT = "Data format:";
 
-    private final SignalCatchEvent event = (SignalCatchEvent) getElement();
+    private SignalCatchEvent event = (SignalCatchEvent) getElement();
 
     private JLabel signalNameLb;
     private JLabel dataFormatLb;
@@ -29,7 +29,7 @@ public class SignalCatchEventDetails extends IntermediateEventDetails{
     private JTextArea dataFormatTa;
     private JScrollPane dataFormatScroll;
 
-    public SignalCatchEventDetails(final SignalCatchEvent element) {
+    public SignalCatchEventDetails(SignalCatchEvent element) {
         super(element);
     }
 
@@ -43,6 +43,13 @@ public class SignalCatchEventDetails extends IntermediateEventDetails{
         this.signalNameTf = new JTextField(20);
         this.dataFormatTa = new JTextArea(5, 20);
         this.dataFormatScroll = new JScrollPane(this.dataFormatTa);
+        
+        // Set the texts if available
+        event = (SignalCatchEvent) getElement();
+        if (event.getSignalName() != null)
+        	signalNameTf.setText(event.getSignalName());
+        if (event.getDataFormat() != null) 
+        	dataFormatTa.setText(event.getDataFormat());
     }
 
     @Override

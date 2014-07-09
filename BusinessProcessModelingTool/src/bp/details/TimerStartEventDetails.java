@@ -18,13 +18,13 @@ public class TimerStartEventDetails extends StartEventDetails{
 
     public static final String TIME_FORMAT = "Time format:";
 
-    private final TimerStartEvent event = (TimerStartEvent) getElement();
+    private TimerStartEvent event = (TimerStartEvent) getElement();
 
     private JLabel timeFormatLb;
     private JTextArea timeFormatTa;
     private JScrollPane timeFormatScroll;
 
-    public TimerStartEventDetails(final TimerStartEvent element) {
+    public TimerStartEventDetails(TimerStartEvent element) {
         super(element);
     }
 
@@ -35,6 +35,10 @@ public class TimerStartEventDetails extends StartEventDetails{
         this.timeFormatLb = new JLabel(TIME_FORMAT);
         this.timeFormatTa = new JTextArea(5, 20);
         this.timeFormatScroll = new JScrollPane(this.timeFormatTa);
+        
+        // Set the texts if available
+        event = (TimerStartEvent) getElement();
+        if (event.getTimeFormat() != null) timeFormatTa.setText(event.getTimeFormat());
     }
 
     @Override

@@ -18,13 +18,13 @@ public class MessageEndEventDetails extends EndEventDetails{
 
     public static final String MESSAGE_LABEL = "Message";
 
-    private final MessageEndEvent event = (MessageEndEvent) getElement();
+    private MessageEndEvent event = (MessageEndEvent) getElement();
 
     private JLabel messageLb;
     private JTextArea messageTa;
     private JScrollPane messageScroll;
 
-    public MessageEndEventDetails(final MessageEndEvent element) {
+    public MessageEndEventDetails(MessageEndEvent element) {
         super(element);
     }
 
@@ -35,6 +35,11 @@ public class MessageEndEventDetails extends EndEventDetails{
         this.messageLb = new JLabel(MESSAGE_LABEL);
         this.messageTa = new JTextArea(5, 20);
         this.messageScroll = new JScrollPane(this.messageTa);
+        
+        // Set the texts if available
+        event = (MessageEndEvent) getElement();
+        if (event.getMessage() != null)
+        	messageTa.setText(event.getMessage());
     }
 
     @Override

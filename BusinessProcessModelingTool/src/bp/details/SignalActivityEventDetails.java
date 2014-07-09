@@ -25,7 +25,7 @@ public class SignalActivityEventDetails extends ActivityEventDetails{
     public static final String DATA_FORMAT_LABEL = "Data format:";
     public static final String STOP_ACTIVITY_LABEL = "Stop activity:";
 
-    private final SignalActivityEvent event = (SignalActivityEvent) getElement();
+    private SignalActivityEvent event = (SignalActivityEvent) getElement();
 
     private JLabel signalNameLb;
     private JLabel dataFormatLb;
@@ -36,7 +36,7 @@ public class SignalActivityEventDetails extends ActivityEventDetails{
     private JScrollPane dataFormatScroll;
     private JCheckBox stopActivityCb;
 
-    public SignalActivityEventDetails(final SignalActivityEvent element) {
+    public SignalActivityEventDetails(SignalActivityEvent element) {
         super(element);
     }
 
@@ -53,6 +53,15 @@ public class SignalActivityEventDetails extends ActivityEventDetails{
         this.dataFormatScroll = new JScrollPane(this.dataFormatTa);
         this.stopActivityCb = new JCheckBox();
         this.stopActivityCb.setSelected(false);
+        
+        // Set the texts if available
+        event = (SignalActivityEvent) getElement();
+        if (event.getSignalName() != null)
+        	signalNameTf.setText(event.getSignalName());
+        if (event.getDataFormat() != null)
+        	dataFormatTa.setText(event.getDataFormat());
+        if (event.getStopActivity() != null)
+        	stopActivityCb.setSelected(event.getStopActivity());
     }
 
     @Override

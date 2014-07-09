@@ -20,7 +20,7 @@ public class SignalStartEventDetails extends StartEventDetails{
     public static final String DATA_FORMAT = "Data format:";
     public static final String SIGNAL_NAME = "Signal name:";
 
-    private final SignalStartEvent event = (SignalStartEvent) getElement();
+    private SignalStartEvent event = (SignalStartEvent) getElement();
 
     private JLabel dataFormatLb;
     private JLabel signalNameLb;
@@ -29,7 +29,7 @@ public class SignalStartEventDetails extends StartEventDetails{
     private JScrollPane dataFormatScroll;
     private JTextField signalNameTf;
 
-    public SignalStartEventDetails(final SignalStartEvent element) {
+    public SignalStartEventDetails(SignalStartEvent element) {
         super(element);
     }
 
@@ -43,6 +43,13 @@ public class SignalStartEventDetails extends StartEventDetails{
         this.dataFormatTa = new JTextArea(5, 20);
         this.dataFormatScroll = new JScrollPane(this.dataFormatTa);
         this.signalNameTf = new JTextField(20);
+        
+        // Set the texts if available
+        event = (SignalStartEvent) getElement();
+        if (event.getDataFormat() != null)
+        	dataFormatTa.setText(event.getDataFormat());
+        if (event.getSignalName() != null)
+        	signalNameTf.setText(event.getSignalName());
     }
 
     @Override

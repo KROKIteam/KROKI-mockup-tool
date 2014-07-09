@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bp.app.AppCore;
-import bp.event.ElementsListener;
 import bp.model.util.BPKeyWords;
 import bp.model.util.Controller;
 
@@ -90,28 +89,34 @@ public abstract class Activity extends Vertex {
     }
 
     protected void addElementsListener() {
-        AppCore.getInstance().getBpPanel().getProcess().addElementsListener(new ElementsListener() {
+        AppCore.getInstance().getBpPanel().getProcess().addElementsListener(new ElementsListener());
+    }
+    
+    public class ElementsListener extends bp.event.ElementsListener {
+    	
+    	public ElementsListener() {
+    		
+    	}
+    	
+    	@Override
+        public void elementRemoved(final Element e) {
+            if (e instanceof ActivityEvent) {
+                final ActivityEvent ae = (ActivityEvent) e;
+                if (ae.getActivity().equals(this)) {
+                    removeActivityEvent(ae);
+                }
+            }
+        }
 
-            @Override
-            public void elementRemoved(final Element e) {
-                if (e instanceof ActivityEvent) {
-                    final ActivityEvent ae = (ActivityEvent) e;
-                    if (ae.getActivity().equals(this)) {
-                        removeActivityEvent(ae);
-                    }
+        @Override
+        public void elementAdded(final Element e) {
+            if (e instanceof ActivityEvent) {
+                final ActivityEvent activityEvent = (ActivityEvent) e;
+                if (activityEvent.getActivity().equals(this)) {
+                    addActivityEvent(activityEvent);
                 }
             }
 
-            @Override
-            public void elementAdded(final Element e) {
-                if (e instanceof ActivityEvent) {
-                    final ActivityEvent activityEvent = (ActivityEvent) e;
-                    if (activityEvent.getActivity().equals(this)) {
-                        addActivityEvent(activityEvent);
-                    }
-                }
-
-            }
-        });
+        }
     }
 }

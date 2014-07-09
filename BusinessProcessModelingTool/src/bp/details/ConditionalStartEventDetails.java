@@ -18,13 +18,13 @@ public class ConditionalStartEventDetails extends StartEventDetails{
 
     public static final String CONDITION = "Condition:";
 
-    private final ConditionalStartEvent event = (ConditionalStartEvent) getElement();
+    private ConditionalStartEvent event = (ConditionalStartEvent) getElement();
 
     private JLabel conditionLb;
     private JTextArea conditionTa;
     private JScrollPane conditionScroll;
 
-    public ConditionalStartEventDetails(final ConditionalStartEvent element) {
+    public ConditionalStartEventDetails(ConditionalStartEvent element) {
         super(element);
     }
 
@@ -35,6 +35,10 @@ public class ConditionalStartEventDetails extends StartEventDetails{
         this.conditionLb = new JLabel(CONDITION);
         this.conditionTa = new JTextArea(5, 20);
         this.conditionScroll = new JScrollPane(this.conditionTa);
+        
+        // Set the texts if available
+        event = (ConditionalStartEvent) getElement();
+        if (event.getComponent() != null) conditionTa.setText(event.getCondition());
     }
 
     @Override

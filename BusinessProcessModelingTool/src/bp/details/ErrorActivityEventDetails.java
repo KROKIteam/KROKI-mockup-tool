@@ -17,12 +17,12 @@ public class ErrorActivityEventDetails extends ActivityEventDetails{
 
     public static final String ERROR_NAME_LABEL = "Error name:";
 
-    private final ErrorActivityEvent event = (ErrorActivityEvent) getElement();
+    private ErrorActivityEvent event = (ErrorActivityEvent) getElement();
 
     private JLabel errorNameLb;
     private JTextField errorNameTf;
 
-    public ErrorActivityEventDetails(final ErrorActivityEvent element) {
+    public ErrorActivityEventDetails(ErrorActivityEvent element) {
         super(element);
     }
 
@@ -32,6 +32,12 @@ public class ErrorActivityEventDetails extends ActivityEventDetails{
 
         this.errorNameLb = new JLabel(ERROR_NAME_LABEL);
         this.errorNameTf = new JTextField(20);
+        
+        // Set the texts if available
+        event = (ErrorActivityEvent) getElement();
+        if (event.getErrorName() != null)
+        	errorNameTf.setText(event.getErrorName());
+
     }
 
     @Override

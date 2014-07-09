@@ -20,12 +20,12 @@ public class GatewayDetails extends ElementDetails {
 
     public static final String MIN_INPUT = "Minimal input:";
 
-    private final Gateway gateway = (Gateway) getElement();
+    private Gateway gateway = (Gateway) getElement();
 
     private JLabel minInputLb;
     private JSpinner minInputSp;
 
-    public GatewayDetails(final Gateway element) {
+    public GatewayDetails(Gateway element) {
         super(element);
     }
 
@@ -36,6 +36,11 @@ public class GatewayDetails extends ElementDetails {
         this.minInputLb = new JLabel(MIN_INPUT);
         final SpinnerModel sm = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         this.minInputSp = new JSpinner(sm);
+        
+        // Set the texts if available
+        gateway = (Gateway) getElement();
+        if (gateway.getMinInput() != null)
+        	minInputSp.setValue(gateway.getMinInput());
     }
 
     @Override

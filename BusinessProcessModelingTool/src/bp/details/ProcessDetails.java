@@ -23,7 +23,8 @@ public class ProcessDetails extends AbstractDetails {
     public static final String DESCRIPTION_LABEL = "Description:";
     public static final String DATA_LABEL = "Data:";
 
-    private final Process process;
+    //private final Process process;
+    private transient final Process process;
 
     private JLabel uniqueNameLb;
     private JLabel nameLb;
@@ -58,6 +59,16 @@ public class ProcessDetails extends AbstractDetails {
         this.descriptionScroll = new JScrollPane(this.descriptionTa);
         this.dataTa = new JTextArea(5, 20);
         this.dataScroll = new JScrollPane(this.dataTa);
+        
+        // Set the texts if available
+        if (process.getUniqueName() != null)
+        	uniqueNameTf.setText(process.getUniqueName());
+        if (process.getName() != null)
+        	nameTf.setText(process.getName());
+        if (process.getDescription() != null) 
+        	descriptionTa.setText(process.getDescription());
+        if (process.getData() != null)
+        	dataTa.setText(process.getData());
     }
 
     private void layoutComponents() {

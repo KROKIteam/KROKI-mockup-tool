@@ -18,13 +18,13 @@ public class MessageCatchEventDetails extends IntermediateEventDetails{
 
     public static final String DATA_FORMAT_LABEL = "Data format:";
 
-    private final MessageCatchEvent event = (MessageCatchEvent) getElement();
+    private MessageCatchEvent event = (MessageCatchEvent) getElement();
 
     private JLabel dataFormatLb;
     private JTextArea dataFormatTa;
     private JScrollPane dataFormatScroll;
 
-    public MessageCatchEventDetails(final MessageCatchEvent element) {
+    public MessageCatchEventDetails(MessageCatchEvent element) {
         super(element);
     }
 
@@ -35,6 +35,11 @@ public class MessageCatchEventDetails extends IntermediateEventDetails{
         this.dataFormatLb = new JLabel(DATA_FORMAT_LABEL);
         this.dataFormatTa = new JTextArea(5, 20);
         this.dataFormatScroll = new JScrollPane(this.dataFormatTa);
+        
+        // Set the texts if available
+        event = (MessageCatchEvent) getElement();
+        if (event.getDataFormat() != null)
+        	dataFormatTa.setText(event.getDataFormat());
     }
 
     @Override

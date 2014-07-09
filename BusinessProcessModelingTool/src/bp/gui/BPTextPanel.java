@@ -1,13 +1,11 @@
 package bp.gui;
 
 import java.awt.Color;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -15,6 +13,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 import bp.event.TextChangeListener;
+import bp.gui.format.Formatter;
 import bp.model.util.BPKeyWords;
 import bp.text.box.RootTextBox;
 
@@ -25,7 +24,7 @@ public class BPTextPanel extends JTextPane {
      */
     private static final long serialVersionUID = -4204064491415048407L;
 
-    private static final Pattern FORMATTING_PATTERN;
+    public static final Pattern FORMATTING_PATTERN;
 
     static {
         final StringBuilder sb = new StringBuilder();
@@ -69,11 +68,10 @@ public class BPTextPanel extends JTextPane {
 
     private RootTextBox rootTextBox;
 
-    public BPTextPanel() { 
-    	super();
-    }
-    
-    public BPTextPanel(RootTextBox rootTextBox) {
+	public BPTextPanel() {
+	}
+
+	public BPTextPanel(RootTextBox rootTextBox) {
         initializeStyles();
 
         this.rootTextBox = rootTextBox;
@@ -156,30 +154,20 @@ public class BPTextPanel extends JTextPane {
     }
 
     private void addTextChangedListener() {
-        getRootTextBox().addTextChangeListener(new TextChangeListener() {
-            @Override
-            public void textChanged(final String text) {
-                try {
-                    getDocument().remove(0, getDocument().getLength());
-                    getDocument().insertString(0, text, null);
-                } catch (final BadLocationException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        getRootTextBox().addTextChangeListener(new TextChangeListener(getDocument()));
     }
 
     private void addDocListener() {
         getDocument().addDocumentListener(new DocumentListener() {
-
+        	
             @Override
             public void removeUpdate(final DocumentEvent e) {
-                new Thread(new Formatter()).start();
+                new Thread(new Formatter(BPTextPanel.this)).start();
             }
 
             @Override
             public void insertUpdate(final DocumentEvent e) {
-                new Thread(new Formatter()).start();
+                new Thread(new Formatter(BPTextPanel.this)).start();
             }
 
             @Override
@@ -193,67 +181,4 @@ public class BPTextPanel extends JTextPane {
         return this.rootTextBox;
     }
 
-
-    private class Formatter implements Runnable {
-
-        @Override
-        public void run() {
-            formatAll();
-        }
-
-        /**
-         * Formats are returns new start position
-         */
-        private Integer format(final Integer start, final Integer end, final Integer oldStart, final AttributeSet style) {
-            getDoc().setCharacterAttributes(start, end - start, style, false);
-            getDoc().setCharacterAttributes(oldStart, start - oldStart, standardStyle(), false);
-            return end;
-        }
-
-        private void formatAll() {
-            try {
-                final Matcher m = FORMATTING_PATTERN.matcher(getDoc().getText(0, getDoc().getLength()));
-                Integer start = 0;
-                while (m.find()) {
-                    if (m.group(8) != null) {
-                        // comment
-                        start = format(m.start(8), m.end(8), start, commentStyle());
-                    } else if (m.group(7) != null) {
-                        // line comment
-                        start = format(m.start(7), m.end(7), start, commentStyle());
-                    } else if (m.group(2) != null) {
-                        // value
-                        start = format(m.start(2), m.end(2), start, valueStyle());
-                    } else if (m.group(1) != null) {
-                        // keyword
-                        start = format(m.start(1), m.end(1), start, keywordStyle());
-                    }
-                }
-                getDoc().setCharacterAttributes(start, getDoc().getLength() - start, standardStyle(), false);
-            } catch (final BadLocationException e) {
-                e.printStackTrace();
-            }
-        }
-
-        private StyledDocument getDoc() {
-            return BPTextPanel.this.doc;
-        }
-
-        private AttributeSet standardStyle() {
-            return BPTextPanel.this.standardStyle;
-        }
-
-        private AttributeSet keywordStyle() {
-            return BPTextPanel.this.keywordStyle;
-        }
-
-        private AttributeSet valueStyle() {
-            return BPTextPanel.this.valueStyle;
-        }
-
-        private AttributeSet commentStyle() {
-            return BPTextPanel.this.commentStyle;
-        }
-
-    }
 }

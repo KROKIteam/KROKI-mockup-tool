@@ -18,13 +18,13 @@ public class MessageStartEventDetails extends StartEventDetails {
 
     public static final String DATA_FORMAT = "Data format:";
 
-    private final MessageStartEvent event = (MessageStartEvent) getElement();
+    private MessageStartEvent event = (MessageStartEvent) getElement();
 
     private JLabel dataFormatLb;
     private JTextArea dataFormatTa;
     private JScrollPane dataFormatScroll;
 
-    public MessageStartEventDetails(final MessageStartEvent element) {
+    public MessageStartEventDetails(MessageStartEvent element) {
         super(element);
     }
 
@@ -35,6 +35,11 @@ public class MessageStartEventDetails extends StartEventDetails {
         this.dataFormatLb = new JLabel(DATA_FORMAT);
         this.dataFormatTa = new JTextArea(5, 20);
         this.dataFormatScroll = new JScrollPane(this.dataFormatTa);
+        
+        // Set the texts if available
+        event = (MessageStartEvent) getElement();
+        if (event.getDataFormat() != null)
+        	dataFormatTa.setText(event.getDataFormat());
     }
 
     @Override

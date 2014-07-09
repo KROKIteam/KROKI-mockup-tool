@@ -22,7 +22,8 @@ public class ElementDetails extends AbstractDetails {
     public static final String NAME_LABEL = "Name:";
     public static final String DESCRIPTION_LABEL = "Description:";
 
-    private final Element element;
+    //private final Element element;
+    private Element element;
 
     private JLabel uniqueNameLb;
     private JLabel nameLb;
@@ -32,7 +33,7 @@ public class ElementDetails extends AbstractDetails {
     private JTextArea descriptionTa;
     private JScrollPane descriptionScroll;
 
-    public ElementDetails(final Element element) {
+    public ElementDetails(Element element) {
         this.element = element;
 
         initComponents();
@@ -51,6 +52,12 @@ public class ElementDetails extends AbstractDetails {
 
         this.descriptionTa = new JTextArea(5, 20);
         this.descriptionScroll = new JScrollPane(this.descriptionTa);
+        
+        // Set the texts if available
+        if (element.getUniqueName() != null) uniqueNameTf.setText(element.getUniqueName());
+        if (element.getName() != null) nameTf.setText(element.getName());
+        if (element.getDescription() != null) descriptionTa.setText(element.getDescription());
+        
     }
 
     protected void layoutComponents() {

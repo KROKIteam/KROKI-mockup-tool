@@ -20,12 +20,12 @@ public class EndEventDetails extends ElementDetails{
 
     public static final String MIN_INPUT_LABEL = "Minimal input count:";
 
-    private final EndEvent event = (EndEvent) getElement();
+    private EndEvent event = (EndEvent) getElement();
 
     private JLabel minInputLb;
     private JSpinner minInputSp;
 
-    public EndEventDetails(final EndEvent element) {
+    public EndEventDetails(EndEvent element) {
         super(element);
     }
 
@@ -37,6 +37,12 @@ public class EndEventDetails extends ElementDetails{
 
         final SpinnerModel sm = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
         this.minInputSp = new JSpinner(sm);
+        
+        // Set the texts if available
+        event = (EndEvent) getElement();
+        if (event.getMinInput() != null)
+        	minInputSp.setValue(event.getMinInput());
+
     }
 
     @Override

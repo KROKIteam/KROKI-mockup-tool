@@ -23,7 +23,7 @@ public class TimerActivityEventDetails extends ActivityEventDetails {
     public static final String TIME_FORMAT_LABEL = "Time format:";
     public static final String STOP_ACTIVITY_LABEL = "Stop activity:";
 
-    private final TimerActivityEvent event = (TimerActivityEvent) getElement();
+    private TimerActivityEvent event = (TimerActivityEvent) getElement();
 
     private JLabel timeFormatLb;
     private JLabel stopActivityLb;
@@ -32,7 +32,7 @@ public class TimerActivityEventDetails extends ActivityEventDetails {
     private JScrollPane timeFormatScroll;
     private JCheckBox stopActivityCb;
 
-    public TimerActivityEventDetails(final TimerActivityEvent element) {
+    public TimerActivityEventDetails(TimerActivityEvent element) {
         super(element);
     }
 
@@ -47,6 +47,13 @@ public class TimerActivityEventDetails extends ActivityEventDetails {
         this.timeFormatScroll = new JScrollPane(this.timeFormatTa);
         this.stopActivityCb = new JCheckBox();
         this.stopActivityCb.setSelected(false);
+        
+        // Set the texts if available
+        event = (TimerActivityEvent) getElement();
+        if (event.getTimeFormat() != null)
+        	timeFormatTa.setText(event.getTimeFormat());
+        if (event.getStopActivity() != null)
+        	stopActivityCb.setSelected(event.getStopActivity());
     }
 
     @Override

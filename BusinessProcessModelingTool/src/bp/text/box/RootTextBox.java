@@ -8,9 +8,9 @@ import bp.model.data.Process;
 
 public class RootTextBox extends CompositeTextBox {
 
-    private transient Set<TextChangeListener> tcListeners;
+    private Set<TextChangeListener> tcListeners;
 
-    public RootTextBox(final Process process) {
+    public RootTextBox(Process process) {
         super(null, null, null);
         appendTextBox(new ProcessTextBox(process, this));
         this.tcListeners = new HashSet<>();

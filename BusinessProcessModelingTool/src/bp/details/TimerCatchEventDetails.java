@@ -18,13 +18,13 @@ public class TimerCatchEventDetails extends IntermediateEventDetails {
 
     public static final String TIME_FORMAT = "Time format:";
 
-    private final TimerCatchEvent event = (TimerCatchEvent) getElement();
+    private TimerCatchEvent event = (TimerCatchEvent) getElement();
 
     private JLabel timeFormatLb;
     private JTextArea timeFormatTa;
     private JScrollPane timeFormatScroll;
 
-    public TimerCatchEventDetails(final TimerCatchEvent element) {
+    public TimerCatchEventDetails(TimerCatchEvent element) {
         super(element);
     }
 
@@ -35,6 +35,10 @@ public class TimerCatchEventDetails extends IntermediateEventDetails {
         this.timeFormatLb = new JLabel(TIME_FORMAT);
         this.timeFormatTa = new JTextArea(5, 20);
         this.timeFormatScroll = new JScrollPane(this.timeFormatTa);
+        
+        // Set the texts if available
+        event = (TimerCatchEvent) getElement();
+        if (event.getTimeFormat() != null) timeFormatTa.setText(event.getTimeFormat());
     }
 
     @Override

@@ -3,9 +3,11 @@ package bp.event;
 import bp.model.util.BPKeyWords;
 import bp.model.util.Controller;
 
-public interface AttributeChangeListener {
+public abstract class AttributeChangeListener {
 
-    public void fireAttributeChanged(BPKeyWords keyWord, Object value);
+	public AttributeChangeListener() { }
+	
+    public abstract void fireAttributeChanged(BPKeyWords keyWord, Object value);
 
-    public Controller getController();
+    public abstract Controller getController();
 }

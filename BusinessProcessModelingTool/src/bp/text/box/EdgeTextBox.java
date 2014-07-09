@@ -54,7 +54,7 @@ public class EdgeTextBox extends ElementTextBox {
         return (Edge) getElement();
     }
 
-    private class SourceChangeListener implements AttributeChangeListener {
+    private class SourceChangeListener extends AttributeChangeListener {
 
     	SourceChangeListener() { }
     	
@@ -73,7 +73,7 @@ public class EdgeTextBox extends ElementTextBox {
         }
     }
 
-    private class TargetChangeListener implements AttributeChangeListener {
+    private class TargetChangeListener extends AttributeChangeListener {
 
         @Override
         public void fireAttributeChanged(final BPKeyWords keyWord, final Object value) {

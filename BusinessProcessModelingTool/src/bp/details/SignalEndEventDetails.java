@@ -20,7 +20,7 @@ public class SignalEndEventDetails extends EndEventDetails{
     public static final String SIGNAL_NAME_LABEL = "Signal name:";
     public static final String SIGNAL_DATA_LABEL = "Signal data:";
 
-    private final SignalEndEvent event = (SignalEndEvent) getElement();
+    private SignalEndEvent event = (SignalEndEvent) getElement();
 
     private JLabel signalNameLb;
     private JLabel signalDataLb;
@@ -29,7 +29,7 @@ public class SignalEndEventDetails extends EndEventDetails{
     private JTextArea signalDataTa;
     private JScrollPane signalDataScroll;
 
-    public SignalEndEventDetails(final SignalEndEvent element) {
+    public SignalEndEventDetails(SignalEndEvent element) {
         super(element);
     }
 
@@ -43,6 +43,13 @@ public class SignalEndEventDetails extends EndEventDetails{
         this.signalNameTf = new JTextField(20);
         this.signalDataTa = new JTextArea(5, 20);
         this.signalDataScroll = new JScrollPane(this.signalDataTa);
+        
+        // Set the texts if available
+        event = (SignalEndEvent) getElement();
+        if (event.getSignalName() != null)
+        	signalNameTf.setText(event.getSignalName());
+        if (event.getSignalData() != null)
+        	signalDataTa.setText(event.getSignalData());
     }
 
     @Override
