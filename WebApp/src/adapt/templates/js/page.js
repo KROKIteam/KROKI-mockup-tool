@@ -118,6 +118,13 @@ $(document).ready(function(e) {
 		$(this).text(username);
 	});
 
+	//if a window is resized, keep headers and fixed div alligned
+	$(window).resize(function(e) {
+		container.find(".standardForms").each(function(index, element) {
+			updateBounds($(this));
+		});
+	});
+	
 	/**************************************************************************************************************************
 													   															   FORM EFFECTS
 	 **************************************************************************************************************************/
@@ -219,6 +226,10 @@ $(document).ready(function(e) {
 		newWindow.append(newWindowHeader)
 		newWindow.append(newWindowBody);
 		
+		newWindowBody.bind('scroll', function() {
+			updateBounds(newWindowBody);
+		});
+		
 		container.append(newWindow);
 		//if the form that needs to ne displayed is parent-child form
 		//get containing forms names by parsing the 'data-paneltype' attribute
@@ -236,6 +247,7 @@ $(document).ready(function(e) {
 				
 				newWindowBody.append(newStandardForm);
 				loadDataToForm(newStandardForm, true);
+				updateBounds(newWindowBody);
 			}
 			
 		}else {
@@ -281,6 +293,8 @@ $(document).ready(function(e) {
 				});
 			}
 		}
+		
+		updateBounds(newWindowBody);
 	}
 	
 	/**************************************************************************************************************************
@@ -320,6 +334,7 @@ $(document).ready(function(e) {
 					}else {
 						childForm.next().find(".tablePanel").empty();
 					}
+					updateBounds(childForm);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) { 
 					$("#messagePopup").html("<p>" + errorThrown + "</p>");
@@ -346,10 +361,16 @@ $(document).ready(function(e) {
 		if(selectedRow.length > 0) {
 			var id = selectedRow.find("#idCell").text();
 			var resName = form.attr("data-resourceId");
+			var pid = -1;
+			//if the form has been opened as child form, submit parent id
+			if(form.attr("data-activate").indexOf("showChildren") != -1) {
+				var activateLink = form.attr("data-activate").split("/");
+				pid = activateLink[activateLink.length-1];
+			}
 			//since edit form is fetched from server on each click, remove previous one
 			formBody.remove(".inputForm[name=editForm]");
 			$.ajax({
-				url: "/edit/" + resName + "/" + id,
+				url: "/edit/" + resName + "/" + id + "/" + pid,
 				type: 'GET',
 				encoding:"UTF-8",
 				contentType: "text/html; charset=UTF-8",
@@ -558,7 +579,6 @@ $(document).ready(function(e) {
 		var link = $(this).attr("data-confirmLink");
 		var text = $(this).attr("data-confirmText");
 		showConfirmDialog(name, link, text);
-		
 	});
 	
 	/**************************************************************************************************************************
@@ -630,6 +650,10 @@ function loadDataToForm(form, displayTitle) {
 			if(!displayTitle) {
 				form.find("h1").remove();
 			}
+			/*
+			 * Set the bounds of table head fixator div and its contents 
+			 */
+			updateBounds(form);
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			window.remove();
@@ -669,6 +693,28 @@ function refreshFormData(form) {
 			if(form.next().length > 0) {
 				refreshFormData(form.next());
 			}
+		});
+	});
+}
+
+function updateBounds(form) {
+	form.find(".tablePanel").each(function(index, element) {
+		var thead = $(this).find("thead:first");
+		var fixator = $(this).find(".theadFixator:first");
+		fixator.offset({ 
+			top: $(this).offset().top, 
+			left: $(this).offset().left 
+		});
+		fixator.height(thead.height());
+		fixator.width(thead.width());
+		
+		thead.find(".innerTHDiv").each(function(index, element) {
+			var span = $(this).parent().find("span:first");
+			$(this).offset({ 
+				top: fixator.offset().top, 
+				left: $(this).offset().left 
+			});
+			$(this).css("padding-left", (span.offset().left - span.parent().offset().left)-10)
 		});
 	});
 }

@@ -47,12 +47,16 @@ public class ModifyResource extends BaseResource {
 	public void handleGet() {
 		String resName = (String)getRequest().getAttributes().get("aresName");
 		String modId = (String)getRequest().getAttributes().get("mid");
+		String pid = (String)getRequest().getAttributes().get("pid");
 		AdaptApplication application = (AdaptApplication) getApplication();
 		creator = new EntityCreator(application);
 		if(resName != null &&  modId != null) {
 			AdaptApplication app = (AdaptApplication) getApplication();
 			resource = app.getXMLResource(resName);
 			dataModel.put("resource", resource);
+			if(pid != "-1") {
+				dataModel.put("pid", pid);
+			}
 			Long id = Long.parseLong(modId);
 			EntityManager em = app.getEmf().createEntityManager();
 			EntityTransaction tx = em.getTransaction();

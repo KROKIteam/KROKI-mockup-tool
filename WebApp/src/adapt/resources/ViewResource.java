@@ -93,6 +93,8 @@ public class ViewResource extends Resource {
 		if(cresName != null) {//child forma
 			String presName = (String)getRequest().getAttributes().get("presName");
 			String pid = (String)getRequest().getAttributes().get("pid");
+			dataModel.put("pid", pid);
+			dataModel.put("presName", presName);
 			System.out.println("[PRESNAME] " + presName + "\n[PID] " + pid);
 			resource = application.getXMLResource(cresName);
 			XMLResource parentResource = application.getXMLResource(presName);

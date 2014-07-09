@@ -50,11 +50,16 @@
 							<div class="tablePanel">
 								<#if mainFormHeaders??>
 								<#if mainFormHeaders?has_content>
+								<div class="theadFixator">
+								</div>
 								<table class="mainTable" cellspacing=0>
 									<thead>
 										<tr>
 											<#list mainFormHeaders as header>
-												<th>${header}</th>
+												<th>
+												<span>${header}</span>
+												<div class="innerTHDiv">${header}</div>
+												</th>
 											</#list>
 										</tr>
 									</thead>
@@ -144,7 +149,7 @@
 									<td class="inputColumn" style="float: left;">
 										<select class="stdFormInputs" name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
 										<#list childFormMap[childRow]?keys as id>
-											<option value="${id}">${childFormMap[childRow][id]}</option>
+											<option value="${id}" <#if pid??><#if id == pid>selected</#if></#if>>${childFormMap[childRow][id]}</option>
 										</#list>
 										</select>
 									</td>

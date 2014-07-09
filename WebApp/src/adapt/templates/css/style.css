@@ -445,16 +445,33 @@ ul.L2SubMenu {
 	border-bottom: 1px solid #000;
 }
 
+.theadFixator {
+	position: absolute;
+	background-color: #346789;
+}
+
 .mainTable thead {
 	background-color: #346789;
 	color: #ECF0F1;
 	text-align: center;
-	height: 10%;
+	height: 30px;
 	font-weight: normal;
 }
 
 .mainTable thead tr th{
 	height: 10%;
+}
+
+.mainTable th span {
+	visibility: hidden;
+}
+
+.mainTable th div.innerTHDiv {
+	position: absolute;
+	top: 101px;
+	background-color: #346789;
+	padding-top: 4px;
+	padding-left: 10px;
 }
 
 .mainTable tbody {
@@ -473,9 +490,12 @@ ul.L2SubMenu {
 }
 
 .mainTable td,th {
-	padding: 2px;
 	border-right: 1px solid #000;
 	border-top: 1px solid #000;
+}
+
+.mainTable td {
+	padding: 2px;	
 }
 
 .buttons-blue {

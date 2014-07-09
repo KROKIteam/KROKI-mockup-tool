@@ -14,11 +14,11 @@ import adapt.application.AdaptApplication;
 public class EntityCreator {
 
 	private AdaptApplication application;
-	
+
 	public EntityCreator(AdaptApplication application) {
 		this.application = application;
 	}
-	
+
 	/**
 	 * Na osnovu liste objekata iz baze podataka kreira listu EntityClass objekata.
 	 * @param objects lista objekata dobijena upitom u bazu, moze biti lista objekata bilo koje klase
@@ -44,7 +44,21 @@ public class EntityCreator {
 						//ocitamo ime i vrednost atributa
 						String fname = fields[j].getName();
 						Object value = fields[j].get(o);
-						
+						if (!value.getClass().getSimpleName().equals("PersistentSet")) {
+							if(!value.getClass().getSimpleName().equals("PersistentBag")) {
+								if(!fname.equals("serialVersionUID")) {
+									if(headers != null && resource != null) {
+										if(!fname.equals("id")) {
+											String label = getAttributeLabel(resource, fname);
+											if(!headers.contains(label)) {
+												headers.add(label);
+											}
+										}
+									}
+								}
+							}
+						}
+
 						if (value == null) {
 							value = new String("None");
 							EntityProperty pr = new EntityProperty(fname,value.toString());
@@ -54,14 +68,6 @@ public class EntityCreator {
 							if (!value.getClass().getSimpleName().equals("PersistentSet")) {
 								if(!value.getClass().getSimpleName().equals("PersistentBag")) {
 									if(!fname.equals("serialVersionUID")) {
-										if(headers != null && resource != null) {
-											if(!fname.equals("id")) {
-												String label = getAttributeLabel(resource, fname);
-												if(!headers.contains(label)) {
-													headers.add(label);
-												}
-											}
-										}
 										//ako ima referenca na neku drugu klasu
 										//treba dovuci representativna obelezja
 										if (value.toString().startsWith("adapt")) {
@@ -137,26 +143,26 @@ public class EntityCreator {
 		}
 		return val;
 	}
-	
+
 	public String getAttributeLabel(XMLResource resource, String name) {
 		for (XMLAttribute attribute : resource.getAttributes()) {
 			if(attribute.getName().equals(name)) {
 				return attribute.getLabel();
 			}
 		}
-		
+
 		for(XMLOneToManyAttribute attribute : resource.getOneToManyAttributes()) {
 			if(attribute.getName().equals(name)) {
 				return attribute.getLabel();
 			}
 		}
-		
+
 		for(XMLManyToOneAttribute attribute : resource.getManyToOneAttributes()) {
 			if(attribute.getName().equals(name)) {
 				return attribute.getLabel();
 			}
 		}
-		
+
 		for (XMLManyToManyAttribute attribute : resource.getManyToManyAttributes()) {
 			if(attribute.getName().equals(name)) {
 				return attribute.getLabel();

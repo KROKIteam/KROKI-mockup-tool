@@ -119,7 +119,7 @@ public class AdaptApplication extends Application {
 		router.attach("/resources/{resName}", ViewResource.class);
 		router.attach("/add/resources/{resName}", AddResource.class);
 		router.attach("/delete/{dresName}/{delid}", DeleteResource.class); //delete page URI
-		router.attach("/edit/{aresName}/{mid}", ModifyResource.class);   //edit page URI - this goes to ModifyResource which just prepares modify form form given resouce
+		router.attach("/edit/{aresName}/{mid}/{pid}", ModifyResource.class);   //edit page URI - this goes to ModifyResource which just prepares modify form form given resouce
 		router.attach("/edited/resources/{mresName}/{modid}", AddResource.class); //Add resource does the actual modifiy action
 		router.attach("/showChildren/{cresName}/{presName}/{pid}", ViewResource.class);
 		router.attach("/showMTMChildern/{mcresName}", ViewResource.class);

@@ -42,7 +42,7 @@
 										<td class="inputColumn">
 											<select class="stdFormInputs" name="mattrSelect${childFormMap?keys?seq_index_of(childRow)}">
 											<#list childFormMap[childRow]?keys as id>
-												<option value="${id}">${childFormMap[childRow][id]}</option>
+												<option value="${id}" <#if pid??><#if id == pid>selected</#if></#if>>${childFormMap[childRow][id]}</option>
 											</#list>
 											</select>
 										</td>
