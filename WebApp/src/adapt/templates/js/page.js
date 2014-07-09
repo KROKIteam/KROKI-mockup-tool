@@ -15,7 +15,7 @@ $(document).ready(function(e) {
 	var delay = 2000;
 	//speed of fade out and fade in effects
 	var fadeSpeed = 300;
-	//form (div.forms) that is currently being dragged
+	//window (div.windows) that is currently being dragged
 	var dragged = null;
 	//offsets for dragging forms
 	var ox = 0;
@@ -597,6 +597,7 @@ $(document).ready(function(e) {
 				if(clas == "messageOk") {
 					if(form.attr("name") == "addForm") {
 						form.trigger("reset");
+						form.find(".inputFormFields tr:first-child input").focus();
 					}
 				}
 			},

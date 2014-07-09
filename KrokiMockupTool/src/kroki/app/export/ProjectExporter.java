@@ -159,7 +159,6 @@ public class ProjectExporter {
 				throw new NoZoomPanelException(e.getMessage());
 			}
 		}else if (el instanceof ParentChild) {
-			//parent-child panel don't need to be visible in web application menu [FOR NOW]
 			getParentChildData(el, menu);
 		}
 		//after data fetching is done, put current element in elements list
