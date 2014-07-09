@@ -8,7 +8,6 @@ import graphedit.command.LinkElementsCommand;
 import graphedit.model.components.AggregationLink;
 import graphedit.model.components.AssociationLink;
 import graphedit.model.components.AssociationLink.AssociationType;
-import graphedit.model.components.ClassStereotypeUI;
 import graphedit.model.components.CompositionLink;
 import graphedit.model.components.Connector;
 import graphedit.model.components.DependencyLink;
@@ -22,6 +21,7 @@ import graphedit.model.components.RealizationLink;
 import graphedit.model.components.RequireLink;
 import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.elements.ClassElement;
+import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.properties.ApplicationModeProperties;
@@ -143,7 +143,7 @@ public class LinkState extends State {
 							String sourceCardinality = "1..1", destinationCardinality = "1..*";
 							boolean sourceNavigable = false, destinationNavigable = true;
 							//Uspostavi hijerarhiju ako je neki parent child
-							if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
+							if (MainFrame.getInstance().getAppMode() != ApplicationMode.PERSISTENT){
 								if (sourceStereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString()) || destinationStereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString())){
 									sourceCardinality = "1..1";
 									destinationCardinality = "1..1";
@@ -260,7 +260,7 @@ public class LinkState extends State {
 	}
 
 	private boolean linkCanBeCreated(LinkableElement sourceElement, LinkableElement destinationElement, Link.LinkType linkType){
-		if (MainFrame.getInstance().getAppMode() ==  ApplicationMode.USER_INTERFACE){
+		if (MainFrame.getInstance().getAppMode() !=  ApplicationMode.PERSISTENT){
 			if (sourceElement instanceof Shortcut)
 				sourceElement = (LinkableElement) ((Shortcut)sourceElement).shortcutTo();
 			

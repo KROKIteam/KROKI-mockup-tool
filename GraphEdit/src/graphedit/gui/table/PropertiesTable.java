@@ -2,7 +2,7 @@ package graphedit.gui.table;
 
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
-import graphedit.model.components.ClassStereotypeUI;
+import graphedit.model.enums.ClassStereotypeUI;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;

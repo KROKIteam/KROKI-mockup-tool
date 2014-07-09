@@ -4,13 +4,14 @@ import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.gui.utils.Dialogs;
 import graphedit.model.components.Attribute;
-import graphedit.model.components.AttributeTypeUI;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Interface;
 import graphedit.model.components.Method;
 import graphedit.model.components.MethodStereotypeUI;
 import graphedit.model.components.Modifier;
 import graphedit.model.components.Parameter;
+import graphedit.model.enums.AttributeDataTypeUI;
+import graphedit.model.enums.AttributeTypeUI;
 import graphedit.properties.ApplicationModeProperties;
 
 import java.awt.BorderLayout;
@@ -95,28 +96,41 @@ public class ClassDialog extends JDialog {
 			table.removeColumn(table.getColumnModel().getColumn(2 - removedColumns));
 			removedColumns++;
 		}
+		
 		if (!(Boolean) properties.getPropertyValue("attributeTypeEditable")){
 			table.removeColumn(table.getColumnModel().getColumn(3 - removedColumns));
 			removedColumns++;
 		}
-		else if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
+		else if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE
+				|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
 			JComboBox cbTypes = new JComboBox(AttributeTypeUI.values());
 			table.getColumnModel().getColumn(3 - removedColumns).setCellEditor(new DefaultCellEditor(cbTypes));
 		}
+		
+		
+		if (!(Boolean) properties.getPropertyValue("attributeDataTypeEditable")){
+			table.removeColumn(table.getColumnModel().getColumn(4 - removedColumns));
+			removedColumns++;
+		}
+		else if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_PERSISTENT
+				|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
+			JComboBox cbTypes = new JComboBox(AttributeDataTypeUI.values());
+			table.getColumnModel().getColumn(4 - removedColumns).setCellEditor(new DefaultCellEditor(cbTypes));
+		}
 
 		if (!(Boolean) properties.getPropertyValue("attributeModifierEditable")){
-			table.removeColumn(table.getColumnModel().getColumn(4 - removedColumns));
+			table.removeColumn(table.getColumnModel().getColumn(5 - removedColumns));
 			removedColumns++;
 		}
 		else
 			table.getColumnModel().getColumn(4 - removedColumns).setCellEditor(new DefaultCellEditor(cbModifiers));
 
 		if (!(Boolean) properties.getPropertyValue("attributeStaticEditable")){
-			table.removeColumn(table.getColumnModel().getColumn(5 - removedColumns));
+			table.removeColumn(table.getColumnModel().getColumn(6 - removedColumns));
 			removedColumns++;
 		}
 		if (!(Boolean) properties.getPropertyValue("attributeFinalEditable")){
-			table.removeColumn(table.getColumnModel().getColumn(6 - removedColumns));
+			table.removeColumn(table.getColumnModel().getColumn(7 - removedColumns));
 			removedColumns++;
 		}
 

@@ -18,6 +18,7 @@ public class ChangeAttributeTypeCommand extends Command {
 	private ClassElement classElement;
 	private UmlProperty oldProperty;
 	private int classIndex, groupIndex;
+	private String oldDataType;
 	
 	public ChangeAttributeTypeCommand(GraphEditView view, GraphElement element, Attribute attribute, String newName) {
 		this.view = view;
@@ -33,9 +34,11 @@ public class ChangeAttributeTypeCommand extends Command {
 		
 		classElement = (ClassElement) this.element.getRepresentedElement();
 		oldProperty = attribute.getUmlProperty();
+		
 		if (classElement instanceof UIClassElement){
 			classIndex = ((UIClassElement)classElement).getClassIndexForAttribute(attribute);
 			groupIndex = ((UIClassElement)classElement).getGroupIndexForAttribute(attribute);
+			oldDataType = attribute.getDataType();
 		}
 	}
 
@@ -58,6 +61,7 @@ public class ChangeAttributeTypeCommand extends Command {
 			updatePainters((LinkableElement) element);
 			if (classElement instanceof UIClassElement)
 				classElement.setOldProperty(attribute, oldProperty, classIndex, groupIndex);
+				attribute.setDataType(oldDataType);
 		}
 		view.getModel().fireUpdates();
 	}

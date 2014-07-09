@@ -1,4 +1,4 @@
-package graphedit.model.components;
+package graphedit.model.enums;
 
 public enum AttributeTypeUI {
 	
