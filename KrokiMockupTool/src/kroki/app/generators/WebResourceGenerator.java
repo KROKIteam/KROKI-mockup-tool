@@ -56,7 +56,7 @@ public class WebResourceGenerator {
 				resourcesRoot.appendChild(resourceTag);
 				
 				//atributi za <resounce> tag
-				String name = vClass.name();
+				String name = cc.toCamelCase(vClass.getComponent().getName(), false);
 				String label = element.getLabel();
 				String link = "/resources/" + name;
 				Boolean routed = element.isVisible();
@@ -129,7 +129,7 @@ public class WebResourceGenerator {
 						
 						//<Name>
 						Element attrNameTag = doc.createElement("Name");
-						attrNameTag.setTextContent(attrName);
+						attrNameTag.setTextContent("a_" + attrName);
 						attributeTag.appendChild(attrNameTag);
 						
 						//<DatabaseName>

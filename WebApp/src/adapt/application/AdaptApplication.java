@@ -419,7 +419,7 @@ public class AdaptApplication extends Application {
 
 				right.setResource(res);
 				right.setUser(admin);
-
+				
 				em.persist(right);
 			}
 		}
