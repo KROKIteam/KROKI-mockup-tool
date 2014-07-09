@@ -190,6 +190,10 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
 					"Importing Eclipse UML diagram has been canceled");
 			publishErrorText("Import has been canceled");
+		} catch (IllegalArgumentException e) {
+			publishErrorText("Internal error ocured contact developer");
+		} catch(NullPointerException e) {
+			publishErrorText("Internal error ocured contact developer");
 		} catch (Exception e) {
 			showErrorMessage(e);
 		}
@@ -206,8 +210,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	private void showErrorMessage(Exception e){
 		//Correct the error then try again
 		publishErrorText("Error happened while importing");
-		publishErrorText(e.getMessage());
-		showError(e.getMessage(), "Error while importing");
+		publishErrorText(exceptionMessage(e));
+		showError(exceptionMessage(e), "Error while importing");
 		
 		//e.printStackTrace();
 	}

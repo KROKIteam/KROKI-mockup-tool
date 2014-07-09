@@ -51,9 +51,32 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	 */
 	public void publishErrorText(String text){
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
-				indentation+text, 3);
+				text, 3);
 	}
 	
+	/**
+	 * Method that removes the exception class from the Exception 
+	 * message and returns only the message left.
+	 * @param e Exception for which to remove the class of the
+	 * Exception 
+	 * @return message from the Exception with out the class of
+	 * the Exception
+	 */
+	public String exceptionMessage(Exception e){
+		String message=e.getMessage();
+		if(message!=null)
+		{
+			int index=message.indexOf(':');
+			if(index>-1&&(index+1)<message.length())
+			{
+				message=message.substring(index+1);
+				message=message.trim();
+				if(!message.isEmpty())
+					return message;
+			}
+		}
+		return "Unspecified error ocured";
+	}
 /*Should not use publish because there is a problem of synchronizing
  * the message with the added indentations. 
 	@Override

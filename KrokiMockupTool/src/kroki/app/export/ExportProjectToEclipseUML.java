@@ -231,7 +231,6 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			JOptionPane.showMessageDialog(getFrame(), "Exporting Eclipse UML diagram finished successfully.");
 		}catch(Exception e)
 	    {
-			publishText(e.getMessage());
 	    	throw e;
 	    }
 	    return null;
@@ -254,6 +253,10 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
 					"Exporting Kroki project has been canceled");
 			publishErrorText("Export has been canceled");
+		} catch (IllegalArgumentException e) {
+			publishErrorText("Internal error ocured contact developer");
+		} catch(NullPointerException e) {
+			publishErrorText("Internal error ocured contact developer");
 		} catch (Exception e) {
 			showErrorMessage(e);
 		}
@@ -269,9 +272,9 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 	 */
 	private void showErrorMessage(Exception e){
 		//Correct the error then try again
-		publishErrorText("Error happened while importing");
-		publishErrorText(e.getMessage());
-		showError(e.getMessage(), "Error while importing");
+		publishErrorText("Error happened while exporting");
+		publishErrorText(exceptionMessage(e));
+		showError(exceptionMessage(e), "Error while exporting");
 		//e.printStackTrace();
 	}
 	
@@ -330,7 +333,9 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			if(nestedSubsystem instanceof BussinesSubsystem)
 			{
 				nestedPaskage=packageObject.createNestedPackage(cc.toCamelCaseIE(((BussinesSubsystem) nestedSubsystem).getLabel(),true));
-				PackageStereotype.stereotypeBusinessSbsystemExport(stereotypeProfile, nestedPaskage, (BussinesSubsystem) nestedSubsystem, this);
+				if(withStereotypes){
+					PackageStereotype.stereotypeBusinessSbsystemExport(stereotypeProfile, nestedPaskage, (BussinesSubsystem) nestedSubsystem, this);
+				}
 				publishText("Created UML Package "+nestedPaskage.getName());
 				extractBussinesSubsystem((BussinesSubsystem) nestedSubsystem, nestedPaskage);
 			}
@@ -746,7 +751,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 				nextNavigable=true;
 			}
 			Association association=activationClass.createAssociation(true,AggregationKind.NONE_LITERAL, cc.toCamelCaseIE(zoomFieldName,false), 0,1, targetClass,
-					nextNavigable, AggregationKind.SHARED_LITERAL, cc.toCamelCaseIE(nextName,false), 0, LiteralUnlimitedNatural.UNLIMITED);
+					nextNavigable, AggregationKind.NONE_LITERAL, cc.toCamelCaseIE(nextName,false), 0, LiteralUnlimitedNatural.UNLIMITED);
                     //false, AggregationKind.NONE_LITERAL, cc.toCamelCaseIE("nextTo"+activationClass.getLabel(),false), 0, LiteralUnlimitedNatural.UNLIMITED);
 			if(withStereotypes)
 			{
