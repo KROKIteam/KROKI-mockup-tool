@@ -780,8 +780,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		if(nameNotSet)
 		{
 			String base=secondVisibleClass.getLabel();
-			int[] sufix=updateSufix(null);
-			zoomName=createText(base, sufix);
+			int[] sufix=null;
+			zoomName=base;
 			Map<Object,Object> properties= propertiesOperations.get(secondClass).get(PROPERTY);
 			VisibleElement element;
 			for(Entry<Object, Object> value:properties.entrySet())
@@ -983,8 +983,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		if(nameNotSet)
 		{
 			String base=secondVisibleClass.getLabel();
-			int[] sufix=updateSufix(null);
-			nextName=createText(base, sufix);
+			int[] sufix=null;
+			nextName=base;
 			Map<Object,Object> properties= propertiesOperations.get(secondClass).get(PROPERTY);
 			VisibleElement element;
 			for(Entry<Object, Object> value:properties.entrySet())
