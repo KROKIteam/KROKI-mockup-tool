@@ -52,7 +52,8 @@ public class AssociationLinkDialog extends JDialog{
 
 	public AssociationLinkDialog(AssociationLink link){
 		super(MainFrame.getInstance(),"Association properties",true);
-		setSize(480,280);
+		setSize(480,260);
+		setResizable(false);
 		setLayout(new BorderLayout());
 		setLocationRelativeTo(MainFrame.getInstance());
 		associationLink=link;

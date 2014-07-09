@@ -18,8 +18,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
@@ -65,7 +63,7 @@ public class ClassDialog extends JDialog {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 
 		setLocationRelativeTo(mf);
-		
+
 
 	}
 
@@ -97,7 +95,7 @@ public class ClassDialog extends JDialog {
 			table.removeColumn(table.getColumnModel().getColumn(2 - removedColumns));
 			removedColumns++;
 		}
-		
+
 		if (!(Boolean) properties.getPropertyValue("attributeTypeEditable")){
 			table.removeColumn(table.getColumnModel().getColumn(3 - removedColumns));
 			removedColumns++;
@@ -107,8 +105,8 @@ public class ClassDialog extends JDialog {
 			JComboBox cbTypes = new JComboBox(AttributeTypeUI.values());
 			table.getColumnModel().getColumn(3 - removedColumns).setCellEditor(new DefaultCellEditor(cbTypes));
 		}
-		
-		
+
+
 		if (!(Boolean) properties.getPropertyValue("attributeDataTypeEditable")){
 			table.removeColumn(table.getColumnModel().getColumn(4 - removedColumns));
 			removedColumns++;
@@ -142,11 +140,10 @@ public class ClassDialog extends JDialog {
 
 		table.getColumnModel().getColumn(0).setMaxWidth(20);
 		table.getColumnModel().getColumn(0).setMinWidth(20);
-		table.addMouseListener(new MouseAdapter() {
-
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void valueChanged(ListSelectionEvent e) {
 				int index = table.getSelectedRow();
 				boolean last = table.getSelectedRow() == table.getModel().getRowCount() - 1;
 				//add new attribute
@@ -164,6 +161,8 @@ public class ClassDialog extends JDialog {
 
 			}
 		});
+
+
 
 		remove.addActionListener(new ActionListener() {
 
@@ -284,10 +283,10 @@ public class ClassDialog extends JDialog {
 
 		table.getColumnModel().getColumn(0).setMaxWidth(20);
 		table.getColumnModel().getColumn(0).setMinWidth(20);
-		table.addMouseListener(new MouseAdapter() {
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void valueChanged(ListSelectionEvent e) {
 				int index = table.getSelectedRow();
 				boolean last = table.getSelectedRow() == table.getModel().getRowCount() - 1;
 				//add new method
@@ -381,10 +380,10 @@ public class ClassDialog extends JDialog {
 		table.getColumnModel().getColumn(0).setMaxWidth(20);
 		table.getColumnModel().getColumn(0).setMinWidth(20);
 
-		table.addMouseListener(new MouseAdapter() {
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void valueChanged(ListSelectionEvent e) {
 				int index = table.getSelectedRow();
 				boolean last = table.getSelectedRow() == table.getModel().getRowCount() - 1;
 				//add new parameter

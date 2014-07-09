@@ -49,7 +49,7 @@ public class ClassDiagramAction extends AbstractAction{
 			}
 		}
 		
-		MainFrame.getInstance().setAppMode(ApplicationMode.USER_INTERFACE);
+		MainFrame.getInstance().init();
 
 		List<UmlPackage> workspaceList = KrokiMockupToolApp.getInstance().getWorkspace().getPackageList();
 		if (proj != null)
@@ -59,7 +59,6 @@ public class ClassDiagramAction extends AbstractAction{
 
 		MainFrame.getInstance().setVisible(true);
 
-		//graphedit.model.GraphEditWorkspace.getInstance().getMainFrame().setVisible(true);
 		List<GraphEditPackage> packageList = graphedit.model.GraphEditWorkspace.getInstance().getpackageList();
 		UmlPackage umlPackage;
 		BussinesSubsystem businessSub;
@@ -98,17 +97,14 @@ public class ClassDiagramAction extends AbstractAction{
 					el.update();
 				gr1.update();
 				gr2.update();
+				
+				for (VisibleElement el : panel.getVisibleElementList()){
+					el.update();
+				}
+				
 				//set component name as it is required for exporting applications
 				panel.getComponent().setName(panel.getPersistentClass().name());
 				
-				/*
-				System.out.println(panel.getPersistentClass().name());
-				panel.getPersistentClass().setName(cc.toCamelCase(panel.getLabel(), false));
-				System.out.println(panel.getPersistentClass().name());
-				panel.getComponent().setName(panel.getLabel());
-				StyleToolbar st = (StyleToolbar) KrokiMockupToolApp.getInstance().getGuiManager().getStyleToolbar();
-				st.updateAllToggles(((ElementsGroup) panel.getVisibleElementList().get(1)));
-				st.updateAllToggles(((ElementsGroup) panel.getVisibleElementList().get(2)));*/
 			}
 			((VisibleClass)ownedType).update();
 		}

@@ -363,8 +363,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	 * @author specijalac
 	 */
 	public void addToElementByConnectorStructure(Map<Connector, GraphElement> map) {
-		elementByConnector.putAll(map);
-		//printStructure();
+		if (elementByConnector != null)
+			elementByConnector.putAll(map);
 	}
 
 	/**
@@ -375,9 +375,9 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	 * @author specijalac
 	 */
 	public void insertIntoElementByConnectorStructure(Connector connector, GraphElement element) {
-		if (elementByConnector instanceof Map)
+		
+		if (elementByConnector != null && elementByConnector instanceof Map)
 			elementByConnector.put(connector, element);
-		//printStructure();
 	}
 
 	/**

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kroki"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
@@ -60,5 +59,6 @@
 	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.profile.l3_1.1.0.v20130610-0712.jar"/>
 	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.resources_4.1.0.v20130610-0712.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BusinessProcessModelingTool"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

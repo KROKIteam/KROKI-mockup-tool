@@ -3,11 +3,14 @@ package graphedit.state;
 import graphedit.actions.popup.LinkPopupMenu;
 import graphedit.app.MainFrame;
 import graphedit.command.ChangeAssociationPropertiesCommand;
+import graphedit.command.ChangeElementPropertiesCommand;
 import graphedit.command.ChangeLinkTypeCommand;
 import graphedit.command.Command;
 import graphedit.gui.dialog.AssociationLinkDialog;
+import graphedit.gui.dialog.ClassElementDialog;
 import graphedit.model.components.AggregationLink;
 import graphedit.model.components.AssociationLink;
+import graphedit.model.components.Class;
 import graphedit.model.components.CompositionLink;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
@@ -34,8 +37,8 @@ import javax.swing.SwingUtilities;
 public class SelectionState extends State {
 
 	private Point2D popupPoint;
-	
-	
+
+
 	public SelectionState() { 
 		super();
 	}
@@ -58,10 +61,10 @@ public class SelectionState extends State {
 			}
 			else
 				showGraphElementPopup(e);
-			
+
 			view.repaint();
 		}
-		
+
 
 	}
 
@@ -115,7 +118,7 @@ public class SelectionState extends State {
 				view.getSelectionModel().setSelectedNode(hitNode);
 			}
 			else if (hitLink != null){
-				
+
 				view.getSelectionModel().removeAllSelectedElements();
 				view.getSelectionModel().setSelectedLink(hitLink);
 				hitNode=view.getSelectedLinkNode(hitLink, e.getPoint());
@@ -126,8 +129,8 @@ public class SelectionState extends State {
 				view.getSelectionModel().setSelectedNode(null);
 				view.getSelectionModel().setSelectedNode(null);
 			}
-		
-			
+
+
 		}
 		// azuriraj promene
 		view.repaint();
@@ -355,6 +358,17 @@ public class SelectionState extends State {
 					GraphElement element = controller.getCurrentElement();
 					if (element instanceof Package)
 						MainFrame.getInstance().showDiagram(((Package)element).getHierarchyPackage().getDiagram());
+					else if (element instanceof graphedit.model.components.Class){
+						ClassElementDialog dialog = new ClassElementDialog((Class) element);
+						dialog.setVisible(true);
+						if (dialog.isOk()){
+							Command command = new ChangeElementPropertiesCommand(view, dialog.getName(), dialog.getStereotype(), element);
+							view.getModel().getCommandManager().executeCommand(command);
+							view.repaint();
+
+						}
+
+					}
 				}
 
 			}

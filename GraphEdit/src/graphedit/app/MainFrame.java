@@ -247,8 +247,18 @@ public class MainFrame extends JDialog{
 
 		public void setAppMode(ApplicationMode appMode){
 			this.appMode = appMode;
+			init();
+		}
+		
+		public void init(){
 			properties = ApplicationModeProperties.getInstance();
 			guiInit();
+			if (appMode == ApplicationMode.USER_INTERFACE)
+				cbAppMode.setSelectedIndex(0);
+			else if (appMode == ApplicationMode.USER_INTERFACE_PERSISTENT)
+				cbAppMode.setSelectedIndex(1);
+			else if (appMode == ApplicationMode.USER_INTERFACE_MIXED)
+				cbAppMode.setSelectedIndex(2);
 		}
 
 
