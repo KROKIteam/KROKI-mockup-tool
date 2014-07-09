@@ -300,7 +300,9 @@ public class ProjectExporter {
 		}
 
 		ArrayList<String> anotations = new ArrayList<String>();
-		String name = cc.toCamelCase(vp.name(), true);
+		//String name = cc.toCamelCase(vp.name(), true);//OVO JE BILO ORIGINALNO
+		String name = "a_"+cc.toCamelCase(vp.name(), true);
+		////////////////////////////////////////////////////////////////////////
 		String label = vp.getLabel();
 		String columnLabel = vp.getColumnLabel();
 
@@ -318,7 +320,9 @@ public class ProjectExporter {
 		if(z.getTargetPanel() != null) {
 			String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 			ArrayList<String> anotations = new ArrayList<String>();
-			String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);
+			//String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);//OVO JE BILO ORIGINALNO
+			String name = cc.toCamelCase(z.getLabel(), true);
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			String propName = cc.toCamelCase(className, true) + "_" + name;
 			String databaseName = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
 			String label = z.getLabel();
@@ -385,7 +389,9 @@ public class ProjectExporter {
 				if(getAttributeType(attribute).equals("ManyToOne")) {
 					EJBClass oppositeCLass = getClass(attribute.getType());
 					if(oppositeCLass != null) {
-						String name = ejbClass.getName() + "Set";
+						//String name = ejbClass.getName() + "Set";//OVO JE BILO ORIGINALNO
+						String name = attribute.getName() + "Set";
+						//////////////////////////////////////////////////////////////////
 						String type = "Set<" + ejbClass.getName() + ">";
 						String label = attribute.getLabel();
 						String mappedBy = attribute.getName();

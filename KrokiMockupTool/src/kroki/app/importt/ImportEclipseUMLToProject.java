@@ -886,6 +886,15 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				label=label.replaceAll("[ ]+", " ");
 				label=label.replaceAll("[\t]+", " ");
 				label=label.replaceAll("[\n]+", " ");
+				StringBuilder builder=new StringBuilder();
+				char c;
+				for(int i=0;i<label.length();i++)
+				{
+					c=label.charAt(i);
+					if(Character.isAlphabetic(c)||Character.isWhitespace(c)||Character.isDigit(c))
+						builder.append(c);
+				}
+				label=builder.toString();
 				return label.trim();
 				
 			}
