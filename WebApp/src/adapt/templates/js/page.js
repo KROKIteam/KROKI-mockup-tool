@@ -49,44 +49,44 @@ $(document).ready(function(e) {
 	});
 
 	//MAKE MAIN MENU ITEMS INVERT COLORS ON MOUSE HOVER
-	$(".menu").hover(function(e) {
-		if($(this).parent().find("ul.L1SubMenu").css('visibility') === 'hidden') {
-			$(this).parent().addClass("hover");
+	$(".mainMenuItems").hover(function(e) {
+		if($(this).find("ul.L1SubMenu").css('visibility') === 'hidden') {
+			$(this).addClass("hover");
 		}
 	}, function(e) {
-		if($(this).parent().find("ul.L1SubMenu").css('visibility') === 'hidden') {
-			$(this).parent().removeClass("hover");	
+		if($(this).find("ul.L1SubMenu").css('visibility') === 'hidden') {
+			$(this).removeClass("hover");	
 		}
 	});
 
 	//OPEN SUBMENU ON CLICK
 	// $(".menu") is a <div> within main menu list elements which contains text and down arrow
 	// so getting parent of $(".menu") we get the actual <li> element
-	$(".menu").click(function(e) {
+	$(".mainMenuItems").click(function(e) {
 		//if corresponding submenu is not allready open, open it while closing all other submenus
-		if($(this).parent().find("ul.L1SubMenu").css('visibility') === 'hidden') {
+		if($(this).find("ul.L1SubMenu").css('visibility') === 'hidden') {
 			$(".menu").each(function(index, element) {
-				$(this).parent().removeClass("hover");
-				$(this).parent().find("ul.L1SubMenu").css({"visibility":"hidden"});
-				$(this).parent().find("ul.L2SubMenu").hide();
+				$(this).removeClass("hover");
+				$(this).find("ul.L1SubMenu").css({"visibility":"hidden"});
+				$(this).find("ul.L2SubMenu").hide();
 			});
-			var itemsHeight = 0;
+			/*var itemsHeight = 0;
 			var maxHeight = $("html").outerHeight() - $("nav").outerHeight();
-			$(this).parent().find(".L1SubMenu > .subMenuItem").each(function(index, element) {
+			$(this).find(".L1SubMenu > .subMenuItem").each(function(index, element) {
 				itemsHeight += $(this).outerHeight();
 			});
 			if(itemsHeight > maxHeight) {
-				$(this).parent().find("ul.L1SubMenu").outerHeight(maxHeight);
+				$(this).find("ul.L1SubMenu").outerHeight(maxHeight);
 			}else {
-				$(this).parent().find("ul.L1SubMenu").outerHeight(itemsHeight);
-			}
+				$(this).find("ul.L1SubMenu").outerHeight(itemsHeight);
+			}*/
 			//
-			$(this).parent().addClass("hover");
-			$(this).parent().find("ul.L1SubMenu").css({"visibility":"visible"});
+			$(this).addClass("hover");
+			$(this).find("ul.L1SubMenu").css({"visibility":"visible"});
 		}else {
 			//if a submenu is open, just close it on click
-			$(this).parent().addClass("hover");
-			$(this).parent().find("ul.L1SubMenu").css({"visibility":"hidden"});
+			$(this).addClass("hover");
+			$(this).find("ul.L1SubMenu").css({"visibility":"hidden"});
 		}
 	});
 
@@ -104,6 +104,7 @@ $(document).ready(function(e) {
 	//SHOW HIGHER LEVEL SUBMENUS ON CLICK
 	$(".subMenuLink").click(function(e) {
 		e.stopPropagation();
+		$(this).parent().css("overflow", "visible");
 		// if submenu is not visible, click opens it
 		if(!$(this).find("ul.L2SubMenu").is(":visible")) {
 			// first close all others
