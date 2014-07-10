@@ -42,8 +42,8 @@ $(document).ready(function(e) {
 	 **************************************************************************************************************************/
 	//PAGE LOAD ANIMATION
 	//Slide down the navigation
-	$("nav").slideDown("slow", function() {
-		$("#mainMenu").fadeIn("fast", function() {
+	$("nav").animate({height: calculateNavigationHeight()}, "slow", function() {
+		$("#mainMenu").css("visibility","visible").hide().fadeIn("fast", function() {
 			$("#logoutDiv").fadeIn("slow");
 		});
 	});
@@ -70,6 +70,17 @@ $(document).ready(function(e) {
 				$(this).parent().find("ul.L1SubMenu").css({"visibility":"hidden"});
 				$(this).parent().find("ul.L2SubMenu").hide();
 			});
+			var itemsHeight = 0;
+			var maxHeight = $("html").outerHeight() - $("nav").outerHeight();
+			$(this).parent().find(".L1SubMenu > .subMenuItem").each(function(index, element) {
+				itemsHeight += $(this).outerHeight();
+			});
+			if(itemsHeight > maxHeight) {
+				$(this).parent().find("ul.L1SubMenu").outerHeight(maxHeight);
+			}else {
+				$(this).parent().find("ul.L1SubMenu").outerHeight(itemsHeight);
+			}
+			//
 			$(this).parent().addClass("hover");
 			$(this).parent().find("ul.L1SubMenu").css({"visibility":"visible"});
 		}else {
@@ -118,11 +129,12 @@ $(document).ready(function(e) {
 		$(this).text(username);
 	});
 
-	//if a window is resized, keep headers and fixed div alligned
+	//if a window is resized, keep headers and fixed div aligned
 	$(window).resize(function(e) {
 		container.find(".standardForms").each(function(index, element) {
 			updateBounds($(this));
 		});
+		$("nav").height(calculateNavigationHeight());
 	});
 	
 	/**************************************************************************************************************************
@@ -697,24 +709,41 @@ function refreshFormData(form) {
 	});
 }
 
+// Updates the bounds of fixed table headers and main navigation dimensions on resize and scroll events
 function updateBounds(form) {
-	form.find(".tablePanel").each(function(index, element) {
-		var thead = $(this).find("thead:first");
-		var fixator = $(this).find(".theadFixator:first");
-		fixator.offset({ 
-			top: $(this).offset().top, 
-			left: $(this).offset().left 
-		});
-		fixator.height(thead.height());
-		fixator.width(thead.width());
-		
-		thead.find(".innerTHDiv").each(function(index, element) {
-			var span = $(this).parent().find("span:first");
-			$(this).offset({ 
-				top: fixator.offset().top, 
+	if(form != null) {
+		form.find(".tablePanel").each(function(index, element) {
+			var thead = $(this).find("thead:first");
+			var fixator = $(this).find(".theadFixator:first");
+			fixator.offset({ 
+				top: $(this).offset().top, 
 				left: $(this).offset().left 
 			});
-			$(this).css("padding-left", (span.offset().left - span.parent().offset().left));
+			fixator.height(thead.height());
+			fixator.width(thead.width());
+			
+			thead.find(".innerTHDiv").each(function(index, element) {
+				var span = $(this).parent().find("span:first");
+				$(this).offset({ 
+					top: fixator.offset().top, 
+					left: $(this).offset().left 
+				});
+				$(this).css("padding-left", (span.offset().left - span.parent().offset().left));
+			});
 		});
+	}
+}
+
+//calculate main navigation height based on calculated items widht
+function calculateNavigationHeight() {
+	var menuItemsWidth = 0;
+	var mainMenuWidth = $("#mainMenu").width();
+	$(".mainMenuItems").each(function(index, element) {
+		menuItemsWidth += $(this).width();
 	});
+	var rows = 1;
+	if(menuItemsWidth > mainMenuWidth) {
+		rows = Math.round(menuItemsWidth/mainMenuWidth) + 1;
+	}
+	return rows*40;
 }
