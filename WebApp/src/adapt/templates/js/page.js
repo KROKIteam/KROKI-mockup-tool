@@ -147,7 +147,7 @@ $(document).ready(function(e) {
 		if(!$(this).hasClass("subMenuLink")) {
 			// Hide all the submenus
 			$(".L1SubMenu").each(function(index, element) {
-				$(this).css({"visibility":"hidden"});;
+				$(this).css("visibility","hidden");;
 			});
 			// Return the main menu color to inital values
 			$("li.mainMenuItems").each(function(index, element) {
