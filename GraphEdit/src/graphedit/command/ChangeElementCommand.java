@@ -79,8 +79,8 @@ public class ChangeElementCommand extends Command {
 					view.removeLinkPainters(linkPainters);
 					GraphEditElement sourceElement = link.getSourceConnector().getRepresentedElement();
 					GraphEditElement destinationElement = link.getDestinationConnector().getRepresentedElement();
-					sourceElement.unlink(link);
-					destinationElement.unlink(link);
+					sourceElement.unlink(link, true);
+					destinationElement.unlink(link, false);
 				}
 				((UIClassElement)graphEditElement).changeClassStereotype(newName);
 			}

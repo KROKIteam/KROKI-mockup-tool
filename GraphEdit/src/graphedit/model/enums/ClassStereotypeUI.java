@@ -1,7 +1,7 @@
 package graphedit.model.enums;
 
 public enum ClassStereotypeUI {
-	STANDARD_PANEL ("Standard Panel"), PARENT_CHILD ("Parent Child");
+	STANDARD_PANEL ("StandardPanel"), PARENT_CHILD ("ParentChild");
 	
 	private final String name;
 	

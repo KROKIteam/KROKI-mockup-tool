@@ -7,17 +7,6 @@ package kroki.commons.camelcase;
 public class NamingUtil {
 
 	
-	/**
-	 * Checks of s needs no be transformed to camel case before doing so (avoiding incompatibility with graph editor)
-	 * @param s string to be converted
-	  *@param cap indicates if converted string should be capitalized (methods and properties names) or not (class names)
-	 * @return string in camel case notion
-	 */
-	public String toCamelCaseCheck(String s, boolean cap){
-		if (!s.contains(" "))
-			return s;
-		return toCamelCase(s,  cap);
-	}
 	
 	/**
 	 * Converts given string to camel case.

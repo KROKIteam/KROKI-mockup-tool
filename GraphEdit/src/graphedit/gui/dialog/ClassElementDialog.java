@@ -58,7 +58,7 @@ public class ClassElementDialog extends JDialog{
 				MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
 			add(cbStereotype, "wrap");
 
-			if (((String)classElement.getProperty(GraphElementProperties.STEREOTYPE)).equals("Standard Panel"))
+			if (((String)classElement.getProperty(GraphElementProperties.STEREOTYPE)).equals("StandardPanel"))
 				cbStereotype.setSelectedIndex(0);
 			else
 				cbStereotype.setSelectedIndex(1);

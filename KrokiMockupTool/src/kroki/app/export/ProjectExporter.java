@@ -320,7 +320,7 @@ public class ProjectExporter {
 	public EJBAttribute getZoomData(Zoom z, String className) {
 		if(z.getTargetPanel() != null) {
 			
-			String type = cc.toCamelCaseCheck(z.getTargetPanel().getComponent().getName(), false);
+			String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);
 				
 			ArrayList<String> anotations = new ArrayList<String>();
 			//String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);//OVO JE BILO ORIGINALNO

@@ -178,7 +178,7 @@ public class KrokiMockupToolApp {
 			BussinesSubsystem project = null;
 			for (int i=0; i<workspace.getPackageCount(); i++) {
 				BussinesSubsystem proj = (BussinesSubsystem) workspace.getPackageAt(i);
-				if(proj.getFile().getPath().equals(file.getPath())) {
+				if(proj.getFile() != null && proj.getFile().getPath().equals(file.getPath())) {
 					return proj;
 				}
 			}

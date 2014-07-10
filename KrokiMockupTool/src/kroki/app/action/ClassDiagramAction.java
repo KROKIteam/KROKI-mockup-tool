@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.StandardPanel;
@@ -27,6 +28,7 @@ public class ClassDiagramAction extends AbstractAction{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private NamingUtil namer = new NamingUtil();
 
 	public ClassDiagramAction(){
 		putValue(NAME, "Show class diagram");
@@ -103,7 +105,7 @@ public class ClassDiagramAction extends AbstractAction{
 				}
 				
 				//set component name as it is required for exporting applications
-				panel.getComponent().setName(panel.getPersistentClass().name());
+				panel.getComponent().setName(namer.fromCamelCase(panel.getPersistentClass().name()));
 				
 			}
 			((VisibleClass)ownedType).update();
