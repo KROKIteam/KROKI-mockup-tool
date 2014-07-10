@@ -1,6 +1,5 @@
 package kroki.app.action;
 
-import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.elements.GraphEditPackage;
 

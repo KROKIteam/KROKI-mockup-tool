@@ -72,7 +72,8 @@ public class ChangeElementCommand extends Command {
 		if (property == GraphElementProperties.NAME)
 			graphEditElement.setName(newName);
 		else if (property == GraphElementProperties.STEREOTYPE){
-			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
+			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE 
+					|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
 				for (Link link : links){
 					view.getModel().removeLinks(links);
 					removedMappings = view.getModel().removeFromElementByConnectorStructure(links);
@@ -101,7 +102,8 @@ public class ChangeElementCommand extends Command {
 		
 		if (property == GraphElementProperties.STEREOTYPE){
 			graphEditElement.setUmlElement(umlElement);
-			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
+			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE 
+					|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
 				view.getModel().addLinks(links);
 				view.getModel().addToElementByConnectorStructure(removedMappings);
 				view.addLinkPainters(linkPainters);
@@ -110,7 +112,8 @@ public class ChangeElementCommand extends Command {
 					link = links.get(i);
 					GraphEditElement sourceElement = link.getSourceConnector().getRepresentedElement();
 					GraphEditElement destinationElement = link.getDestinationConnector().getRepresentedElement();
-					if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE){
+					if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE 
+							|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
 						sourceElement.setOldLink(link, sourceList.get(i));
 						destinationElement.setOldLink(link, destinationList.get(i));
 					}
