@@ -1,5 +1,7 @@
 package bp.text.box;
 
+import java.util.List;
+
 import bp.event.AttributeChangeListener;
 import bp.model.data.Activity;
 import bp.model.data.ActivityEvent;
@@ -84,8 +86,31 @@ public class ProcessTextBox extends BlockTextBox {
 		
 		@Override
         public void elementRemoved(final Element e) {
-            getTextBoxes().remove(e);
+			
+			List<TextBox> textBoxes = getTextBoxes();
+
+			int index = -1;
+            TextBox textBox;
+            String uniqueName = "";
+			
+			for (int i = 0; i < textBoxes.size(); i++) {
+				textBox = textBoxes.get(i);
+				if (textBox instanceof ElementTextBox) {
+					uniqueName = ((ElementTextBox) textBox).getElement().getUniqueName();
+					if (uniqueName.equals(e.getUniqueName())) index = i;
+				}
+			}
+			
+            if (index > -1) {
+            	System.out.println("Index: " + index + ", unique name: " + uniqueName);
+            	textBoxes.remove(index);
+            }
+            
+			System.out.println("Text boxes size, after: " + textBoxes.size());
+			System.out.println("ProcessTextBox: elementRemoved(e).");
+			
             textChanged();
+            
         }
 
         @Override

@@ -42,6 +42,10 @@ public class BPGraphicPanel extends JPanel{
         final MouseController controller = new MouseController(this.mainPanel);
         this.addMouseListener(controller);
         this.addMouseMotionListener(controller);
+        
+        final KeyController keyController = new KeyController(this.mainPanel);
+        this.addKeyListener(keyController);
+        
     }
 
     public SelectionManager getSelectionManager() {

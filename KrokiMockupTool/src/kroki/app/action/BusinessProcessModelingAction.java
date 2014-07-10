@@ -3,6 +3,8 @@ package kroki.app.action;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -22,8 +24,8 @@ import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import bp.app.AppCore;
-import bp.util.WorkspaceUtility;
 import bp.model.data.Process;
+import bp.util.WorkspaceUtility;
 
 public class BusinessProcessModelingAction extends AbstractAction {
 
@@ -61,43 +63,48 @@ public class BusinessProcessModelingAction extends AbstractAction {
         File projectFile = project instanceof BussinesSubsystem ? project.getFile() : null; 
         appCore.setProjectFile(projectFile);
         
-        if (projectFile != null) {
-        	if (choiceList.size() > 0) {
-        		Object choice = selectVisibleElement();
-        		
-        		/* User has made a choice */ 
-        		if (choice != null) {
-	        		BusinessProcessModelingSubject modelingSubject = (BusinessProcessModelingSubject) choice;
+        if (project != null) {
+        	if (projectFile != null) {
+	        	if (choiceList.size() > 0) {
+	        		Object choice = selectVisibleElement();
 	        		
-	        		System.out.println("Modeling subject: " + modelingSubject);
-	        		System.out.println("Enclosing project file path: " + projectFile.getAbsolutePath());
-	
-	        		/* Unless a deep copy is used, user won't be able NOT (to choose) to save the changes */
-	        		if (modelingSubject.getProcess() == null) {
-	        			
-	        			String uniqueName = modelingSubject.toString();
-	        			Process process = WorkspaceUtility.load(appCore.getProjectFile(), uniqueName);
-	        			
-	        			if (process instanceof Process)      				
-	        				appCore.loadProcess(process);
-	        			else 
-	        				appCore.createBPPanel(uniqueName);
+	        		/* User has made a choice */ 
+	        		if (choice != null) {
+		        		BusinessProcessModelingSubject modelingSubject = (BusinessProcessModelingSubject) choice;
+		        		
+		        		System.out.println("Modeling subject: " + modelingSubject);
+		        		System.out.println("Enclosing project file path: " + projectFile.getAbsolutePath());
+		
+		        		/* Unless a deep copy is used, user won't be able NOT (to choose) to save the changes */
+		        		if (modelingSubject.getProcess() == null) {
+		        			
+		        			String uniqueName = modelingSubject.toString();
+		        			Process process = WorkspaceUtility.load(appCore.getProjectFile(), uniqueName);
+		        			
+		        			if (process instanceof Process)      				
+		        				appCore.loadProcess(process);
+		        			else 
+		        				appCore.createBPPanel(uniqueName);
+		        		}
+		        		//else appCore.loadProcess((Process) DeepCopy.copy(modelingSubject.getProcess()));
+		        		else appCore.loadProcess(modelingSubject.getProcess());
+			        	
+		        		appCore.setVisible(true);
+		        		
+		        		/* User has opted to save the changes */
+		        		if (appCore.isSaveActionInvoked()) {
+		        			System.out.println("Changes are being saved... " + modelingSubject);
+		        			modelingSubject.setProcess(appCore.getBpPanel().getProcess());
+		        		} 
+		        			
 	        		}
-	        		//else appCore.loadProcess((Process) DeepCopy.copy(modelingSubject.getProcess()));
-	        		else appCore.loadProcess(modelingSubject.getProcess());
-		        	
-	        		appCore.setVisible(true);
 	        		
-	        		/* User has opted to save the changes */
-	        		if (appCore.isSaveActionInvoked()) {
-	        			System.out.println("Changes are being saved... " + modelingSubject);
-	        			modelingSubject.setProcess(appCore.getBpPanel().getProcess());
-	        		} 
-	        			
-        		}
-        		
+	        	} else {
+	        		JOptionPane.showMessageDialog(appCore, "Make sure that you have at least one form in the project!", TITLE, JOptionPane.WARNING_MESSAGE);
+	        	}
         	} else {
-        		JOptionPane.showMessageDialog(appCore, "Make sure that you have at least one form in the project!", TITLE, JOptionPane.WARNING_MESSAGE);
+        		JOptionPane.showMessageDialog(appCore, "You have to save the project in order to proceed.", TITLE, JOptionPane.INFORMATION_MESSAGE);
+        		new SaveAction().actionPerformed(null);
         	}
 		} else {
 			JOptionPane.showMessageDialog(appCore, "Make sure to select the project first!", TITLE, JOptionPane.WARNING_MESSAGE);
@@ -151,13 +158,7 @@ public class BusinessProcessModelingAction extends AbstractAction {
 				selectedProject = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem) node);
 				
 				/* Find all forms in the project */
-				VisibleElement element;
-				
-				for (int i = 0; i < selectedProject.ownedElementCount(); i++) {
-					element = selectedProject.getOwnedElementAt(i);
-					if (element instanceof VisibleClass)
-						choiceList.add(element);
-				}
+				findAllForms(selectedProject);
 				
 			} else if (node instanceof VisibleClass) {
 				
@@ -200,7 +201,16 @@ public class BusinessProcessModelingAction extends AbstractAction {
     }
 	
 	private Object selectVisibleElement() {
+		
+		Collections.sort(choiceList, new Comparator<VisibleElement>() {
+			@Override
+			public int compare(VisibleElement e1, VisibleElement e2) {
+				return e1.toString().compareTo(e2.toString());
+			}
+		});
+		
 		Object[] choiceArray = choiceList.toArray();
+		
 		return JOptionPane.showInputDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
 		        "Choose a business process modeling subject: ",
 		        TITLE,
@@ -209,6 +219,21 @@ public class BusinessProcessModelingAction extends AbstractAction {
 		        choiceArray, 
 		        initiallySelected);
 		
+	}
+	
+	private void findAllForms(BussinesSubsystem pack) {
+		
+		/* Find all forms in the package */
+		VisibleElement element;
+		
+		for (int i = 0; i < pack.ownedElementCount(); i++) {
+			element = pack.getOwnedElementAt(i);
+			if (element instanceof VisibleClass)
+				choiceList.add(element);
+			else if (element instanceof BussinesSubsystem) {
+				findAllForms((BussinesSubsystem) element);
+			}
+		}
 	}
 	
 	public static final String TITLE = "Business Process Modeling Tool";

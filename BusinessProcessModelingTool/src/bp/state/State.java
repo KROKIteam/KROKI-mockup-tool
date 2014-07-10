@@ -1,5 +1,6 @@
 package bp.state;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public abstract class State {
@@ -25,6 +26,10 @@ public abstract class State {
     }
 
     public void mouseDoubleClick(MouseEvent e) {
+
+    }
+    
+    public void keyPressed(KeyEvent e) {
 
     }
 }
