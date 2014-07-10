@@ -31,7 +31,6 @@ public class PropertiesTable extends JTable{
 	public TableCellEditor getCellEditor(int row, int column){
 		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE || 
 				MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED ){
-			System.out.println(elementSelected);
 			if (elementSelected && row==5 && column==1){
 				System.out.println(cbEditor);
 				return cbEditor;

@@ -29,6 +29,7 @@ import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
+import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.state.SelectionState;
@@ -190,10 +191,10 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 				if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
 					link = lPainter.getLink();
 					element = model.getElementByConnector().get(link.getSourceConnector());
-					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 						continue;
 					element = model.getElementByConnector().get(link.getDestinationConnector());
-					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 						continue;
 				}
 				lPainter.setShape();
@@ -207,7 +208,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		for (ElementPainter painter : (ArrayList<ElementPainter>) elementPainters) {
 			if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
 				element = painter.getElement();
-				if (!element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+				if (!element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 					painter.paint(g2);
 			}
 			else
@@ -238,10 +239,10 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 				if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
 					link = lPainter.getLink();
 					element = model.getElementByConnector().get(link.getSourceConnector());
-					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 						continue;
 					element = model.getElementByConnector().get(link.getDestinationConnector());
-					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+					if (element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 						continue;
 				}
 				lPainter.setShape();

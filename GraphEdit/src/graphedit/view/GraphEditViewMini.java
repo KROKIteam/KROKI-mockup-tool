@@ -4,6 +4,7 @@ import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
+import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 
 import java.awt.BasicStroke;
@@ -73,10 +74,10 @@ public class GraphEditViewMini extends GraphEditViewPanel {
 			if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
 				link = lPainter.getLink();
 				element = model.getElementByConnector().get(link.getSourceConnector());
-				if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+				if (element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 					continue;
 				element = model.getElementByConnector().get(link.getDestinationConnector());
-				if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+				if (element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 					continue;
 			}
 			lPainter.setShape();
@@ -86,7 +87,7 @@ public class GraphEditViewMini extends GraphEditViewPanel {
 		for (ElementPainter painter : (ArrayList<ElementPainter>) view.getElementPainters()) {
 			if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
 				 element = painter.getElement();
-				 if (!element.getProperty(GraphElementProperties.STEREOTYPE).equals("Parent Child"))
+				 if (!element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 					 painter.paint(g2);
 				}
 				else
