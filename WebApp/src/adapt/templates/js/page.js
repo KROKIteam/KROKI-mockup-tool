@@ -714,7 +714,7 @@ function updateBounds(form) {
 				top: fixator.offset().top, 
 				left: $(this).offset().left 
 			});
-			$(this).css("padding-left", (span.offset().left - span.parent().offset().left)-10)
+			$(this).css("padding-left", (span.offset().left - span.parent().offset().left));
 		});
 	});
 }
