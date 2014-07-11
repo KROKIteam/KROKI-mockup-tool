@@ -132,10 +132,13 @@ $(document).ready(function(e) {
 
 	//CREATE FORM <DIV> ON MENU ITEM CLICK
 	$("li.subMenuItem").click(function(e) {
+		e.stopPropagation();
 		if(!$(this).hasClass("subMenuLink")) {
 			// Hide all the submenus
-			$("ul.L1SubMenu").each(function(index, element) {
-				$(this).css("visibility","hidden");
+			$(".mainMenuItems").each(function(index, element) {
+				$(this).removeClass("hover");
+				$(this).find("ul.L1SubMenu").css("visibility","hidden");
+				$(this).find("ul.L2SubMenu").hide();
 			});
 			// Return the main menu color to inital values
 			$("li.mainMenuItems").each(function(index, element) {

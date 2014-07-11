@@ -452,6 +452,8 @@ ul.L2SubMenu {
 .theadFixator {
 	position: absolute;
 	background-color: #346789;
+	border-right: 1px solid #000;
+	border-top: 1px solid #000;
 }
 
 .mainTable thead {
