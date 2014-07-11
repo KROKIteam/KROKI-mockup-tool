@@ -50,11 +50,11 @@ $(document).ready(function(e) {
 
 	//MAKE MAIN MENU ITEMS INVERT COLORS ON MOUSE HOVER
 	$(".mainMenuItems").hover(function(e) {
-		if($(this).find("ul.L1SubMenu").css('visibility') === 'hidden') {
+		if($(this).find("ul.L1SubMenu").css('visibility') == 'hidden') {
 			$(this).addClass("hover");
 		}
 	}, function(e) {
-		if($(this).find("ul.L1SubMenu").css('visibility') === 'hidden') {
+		if($(this).find("ul.L1SubMenu").css('visibility') == 'hidden') {
 			$(this).removeClass("hover");	
 		}
 	});
@@ -64,29 +64,18 @@ $(document).ready(function(e) {
 	// so getting parent of $(".menu") we get the actual <li> element
 	$(".mainMenuItems").click(function(e) {
 		//if corresponding submenu is not allready open, open it while closing all other submenus
-		if($(this).find("ul.L1SubMenu").css('visibility') === 'hidden') {
-			$(".menu").each(function(index, element) {
+		if($(this).find("ul.L1SubMenu").css('visibility') == 'hidden') {
+			$(".mainMenuItems").each(function(index, element) {
 				$(this).removeClass("hover");
-				$(this).find("ul.L1SubMenu").css({"visibility":"hidden"});
+				$(this).find("ul.L1SubMenu").css("visibility","hidden");
 				$(this).find("ul.L2SubMenu").hide();
 			});
-			/*var itemsHeight = 0;
-			var maxHeight = $("html").outerHeight() - $("nav").outerHeight();
-			$(this).find(".L1SubMenu > .subMenuItem").each(function(index, element) {
-				itemsHeight += $(this).outerHeight();
-			});
-			if(itemsHeight > maxHeight) {
-				$(this).find("ul.L1SubMenu").outerHeight(maxHeight);
-			}else {
-				$(this).find("ul.L1SubMenu").outerHeight(itemsHeight);
-			}*/
-			//
 			$(this).addClass("hover");
-			$(this).find("ul.L1SubMenu").css({"visibility":"visible"});
+			$(this).find("ul.L1SubMenu").css("visibility","visible");
 		}else {
 			//if a submenu is open, just close it on click
 			$(this).addClass("hover");
-			$(this).find("ul.L1SubMenu").css({"visibility":"hidden"});
+			$(this).find("ul.L1SubMenu").css("visibility","hidden");
 		}
 	});
 
@@ -104,7 +93,6 @@ $(document).ready(function(e) {
 	//SHOW HIGHER LEVEL SUBMENUS ON CLICK
 	$(".subMenuLink").click(function(e) {
 		e.stopPropagation();
-		$(this).parent().css("overflow", "visible");
 		// if submenu is not visible, click opens it
 		if(!$(this).find("ul.L2SubMenu").is(":visible")) {
 			// first close all others
@@ -146,8 +134,8 @@ $(document).ready(function(e) {
 	$("li.subMenuItem").click(function(e) {
 		if(!$(this).hasClass("subMenuLink")) {
 			// Hide all the submenus
-			$(".L1SubMenu").each(function(index, element) {
-				$(this).css("visibility","hidden");;
+			$("ul.L1SubMenu").each(function(index, element) {
+				$(this).css("visibility","hidden");
 			});
 			// Return the main menu color to inital values
 			$("li.mainMenuItems").each(function(index, element) {
@@ -157,7 +145,6 @@ $(document).ready(function(e) {
 			var panelType = $(this).attr("data-paneltype");
 			
 			makeNewWindow(activateLink, $(this).text(), panelType);
-			
 		}
 	});
 

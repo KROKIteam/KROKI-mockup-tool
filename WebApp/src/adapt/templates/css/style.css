@@ -157,8 +157,6 @@ nav {
 
 ul.L1SubMenu{
 	width: 120%;
-	overflow: auto;
-	overflow-x: hidden;
 	background-color: #f3f4f5;
 	color: #346789;
 	list-style: none;

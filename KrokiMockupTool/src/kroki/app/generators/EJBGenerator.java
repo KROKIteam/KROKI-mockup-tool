@@ -22,6 +22,7 @@ import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 
+import org.apache.commons.io.FileDeleteStrategy;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -367,18 +368,26 @@ public class EJBGenerator {
 
 	public boolean deleteFiles(File directory) {
 		boolean success = false;
+
 		if (!directory.exists()) {
 			return false;
 		}
 		if (!directory.canWrite()) {
 			return false;
 		}
+
 		File[] files = directory.listFiles();
 		for(int i=0; i<files.length; i++) {
 			File file = files[i];
-			if(!file.delete()) {
-				success = false;
+			if(file.isDirectory()) {
+				deleteFiles(file);
 			}
+			try {
+				FileDeleteStrategy.FORCE.delete(file);
+				success =  !file.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
 		}
 		return success;
 	}

@@ -16,7 +16,6 @@ public class NamingUtil {
 	 * @return string in camel case notion
 	 */
 	public String toCamelCase(String s, boolean cap) {
-		
 		if(!s.equals("")) {
 			s = s.replace('ž', 'z');
 			s = s.replace('Ž', 'z');
@@ -104,7 +103,6 @@ public class NamingUtil {
 						prazno=false;
 					}
 				}
-				
 				return builder.toString();
 			}
 		return "";

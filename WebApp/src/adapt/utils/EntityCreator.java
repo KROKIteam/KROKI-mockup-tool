@@ -44,21 +44,6 @@ public class EntityCreator {
 						//ocitamo ime i vrednost atributa
 						String fname = fields[j].getName();
 						Object value = fields[j].get(o);
-						if (!value.getClass().getSimpleName().equals("PersistentSet")) {
-							if(!value.getClass().getSimpleName().equals("PersistentBag")) {
-								if(!fname.equals("serialVersionUID")) {
-									if(headers != null && resource != null) {
-										if(!fname.equals("id")) {
-											String label = getAttributeLabel(resource, fname);
-											if(!headers.contains(label)) {
-												headers.add(label);
-											}
-										}
-									}
-								}
-							}
-						}
-
 						if (value == null) {
 							value = new String("None");
 							EntityProperty pr = new EntityProperty(fname,value.toString());
@@ -108,6 +93,20 @@ public class EntityCreator {
 											System.out.println("[IMAM] " + fname + " = " + value.toString());
 											EntityProperty pr = new EntityProperty(fname,value.toString());
 											entity.getProperties().add(pr);
+										}
+									}
+								}
+							}
+						}
+						if (!value.getClass().getSimpleName().equals("PersistentSet")) {
+							if(!value.getClass().getSimpleName().equals("PersistentBag")) {
+								if(!fname.equals("serialVersionUID")) {
+									if(headers != null && resource != null) {
+										if(!fname.equals("id")) {
+											String label = getAttributeLabel(resource, fname);
+											if(!headers.contains(label)) {
+												headers.add(label);
+											}
 										}
 									}
 								}
