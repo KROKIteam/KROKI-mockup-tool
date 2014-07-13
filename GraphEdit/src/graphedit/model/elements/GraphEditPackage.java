@@ -175,6 +175,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 			if (clazz.getUmlElement().equals(testClass))
 				return clazz;
 		}
+		for (GraphEditPackage pack : loadedPackage.getSubPackages()){
+			UIClassElement found = savedClass(testClass, pack);
+			if (found != null)
+				return found;
+		}
 		return null;
 	}
 
