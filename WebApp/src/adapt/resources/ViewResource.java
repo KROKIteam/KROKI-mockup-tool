@@ -187,6 +187,7 @@ public class ViewResource extends Resource {
 		for(int i=0; i<resource.getManyToOneAttributes().size(); i++) {
 			XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(i);
 			XMLResource ress = app.getXMLResource(mattr.getType());
+			System.out.println("[QUERY] " + "FROM " + mattr.getType());
 			ArrayList<Object> objects = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList();
 			ArrayList<EntityClass> entities;
 			try {

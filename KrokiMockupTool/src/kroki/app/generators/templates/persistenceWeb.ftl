@@ -14,6 +14,8 @@ ${doc}
 		  	<property name="hibernate.hbm2ddl.auto" value="create"/>
 		  	<property name="hibernate.connection.useUnicode" value="true" />
 			<property name="hibernate.connection.characterEncoding" value="UTF-8" />
+			<property name="hibernate.show_sql" value="true" />
+	  		<property name="hibernate.format_sql" value="true" />
       </properties>
    </persistence-unit>
 </persistence>

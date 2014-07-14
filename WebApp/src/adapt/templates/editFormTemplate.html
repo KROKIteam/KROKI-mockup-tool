@@ -25,6 +25,11 @@
 									<td class="inputColumn">
 									<textarea class="stdFormInputs" rows="4" name="attr${label_index}izmena">${attributeValues[label_index]}</textarea>
 									</td>
+									<#elseif resource.attributes[label_index].type == "java.util.Date">
+										<td class="labelColumn">${label}:</td>
+										<td class="inputColumn">
+											<input class="stdFormInputs datepicker" type="text" name="attr${label_index}izmena" value="${attributeValues[label_index]}" autocomplete="off">
+										</td>
 									<#else>
 										<td class="labelColumn">${label}:</td>
 										<td class="inputColumn">

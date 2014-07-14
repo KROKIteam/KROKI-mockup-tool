@@ -124,7 +124,7 @@
 									</td>
 									<#elseif attr.type == "java.util.Date">
 									<td class="inputColumn" >
-										<input class="stdFormInputs" type="text" name="attr${attr.name}Dodavanje">
+										<input class="stdFormInputs datepicker" type="text" name="attr${attr.name}Dodavanje" autocomplete="off">
 									</td>
 									<#elseif attr.type?ends_with("TextArea")>
 									<td class="inputColumn">

@@ -380,6 +380,13 @@ $(document).ready(function(e) {
 				success: function(data) {
 					form.append(data);
 					form.find(".nextPopup").hide();
+					//initialize jquery IU datepickers
+					$(".datepicker").datepicker({
+						changeMonth: true,
+						changeYear: true,
+						dateFormat: "d.m.yy.",
+						yearRange: "1900:2100"
+					});
 					form.fadeOut(fadeSpeed, function(e) {
 						form.find(".tableDiv").hide();
 						form.find(".operationsDiv").hide();
@@ -657,6 +664,13 @@ function loadDataToForm(form, displayTitle) {
 			 * Set the bounds of table head fixator div and its contents 
 			 */
 			updateBounds(form);
+			//initialize jquery IU datepickers
+			$(".datepicker").datepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: "d.m.yy.",
+				yearRange: "1900:2100"
+			});
 		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 			window.remove();

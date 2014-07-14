@@ -142,7 +142,8 @@ nav {
 	border-bottom: 7px solid transparent;
 	border-left: 7px solid #346789;
 	float: right;
-	margin-top: 4px
+	margin-top: 4px;
+	margin-right: 5px;
 }
 
 .arrow-right-hover {
@@ -173,9 +174,10 @@ ul.L1SubMenu{
 
 ul.L1SubMenu li {
 	border-bottom: 1px solid #346789;
-	text-align: center;
-	width: 92%;
+	text-align: left;
+	width: 88%;
 	padding: 5px;
+	padding-left: 15px;
 }
 
 ul.L1SubMenu li:last-child {

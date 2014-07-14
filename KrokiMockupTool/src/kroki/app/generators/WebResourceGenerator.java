@@ -201,6 +201,9 @@ public class WebResourceGenerator {
 						//<DatabaseName>
 						Element zoomDBName = doc.createElement("DatabaseName");
 						zoomDBName.setTextContent(zoom.name());
+						if(zoom.name() == null) {
+							zoomDBName.setTextContent(cc.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false)); 
+						}
 						zoomElement.appendChild(zoomDBName);
 						
 						//<Label>
@@ -209,7 +212,7 @@ public class WebResourceGenerator {
 						zoomElement.appendChild(zoomLabel);
 						
 						//<Type>
-						String zoomType =cc.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false);
+						String zoomType = cc.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false);
 						Element zoomTypeTag = doc.createElement("Type");
 						zoomTypeTag.setTextContent(zoomType);
 						zoomElement.appendChild(zoomTypeTag);
