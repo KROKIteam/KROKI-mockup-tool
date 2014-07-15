@@ -26,7 +26,7 @@ public class KrokiMockupToolSplashScreen extends JWindow {
 
 		JPanel content = (JPanel) getContentPane();
 		content.setBackground(Color.white);
-		setSize(new Dimension(400,350));
+		setSize(new Dimension(600,200));
 		setLocationRelativeTo(null);
 
 		Image ico = ImageResource.getImageResource("splash.icon");
@@ -37,8 +37,6 @@ public class KrokiMockupToolSplashScreen extends JWindow {
 
 		content.add(label, BorderLayout.CENTER);
 		content.add(pnlUcitavanje, BorderLayout.SOUTH);
-
-		content.setBorder(BorderFactory.createLineBorder(Color.BLACK, 7));
 	}
 
 	public void showSplashAndExit() {

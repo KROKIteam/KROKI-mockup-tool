@@ -18,7 +18,7 @@ public class KrokiMockupToolAboutDialog extends JDialog {
 	}
 
 	public void init() {
-		setSize(420, 335);
+		setSize(600, 365);
 		setLocationRelativeTo(null);
 		setModal(true);
 		setAlwaysOnTop(true);
