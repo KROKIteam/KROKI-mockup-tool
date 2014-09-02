@@ -790,7 +790,16 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	public LayoutStrategy getLayoutStrategy(){
 		if (loaded)
 			return LayoutStrategy.ADDING;
-		return LayoutStrategy.TREE;
+		return getBestStrategy();
+	
+	}
+	
+	private LayoutStrategy getBestStrategy(){
+		//return LayoutStrategy.KKGRAPH;
+		//return LayoutStrategy.TREE;
+		//return LayoutStrategy.SPRING;
+		//return LayoutStrategy.FRGRAPH;
+		return LayoutStrategy.CIRCLE;
 	}
 
 

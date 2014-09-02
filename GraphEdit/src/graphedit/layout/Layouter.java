@@ -1,6 +1,5 @@
 package graphedit.layout;
 
-import java.awt.Graphics;
 
 public interface Layouter {
 	

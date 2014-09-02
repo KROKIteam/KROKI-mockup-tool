@@ -5,6 +5,10 @@
 	<classpathentry kind="lib" path="libs/org.abego.treelayout.core.jar"/>
 	<classpathentry kind="lib" path="libs/miglayout-3.7.3.1-swing.jar"/>
 	<classpathentry kind="lib" path="libs/xpp3-1.1.3_8.jar"/>
+	<classpathentry kind="lib" path="libs/JungLayouting/jung-algorithms-2.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/JungLayouting/jung-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/JungLayouting/jung-graph-impl-2.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/JungLayouting/jung-visualization-2.0.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>

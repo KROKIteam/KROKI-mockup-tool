@@ -21,6 +21,11 @@ import graphedit.actions.file.SaveProjectAction;
 import graphedit.actions.help.AboutAction;
 import graphedit.actions.help.ContentsAction;
 import graphedit.actions.help.IndexAction;
+import graphedit.actions.layout.CircleLayoutAction;
+import graphedit.actions.layout.FRLayoutAction;
+import graphedit.actions.layout.KKLayoutAction;
+import graphedit.actions.layout.SpringLayoutAction;
+import graphedit.actions.layout.TreeLayoutAction;
 import graphedit.actions.pallete.AggregationLinkButtonAction;
 import graphedit.actions.pallete.AssociationLinkButtonAction;
 import graphedit.actions.pallete.ClassButtonAction;
@@ -143,7 +148,7 @@ public class MainFrame extends JDialog{
 	private JToggleButton aggregationLinkButton,associationLinkButton,compositionLinkButton,
 	dependencyLinkButton,generalizationLinkButton,innerLinkButton,realizationLinkButton,requireLinkButton;
 	private JToggleButton interfaceButton, classButton, selectButton, lassoZoomButton, packageButton;
-	private JMenu fileMenu, editMenu, viewMenu, helpMenu;
+	private JMenu fileMenu, editMenu, viewMenu, helpMenu, layoutMenu, forceDrivenMenu;
 	private ViewPopupMenu viewPopupMenu;
 	private LinkPopupMenu linkPopupMenu;
 
@@ -195,6 +200,12 @@ public class MainFrame extends JDialog{
 	private IndexAction indexDiagramAction;
 	private ContentsAction contentsDiagramAction;
 	private AboutAction aboutDiagramAction;
+	// Layout Actions
+	private CircleLayoutAction circleLayoutAction;
+	private FRLayoutAction frLayoutAction;
+	private KKLayoutAction kkLayoutAction;
+	private SpringLayoutAction springLayoutAction;
+	private TreeLayoutAction treeLaoutAction;
 
 	// Action Controller
 	private ActionController actionController;
@@ -289,6 +300,12 @@ public class MainFrame extends JDialog{
 			preferencesAction = new PreferencesAction();
 			fullScreenAction = new FullScreenAction();
 			showGridAction = new ShowGridAction();
+			//Layout Action
+			circleLayoutAction = new CircleLayoutAction();
+			frLayoutAction = new FRLayoutAction();
+			kkLayoutAction = new KKLayoutAction();
+			springLayoutAction = new SpringLayoutAction();
+			treeLaoutAction = new TreeLayoutAction();
 			//Application mode
 			cbAppMode = new JComboBox<String>(new String[] {"User interface", "Useri interface persistent", "User interface all"});
 			cbAppMode.setPreferredSize(new Dimension(150,20));
@@ -496,6 +513,14 @@ public class MainFrame extends JDialog{
 			viewMenu.add(preferencesAction);
 			showGridMenuItem.setEnabled(false);
 			showGridMenuItem.setSelected(true);
+			layoutMenu = new JMenu("Layouting");
+			forceDrivenMenu = new JMenu("Force-driven algorithms");
+			forceDrivenMenu.add(kkLayoutAction);
+			forceDrivenMenu.add(frLayoutAction);
+			forceDrivenMenu.add(springLayoutAction);
+			layoutMenu.add(forceDrivenMenu);
+			layoutMenu.add(circleLayoutAction);
+			layoutMenu.add(treeLaoutAction);
 			helpMenu = new JMenu("Help");
 			helpMenu.setMnemonic(KeyEvent.VK_H);
 			helpMenu.add(indexDiagramAction);
@@ -504,6 +529,7 @@ public class MainFrame extends JDialog{
 			mainMenu.add(fileMenu);
 			mainMenu.add(editMenu);
 			mainMenu.add(viewMenu);
+			mainMenu.add(layoutMenu);
 			mainMenu.add(helpMenu);
 		}
 		private void mainToolBarInit() {
