@@ -38,6 +38,7 @@ import graphedit.util.WorkspaceUtility;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -208,14 +209,21 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 
 		}
-
+		
+		for (ElementPainter painter : (ArrayList<ElementPainter>) elementPainters) {
+			element = painter.getElement();
+			if (MainFrame.getInstance().getAppMode().equals(ApplicationMode.USER_INTERFACE_PERSISTENT)){
+				
+				if (!element.getProperty(GraphElementProperties.STEREOTYPE).equals(ClassStereotypeUI.PARENT_CHILD.toString()))
+					painter.paint(g2);
+			}
+			else
+				painter.paint(g2);
+		}
 
 		
 
 		if (layout){
-
-			System.out.println("paint sa layoutom");
-			
 			Layouter layouter = LayouterFactory.createLayouter(layoutStrategy, 
 					this, g);
 
@@ -251,7 +259,6 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 				lPainter.setShape();
 				lPainter.paint(g2);
 			}
-			layout = false;
 		}
 
 		first = false;
@@ -352,6 +359,11 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 			scaleMini = false;
 		}
 		miniView.repaint();
+		
+		if (layout){
+			layout = false;
+			repaint();
+		}
 	}
 
 	public void setLinkNodePainters(Link link){

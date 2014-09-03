@@ -4,11 +4,8 @@ import graphedit.layout.AbstractLayouter;
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
-import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-import graphedit.strategy.AsIsStrategy;
-import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
 
 import java.awt.Dimension;
@@ -21,23 +18,17 @@ import java.util.Random;
 
 public class AddingLayouter extends AbstractLayouter{
 
-	private GraphEditModel model;
-	private GraphEditView view;
 	//private Preferences prefs = Preferences.getInstance();
-	private LinkStrategy strategy;
 	private List<GraphElement> elements = new ArrayList<GraphElement>();
 
 	public AddingLayouter(GraphEditView view) {
-		super();
-		this.view = view;
-		model = view.getModel();
+		super(view);
 		//Strategy
 		//TODO podrzati right angle strategiju
 
 		//if (prefs.getProperty(Preferences.RIGHT_ANGLE).equalsIgnoreCase("true")) 
 		//strategy = new RightAngledStrategy();
 		//else 
-		strategy = new AsIsStrategy();
 		elements.addAll(model.getDiagramElements());
 		elements.addAll(model.getContainedPackages());
 	}

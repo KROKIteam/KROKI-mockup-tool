@@ -23,6 +23,15 @@ public class LayoutProperties {
 		}
 	}
 	
+	public int getIntValue(String key){
+		try{
+			return Integer.parseInt(properties.getProperty(key));
+		}
+		catch (Exception ex){
+			return 0;
+		}
+	}
+	
 	public double getGapBetweenLevels(){
 		if (gapBetweenLevels == null)
 			gapBetweenLevels = Double.parseDouble(properties.getProperty("gapBetweenLevels"));

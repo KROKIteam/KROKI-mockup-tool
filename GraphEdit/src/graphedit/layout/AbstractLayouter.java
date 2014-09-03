@@ -1,20 +1,54 @@
 package graphedit.layout;
 
 import graphedit.model.components.Connector;
+import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
 import graphedit.model.components.LinkableElement;
+import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
+import graphedit.properties.LayoutProperties;
+import graphedit.strategy.AsIsStrategy;
 import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractLayouter implements Layouter{
+	
+	protected GraphEditView view;
+	protected GraphEditModel model;
+	protected LinkStrategy strategy;
+	protected Graphics g;
+	protected LayoutProperties layoutProperties = LayoutProperties.getInstance();
+	protected int xOffset = 0, yOffset = 0;
+	protected List<GraphElement> elementsToLayout;
+	
+	public AbstractLayouter(GraphEditView view){
+		this.view = view;
+		this.model = view.getModel();
+		strategy = new AsIsStrategy();
+		elementsToLayout = new ArrayList<GraphElement>();
+		elementsToLayout.addAll(model.getContainedPackages());
+		elementsToLayout.addAll(model.getDiagramElements());
+	}
+	
+	public AbstractLayouter(GraphEditView view, List<GraphElement> elementsToLayout){
+		this.view = view;
+		this.model = view.getModel();
+		strategy = new AsIsStrategy();
+		this.elementsToLayout = elementsToLayout;
+	}
+	
+	public AbstractLayouter(GraphEditView view, Graphics g){
+		this(view);
+		this.g = g;
+	}
 
 	protected final int xConnOffset = 0, yConnOffset = 20, yNodeOffset = 0, xNodeOffset =  75; 
 

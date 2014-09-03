@@ -3,6 +3,7 @@ package graphedit.model.elements;
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.layout.LayoutStrategy;
+import graphedit.layout.LayoutUtil;
 import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.AggregationLink;
 import graphedit.model.components.AssociationLink;
@@ -606,6 +607,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		fireChanges();
 		return result;
 	}
+	
+	
+	public LayoutStrategy getLayoutStrategy(){
+		if (loaded)
+			return LayoutStrategy.ADDING;
+		return LayoutUtil.getBestLayoutingStrategy(diagram);
+	
+	}
 
 	//**********************************************************************
 	/*
@@ -787,20 +796,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		this.loaded = loaded;
 	}
 
-	public LayoutStrategy getLayoutStrategy(){
-		if (loaded)
-			return LayoutStrategy.ADDING;
-		return getBestStrategy();
+
 	
-	}
-	
-	private LayoutStrategy getBestStrategy(){
-		//return LayoutStrategy.KKGRAPH;
-		//return LayoutStrategy.TREE;
-		//return LayoutStrategy.SPRING;
-		//return LayoutStrategy.FRGRAPH;
-		return LayoutStrategy.CIRCLE;
-	}
 
 
 }

@@ -5,11 +5,9 @@ import graphedit.command.Command;
 import graphedit.command.CutElementsCommand;
 import graphedit.command.CutLinkCommand;
 import graphedit.command.DeletePackagesCommand;
-import graphedit.command.RemoveElementCommand;
 import graphedit.gui.utils.Dialogs;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
-import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
 import graphedit.util.ResourceLoader;
 import graphedit.view.ElementPainter;
@@ -44,7 +42,6 @@ public class DeleteAction extends AbstractAction {
 		
 		TreePath selectedPath = MainFrame.getInstance().getMainTree().getSelectionPath();
 		Object selected = selectedPath.getLastPathComponent();
-		Object parent = selectedPath.getParentPath().getLastPathComponent();
 		
 		if (Dialogs.showYesNoDialog("Are you sure you want to delete " + selected + "?", "Delete") != JOptionPane.YES_OPTION) {
 			return;

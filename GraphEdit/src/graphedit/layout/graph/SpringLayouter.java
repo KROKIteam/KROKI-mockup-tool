@@ -8,25 +8,17 @@ import graphedit.layout.LayouterException;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkableElement;
-import graphedit.model.diagram.GraphEditModel;
-import graphedit.strategy.AsIsStrategy;
-import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
 
 import java.awt.geom.Point2D;
 import java.util.List;
 
 public class SpringLayouter extends AbstractLayouter{
-
-	private GraphEditView view;
-	private GraphEditModel model;
-	private LinkStrategy strategy;
+	
 	private int xOffset = 0, yOffset = 0;
 
 	public SpringLayouter (GraphEditView view){
-		this.view = view;
-		this.model = view.getModel();
-		strategy = new AsIsStrategy();
+		super(view);
 	}
 	
 

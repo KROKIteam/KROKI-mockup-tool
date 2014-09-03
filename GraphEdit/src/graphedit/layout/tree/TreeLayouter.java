@@ -2,21 +2,13 @@ package graphedit.layout.tree;
 
 import graphedit.layout.AbstractLayouter;
 import graphedit.layout.LayouterException;
-import graphedit.model.components.Class;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
-import graphedit.model.components.shortcuts.ClassShortcut;
-import graphedit.model.components.shortcuts.Shortcut;
-import graphedit.model.diagram.GraphEditModel;
 import graphedit.properties.LayoutProperties;
-import graphedit.strategy.AsIsStrategy;
 import graphedit.strategy.LinkStrategy;
-import graphedit.view.ClassPainter;
 import graphedit.view.GraphEditView;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,26 +19,18 @@ import org.abego.treelayout.util.DefaultConfiguration;
 
 public class TreeLayouter extends AbstractLayouter{
 
-	private GraphEditModel model;
-	private GraphEditView view;
 	private LayoutProperties layoutProperties = LayoutProperties.getInstance();
 	//private Preferences prefs = Preferences.getInstance();
 	private LinkStrategy strategy;
 	private List<GraphElement> addedElements = new ArrayList<GraphElement>();
-	private Graphics g;
-
 	public TreeLayouter(GraphEditView view, Graphics g) {
-		super();
-		this.view = view;
-		model = view.getModel();
-		this.g = g;
+		super(view);
 		//Strategy
 		//TODO podrzati right angle strategiju
 
 		//if (prefs.getProperty(Preferences.RIGHT_ANGLE).equalsIgnoreCase("true")) 
 		//strategy = new RightAngledStrategy();
 		//else 
-		strategy = new AsIsStrategy();
 	}
 
 	private boolean checkTree(LayoutTreeNode node){

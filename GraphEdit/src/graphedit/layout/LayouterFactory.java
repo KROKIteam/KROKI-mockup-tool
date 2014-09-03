@@ -1,6 +1,7 @@
 package graphedit.layout;
 
 import graphedit.layout.adding.AddingLayouter;
+import graphedit.layout.box.BoxLayouter;
 import graphedit.layout.graph.CircleLayouter;
 import graphedit.layout.graph.FRLayouter;
 import graphedit.layout.graph.KKLayouter;
@@ -30,6 +31,8 @@ public class LayouterFactory {
 			layouter = new FRLayouter(view);
 		else if (strategy == LayoutStrategy.CIRCLE)
 			layouter = new CircleLayouter(view);
+		else if (strategy == LayoutStrategy.BOX)
+			layouter = new BoxLayouter(view);
 		
 		return layouter;
 	}

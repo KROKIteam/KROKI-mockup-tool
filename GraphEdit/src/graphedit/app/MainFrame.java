@@ -21,6 +21,7 @@ import graphedit.actions.file.SaveProjectAction;
 import graphedit.actions.help.AboutAction;
 import graphedit.actions.help.ContentsAction;
 import graphedit.actions.help.IndexAction;
+import graphedit.actions.layout.BoxLayoutAction;
 import graphedit.actions.layout.CircleLayoutAction;
 import graphedit.actions.layout.FRLayoutAction;
 import graphedit.actions.layout.KKLayoutAction;
@@ -205,7 +206,8 @@ public class MainFrame extends JDialog{
 	private FRLayoutAction frLayoutAction;
 	private KKLayoutAction kkLayoutAction;
 	private SpringLayoutAction springLayoutAction;
-	private TreeLayoutAction treeLaoutAction;
+	private TreeLayoutAction treeLaoyutAction;
+	private BoxLayoutAction boxLayoutAction;
 
 	// Action Controller
 	private ActionController actionController;
@@ -305,7 +307,8 @@ public class MainFrame extends JDialog{
 			frLayoutAction = new FRLayoutAction();
 			kkLayoutAction = new KKLayoutAction();
 			springLayoutAction = new SpringLayoutAction();
-			treeLaoutAction = new TreeLayoutAction();
+			treeLaoyutAction = new TreeLayoutAction();
+			boxLayoutAction = new BoxLayoutAction();
 			//Application mode
 			cbAppMode = new JComboBox<String>(new String[] {"User interface", "Useri interface persistent", "User interface all"});
 			cbAppMode.setPreferredSize(new Dimension(150,20));
@@ -520,7 +523,8 @@ public class MainFrame extends JDialog{
 			forceDrivenMenu.add(springLayoutAction);
 			layoutMenu.add(forceDrivenMenu);
 			layoutMenu.add(circleLayoutAction);
-			layoutMenu.add(treeLaoutAction);
+			layoutMenu.add(treeLaoyutAction);
+			layoutMenu.add(boxLayoutAction);
 			helpMenu = new JMenu("Help");
 			helpMenu.setMnemonic(KeyEvent.VK_H);
 			helpMenu.add(indexDiagramAction);
