@@ -22,6 +22,7 @@ import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
+import kroki.app.utils.SaveUtil;
 import kroki.app.utils.StringResource;
 import kroki.app.view.Canvas;
 import kroki.common.copy.DeepCopy;
@@ -80,7 +81,7 @@ public class SaveAction extends AbstractAction {
 			//if project allready has a file to save, save to that file, else display choose file dialog
 			if(proj.getFile() != null) {
 				System.out.println("saving to file: " + proj.getFile().getAbsolutePath());
-				if (DeepCopy.saveXStream(proj, proj.getFile())){
+				if (SaveUtil.saveGZipObject(proj, proj.getFile())){
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved!", 0);
 				}
 				else{
@@ -100,7 +101,7 @@ public class SaveAction extends AbstractAction {
 					}
 					System.out.println("saving to file: " + file.getAbsolutePath());
 					proj.setFile(file);
-					if (DeepCopy.saveXStream(proj, proj.getFile())){
+					if (SaveUtil.saveXStream(proj, proj.getFile())){
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved to " + file.getAbsolutePath() + "!", 0);
 					}
 					else{

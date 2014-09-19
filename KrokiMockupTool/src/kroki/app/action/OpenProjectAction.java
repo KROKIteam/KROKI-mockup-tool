@@ -7,6 +7,7 @@ package kroki.app.action;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -17,8 +18,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
+import kroki.app.utils.SaveUtil;
 import kroki.app.utils.StringResource;
-import kroki.common.copy.DeepCopy;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
@@ -46,7 +47,7 @@ public class OpenProjectAction extends AbstractAction {
         if (retValue == JFileChooser.APPROVE_OPTION) {
             File file = jfc.getSelectedFile();
             System.out.println("opening from file: " + file.getAbsolutePath());
-            BussinesSubsystem bussinesSubsystem = (BussinesSubsystem) DeepCopy.loadXStream(file);
+            BussinesSubsystem bussinesSubsystem = (BussinesSubsystem) SaveUtil.loadGZipObject(file);
             bussinesSubsystem.setFile(file);
             if(bussinesSubsystem != null) {
             	BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findProject(file);

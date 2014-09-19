@@ -15,9 +15,8 @@ import javax.swing.KeyStroke;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.Workspace;
+import kroki.app.utils.SaveUtil;
 import kroki.app.utils.StringResource;
-import kroki.common.copy.DeepCopy;
-import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
  *
@@ -41,7 +40,7 @@ public class OpenFileAction extends AbstractAction {
             System.out.println("opening from file: " + file.getAbsolutePath());
             Workspace workspace = null;
             try {
-                workspace = (Workspace) DeepCopy.open(file);
+                workspace = (Workspace) SaveUtil.loadXStream(file);
                 //KrokiMockupToolApp.getInstance().getWorkspace().addBussinesSubsystem(bussinesSubsystem);
                 KrokiMockupToolApp.getInstance().setWorkspace(workspace);
                 KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
