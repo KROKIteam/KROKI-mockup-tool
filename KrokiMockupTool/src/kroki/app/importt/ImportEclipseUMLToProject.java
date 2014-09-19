@@ -155,7 +155,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			{
 				if(project!=null)
 				{
-					project.setFile(file);
+					//project.setFile(file);
 					KrokiMockupToolApp.getInstance().getWorkspace().addPackage(project);
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
 					publishText("Project for Eclipse UML model created successfully");
@@ -786,18 +786,28 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			String base=secondVisibleClass.getLabel();
 			int[] sufix=null;
 			zoomName=base;
+			boolean provera=false;
 			Map<Object,Object> properties= propertiesOperations.get(secondClass).get(PROPERTY);
 			VisibleElement element;
-			for(Entry<Object, Object> value:properties.entrySet())
-			{
-				element=(VisibleElement)value.getValue();
-				if(zoomName!=null && element.getLabel()!=null)
-					while(zoomName.equals(element.getLabel()))
-					{
-						sufix=updateSufix(sufix);
-						zoomName=createText(base, sufix);
-					}
-			}
+			/* Do-while loop needed because there is a case when the suffix that is added to the
+			 * nextName is equal to a name of another element, but because that element was before
+			 * this point the new suffix is not checked with the name of that element. New suffix 
+			 * needs to be checked with the elements that where already passed. 
+			 */
+			do{
+				provera=false;
+				for(Entry<Object, Object> value:properties.entrySet())
+				{
+					element=(VisibleElement)value.getValue();
+					if(zoomName!=null && element.getLabel()!=null)
+						while(zoomName.equals(element.getLabel()))
+						{
+							sufix=updateSufix(sufix);
+							zoomName=createText(base, sufix);
+							provera=true;
+						}
+				}
+			}while(provera);
 			publishWarning("Creating zoom for association end that has no name set");
 			publishWarning("Name for association end set to be "+zoomName);
 		}
@@ -989,29 +999,44 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			String base=secondVisibleClass.getLabel();
 			int[] sufix=null;
 			nextName=base;
+			boolean provera=false;
 			Map<Object,Object> properties= propertiesOperations.get(secondClass).get(PROPERTY);
 			VisibleElement element;
-			for(Entry<Object, Object> value:properties.entrySet())
-			{
-				element=(VisibleElement)value.getValue();
-				if(nextName!=null && element.getLabel()!=null)
-					while(nextName.equals(element.getLabel()))
-					{
-						sufix=updateSufix(sufix);
-						nextName=createText(base, sufix);
-					}
-			}
+			/* Do-while loop needed because there is a case when the suffix that is added to the
+			 * nextName is equal to a name of another element, but because that element was before
+			 * this point the new suffix is not checked with the name of that element. New suffix 
+			 * needs to be checked with the elements that where already passed. 
+			 */
+			do{
+				provera=false;
+				for(Entry<Object, Object> value:properties.entrySet())
+				{
+					element=(VisibleElement)value.getValue();
+					if(nextName!=null && element.getLabel()!=null)
+						while(nextName.equals(element.getLabel()))
+						{
+							sufix=updateSufix(sufix);
+							nextName=createText(base, sufix);
+							provera=true;
+						}
+				}
+			}while(provera);
 			properties= propertiesOperations.get(secondClass).get(OPERATION);
-			for(Entry<Object, Object> value:properties.entrySet())
-			{
-				element=(VisibleElement)value.getValue();
-				if(nextName!=null && element.getLabel()!=null)
-					while(nextName.equals(element.getLabel()))
-					{
-						sufix=updateSufix(sufix);
-						nextName=createText(base, sufix);
-					}
-			}
+			
+			do{
+				provera=false;
+				for(Entry<Object, Object> value:properties.entrySet())
+				{
+					element=(VisibleElement)value.getValue();
+					if(nextName!=null && element.getLabel()!=null)
+						while(nextName.equals(element.getLabel()))
+						{
+							sufix=updateSufix(sufix);
+							nextName=createText(base, sufix);
+							provera=true;
+						}
+				}
+			}while(provera);
 			publishWarning("Creating next for association end that has no name set");
 			publishWarning("Name for association end set to be "+nextName);
 		}

@@ -73,9 +73,11 @@ public class SelectState extends State {
         //ukoliko je samo jedan selektovan pokazi handlove.
         if (selectionModel.getSelectionNum() == 1) {
             el = selectionModel.getVisibleElementAt(0);
-            h = HandleManager.getHandleForPoint(el, e.getPoint());
+            //h = HandleManager.getHandleForPoint(el, e.getPoint());
+            h = HandleManager.getHandleForPoint(el, currentPosition);
         }
         if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != 0) {
+        	System.out.println(h);
             if (h != null) {
                 selectionModel.clearSelection();
                 selectionModel.addToSelection(el);

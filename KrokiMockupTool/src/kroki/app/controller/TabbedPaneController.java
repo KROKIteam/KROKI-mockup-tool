@@ -26,7 +26,7 @@ import kroki.profil.panel.VisibleClass;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 public class TabbedPaneController extends AbstractController {
 
@@ -88,7 +88,7 @@ public class TabbedPaneController extends AbstractController {
         Canvas canvas = new Canvas(visibleClass);
         canvasList.add(canvas);
 
-        canvas.setPreferredSize(new Dimension(2000, 2000));
+        canvas.setPreferredSize(new Dimension(2000, 10000));
         JScrollPane jsp = new JScrollPane();
         jsp.getViewport().setScrollMode(JViewport.BLIT_SCROLL_MODE);
         jsp.getViewport().add(canvas);
@@ -104,7 +104,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Zatvara tab koji se nalazi na poziciji označenoj prosleđenim indeksom.
+     * Zatvara tab koji se nalazi na poziciji oznaÄ�enoj prosleÄ‘enim indeksom.
      * @param index indeks.
      */
     public void closeTab(int index) {
@@ -114,7 +114,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Vraća komponentu koja je pridružena tabu sa prosleđenim indeksom.
+     * VraÄ‡a komponentu koja je pridruÅ¾ena tabu sa prosleÄ‘enim indeksom.
      * @param index indeks
      * @return Canvas
      */
@@ -123,7 +123,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Vraća komponentu pridruženu tabu koji je trenutno selektovan
+     * VraÄ‡a komponentu pridruÅ¾enu tabu koji je trenutno selektovan
      * @return Canvas
      */
     public Canvas getCurrentTabContent() {
@@ -132,7 +132,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Vraća indeks taba koji u sebi sadrži prosleđenu vidljivu klasu
+     * VraÄ‡a indeks taba koji u sebi sadrÅ¾i prosleÄ‘enu vidljivu klasu
      * @param visibleClass vidljiva klasa
      * @return indeks
      */
@@ -147,7 +147,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Proverava da li postoji otvoreni tab koji u sebi sadrži vidljivu klasu
+     * Proverava da li postoji otvoreni tab koji u sebi sadrÅ¾i vidljivu klasu
      * @param visibleClass vidljiva klasa
      * @return true/false
      */
@@ -161,7 +161,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Podešava naslov u zaglavlju taba
+     * PodeÅ¡ava naslov u zaglavlju taba
      * @param index indeks taba
      * @param title naslov
      */
@@ -170,7 +170,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Podešava naslov taba koji u sebi ima vidljivu klasu
+     * PodeÅ¡ava naslov taba koji u sebi ima vidljivu klasu
      * @param visibleClass vidljiva klasa
      */
     public void setTitleAt(VisibleClass visibleClass) {
@@ -179,7 +179,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Podešava trenutno selektovani tab na tab sa prosleđenim indeksom
+     * PodeÅ¡ava trenutno selektovani tab na tab sa prosleÄ‘enim indeksom
      * @param index indeks
      */
     public void setCurrentTabIndex(int index) {
@@ -187,7 +187,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Menja ikonicu kursora u prosleđenu
+     * Menja ikonicu kursora u prosleÄ‘enu
      * @param image ikonica
      */
     public void changeCursorImage(Image image) {
@@ -205,7 +205,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Osvežava sadržaj tabbed pane-a
+     * OsveÅ¾ava sadrÅ¾aj tabbed pane-a
      */
     public void updateTabbedPane() {
         tabbedPane.updateUI();
@@ -220,7 +220,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /******************************************/
-    /*METODE NASLEĐENE OD ABSTRACT CONTROLLERA*/
+    /*METODE NASLEÄ�ENE OD ABSTRACT CONTROLLERA*/
     /******************************************/
     @Override
     public void mouseClicked(MouseEvent e) {
