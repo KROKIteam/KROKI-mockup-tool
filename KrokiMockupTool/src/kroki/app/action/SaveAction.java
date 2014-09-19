@@ -101,7 +101,7 @@ public class SaveAction extends AbstractAction {
 					}
 					System.out.println("saving to file: " + file.getAbsolutePath());
 					proj.setFile(file);
-					if (SaveUtil.saveXStream(proj, proj.getFile())){
+					if (SaveUtil.saveGZipObject(proj, proj.getFile())){
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved to " + file.getAbsolutePath() + "!", 0);
 					}
 					else{
