@@ -22,6 +22,7 @@ public class CreateShortcutCommand extends Command{
 
 	@Override
 	public void execute() {
+		System.out.println("pravi shortcut");
 		for (ElementPainter shortcutPainter : shortcutPainters){
 			view.addElementPainter(shortcutPainter);
 			model.addDiagramElement(shortcutPainter.getElement());

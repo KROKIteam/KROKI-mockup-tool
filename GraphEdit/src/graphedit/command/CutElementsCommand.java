@@ -128,7 +128,7 @@ public class CutElementsCommand extends Command {
 			GraphElement destination = removedMappings.get(link.getDestinationConnector());
 
 
-			if (source instanceof Shortcut){
+			if (replacements.get(source) != null){
 				LinkableElement replacement = (LinkableElement) replacements.get(source);
 				replacement.addConnectors(link.getSourceConnector());
 				Point2D oldPosition = new Point2D.Double(((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
@@ -145,7 +145,7 @@ public class CutElementsCommand extends Command {
 				link.getSourceConnector().setPercents(newPosition);
 			}
 
-			if (destination instanceof Shortcut){
+			if (replacements.get(destination) != null){
 				LinkableElement replacement = (LinkableElement) replacements.get(destination);
 				replacement.addConnectors(link.getDestinationConnector());
 				Point2D oldPosition = new Point2D.Double(((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
@@ -240,6 +240,7 @@ public class CutElementsCommand extends Command {
 
 	private GraphElement getReplacementElement(Shortcut shortcut){
 
+		
 		LinkableElement element = (LinkableElement) shortcut.shortcutTo();
 		double minDiff = -1;
 		GraphElement replacement = null;
@@ -257,6 +258,7 @@ public class CutElementsCommand extends Command {
 			}
 		}
 
+		System.out.println(replacement);
 		return replacement;
 	}
 
