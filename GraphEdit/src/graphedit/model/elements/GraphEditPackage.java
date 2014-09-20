@@ -571,9 +571,18 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 		//check if elements are from other diagram (package)
 		if (!diagram.getDiagramElements().contains(classElement.element())){
+			
+			//check if a shortcut was already created
+			List<GraphElement> shortcuts = diagram.getAllShortcutsToElementInDiagram(classElement.element());
+			if (shortcuts.size() > 0)
+				return (LinkableElement) shortcuts.get(0);
+			
+			//else create shortcut  and return it
 			ret = new  ClassShortcut(new Point2D.Double(0,0), (Class)classElement.element(), 
 					GraphEditWorkspace.getInstance().getDiagramContainingElement(classElement.element()));
+			ret.setRepresentedElement(classElement);
 			diagram.addDiagramElement((Class)ret);
+			((Shortcut)ret).setShortcutToModel(diagram);
 			((Shortcut)ret).setShortcutInfo(diagram);
 		}
 		else

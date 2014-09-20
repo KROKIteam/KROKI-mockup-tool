@@ -8,6 +8,7 @@ import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
+import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.model.properties.Properties;
@@ -606,7 +607,39 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		link.setProperty(LinkProperties.DESTINATION_NAVIGABLE, newDestinationNavigable);
 		fireUpdates();
 	}
-
+	
+	
+	public boolean containsElementOrShortcut(GraphElement element){
+		if (diagramElements.contains(element))
+			return true;
+		for (GraphElement el : diagramElements)
+			if (el instanceof Shortcut)
+				if (((Shortcut)el).shortcutTo() == element)
+					return true;
+		return false;
+	}
+	
+	public boolean containsElementOrShortcutExcluding(GraphElement element, Shortcut shortcut){
+		if (diagramElements.contains(element))
+			return true;
+		for (GraphElement el : diagramElements)
+			if (el instanceof Shortcut)
+				if (el != shortcut && ((Shortcut)el).shortcutTo() == element)
+					return true;
+		return false;
+	}
+	
+	public List<GraphElement> getAllShortcutsToElementInDiagram(GraphElement element){
+		List<GraphElement> ret = new ArrayList<GraphElement>();
+			
+		for (GraphElement el : diagramElements)
+			if (el instanceof Shortcut)
+				if (((Shortcut)el).shortcutTo() == element)
+					ret.add(el);
+		
+		return ret;
+	}
+	
 
 
 	/*
