@@ -678,9 +678,9 @@ public class MainFrame extends JDialog{
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					TreePath selPath = mainTree.getPathForLocation(e.getX(), e.getY());
-					if (selPath != null) {
-						Object source = selPath.getLastPathComponent();
+					Object source = mainTree.getLastSelectedPathComponent();
+					
+					if (source != null) {
 						//show diagram if clicked twice on a package
 						if (e.getClickCount() == 2) {
 							if (source instanceof GraphEditPackage) {
