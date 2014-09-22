@@ -26,7 +26,6 @@ import graphedit.actions.layout.CircleLayoutAction;
 import graphedit.actions.layout.FRLayoutAction;
 import graphedit.actions.layout.KKLayoutAction;
 import graphedit.actions.layout.SpringLayoutAction;
-import graphedit.actions.layout.TreeLayoutAction;
 import graphedit.actions.pallete.AggregationLinkButtonAction;
 import graphedit.actions.pallete.AssociationLinkButtonAction;
 import graphedit.actions.pallete.ClassButtonAction;
@@ -206,7 +205,6 @@ public class MainFrame extends JDialog{
 	private FRLayoutAction frLayoutAction;
 	private KKLayoutAction kkLayoutAction;
 	private SpringLayoutAction springLayoutAction;
-	private TreeLayoutAction treeLaoyutAction;
 	private BoxLayoutAction boxLayoutAction;
 
 	// Action Controller
@@ -307,7 +305,6 @@ public class MainFrame extends JDialog{
 			frLayoutAction = new FRLayoutAction();
 			kkLayoutAction = new KKLayoutAction();
 			springLayoutAction = new SpringLayoutAction();
-			treeLaoyutAction = new TreeLayoutAction();
 			boxLayoutAction = new BoxLayoutAction();
 			//Application mode
 			cbAppMode = new JComboBox<String>(new String[] {"User interface", "Useri interface persistent", "User interface all"});
@@ -523,7 +520,6 @@ public class MainFrame extends JDialog{
 			forceDrivenMenu.add(springLayoutAction);
 			layoutMenu.add(forceDrivenMenu);
 			layoutMenu.add(circleLayoutAction);
-			layoutMenu.add(treeLaoyutAction);
 			layoutMenu.add(boxLayoutAction);
 			helpMenu = new JMenu("Help");
 			helpMenu.setMnemonic(KeyEvent.VK_H);

@@ -8,7 +8,6 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.util.ResourceLoader;
 import graphedit.view.ElementPainter;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 import java.util.List;

@@ -209,6 +209,7 @@ public class WorkspaceUtility {
 		target.delete();
 	}
 	
+	@SuppressWarnings("unused")
 	private static void parseFileStructure(GraphEditPackage masterPackage, UmlPackage parentProject) {
 	/*	GraphEditModel element;
 		GraphEditPackage pack;
@@ -263,6 +264,7 @@ public class WorkspaceUtility {
 	 * @return whether provided <code>file</code> is a <code>Project</code> directory.
 	 * @author specijalac
 	 */
+	@SuppressWarnings("unused")
 	private static File hasConfFile(File file) {
 		if (file.isDirectory()) {
 			for (File f: file.listFiles()) {

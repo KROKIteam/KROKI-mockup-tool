@@ -6,6 +6,7 @@ import graphedit.model.elements.GraphEditPackage;
 
 public class NewDiagramCommand extends Command {
 
+	@SuppressWarnings("unused")
 	private GraphEditPackage parentPackage;
 	private GraphEditModel diagram;
 	private String name;

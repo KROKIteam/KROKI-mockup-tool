@@ -1,6 +1,5 @@
 package graphedit.model.components;
 
-import graphedit.app.MainFrame;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 
 import java.util.ArrayList;
