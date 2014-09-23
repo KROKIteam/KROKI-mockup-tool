@@ -20,8 +20,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jasperreports-5.2.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/h2-1.3.175.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/antlr-2.7.7.jar"/>
-	<classpathentry kind="lib" path="G:/Prebaceno/Java/jars/slf4j-1.7.7/slf4j-1.7.7/slf4j-api-1.7.7.jar"/>
-	<classpathentry kind="lib" path="G:/Prebaceno/Java/jars/slf4j-1.7.7/slf4j-1.7.7/slf4j-simple-1.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-core-4.2.8.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

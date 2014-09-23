@@ -2,9 +2,8 @@
 <persistence version="2.1"
 	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="PicoHibernate"
+	<persistence-unit name="KrokiHibernate"
 		transaction-type="RESOURCE_LOCAL">
-
 		<class>ejb.administration.User</class>
 		<class>ejb.administration.Resource</class>
 		<class>ejb.administration.ResourceHierarchy</class>
@@ -13,10 +12,9 @@
 		<class>ejb.administration.Role</class>
 		<class>ejb.administration.RolePermission</class>
 		<class>ejb.administration.Permission</class>
-	
 		<properties>
 	      <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
-	      <property name="hibernate.connection.url" value="jdbc:h2:ssl://localhost/mbrs"/>
+	      <property name="hibernate.connection.url" value="jdbc:h2:ssl://localhost/kroki"/>
 	      <property name="hibernate.connection.username" value="sa"/>
 	      <property name="hibernate.connection.password" value=""/>
 	      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
