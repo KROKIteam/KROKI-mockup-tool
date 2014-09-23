@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.exceptions.NoZoomPanelException;
+import kroki.app.generators.AdministrationSubsystemGenerator;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.EnumerationGenerator;
@@ -61,6 +62,7 @@ public class ProjectExporter {
 	private DatabaseConfigGenerator dbConfigGenerator;
 	private EnumerationGenerator enumGenerator;
 	private WebResourceGenerator webGenerator;
+	private AdministrationSubsystemGenerator adminGenerator;
 	private NamingUtil cc;
 
 
@@ -74,6 +76,7 @@ public class ProjectExporter {
 		panelGenerator = new PanelGenerator();
 		enumGenerator = new EnumerationGenerator(swing);
 		webGenerator = new WebResourceGenerator();
+		adminGenerator = new AdministrationSubsystemGenerator();
 		cc = new NamingUtil();
 		this.swing = swing;
 	}
@@ -107,6 +110,7 @@ public class ProjectExporter {
 			ejbGenerator.generateEJBClasses(classes, false);
 			dbConfigGenerator.generatePersistenceXMl(true);
 			menuGenerator.generateWEBMenu(menus);
+			adminGenerator.generate();
 		}
 
 		writeProjectName(proj.getLabel(), "Please log in to continue.");
