@@ -82,9 +82,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		GraphEditPackage loadedElement = null;
 
 		if (project instanceof BussinesSubsystem){
-			File file = ((BussinesSubsystem) project).getDiagramFile();
-			if (file != null)
-				loadedElement = WorkspaceUtility.load(file);
+			loadedElement = (GraphEditPackage) ((BussinesSubsystem) project).getGraphPackage();
 		}
 
 			

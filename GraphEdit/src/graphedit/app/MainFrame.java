@@ -17,7 +17,6 @@ import graphedit.actions.file.CloseDiagramAction;
 import graphedit.actions.file.ExitAction;
 import graphedit.actions.file.ExportAction;
 import graphedit.actions.file.NewProjectAction;
-import graphedit.actions.file.SaveProjectAction;
 import graphedit.actions.help.AboutAction;
 import graphedit.actions.help.ContentsAction;
 import graphedit.actions.help.IndexAction;
@@ -173,7 +172,6 @@ public class MainFrame extends JDialog{
 	private static MainFrame singletonMain;	
 	// File Actions
 	private NewProjectAction newProjectAction; 
-	private SaveProjectAction saveProjectAction; 
 	private ExportAction exportAction;
 	private CloseDiagramAction closeDiagramAction;
 	private CloseAllDiagramsAction closeAllDiagramsAction;
@@ -277,7 +275,6 @@ public class MainFrame extends JDialog{
 			actionController = new ActionController();
 			// File Actions
 			newProjectAction = new NewProjectAction();		
-			saveProjectAction = new SaveProjectAction();
 			exportAction = new ExportAction();
 			closeDiagramAction = new CloseDiagramAction();
 			closeAllDiagramsAction = new CloseAllDiagramsAction();
@@ -479,8 +476,6 @@ public class MainFrame extends JDialog{
 			fileMenu.setMnemonic(KeyEvent.VK_F);
 			fileMenu.add(newProjectAction);
 			fileMenu.addSeparator();
-			fileMenu.add(saveProjectAction);
-			fileMenu.addSeparator();
 			fileMenu.add(exportAction);
 			fileMenu.addSeparator();
 			fileMenu.add(closeDiagramAction);
@@ -535,8 +530,6 @@ public class MainFrame extends JDialog{
 		private void mainToolBarInit() {
 			mainToolBar.setFloatable(false);
 			mainToolBar.add(newProjectAction);
-			mainToolBar.addSeparator();
-			mainToolBar.add(saveProjectAction);
 			mainToolBar.addSeparator();
 			mainToolBar.add(exportAction);
 			mainToolBar.addSeparator();
@@ -780,7 +773,6 @@ public class MainFrame extends JDialog{
 
 					// enable or disable, considering the diagram state
 					boolean closeable = isCloseable();
-					saveProjectAction.setEnabled(isMarkedWithAsterisk());
 					closeAllDiagramsAction.setEnabled(closeable);
 					closeDiagramAction.setEnabled(closeable);
 					showGridMenuItem.setEnabled(closeable);
@@ -1210,10 +1202,6 @@ public class MainFrame extends JDialog{
 			zoomSlider.setValue((int) Math.round(factor * SLIDER_SCALE_FACTOR));
 		}
 
-
-		public SaveProjectAction getSaveProjectAction() {
-			return saveProjectAction;
-		}
 
 		public CloseAllDiagramsAction getCloseAllDiagramsAction() {
 			return closeAllDiagramsAction;

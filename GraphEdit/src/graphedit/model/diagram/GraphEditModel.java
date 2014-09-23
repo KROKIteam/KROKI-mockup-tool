@@ -69,6 +69,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	private transient StateFactory stateFactory;
 
 	private int linkCounter, classCounter, packageCounter , interfaceCounter;
+	
+	private boolean layout = true;
 
 	public GraphEditModel(String name) {
 		commandManager = new CommandManager();
@@ -990,6 +992,14 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 
 	public void setInterfaceCounter(int interfaceCounter) {
 		this.interfaceCounter = interfaceCounter;
+	}
+
+	public boolean isLayout() {
+		return layout;
+	}
+
+	public void setLayout(boolean layout) {
+		this.layout = layout;
 	}
 
 
