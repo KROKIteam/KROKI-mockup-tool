@@ -19,7 +19,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
 
 /**
- * Represent a component that shows a radio group with
+ * Represents a component that shows a radio group with
  * radio buttons that represent the available choices
  * of business operation types to be created for the
  * given operation.

@@ -103,8 +103,8 @@ public class OperationStereotype {
 		
 		if(stereotypeObject!=null)
 		{
-			thread.publishText("Applaying stereotype "+stereotypeName);
-            object.applyStereotype(stereotypeObject);
+			//thread.publishText("Applaying stereotype "+stereotypeName);
+            //object.applyStereotype(stereotypeObject);
             thread.publishText("Setting property "+stereotypeProperty+" for "+stereotypeName+" stereotype");
 			object.setValue(stereotypeObject, stereotypeProperty, nestedElements);
 			StereotypeUtil.outputMessage(thread, stereotypeName);

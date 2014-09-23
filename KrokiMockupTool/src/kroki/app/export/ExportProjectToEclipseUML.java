@@ -275,7 +275,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		publishErrorText("Error happened while exporting");
 		publishErrorText(exceptionMessage(e));
 		showError(exceptionMessage(e), "Error while exporting");
-		//e.printStackTrace();
+		e.printStackTrace();
 	}
 	
 	/**

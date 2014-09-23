@@ -5,6 +5,8 @@
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.layout.FlowLayoutManager;
 import kroki.mockup.view.painters.components.ComboZoomPainter;
@@ -20,7 +22,7 @@ public class ComboZoom extends Composite {
 
     public ComboZoom(String name) {
         super(name);
-        setLayoutManager(new FlowLayoutManager());
+        setLayoutManager(new FlowLayoutManager(0,0,FlowLayout.LEFT));
         comboBox = new ComboBox(name, 15);
         button = new Button("...");
         addChild(comboBox);

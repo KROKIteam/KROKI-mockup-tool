@@ -24,6 +24,6 @@ public class StereotypeUtil {
 	 * @param propertyName  name of the stereotype property for which a value has been set
 	 */
 	public static void outputMessage(ProgressWorker thread,String propertyName){
-		thread.publishText("Value set for "+propertyName+" property");
+		thread.publishText("Value set for "+propertyName+" stereotype property");
 	}
 }

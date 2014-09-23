@@ -129,9 +129,10 @@ public class PropertyStereotype {
 		
 		if(stereotypeObject!=null)
 		{
-			thread.publishText("Applaying stereotype "+stereotypeName);
+			//thread.publishText("Applaying stereotype "+stereotypeName);
+			//object.applyStereotype(stereotypeObject);
 			thread.addIndentation();
-            object.applyStereotype(stereotypeObject);
+            
             thread.publishText("Setting property "+stereotypeProperty+" for "+stereotypeName+" stereotype");
 			object.setValue(stereotypeObject, stereotypeProperty, nestedElements);
 			StereotypeUtil.outputMessage(thread, stereotypeName);
