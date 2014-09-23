@@ -57,8 +57,10 @@ public class AdministrationSubsytemAction extends AbstractAction{
 			loadFormDataType(proj);
 			
 			if (compareResources(sResources)) {
-				if(rDao.findAll().isEmpty())
+				if(rDao.findAll().isEmpty()) {
 					findAndPersistAllFormsAsResources(proj);
+					addInitialData();
+				}
 				mainFrame.setPanelType(panelType);
 				mainFrame.setVisible(true);
 			} else {
@@ -85,6 +87,39 @@ public class AdministrationSubsytemAction extends AbstractAction{
 			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
 		}
+	}
+
+	private void addInitialData() {
+		dao.administration.UserHibernateDao uDao = new dao.administration.UserHibernateDao();
+		ejb.administration.User admin = new ejb.administration.User();
+		admin.setUsername("admin");
+		admin.setPassword("admin");
+		uDao.save(admin);
+		
+		dao.administration.RoleHibernateDao rDao = new dao.administration.RoleHibernateDao();
+		ejb.administration.Role adminRole = new ejb.administration.Role();
+		adminRole.setName("admins");
+		rDao.save(adminRole);
+		
+		dao.administration.OperationHibernateDao oDao = new dao.administration.OperationHibernateDao();
+		ejb.administration.Operation addOperation = new ejb.administration.Operation();
+		addOperation.setName("add");
+		
+		ejb.administration.Operation removeOperation = new ejb.administration.Operation();
+		removeOperation.setName("remove");
+		
+		ejb.administration.Operation modifyOperation = new ejb.administration.Operation();
+		modifyOperation.setName("modify");
+		
+		oDao.save(addOperation);
+		oDao.save(removeOperation);
+		oDao.save(modifyOperation);
+		
+		dao.administration.UserRolesHibernateDao urDao = new dao.administration.UserRolesHibernateDao();
+		ejb.administration.UserRoles adminUserRole = new ejb.administration.UserRoles();
+		adminUserRole.setRole(adminRole);
+		adminUserRole.setUser(admin);
+		urDao.save(adminUserRole);		
 	}
 
 	private boolean compareResources(List<String> sResources) {
