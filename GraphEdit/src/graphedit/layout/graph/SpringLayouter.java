@@ -35,6 +35,7 @@ public class SpringLayouter extends AbstractLayouter{
 			
 			SpringLayout2<GraphElement, Link> springLayout = new SpringLayout2<GraphElement, Link>(graph);
 			springLayout.setForceMultiplier(5);
+			springLayout.setRepulsionRange(3);
 			
 			//triggers layouting
 			new DefaultVisualizationModel<GraphElement, Link>(springLayout);

@@ -394,8 +394,10 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 				}
 
-				if (loadedLink == null)
+				if (loadedLink == null){
 					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					System.out.println("kreiraj novu vezu");
+				}
 				else{
 
 					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
@@ -407,8 +409,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					loadedNodes.add(0, c1);
 					loadedNodes.add(loadedNodes.size(), c2);
 
-					c1.setLoadedPosition(sourcePosition);
-					c2.setLoadedPosition(destinationPosition);
+					if (diagram.isLayout()){
+						c1.setLoadedPosition(sourcePosition);
+						c2.setLoadedPosition(destinationPosition);
+					}
+
 
 					zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
@@ -573,12 +578,12 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 		//check if elements are from other diagram (package)
 		if (!diagram.getDiagramElements().contains(classElement.element())){
-			
+
 			//check if a shortcut was already created
 			List<GraphElement> shortcuts = diagram.getAllShortcutsToElementInDiagram(classElement.element());
 			if (shortcuts.size() > 0)
 				return (LinkableElement) shortcuts.get(0);
-			
+
 			//else create shortcut  and return it
 			ret = new  ClassShortcut(new Point2D.Double(0,0), (Class)classElement.element(), 
 					GraphEditWorkspace.getInstance().getDiagramContainingElement(classElement.element()));
@@ -618,13 +623,13 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		fireChanges();
 		return result;
 	}
-	
-	
+
+
 	public LayoutStrategy getLayoutStrategy(){
 		if (loaded && !diagram.isLayout())
 			return LayoutStrategy.ADDING;
 		return LayoutUtil.getBestLayoutingStrategy(diagram);
-	
+
 	}
 
 	//**********************************************************************
@@ -808,7 +813,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	}
 
 
-	
+
 
 
 }
