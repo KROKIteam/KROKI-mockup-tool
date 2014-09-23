@@ -109,8 +109,10 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		diagram.setParentPackage(this);
 
 		if (loadedElement != null)
-			if (loadedElement.getClassElementsByVisibleClassesMap().size() > 0 || loadedElement.getSubPackages().size() > 0)
+			if (loadedElement.getClassElementsByVisibleClassesMap().size() > 0 || loadedElement.getSubPackages().size() > 0){
 				loaded = true;
+				diagram.setLayout(loadedElement.getDiagram().isLayout());
+			}
 
 		//nije na vrhu hijerarhije
 		if (parent != null){
@@ -619,7 +621,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	
 	
 	public LayoutStrategy getLayoutStrategy(){
-		if (loaded)
+		if (loaded && !diagram.isLayout())
 			return LayoutStrategy.ADDING;
 		return LayoutUtil.getBestLayoutingStrategy(diagram);
 	

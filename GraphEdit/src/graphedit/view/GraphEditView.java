@@ -180,7 +180,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		Link link;
 		GraphElement element;
 
-		if (!layout){
+		if (!layout && !model.isLayout()){
 
 
 			for (LinkPainter lPainter : linkPainters) {
@@ -215,7 +215,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 		
 
-		if (layout){
+		if (layout || model.isLayout()){
 			Layouter layouter = LayouterFactory.createLayouter(layoutStrategy, 
 					this, g);
 
@@ -354,6 +354,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		
 		if (layout){
 			layout = false;
+			model.setLayout(false);
 			repaint();
 		}
 	}

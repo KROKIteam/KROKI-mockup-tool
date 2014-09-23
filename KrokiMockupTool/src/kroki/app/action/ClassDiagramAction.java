@@ -4,7 +4,6 @@ import graphedit.app.MainFrame;
 import graphedit.model.elements.GraphEditPackage;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -49,7 +48,7 @@ public class ClassDiagramAction extends AbstractAction{
 				}
 			}
 		}
-		
+
 		MainFrame.getInstance().init();
 
 		List<UmlPackage> workspaceList = KrokiMockupToolApp.getInstance().getWorkspace().getPackageList();
@@ -70,15 +69,9 @@ public class ClassDiagramAction extends AbstractAction{
 			updatePanels(umlPackage);
 			if (umlPackage instanceof BussinesSubsystem){
 				businessSub = (BussinesSubsystem)umlPackage;
-				try {
-					if ((businessSub.getDiagramFile() == null && pack.getFile() != null) || (businessSub.getDiagramFile() != null && pack.getFile() != null &&
-							!businessSub.getDiagramFile().getCanonicalPath().equals(pack.getFile().getCanonicalPath())))
-							businessSub.setDiagramFile(pack.getFile());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				businessSub.setGraphPackage(pack);
 			}
-			
+
 		}
 
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
@@ -98,14 +91,14 @@ public class ClassDiagramAction extends AbstractAction{
 					el.update();
 				gr1.update();
 				gr2.update();
-				
+
 				for (VisibleElement el : panel.getVisibleElementList()){
 					el.update();
 				}
-				
+
 				//set component name as it is required for exporting applications
 				panel.getComponent().setName(namer.fromCamelCase(panel.getPersistentClass().name()));
-				
+
 			}
 			((VisibleClass)ownedType).update();
 		}
