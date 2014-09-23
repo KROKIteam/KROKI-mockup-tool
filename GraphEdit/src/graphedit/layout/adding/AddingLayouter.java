@@ -78,6 +78,8 @@ public class AddingLayouter extends AbstractLayouter{
 					}
 				}
 			}
+			if (element instanceof LinkableElement)
+				setConnectorLocations((LinkableElement) element);
 		}
 		model.fireUpdates();
 	}

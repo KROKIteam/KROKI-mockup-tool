@@ -396,7 +396,6 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 				if (loadedLink == null){
 					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
-					System.out.println("kreiraj novu vezu");
 				}
 				else{
 
@@ -413,7 +412,10 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 						c1.setLoadedPosition(sourcePosition);
 						c2.setLoadedPosition(destinationPosition);
 					}
-
+					else{
+						c1.setLoaded(true);
+						c2.setLoaded(true);
+					}
 
 					zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
