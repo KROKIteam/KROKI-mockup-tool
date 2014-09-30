@@ -33,11 +33,8 @@
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/commons.io-1.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="lib/h2-1.2.121.jar"/>
-	<classpathentry kind="lib" path="lib/h2-1.3.170.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
 	<classpathentry kind="lib" path="lib/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/JTattoo.jar"/>
 	<classpathentry kind="lib" path="lib/jtds-1.3.0.jar"/>
@@ -61,5 +58,8 @@
 	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.resources_4.1.0.v20130610-0712.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BusinessProcessModelingTool"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-Administration"/>
+	<classpathentry kind="lib" path="lib/h2-1.3.175.jar"/>
+	<classpathentry kind="lib" path="lib/hibernate-core-4.2.8.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

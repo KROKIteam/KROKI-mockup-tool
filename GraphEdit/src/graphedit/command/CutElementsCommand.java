@@ -128,7 +128,7 @@ public class CutElementsCommand extends Command {
 			GraphElement destination = removedMappings.get(link.getDestinationConnector());
 
 
-			if (source instanceof Shortcut){
+			if (replacements.get(source) != null){
 				LinkableElement replacement = (LinkableElement) replacements.get(source);
 				replacement.addConnectors(link.getSourceConnector());
 				Point2D oldPosition = new Point2D.Double(((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
@@ -145,7 +145,7 @@ public class CutElementsCommand extends Command {
 				link.getSourceConnector().setPercents(newPosition);
 			}
 
-			if (destination instanceof Shortcut){
+			if (replacements.get(destination) != null){
 				LinkableElement replacement = (LinkableElement) replacements.get(destination);
 				replacement.addConnectors(link.getDestinationConnector());
 				Point2D oldPosition = new Point2D.Double(((Point2D)link.getDestinationConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
@@ -232,41 +232,33 @@ public class CutElementsCommand extends Command {
 
 	private boolean unlinkAfterDeletingShortcut(Shortcut shortcut){
 		//pogledaj da li ima jos neki shortcut u tom paketu/view-u
+
 		LinkableElement element = (LinkableElement) shortcut.shortcutTo();
-		for (Shortcut s : element.getShortcuts()){
-			if (s == shortcut)
-				continue;
-			if (s.shortcutToModel() == shortcut.shortcutToModel())
-				return false;
-		}
-		return !shortcut.shortcutToModel().getDiagramElements().contains(element);
+		boolean ret = !model.containsElementOrShortcutExcluding(element, shortcut);
+		return ret;
 	}
 
 	private GraphElement getReplacementElement(Shortcut shortcut){
 
+		
 		LinkableElement element = (LinkableElement) shortcut.shortcutTo();
 		double minDiff = -1;
 		GraphElement replacement = null;
 		Point2D shortcutLocation = (Point2D) ((GraphElement) shortcut).getProperty(GraphElementProperties.POSITION);
-		for (Shortcut s : element.getShortcuts()){
-			if (s == shortcut)
-				continue;
-			if (s.shortcutToModel() == shortcut.shortcutToModel()){
-				double diff = Calculate.positionDiff( (Point2D) ((GraphElement)s).getProperty(GraphElementProperties.POSITION), shortcutLocation);
-				if (minDiff == -1 || diff < minDiff){
-					minDiff = diff;
-					replacement = (GraphElement)s;
-				}
-			}
-		}
+		List<GraphElement> elements = model.getAllShortcutsToElementInDiagram(element);
+		elements.remove(shortcut);
+		elements.add(element);
 
-		if (shortcut.shortcutToModel().getDiagramElements().contains(element)){
-			double diff = Calculate.positionDiff( (Point2D) element.getProperty(GraphElementProperties.POSITION), shortcutLocation);
+		for (GraphElement el : elements){
+
+			double diff = Calculate.positionDiff( (Point2D) (el).getProperty(GraphElementProperties.POSITION), shortcutLocation);
 			if (minDiff == -1 || diff < minDiff){
-				replacement = element;
+				minDiff = diff;
+				replacement = el;
 			}
-
 		}
+
+		System.out.println(replacement);
 		return replacement;
 	}
 

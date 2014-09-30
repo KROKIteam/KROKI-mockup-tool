@@ -18,27 +18,19 @@ import graphedit.layout.Layouter;
 import graphedit.layout.LayouterException;
 import graphedit.layout.LayouterFactory;
 import graphedit.layout.random.RandomLayouter;
-import graphedit.layout.tree.TreeLayouter;
-import graphedit.model.ClipboardManager;
-import graphedit.model.GraphEditWorkspace;
-import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Package;
 import graphedit.model.diagram.GraphEditModel;
-import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.state.SelectionState;
 import graphedit.state.State;
-import graphedit.util.WorkspaceUtility;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -188,7 +180,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		Link link;
 		GraphElement element;
 
-		if (!layout){
+		if (!layout && !model.isLayout()){
 
 
 			for (LinkPainter lPainter : linkPainters) {
@@ -223,7 +215,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 		
 
-		if (layout){
+		if (layout || model.isLayout()){
 			Layouter layouter = LayouterFactory.createLayouter(layoutStrategy, 
 					this, g);
 
@@ -362,6 +354,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		
 		if (layout){
 			layout = false;
+			model.setLayout(false);
 			repaint();
 		}
 	}

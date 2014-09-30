@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<classes>
+<menu>
+<roles>
+<role>r1</role>
+</roles>
+<submenu>
+<submenu_parent>M1</submenu_parent>
+<submenu_name>A1</submenu_name>
+</submenu>
+</menu>
+</classes>

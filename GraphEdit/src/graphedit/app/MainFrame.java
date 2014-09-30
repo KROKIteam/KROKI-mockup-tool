@@ -17,7 +17,6 @@ import graphedit.actions.file.CloseDiagramAction;
 import graphedit.actions.file.ExitAction;
 import graphedit.actions.file.ExportAction;
 import graphedit.actions.file.NewProjectAction;
-import graphedit.actions.file.SaveProjectAction;
 import graphedit.actions.help.AboutAction;
 import graphedit.actions.help.ContentsAction;
 import graphedit.actions.help.IndexAction;
@@ -26,7 +25,6 @@ import graphedit.actions.layout.CircleLayoutAction;
 import graphedit.actions.layout.FRLayoutAction;
 import graphedit.actions.layout.KKLayoutAction;
 import graphedit.actions.layout.SpringLayoutAction;
-import graphedit.actions.layout.TreeLayoutAction;
 import graphedit.actions.pallete.AggregationLinkButtonAction;
 import graphedit.actions.pallete.AssociationLinkButtonAction;
 import graphedit.actions.pallete.ClassButtonAction;
@@ -174,7 +172,6 @@ public class MainFrame extends JDialog{
 	private static MainFrame singletonMain;	
 	// File Actions
 	private NewProjectAction newProjectAction; 
-	private SaveProjectAction saveProjectAction; 
 	private ExportAction exportAction;
 	private CloseDiagramAction closeDiagramAction;
 	private CloseAllDiagramsAction closeAllDiagramsAction;
@@ -206,7 +203,6 @@ public class MainFrame extends JDialog{
 	private FRLayoutAction frLayoutAction;
 	private KKLayoutAction kkLayoutAction;
 	private SpringLayoutAction springLayoutAction;
-	private TreeLayoutAction treeLaoyutAction;
 	private BoxLayoutAction boxLayoutAction;
 
 	// Action Controller
@@ -279,7 +275,6 @@ public class MainFrame extends JDialog{
 			actionController = new ActionController();
 			// File Actions
 			newProjectAction = new NewProjectAction();		
-			saveProjectAction = new SaveProjectAction();
 			exportAction = new ExportAction();
 			closeDiagramAction = new CloseDiagramAction();
 			closeAllDiagramsAction = new CloseAllDiagramsAction();
@@ -307,7 +302,6 @@ public class MainFrame extends JDialog{
 			frLayoutAction = new FRLayoutAction();
 			kkLayoutAction = new KKLayoutAction();
 			springLayoutAction = new SpringLayoutAction();
-			treeLaoyutAction = new TreeLayoutAction();
 			boxLayoutAction = new BoxLayoutAction();
 			//Application mode
 			cbAppMode = new JComboBox<String>(new String[] {"User interface", "Useri interface persistent", "User interface all"});
@@ -482,8 +476,6 @@ public class MainFrame extends JDialog{
 			fileMenu.setMnemonic(KeyEvent.VK_F);
 			fileMenu.add(newProjectAction);
 			fileMenu.addSeparator();
-			fileMenu.add(saveProjectAction);
-			fileMenu.addSeparator();
 			fileMenu.add(exportAction);
 			fileMenu.addSeparator();
 			fileMenu.add(closeDiagramAction);
@@ -523,7 +515,6 @@ public class MainFrame extends JDialog{
 			forceDrivenMenu.add(springLayoutAction);
 			layoutMenu.add(forceDrivenMenu);
 			layoutMenu.add(circleLayoutAction);
-			layoutMenu.add(treeLaoyutAction);
 			layoutMenu.add(boxLayoutAction);
 			helpMenu = new JMenu("Help");
 			helpMenu.setMnemonic(KeyEvent.VK_H);
@@ -539,8 +530,6 @@ public class MainFrame extends JDialog{
 		private void mainToolBarInit() {
 			mainToolBar.setFloatable(false);
 			mainToolBar.add(newProjectAction);
-			mainToolBar.addSeparator();
-			mainToolBar.add(saveProjectAction);
 			mainToolBar.addSeparator();
 			mainToolBar.add(exportAction);
 			mainToolBar.addSeparator();
@@ -678,9 +667,9 @@ public class MainFrame extends JDialog{
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					TreePath selPath = mainTree.getPathForLocation(e.getX(), e.getY());
-					if (selPath != null) {
-						Object source = selPath.getLastPathComponent();
+					Object source = mainTree.getLastSelectedPathComponent();
+					
+					if (source != null) {
 						//show diagram if clicked twice on a package
 						if (e.getClickCount() == 2) {
 							if (source instanceof GraphEditPackage) {
@@ -784,7 +773,6 @@ public class MainFrame extends JDialog{
 
 					// enable or disable, considering the diagram state
 					boolean closeable = isCloseable();
-					saveProjectAction.setEnabled(isMarkedWithAsterisk());
 					closeAllDiagramsAction.setEnabled(closeable);
 					closeDiagramAction.setEnabled(closeable);
 					showGridMenuItem.setEnabled(closeable);
@@ -1214,10 +1202,6 @@ public class MainFrame extends JDialog{
 			zoomSlider.setValue((int) Math.round(factor * SLIDER_SCALE_FACTOR));
 		}
 
-
-		public SaveProjectAction getSaveProjectAction() {
-			return saveProjectAction;
-		}
 
 		public CloseAllDiagramsAction getCloseAllDiagramsAction() {
 			return closeAllDiagramsAction;

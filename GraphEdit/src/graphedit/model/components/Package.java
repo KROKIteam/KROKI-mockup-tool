@@ -1,6 +1,5 @@
 package graphedit.model.components;
 
-import graphedit.app.MainFrame;
 import graphedit.model.components.Link.LinkType;
 import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;

@@ -11,6 +11,8 @@
 #                             KrokiMockupTool exludes
 ######################################################
 KrokiMockupTool/Temp/
+kroki.h2.db
+kroki.lock.db
 
 #                                       WebApp excludes
 #######################################################

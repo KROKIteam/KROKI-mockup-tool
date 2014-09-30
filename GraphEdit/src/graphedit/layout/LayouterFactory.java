@@ -7,7 +7,6 @@ import graphedit.layout.graph.FRLayouter;
 import graphedit.layout.graph.KKLayouter;
 import graphedit.layout.graph.SpringLayouter;
 import graphedit.layout.random.RandomLayouter;
-import graphedit.layout.tree.TreeLayouter;
 import graphedit.view.GraphEditView;
 
 import java.awt.Graphics;
@@ -21,8 +20,6 @@ public class LayouterFactory {
 			layouter = new AddingLayouter(view);
 		else if (strategy == LayoutStrategy.RANDOM)
 			layouter = new RandomLayouter(view);
-		else if (strategy == LayoutStrategy.TREE)
-			layouter = new TreeLayouter(view, g);
 		else if (strategy == LayoutStrategy.KKGRAPH)
 			layouter = new KKLayouter(view);
 		else if (strategy == LayoutStrategy.SPRING)
