@@ -1,16 +1,26 @@
 package kroki.app.utils.uml;
 
+import java.awt.AWTEvent;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 
 
 /**
@@ -75,6 +85,12 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 	 * enough radio buttons have been selected. 
 	 */
 	private Color colorWhenCorrect;
+	
+	/**
+	 * Border of the component when it is not 
+	 * selected.  
+	 */
+	private Border borderUnselected;
 	/**
 	 * Creates a component that shows a radio group with
 	 * radio buttons that represent the available choices
@@ -85,8 +101,10 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 	 */
 	public PrefixSuffixTextComponent(String text){
 		this.text=text;
+		PropagateMouseClick propagateMouseClick=new PropagateMouseClick();
 		setLayout(new GridBagLayout());
 		setBorder(BorderFactory.createLineBorder(Color.black));
+		borderUnselected=getBorder();
 		GridBagConstraints c=new GridBagConstraints();
 		c.fill=GridBagConstraints.NONE;
 		c.anchor=GridBagConstraints.FIRST_LINE_END;
@@ -94,21 +112,26 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 		c.gridy=0;
 		c.weightx=0;
 		c.weighty=0;
-		add(new Label("Text to be removed:"),c);
+		JLabel label=new JLabel("Text to be removed:");
+		label.addMouseListener(propagateMouseClick);
+		add(label,c);
 		c.anchor=GridBagConstraints.FIRST_LINE_START;
 		c.gridx=1;
 		c.gridy=0;
 		c.weightx=1;
 		c.weighty=0;
-				
-		add(new Label(text),c);
+		label=new JLabel(text);
+		label.addMouseListener(propagateMouseClick);
+		add(label,c);
 		
 		c.anchor=GridBagConstraints.FIRST_LINE_END;
 		c.gridx=0;
 		c.gridy=1;
 		c.weightx=0;
 		c.weighty=0;
-		add(new Label("Text is:"),c);
+		label=new JLabel("Text is:");
+		label.addMouseListener(propagateMouseClick);
+		add(label,c);
 		c.anchor=GridBagConstraints.FIRST_LINE_START;
 		c.gridx=1;
 		c.gridy=1;
@@ -116,9 +139,11 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 		c.weighty=0;
 		JPanel radioButtonsPS=new JPanel(new FlowLayout());
 		prefix=new JRadioButton("Prefix", true);
+		prefix.addMouseListener(propagateMouseClick);
 		prefix.addItemListener(this);
 		colorWhenCorrect=prefix.getBackground();
 		suffix=new JRadioButton("Suffix", false);
+		suffix.addMouseListener(propagateMouseClick);
 		suffix.addItemListener(this);
 		radioButtonsPS.add(prefix);
 		radioButtonsPS.add(suffix);
@@ -138,12 +163,16 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 		c.weighty=0;
 		JPanel radioButtonsNameOf=new JPanel(new FlowLayout());
 		packageElement=new JRadioButton("Package", true);
+		packageElement.addMouseListener(propagateMouseClick);
 		packageElement.addItemListener(this);
 		classElement=new JRadioButton("Class", true);
+		classElement.addMouseListener(propagateMouseClick);
 		classElement.addItemListener(this);
 		propertyElement=new JRadioButton("Property", true);
+		propertyElement.addMouseListener(propagateMouseClick);
 		propertyElement.addItemListener(this);
 		operationElement=new JRadioButton("Operation", true);
+		operationElement.addMouseListener(propagateMouseClick);
 		operationElement.addItemListener(this);
 		radioButtonsNameOf.add(packageElement);
 		radioButtonsNameOf.add(classElement);
@@ -152,6 +181,13 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 		add(radioButtonsNameOf,c);		
 	}
 	
+	/**
+	 * Creates a {@link TextToRemove} object with the
+	 * attributes set to the values the user has
+	 * entered on this PrefixSuffixTextComponent
+	 * @return {@link TextToRemove} object with the
+	 * attributes set
+	 */
 	public TextToRemove getTextToRemove(){
 		TextToRemove toRemove=new TextToRemove(text);
 		toRemove.setPrefix(prefix.isSelected());
@@ -162,6 +198,15 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 		toRemove.setFromOperationElement(operationElement.isSelected());
 		return toRemove;
 		
+	}
+	/**
+	 * Returns the text which the user entered to be 
+	 * removed from the names of the UML elements
+	 * that are being imported.
+	 * @return text the user entered to be removed
+	 */
+	public String getText(){
+		return text;
 	}
 	
 	/**
@@ -217,4 +262,13 @@ public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
 		checkCorrectSelected();
 	}
 	
+	public void setSelected(boolean isSelected){
+		if(isSelected){
+			//setBorder(BorderFactory.createLoweredBevelBorder());
+			setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		}else
+		{
+			setBorder(borderUnselected);
+		}
+	}
 }

@@ -1,12 +1,17 @@
 package kroki.app.utils.uml;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Label;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +20,15 @@ import java.util.Map;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import kroki.app.KrokiMockupToolApp;
 
@@ -64,6 +72,19 @@ public class SettingsForUMLImportDialog extends JDialog implements ActionListene
 	 * Command set for the add button on the dialog.
 	 */
 	private String addCommand="add";
+	
+	/**
+	 * Command set for the remove button on the dialog.
+	 */
+	private String removeCommand="remove";
+	
+	/**
+	 * Removes a selected PrefixSuffixTextComponent that
+	 * was created when the user entered text that is to
+	 * be removed from the names of the elements being
+	 * imported.
+	 */
+	private JButton removeButton; 
 	/**
 	 * Text field for entering texts to be removed.
 	 */
@@ -112,25 +133,49 @@ public class SettingsForUMLImportDialog extends JDialog implements ActionListene
 		addButton.addActionListener(this);
 		add(addButton,c);
 		
+		c.gridx=3;
+		removeButton=new JButton("Remove");
+		removeButton.setActionCommand(removeCommand);
+		removeButton.addActionListener(this);
+		removeButton.setEnabled(false);
+		add(removeButton,c);
 		
 		c.fill=GridBagConstraints.NONE;
 		c.anchor=GridBagConstraints.FIRST_LINE_START;
 		c.gridx=0;
-		c.gridy=0;
+		c.gridy=1;
 		c.weightx=0;
 		c.weighty=0;
-		c.gridwidth=1;
+		c.gridwidth=4;
 		add(new Label("Entered texts:"),c);
 		
 		c.fill=GridBagConstraints.BOTH;
-		c.gridy=1;
+		c.gridy=2;
 		c.weightx=1;
 		c.weighty=1;
-		c.gridwidth=3;
+		c.gridwidth=4;
 		textsToRemoveComponents=new JPanel();
 		BoxLayout box=new BoxLayout(textsToRemoveComponents, BoxLayout.Y_AXIS);
 		textsToRemoveComponents.setLayout(box);
-
+		textsToRemoveComponents.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Point xp = SwingUtilities.convertPoint((Component) arg0.getSource(), arg0.getPoint(), textsToRemoveComponents);
+				Component comp=textsToRemoveComponents.getComponentAt(xp);
+				if(comp instanceof PrefixSuffixTextComponent)
+				{
+					PrefixSuffixTextComponent textComp=(PrefixSuffixTextComponent)comp;
+					changeSelectedPrefixSuffix(textComp);
+				}
+				else
+				{
+					//System.out.println("Component "+comp);
+				}
+			}
+			
+		});
+		
 		components=new ArrayList<PrefixSuffixTextComponent>();
 		pane=new JScrollPane(textsToRemoveComponents);
 		pane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -138,7 +183,7 @@ public class SettingsForUMLImportDialog extends JDialog implements ActionListene
 		
 		c.fill=GridBagConstraints.NONE;
 		c.anchor=GridBagConstraints.FIRST_LINE_END;
-		c.gridy=2;
+		c.gridy=3;
 		c.weightx=0;
 		c.weighty=0;
 		JPanel buttonPanel=new JPanel();
@@ -163,6 +208,7 @@ public class SettingsForUMLImportDialog extends JDialog implements ActionListene
 		setSize(size.width*2/3, size.height*2/3);
 		setLocationRelativeTo(frame);
 		ok=false;
+		repaintTextsToBeRemoved();
 	}
 	
 	
@@ -199,21 +245,61 @@ public class SettingsForUMLImportDialog extends JDialog implements ActionListene
 			String text=textField.getText();
 			if(text!=null)
 				if(!text.isEmpty())
-					if(!text.trim().isEmpty())
+				{
+					String trimedText=text.trim();
+					if(!trimedText.isEmpty())
 					{
-						components.add(new PrefixSuffixTextComponent(text));
-						textsToRemoveComponents.removeAll();
-						for(PrefixSuffixTextComponent component:components)
+						boolean notFound=true;
+						for(PrefixSuffixTextComponent comp:components)
 						{
-							textsToRemoveComponents.add(component);
+							if(comp.getText().equals(trimedText))
+							{
+								notFound=false;
+								JOptionPane.showMessageDialog(this, "Text:\""+trimedText+"\" has already been entered.","Error during determining settings",JOptionPane.ERROR_MESSAGE);
+								break;
+							}
 						}
-						//textsToRemoveComponents.validate();
-						//textsToRemoveComponents.repaint();
-						pane.validate();
-						pane.repaint();
+						if(notFound)
+						{
+							components.add(new PrefixSuffixTextComponent(trimedText));
+							repaintTextsToBeRemoved();
+						}
 					}
+				}
+		}else if(arg0.getActionCommand().equals(removeCommand))
+		{
+			components.remove(selected);
+			changeSelectedPrefixSuffix(null);
+			repaintTextsToBeRemoved();
 		}
 		
+	}
+	
+	/**
+	 * Shows all the PrefixSuffixTextComponent that
+	 * where created for the texts the user has
+	 * entered to be removed or if there are no
+	 * texts entered then it shows a message
+	 * that there are no texts entered.
+	 */
+	private void repaintTextsToBeRemoved(){
+		textsToRemoveComponents.removeAll();
+		if(components.isEmpty())
+		{
+			JPanel noTexts=new JPanel();
+			noTexts.add(new JLabel("No texts entered to be removed as prefix or suffix from the names of the UML diagram elements that are being imported."));
+			textsToRemoveComponents.add(noTexts);
+		}else
+		{
+			for(PrefixSuffixTextComponent component:components)
+			{
+				textsToRemoveComponents.add(component);
+			}
+		}
+		//textsToRemoveComponents.validate();
+		//textsToRemoveComponents.repaint();
+		pane.validate();
+		pane.repaint();
 	}
 	
 	/**
@@ -238,6 +324,28 @@ public class SettingsForUMLImportDialog extends JDialog implements ActionListene
 	 */
 	public List<TextToRemove> getTextsToBeRemoved(){
 		return textsToBeRemoved;
+	}
+	
+	/**
+	 * {@link PrefixSuffixTextComponent} that is currently selected.
+	 */
+	private PrefixSuffixTextComponent selected;
+	
+	/**
+	 * Changes the selected {@link PrefixSuffixTextComponent},
+	 * and resets the component that was formerly selected.
+	 * @param newSelected new component that is to be selected
+	 */
+	private void changeSelectedPrefixSuffix(PrefixSuffixTextComponent newSelected){
+		if(selected!=null)
+			selected.setSelected(false);
+		selected=newSelected;
+		if(selected!=null)
+		{
+			selected.setSelected(true);
+			removeButton.setEnabled(true);
+		}else
+			removeButton.setEnabled(false);
 	}
 
 }

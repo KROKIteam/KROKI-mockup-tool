@@ -3,6 +3,7 @@ package kroki.app.importt;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,15 +27,12 @@ import kroki.commons.camelcase.NamingUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.border.TitledBorder;
 import kroki.mockup.model.layout.LayoutManager;
-import kroki.mockup.model.layout.VerticalLayoutManager;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Next;
 import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.group.GroupAlignment;
 import kroki.profil.group.GroupOrientation;
-import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
 import kroki.profil.operation.VisibleOperation;
@@ -62,10 +60,6 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
-
-import sun.org.mozilla.javascript.internal.ast.WithStatement;
-
-import com.sun.org.apache.xpath.internal.operations.And;
 
 /**
  * Class that implements import functionality for importing files with Eclipse UML model to Kroki project. 
@@ -117,15 +111,15 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	private Map<ClassImpl, VisibleClass> classMap;
 	/**
-	 * Value used as a key value in a {@link #propertiesOperations} HashMap.
+	 * Value used as a key value in a {@link #propertiesOperations} LinkedHashMap.
 	 */
 	private final String PROPERTY="Poperty";
 	/**
-	 * Value used as a key value in a {@link #propertiesOperations} HashMap.
+	 * Value used as a key value in a {@link #propertiesOperations} LinkedHashMap.
 	 */
 	private final String OPERATION="Operation";
 	/**
-	 * HashMap that saves all the VisibleProperty, Zoom, VisibleOperation
+	 * LinkedHashMap that saves all the VisibleProperty, Zoom, VisibleOperation
 	 * and ElementsGroup elements created for the corresponding UMl
 	 * Property and Operation elements contained in the UML Class element
 	 * represented as the key value <code>ClassImpl</code>
@@ -159,7 +153,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		    associations=new ArrayList<Association>();
 		    operationsToCheck=new ArrayList<Operation>();
 		    classMap=new HashMap<ClassImpl, VisibleClass>();
-		    propertiesOperations=new HashMap<ClassImpl, Map<String,Map<Object,Object>>>();
+		    propertiesOperations=new LinkedHashMap<ClassImpl, Map<String,Map<Object,Object>>>();
 			extractModel(model);
 			if(!isCancelled())
 			{
@@ -435,7 +429,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		EList<Operation> operations=classObject.getOwnedOperations();
 		publishText("Creating business operations and groups:");
 		addIndentation();
-		Map<Object, Object> objectsMap=new HashMap<Object, Object>();
+		Map<Object, Object> objectsMap=new LinkedHashMap<Object, Object>();
 		operationsCreated=false;
 		for(Operation operation:operations)
 		{
@@ -469,7 +463,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		}
 		if(!operationsCreated)
 			publishText("No UML Operation elements for this Class");
-		Map<String, Map<Object, Object>> propertiesOperationsPartMap=new HashMap<String, Map<Object,Object>>();
+		Map<String, Map<Object, Object>> propertiesOperationsPartMap=new LinkedHashMap<String, Map<Object,Object>>();
 		propertiesOperationsPartMap.put(OPERATION, objectsMap);
 		removeIndentation(1);
 		
@@ -481,7 +475,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		EList<Property> properties=classObject.getAttributes();
 		boolean elementsGroup;
 		boolean visibleProperty;
-		objectsMap=new HashMap<Object, Object>();
+		objectsMap=new LinkedHashMap<Object, Object>();
 		publishText("Creating fields and groups:");
 		addIndentation();
 		fieldsCreated=false;
