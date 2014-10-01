@@ -46,7 +46,6 @@ public class VisibleElement implements UmlNamedElement, Serializable {
     protected String qualifiedName;
     
 	private UUID uuid;
-
 	
 	public VisibleElement(){
 		uuid = UUID.randomUUID();
@@ -226,4 +225,5 @@ public class VisibleElement implements UmlNamedElement, Serializable {
     public void setParentGroup(ElementsGroup parentGroup) {
         this.parentGroup = parentGroup;
     }
+
 }
