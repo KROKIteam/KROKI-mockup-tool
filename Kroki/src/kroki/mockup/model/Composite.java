@@ -15,14 +15,14 @@ import kroki.mockup.model.layout.LayoutManager;
 import kroki.mockup.view.painters.CompositePainter;
 
 /**
- * Klasa koja predstavlja kompozitnu komponentu korisničkog interfejsa. U ovom slučaju to bi bio Panel.
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * Klasa koja predstavlja kompozitnu komponentu korisniÄ�kog interfejsa. U ovom sluÄ�aju to bi bio Panel.
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 public class Composite extends Component {
 
-    /** Lista komponenti koje ova kompozitna komponenta u sebi sadrži*/
+    /** Lista komponenti koje ova kompozitna komponenta u sebi sadrÅ¾i*/
     private List<Component> childrenList;
-    /** Menadžer za rasporedjivanje komponenti*/
+    /** MenadÅ¾er za rasporedjivanje komponenti*/
     protected LayoutManager layoutManager;
     /**Okvir komponente*/
     protected Border border;
@@ -47,15 +47,18 @@ public class Composite extends Component {
     /*JAVNE METODE*/
     /**************/
     /**
-     * Dodavanje komponente u kompozitnu strukturu u slučaju kada je layout manager roditeljske komponente <code>FlowLayoutManager</code> ili <code>FreeLayoutManager</code>
+     * Dodavanje komponente u kompozitnu strukturu u sluÄ�aju kada je layout manager roditeljske komponente <code>FlowLayoutManager</code> ili <code>FreeLayoutManager</code>
      * <b>Napomena:</b>
-     * Komponenta {@code child} mora biti različita od roditeljske komponente. Isto tako komponete unutar nekog kompozita se ne smeju ponavljati.
+     * Komponenta {@code child} mora biti razliÄ�ita od roditeljske komponente. Isto tako komponete unutar nekog kompozita se ne smeju ponavljati.
      * @param child komponenta
      */
     public void addChild(Component child) {
         //TODO: Zabrana cirkularnog uvezivanja i ponavljanja.
-        child.setParent(this);
-        childrenList.add(child);
+    	//if(!childrenList.contains(child))
+    	{
+	        child.setParent(this);
+	        childrenList.add(child);
+    	}
     }
 
     public void addChild(int index, Component child) {
@@ -64,7 +67,7 @@ public class Composite extends Component {
     }
 
     /**
-     * Dodavanje komponente u kompozitnu strukturu u slučaju kada je layout manager roditeljske komponente <code>BorderLayoutManager</code>
+     * Dodavanje komponente u kompozitnu strukturu u sluÄ�aju kada je layout manager roditeljske komponente <code>BorderLayoutManager</code>
      * @param child komponenta
      * @param layout deo prostora koji komponenta zauzima. NORTH (1), WEST (2), CENTER (3), EAST (4) ili SOUTH (5)
      */
@@ -101,10 +104,10 @@ public class Composite extends Component {
                 addChild(child);
                 ((BorderLayoutManager) layoutManager).setRight(child);
             } else {
-                System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato što je layout \"" + layout + "\" pogrešno naznačen.");
+                System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato Å¡to je layout \"" + layout + "\" pogreÅ¡no naznaÄ�en.");
             }
         } else {
-            System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato što layout manager komponente nije BorderLayoutManager.");
+            System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato Å¡to layout manager komponente nije BorderLayoutManager.");
         }
     }
 
@@ -119,7 +122,7 @@ public class Composite extends Component {
     }
 
     /**
-     * Vraća child komponentu sa indexom <code>i</code>
+     * VraÄ‡a child komponentu sa indexom <code>i</code>
      * @param i
      */
     public Component getComponent(int i) {
@@ -127,7 +130,7 @@ public class Composite extends Component {
     }
 
     /**
-     * Vraća broj direktno sadržanih komponenti.
+     * VraÄ‡a broj direktno sadrÅ¾anih komponenti.
      * @return
      */
     public int getComponentCount() {
@@ -135,14 +138,14 @@ public class Composite extends Component {
     }
 
     /**
-     * Izvršava raspoređivanje komponenti unutar kompozitne strukture na osnovu odabranog <code>LayoutManager</code>-a
+     * IzvrÅ¡ava rasporeÄ‘ivanje komponenti unutar kompozitne strukture na osnovu odabranog <code>LayoutManager</code>-a
      */
     public void layout() {
         layout(this);
     }
 
     /**
-     * Izvršava raspoređivanje komponenti unutar prosleđene kompozitne komponente na osnovu odabranog <code>LayoutManager</code>-a
+     * IzvrÅ¡ava rasporeÄ‘ivanje komponenti unutar prosleÄ‘ene kompozitne komponente na osnovu odabranog <code>LayoutManager</code>-a
      * @param c Kompozitna komponenta
      */
     public void layout(Composite c) {
@@ -165,7 +168,7 @@ public class Composite extends Component {
     }
 
     /**
-     * Ukoliko se na prosleđenoj poziciji kursora nalazi određena komponenta deo sadržaja strukture vraća tu komponentu u suprotnom vraća sebe.
+     * Ukoliko se na prosleÄ‘enoj poziciji kursora nalazi odreÄ‘ena komponenta deo sadrÅ¾aja strukture vraÄ‡a tu komponentu u suprotnom vraÄ‡a sebe.
      * @param point pozicija kursora.
      * @return
      */

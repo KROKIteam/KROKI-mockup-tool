@@ -61,7 +61,7 @@ public class TextFieldPainter extends ComponentPainter {
 
         int x = textField.getRelativePosition().x;
         int y = textField.getRelativePosition().y;
-
+        
         x += textField.getInsets().left;
         x += textField.getBlank();
         if (textField.getName() != null && !textField.getName().equals("")) {

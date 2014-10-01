@@ -77,7 +77,6 @@ public class SelectState extends State {
             h = HandleManager.getHandleForPoint(el, currentPosition);
         }
         if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) != 0) {
-        	System.out.println(h);
             if (h != null) {
                 selectionModel.clearSelection();
                 selectionModel.addToSelection(el);

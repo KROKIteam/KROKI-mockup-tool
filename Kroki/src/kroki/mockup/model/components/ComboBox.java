@@ -69,6 +69,7 @@ public class ComboBox extends Component {
         Dimension dim = new Dimension();
         if (name != null && !name.equals("")) {
             dim = KrokiTextMeasurer.measureText(name, getFont());
+            /*
             int cell = 10;
             int mod = dim.width % cell;
             if (mod > 0) {
@@ -76,6 +77,8 @@ public class ComboBox extends Component {
                 dim.width += blank;
             }
             dim.width += gap;
+            */
+            dim.width += gap+blank;
         }
         return dim;
     }

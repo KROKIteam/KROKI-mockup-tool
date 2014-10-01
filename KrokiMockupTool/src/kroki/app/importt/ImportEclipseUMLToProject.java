@@ -3,6 +3,7 @@ package kroki.app.importt;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,6 +16,8 @@ import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ExportProjectToEclipseUML;
 import kroki.app.utils.uml.OperationsTypeDialog;
 import kroki.app.utils.uml.ProgressWorker;
+import kroki.app.utils.uml.TextToRemove;
+import kroki.app.utils.uml.UMLElementsEnum;
 import kroki.app.utils.uml.UMLResourcesUtil;
 import kroki.app.utils.uml.stereotypes.ClassStereotype;
 import kroki.app.utils.uml.stereotypes.OperationStereotype;
@@ -24,15 +27,12 @@ import kroki.commons.camelcase.NamingUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.border.TitledBorder;
 import kroki.mockup.model.layout.LayoutManager;
-import kroki.mockup.model.layout.VerticalLayoutManager;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Next;
 import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.group.GroupAlignment;
 import kroki.profil.group.GroupOrientation;
-import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
 import kroki.profil.operation.VisibleOperation;
@@ -61,10 +61,6 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
 
-import sun.org.mozilla.javascript.internal.ast.WithStatement;
-
-import com.sun.org.apache.xpath.internal.operations.And;
-
 /**
  * Class that implements import functionality for importing files with Eclipse UML model to Kroki project. 
  * 
@@ -82,15 +78,23 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * using empty spaces.
 	 */
 	private NamingUtil namingUtil;
+	
+	/**
+	 * Prefix or suffix text to be removed from the names of
+	 * the package, class, property or operation elements that
+	 * are being imported from UML diagram.
+	 */
+	private List<TextToRemove> textsToBeRemoved;
 	/**
 	 * Constructor that creates an object for importing 
 	 * files with Eclipse UML model to Kroki project.
 	 * Receives a file object that represents the file that should be imported.
 	 * @param file  file to be imported.
 	 */
-	public ImportEclipseUMLToProject(File file){
+	public ImportEclipseUMLToProject(File file,List<TextToRemove> textsToBeRemoved){
 		super();
 		this.file=file;
+		this.textsToBeRemoved=textsToBeRemoved;
 		execute();
 	}
 	
@@ -107,15 +111,15 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	private Map<ClassImpl, VisibleClass> classMap;
 	/**
-	 * Value used as a key value in a {@link #propertiesOperations} HashMap.
+	 * Value used as a key value in a {@link #propertiesOperations} LinkedHashMap.
 	 */
 	private final String PROPERTY="Poperty";
 	/**
-	 * Value used as a key value in a {@link #propertiesOperations} HashMap.
+	 * Value used as a key value in a {@link #propertiesOperations} LinkedHashMap.
 	 */
 	private final String OPERATION="Operation";
 	/**
-	 * HashMap that saves all the VisibleProperty, Zoom, VisibleOperation
+	 * LinkedHashMap that saves all the VisibleProperty, Zoom, VisibleOperation
 	 * and ElementsGroup elements created for the corresponding UMl
 	 * Property and Operation elements contained in the UML Class element
 	 * represented as the key value <code>ClassImpl</code>
@@ -149,7 +153,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		    associations=new ArrayList<Association>();
 		    operationsToCheck=new ArrayList<Operation>();
 		    classMap=new HashMap<ClassImpl, VisibleClass>();
-		    propertiesOperations=new HashMap<ClassImpl, Map<String,Map<Object,Object>>>();
+		    propertiesOperations=new LinkedHashMap<ClassImpl, Map<String,Map<Object,Object>>>();
 			extractModel(model);
 			if(!isCancelled())
 			{
@@ -359,8 +363,11 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	public VisibleClass createStandardPanel(String name,BussinesSubsystem classOwner){
 		StandardPanel panel = new StandardPanel();
-		panel.setLabel(createHumanReadableLabel(name));
-		panel.getComponent().setName(createHumanReadableLabel(name));
+		String newName=removePrefixSuffix(name, UMLElementsEnum.CLASS, true);
+		newName=createHumanReadableLabel(newName);
+		newName=removePrefixSuffix(newName, UMLElementsEnum.CLASS, false);
+		panel.setLabel(newName);
+		panel.getComponent().setName(newName);
 		panel.getPersistentClass().setName(namingUtil.toCamelCase(panel.getLabel(), false));
 		/*
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(1);
@@ -386,7 +393,10 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	public BussinesSubsystem createBussinesSubsystem(String name, BussinesSubsystem subsystemOwner){
 		BussinesSubsystem pack = new BussinesSubsystem(subsystemOwner);
-		pack.setLabel(createHumanReadableLabel(name));
+		String newName=removePrefixSuffix(name, UMLElementsEnum.PACKAGE, true);
+		newName=createHumanReadableLabel(newName);
+		newName=removePrefixSuffix(newName, UMLElementsEnum.PACKAGE, false);
+		pack.setLabel(newName);
 		subsystemOwner.addNestedPackage(pack);
 		return pack;
 	}
@@ -419,7 +429,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		EList<Operation> operations=classObject.getOwnedOperations();
 		publishText("Creating business operations and groups:");
 		addIndentation();
-		Map<Object, Object> objectsMap=new HashMap<Object, Object>();
+		Map<Object, Object> objectsMap=new LinkedHashMap<Object, Object>();
 		operationsCreated=false;
 		for(Operation operation:operations)
 		{
@@ -453,7 +463,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		}
 		if(!operationsCreated)
 			publishText("No UML Operation elements for this Class");
-		Map<String, Map<Object, Object>> propertiesOperationsPartMap=new HashMap<String, Map<Object,Object>>();
+		Map<String, Map<Object, Object>> propertiesOperationsPartMap=new LinkedHashMap<String, Map<Object,Object>>();
 		propertiesOperationsPartMap.put(OPERATION, objectsMap);
 		removeIndentation(1);
 		
@@ -465,7 +475,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		EList<Property> properties=classObject.getAttributes();
 		boolean elementsGroup;
 		boolean visibleProperty;
-		objectsMap=new HashMap<Object, Object>();
+		objectsMap=new LinkedHashMap<Object, Object>();
 		publishText("Creating fields and groups:");
 		addIndentation();
 		fieldsCreated=false;
@@ -635,6 +645,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	protected VisibleOperation createVisibleOperation(String name,VisibleClass panel){
 		int group;//(0-toolbar, 1-Properties, 2-Operations)
 		group=2;
+		
 		VisibleOperation visibleOperation = new Report(createHumanReadableLabel(name), true, ComponentType.BUTTON);
 		panel.addVisibleElement(visibleOperation);
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(group);
@@ -653,7 +664,10 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @return       created Report element
 	 */
 	protected Report createReportOnly(String name,VisibleClass panel){
-		Report report= new Report(createHumanReadableLabel(name), true, ComponentType.BUTTON);
+		String humanReadable=removePrefixSuffix(name, UMLElementsEnum.OPERATION, true);
+		humanReadable=createHumanReadableLabel(humanReadable);
+		humanReadable=removePrefixSuffix(humanReadable, UMLElementsEnum.OPERATION, false);
+		Report report= new Report(humanReadable, true, ComponentType.BUTTON);
 		report.setUmlClass(panel);
 		publishText("Created Report operation for UML Operation "+name);
 		return report;
@@ -668,7 +682,10 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @return       created Transaction element
 	 */
 	protected Transaction createTransactionOnly(String name,VisibleClass panel){
-		Transaction transaction= new Transaction(createHumanReadableLabel(name), true, ComponentType.BUTTON);
+		String humanReadable=removePrefixSuffix(name, UMLElementsEnum.OPERATION, true);
+		humanReadable=createHumanReadableLabel(humanReadable);
+		humanReadable=removePrefixSuffix(humanReadable, UMLElementsEnum.OPERATION, false);
+		Transaction transaction= new Transaction(humanReadable, true, ComponentType.BUTTON);
 		transaction.setUmlClass(panel);
 		publishText("Created Transaction operation for UML Operation "+name);
 		return transaction;
@@ -688,7 +705,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	private VisibleProperty createVisibleProperty(String label, boolean visible, ComponentType type,String dataType, VisibleClass panel,boolean visiblePropertyOnly){
 		int group=1;
-		String humanReadable=createHumanReadableLabel(label);
+		String humanReadable=removePrefixSuffix(label, UMLElementsEnum.PROPERTY, true);
+		humanReadable=createHumanReadableLabel(humanReadable);
+		humanReadable=removePrefixSuffix(humanReadable, UMLElementsEnum.PROPERTY, false);
 		VisibleProperty property = new VisibleProperty(humanReadable, visible, type);
 		property.setLabel(humanReadable);
 		if(type == ComponentType.TEXT_FIELD) {
@@ -810,15 +829,22 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			}while(provera);
 			publishWarning("Creating zoom for association end that has no name set");
 			publishWarning("Name for association end set to be "+zoomName);
+			zoomName=createHumanReadableLabel(zoomName);
 		}
 		else
+		{
 			publishText("Creating zoom for property "+zoomName);
+			zoomName=removePrefixSuffix(zoomName, UMLElementsEnum.PROPERTY, true);
+			zoomName=createHumanReadableLabel(zoomName);
+			zoomName=removePrefixSuffix(zoomName, UMLElementsEnum.PROPERTY, false);
+			publishText("After removing prefix and suffix name for next property is "+zoomName);
+		}
 		
 		addIndentation();
 		
 		
 		
-		VisibleProperty visibleProperty=createVisibleProperty(createHumanReadableLabel(zoomName), true, ComponentType.COMBO_BOX, "", firstVisibleClass,true);
+		VisibleProperty visibleProperty=createVisibleProperty(zoomName, true, ComponentType.COMBO_BOX, "", firstVisibleClass,true);
 		/*
 		ElementsGroup elg = (ElementsGroup) firstVisibleClass.getVisibleElementList().get(group);
         if (elg != null) {
@@ -1039,11 +1065,19 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			}while(provera);
 			publishWarning("Creating next for association end that has no name set");
 			publishWarning("Name for association end set to be "+nextName);
+			nextName=createHumanReadableLabel(nextName);
 		}
 		else
+		{
 			publishText("Creating next for property "+nextName);
+			nextName=removePrefixSuffix(nextName, UMLElementsEnum.PROPERTY, true);
+			nextName=createHumanReadableLabel(nextName);
+			nextName=removePrefixSuffix(nextName, UMLElementsEnum.PROPERTY, false);
+			publishText("After removing prefix and suffix name for next property is "+nextName);
+		}
 			
-		Next next = new Next(createHumanReadableLabel(nextName));
+		
+		Next next = new Next(nextName);
 		next.setActivationPanel(firstVisibleClass);
 		
 		next.setTargetPanel(secondVisibleClass);
@@ -1428,5 +1462,63 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				return checkContainsElement(group.getVisibleElementList().toArray(),element);
 			}
 		return false;
+	}
+	
+	/**
+	 * Removes prefix and suffix texts the user has entered before import from 
+	 * the names of the package, class, property and operation elements.
+	 * @param name               name from which to remove prefix or suffix user has entered
+	 * @param typeOfElement      type of element from which to remove text received
+	 * @param beforeConversion   if name is before conversion from camel case to human readable
+	 * format
+	 * @return    name with out the prefix and suffix removed if the type of element
+	 * was of the type user wanted to be removed from and if the name contained the text
+	 * user entered to be removed.
+	 */
+	public String removePrefixSuffix(String name,UMLElementsEnum typeOfElement,boolean beforeConversion){
+		String newName=name;
+		boolean removed=true;
+		for(TextToRemove textTR:textsToBeRemoved)
+		{
+			if(beforeConversion)
+				textTR.setUsedAlready(false);
+			if(!textTR.isUsedAlready())
+				if((textTR.isFromPackageElement()&&typeOfElement.equals(UMLElementsEnum.PACKAGE))
+						||(textTR.isFromClassElement()&&typeOfElement.equals(UMLElementsEnum.CLASS))
+						||(textTR.isFromPropertyElement()&&typeOfElement.equals(UMLElementsEnum.PROPERTY))
+						||(textTR.isFromOperationElement()&&typeOfElement.equals(UMLElementsEnum.OPERATION)))
+				{
+					removed=false;
+					if(textTR.isPrefix())
+					{
+						if(newName.startsWith(textTR.getText()))
+						{
+							newName=newName.substring(textTR.getText().length());
+							removed=true;
+						}
+					}
+					if(textTR.isSuffix())
+					{
+						if(newName.endsWith(textTR.getText()))
+						{
+							newName=newName.substring(0,newName.length()-textTR.getText().length());
+							removed=true;
+						}
+					}
+					if(removed&&beforeConversion)
+					{
+						textTR.setUsedAlready(true);
+					}	
+					if(removed&&!beforeConversion)
+					{
+						newName=newName.trim();
+						if(newName.length()==1)
+							newName=newName.toUpperCase();
+						else if(newName.length()>1)
+							newName=Character.toUpperCase(newName.charAt(0))+newName.substring(1);
+					}
+				}
+		}
+		return newName;
 	}
 }

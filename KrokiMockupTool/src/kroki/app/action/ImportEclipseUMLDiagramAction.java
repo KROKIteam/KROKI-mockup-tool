@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.RootPaneContainer;
 
@@ -12,6 +13,7 @@ import kroki.app.KrokiMockupToolApp;
 import kroki.app.importt.ImportEclipseUMLToProject;
 import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.StringResource;
+import kroki.app.utils.uml.SettingsForUMLImportDialog;
 
 /**
  * Action for the menu item that starts the import functionality for importing Eclipse UML diagram files to Kroki project.
@@ -48,10 +50,18 @@ public class ImportEclipseUMLDiagramAction extends AbstractAction {
 				{
 					
 					//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Importing Eclipse UML diagram from file "+file.getAbsolutePath()+". Please wait...", 0);
-					try{
-						new ImportEclipseUMLToProject(file);
-					}catch(Exception e){
-						e.printStackTrace(); 
+					SettingsForUMLImportDialog frame=new SettingsForUMLImportDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
+					frame.setVisible(true);
+					if(frame.isOK())
+					{
+						try{
+							new ImportEclipseUMLToProject(file,frame.getTextsToBeRemoved());
+						}catch(Exception e){
+							e.printStackTrace(); 
+						}
+					}else
+					{
+						JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Importing eclipse UML diagram aborted.");
 					}
 					
 				}
