@@ -15,6 +15,8 @@ import kroki.profil.utils.settings.SettingsPanel;
  */
 @SettingsPanel(CalculatedSettings.class)
 public class Calculated extends VisibleProperty {
+	
+	private static final long serialVersionUID = 1L;
 
     protected String expression;
 

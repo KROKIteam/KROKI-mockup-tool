@@ -22,6 +22,8 @@ import kroki.uml_core_basic.UmlType;
 @SettingsPanel(VisibleAssociationEndSettings.class)
 public class VisibleAssociationEnd extends VisibleElement implements UmlProperty {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Dozvoljen/zabranjen unos novih podataka */
     protected boolean add = true;
     /**Dozvoljena/zabranjena izmena podataka */

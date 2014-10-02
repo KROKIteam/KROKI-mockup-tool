@@ -20,6 +20,8 @@ import kroki.uml_core_basic.UmlType;
  */
 @SettingsPanel(VisiblePropertySettings.class)
 public class VisibleProperty extends VisibleElement implements UmlProperty {
+	
+	private static final long serialVersionUID = 1L;
 
     /*Obelezja klase VisibleProperty*/
     protected String columnLabel;

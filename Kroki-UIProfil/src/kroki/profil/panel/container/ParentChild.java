@@ -40,6 +40,9 @@ import kroki.uml_core_basic.UmlType;
  */
 @SettingsPanel(VisibleClassSettings.class)
 public class ParentChild extends ContainerPanel {
+	
+	
+	private static final long serialVersionUID = 1L;
 
 	private ElementsGroup propertiesPanel;
 	private ElementsGroup operationsPanel;

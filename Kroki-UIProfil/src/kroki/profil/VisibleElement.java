@@ -17,12 +17,10 @@ import kroki.mockup.model.components.RadioButton;
 import kroki.mockup.model.components.TextArea;
 import kroki.mockup.model.components.TextField;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.NamingUtils;
 import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.VisibleElementSettings;
 import kroki.uml_core_basic.UmlNamedElement;
-import kroki.uml_core_basic.UmlPackage;
 
 import com.sun.corba.se.spi.orbutil.fsm.Input;
 
@@ -33,7 +31,9 @@ import com.sun.corba.se.spi.orbutil.fsm.Input;
 @SettingsPanel(VisibleElementSettings.class)
 public class VisibleElement implements UmlNamedElement, Serializable {
 
-    /**Labela*/
+	private static final long serialVersionUID = 1L;
+	 
+	/**Labela*/
     protected String label;
     /**Indikator vidljivosti elementa*/
     protected boolean visible = true;

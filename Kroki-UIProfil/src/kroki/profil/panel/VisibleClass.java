@@ -38,6 +38,8 @@ import kroki.uml_core_basic.UmlProperty;
 @SettingsPanel(VisibleClassSettings.class)
 public class VisibleClass extends BusinessProcessModelingSubject implements UmlClass {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**Indikator modalnosti klase*/
 	protected boolean modal = true;
 	/**Lista svih elemenata koje poseduje klasa*/

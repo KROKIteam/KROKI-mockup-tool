@@ -18,6 +18,8 @@ import kroki.profil.utils.settings.SettingsPanel;
 @SettingsPanel(BussinessOperationSettings.class)
 public class BussinessOperation extends VisibleOperation {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Indikator koji označava da li je za metodu potrebno generisati panel za unos parametara*/
     protected boolean hasParametersForm = true;
     /**indikator da metoda ima i implicitno definisan parametar koji odgovara identifikatoru klase kojoj pripada. */

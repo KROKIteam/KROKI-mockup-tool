@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 
 public class StdOperations implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
     /**Dozvoljen/zabranjen unos novih podataka */
     private boolean add = true;

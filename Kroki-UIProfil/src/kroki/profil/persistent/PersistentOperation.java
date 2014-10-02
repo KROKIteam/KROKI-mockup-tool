@@ -16,6 +16,8 @@ import kroki.uml_core_basic.UmlType;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class PersistentOperation implements UmlOperation, Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     //obelezja metaklase NamdedElement
     /**Naziv elementa*/

@@ -12,4 +12,7 @@ import kroki.profil.panel.ContainerPanel;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ManyToMany extends ContainerPanel {
+	
+	private static final long serialVersionUID = 1L;
+	
 }

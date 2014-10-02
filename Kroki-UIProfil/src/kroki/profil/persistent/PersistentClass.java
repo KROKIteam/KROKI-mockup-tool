@@ -16,6 +16,8 @@ import kroki.uml_core_basic.UmlProperty;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class PersistentClass implements UmlClass, Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     /**Naziv elementa*/
     protected String name;

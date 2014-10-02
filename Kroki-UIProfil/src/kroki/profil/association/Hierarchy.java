@@ -26,6 +26,8 @@ import kroki.profil.utils.settings.SettingsPanel;
 @SettingsPanel(HierarchySettings.class)
 public class Hierarchy extends VisibleAssociationEnd {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**Nivo panela u okviru hijerarhije.*/
 	private int level;
 	/**Kraj (obeležje) asocijacije preko koga se ostvaruje povezivanje panela*/

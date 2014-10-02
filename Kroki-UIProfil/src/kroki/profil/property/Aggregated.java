@@ -17,6 +17,8 @@ import kroki.profil.utils.settings.SettingsPanel;
  */
 @SettingsPanel(AggregatedSettings.class)
 public class Aggregated extends VisibleProperty {
+	
+	private static final long serialVersionUID = 1L;
 
     protected AggregateFunciton funciton = AggregateFunciton.SUM;
     protected String selection;

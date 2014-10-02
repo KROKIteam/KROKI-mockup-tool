@@ -17,6 +17,8 @@ import kroki.profil.utils.settings.ZoomSettings;
 @SettingsPanel(ZoomSettings.class)
 public class Zoom extends VisibleAssociationEnd {
 
+	private static final long serialVersionUID = 1L;
+	
     /**
      * Indikator da se dati  zoom implementira kao
      * combobox  napunjen vrednostima reprezentativnog

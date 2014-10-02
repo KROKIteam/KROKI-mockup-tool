@@ -28,6 +28,11 @@ import kroki.uml_core_basic.UmlType;
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class BussinesSubsystem extends VisibleElement implements UmlPackage {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private UmlPackage nestingPackage;
 	private List<VisibleElement> ownedElement = new ArrayList<VisibleElement>();
 	private List<UmlPackage> nestedPackage = new ArrayList<UmlPackage>();

@@ -17,6 +17,8 @@ import kroki.profil.utils.settings.TransactionSettings;
 @SettingsPanel(TransactionSettings.class)
 public class Transaction extends BussinessOperation {
 
+	private static final long serialVersionUID = 1L;
+	
     /**indikator da je potrebno osvežiti prikaz tekućeg reda posle aktiviranja transakcije*/
     private boolean refreshRow;
     /**indikator da je potrebno ponovno učitavanje podataka u okviru panela */

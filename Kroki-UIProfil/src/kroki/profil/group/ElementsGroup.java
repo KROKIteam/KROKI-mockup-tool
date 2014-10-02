@@ -38,6 +38,8 @@ import kroki.uml_core_basic.UmlType;
 @SettingsPanel(ElementsGroupSettings.class)
 public class ElementsGroup extends VisibleElement implements UmlProperty {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Lista vidljivih elemenata*/
     protected List<VisibleElement> visibleElementList = new ArrayList<VisibleElement>();
     /**Orjentacija elemenata unutar grupe*/

@@ -4,17 +4,13 @@
  */
 package kroki.profil.panel;
 
-import java.util.HashMap;
-
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.TitledContainer;
 import kroki.mockup.model.layout.BorderLayoutManager;
 import kroki.mockup.model.layout.FlowLayoutManager;
-import kroki.mockup.model.layout.FreeLayoutManager;
 import kroki.mockup.model.layout.LayoutManager;
 import kroki.mockup.model.layout.VerticalLayoutManager;
-import kroki.mockup.utils.KrokiImagesLoader;
 import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
@@ -37,6 +33,8 @@ import kroki.profil.utils.settings.StandardPanelSettings;
 @SettingsPanel(StandardPanelSettings.class)
 public class StandardPanel extends VisibleClass {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Dozvoljen/zabranjen unos novih podataka */
     protected boolean add = true;
     /**Dozvoljena/zabranjena izmena podataka */

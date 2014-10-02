@@ -16,6 +16,8 @@ import kroki.profil.utils.settings.SettingsPanel;
 @SettingsPanel(ReportSettings.class)
 public class Report extends BussinessOperation {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Putanja do izveštaja koji se pokreće */
     private String reportName;
     /**OCL iskaz kojim se definiše opseg podataka koji se prikazuju okviru izveštaja */
