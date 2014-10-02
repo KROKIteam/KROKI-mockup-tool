@@ -112,6 +112,17 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		}
 		ownedElement.add(element);
 	}
+	
+	 @Override
+	 public void setLabel(String label) {
+		 super.setLabel(label);
+		 BussinesSubsystem pack = (BussinesSubsystem) nestingPackage;
+		 
+		 if (pack != null &&  pack.ownedType().contains(this)){
+			 pack.removeNestedPackage(this);
+			 pack.addNestedPackage(this);
+		 }
+	 }
 
 
 	public List<UmlPackage> nestedPackage() {

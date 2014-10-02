@@ -350,7 +350,7 @@ public class StandardPanel extends VisibleClass {
             ((Composite) toolbarPanel.getComponent()).removeChild(updateButton);
         }
     }
-
+    
     public Button getAddButton() {
         return addButton;
     }
