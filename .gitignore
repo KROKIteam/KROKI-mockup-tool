@@ -29,7 +29,6 @@ ApplicationRepository/generated/props/*.properties
 WebApp/bin/
 WebApp/etc/META-INF/persistence.xml
 WebApp/src/adapt/entities/generated
-WebApp/src/adapt/enumerations/
 !WebApp/config
 WebApp/config/*
 !WebApp/config/actions.xml
@@ -38,7 +37,8 @@ WebApp/config/*
 WebApp/src/config/resources-generated.xml
 WebApp/src/adapt/templates/menu.html
 WebApp/props/app.properties
-
+WebApp/src/ejb_generated
+WebApp/src/ejb_generated/*
 #                                    SwingApp excludes
 ######################################################
 SwingApp/bin/
