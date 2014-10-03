@@ -82,7 +82,7 @@ public class EnumerationGenerator {
 
 			}
 
-			writer.write(document, "enumeration", swing);
+			writer.write(document, "enumerations-generated", swing);
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -133,7 +133,7 @@ public class EnumerationGenerator {
 		if(swing) {
 			out = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "com" + File.separator + "panelcomposer" + File.separator + "enumerations");
 		}else {
-			out = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "adapt" + File.separator + "enumerations");
+			out = new File(appPath.substring(0, appPath.length()-16) +  "ApplicationRepository" + File.separator + "generated" + File.separator +  "model" + File.separator + "enumerations_generated");
 		}
 		return out;
 	}

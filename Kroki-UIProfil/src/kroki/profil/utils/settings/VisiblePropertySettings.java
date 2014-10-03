@@ -4,6 +4,7 @@
  */
 package kroki.profil.utils.settings;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -32,7 +33,6 @@ import kroki.profil.property.VisibleProperty;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class VisiblePropertySettings extends VisibleElementSettings {
@@ -49,8 +49,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     protected JComboBox<String> typeCb;
     protected JTextField columnLabelTf;
     protected JTextField displayFormatTf;
-    protected JScrollPane valuesSp;
-    protected JTextArea valuesTa;
+    protected ComboBoxValuesPanel valuesPanel;
     protected JTextField defaultValueTf;
     protected JCheckBox representativeCb;
     protected JCheckBox mandatoryCb;
@@ -59,6 +58,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 
     public VisiblePropertySettings(SettingsCreator settingsCreator) {
         super(settingsCreator);
+        System.out.println("KONSTRUKTOR");
         initComponents();
         layoutComponents();
         addActions();
@@ -82,11 +82,9 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         
         columnLabelTf = new JTextField(30);
         displayFormatTf = new JTextField(30);
-        valuesTa = new JTextArea(5, 30);
-        valuesTa.setFont(this.getFont());
-        valuesSp = new JScrollPane(valuesTa);
-        valuesSp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        valuesSp.setMinimumSize(valuesTa.getPreferredScrollableViewportSize());
+        valuesPanel = new ComboBoxValuesPanel(this, (VisibleProperty) visibleElement);
+        valuesPanel.setVisibleProperty((VisibleProperty)visibleElement);
+        valuesPanel.setFont(this.getFont());
         defaultValueTf = new JTextField(30);
         representativeCb = new JCheckBox();
         mandatoryCb = new JCheckBox();
@@ -113,7 +111,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         intermediate.add(displayFormatLb);
         intermediate.add(displayFormatTf);
         intermediate.add(valuesLb);
-        intermediate.add(valuesSp);
+        intermediate.add(valuesPanel, "height ::100");
         intermediate.add(mandatoryLb);
         intermediate.add(mandatoryCb);
         intermediate.add(representativeLb);
@@ -128,7 +126,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     }
 
     private void addActions() {
-    	
     	VisiblePropertySettings.this.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
@@ -137,7 +134,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 		});
     	
     	typeCb.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
@@ -205,21 +201,22 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             }
         });
 
-        valuesTa.addFocusListener(new FocusListener() {
-			
+        valuesPanel.addFocusListener(new FocusListener() {
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void focusLost(FocusEvent arg0) {
 				VisibleProperty prop = (VisibleProperty) visibleElement;
-				String[] values = valuesTa.getText().split("\\n");
+				String[] values = valuesPanel.getValuesAsArray();
 				String enumeration = "";
 				for(int i=0; i<values.length; i++) {
 					enumeration +=values[i] + ";";
 				}
+				System.out.println("FOCUS LOST: " + enumeration);
 				prop.setEnumeration(enumeration);
+				updatePreformed();
 			}
 			
 			@Override
-			public void focusGained(FocusEvent e) {
+			public void focusGained(FocusEvent arg0) {
 			}
 		});
         
@@ -288,7 +285,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         });
 
         disabledCb.addActionListener(new AbstractAction() {
-
             public void actionPerformed(ActionEvent e) {
                 JCheckBox checkBox = (JCheckBox) e.getSource();
                 boolean value = checkBox.isSelected();
@@ -303,6 +299,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     public void updateComponents() {
         super.updateComponents();
         VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+        valuesPanel.setVisibleProperty(visibleProperty);
         if(visibleProperty.getComponentType() == ComponentType.TEXT_FIELD) {
         	typeCb.setEnabled(true);
         	typeCb.setSelectedItem(visibleProperty.getDataType());
@@ -310,11 +307,14 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         columnLabelTf.setText(visibleProperty.getColumnLabel());
         displayFormatTf.setText(visibleProperty.getDisplayFormat());
         if(visibleProperty.getEnumeration() != null) {
+        	/*
         	valuesTa.setText("");
             String[] vals = visibleProperty.getEnumeration().split(";");
             for(int i=0; i<vals.length; i++) {
             	valuesTa.append(vals[i] + "\n");
-            }
+            }*/
+        	String[] vals = visibleProperty.getEnumeration().split(";");
+        	valuesPanel.setValues(vals);
         }
         defaultValueTf.setText(visibleProperty.getDefaultValue());
         mandatoryCb.setSelected(visibleProperty.lower() != 0);
@@ -325,9 +325,11 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 
     @Override
     public void updateSettings(VisibleElement visibleElement) {
+    	System.out.println("UPDATE SETTINGS");
         super.updateSettings(visibleElement);
         VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
         columnLabelTf.setText(visibleProperty.getColumnLabel());
+        valuesPanel.setVisibleProperty(visibleProperty);
         //ako nije text field, ne treba podesavanje za tip
         if(visibleElement.getComponentType() != ComponentType.TEXT_FIELD) {
         	typelbl.setVisible(false);
@@ -339,10 +341,10 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         //ako nije combobox, ne treba lista sa vrednostima
         if(visibleElement.getComponentType() != ComponentType.COMBO_BOX) {
         	valuesLb.setVisible(false);
-        	valuesSp.setVisible(false);
+        	valuesPanel.setVisible(false);
         }else {
         	valuesLb.setVisible(true);
-        	valuesSp.setVisible(true);
+        	valuesPanel.setVisible(true);
         }
         if(mandatoryCb.isSelected()) {
         	visibleProperty.setLower(1);

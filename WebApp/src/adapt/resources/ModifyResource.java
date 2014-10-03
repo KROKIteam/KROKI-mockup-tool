@@ -1,144 +1,34 @@
 package adapt.resources;
 
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import org.restlet.Context;
-import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
 import org.restlet.resource.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
 
-import adapt.application.AdaptApplication;
-import adapt.utils.EntityClass;
-import adapt.utils.EntityCreator;
-import adapt.utils.EntityProperty;
-import adapt.utils.Settings;
-import adapt.utils.XMLAttribute;
-import adapt.utils.XMLManyToOneAttribute;
-import adapt.utils.XMLResource;
+import adapt.enumerations.OpenedAs;
+import adapt.enumerations.PanelType;
+import adapt.model.ejb.AbstractAttribute;
+import adapt.model.ejb.ColumnAttribute;
+import adapt.model.ejb.EntityBean;
+import adapt.model.ejb.JoinColumnAttribute;
+import adapt.model.panel.AdaptStandardPanel;
+import adapt.util.converters.ConverterUtil;
+import adapt.util.ejb.EntityHelper;
+import adapt.util.xml_readers.PanelReader;
 
-public class ModifyResource extends BaseResource {
+/**
+ * Restlet resource that prepares edit form
+ * @author Milorad Filipovic
+ */
+public class ModifyResource extends BaseResource{
 
-	Map<String, Object> dataModel = new TreeMap<String, Object>();
-	XMLResource resource;
-	EntityCreator creator;
-	
 	public ModifyResource(Context context, Request request, Response response) {
 		super(context, request, response);
-		setModifiable(true);
-		getVariants().add(new Variant(MediaType.TEXT_HTML));
-	}
-
-	@Override
-	public void prepareContent(Map<String, Object> model, EntityManager em) {
-		super.prepareContent(model, em);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void handleGet() {
-		String resName = (String)getRequest().getAttributes().get("aresName");
-		String modId = (String)getRequest().getAttributes().get("mid");
-		String pid = (String)getRequest().getAttributes().get("pid");
-		AdaptApplication application = (AdaptApplication) getApplication();
-		creator = new EntityCreator(application);
-		if(resName != null &&  modId != null) {
-			AdaptApplication app = (AdaptApplication) getApplication();
-			resource = app.getXMLResource(resName);
-			dataModel.put("resource", resource);
-			if(pid != "-1") {
-				dataModel.put("pid", pid);
-			}
-			Long id = Long.parseLong(modId);
-			EntityManager em = app.getEmf().createEntityManager();
-			EntityTransaction tx = em.getTransaction();
-			ArrayList<Object> obejcts = new ArrayList<Object>();
-			tx.begin();
-			Object o = em.createQuery("FROM " + resName + " o WHERE o.id=:oid").setParameter("oid", id).getSingleResult();
-			tx.commit();
-			obejcts.add(o);
-			EntityClass entity = null;
-			try {
-				entity = creator.getEntities(obejcts, null, null).get(0);
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-			if(entity != null) {
-				//za obicne atribute kreiramo liste sa labelama i vrednostima
-				ArrayList<String> attributeLabels = new ArrayList<String>();
-				ArrayList<String> attributeValues = new ArrayList<String>();
-				//za child atribute kreiramo mapu
-				LinkedHashMap<String, Map<String, String>> childFormMap = new LinkedHashMap<String, Map<String,String>>();
-				
-				for(int i=0; i<entity.getProperties().size();i++) {
-					EntityProperty prop = entity.getProperties().get(i);
-					for(int j=0; j<resource.getAttributes().size(); j++) {
-						XMLAttribute attr = resource.getAttributes().get(j);
-						if(prop.getName().equals(attr.getName())) {
-							attributeLabels.add(attr.getLabel());
-							attributeValues.add(prop.getValue().toString());
-							System.out.println("[IMAM] " + prop.getValue());
-						}
-					}
-					//za child atribute
-					for(int k=0; k<resource.getManyToOneAttributes().size(); k++) {
-						XMLManyToOneAttribute mattr = resource.getManyToOneAttributes().get(k);
-						XMLResource ress = app.getXMLResource(mattr.getType());
-						if(prop.getName().equals(mattr.getName())) {
-							EntityTransaction t = em.getTransaction();
-							t.begin();
-							//pokupimo sve entitete iz baze
-							ArrayList<Object> objs = (ArrayList<Object>) em.createQuery("FROM " + mattr.getType()).getResultList(); 
-							ArrayList<EntityClass> entities;
-							try {
-								entities = creator.getEntities(objs, null, null);
-								Map<String, String> childMap = new TreeMap<String, String>();
-								if(!mattr.getMandatory()) {
-									childMap.put("null", "-- None --");
-								}
-								for(int j=0; j<entities.size(); j++) {
-									EntityClass ecl = entities.get(j);
-									String Id = creator.getEntityPropertyValue(ecl, "id");
-									String name = "";
-									
-									for (XMLAttribute attr : ress.getRepresentativeAttributes()) {
-										name += creator.getEntityPropertyValue(ecl, attr.getName()) + ", ";
-									}
-									
-									if(!name.equals("")) {
-										name = name.substring(0, name.length()-2);
-									}else {
-										name = Id;
-									}
-									//objekte iz baze pretvorimo u EntityClass objekte
-									//i spremimo u mapu sa vrednostima za combo box
-									childMap.put(Id, name);
-								}
-								childFormMap.put(mattr.getLabel(), childMap);
-							} catch (NoSuchFieldException e) {
-								e.printStackTrace();
-							}
-							t.commit();
-						}
-					}
-				}
-				
-				dataModel.put("attributeLabels", attributeLabels);
-				dataModel.put("attributeValues", attributeValues);
-				dataModel.put("childFormMap", childFormMap);
-				dataModel.put("modid", creator.getEntityPropertyValue(entity, "id"));
-			}
-			em.close();
-		}
-		super.handleGet();
 	}
 
 	@Override
@@ -147,11 +37,79 @@ public class ModifyResource extends BaseResource {
 	}
 
 	@Override
+	public void handleGet() {
+		String panelName = (String)getRequest().getAttributes().get("panelName");
+		String modifyID =  (String)getRequest().getAttributes().get("mid");
+		String parentID =  (String)getRequest().getAttributes().get("pid");
+
+		if(panelName != null && modifyID != null) {
+			AdaptStandardPanel stdPanel = (AdaptStandardPanel) PanelReader.loadPanel(panelName, PanelType.STANDARDPANEL, null, OpenedAs.DEFAULT);
+			if(stdPanel != null) {
+				Object o = getObjectFromDB(stdPanel.getEntityBean().getEntityClass().getName(), modifyID);
+				EntityBean bean = stdPanel.getEntityBean();
+				addToDataModel("panel", stdPanel);
+				addToDataModel("entityClassName", stdPanel.getEntityBean().getEntityClass().getName());
+				prepareInputForm(stdPanel);
+				prepareEditMap(bean, o);
+				addToDataModel("modid", modifyID);
+			}else {
+				addToDataModel("css", "messageError");
+				addToDataModel("message", "Unable to modify entry. Panel NULL");
+			}
+		}else {
+			// TODO Handle errors
+		}
+
+		super.handleGet();
+	}
+
+	private LinkedHashMap<String, String> prepareEditMap(EntityBean bean, Object object) {
+		LinkedHashMap<String, String> editMap = new LinkedHashMap<String, String>();
+		Class objectClass = object.getClass();
+
+		for (AbstractAttribute attribute : bean.getAttributes()) {
+			String getName = "get" + Character.toUpperCase(attribute.getFieldName().charAt(0)) + attribute.getFieldName().substring(1);
+			try {
+				if(!attribute.getHidden()) {
+					if(attribute instanceof ColumnAttribute) {
+						ColumnAttribute columnAttribute = (ColumnAttribute)attribute;
+						String className = columnAttribute.getDataType().split(":")[0];
+						Class attributeClass = Class.forName(className);
+						Field field = objectClass.getDeclaredField(columnAttribute.getFieldName());
+						field.setAccessible(true);
+						String value = ConverterUtil.convertForViewing(field.get(object), columnAttribute);
+						System.out.println("[ADDING TO EDIT MAP] " + attribute.getFieldName() + ", " + value);
+						editMap.put(attribute.getFieldName(), value);
+					}else if(attribute instanceof JoinColumnAttribute) {
+						JoinColumnAttribute jcAttribute = (JoinColumnAttribute)attribute;
+						Class jcClass = jcAttribute.getLookupClass();
+						Field field = objectClass.getDeclaredField(jcAttribute.getFieldName());
+						field.setAccessible(true);
+						Object value = field.get(object);
+						//Join column field returns the whole lookup object, so we need to extract just the id value
+						String id = EntityHelper.getIDValue(object);
+						editMap.put(attribute.getFieldName(), id);
+					}
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		addToDataModel("editMap", editMap);
+		return editMap;
+	}
+
+	@Override
 	public Representation represent(Variant variant) throws ResourceException {
-		AdaptApplication app = (AdaptApplication) getApplication();
-		EntityManager em = app.getEmf().createEntityManager();
-		prepareContent(dataModel, em);
-		dataModel.put("title", Settings.APP_TITLE);
 		return getHTMLTemplateRepresentation("editFormTemplate.html", dataModel);
 	}
+
 }

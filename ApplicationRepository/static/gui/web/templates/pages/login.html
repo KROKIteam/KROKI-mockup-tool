@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> ${page_title}::Login </title>
+	<link rel="stylesheet" type="text/css" href="/files/css/login.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<link rel="icon" type="image/png" href="/files/images/logo32x32.png">
+</head>
+<body>
+	<div id="loginContainer">
+		<div id="loginText">
+			<h1>Welcome to ${page_title} web pages</h1>
+			<h2>${page_description}</h2>
+		</div>
+		<form id="loginForm" action="/homepage" name="login" method="post">
+			<div id="loginHeader">
+			Login
+			</div>
+			<table id="loginTable">
+				<tr>
+					<td class="labelColumn">
+						${username_label}:
+					<td>
+					<td class="inputColumn">
+						<input type="text" name="korki-username" value="admin" class="loginInputs">
+					</td>
+				</tr>
+				<tr>
+					<td class="labelColumn">
+						${password_label}:
+					<td>
+					<td class="inputColumn">
+						<input type="password" name="korki-password" value="12345" class="loginInputs">
+					</td>
+				</tr>
+				<tr>
+					<td class="labelColumn">
+						<td>&nbsp;</td>
+					</td>
+					<td class="inputColumn">
+						<button type="submit" class="loginButton">Login</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div style="clear: both;"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+	GUI components specification for KROKI generic web application.
+    *************************************************************************************
+	Each component is associated with corresponding freemarker template which is 
+	incorporated in the final form template by the generic framework and processed 
+	by the template engine.
+	Template files are contained in static part of the application repository
+	in gui/web/component-templates directory, so here are only file names specified.
+-->
+<components>
+	<component id="textField"   template-file="text-field.html"/>
+	<component id="textArea"    template-file="text-area.html"/>
+	<component id="checkBox"    template-file="checkbox.html"/>
+	<component id="comboBox"    template-file="combo-box.html"/>
+	<component id="datePicker"  template-file="date-picker.html"/>
+    <component id="zoomFiled"   template-file="zoom-field.html"/>
+</components>

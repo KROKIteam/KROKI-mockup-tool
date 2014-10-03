@@ -1,0 +1,125 @@
+<#if panels??>
+<#if panels?has_content>
+<#list panels as panel>
+<!-- ...........................................|| ${panel.name} Standard form ||.......................................... -->
+<h1 class="formTitle">${panel.label}</h1>
+<!--  TABLE DIV -->
+<div class="tableDiv" <#if panel.operations??><#if panel.standardOperations.hasAllowedOperations>style="width: 75%; border-right: 1px solid black;"</#if></#if>>
+    <#if panel.panelSettings.hideToolbar == false>
+    <!--  FORM TOOLBAR -->
+    <div class="formToolbar">
+        <!-- VIEW CONTROLS -->
+        <div id="viewControls" class="controlsPanel">
+            <button type="button" id="btnRefresh" title="Refresh data">
+                <img class="toolbarButton" src="/files/images/icons-white/refresh.png"/>
+            </button>
+        </div>
+        <!-- NAVIGATION CONTROLS -->
+        <#if panel.panelSettings.dataNavigation>
+        <div id="navigationControls" class="controlsPanel">
+            <button type="button" id="btnFirst" title="Go to the first row in table">
+                <img class="toolbarButton" src="/files/images/icons-white/first.png"/>
+            </button>
+            <button type="button" id="btnPrev" title="Go to the previous row" disabled>
+                <img class="toolbarButton" src="/files/images/icons-white/prev.png"/>
+            </button>
+            <button type="button" id="btnNext" title="Go to the next row" disabled>
+                <img class="toolbarButton" src="/files/images/icons-white/next.png"/>
+            </button>
+            <button type="button" id="btnLast" title="Go to the last row in table">
+                <img class="toolbarButton" src="/files/images/icons-white/last.png">
+            </button>
+        </div>
+        </#if>
+        <!-- TABLE CONTROLS -->
+        <#if tableControls??>
+        <#if tableControls?has_content>
+        <div id="tableControls" class="controlsPanel">
+            <#list tableControls as control>
+            <button type="button" id="${control.id}" title="${control.toolTip}" <#if control.initiallyDiabled == true>disabled</#if>>
+                <img class="toolbarButton" src="${control.imgPath}"/>
+            </button>
+            </#list>
+        </div>
+        </#if>
+        </#if>
+    </div>
+    <!-- /FORM TOOLBAR -->
+    </#if>
+    <!--  TABLE PANEL -->
+    <div class="tablePanel">
+        <div class="theadFixator"></div>
+        <table class="mainTable" cellspacing=0>
+            <thead>
+                <tr>
+                    <#list panel.entityBean.attributes as attribute>
+                    <#if attribute.hidden == false>
+                    <th>
+                        <span>${attribute.label}</span>
+                        <div class="innerTHDiv">${attribute.label}</div>
+                    </th>
+                    </#if>
+                    </#list>
+                </tr>
+            </thead>
+            <tbody>
+                <#if tableModel??>
+                <#if tableModel?has_content>
+                <#list tableModel as row>
+                <tr>
+                    <#list panel.entityBean.attributes as attribute>
+                    <#if attribute.fieldName == "id">
+                    <td id="idCell" style="display:none;">${row[attribute.fieldName]}</td>
+                    <#else>
+                    <#if attribute.hidden == false>
+                    <td title="${row[attribute.fieldName]}">${row[attribute.fieldName]}</td>    
+                    </#if>
+                    </#if>
+                    </#list>
+                </tr>
+                </#list>
+                </#if>
+                </#if>
+            </tbody>
+        </table>
+    </div>
+    <!-- /TABLE PANEL -->
+</div>
+<!-- /TABLE DIV -->
+<!-- TODO: operationsDiv -->
+<!--  INPUT FORM -->
+<form class="inputForm" action="/add/${panel.entityBean.entityClass.name}" name="addForm" method="post">
+    <!-- FORM TABLE CONTAINER & INPUT FORM FIELDS -->
+    <div class="formTableContainer">
+        <table class="inputFormFields">
+            <#if inputForm?keys?has_content>
+            <#list panel.entityBean.attributes as attribute>
+            <#if attribute.hidden == false>
+            <#if inputForm[attribute.fieldName]??>
+            <tr>
+                <td class="labelColumn">${attribute.label}</td>
+                <td class="inputColumn" style"float:left">
+                    <#include "${inputForm[attribute.fieldName]}" parse=true encoding="UTF-8">
+                </td>
+            </tr>
+            </#if>
+            </#if>
+            </#list>
+            </#if>
+        </table>
+    </div>
+    <!-- INPUT FORM BUTTONS -->
+    <div class="inputFormButtons">
+        <div class="operationButton">
+            <button class="buttons-blue" id="button-ok" type="submit">Ok</button>
+        </div>
+        <div class="operationButton">
+            <button class="buttons-blue" id="button-cancel">Cancel</button>
+        </div>
+    </div>
+</form>
+<!-- /INPUT FORM -->
+<!-- .........................................|| ${panel.name} Standard form END ||........................................ -->
+</#list>
+</#if>
+</#if>

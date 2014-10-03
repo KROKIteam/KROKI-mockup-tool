@@ -1,0 +1,9 @@
+<#if zoomMap??>
+<select class="stdFormInputs" name="${attribute.fieldName}">
+    <#if zoomMap[attribute.fieldName]??>
+    <#list zoomMap[attribute.fieldName]?keys as id>
+    <option value="${id}" <#if editMap??><#if editMap[attribute.fieldName] == id>selected</#if></#if>>${zoomMap[attribute.fieldName][id]}</option>
+    </#list>
+    </#if>
+</select>
+</#if>

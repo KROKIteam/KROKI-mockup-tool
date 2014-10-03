@@ -34,7 +34,7 @@ public class DatabaseConfigGenerator {
 	}
 
 	public void generateFilesForDesktopApp() {
-		geneateHibernateConfigXML();
+		geneateHibernateConfigXML(null);
 		generatePersistenceXMl(false);
 	}
 	
@@ -94,12 +94,15 @@ public class DatabaseConfigGenerator {
 	  /***********************************************/
 	 /*       hibernate.cfg.xml generation          */
 	/***********************************************/
-	public void geneateHibernateConfigXML() {
+	public void geneateHibernateConfigXML(String path) {
 		System.out.println("[" + date + "]" + " generating hibernate.cfg.xml file...");
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		try {
-			File fout = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "src"  + File.separator + "hibernate.cfg.xml");
+			if(path == null) {
+				path = "SwingApp" + File.separator + "src"  + File.separator + "hibernate.cfg.xml";
+			}
+			File fout = new File(appPath.substring(0, appPath.length()-16) + path);
 			Template tpl = prepareTemplate("hibernate.cfg.ftl");
 			
 			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fout));

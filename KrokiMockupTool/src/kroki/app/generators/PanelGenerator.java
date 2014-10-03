@@ -29,7 +29,7 @@ import kroki.uml_core_basic.UmlParameter;
 
 public class PanelGenerator {
 	
-	public void generate(ArrayList<VisibleElement> elements) {
+	public void generate(ArrayList<VisibleElement> elements, Object repo) {
 		
 		XMLWriter writer = new XMLWriter();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -82,6 +82,10 @@ public class PanelGenerator {
 					
 					String id = panel.getPersistentClass().name().toLowerCase() + "_st";
 					String ejbRef = "ejb." + panel.getPersistentClass().name();
+					if(repo != null) {
+						ejbRef = "ejb_generated." + panel.getPersistentClass().name();
+					}
+						
 					
 					//atribut "id"
 					Attr idAttr = doc.createAttribute("id");
@@ -175,7 +179,7 @@ public class PanelGenerator {
 								opTag.setAttributeNode(opAllowedAttr);
 								
 								//za svaki paraterar ide 
-								//<parameter name="sifra" label="Šifra" type="java.lang.String" parameter-type="in" /> tag
+								//<parameter name="sifra" label="ï¿½ifra" type="java.lang.String" parameter-type="in" /> tag
 								if(vo.ownedParameter() != null) {
 									if(!vo.ownedParameter().isEmpty()) {
 										for(int l=0;l<vo.ownedParameter().size();l++) {
@@ -263,7 +267,7 @@ public class PanelGenerator {
 						
 						//atribut id
 						Attr hPanelIdAttr = doc.createAttribute("id");
-						hPanelIdAttr.setValue(h.name());
+						hPanelIdAttr.setValue(hPanel.name());
 						hPanelTag.setAttributeNode(hPanelIdAttr);
 						
 						//atribut panel-ref
@@ -276,14 +280,26 @@ public class PanelGenerator {
 						hPanelLevel.setValue(String.valueOf(h.getLevel()));
 						hPanelTag.setAttributeNode(hPanelLevel);
 						
+						//association end
+						if(h.getLevel() > 1) {
+							Attr hPanelAssociationEnd = doc.createAttribute("association-end");
+							hPanelAssociationEnd.setValue(h.getViaAssociationEnd().name());
+							hPanelTag.setAttributeNode(hPanelAssociationEnd);
+						}
+						
 						pcTag.appendChild(hPanelTag);
 						
 					}
 				}
 			}
 			
-			writer.write(doc, "panel" + File.separator + "panel", true);
-			writer.write(mapDoc, "panel" + File.separator + "panel-map", true);
+			if(repo == null) {
+				writer.write(doc, "panel" + File.separator + "panel", true);
+				writer.write(mapDoc, "panel" + File.separator + "panel-map", true);
+			}else {
+				writer.write(doc, "panel" + File.separator + "panel", false);
+				writer.write(mapDoc, "panel" + File.separator + "panel-map", false);
+			}
 		} catch (DOMException e) {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {

@@ -47,6 +47,28 @@ public class MenuGenerator {
 		}
 	}
 	
+	public void generateMenu(ArrayList<Menu> menus) {
+		XMLWriter writer = new XMLWriter();
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			//korenski element <menus>
+			Element root = doc.createElement("menus");
+			doc.appendChild(root);
+			
+			for(int i=0; i<menus.size(); i++) {
+				Menu menu = menus.get(i);
+				printSWINGMenu(menu, doc, root);
+			}
+			
+			writer.write(doc, "menu", false);
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//generates menu.html file for web application
 	public void generateWEBMenu(ArrayList<Menu> menus) {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -72,6 +94,8 @@ public class MenuGenerator {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	//prints menu tags in menu xml file for swing application
 	public void printSWINGMenu(Menu menu, Document doc, Element root) {

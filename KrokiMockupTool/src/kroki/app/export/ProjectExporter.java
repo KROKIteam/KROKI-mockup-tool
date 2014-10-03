@@ -10,6 +10,7 @@ import java.util.Scanner;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.exceptions.NoZoomPanelException;
 import kroki.app.generators.AdministrationSubsystemGenerator;
+import kroki.app.generators.ApplicationRepositoryGenerator;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.EnumerationGenerator;
@@ -63,6 +64,7 @@ public class ProjectExporter {
 	private EnumerationGenerator enumGenerator;
 	private WebResourceGenerator webGenerator;
 	private AdministrationSubsystemGenerator adminGenerator;
+	private ApplicationRepositoryGenerator appRepoGenerator;
 	private NamingUtil cc;
 
 
@@ -77,6 +79,7 @@ public class ProjectExporter {
 		enumGenerator = new EnumerationGenerator(swing);
 		webGenerator = new WebResourceGenerator();
 		adminGenerator = new AdministrationSubsystemGenerator();
+		appRepoGenerator = new ApplicationRepositoryGenerator();
 		cc = new NamingUtil();
 		this.swing = swing;
 	}
@@ -98,22 +101,19 @@ public class ProjectExporter {
 		//separate generator classes are called for swing and web application
 		if(swing) {
 			menuGenerator.generateSWINGMenu(menus);
-			panelGenerator.generate(elements);
-			ejbGenerator.generateEJBXmlFiles(classes);
+			panelGenerator.generate(elements, null);
+			ejbGenerator.generateEJBXmlFiles(classes, null);
 			ejbGenerator.generateEJBClasses(classes, true);
-			ejbGenerator.generateXMLMappingFile(classes);
+			ejbGenerator.generateXMLMappingFile(classes, null);
 			dbConfigGenerator.generateFilesForDesktopApp();
 			enumGenerator.generateXMLFiles(enumerations);
 			enumGenerator.generateEnumFiles(enumerations);
 		}else {
-			webGenerator.generate(elements);
-			ejbGenerator.generateEJBClasses(classes, false);
-			dbConfigGenerator.generatePersistenceXMl(true);
-			menuGenerator.generateWEBMenu(menus);
-			adminGenerator.generate();
+			appRepoGenerator.generate(classes, menus, elements, enumerations);
+			//adminGenerator.generate();
 		}
 
-		writeProjectName(proj.getLabel(), "Please log in to continue.");
+		writeProjectName(proj.getLabel(), "This application is a prototype generated from KROKI specification. Please log in to continue.");
 
 		runAnt(file, proj, message);
 	}
@@ -213,7 +213,7 @@ public class ProjectExporter {
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
 		if(!swing) {
-			pack = "adapt.entities.generated";
+			pack = "ejb_generated";
 		}
 		EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes);
 		classes.add(ejb);
@@ -223,9 +223,9 @@ public class ProjectExporter {
 		String activate = ejb.getName().toLowerCase() + "_st";
 		String label = ejb.getLabel();
 		String panel_type = "standard-panel";
-		if(!swing) {
+		/*if(!swing) {
 			activate = "/resources/" + ejb.getName();
-		}
+		}*/
 		Submenu sub = new Submenu(activate, label, panel_type);
 		//if it is in a subsystem, it is added as sub-menu item
 		if(menu != null) {
@@ -248,7 +248,7 @@ public class ProjectExporter {
 		String activate = cc.toCamelCase(pcPanel.name(), false) + "_pc";
 		String label = pcPanel.getLabel();
 		String panel_type = "parent-child";
-		if(!swing) {
+		/*if(!swing) {
 			activate = "/resources/" + cc.toCamelCase(pcPanel.name(), false);
 			
 			//add list to contained panels enclosed in square brackets
@@ -257,7 +257,7 @@ public class ProjectExporter {
 				panel_type += cc.toCamelCase(hierarchy.getTargetPanel().getComponent().getName(), false) + ":";
 			}
 			panel_type = panel_type.substring(0, panel_type.length()-1) + "]";
-		}
+		}*/
 		Submenu sub = new Submenu(activate, label, panel_type);
 		if(menu != null) {
 			menu.addSubmenu(sub);
@@ -473,7 +473,8 @@ public class ProjectExporter {
 		String toAppendDescription = "app.description";
 
 		if(!swing) {
-			propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "props" + File.separator + "app.properties");
+			propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "ApplicationRepository" + File.separator + "generated" + 
+																			File.separator + "props" + File.separator + "main.properties");
 			toAppendName = "app.title";
 		}
 
