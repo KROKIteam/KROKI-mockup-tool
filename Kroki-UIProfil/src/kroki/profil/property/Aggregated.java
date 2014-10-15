@@ -5,8 +5,6 @@
 package kroki.profil.property;
 
 import kroki.profil.persistent.PersistentProperty;
-import kroki.profil.utils.settings.AggregatedSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
  * Klasa Aggregated označava agregirano obeležje,  tj. obeležje  čija
@@ -15,7 +13,6 @@ import kroki.profil.utils.settings.SettingsPanel;
  * za prikaz u okviru panela i ne čuva se trajno u bazi.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(AggregatedSettings.class)
 public class Aggregated extends VisibleProperty {
 
     protected AggregateFunciton funciton = AggregateFunciton.SUM;

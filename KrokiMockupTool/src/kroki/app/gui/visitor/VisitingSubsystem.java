@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kroki.profil.utils.visitor;
+package kroki.app.gui.visitor;
 
 /**
  * Element UI profila koji može da bude posećen od strane visitora

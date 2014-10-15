@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kroki.profil.utils.settings;
+package kroki.app.gui.settings;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -16,6 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import kroki.app.gui.visitor.AllPosibleHierarchyPanels;
+import kroki.app.gui.visitor.AllPosibleNexts;
+import kroki.app.gui.visitor.AllPosibleZoomPanels;
+import kroki.app.gui.visitor.Visitor;
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
@@ -23,10 +27,6 @@ import kroki.profil.association.Next;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
-import kroki.profil.utils.visitor.AllPosibleNexts;
-import kroki.profil.utils.visitor.AllPosibleZoomPanels;
-import kroki.profil.utils.visitor.Visitor;
 import net.miginfocom.swing.MigLayout;
 
 /**

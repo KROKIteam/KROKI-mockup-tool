@@ -15,15 +15,12 @@ import kroki.profil.ComponentType;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
-import kroki.profil.utils.settings.HierarchySettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
  * Stereotip  Hierarchy  označava da odredišni panel ima ulogu
  * elementa hijerarhije u okviru “Parent-Child” aktivacionog panela
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(HierarchySettings.class)
 public class Hierarchy extends VisibleAssociationEnd {
 
 	/**Nivo panela u okviru hijerarhije.*/

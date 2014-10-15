@@ -6,8 +6,6 @@ package kroki.profil.property;
 
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.VisiblePropertySettings;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
@@ -18,7 +16,6 @@ import kroki.uml_core_basic.UmlType;
  * putem pridruÅ¾ene komponente korisniÄ�kog interfejsa.
  * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(VisiblePropertySettings.class)
 public class VisibleProperty extends VisibleElement implements UmlProperty {
 
     /*Obelezja klase VisibleProperty*/

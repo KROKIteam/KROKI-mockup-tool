@@ -5,8 +5,6 @@
 package kroki.profil.operation;
 
 import kroki.profil.ComponentType;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.TransactionSettings;
 
 /**
  * Apstraktni stereotip  BussinesTransaction označava složenu
@@ -14,7 +12,6 @@ import kroki.profil.utils.settings.TransactionSettings;
  * kao metoda u srednjem sloju nekog troslojnog rešenja.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(TransactionSettings.class)
 public class Transaction extends BussinessOperation {
 
     /**indikator da je potrebno osvežiti prikaz tekućeg reda posle aktiviranja transakcije*/

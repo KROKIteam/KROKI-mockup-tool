@@ -7,13 +7,13 @@ import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.gui.visitor.ContainingPanels;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.profil.utils.visitor.ContainingPanels;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 

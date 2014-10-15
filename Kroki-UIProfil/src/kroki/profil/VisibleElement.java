@@ -18,8 +18,6 @@ import kroki.mockup.model.components.TextArea;
 import kroki.mockup.model.components.TextField;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.utils.NamingUtils;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.VisibleElementSettings;
 import kroki.uml_core_basic.UmlNamedElement;
 
 import com.sun.corba.se.spi.orbutil.fsm.Input;
@@ -28,7 +26,6 @@ import com.sun.corba.se.spi.orbutil.fsm.Input;
  * Klasa predstavlja element modela koji se preslikava na element korisniÄ�kog interfejsa.
  * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(VisibleElementSettings.class)
 public class VisibleElement implements UmlNamedElement, Serializable {
 
     /**Labela*/

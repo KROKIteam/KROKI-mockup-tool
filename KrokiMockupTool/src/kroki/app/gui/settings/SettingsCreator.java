@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package kroki.profil.utils.settings;
+package kroki.app.gui.settings;
 
 /**
  *

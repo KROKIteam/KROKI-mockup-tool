@@ -7,6 +7,7 @@ package kroki.profil.group;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.layout.FlowLayoutManager;
 import kroki.mockup.model.layout.FreeLayoutManager;
@@ -21,8 +22,6 @@ import kroki.profil.association.Zoom;
 import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
-import kroki.profil.utils.settings.ElementsGroupSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
@@ -35,7 +34,6 @@ import kroki.uml_core_basic.UmlType;
  * pridruÅ¾enog klasi.
  * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(ElementsGroupSettings.class)
 public class ElementsGroup extends VisibleElement implements UmlProperty {
 
     /**Lista vidljivih elemenata*/

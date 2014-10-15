@@ -9,8 +9,6 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.std.StdDataSettings;
 import kroki.profil.panel.std.StdPanelSettings;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.VisibleAssociationEndSettings;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
@@ -19,7 +17,6 @@ import kroki.uml_core_basic.UmlType;
  *
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(VisibleAssociationEndSettings.class)
 public class VisibleAssociationEnd extends VisibleElement implements UmlProperty {
 
     /**Dozvoljen/zabranjen unos novih podataka */

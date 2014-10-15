@@ -6,8 +6,6 @@ package kroki.profil.operation;
 
 import kroki.profil.ComponentType;
 import kroki.profil.persistent.PersistentOperation;
-import kroki.profil.utils.settings.BussinessOperationSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
  * Apstraktni stereotip  BussinesOperation označava metodu koja
@@ -15,7 +13,6 @@ import kroki.profil.utils.settings.SettingsPanel;
  * pridružene perzistentne metode
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(BussinessOperationSettings.class)
 public class BussinessOperation extends VisibleOperation {
 
     /**Indikator koji označava da li je za metodu potrebno generisati panel za unos parametara*/

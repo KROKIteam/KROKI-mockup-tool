@@ -10,14 +10,12 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.event.UpdateListener;
 import kroki.app.model.SelectionModel;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.utils.settings.Settings;
-import kroki.profil.utils.settings.SettingsCreator;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
  *

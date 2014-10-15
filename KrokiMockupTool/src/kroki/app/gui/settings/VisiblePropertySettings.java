@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kroki.profil.utils.settings;
+package kroki.app.gui.settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

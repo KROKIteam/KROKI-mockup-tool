@@ -16,11 +16,6 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.utils.DatabaseProps;
-import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
-import kroki.profil.utils.visitor.AllPosibleNextPanels;
-import kroki.profil.utils.visitor.AllPosibleNexts;
-import kroki.profil.utils.visitor.AllPosibleZoomPanels;
-import kroki.profil.utils.visitor.ContainingPanels;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
@@ -171,53 +166,6 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 			allPanels((BussinesSubsystem) ownedPackage, ret);
 	 }
 
-	 
-
-	 /****************************************************/
-	 /*IMPLEMENTIRANE METODE INTERFEJSA VisitingSubsystem*/
-	 /****************************************************/
-	 public void accept(AllPosibleZoomPanels visitor) {
-		 visitor.addAllObjects(ownedType);
-		 for (int i = 0; i < nestedPackage.size(); i++) {
-			 BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);
-			 subsystem.accept(visitor);
-		 }
-	 }
-
-	 public void accept(AllPosibleNextPanels visitor) {
-		 visitor.addAllObjects(ownedType);
-		 for (int i = 0; i < nestedPackage.size(); i++) {
-			 BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);
-			 subsystem.accept(visitor);
-		 }
-	 }
-
-	 public void accept(AllPosibleNexts visitor) {
-		 for (UmlType owned : ownedType)
-			 if (owned instanceof StandardPanel)
-				 visitor.addAllObjects(((StandardPanel)owned).containedZooms());
-
-		 for (int i = 0; i < nestedPackage.size(); i++) {
-			 BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);
-			 subsystem.accept(visitor);
-		 }
-	 }
-
-	 public void accept(AllPosibleHierarchyPanels visitor) {
-		 visitor.addAllObjects(ownedType);
-		 for (int i = 0; i < nestedPackage.size(); i++) {
-			 BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);
-			 subsystem.accept(visitor);
-		 }
-	 }
-
-	 public void accept(ContainingPanels visitor) {
-		 visitor.addAllObjects(ownedType);
-		 for (int i = 0; i < nestedPackage.size(); i++) {
-			 BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);
-			 subsystem.accept(visitor);
-		 }
-	 }
 
 	 @Override
 	 public String toString() {

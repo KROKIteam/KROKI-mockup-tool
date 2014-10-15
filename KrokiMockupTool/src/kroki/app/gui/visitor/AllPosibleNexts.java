@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kroki.profil.utils.visitor;
+package kroki.app.gui.visitor;
 
 import java.util.Iterator;
-import java.util.List;
+
+import kroki.profil.association.Next;
 import kroki.profil.association.Zoom;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlPackage;
@@ -16,10 +16,11 @@ import kroki.uml_core_basic.UmlProperty;
 /**
  *
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Renata
  */
-public class AllPosibleNextPanels extends Visitor {
+public class AllPosibleNexts extends Visitor {
 
-    public AllPosibleNextPanels() {
+    public AllPosibleNexts() {
     }
 
     @Override
@@ -49,21 +50,17 @@ public class AllPosibleNextPanels extends Visitor {
             }
         }
         ((BussinesSubsystem) umlPackage).accept(this);
-        Iterator iter = objectList.iterator();
+        Iterator<Object> iter = objectList.iterator();
+        Next next = (Next) object;
+        
         while (iter.hasNext()) {
-
-            VisibleClass visibleClass = (VisibleClass) iter.next();
-            List<Zoom> zooms = visibleClass.containedZooms();
-            boolean flag = false;
-            for (int i = 0; i < zooms.size(); i++) {
-                if (zooms.get(i).getTargetPanel() == umlClass) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag == false) {
-                iter.remove();
-            }
+        	Zoom zoom =  (Zoom) iter.next();
+        	//only zooms that don't have opposite and have target panel set
+        	if (zoom.getTargetPanel() == null || zoom.opposite() != null || 
+        			(next.getTargetPanel() != null && zoom.getActivationPanel() != next.getTargetPanel()) 
+        			|| (zoom.getTargetPanel() != next.getActivationPanel()))
+        		iter.remove();
+	        	
         }
     }
 }

@@ -4,17 +4,15 @@
  */
 package kroki.profil.association;
 
+
 import kroki.mockup.model.components.ComboBox;
 import kroki.profil.property.VisibleProperty;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.ZoomSettings;
 
 /**
  * Stereotip Zoom označava da odredišni panel ima ulogu zoom forme za
  * potrebe aktivacionog panela, na način definisan HCI standardom
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(ZoomSettings.class)
 public class Zoom extends VisibleAssociationEnd {
 
     /**

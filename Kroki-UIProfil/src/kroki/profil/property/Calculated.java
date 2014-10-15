@@ -4,16 +4,13 @@
  */
 package kroki.profil.property;
 
-import kroki.profil.utils.settings.CalculatedSettings;
-import kroki.profil.utils.settings.SettingsPanel;
-
 /**
  * Klasa Calculated označava kalkulisano obeležje,  tj. obeležje čija
  * se vrednost računa primenom zadate formule  nad izabranim obeležjima
  * date ili neke druge klase.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(CalculatedSettings.class)
+
 public class Calculated extends VisibleProperty {
 
     protected String expression;

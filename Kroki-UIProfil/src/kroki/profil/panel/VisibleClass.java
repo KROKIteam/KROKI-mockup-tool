@@ -23,8 +23,6 @@ import kroki.profil.operation.Transaction;
 import kroki.profil.operation.VisibleOperation;
 import kroki.profil.property.Persistent;
 import kroki.profil.property.VisibleProperty;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.VisibleClassSettings;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlPackage;
@@ -34,7 +32,6 @@ import kroki.uml_core_basic.UmlProperty;
  * Označava klasu koja se preslikava na panel (obični ili tabulatorski) u okviru korisničkog interfejsa aplikacije.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(VisibleClassSettings.class)
 public class VisibleClass extends BusinessProcessModelingSubject implements UmlClass {
 
     /**Indikator modalnosti klase*/

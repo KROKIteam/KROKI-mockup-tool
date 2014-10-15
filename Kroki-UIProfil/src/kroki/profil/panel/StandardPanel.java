@@ -24,8 +24,6 @@ import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.std.StdDataSettings;
 import kroki.profil.panel.std.StdPanelSettings;
 import kroki.profil.persistent.PersistentClass;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.StandardPanelSettings;
 
 /**
  * <code>StandardPanel</code> oznacava da se datoj perzistentnoj klasi (u
@@ -34,7 +32,6 @@ import kroki.profil.utils.settings.StandardPanelSettings;
  * standardni panel ciji su izgled i funkcionalnost definisani HCI standardom.
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(StandardPanelSettings.class)
 public class StandardPanel extends VisibleClass {
 
     /**Dozvoljen/zabranjen unos novih podataka */

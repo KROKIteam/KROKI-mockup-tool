@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kroki.profil.utils.visitor;
+package kroki.app.gui.visitor;
 
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlClass;

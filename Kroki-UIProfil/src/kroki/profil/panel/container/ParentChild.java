@@ -27,8 +27,6 @@ import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.ContainerPanel;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.VisibleClassSettings;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
@@ -38,7 +36,6 @@ import kroki.uml_core_basic.UmlType;
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  * @author Renata
  */
-@SettingsPanel(VisibleClassSettings.class)
 public class ParentChild extends ContainerPanel {
 
 	private ElementsGroup propertiesPanel;

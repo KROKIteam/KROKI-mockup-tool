@@ -5,15 +5,12 @@
 package kroki.profil.operation;
 
 import kroki.profil.ComponentType;
-import kroki.profil.utils.settings.ReportSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
  * Stereotip  Report označava metodu za pokretanje izveštaja
  * realizovanog nekim od raspoloživih alata za kreiranje izveštaja.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(ReportSettings.class)
 public class Report extends BussinessOperation {
 
     /**Putanja do izveštaja koji se pokreće */

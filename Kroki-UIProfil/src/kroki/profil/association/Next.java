@@ -5,15 +5,12 @@
 package kroki.profil.association;
 
 import kroki.profil.ComponentType;
-import kroki.profil.utils.settings.NextSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
  * Stereotip Next označava da odredišni panel ima ulogu next forme za
  * potrebe aktivacionog panela, na način definisan HCI standardom
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(NextSettings.class)
 public class Next extends VisibleAssociationEnd {
 
     /**
