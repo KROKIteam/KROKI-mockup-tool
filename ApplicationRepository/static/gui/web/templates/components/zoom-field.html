@@ -1,9 +1,10 @@
-<#if zoomMap??>
-<select class="stdFormInputs" name="${attribute.fieldName}">
-    <#if zoomMap[attribute.fieldName]??>
-    <#list zoomMap[attribute.fieldName]?keys as id>
-    <option value="${id}" <#if editMap??><#if editMap[attribute.fieldName] == id>selected</#if></#if>>${zoomMap[attribute.fieldName][id]}</option>
-    </#list>
-    </#if>
-</select>
+<#if attribute.columns??>
+<#assign width = 87.5/attribute.columns?size>
+<input id="${attribute.lookupClass.simpleName}-id" name="${attribute.fieldName}" class="zoomInputs" type="text" value="ID" disabled style="width: ${width}%">
+<#list attribute.columns as column>
+<#if column.hidden == false>
+<input id="${attribute.lookupClass.simpleName}-${column.fieldName}" class="zoomInputs" type="text" value="${column.label}" disabled style="width: ${width}%">
+</#if>
+</#list>
+<button class="buttons-blue zoomInputs" id="button-zoom" type="button" style="color: #fff; font-weight: bold; width: 10%" data-activate="${zoomMap[attribute.fieldName]}" data-label="${attribute.label}">...</button>
 </#if>

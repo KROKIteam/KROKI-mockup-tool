@@ -29,9 +29,11 @@ import adapt.model.ejb.ColumnAttribute;
 import adapt.model.ejb.EntityBean;
 import adapt.model.ejb.JoinColumnAttribute;
 import adapt.model.panel.AdaptStandardPanel;
+import adapt.util.ejb.EntityHelper;
 import adapt.util.ejb.PersisenceHelper;
 import adapt.util.resolvers.ComponentTypeResolver;
 import adapt.util.staticnames.Settings;
+import adapt.util.xml_readers.PanelReader;
 import freemarker.template.Configuration;
 
 public class BaseResource extends Resource {
@@ -91,7 +93,7 @@ public class BaseResource extends Resource {
 	public void prepareInputForm(AdaptStandardPanel panel) {
 		Map<String, String> inputForm = new LinkedHashMap<String, String>();
 		EntityBean bean = panel.getEntityBean();
-		LinkedHashMap<String, LinkedHashMap<String, String>> zoomMap = new LinkedHashMap<String, LinkedHashMap<String, String>>();
+		LinkedHashMap<String, String> zoomMap = new LinkedHashMap<String, String>();
 		
 		for (AbstractAttribute attribute : bean.getAttributes()) {
 			String fieldName = attribute.getFieldName();
@@ -113,12 +115,16 @@ public class BaseResource extends Resource {
 				inputForm.put(fieldName, componentTemplate);
 				// Then get data from database to fill the combo box
 				// TODO Substitute combo box zoom with classic lookup fields
-				LinkedHashMap<String, String> zoomValues = getZoomMap(jcAttribute);
+				/*LinkedHashMap<String, String> zoomValues = getZoomMap(jcAttribute);
 				if(!zoomValues.isEmpty()) {
 					zoomMap.put(fieldName, zoomValues);
 				}else {
 					AppCache.displayTextOnMainFrame("Error getting zoom values for: " + bean.getName() + "." + fieldName, 1);
-				}
+				}*/
+				Class<?> zoomClass = jcAttribute.getLookupClass();
+				String panelId = AppCache.getInstance().getPanelId(zoomClass.getName());
+				zoomMap.put(fieldName, panelId);
+				
 			}else {
 				System.out.println("ELSE!");
 			}
@@ -142,7 +148,6 @@ public class BaseResource extends Resource {
 		
 		em.getTransaction().commit();
 		em.close();
-
 		
 		// TODO check if zoom attribute is required before adding the NULL value
 		values.put("null", "-- " + NULL + "--");

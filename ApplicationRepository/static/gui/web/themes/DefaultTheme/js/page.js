@@ -638,6 +638,16 @@ $(document).ready(function(e) {
 			}
 		});
 	});
+
+	/*
+	ZOOM BUTTON CLICK
+	*/
+	container.on("click", "button[data-activate]", function() {
+		var activateLink = $(this).attr("data-activate");
+		var label = $(this).attr("data-label");
+		makeNewWindow(activateLink, label, "STANDARDPANEL");
+	});
+
 });
 //---------------------------------------------------------------------//           UTIL FUNCTIONS
 

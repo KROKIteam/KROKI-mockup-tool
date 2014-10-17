@@ -572,6 +572,14 @@ textarea {
 	font-weight: normal;
 }
 
+.zoomInputs {
+	font-size: 1.1em;
+	color: gray;
+	width: 20%;
+	font-weight: normal;
+	display: inline;
+}
+
 .labelColumn {
 	font-weight: bold;
 	text-align: right;

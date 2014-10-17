@@ -24,11 +24,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author KROKI Team 
-   Creation date: 03.10.2014  16:47:33h
+   Creation date: 17.10.2014  13:40:18h
    **/
 
 @Entity
-@Table(name = "NWAP_STATE")
+@Table(name = "SIA_STATE")
 public class State implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -42,10 +42,6 @@ public class State implements java.io.Serializable {
 	private java.lang.String a_name;
 	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "city_state")
 	private Set<City> city_stateSet;
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "employee_state")
-	private Set<Employee> employee_stateSet;
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "employee_citizenship")
-	private Set<Employee> employee_citizenshipSet;
 	
 	public State(){
 	}
@@ -72,22 +68,6 @@ public class State implements java.io.Serializable {
 	
 	public void setCity_stateSet(Set<City> city_stateSet) {
 		this.city_stateSet = city_stateSet;
-	}
-	
-	public Set<Employee> getEmployee_stateSet() {
-		return this.employee_stateSet;
-	}
-	
-	public void setEmployee_stateSet(Set<Employee> employee_stateSet) {
-		this.employee_stateSet = employee_stateSet;
-	}
-	
-	public Set<Employee> getEmployee_citizenshipSet() {
-		return this.employee_citizenshipSet;
-	}
-	
-	public void setEmployee_citizenshipSet(Set<Employee> employee_citizenshipSet) {
-		this.employee_citizenshipSet = employee_citizenshipSet;
 	}
 	
 }

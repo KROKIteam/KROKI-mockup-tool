@@ -24,11 +24,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author KROKI Team 
-   Creation date: 03.10.2014  16:47:33h
+   Creation date: 17.10.2014  13:40:18h
    **/
 
 @Entity
-@Table(name = "NWAP_EMPLOYEE")
+@Table(name = "SIA_EMPLOYEE")
 public class Employee implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -47,12 +47,6 @@ public class Employee implements java.io.Serializable {
 	@ManyToOne
 	@JoinColumn(name="employee_city", referencedColumnName="ID",  nullable = true)
 	private City employee_city;
-	@ManyToOne
-	@JoinColumn(name="employee_state", referencedColumnName="ID",  nullable = true)
-	private State employee_state;
-	@ManyToOne
-	@JoinColumn(name="employee_citizenship", referencedColumnName="ID",  nullable = true)
-	private State employee_citizenship;
 	@Column(name = "EMP_GENDER", unique = false, nullable = false)
 	private java.lang.String a_gender;
 	
@@ -97,22 +91,6 @@ public class Employee implements java.io.Serializable {
 	
 	public void setEmployee_city(City employee_city) {
 		this.employee_city = employee_city;
-	}
-	
-	public State getEmployee_state() {
-		return this.employee_state;
-	}
-	
-	public void setEmployee_state(State employee_state) {
-		this.employee_state = employee_state;
-	}
-	
-	public State getEmployee_citizenship() {
-		return this.employee_citizenship;
-	}
-	
-	public void setEmployee_citizenship(State employee_citizenship) {
-		this.employee_citizenship = employee_citizenship;
 	}
 	
 	public java.lang.String getA_gender() {

@@ -144,7 +144,6 @@ public class ViewResource extends BaseResource {
 		controls.add(nextAction);
 		addToDataModel("tableControls", controls);
 	}
-
 	
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {

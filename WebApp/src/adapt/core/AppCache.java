@@ -101,6 +101,10 @@ public class AppCache {
 		}
 	}
 	
+	public String getPanelId(String className) {
+		return model.getPanelCLassMap().get(className);
+	}
+	
 	public String getComponentForType(String typeName) {
 		return model.getComponentTypeMap().get(typeName);
 	}
