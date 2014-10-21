@@ -9,7 +9,7 @@
 
 	https://github.com/KROKIteam
  *****************************************************************/
-$(document).ready(function(e) {
+ $(document).ready(function(e) {
 
 	//number of miliseconds that popup messages are being visible for
 	var delay = 2000;
@@ -31,15 +31,16 @@ $(document).ready(function(e) {
 	$(".arrow-down").empty();
 	$(".arrow-right").empty();
 
-	//cache container div for later use
+	//cache container and body for later use
 	var container = $("#container");
+    var body =  $("body");
 
 	//if the confirm dialog is shown, remember which form to refresh after hiding the overlay
 	var formToRefresh;
 
 	/**************************************************************************************************************************
 	   MENU EFFECTS
-	 **************************************************************************************************************************/
+      **************************************************************************************************************************/
 	//PAGE LOAD ANIMATION
 	//Slide down the navigation
 	$("nav").animate({height: calculateNavigationHeight()}, "slow", function() {
@@ -74,7 +75,7 @@ $(document).ready(function(e) {
 			$(this).find("ul.L1SubMenu").css("visibility","visible");
 		}else {
 			//if a submenu is open, just close it on click
-			$(this).addClass("hover");
+			//$(this).addClass("hover");
 			$(this).find("ul.L1SubMenu").css("visibility","hidden");
 		}
 	});
@@ -128,27 +129,59 @@ $(document).ready(function(e) {
 
 	/**************************************************************************************************************************
 	  FORM EFFECTS
-	 **************************************************************************************************************************/
+      **************************************************************************************************************************/
+    /*
+        GUI components that are used to open standard forms have the 'activator' css class,
+        'data-activate' and 'data-paneltype' attributes.
+        Clicking these components displays corresponding standard panels in standard form.
+        Currently, activators are: a) main menu items, b)lookup buttons and c)next links
+    */
+    $(document).on("click", ".activator", function(e) {
+        e.stopPropagation();
+        var activator = $(this);
+        var activate = $(this).attr("data-activate");
+        var label = $(this).attr("data-label");
+        var panelType = $(this).attr("data-paneltype");
+        var showback = false;
 
-	//CREATE FORM <DIV> ON MENU ITEM CLICK
-	$("li.subMenuItem").click(function(e) {
-		e.stopPropagation();
-		if(!$(this).hasClass("subMenuLink")) {
-			// Hide all the submenus
-			$(".mainMenuItems").each(function(index, element) {
-				$(this).removeClass("hover");
-				$(this).find("ul.L1SubMenu").css("visibility","hidden");
-				$(this).find("ul.L2SubMenu").hide();
-			});
-			// Return the main menu color to inital values
-			$("li.mainMenuItems").each(function(index, element) {
-				$(this).removeClass("hover");
-			});
-			var panelType = $(this).attr("data-paneltype");
-			var activate = $(this).attr("data-activate");
-			makeNewWindow(activate, $(this).text(), panelType);
-		}
-	});
+        //ACTIVATOR SPECIFIC OPERATIONS:
+        //if activator is menu item, return menu to inital state
+        if(activator.hasClass(".subMenuItem")) {
+            // Hide all the submenus
+            $(".mainMenuItems").each(function(index, element) {
+                $(this).removeClass("hover");
+                $(this).find("ul.L1SubMenu").css("visibility","hidden");
+                $(this).find("ul.L2SubMenu").hide();
+            });
+            activator.closest("li.mainMenuItems").removeClass("hover");
+        }
+        //if activator is next link, change activate link to get the child panel instead of standard panel
+        if(activator.hasClass("")) {
+            var form = activator.closest("div.standardForms");
+            var tableDiv = form.find("div.tableDiv");
+            var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
+
+            if(selectedRow.length > 0) {
+                var id = selectedRow.find("#idCell").text();
+                var cresName = activator.attr("data-childid");
+                var presName = form.attr("data-resourceId");
+
+                activate = "/showChildren/" + cresName + "/" + presName  + "/" + id;
+                label = cresName + " from " + presName;
+                panelType = "next-panel";
+
+                activator.closest(".nextPopup").hide();
+            }
+        }
+
+        //if activator is lookup button, show back button
+        if(activator.hasClass("zoomInputs")) {
+            showback = true;
+        }
+
+        //finally, pass data to method that creates forms
+        makeNewWindow(activate, label, panelType, showback);
+    });
 
 	//CLOSE FORM ON 'X' BUTTON CLICK
 	container.on("click", ".headerButtons", function(e) {
@@ -198,7 +231,7 @@ $(document).ready(function(e) {
 	});
 
 	//FUNCTION THAT CREATES HTML WINDOWS
-	function makeNewWindow(activate, label, panelType) {
+	function makeNewWindow(activate, label, panelType, showback) {
 		//make div.window
 		var newWindow = $(document.createElement("div"));
 		newWindow.addClass("windows");
@@ -243,64 +276,64 @@ $(document).ready(function(e) {
 				for(var i=0; i<data.panels.length; i++) {
 					var activate = data.panels[i].activate;
                     var associationEnd = data.panels[i].assoiciation_end;
-					var newStandardForm = $(document.createElement("div"));
-					newStandardForm.addClass("standardForms");
-					newStandardForm.attr("data-activate", "/show/" + activate);
-					newStandardForm.attr("data-resourceId", activate);
+                    var newStandardForm = $(document.createElement("div"));
+                    newStandardForm.addClass("standardForms");
+                    newStandardForm.attr("data-activate", "/show/" + activate);
+                    newStandardForm.attr("data-resourceId", activate);
                     newStandardForm.attr("data-assocend", associationEnd);
-					newStandardForm.css({"height": (90/data.panels.length) + "%"});
+                    newStandardForm.css({"height": (90/data.panels.length) + "%"});
 
-					newWindowBody.append(newStandardForm);
-					loadDataToForm(newStandardForm, true);
-					updateBounds(newWindowBody);
-				}              
-			});
+                    newWindowBody.append(newStandardForm);
+                    loadDataToForm(newStandardForm, true, showback);
+                    updateBounds(newWindowBody);
+                }              
+            });
 		}else {
 			var newStandardForm = $(document.createElement("div"));
 			newStandardForm.addClass("standardForms");
 			newStandardForm.attr("data-activate", activateLink);
 			newStandardForm.attr("data-resourceId", activate);
+
 			newWindowBody.append(newStandardForm);
-			loadDataToForm(newStandardForm, false);
-		}
+			loadDataToForm(newStandardForm, false, showback);
+        }
 
 		/*
 		 * If number of columns is more than 6, add 200 pixels for each
 		 * and 200 px in height for each standard form 
 		 */
-		var columns = newWindow.find("th").length;
-		var forms = newWindow.find(".standardForms").length;
-		if(columns > 6) {
-			var newWidth = columns*200;
-			if(newWidth<$("#container").width()) {
-				newWindow.width(newWidth);
-			}else {
-				newWindow.width("98%");
-				newWindow.css({
-					"top": 60,
-					"left": 20,
-				});
-			}
-		}
-		if(forms > 2) {
-			var newHeight = forms*200;
-			if(newHeight < $("#container").height()) {
-				newWindow.height(newHeight);
-			}else {
-				newWindow.height("85%");
-				newWindow.css({
-					"top": 60,
-					"left": 20,
-				});
-			}
-		}
-
-		updateBounds(newWindowBody);
-	}
+        var columns = newWindow.find("th").length;
+        var forms = newWindow.find(".standardForms").length;
+        if(columns > 6) {
+            var newWidth = columns*200;
+            if(newWidth<$("#container").width()) {
+                newWindow.width(newWidth);
+            }else {
+                newWindow.width("98%");
+                newWindow.css({
+                   "top": 60,
+                   "left": 20,
+               });
+            }
+        }
+        if(forms > 2) {
+            var newHeight = forms*200;
+            if(newHeight < $("#container").height()) {
+                newWindow.height(newHeight);
+            }else {
+                newWindow.height("85%");
+                newWindow.css({
+                "top": 60,
+                "left": 20,
+                });
+            }
+        }
+        updateBounds(newWindowBody);
+    }
 
 	/**************************************************************************************************************************
-	                                                                                                           TABLE EFFECTS
-	 **************************************************************************************************************************/
+       TABLE EFFECTS
+    ***************************************************************************************************************************/
 
 	// SELECT TABLE ROWS ON MOUSE CLICK
 	// Only one row can be selected at a time
@@ -335,20 +368,19 @@ $(document).ready(function(e) {
                             firstRow.trigger("click");
                         }else {
                           childForm.next().find(".tablePanel").empty();
-                        }
-                        updateBounds(childForm);
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                      }
+                      updateBounds(childForm);
+                      },
+                      error: function(XMLHttpRequest, textStatus, errorThrown) { 
                         $("#messagePopup").html("<p>" + errorThrown + "</p>");
                         $("#messagePopup").attr("class", "messageError");
                         $("#messagePopup").prepend("<div></div>");
                         $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
                     }
                 });
-			}
-		}
-
-	});
+            }
+        }
+    });
 
 	//"SWITCH VIEW" BUTTON:
 	// - Shows forms for adding new and editing existent rows in table
@@ -412,7 +444,6 @@ $(document).ready(function(e) {
 	});
 
 	// FIRST, LAST, PREVIOUS AND NEXT BUTTONS IMPLEMENTATIONS
-
 	container.on("click", "#btnFirst", function(e) {
 		var form = $(this).closest("div.standardForms");
 		var tableDiv = $(this).closest("div.tableDiv");
@@ -493,21 +524,6 @@ $(document).ready(function(e) {
 			'top': $(this).position().top + $(this).height() + 10 
 		});
 		popup.fadeToggle();
-	});
-
-	container.on("click", ".nextList li", function(e) {
-		var form = $(this).closest("div.standardForms");
-		var tableDiv = form.find("div.tableDiv");
-		var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
-
-		if(selectedRow.length > 0) {
-			var id = selectedRow.find("#idCell").text();
-			var cresName = $(this).attr("data-childid");
-			var presName = form.attr("data-resourceId");
-
-			makeNewWindow("/showChildren/" + cresName + "/" + presName  + "/" + id, cresName + " from " + presName ,"next-panel");
-			$(this).closest(".nextPopup").hide();
-		}
 	});
 
 	container.on("click", "#btnRefresh", function(e) {
@@ -591,173 +607,170 @@ $(document).ready(function(e) {
 	});
 
 	/**************************************************************************************************************************
-		                                                                                              INPUT PANEL EFFECTS
-	 **************************************************************************************************************************/
-	container.on("click", "#button-cancel", function(e) {
-		e.preventDefault();
-		var form = $(this).closest("div.standardForms");
-		form.fadeOut("slow", function(e) {
-			refreshFormData(form);
-			form.find(".tableDiv").show();
-			form.find(".operationsDiv").show();
-			form.find(".inputForm").hide();
-			form.fadeIn(fadeSpeed);
-		});
-		form.trigger("reset");
-	});
+    INPUT PANEL EFFECTS
+    **************************************************************************************************************************/
+    container.on("click", "#button-cancel", function(e) {
+        e.preventDefault();
+        var form = $(this).closest("div.standardForms");
+        form.fadeOut("slow", function(e) {
+            refreshFormData(form);
+            form.find(".tableDiv").show();
+            form.find(".operationsDiv").show();
+            form.find(".inputForm").hide();
+            form.fadeIn(fadeSpeed);
+        });
+        form.trigger("reset");
+    });
 
-	container.on("click", "#button-ok", function(e) {
-		e.preventDefault();
-		var form = $(this).closest(".inputForm");
-		var act = form.attr('action');
-		var method = form.attr('method');
-		$.ajax({
-			type: method,
-			url: act,
-			data: form.serialize(),
-			encoding:"UTF-8",
-			contentType: "text/html; charset=UTF-8",
-			success: function (data) {
-				$("#messagePopup").html(data);
-				var clas = $("#messagePopup").find("p").attr("data-cssClass");
-				$("#messagePopup").attr("class", clas);
-				$("#messagePopup").prepend("<div></div>");
-				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-				if(clas == "messageOk") {
-					if(form.attr("name") == "addForm") {
-						form.trigger("reset");
-						form.find(".inputFormFields tr:first-child input").focus();
-					}
-				}
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) { 
-				$("#messagePopup").html("<p>" + errorThrown + "</p>");
-				$("#messagePopup").attr("class", "messageError");
-				$("#messagePopup").prepend("<div></div>");
-				$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-			}
-		});
-	});
-
-	/*
-	ZOOM BUTTON CLICK
-	*/
-	container.on("click", "button[data-activate]", function() {
-		var activateLink = $(this).attr("data-activate");
-		var label = $(this).attr("data-label");
-		makeNewWindow(activateLink, label, "STANDARDPANEL");
-	});
-
+    container.on("click", "#button-ok", function(e) {
+        e.preventDefault();
+        var form = $(this).closest(".inputForm");
+        var act = form.attr('action');
+        var method = form.attr('method');
+        $.ajax({
+            type: method,
+            url: act,
+            data: form.serialize(),
+            encoding:"UTF-8",
+            contentType: "text/html; charset=UTF-8",
+            success: function (data) {
+                $("#messagePopup").html(data);
+                var clas = $("#messagePopup").find("p").attr("data-cssClass");
+                $("#messagePopup").attr("class", clas);
+                $("#messagePopup").prepend("<div></div>");
+                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+                if(clas == "messageOk") {
+                    if(form.attr("name") == "addForm") {
+                        form.trigger("reset");
+                        form.find(".inputFormFields tr:first-child input").focus();
+                    }
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                $("#messagePopup").html("<p>" + errorThrown + "</p>");
+                $("#messagePopup").attr("class", "messageError");
+                $("#messagePopup").prepend("<div></div>");
+                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+            }
+        });
+    });
 });
 //---------------------------------------------------------------------//           UTIL FUNCTIONS
 
-/*
- * Fetches the data from server to form element
- * */
-function loadDataToForm(form, displayTitle) {
-	var activateLink = form.attr("data-activate");
-	var window = form.closest(".windows");
-	$.ajax({
-		url: activateLink,
-		type: 'GET',
-		encoding:"UTF-8",
-		contentType: "text/html; charset=UTF-8",
-		success: function(data) {
-			form.html(data);
-			window.show();
-			focus(window);
-			if(!displayTitle) {
-				form.find("h1").remove();
-			}
-			/*
-			 * Set the bounds of table head fixator div and its contents 
-			 */
-			updateBounds(form);
-			// initialize jQuery UI datepickers
-			$(".datepicker").datepicker({
-				changeMonth: true,
-				changeYear:  true,
-				dateFormat:  "dd.mm.yy.",
-				yearRange:   "1900:2100"
-			});
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			window.remove();
-			delete window;
-			$("#messagePopup").html("<p><b>ERROR:</b> " + errorThrown + "</p>");
-			$("#messagePopup").attr("class", "messageError");
-			$("#messagePopup").prepend("<div></div>");
-			$("#messagePopup").slideToggle(300).delay(2000).slideToggle(500);
-		}
-	});
-}
+    /*
+     * Fetches the data from server to form element
+     * */
+    function loadDataToForm(form, displayTitle, showback) {
+        var activateLink = form.attr("data-activate");
+        var window = form.closest(".windows");
+        $.ajax({
+            url: activateLink,
+            type: 'GET',
+            encoding:"UTF-8",
+            contentType: "text/html; charset=UTF-8",
+            success: function(data) {
+                form.html(data);
+                window.show();
+                focus(window);
+                if(!displayTitle) {
+                    form.find("h1").remove();
+                }
+                if(!showback) {
+                    form.find("button#btnZoomBack").remove();
+                }
+            	/*
+            	 * Set the bounds of table head fixator div and its contents 
+            	 */
+               updateBounds(form);
+            	// initialize jQuery UI datepickers
+            	$(".datepicker").datepicker({
+            		changeMonth: true,
+            		changeYear:  true,
+            		dateFormat:  "dd.mm.yy.",
+            		yearRange:   "1900:2100"
+            	});
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+        	   window.remove();
+        	   delete window;
+        	   $("#messagePopup").html("<p><b>ERROR:</b> " + errorThrown + "</p>");
+        	   $("#messagePopup").attr("class", "messageError");
+        	   $("#messagePopup").prepend("<div></div>");
+        	   $("#messagePopup").slideToggle(300).delay(2000).slideToggle(500);
+            }
+        });
+    }
 
-//Form is focused by applying 'focused' css class
-//which adds drop-shadow effect to it and puts the form in front of the others.
-//Only one form can be focused at a time.
-function focus(form) {
-	$(".windows").each(function(index, element) {
-		$(this).removeClass("focused");
-		$(this).addClass("unfocused");
-	});
-	form.removeClass("unfocused");
-	form.addClass("focused");
-}
+    //Form is focused by applying 'focused' css class
+    //which adds drop-shadow effect to it and puts the form in front of the others.
+    //Only one form can be focused at a time.
+    function focus(form) {
+    	$(".windows").each(function(index, element) {
+    		$(this).removeClass("focused");
+    		$(this).addClass("unfocused");
+    	});
+    	form.removeClass("unfocused");
+    	form.addClass("focused");
+    }
 
-/*
- * Refresh form data from database
- */
-function refreshFormData(form) {
-	var win = form.closest("div.windows");
-	form.fadeOut("fast", function() {
-		var showTitle = false;
-		if((win.find(".standardForms").length) > 1) {
-			showTitle =  true;
-		}
-		loadDataToForm(form, showTitle);
-		$(this).fadeIn("fast", function(e) {
-			if(form.next().length > 0) {
-				refreshFormData(form.next());
-			}
-		});
-	});
-}
+    /*
+     * Refresh form data from database
+     */
+    function refreshFormData(form) {
+        var win = form.closest("div.windows");
+        form.fadeOut("fast", function() {
+            var showTitle = false;
+            var showback = false;
+            if((win.find(".standardForms").length) > 1) {
+               showTitle =  true;
+            }
+            if((form.find("button#btnZoomBack").length) > 0) {
+               showback =  true;
+            }
+            loadDataToForm(form, showTitle, showback);
+            $(this).fadeIn("fast", function(e) {
+               if(form.next().length > 0) {
+                    refreshFormData(form.next());
+                }
+            });
+        });
+    }
 
-//Updates the bounds of fixed table headers and main navigation dimensions on resize and scroll events
-function updateBounds(form) {
-	if(form != null) {
-		form.find(".tablePanel").each(function(index, element) {
-			var thead = $(this).find("thead:first");
-			var fixator = $(this).find(".theadFixator:first");
-			fixator.offset({ 
-				top: $(this).offset().top, 
-				left: $(this).offset().left 
-			});
-			fixator.height(thead.height());
-			fixator.width(thead.width());
+    //Updates the bounds of fixed table headers and main navigation dimensions on resize and scroll events
+    function updateBounds(form) {
+    	if(form != null) {
+    		form.find(".tablePanel").each(function(index, element) {
+    			var thead = $(this).find("thead:first");
+    			var fixator = $(this).find(".theadFixator:first");
+    			fixator.offset({ 
+    				top: $(this).offset().top, 
+    				left: $(this).offset().left 
+    			});
+    			fixator.height(thead.height());
+    			fixator.width(thead.width());
 
-			thead.find(".innerTHDiv").each(function(index, element) {
-				var span = $(this).parent().find("span:first");
-				$(this).offset({ 
-					top: fixator.offset().top, 
-					left: $(this).offset().left 
-				});
-				$(this).css("padding-left", (span.offset().left - span.parent().offset().left));
-			});
-		});
-	}
-}
+    			thead.find(".innerTHDiv").each(function(index, element) {
+    				var span = $(this).parent().find("span:first");
+    				$(this).offset({ 
+    					top: fixator.offset().top, 
+    					left: $(this).offset().left 
+    				});
+    				$(this).css("padding-left", (span.offset().left - span.parent().offset().left));
+    			});
+    		});
+    	}
+    }
 
-//calculate main navigation height based on calculated items widht
-function calculateNavigationHeight() {
-	var menuItemsWidth = 0;
-	var mainMenuWidth = $("#mainMenu").width();
-	$(".mainMenuItems").each(function(index, element) {
-		menuItemsWidth += $(this).width();
-	});
-	var rows = 1;
-	if(menuItemsWidth > mainMenuWidth) {
-		rows = Math.round(menuItemsWidth/mainMenuWidth) + 1;
-	}
-	return rows*40;
-}
+    //calculate main navigation height based on calculated items widht
+    function calculateNavigationHeight() {
+    	var menuItemsWidth = 0;
+    	var mainMenuWidth = $("#mainMenu").width();
+    	$(".mainMenuItems").each(function(index, element) {
+    		menuItemsWidth += $(this).width();
+    	});
+    	var rows = 1;
+    	if(menuItemsWidth > mainMenuWidth) {
+    		rows = Math.round(menuItemsWidth/mainMenuWidth) + 1;
+    	}
+    	return rows*40;
+    }

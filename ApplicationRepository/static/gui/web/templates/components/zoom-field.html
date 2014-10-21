@@ -6,5 +6,5 @@
 <input id="${attribute.lookupClass.simpleName}-${column.fieldName}" class="zoomInputs" type="text" value="${column.label}" disabled style="width: ${width}%">
 </#if>
 </#list>
-<button class="buttons-blue zoomInputs" id="button-zoom" type="button" style="color: #fff; font-weight: bold; width: 10%" data-activate="${zoomMap[attribute.fieldName]}" data-label="${attribute.label}">...</button>
+<button class="buttons-blue zoomInputs activator" id="button-zoom" type="button" style="color: #fff; font-weight: bold; width: 10%" data-activate="${zoomMap[attribute.fieldName]}" data-label="${attribute.label}" data-paneltype="STANDARDPANEL">...</button>
 </#if>

@@ -4,7 +4,7 @@
 <#-- --------------------------------------------------------------------- -->
 <#macro print_submenu_items menu_node>
     <#list menu_node.submenus as submenu>
-                        <li class="subMenuItem" data-activate="${submenu.activate}" data-panelType="${submenu.panelType}">${submenu.label}</li>
+                        <li class="subMenuItem activator" data-activate="${submenu.activate}" data-panelType="${submenu.panelType}" data-label="${submenu.label}">${submenu.label}</li>
     </#list>
 </#macro>
 
