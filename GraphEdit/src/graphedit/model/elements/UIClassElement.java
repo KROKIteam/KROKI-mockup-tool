@@ -22,6 +22,9 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
 
+import kroki.api.operations.OperationType;
+import kroki.api.operations.UIOperationsUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -139,7 +142,7 @@ public class UIClassElement extends ClassElement{
 			if (element instanceof VisibleAssociationEnd)
 				continue;
 			if (element instanceof UmlProperty)
-				makeVisiblePropertyAt(element.getLabel(), element.isVisible(), element.getComponentType(), visibleClass, -1, -1);
+				UIPropertyUtil.makeVisiblePropertyAt(element.getLabel(), element.isVisible(), element.getComponentType(), visibleClass, -1, -1);
 			else if (element instanceof UmlOperation){
 				String opStereotype;
 				if (element instanceof Transaction)
@@ -269,7 +272,7 @@ public class UIClassElement extends ClassElement{
 
 		String type = attribute.getType();
 		ComponentType componentType = getComponentType(type);
-		VisibleProperty prop = makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
+		VisibleProperty prop = UIPropertyUtil.makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
 		prop.setDataType(attribute.getDataType());
 		attribute.setUmlProperty(prop);
 	}
@@ -295,43 +298,12 @@ public class UIClassElement extends ClassElement{
 
 
 	public VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType, VisibleClass panel, String operationType, int indexClass, int indexGroup){
-		VisibleOperation operation;
 		if (operationType.equals(MethodStereotypeUI.REPORT.toString()))
-			operation = new Report(label, visible, componentType);
-		else
-			operation = new Transaction(label, visible, componentType);
-		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(operationsGroup);
-		if (indexGroup != -1)
-			gr.addVisibleElement(indexGroup, operation);
-		else
-			gr.addVisibleElement(operation);
-		if (indexClass != -1)
-			panel.addVisibleElement(indexClass, operation);
-		else
-			panel.addVisibleElement(operation);
-		return operation;
+			return UIOperationsUtil.makeVisibleOperation(label, visible, componentType, panel, OperationType.REPORT, indexClass, indexGroup);
+		return UIOperationsUtil.makeVisibleOperation(label, visible, componentType, panel, OperationType.TRANSACTION, indexClass, indexGroup);
 
 	}
 
-	public VisibleProperty makeVisiblePropertyAt(String label, boolean visible, ComponentType type, VisibleClass panel, int indexClass, int indexGroup) {
-		NamingUtil namer = new NamingUtil();
-		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(propertiesGroup);
-		VisibleProperty property = new VisibleProperty(label, visible, type);	
-		property.setName(label);
-		if(type == ComponentType.TEXT_FIELD) 
-			property.setDataType("String");
-		property.setColumnLabel(namer.toDatabaseFormat(panel.getLabel(), label));
-
-		if (indexGroup != -1)
-			gr.addVisibleElement(indexGroup, property);
-		else
-			gr.addVisibleElement(property);
-		if (indexClass != -1)
-			panel.addVisibleElement(indexClass, property);
-		else
-			panel.addVisibleElement(property);
-		return property;
-	}
 
 	private ComponentType getComponentType(String type){
 		if(type.equalsIgnoreCase("textfield")) {
@@ -382,7 +354,7 @@ public class UIClassElement extends ClassElement{
 		ComponentType componentType = getComponentType(newType);
 		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
 		removeProperty(classIndex);
-		VisibleProperty prop = makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
+		VisibleProperty prop = UIPropertyUtil.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 		attribute.setUmlProperty(prop);
 		attribute.setDataType(getDataTypeFor(newType));
 	}
@@ -396,7 +368,7 @@ public class UIClassElement extends ClassElement{
 		if (!component.equals(attribute.getType())){
 			ComponentType componentType = getComponentType(component);
 			removeProperty(classIndex);
-			VisibleProperty prop = makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
+			VisibleProperty prop = UIPropertyUtil.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 			attribute.setUmlProperty(prop);
 			attribute.setType(component);
 		}
