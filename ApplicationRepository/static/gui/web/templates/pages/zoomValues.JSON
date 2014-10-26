@@ -1,0 +1,13 @@
+<#if zoomValues??>
+<#if zoomValues?has_content>
+{
+    "zoomValues": [
+    <#list zoomValues as zoom>
+        {
+            ${zoom}
+        }<#if (zoom_has_next)>,</#if>
+    </#list>
+    ]
+}
+</#if>
+</#if>

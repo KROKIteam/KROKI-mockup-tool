@@ -132,7 +132,7 @@
       **************************************************************************************************************************/
     /*
         GUI components that are used to open standard forms have the 'activator' css class,
-        'data-activate' and 'data-paneltype' attributes.
+        'data-activate', 'data-label' and 'data-paneltype' attributes.
         Clicking these components displays corresponding standard panels in standard form.
         Currently, activators are: a) main menu items, b)lookup buttons and c)next links
     */
@@ -160,6 +160,8 @@
             var form = activator.closest("div.standardForms");
             var tableDiv = form.find("div.tableDiv");
             var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
+            var returnTo = null;
+            var zoomName = null;
 
             if(selectedRow.length > 0) {
                 var id = selectedRow.find("#idCell").text();
@@ -174,20 +176,26 @@
             }
         }
 
-        //if activator is lookup button, show back button
+        //if activator is lookup button, show back button 
+        //and set 'data-returnTo' attribute to caller form ID
         if(activator.hasClass("zoomInputs")) {
             showback = true;
+            var window = activator.closest("div.windows");
+            var activatorColumn = activator.closest("td.inputColumn");
+            
+            zoomName = activatorColumn.find("input[name]").attr("name");
+            returnTo = window.attr("id");
         }
 
         //finally, pass data to method that creates forms
-        makeNewWindow(activate, label, panelType, showback);
+        makeNewWindow(activate, label, panelType, showback, returnTo, zoomName);
     });
 
 	//CLOSE FORM ON 'X' BUTTON CLICK
 	container.on("click", ".headerButtons", function(e) {
 		e.stopPropagation();
-		$(this).parent().parent().remove();
-		delete $(this).parent().parent();
+        var window = $(this).parent().parent();
+		closeForm(window);
 	});
 
 	//FOCUS FORM ON CLICK
@@ -231,9 +239,11 @@
 	});
 
 	//FUNCTION THAT CREATES HTML WINDOWS
-	function makeNewWindow(activate, label, panelType, showback) {
+	function makeNewWindow(activate, label, panelType, showback, returnTo, zoomName) {
 		//make div.window
 		var newWindow = $(document.createElement("div"));
+        //add unique ID for each window
+        newWindow.attr("id", generateUUID());
 		newWindow.addClass("windows");
 		//make div.windowHeaders and it's contents
 		var newWindowHeader = $(document.createElement("div"));
@@ -246,6 +256,13 @@
 		newHeaderButtonDiv.attr("title", "Close window");
 		var newHeaderButtonImage = $(document.createElement("img"));
 		newHeaderButtonImage.attr("src", "/files/images/icons-white/close.png");
+
+        if(returnTo != null) {
+            newWindow.attr("data-returnTo", returnTo);
+        }
+        if(zoomName != null) {
+            newWindow.attr("data-zoomName", zoomName);
+        }
 
 		newHeaderButtonDiv.append(newHeaderButtonImage);
 		newWindowHeader.append(newWindowName);
@@ -346,6 +363,7 @@
 		form.find("#btnNext").removeAttr("disabled");
 		form.find("#btnDelete").removeAttr("disabled");
 		form.find("#btnNextForms").removeAttr("disabled");
+        form.find("#btnZoomBack").removeAttr("disabled");
 
 		//if the table is on parent-child panel, filter data on table below and select first row
 		if(window.find(".standardForms").length > 1) {
@@ -559,7 +577,7 @@
 		}
 	});
 
-	//OK i Cancel buttons on confirm dialogs
+	//OK and Cancel buttons on confirm dialogs
 	$("#cancelConfirm").click(function(e) {
 		$("#overlay").hide();
 	});
@@ -598,7 +616,33 @@
 		$("#overlay").show();
 	}
 
-	//OPERATION BUTTON CLICKS
+    // Return from zoom button
+    container.on("click", "#btnZoomBack", function(e) {
+        var form = $(this).closest("div.standardForms");
+        var window = $(this).closest("div.windows");
+        var tableDiv = form.find("div.tableDiv");
+        var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
+
+        if(selectedRow.length > 0) {
+            var id = selectedRow.find("#idCell").text();
+            var zoomName = window.attr("data-zoomname");
+            var returnTo = window.attr("data-returnto");
+            var caller = getForm(returnTo);
+            var callerPanel = caller.attr("data-resourceId");
+            $.getJSON("/getZooms/" + callerPanel + "/" + zoomName + "/" + id, function(data) {
+                for(var i = 0; i < data.zoomValues.length; i++) {
+                    var zoomName = data.zoomValues[i].name;
+                    var zoomValue = data.zoomValues[i].value;
+
+                    var zoomInput = caller.find("#" + zoomName); 
+                    zoomInput.val(zoomValue);
+                }
+            });
+            closeForm(window);
+        }
+    });
+
+	// OPERATION BUTTON CLICKS
 	container.on("click", ".operationButton button[data-operation]", function(e) {
 		var name = $(this).text();
 		var link = $(this).attr("data-confirmLink");
@@ -773,4 +817,38 @@
     		rows = Math.round(menuItemsWidth/mainMenuWidth) + 1;
     	}
     	return rows*40;
+    }
+
+    // Generate GUID-like uniqe ID for each form
+    function generateUUID() {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (d + Math.random()*16)%16 | 0;
+            d = Math.floor(d/16);
+            return (c=='x' ? r : (r&0x7|0x8)).toString(16);
+        });
+        return uuid;
+    };
+
+    function getForm(id) {
+        var form = null;
+        $("div.windows").each(function(index, element) {
+            if( $(this).attr("id") == id ) {
+                form = $(this);
+                return false;
+            }
+        });
+        return form.find("div.standardForms");
+    };
+
+    function closeForm(form) {
+        //close all zoomed forms first
+        var formID = form.attr("id");
+        $("div.windows").each(function(index, element) {
+            if( $(this).attr("data-returnTo") == formID ) {
+                closeForm($(this));
+            }
+        });
+        form.remove();
+        delete form;
     }

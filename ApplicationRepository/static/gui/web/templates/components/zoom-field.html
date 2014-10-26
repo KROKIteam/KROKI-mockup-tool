@@ -1,9 +1,9 @@
 <#if attribute.columns??>
 <#assign width = 87.5/attribute.columns?size>
-<input id="${attribute.lookupClass.simpleName}-id" name="${attribute.fieldName}" class="zoomInputs" type="text" value="ID" disabled style="width: ${width}%">
+<input id="${attribute.lookupClass.simpleName}-id" name="${attribute.fieldName}" class="zoomInputs" type="text" value="ID" readonly="readonly" style="width: ${width}%">
 <#list attribute.columns as column>
 <#if column.hidden == false>
-<input id="${attribute.lookupClass.simpleName}-${column.fieldName}" class="zoomInputs" type="text" value="${column.label}" disabled style="width: ${width}%">
+<input id="${attribute.lookupClass.simpleName}-${column.fieldName}" class="zoomInputs" type="text" value="${column.label}" readonly="readonly" style="width: ${width}%">
 </#if>
 </#list>
 <button class="buttons-blue zoomInputs activator" id="button-zoom" type="button" style="color: #fff; font-weight: bold; width: 10%" data-activate="${zoomMap[attribute.fieldName]}" data-label="${attribute.label}" data-paneltype="STANDARDPANEL">...</button>
