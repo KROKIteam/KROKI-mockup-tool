@@ -180,11 +180,11 @@
         //and set 'data-returnTo' attribute to caller form ID
         if(activator.hasClass("zoomInputs")) {
             showback = true;
-            var window = activator.closest("div.windows");
+            var form = activator.closest("div.standardForms");
             var activatorColumn = activator.closest("td.inputColumn");
             
             zoomName = activatorColumn.find("input[name]").attr("name");
-            returnTo = window.attr("id");
+            returnTo = form.attr("id");
         }
 
         //finally, pass data to method that creates forms
@@ -195,7 +195,9 @@
 	container.on("click", ".headerButtons", function(e) {
 		e.stopPropagation();
         var window = $(this).parent().parent();
-		closeForm(window);
+        //TODO: Handle parent child window closing
+        var form = window.find("div.standardForms:first");
+		closeForm(form);
 	});
 
 	//FOCUS FORM ON CLICK
@@ -243,7 +245,6 @@
 		//make div.window
 		var newWindow = $(document.createElement("div"));
         //add unique ID for each window
-        newWindow.attr("id", generateUUID());
 		newWindow.addClass("windows");
 		//make div.windowHeaders and it's contents
 		var newWindowHeader = $(document.createElement("div"));
@@ -294,6 +295,7 @@
 					var activate = data.panels[i].activate;
                     var associationEnd = data.panels[i].assoiciation_end;
                     var newStandardForm = $(document.createElement("div"));
+                    newStandardForm.attr("id", generateUUID());
                     newStandardForm.addClass("standardForms");
                     newStandardForm.attr("data-activate", "/show/" + activate);
                     newStandardForm.attr("data-resourceId", activate);
@@ -308,6 +310,7 @@
 		}else {
 			var newStandardForm = $(document.createElement("div"));
 			newStandardForm.addClass("standardForms");
+			newStandardForm.attr("id", generateUUID());
 			newStandardForm.attr("data-activate", activateLink);
 			newStandardForm.attr("data-resourceId", activate);
 
@@ -624,7 +627,7 @@
         var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 
         if(selectedRow.length > 0) {
-            closeForm(window);
+            closeForm(form);
             var id = selectedRow.find("#idCell").text();
             var zoomName = window.attr("data-zoomname");
             var returnTo = window.attr("data-returnto");
@@ -835,23 +838,25 @@
 
     function getForm(id) {
         var form = null;
-        $("div.windows").each(function(index, element) {
+        $("div.standardForms").each(function(index, element) {
             if( $(this).attr("id") == id ) {
                 form = $(this);
                 return false;
             }
         });
-        return form.find("div.standardForms");
+        return form;
     };
 
+    //Closes the form and all it's associated forms
     function closeForm(form) {
         //close all zoomed forms first
         var formID = form.attr("id");
-        $("div.windows").each(function(index, element) {
+        var formWindow = form.closest("div.windows");
+        $("div.standardForms").each(function(index, element) {
             if( $(this).attr("data-returnTo") == formID ) {
                 closeForm($(this));
             }
         });
-        form.remove();
-        delete form;
+        formWindow.remove();
+        delete formWindow;
     }
