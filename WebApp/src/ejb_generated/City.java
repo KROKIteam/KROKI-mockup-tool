@@ -24,11 +24,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author KROKI Team 
-   Creation date: 26.10.2014  17:49:11h
+   Creation date: 28.10.2014  13:11:38h
    **/
 
 @Entity
-@Table(name = "SIA_CITY")
+@Table(name = "IA_CITY")
 public class City implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,11 +40,19 @@ public class City implements java.io.Serializable {
 
 	@Column(name = "CIT_NAME", unique = false, nullable = false)
 	private java.lang.String a_name;
+	@Column(name = "CIT_ZIP_CODE", unique = false, nullable = false)
+	private java.lang.String a_zip_code;
 	@ManyToOne
 	@JoinColumn(name="city_state", referencedColumnName="ID",  nullable = true)
 	private State city_state;
-	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "employee_city")
-	private Set<Employee> employee_citySet;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "department_city")
+	private Set<Department> department_citySet;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "enterprise_city")
+	private Set<Enterprise> enterprise_citySet;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "vendor_city")
+	private Set<Vendor> vendor_citySet;
+	@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = "order_city")
+	private Set<Order> order_citySet;
 	
 	public City(){
 	}
@@ -65,6 +73,14 @@ public class City implements java.io.Serializable {
 		this.a_name = a_name;
 	}
 	
+	public java.lang.String getA_zip_code() {
+		return this.a_zip_code;
+	}
+	
+	public void setA_zip_code(java.lang.String a_zip_code) {
+		this.a_zip_code = a_zip_code;
+	}
+	
 	public State getCity_state() {
 		return this.city_state;
 	}
@@ -73,12 +89,36 @@ public class City implements java.io.Serializable {
 		this.city_state = city_state;
 	}
 	
-	public Set<Employee> getEmployee_citySet() {
-		return this.employee_citySet;
+	public Set<Department> getDepartment_citySet() {
+		return this.department_citySet;
 	}
 	
-	public void setEmployee_citySet(Set<Employee> employee_citySet) {
-		this.employee_citySet = employee_citySet;
+	public void setDepartment_citySet(Set<Department> department_citySet) {
+		this.department_citySet = department_citySet;
+	}
+	
+	public Set<Enterprise> getEnterprise_citySet() {
+		return this.enterprise_citySet;
+	}
+	
+	public void setEnterprise_citySet(Set<Enterprise> enterprise_citySet) {
+		this.enterprise_citySet = enterprise_citySet;
+	}
+	
+	public Set<Vendor> getVendor_citySet() {
+		return this.vendor_citySet;
+	}
+	
+	public void setVendor_citySet(Set<Vendor> vendor_citySet) {
+		this.vendor_citySet = vendor_citySet;
+	}
+	
+	public Set<Order> getOrder_citySet() {
+		return this.order_citySet;
+	}
+	
+	public void setOrder_citySet(Set<Order> order_citySet) {
+		this.order_citySet = order_citySet;
 	}
 	
 }

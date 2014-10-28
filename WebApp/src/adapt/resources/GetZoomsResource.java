@@ -51,7 +51,7 @@ public class GetZoomsResource extends BaseResource {
 			EntityBean bean = stdPanel.getEntityBean();
 			try {
 				JoinColumnAttribute joinColumn = getJoinByFieldName(bean, zoomName);
-				ArrayList<String> columns = getZoomValues(joinColumn, id);
+				ArrayList<String> columns = getLookupValuesJSON(joinColumn, id);
 				addToDataModel("zoomValues", columns);
 			} catch (Exception e) {
 				AppCache.displayStackTraceOnMainFrame(e);
@@ -65,49 +65,6 @@ public class GetZoomsResource extends BaseResource {
 		handleGet();
 	}
 
-	// Get attribute values for given EJB bean using reflection
-	private ArrayList<String> getZoomValues(JoinColumnAttribute joinColumn, String id) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		ArrayList<String> values = new ArrayList<String>();
-		Class ejbClass = joinColumn.getLookupClass();
-		
-		String query = "FROM " + ejbClass.getSimpleName() + " x WHERE x.id = " + id;
-		EntityManager em = PersisenceHelper.createEntityManager();
-		em.getTransaction().begin();
-		Query q = em.createQuery(query);
-		Object result = q.getSingleResult();
-
-		if(result != null) {
-			//go trough referenced columns and get their values
-			for (ColumnAttribute column : joinColumn.getColumns()) {
-				Field columnField = ejbClass.getDeclaredField(column.getFieldName());
-				columnField.setAccessible(true);
-				String columnValue = ConverterUtil.convertForViewing(columnField.get(result), column);
-				// FORMAT: "name": "State-id", "value": 1
-				values.add("\"name\": \"" + ejbClass.getSimpleName() + "-" + column.getFieldName() + "\", \"value\": \"" + columnValue + "\"");
-			}
-		}
-		em.getTransaction().commit();
-		em.close();
-		return values;
-	}
-
-	private JoinColumnAttribute getJoinByFieldName(EntityBean bean, String fieldName) throws EntityAttributeNotFoundException {
-		Iterator<AbstractAttribute> it = bean.getAttributes().iterator();
-		AbstractAttribute attr = null;
-		while (it.hasNext()) {
-			attr = it.next();
-			if (attr instanceof JoinColumnAttribute) {
-				if (((JoinColumnAttribute) attr).getFieldName().equals(fieldName)) {
-					return (JoinColumnAttribute) attr;
-				}
-			}
-		}
-		throw new EntityAttributeNotFoundException(
-				"Entity attribute not found with the field name '"
-						+ fieldName + "' in entity class '"
-						+ bean.getEntityClass().getName() + "'");
-	}
-	
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
 		return getHTMLTemplateRepresentation("zoomValues.JSON", dataModel);

@@ -51,15 +51,18 @@
     </#if>
     <!--  TABLE PANEL -->
     <div class="tablePanel">
-        <div class="theadFixator"></div>
+        <!-- <div class="theadFixator"></div> -->
         <table class="mainTable" cellspacing=0>
             <thead>
                 <tr>
                     <#list panel.entityBean.attributes as attribute>
                     <#if attribute.hidden == false>
                     <th>
+                        <!--
                         <span>${attribute.label}</span>
                         <div class="innerTHDiv">${attribute.label}</div>
+                        -->
+                        ${attribute.label}
                     </th>
                     </#if>
                     </#list>

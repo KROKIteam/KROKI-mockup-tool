@@ -28,6 +28,7 @@ public class EntityReader {
 	protected static String generatedRepoPath 	= RepositoryPathsUtil.getGeneratedModelPath();
 	protected static String generatedModelPath 	= RepositoryPathsUtil.getGeneratedModelPath();
 	protected static String mappingFileName 	= "xml-mapping.xml";
+	private static EntityBean currentBean;
 	
 	private static String logPrefix = "ENTITY READER: ";
 	
@@ -87,6 +88,9 @@ public class EntityReader {
 		bean.setLabel(ejbNode.getAttribute(Tags.LABEL));
 		bean.setEntityClass(Class.forName(ejbNode.getAttribute(Tags.CLASS_NAME)));
 		
+		System.out.println("[getEntityBeanInfo] " + bean.getName());
+		currentBean = bean;
+		
 		//EJB class attributes are specified within <attributes> tag
 		NodeList attributesTags = ejbNode.getElementsByTagName(Tags.ATTRIBUTES);
 		Element attributesTag = (Element)attributesTags.item(0);
@@ -141,9 +145,7 @@ public class EntityReader {
 			columnAttribute.setHidden(hidden);
 		}
 		
-		//TODO Mozda da se ovde odmah upuca freemarkes sablon za GUI komponentu
 		//TODO Parsiranje DERIVED i CALCULATED OBELEZJA
-		System.out.println(columnAttribute);
 		return columnAttribute;
 	}
 	
@@ -179,6 +181,7 @@ public class EntityReader {
 	}
 	
 	private static ColumnAttribute lookupColumnAttribute(String attrName, Class<?> lookupClass) {
+		System.out.println("[lookupColumnAttribute] " + attrName + ", " + lookupClass.getSimpleName());
 		ColumnAttribute ca = null;
 		AppCache appCache = AppCache.getInstance();
 		EntityBean ejb = null;
@@ -195,7 +198,13 @@ public class EntityReader {
 			return null;
 		try {
 			Document doc = XMLParserUtils.parseXml(generatedModelPath + File.separator +  xmlFileName + ".xml");
-			ejb = getEntityBeanInfo(doc);
+			
+			//If class has join column onto itself, there is no need to parse XML and go trough EJB loading process again
+			if(lookupClass.getName().equals(currentBean.getEntityClass().getName())) {
+				ejb = currentBean;
+			}else {
+				ejb = getEntityBeanInfo(doc);
+			}
 			// TODO: izvuci samo potreban columnAttribute
 			NodeList nodeList = doc.getElementsByTagName(Tags.COLUMN_ATTRIBUTE);
 			Node node = null;

@@ -22,7 +22,9 @@ public class XMLParserUtils {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			return db.parse(filePath);
+			Document doc = db.parse(filePath);
+			doc.getDocumentElement().normalize();
+			return doc;
 		}catch(ParserConfigurationException pce) {
 			pce.printStackTrace();
 			return null;

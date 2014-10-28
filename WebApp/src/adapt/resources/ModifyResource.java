@@ -10,6 +10,7 @@ import org.restlet.resource.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
 
+import adapt.core.AppCache;
 import adapt.enumerations.OpenedAs;
 import adapt.enumerations.PanelType;
 import adapt.model.ejb.AbstractAttribute;
@@ -65,6 +66,7 @@ public class ModifyResource extends BaseResource{
 
 	private LinkedHashMap<String, String> prepareEditMap(EntityBean bean, Object object) {
 		LinkedHashMap<String, String> editMap = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, LinkedHashMap<String, String>> zoomEditMap = new LinkedHashMap<String, LinkedHashMap<String,String>>();
 		Class objectClass = object.getClass();
 
 		for (AbstractAttribute attribute : bean.getAttributes()) {
@@ -86,24 +88,35 @@ public class ModifyResource extends BaseResource{
 						Field field = objectClass.getDeclaredField(jcAttribute.getFieldName());
 						field.setAccessible(true);
 						Object value = field.get(object);
-						//Join column field returns the whole lookup object, so we need to extract just the id value
-						String id = EntityHelper.getIDValue(object);
-						editMap.put(attribute.getFieldName(), id);
+						//Join column field returns the whole lookup object, so we need to extract just the referenced values
+						LinkedHashMap<String, String> lookupMap = new LinkedHashMap<String, String>();
+						for (ColumnAttribute column : jcAttribute.getColumns()) {
+							Field columnField = jcClass.getDeclaredField(column.getFieldName());
+							columnField.setAccessible(true);
+							String columnValue = ConverterUtil.convertForViewing(columnField.get(value), column);
+							lookupMap.put(column.getFieldName(), columnValue);
+						}
+						zoomEditMap.put(attribute.getFieldName(), lookupMap);
 					}
 				}
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
+				AppCache.displayStackTraceOnMainFrame(e);
 			} catch (SecurityException e) {
 				e.printStackTrace();
 			} catch (NoSuchFieldException e) {
 				e.printStackTrace();
+				AppCache.displayStackTraceOnMainFrame(e);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
+				AppCache.displayStackTraceOnMainFrame(e);
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
+				AppCache.displayStackTraceOnMainFrame(e);
 			}
 		}
 		addToDataModel("editMap", editMap);
+		addToDataModel("zoomEditMap", zoomEditMap);
 		return editMap;
 	}
 

@@ -624,6 +624,7 @@
         var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
 
         if(selectedRow.length > 0) {
+            closeForm(window);
             var id = selectedRow.find("#idCell").text();
             var zoomName = window.attr("data-zoomname");
             var returnTo = window.attr("data-returnto");
@@ -633,12 +634,14 @@
                 for(var i = 0; i < data.zoomValues.length; i++) {
                     var zoomName = data.zoomValues[i].name;
                     var zoomValue = data.zoomValues[i].value;
-
-                    var zoomInput = caller.find("#" + zoomName); 
+                    // Get visible input since, one is always hidden, depending on which form is in use (add or edit)
+                    var zoomInput = caller.find("#" + zoomName + ":visible"); 
+                    
+                    console.log("Menjam     :" + zoomInput.attr("id") + " iz " + zoomInput.closest("form.inputForm").attr("name"));
+                    console.log(zoomInput.val() + " --> " + zoomValue);
                     zoomInput.val(zoomValue);
                 }
             });
-            closeForm(window);
         }
     });
 
@@ -819,7 +822,7 @@
     	return rows*40;
     }
 
-    // Generate GUID-like uniqe ID for each form
+    // Generate UUID-like uniqe ID for each form
     function generateUUID() {
         var d = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

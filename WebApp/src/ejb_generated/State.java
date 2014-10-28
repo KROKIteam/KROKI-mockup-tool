@@ -24,11 +24,11 @@ import javax.persistence.JoinTable;
    /** 
    Class generated using Kroki EJBGenerator 
    @Author KROKI Team 
-   Creation date: 26.10.2014  17:49:11h
+   Creation date: 28.10.2014  13:11:38h
    **/
 
 @Entity
-@Table(name = "SIA_STATE")
+@Table(name = "IA_STATE")
 public class State implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

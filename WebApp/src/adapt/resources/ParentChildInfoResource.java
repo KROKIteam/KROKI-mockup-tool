@@ -1,5 +1,7 @@
 package adapt.resources;
 
+import java.util.ArrayList;
+
 import org.restlet.Context;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -28,9 +30,10 @@ public class ParentChildInfoResource extends BaseResource {
 	public void handleGet() {
 		String panelName = (String) getRequest().getAttributes().get("pcPanel");
 		if(panelName != null) {
-			AdaptPanel panel = PanelReader.loadPanel(panelName, PanelType.PARENTCHILDPANEL, null, OpenedAs.DEFAULT);
-			AdaptParentChildPanel pcPanel = (AdaptParentChildPanel)panel;
-			addToDataModel("panels", pcPanel.getPanels());
+			//AdaptPanel panel = PanelReader.loadPanel(panelName, PanelType.PARENTCHILDPANEL, null, OpenedAs.DEFAULT);
+			//AdaptParentChildPanel pcPanel = (AdaptParentChildPanel)panel;
+			ArrayList<String> panles = PanelReader.getJSONPanelList(panelName);
+			addToDataModel("panels", panles);
 		}
 		super.handleGet();
 	}

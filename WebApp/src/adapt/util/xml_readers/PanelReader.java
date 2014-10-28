@@ -134,7 +134,7 @@ public class PanelReader {
 		}
 		return null;
 	}
-	
+
 	private static AdaptPanel findNextPanel(Document doc,String panelId, PanelType panelType, String openedId) {
 		AdaptPanel panel = null;
 		NodeList nodeList = doc.getElementsByTagName(Tags.NEXT);
@@ -159,7 +159,7 @@ public class PanelReader {
 		}
 		return panel;
 	}
-	
+
 	private static AdaptPanel findZoomPanel(Document doc, String panelId, PanelType panelType, String openedId) {
 		AdaptPanel panel = null;
 		NodeList nodeList = doc.getElementsByTagName(Tags.ZOOM);
@@ -180,7 +180,7 @@ public class PanelReader {
 		}
 		return panel;
 	}
-	
+
 	private static AdaptPanel findManyToManyPanel(Document doc, String panelId) {
 		NodeList nodeList = doc.getElementsByTagName(Tags.MANY_TO_MANY);
 		String id = null;
@@ -203,7 +203,7 @@ public class PanelReader {
 		}
 		return null;
 	}
-	
+
 	private static AdaptParentChildPanel findParentChildPanel(Document doc, String panelId) {
 		NodeList nodeList = doc.getElementsByTagName(Tags.PARENT_CHILD);
 		String id = null;
@@ -226,7 +226,38 @@ public class PanelReader {
 		}
 		return null;
 	}
-	
+
+	// Returns JSON representation of parent-child panels' panels
+	// This method is used to quickly fetch parent-child panel information from XML file
+	public static ArrayList<String> getJSONPanelList(String pcPanelName) {
+		ArrayList<String> panels = new ArrayList<String>();
+		Document document = XMLParserUtils.parseXml(panelsDirectoryPath + panelsFileName);
+		NodeList nodeList = document.getElementsByTagName(Tags.PARENT_CHILD);
+		for(int i=0;i <nodeList.getLength(); i++) {
+			Element elem = (Element) nodeList.item(i);
+			String id =  elem.getAttribute(Tags.ID);
+			if(id.equals(pcPanelName)) {
+				NodeList childPanelNodes = elem.getElementsByTagName(Tags.PANEL);
+				for(int j=0; j<childPanelNodes.getLength(); j++) {
+					Element subElem = (Element) childPanelNodes.item(j);
+					String panelRef = subElem.getAttribute(Tags.PANEL_REF);
+					String asocEnd = subElem.getAttribute(Tags.ASSOCIATION_END);
+					/*
+					 * FORMAT:
+					 * 	"activate"          : "${panel.name}"<#if (panel.associationEnd??)>,
+            			"assoiciation_end"  : "${panel.associationEnd}"</#if>
+					 */
+					String jsonEntry = "\"activate\":	\"" + panelRef + "\"";
+					if(asocEnd != null && !asocEnd.equals("")) {
+						jsonEntry += ", \"assoiciation_end\":	\"" + asocEnd + "\"";
+					}
+					panels.add(jsonEntry);
+				}
+			}
+		}
+		return panels;
+	}
+
 	private static AdaptStandardPanel getSubPanel(Element elem) {
 		AdaptStandardPanel stdPanel = null;
 		String panelRef = elem.getAttribute(Tags.PANEL_REF);
@@ -245,7 +276,7 @@ public class PanelReader {
 		stdPanel.setEntityBean(getEntityRestrictions(stdPanel.getEntityBean(), elem));
 		return stdPanel;
 	}
-	
+
 	public static SpecificOperations getStandardOperations(Element elem, SpecificOperations operations) {
 		// Adding new operations for panel
 		NodeList nodeListOperations = elem.getElementsByTagName(Tags.OPERATION);
@@ -320,21 +351,21 @@ public class PanelReader {
 
 		return operations;
 	}
-	
+
 	public static EntityBean getEntityRestrictions(EntityBean bean, Element elem) {
 		bean = setRestrictionOnColumn(bean, elem, Tags.HIDDEN, "setHidden", true);
 		bean = setRestrictionOnColumn(bean, elem, Tags.DISABLED, "setDisabled", true);
 		bean = setRestrictionOnColumn(bean, elem, Tags.EDITABLE, "setEditable", true);
 		return bean;
 	}
-	
+
 	public static EntityBean setRestrictionOnColumn(EntityBean bean, Element elem, String tagName, String methodName, Boolean argValue) {
 		NodeList nodeList = elem.getElementsByTagName(tagName);
 		Element el = null;
 		String value = null;
 		AbstractAttribute attr = null;
 		Method method = null;
-		
+
 		for(int i=0; i<nodeList.getLength(); i++) {
 			el = (Element)nodeList.item(i);
 			value = el.getAttribute(Tags.VALUE);
@@ -357,7 +388,7 @@ public class PanelReader {
 		}
 		return bean;
 	}
-	
+
 	public static PanelSettings getSettings(Element elem, PanelSettings settings) {
 		Node settingsNode = elem.getElementsByTagName(Tags.SETTINGS).item(0);
 		Element el = (Element) settingsNode;
@@ -370,7 +401,7 @@ public class PanelReader {
 		settings = setOneSetting(Tags.COPY, "Copy", el, settings);
 		settings = setOneSetting(Tags.CHANGE_MODE, "ChangeMode", el, settings);
 		settings = setOneSetting(Tags.NAVIGATION, "DataNavigation", el, settings);
-		
+
 		String val = el.getAttribute(Tags.ADD);
 		val = el.getAttribute(Tags.VIEW_MODE);
 		if(val != null && !val.trim().equals("")) {
@@ -382,7 +413,7 @@ public class PanelReader {
 		}
 		return settings;
 	}
-	
+
 	private static PanelSettings setOneSetting(String tag, String methodName, Element elem, PanelSettings settings) {
 		String val = elem.getAttribute(tag);
 		Method method = null;
@@ -400,7 +431,7 @@ public class PanelReader {
 		}
 		return settings;
 	}
-	
+
 	private static List<Next> getNexts(Document doc, Element elem) {
 		List<Next> nexts = new ArrayList<Next>();
 		Next next = null;
@@ -422,7 +453,7 @@ public class PanelReader {
 		}
 		return nexts;
 	}
-	
+
 	private static List<Zoom> getZooms(Document doc, Element elem) {
 		List<Zoom> zooms = new ArrayList<Zoom>();
 		Zoom zoom = null;
