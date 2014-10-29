@@ -649,7 +649,7 @@
     });
 
 	// OPERATION BUTTON CLICKS
-	container.on("click", ".operationButton button[data-operation]", function(e) {
+	container.on("click", ".operationButton[data-operation]", function(e) {
 		var name = $(this).text();
 		var link = $(this).attr("data-confirmLink");
 		var text = $(this).attr("data-confirmText");
