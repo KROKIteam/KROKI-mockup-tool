@@ -34,6 +34,9 @@ public class ResourcePanel extends JPanel {
 
 	private JTextField tflink = new JTextField(20);
 	private JLabel lbllink = new JLabel("Link*");
+	
+	private JTextField tfpanelType = new JTextField(20);
+	private JLabel lblpanelType = new JLabel("Panel Type*");
 
 	private JButton btnCancel = new JButton();
 
@@ -59,6 +62,13 @@ public class ResourcePanel extends JPanel {
 		tflink.setSize(new Dimension(20, tflink.getHeight()));
 		tflink.setName("link");
 		add(tflink, "grow 0,wrap 20");
+		
+		add(lblpanelType, "gapleft 30");
+		lblpanelType.setName("paneltype");
+		tfpanelType.addKeyListener(new TextFieldWidth(20));
+		tfpanelType.setSize(new Dimension(20, tfpanelType.getHeight()));
+		tfpanelType.setName("paneltype");
+		add(tfpanelType, "grow 0,wrap 20");
 
 	}
 
@@ -66,6 +76,7 @@ public class ResourcePanel extends JPanel {
 		List<String> retVal = new ArrayList<String>();
 		retVal.add("name");
 		retVal.add("link");
+		retVal.add("paneltype");
 		return retVal;
 	}
 }

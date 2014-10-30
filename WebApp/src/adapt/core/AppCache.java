@@ -7,6 +7,7 @@ import adapt.model.Model;
 import adapt.model.ejb.EntityBean;
 import adapt.model.enumeration.Enumeration;
 import adapt.model.menu.AdaptMenu;
+import adapt.model.menu.AdaptSubMenu;
 import adapt.model.panel.AdaptPanel;
 import adapt.model.panel.AdaptStandardPanel;
 
@@ -58,6 +59,10 @@ public class AppCache {
 		model.add(menu);
 	}
 	
+	public void addToCache(ArrayList<AdaptSubMenu> menus) {
+		model.add(menus);
+	}
+	
 	public void addToCache(String name, Enumeration enumeration) {
 		model.add(name, enumeration);
 	}
@@ -68,6 +73,10 @@ public class AppCache {
 	
 	public void addTypeComponentMapping(String languageType, String componentTemplate) {
 		model.addComponentTypeMapping(languageType, componentTemplate);
+	}
+	
+	public void addToCacheDefaultMenu(AdaptSubMenu rootMenu) {
+		model.setDefaultMenu(rootMenu);
 	}
 	//---------------------------------------------------------------------| UTIL METHODS
 	public EntityBean findEJBByClassName(String className) {
@@ -140,5 +149,9 @@ public class AppCache {
 	
 	public ArrayList<AdaptMenu> getMenuList() {
 		return (ArrayList<AdaptMenu>) model.getMenus();
+	}
+	
+	public AdaptMenu getDefaultMenu() {
+		return model.getDefaultMenu();
 	}
 }

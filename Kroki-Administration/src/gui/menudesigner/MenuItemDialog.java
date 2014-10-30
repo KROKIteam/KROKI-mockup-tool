@@ -1,5 +1,6 @@
 package gui.menudesigner;
 
+import dao.administration.ResourceHibernateDao;
 import ejb.administration.Resource;
 import framework.MainFrame;
 import gui.menudesigner.model.MenuItem;
@@ -105,12 +106,23 @@ public class MenuItemDialog extends JDialog {
 				String formName = cbForm.getSelectedItem().toString();
 				String menuName = tfMenuName.getText();
 
+				ResourceHibernateDao rDao = new ResourceHibernateDao();
+				Resource tempRes = null;
+				List<Resource> listaRes = rDao.findAll();
+				for (Resource r : listaRes) {
+					if (r.getName().equals(formName)) {
+						tempRes = r;
+					}
+				}
+				
+				
 				MenuItem tempMenuItem = new MenuItem();
 				tempMenuItem.setFormName(formName);
 				tempMenuItem.setMenuName(menuName);
 				tempMenuItem.setParent(submenu);
-				tempMenuItem.setActivate("/resources/" + formName);
-				tempMenuItem.setPanelType(MainFrame.getInstance().getPanelType().get(formName));
+				tempMenuItem.setActivate(tempRes.getLink());
+				//tempMenuItem.setPanelType(MainFrame.getInstance().getPanelType().get(formName));
+				tempMenuItem.setPanelType(tempRes.getPaneltype());
 				submenu.getChildren().add(tempMenuItem);
 				
 				selectedNode.add(new DefaultMutableTreeNode(menuName));

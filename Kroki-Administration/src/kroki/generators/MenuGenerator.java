@@ -34,7 +34,7 @@ public class MenuGenerator {
 			Document doc = docBuilder.newDocument();
 
 			// korenski tag <classes>
-			Element resourcesRoot = doc.createElement("classes");
+			Element resourcesRoot = doc.createElement("menus");
 			doc.appendChild(resourcesRoot);
 			
 			generateMenu(resourcesRoot, doc);

@@ -1,36 +1,15 @@
 package adapt.model.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import adapt.model.AbstractElement;
-
-public class AdaptMenu extends AbstractElement {
-
-	protected List<AdaptMenu> menus = new ArrayList<AdaptMenu>();
-	protected List<AdaptSubMenu> submenus = new ArrayList<AdaptSubMenu>();
+public class AdaptMenu {
 	
-	public void addMenu(AdaptMenu menu) {
-		menus.add(menu);
-	}
-	
-	public void addSubMenu(AdaptSubMenu submenu) {
-		submenus.add(submenu);
+	protected AdaptMenu parent;
+
+	public AdaptMenu getParent() {
+		return parent;
 	}
 
-	public List<AdaptMenu> getMenus() {
-		return menus;
+	public void setParent(AdaptMenu parent) {
+		this.parent = parent;
 	}
 
-	public void setMenus(List<AdaptMenu> menus) {
-		this.menus = menus;
-	}
-
-	public List<AdaptSubMenu> getSubmenus() {
-		return submenus;
-	}
-
-	public void setSubmenus(List<AdaptSubMenu> submenus) {
-		this.submenus = submenus;
-	}
 }

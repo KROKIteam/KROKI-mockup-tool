@@ -1,21 +1,21 @@
-package adapt.model.menu;
+package gui.menudesigner.model;
 
 import java.util.ArrayList;
 
-public class AdaptSubMenu extends AdaptMenu {
+public class Submenu extends Menu {
 	
 	private String name;
-	private ArrayList<AdaptMenu> children;
+	private ArrayList<Menu> children;
 	private ArrayList<String> roles;
 	
-	public AdaptSubMenu(String name) {
+	public Submenu(String name) {
 		this.name = name;
-		this.children = new ArrayList<AdaptMenu>();
+		this.children = new ArrayList<Menu>();
 		this.roles = new ArrayList<String>();
 	}
 	
-	public AdaptSubMenu() {
-		this.children = new ArrayList<AdaptMenu>();
+	public Submenu() {
+		this.children = new ArrayList<Menu>();
 		this.roles = new ArrayList<String>();
 	}
 	
@@ -25,13 +25,13 @@ public class AdaptSubMenu extends AdaptMenu {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public ArrayList<AdaptMenu> getChildren() {
+	public ArrayList<Menu> getChildren() {
 		return children;
 	}
-	public void setChildren(ArrayList<AdaptMenu> children) {
+	public void setChildren(ArrayList<Menu> children) {
 		this.children = children;
 	}
-
+	
 	public ArrayList<String> getRoles() {
 		return roles;
 	}
@@ -39,6 +39,7 @@ public class AdaptSubMenu extends AdaptMenu {
 	public void setRoles(ArrayList<String> roles) {
 		this.roles = roles;
 	}
+
 
 	
 }

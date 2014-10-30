@@ -1,5 +1,8 @@
 package kroki.app.export;
 
+import framework.MainFrame;
+import gui.menudesigner.model.MenuItem;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,7 +29,6 @@ import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
-import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
@@ -66,6 +68,7 @@ public class ProjectExporter {
 	private AdministrationSubsystemGenerator adminGenerator;
 	private ApplicationRepositoryGenerator appRepoGenerator;
 	private NamingUtil cc;
+	private gui.menudesigner.model.Submenu rootMenu;
 
 
 	public ProjectExporter(boolean swing) {
@@ -80,6 +83,7 @@ public class ProjectExporter {
 		webGenerator = new WebResourceGenerator();
 		adminGenerator = new AdministrationSubsystemGenerator();
 		appRepoGenerator = new ApplicationRepositoryGenerator();
+		rootMenu = new gui.menudesigner.model.Submenu("Menu");
 		cc = new NamingUtil();
 		this.swing = swing;
 	}
@@ -109,8 +113,9 @@ public class ProjectExporter {
 			enumGenerator.generateXMLFiles(enumerations);
 			enumGenerator.generateEnumFiles(enumerations);
 		}else {
-			appRepoGenerator.generate(classes, menus, elements, enumerations);
-			//adminGenerator.generate();
+			//appRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
+			MainFrame.getInstance(); // If admin subsystem isn't started
+			adminGenerator.generate();
 		}
 
 		writeProjectName(proj.getLabel(), "This application is a prototype generated from KROKI specification. Please log in to continue.");
@@ -130,10 +135,10 @@ public class ProjectExporter {
 		for(int i=0; i<proj.ownedElementCount(); i++) {
 			VisibleElement el = proj.getOwnedElementAt(i);
 			if(el instanceof BussinesSubsystem) {
-				getSubSystemData(el, i, null);
+				getSubSystemData(el, i, null, null);
 			}else if(el instanceof VisibleClass) {
 				try {
-					getClassData(el, "", null);
+					getClassData(el, "", null, null);
 				} catch (NoZoomPanelException e) {
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(e.getMessage(), 2);
 				}
@@ -155,15 +160,15 @@ public class ProjectExporter {
 	 * @param menu
 	 * @throws NoZoomPanelException
 	 */
-	public void getClassData(VisibleElement el, String classPackage, Menu menu) throws NoZoomPanelException {
+	public void getClassData(VisibleElement el, String classPackage, Menu menu, gui.menudesigner.model.Submenu subMenuNew) throws NoZoomPanelException {
 		if(el instanceof StandardPanel) {
 			try {
-				getStandardPanelData(el, classPackage, menu);
+				getStandardPanelData(el, classPackage, menu, subMenuNew);
 			} catch (NoZoomPanelException e) {
 				throw new NoZoomPanelException(e.getMessage());
 			}
 		}else if (el instanceof ParentChild) {
-			getParentChildData(el, menu);
+			getParentChildData(el, menu, subMenuNew);
 		}
 		//after data fetching is done, put current element in elements list
 		elements.add(el);
@@ -176,9 +181,10 @@ public class ProjectExporter {
 	 * @param el visible element representing standard panel in UI profile
 	 * @param classPackage
 	 * @param menu
+	 * @param subMenuNew 
 	 * @throws NoZoomPanelException
 	 */
-	public void getStandardPanelData(VisibleElement el, String classPackage, Menu menu) throws NoZoomPanelException {
+	public void getStandardPanelData(VisibleElement el, String classPackage, Menu menu, gui.menudesigner.model.Submenu subMenuNew) throws NoZoomPanelException {
 		StandardPanel sp = (StandardPanel)el;
 		VisibleClass vc = (VisibleClass)el;
 
@@ -210,6 +216,11 @@ public class ProjectExporter {
 		if(menu != null) {
 			sys = cc.toCamelCase(menu.getLabel(), true);
 		}
+		
+		if(subMenuNew != null) {
+            sys = cc.toCamelCase(subMenuNew.getName(), true);
+        }
+		
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
 		if(!swing) {
@@ -228,13 +239,32 @@ public class ProjectExporter {
 		}*/
 		Submenu sub = new Submenu(activate, label, panel_type);
 		//if it is in a subsystem, it is added as sub-menu item
+		
+		/******************************NEW PART******************************/
+		kroki.app.generators.utils.Submenu subOld = new kroki.app.generators.utils.Submenu(activate, label, panel_type);    
+        MenuItem menuItem = new MenuItem();
+        menuItem.setActivate(activate);
+        menuItem.setFormName(label);
+        menuItem.setMenuName(label);
+        menuItem.setPanelType(panel_type);
+		/********************************************************************/
 		if(menu != null) {
 			menu.addSubmenu(sub);
+			
+			//New
+			subMenuNew.getChildren().add(menuItem);
+			menuItem.setParent(subMenuNew);
 		}else {
 			//if panel is in root of workspace, it gets it's item in main menu
 			Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 			men.addSubmenu(sub);
 			menus.add(men);
+			
+			gui.menudesigner.model.Submenu subMenuTemp = new gui.menudesigner.model.Submenu(label);
+			subMenuTemp.getChildren().add(menuItem);
+			menuItem.setParent(subMenuTemp);
+			rootMenu.getChildren().add(subMenuTemp);
+			subMenuTemp.setParent(rootMenu);
 		}
 	}
 
@@ -242,8 +272,9 @@ public class ProjectExporter {
 	 * Method used to collect the data from parent-child panels
 	 * @param el
 	 * @param menu
+	 * @param subMenuNew 
 	 */
-	public void getParentChildData(VisibleElement el, Menu menu) {
+	public void getParentChildData(VisibleElement el, Menu menu, gui.menudesigner.model.Submenu subMenuNew) {
 		ParentChild pcPanel = (ParentChild)el;
 		String activate = cc.toCamelCase(pcPanel.name(), false) + "_pc";
 		String label = pcPanel.getLabel();
@@ -259,12 +290,30 @@ public class ProjectExporter {
 			panel_type = panel_type.substring(0, panel_type.length()-1) + "]";
 		}*/
 		Submenu sub = new Submenu(activate, label, panel_type);
+		/******************************NEW PART******************************/   
+        MenuItem menuItem = new MenuItem();
+        menuItem.setActivate(activate);
+        menuItem.setFormName(label);
+        menuItem.setMenuName(label);
+        menuItem.setPanelType(panel_type);
+		/********************************************************************/
+		
 		if(menu != null) {
 			menu.addSubmenu(sub);
+			
+			//New
+			subMenuNew.getChildren().add(menuItem);
+			menuItem.setParent(subMenuNew);
 		}else {
 			Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 			men.addSubmenu(sub);
 			menus.add(men);
+			
+			gui.menudesigner.model.Submenu subMenuTemp = new gui.menudesigner.model.Submenu(label);
+			subMenuTemp.getChildren().add(menuItem);
+			menuItem.setParent(subMenuTemp);
+			rootMenu.getChildren().add(subMenuTemp);
+			subMenuTemp.setParent(rootMenu);
 		}
 	}
 
@@ -353,7 +402,7 @@ public class ProjectExporter {
 	 * @param index
 	 * @param mmenu
 	 */
-	public void getSubSystemData(VisibleElement el, int index, Menu mmenu) {
+	public void getSubSystemData(VisibleElement el, int index, Menu mmenu, gui.menudesigner.model.Submenu subMenuNew) {
 		//          MENU GENERATION DATA
 		String n = el.name();
 		if(n == null) {
@@ -363,24 +412,32 @@ public class ProjectExporter {
 		String label = n.replace("_", " ");
 		Menu menu = new Menu(name, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 
+		//NEW
+		gui.menudesigner.model.Submenu subMenuTemp = new gui.menudesigner.model.Submenu(label);
 		BussinesSubsystem bs = (BussinesSubsystem) el;
 
 		for(int m=0; m<bs.ownedElementCount(); m++) {
 			VisibleElement e = bs.getOwnedElementAt(m);
 			if(e instanceof VisibleClass) {
 				try {
-					getClassData(e, el.name(), menu);
+					getClassData(e, el.name(), menu, subMenuTemp);
 				} catch (NoZoomPanelException e1) {
 					e1.printStackTrace();
 				}
 			}else if (e instanceof BussinesSubsystem) {
-				getSubSystemData(e, index+1, menu);
+				getSubSystemData(e, index+1, menu, subMenuTemp);
 			}
 		}
 		if(mmenu != null) {
 			mmenu.addMenu(menu);
+			
+			subMenuNew.getChildren().add(subMenuTemp);
+			subMenuTemp.setParent(subMenuNew);
 		}else {
 			menus.add(menu);
+			
+			rootMenu.getChildren().add(subMenuTemp);
+			subMenuTemp.setParent(rootMenu);
 		}
 	}
 

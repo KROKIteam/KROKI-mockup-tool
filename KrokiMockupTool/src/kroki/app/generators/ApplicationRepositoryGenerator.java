@@ -1,5 +1,7 @@
 package kroki.app.generators;
 
+import gui.menudesigner.model.Submenu;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -29,13 +31,14 @@ public class ApplicationRepositoryGenerator {
 		DBConfigGenerator = new DatabaseConfigGenerator(new DatabaseProps());
 	}
 	
-	public void generate(ArrayList<EJBClass> classes, ArrayList<Menu> menus, ArrayList<VisibleElement> elements, ArrayList<Enumeration> enumerations) {
+	public void generate(ArrayList<EJBClass> classes, ArrayList<Menu> menus, ArrayList<VisibleElement> elements, ArrayList<Enumeration> enumerations, Submenu rootMenu) {
 		DBConfigGenerator.geneateHibernateConfigXML("ApplicationRepository" + File.separator + "generated" + File.separator +  "db_config" + File.separator + "hibernate.cfg.xml");
 		DBConfigGenerator.generatePersistenceXMl(true);
 		EJBGenerator.generateEJBClasses(classes, false);
 		EJBGenerator.generateEJBXmlFiles(classes, "ApplicationRepository" + File.separator + "generated" + File.separator +  "model" + File.separator + "ejb");
 		EJBGenerator.generateXMLMappingFile(classes, "REPO");
 		menuGenerator.generateMenu(menus);
+		menuGenerator.generateNewMenu(rootMenu);
 		panelGenerator.generate(elements, "REPO");
 		enumGenerator.generateXMLFiles(enumerations);
 	}

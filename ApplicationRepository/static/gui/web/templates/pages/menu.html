@@ -1,55 +1,45 @@
-<#-- --------------------------------------------------------------------- -->
-<#-- Freemarker macro that prints main menu items                          -->
-<#-- 'menu_node' - menu or submenu that contains menu item list            -->
-<#-- --------------------------------------------------------------------- -->
-<#macro print_submenu_items menu_node>
-    <#list menu_node.submenus as submenu>
-                        <li class="subMenuItem activator" data-activate="${submenu.activate}" data-panelType="${submenu.panelType}" data-label="${submenu.label}">${submenu.label}</li>
-    </#list>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ul id="mainMenu">
+<#list menu.children as submenu>
+		<li class="mainMenuItems">
+			<#if submenu.name??>
+				<div class="menu">
+					<div class="mainMenuText">${submenu.name}</div>
+					<div class="arrow-down">/</div>
+				</div>
+				<#if submenu.children?has_content>
+				<ul class="L1SubMenu">
+					<@menugenerator menuList=submenu.children/>
+				</ul>
+				</#if>
+			<#else>
+				<div class="menu">
+					<div class="mainMenuText">${submenu.menuName}</div>
+					<div class="arrow-down">/</div>
+				</div>
+			</#if>
+		</li>
+</#list>
+</ul>
+
+
+<#macro menugenerator menuList>
+        <#if menuList??>
+				<#foreach child in menuList>
+					<#if child.name??>
+						<li class="subMenuItem subMenuLink">${child.name}<div class="arrow-right">/</div>
+							<ul class="L2SubMenu">
+								<#if child.children?has_content>
+									<@menugenerator menuList=child.children/>
+								</#if>
+							</ul>
+						</li>
+					<#else>
+						<li class="subMenuItem activator" data-activate="${child.activate}" data-panelType="${child.panelType}" data-label="${child.menuName}">${child.menuName}</li>
+					</#if>
+				</#foreach>			
+        </#if>
 </#macro>
 
-<#-- --------------------------------------------------------------------- -->
-<#-- Freemarker macro that prints main menu items and submenus recursively -->
-<#-- --------------------------------------------------------------------- -->
-<#macro print_submenus menu_node>
-                    <ul class="L2SubMenu">
-    <#if menu_node.submenus?has_content>
-        <@print_submenu_items menu_node=menu_node/>
-    </#if>
-    <#if menu_node.menus?has_content>
-        <#list menu_node.menus as menu>
-            <@print_submenus menu/>
-        </#list>
-    </#if>
-                    </ul>
-</#macro>
 
-<#-- --------------------------------------------------------- -->
-<#--            Actual main menu HTML template                 -->
-<#-- --------------------------------------------------------- -->
-<#if main_menu??>
-<#if main_menu?has_content>
-            <ul id="mainMenu">
-                <#list main_menu as menu>
-                <li class="mainMenuItems">
-                    <div class="menu">
-                        <div class="mainMenuText">${menu.label}</div>
-                        <div class="arrow-down">/</div>
-                    </div>
-                    <ul class="L1SubMenu">
-                        <#if menu.submenus?has_content>
-                        <@print_submenu_items menu_node=menu/>
-                        </#if>
-                        <#if menu.menus?has_content>
-                        <#list menu.menus as submenu>
-                        <li class="subMenuItem subMenuLink">${submenu.label}<div class="arrow-right">/<div>
-                        <@print_submenus submenu/>
-                        </li>
-                        </#list>
-                        </#if>
-                    </ul>
-                </li>
-                </#list>
-            </ul>
-</#if>
-</#if>
+

@@ -67,15 +67,15 @@ public class AdministrationSubsytemAction extends AbstractAction{
 				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				Object dugme[] = {"Create new","Add to existing"};
 				int selektovano = JOptionPane.showOptionDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Do you wish to recreate Resources or add new to existing (at own risk) resources?", 
-						"Resources modified!", JOptionPane.OK_CANCEL_OPTION,
+						"Resources modified!", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, dugme, dugme[0]);
 				
-				if (selektovano == JOptionPane.OK_OPTION) {
+				if (selektovano == JOptionPane.YES_NO_OPTION) {
 					rDao.deleteAll();
 					findAndPersistAllFormsAsResources(proj);
 					mainFrame.setPanelType(panelType);
 					mainFrame.setVisible(true);
-				} else if (selektovano == JOptionPane.CANCEL_OPTION){
+				} else if (selektovano == JOptionPane.NO_OPTION){
 					findAndPersistAllFormsAsResources(proj);
 					mainFrame.setPanelType(panelType);
 					mainFrame.setVisible(true);
@@ -153,13 +153,22 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		VisibleElement element;
 		dao.administration.ResourceHibernateDao rDao = new dao.administration.ResourceHibernateDao();
 		ejb.administration.Resource resource = null;
-		
+		String activate = null;
 		for (int i = 0; i < pack.ownedElementCount(); i++) {
 			element = pack.getOwnedElementAt(i);
 			if (element instanceof VisibleClass) {
 				resource = new ejb.administration.Resource();
 				resource.setName(element.name());
-				resource.setLink("/resources/"+element.name());
+				
+				String panelTypeTemp = panelType.get(element.name());
+				if (panelTypeTemp.contains("standard-panel")) {
+					activate = element.name().toLowerCase() + "_st";
+					resource.setPaneltype("standard-panel");
+				} else if (panelTypeTemp.contains("parent-child")) {
+					activate = cc.toCamelCase(element.name(), false) + "_pc";
+					resource.setPaneltype("parent-child");
+				}
+				resource.setLink(activate);
 				rDao.save(resource);
 			} else if (element instanceof BussinesSubsystem) {
 				findAndPersistAllFormsAsResources((BussinesSubsystem) element);

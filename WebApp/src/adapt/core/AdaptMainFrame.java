@@ -36,9 +36,11 @@ import adapt.util.ejb.PersisenceHelper;
 import adapt.util.ejb.SchemaGenerator;
 import adapt.util.repository_utils.RepositoryPathsUtil;
 import adapt.util.staticnames.Settings;
+import adapt.util.xml_readers.AdministrationSubsystemReader;
 import adapt.util.xml_readers.EntityReader;
 import adapt.util.xml_readers.EnumerationReader;
 import adapt.util.xml_readers.MenuReader;
+import adapt.util.xml_readers.NewMenuReader;
 import adapt.util.xml_readers.PanelReader;
 import adapt.util.xml_readers.TypeComponenMappingReader;
 import ejb.User;
@@ -139,13 +141,12 @@ public class AdaptMainFrame extends JFrame {
 		
 		// Read XML specifications
 		loadMappings();
-		
 		// Export ejb classes to database tables
 		try {
 			SchemaGenerator schemaGen = new SchemaGenerator("ejb");
 			schemaGen.generate();
-
 			//persisit test user
+			/*
 			User u = new User();
 			u.setUsername("admin");
 			u.setPassword("12345");
@@ -153,7 +154,8 @@ public class AdaptMainFrame extends JFrame {
 			EntityManager em = PersisenceHelper.createEntityManager();
 			em.getTransaction().begin();
 			em.persist(u);
-			em.getTransaction().commit();
+			em.getTransaction().commit();*/
+			loadAdministrationSubsytem(PersisenceHelper.createEntityManager());
 		}catch(Exception e) {
 			displayStackTrace(e);
 			e.printStackTrace();
@@ -171,8 +173,13 @@ public class AdaptMainFrame extends JFrame {
 		EntityReader.loadMappings();
 		PanelReader.loadMappings();
 		TypeComponenMappingReader.mapTypesToComponents();
-		MenuReader.load();
+		//MenuReader.load();
+		NewMenuReader.load();
 		EnumerationReader.loadEnumerations();
+	}
+	
+	private void loadAdministrationSubsytem(EntityManager entityManager) {
+		AdministrationSubsystemReader.load(entityManager);
 	}
 
 	/**

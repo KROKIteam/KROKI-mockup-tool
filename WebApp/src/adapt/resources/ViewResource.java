@@ -14,12 +14,11 @@ import org.restlet.resource.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
 
+import adapt.aspects.SessionAspect;
 import adapt.core.AppCache;
 import adapt.enumerations.OpenedAs;
 import adapt.enumerations.PanelType;
 import adapt.exceptions.EntityAttributeNotFoundException;
-import adapt.exceptions.PanelTypeParsingException;
-import adapt.model.ejb.AbstractAttribute;
 import adapt.model.ejb.EntityBean;
 import adapt.model.ejb.JoinColumnAttribute;
 import adapt.model.panel.AdaptPanel;
@@ -30,9 +29,11 @@ import adapt.util.ejb.EntityHelper;
 import adapt.util.ejb.PersisenceHelper;
 import adapt.util.html.HTMLToolbarAction;
 import adapt.util.html.TableModel;
-import adapt.util.resolvers.PanelTypeResolver;
-import adapt.util.staticnames.Settings;
 import adapt.util.xml_readers.PanelReader;
+import ejb.Permission;
+import ejb.Role;
+import ejb.User;
+import ejb.UserRoles;
 
 public class ViewResource extends BaseResource {
 
@@ -128,21 +129,46 @@ public class ViewResource extends BaseResource {
 	public void prepareTableControls(AdaptStandardPanel panel) {
 		ArrayList<HTMLToolbarAction> controls = new ArrayList<HTMLToolbarAction>();
 		PanelSettings settings = panel.getPanelSettings();
-		if(settings.getAdd()) {
+		EntityManager e = PersisenceHelper.createEntityManager();
+		e.getTransaction().begin();
+		
+		User user = SessionAspect.getCurrentUser();
+		List<UserRoles> roles = e.createQuery("SELECT r FROM UserRoles r").getResultList();
+		ArrayList<String> perms = new ArrayList<String>();
+		
+		if (roles == null || roles.size() == 0) {
+			perms.add("add");
+			perms.add("modify");
+			perms.add("remove");
+		} else {
+			Role userGroup = (Role)e.createQuery("SELECT ur.role FROM UserRoles ur WHERE ur.user.id =:uid").setParameter("uid", user.getId()).getSingleResult();
+			ArrayList<Permission> permissions = (ArrayList<Permission>)e.createQuery("SELECT rp.permission FROM RolePermission rp WHERE rp.role.id =:rid").setParameter("rid", userGroup.getId()).getResultList();
+			
+			for (Permission p : permissions) {
+				if (p.getResource().getName().trim().equals(panel.getLabel())) {
+					perms.add(p.getOperation().getName().trim());
+				}
+			}
+		}
+		e.close();
+		
+		if(settings.getAdd() && perms.contains("add")) {
 			HTMLToolbarAction addAction = new HTMLToolbarAction("btnAdd", "Add new entity", "/files/images/icons-white/add.png", false);
 			controls.add(addAction);
+			AppCache.displayTextOnMainFrame("ADD", 0);
 		}
-		if(settings.getUpdate() && settings.getChangeMode()) {
+		if(settings.getUpdate() && settings.getChangeMode() && perms.contains("modify")) {
 			HTMLToolbarAction editAction = new HTMLToolbarAction("btnSwitch", "Modify entity", "/files/images/icons-white/swich.png", false);
 			controls.add(editAction);
 		}
-		if(settings.getDelete()) {
+		if(settings.getDelete() && perms.contains("remove")) {
 			HTMLToolbarAction deleteAction = new  HTMLToolbarAction("btnDelete", "Delete entity", "/files/images/icons-white/delete.png", true);
 			controls.add(deleteAction);
 		}
 		HTMLToolbarAction nextAction = new HTMLToolbarAction("btnNextForms", "View connected forms", "/files/images/icons-white/next-forms.png", false);
 		controls.add(nextAction);
 		addToDataModel("tableControls", controls);
+		
 	}
 	
 	@Override

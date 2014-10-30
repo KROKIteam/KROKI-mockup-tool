@@ -20,6 +20,7 @@ import adapt.util.xml_utils.XMLParserUtils;
  * Util class that reads menu structure specification from application repository
  * @author Milorad Filipovic
  */
+@Deprecated
 public class MenuReader {
 
 	protected static String generatedRepoPath 	= RepositoryPathsUtil.getGeneratedModelPath();
@@ -52,6 +53,7 @@ public class MenuReader {
 	}
 	
 	private static AdaptMenu createMenu(Node node) {
+		/*
 		Element menuElement = (Element)node;
 		AdaptMenu menu = new AdaptMenu();
 		menu.setLabel(menuElement.getAttribute(Tags.LABEL));
@@ -77,7 +79,8 @@ public class MenuReader {
 				}
 			}
 		}
-		return menu;
+		return menu;*/
+		return null;
 	}
 	
 	/**
@@ -87,12 +90,14 @@ public class MenuReader {
 	 * @throws PanelTypeParsingException
 	 */
 	private static AdaptSubMenu createSubmenu(Node node) throws PanelTypeParsingException {
+		/*
 		Element submenuElement = (Element)node;
 		AdaptSubMenu submenu = new AdaptSubMenu();
 		submenu.setActivate(submenuElement.getAttribute(Tags.ACTIVATE));
 		submenu.setLabel(submenuElement.getAttribute(Tags.LABEL));
 		String panelType = submenuElement.getAttribute(Tags.PANEL_TYPE);
 		submenu.setPanelType(PanelTypeResolver.getType(panelType));
-		return submenu;
+		return submenu;*/
+		return null;
 	}
 }

@@ -175,6 +175,9 @@ public class GenericStandardForm extends JDialog implements IStandardForm {
 					if (text.contains("*")) {
 						text = text.replace("*", "").trim();
 					}
+					if (text.contains(" ")) {
+						text = text.replace(" ", "");
+					}
 					labels.add(text);
 				}
 			}

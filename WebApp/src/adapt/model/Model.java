@@ -8,6 +8,7 @@ import java.util.Map;
 import adapt.model.ejb.EntityBean;
 import adapt.model.enumeration.Enumeration;
 import adapt.model.menu.AdaptMenu;
+import adapt.model.menu.AdaptSubMenu;
 import adapt.model.panel.AdaptPanel;
 
 /**
@@ -22,6 +23,7 @@ public class Model {
 	protected List<AdaptMenu> menus = new ArrayList<AdaptMenu>();
 	protected Map<String, AdaptPanel> panels = new HashMap<String, AdaptPanel>();
 	protected Map<String, Enumeration> enumerations = new HashMap<String, Enumeration>();
+	protected AdaptMenu defaultMenu = new AdaptMenu();
 	
 	//--------------------------------------------------------------------| MAPPING DATA
 	protected Map<String, String> xmlMappings = new HashMap<String, String>();
@@ -44,6 +46,10 @@ public class Model {
 
 	public void add(AdaptMenu menu) {
 		menus.add(menu);
+	}
+	
+	public void add(ArrayList<AdaptSubMenu> allMenus) {
+		menus.addAll(allMenus);
 	}
 	
 	public void add(String panelId, AdaptPanel panel) {
@@ -114,4 +120,16 @@ public class Model {
 	public void setXmlMappings(Map<String, String> xmlMappings) {
 		this.xmlMappings = xmlMappings;
 	}
+
+	public AdaptMenu getDefaultMenu() {
+		return defaultMenu;
+	}
+
+	public void setDefaultMenu(AdaptMenu defaultMenu) {
+		this.defaultMenu = defaultMenu;
+	}
+	
+
+
+
 }
