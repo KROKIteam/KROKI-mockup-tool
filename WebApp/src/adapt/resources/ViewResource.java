@@ -63,6 +63,7 @@ public class ViewResource extends BaseResource {
 				}else if (panelType == PanelType.PARENTCHILDPANEL) {
 					AdaptParentChildPanel pcPanel = (AdaptParentChildPanel)panel;
 					for (AdaptStandardPanel adaptStandardPanel : pcPanel.getPanels()) {
+						System.out.println("Imam panel: " + adaptStandardPanel.getName());
 						String query = "FROM " + adaptStandardPanel.getEntityBean().getEntityClass().getName();
 						prepareContent(adaptStandardPanel, query);
 						panels.add(adaptStandardPanel);
@@ -99,6 +100,7 @@ public class ViewResource extends BaseResource {
 		if(panel != null) {
 			//switch (panelType) {
 			//case STANDARDPANEL:
+				System.out.println("Prepare content za: " + panel.getName());
 				AdaptStandardPanel stdPanel = (AdaptStandardPanel) panel;
 				addToDataModel("panel", stdPanel);
 				addToDataModel("entityClassName", stdPanel.getEntityBean().getEntityClass().getName());

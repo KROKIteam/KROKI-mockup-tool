@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <enums>
-<enum label="Gender" name="GenderEmployeeEnum">
-<value>Male</value>
-<value>Female</value>
+<enum label="Order status" name="OrderStatusOrderEnum">
+<value>Ordering</value>
+<value>Finished</value>
+<value>Canceled</value>
+<value>Shipped</value>
 </enum>
 <enum label="Opened as" name="OpenedAs">
 <value>DEFAULT</value>

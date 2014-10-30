@@ -4,8 +4,7 @@
     "panels": [
         <#list panels as panel>
         {
-            "activate"          : "${panel.name}"<#if (panel.associationEnd??)>,
-            "assoiciation_end"  : "${panel.associationEnd}"</#if>
+            ${panel}
 
         } <#if (panel_has_next)>,</#if>
         </#list>

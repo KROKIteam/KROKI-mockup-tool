@@ -13,6 +13,7 @@ import org.restlet.data.LocalReference;
 
 import adapt.resources.AddResource;
 import adapt.resources.DeleteResource;
+import adapt.resources.GetZoomsResource;
 import adapt.resources.HomeResource;
 import adapt.resources.IndexResource;
 import adapt.resources.ModifyResource;
@@ -96,6 +97,7 @@ public class AdaptApplication extends Application {
 		router.attach("/edit/{panelName}/{mid}/{pid}", ModifyResource.class); // ModifyResource just prepares edit form
 		router.attach("/edited/{entityName}/{modid}", AddResource.class); // AddResource does the actual modifications
 		router.attach("/getInfo/{pcPanel}", ParentChildInfoResource.class);
+		router.attach("/getZooms/{panelName}/{zoomName}/{zid}", GetZoomsResource.class);
 		
 		return router;
 	}

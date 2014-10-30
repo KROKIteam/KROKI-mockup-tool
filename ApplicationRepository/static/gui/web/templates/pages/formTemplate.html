@@ -4,7 +4,7 @@
 <!-- ...........................................|| ${panel.name} Standard form ||.......................................... -->
 <h1 class="formTitle">${panel.label}</h1>
 <!--  TABLE DIV -->
-<div class="tableDiv" <#if panel.operations??><#if panel.standardOperations.hasAllowedOperations>style="width: 75%; border-right: 1px solid black;"</#if></#if>>
+<div class="tableDiv" <#if panel.standardOperations??><#if panel.standardOperations.hasAllowedOperations()>style="width: 75%; border-right: 1px solid black;"</#if></#if>>
     <#if panel.panelSettings.hideToolbar == false>
     <!--  FORM TOOLBAR -->
     <div class="formToolbar">
@@ -51,15 +51,18 @@
     </#if>
     <!--  TABLE PANEL -->
     <div class="tablePanel">
-        <div class="theadFixator"></div>
+        <!-- <div class="theadFixator"></div> -->
         <table class="mainTable" cellspacing=0>
             <thead>
                 <tr>
                     <#list panel.entityBean.attributes as attribute>
                     <#if attribute.hidden == false>
                     <th>
+                        <!--
                         <span>${attribute.label}</span>
                         <div class="innerTHDiv">${attribute.label}</div>
+                        -->
+                        ${attribute.label}
                     </th>
                     </#if>
                     </#list>
@@ -89,7 +92,17 @@
     <!-- /TABLE PANEL -->
 </div>
 <!-- /TABLE DIV -->
-<!-- TODO: operationsDiv -->
+<!-- OPERATIONS DIV -->
+<#if panel.standardOperations.operations??>
+<#if panel.standardOperations.operations?has_content>
+<div class="operationsDiv">
+<#list panel.standardOperations.operations as operation>
+    <button class="buttons-blue operationButton" data-operation="${operation.label}" data-confirmLink="justClose" data-confirmText="Not implemented yet!">${operation.label}</button>
+</#list>
+</div>
+</#if>
+</#if>
+<!-- /OPERATIONS DIV -->
 <!--  INPUT FORM -->
 <form class="inputForm" action="/add/${panel.entityBean.entityClass.name}" name="addForm" method="post">
     <!-- FORM TABLE CONTAINER & INPUT FORM FIELDS -->
