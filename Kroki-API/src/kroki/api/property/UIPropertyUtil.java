@@ -36,6 +36,11 @@ public class UIPropertyUtil {
 		return property;
 	}
 	
+	
+	public static VisibleProperty makeVisibleProperty(String label, boolean visible, ComponentType type, VisibleClass panel){
+		return makeVisiblePropertyAt(label, visible, type, panel, -1, -1);
+	}
+	
 	private static int getPropertiesGroupIndex(VisibleClass panel){
 		if (panel instanceof StandardPanel)
 			return STANDARD_PANEL_PROPERTIES;

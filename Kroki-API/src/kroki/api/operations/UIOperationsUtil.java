@@ -37,6 +37,10 @@ public class UIOperationsUtil {
 
 	}
 	
+	public static VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType, VisibleClass panel, OperationType operationType){
+		return makeVisibleOperation(label, visible, componentType, panel, operationType, -1, -1);
+	}
+	
 	private static int getOperationGroup(VisibleClass panel){
 		if (panel instanceof StandardPanel)
 			return STANDARD_PANEL_OPERATIONS;
