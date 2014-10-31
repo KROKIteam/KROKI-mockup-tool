@@ -157,7 +157,6 @@ public class ViewResource extends BaseResource {
 		if(settings.getAdd() && perms.contains("add")) {
 			HTMLToolbarAction addAction = new HTMLToolbarAction("btnAdd", "Add new entity", "/files/images/icons-white/add.png", false);
 			controls.add(addAction);
-			AppCache.displayTextOnMainFrame("ADD", 0);
 		}
 		if(settings.getUpdate() && settings.getChangeMode() && perms.contains("modify")) {
 			HTMLToolbarAction editAction = new HTMLToolbarAction("btnSwitch", "Modify entity", "/files/images/icons-white/swich.png", false);

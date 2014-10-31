@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
@@ -40,7 +41,6 @@ import adapt.util.xml_readers.AdministrationSubsystemReader;
 import adapt.util.xml_readers.EntityReader;
 import adapt.util.xml_readers.EnumerationReader;
 import adapt.util.xml_readers.MenuReader;
-import adapt.util.xml_readers.NewMenuReader;
 import adapt.util.xml_readers.PanelReader;
 import adapt.util.xml_readers.TypeComponenMappingReader;
 import ejb.User;
@@ -137,7 +137,7 @@ public class AdaptMainFrame extends JFrame {
 		component.getClients().add(Protocol.HTTP);
 		AdaptApplication app = AdaptApplication.getInstance();
 		app.setMainFrame(AdaptMainFrame.this);
-		PersisenceHelper.createFactory("adapt");;
+		PersisenceHelper.createFactory("adapt");
 		
 		// Read XML specifications
 		loadMappings();
@@ -145,17 +145,23 @@ public class AdaptMainFrame extends JFrame {
 		try {
 			SchemaGenerator schemaGen = new SchemaGenerator("ejb");
 			schemaGen.generate();
-			//persisit test user
-			/*
-			User u = new User();
-			u.setUsername("admin");
-			u.setPassword("12345");
-
 			EntityManager em = PersisenceHelper.createEntityManager();
-			em.getTransaction().begin();
-			em.persist(u);
-			em.getTransaction().commit();*/
-			loadAdministrationSubsytem(PersisenceHelper.createEntityManager());
+			
+			loadAdministrationSubsytem(em);
+			
+			List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
+			if (users == null || users.isEmpty()) {
+				//If no users defined
+				//persist test user
+				User u = new User();
+				u.setUsername("admin");
+				u.setPassword("12345");
+	
+				em.getTransaction().begin();
+				em.persist(u);
+				em.getTransaction().commit();
+			}
+			em.close();
 		}catch(Exception e) {
 			displayStackTrace(e);
 			e.printStackTrace();
@@ -172,9 +178,8 @@ public class AdaptMainFrame extends JFrame {
 	private void loadMappings() {
 		EntityReader.loadMappings();
 		PanelReader.loadMappings();
-		TypeComponenMappingReader.mapTypesToComponents();
-		//MenuReader.load();
-		NewMenuReader.load();
+		TypeComponenMappingReader.mapTypesToComponents();;
+		MenuReader.load();
 		EnumerationReader.loadEnumerations();
 	}
 	

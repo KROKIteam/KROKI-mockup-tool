@@ -151,7 +151,7 @@ public class AppCache {
 		return (ArrayList<AdaptMenu>) model.getMenus();
 	}
 	
-	public AdaptMenu getDefaultMenu() {
+	public AdaptSubMenu getDefaultMenu() {
 		return model.getDefaultMenu();
 	}
 }

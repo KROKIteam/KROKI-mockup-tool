@@ -23,7 +23,7 @@ public class Model {
 	protected List<AdaptMenu> menus = new ArrayList<AdaptMenu>();
 	protected Map<String, AdaptPanel> panels = new HashMap<String, AdaptPanel>();
 	protected Map<String, Enumeration> enumerations = new HashMap<String, Enumeration>();
-	protected AdaptMenu defaultMenu = new AdaptMenu();
+	protected AdaptSubMenu defaultMenu = new AdaptSubMenu();
 	
 	//--------------------------------------------------------------------| MAPPING DATA
 	protected Map<String, String> xmlMappings = new HashMap<String, String>();
@@ -121,11 +121,11 @@ public class Model {
 		this.xmlMappings = xmlMappings;
 	}
 
-	public AdaptMenu getDefaultMenu() {
+	public AdaptSubMenu getDefaultMenu() {
 		return defaultMenu;
 	}
 
-	public void setDefaultMenu(AdaptMenu defaultMenu) {
+	public void setDefaultMenu(AdaptSubMenu defaultMenu) {
 		this.defaultMenu = defaultMenu;
 	}
 	
