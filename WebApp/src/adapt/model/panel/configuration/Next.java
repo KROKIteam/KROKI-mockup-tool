@@ -8,6 +8,7 @@ public class Next extends AbstractElement {
 	// Original panel ID
 	protected String panelId;
 	protected PanelType panelType;
+	protected String parentGroup;
 	
 	public String getPanelId() {
 		return panelId;
@@ -20,5 +21,11 @@ public class Next extends AbstractElement {
 	}
 	public void setPanelType(PanelType panelType) {
 		this.panelType = panelType;
+	}
+	public String getParentGroup() {
+		return parentGroup;
+	}
+	public void setParentGroup(String parentGroup) {
+		this.parentGroup = parentGroup;
 	}
 }

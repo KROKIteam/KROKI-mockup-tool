@@ -49,6 +49,8 @@ public class Tags {
 	public static final String EJB_REF = read("ejb_ref");
 	public static final String LEVEL = read("level");
 	public static final String ASSOCIATION_END = read("association_end");
+	public static final String OPERATION_GROUP = read("operation_group");
+	public static final String ELEMENT_GROUP = read("element_group");
 	
 	public static final String ADD = read("add");
 	public static final String DELETE = read("delete");

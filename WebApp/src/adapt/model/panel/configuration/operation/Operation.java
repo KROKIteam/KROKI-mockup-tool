@@ -12,6 +12,7 @@ public class Operation extends AbstractElement {
 	protected OperationType type;
 	protected Boolean allowed = true;
 	protected String target;
+	protected String parentGroup;
 	
 	public void add(Parameter p) {
 		parameters.add(p);
@@ -51,5 +52,13 @@ public class Operation extends AbstractElement {
 
 	public void setTarget(String target) {
 		this.target = target;
+	}
+
+	public String getParentGroup() {
+		return parentGroup;
+	}
+
+	public void setParentGroup(String parentGroup) {
+		this.parentGroup = parentGroup;
 	}
 }

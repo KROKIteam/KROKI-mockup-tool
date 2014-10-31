@@ -1,5 +1,6 @@
 package adapt.util.xml_readers;
 
+import java.awt.Label;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -289,7 +290,8 @@ public class PanelReader {
 			String allowedStr = elemOperation.getAttribute(Tags.ALLOWED);
 			boolean allowed = new Boolean(allowedStr);
 			oper.setAllowed(allowed);
-
+			oper.setParentGroup(elemOperation.getAttribute(Tags.OPERATION_GROUP));
+			
 			String type = elemOperation.getAttribute(Tags.DATA_TYPE);
 			if (type.equals("report"))
 				oper.setType(OperationType.VIEWREPORT);
@@ -433,18 +435,21 @@ public class PanelReader {
 	}
 
 	private static List<Next> getNexts(Document doc, Element elem) {
+		System.out.println("GET NEXTS");
 		List<Next> nexts = new ArrayList<Next>();
 		Next next = null;
 		NodeList nextNodes = elem.getElementsByTagName(Tags.NEXT);
 		for(int i=0; i<nextNodes.getLength(); i++) {
 			Element nextElement = (Element)nextNodes.item(i);
+			System.out.println("NEXT ELEMENT: " + nextElement.toString());
 			try {
 				next = new Next();
 				next.setLabel(nextElement.getAttribute(Tags.LABEL));
 				next.setName(nextElement.getAttribute(Tags.NAME));
 				next.setPanelId(nextElement.getAttribute(Tags.PANEL_REF));
-				String panelType = nextElement.getAttribute(Tags.PANEL_TYPE);
-				next.setPanelType(PanelTypeResolver.getType(panelType));
+				next.setPanelType(PanelTypeResolver.getType(Tags.STANDARD_PANEL));
+				next.setParentGroup(nextElement.getAttribute(Tags.OPERATION_GROUP));
+				System.out.println("NEXT: " + next.getLabel() + " in " + next.getParentGroup());
 				nexts.add(next);
 			} catch (Exception e) {
 				AppCache.displayTextOnMainFrame("Error reading next data from file", 1);

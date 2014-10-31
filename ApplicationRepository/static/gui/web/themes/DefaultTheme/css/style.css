@@ -673,3 +673,41 @@ is shown and to stop click propagation, making the dialog modal
 	margin-top: 10px;
 	height: 48%;
 }
+
+.operationIcon  {
+	float: left;
+	margin: 0 auto;
+}
+
+.operationButton span {
+	display: inline-block;
+	margin-top: 2px;
+	text-align: right;
+}
+
+.elementsGroup {
+	margin-bottom: 10px;
+}
+
+.groupName {
+	border-bottom: 1px solid #415b76;
+	display: block;
+	width: 100%;
+	text-align: left;
+	color: #415b76;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.panelLinks {
+	display: block;
+	width: 100%;
+	margin: 2px 0;
+	font-size: 14px;
+	color: #415b76;
+	text-decoration: none;
+}
+
+.panelLinks:hover {
+	color: #16a085;
+}

@@ -16,6 +16,8 @@ import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
+import kroki.profil.association.Next;
+import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
@@ -128,6 +130,56 @@ public class PanelGenerator {
 					
 					stdPanel.appendChild(eSettings);
 					
+					//linkovi
+					if(!vClass.containedNexts().isEmpty()) {
+						Element linksTag = doc.createElement("nexts");
+						stdPanel.appendChild(linksTag);
+						
+						for (Next next : vClass.containedNexts()) {
+							Element linkTag = doc.createElement("next");
+							
+							ElementsGroup elemGr = next.getParentGroup();
+							String groupName = "operations";
+							if(elemGr != null) {
+								groupName = elemGr.getLabel();
+							}
+							
+							//atribut label
+							String label = next.getLabel();
+							Attr linkLabelAttr = doc.createAttribute("label");
+							linkLabelAttr.setValue(label);
+							linkTag.setAttributeNode(linkLabelAttr);
+							
+							//atribut activate
+							VisibleClass vclTarget = next.getTargetPanel();
+							if(vclTarget instanceof StandardPanel) {
+								StandardPanel stdPanelTarget = (StandardPanel)vclTarget;
+								String panelName = stdPanelTarget.getPersistentClass().name().toLowerCase() + "_st";
+								
+								Attr linkNameAttr = doc.createAttribute("name");
+								linkNameAttr.setNodeValue(label.toLowerCase().replaceAll(" ", ""));
+								linkTag.setAttributeNode(linkNameAttr);
+								
+								Attr linkPanelTypeAttr = doc.createAttribute("panel-type");
+								linkPanelTypeAttr.setNodeValue("STANDARDPANEL");
+								linkTag.setAttributeNode(linkPanelTypeAttr);
+								
+								Attr linkPanelAttr = doc.createAttribute("panel-ref");
+								linkPanelAttr.setNodeValue(panelName);
+								linkTag.setAttributeNode(linkPanelAttr);
+							}
+							
+							//atribut "elementgroup"
+							if(!groupName.equals("operations")) {
+								Attr opGroupAttr = doc.createAttribute("operationgroup");
+								opGroupAttr.setValue(groupName);
+								linkTag.setAttributeNode(opGroupAttr);
+							}
+							
+							linksTag.appendChild(linkTag);
+						}
+					}
+					
 					//<operations> tag
 					if(!vClass.containedOperations().isEmpty()) {
 						Element operationsTag = doc.createElement("operations");
@@ -136,8 +188,12 @@ public class PanelGenerator {
 						for(int k=0; k<vClass.containedOperations().size(); k++) {
 							VisibleOperation vo = vClass.containedOperations().get(k);
 							if(vo instanceof BussinessOperation) {
-								
 								Element opTag = doc.createElement("operation");
+								ElementsGroup elemGroup = vo.getParentGroup();
+								String groupName = "operations";
+								if(elemGroup != null) {
+									groupName = elemGroup.getLabel();
+								}
 								
 								//atribut "name"
 								Attr opNameAttr = doc.createAttribute("name");
@@ -148,6 +204,13 @@ public class PanelGenerator {
 								Attr opLabelAttr = doc.createAttribute("label");
 								opLabelAttr.setValue(vo.getLabel());
 								opTag.setAttributeNode(opLabelAttr);
+								
+								//atribut "elementgroup"
+								if(!groupName.equals("operations")) {
+									Attr opGroupAttr = doc.createAttribute("operationgroup");
+									opGroupAttr.setValue(groupName);
+									opTag.setAttributeNode(opGroupAttr);
+								}
 								
 								//atribut "type"
 								Attr opTypeAttr = doc.createAttribute("type");

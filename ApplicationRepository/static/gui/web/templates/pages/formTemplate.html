@@ -96,12 +96,43 @@
 <#if panel.standardOperations.operations??>
 <#if panel.standardOperations.operations?has_content>
 <div class="operationsDiv">
+<!--
 <#list panel.standardOperations.operations as operation>
-    <button class="buttons-blue operationButton" data-operation="${operation.label}" data-confirmLink="justClose" data-confirmText="Not implemented yet!">${operation.label}</button>
+    <button class="buttons-blue operationButton" data-operation="${operation.label}" data-confirmLink="justClose" data-confirmText="Not implemented yet!">
+    <img class="operationIcon" src="/files/images/icons-white/report.png">
+    <span>${operation.label}</span>
+    </button>
 </#list>
+</#if>
+</#if>
+<#if panel.nextPanels??>
+<#if panel.nextPanels?has_content>
+<#list panel.nextPanels as next>
+    <a class="panelLinks" href="#">${next.label}</a>
+</#list>
+</#if>
+</#if>
+-->
+<#if panelOperationGroups??>
+<#if panelOperationGroups[panel.name]?has_content>
+<#list panelOperationGroups[panel.name] as group>
+    <div class="elementsGroup">
+        <#if group.name != ""><span class="groupName">${group.name}</span></#if>
+        <#list group.elements as element>
+        <#if element.class.simpleName == "Operation">
+        <button class="buttons-blue operationButton" data-operation="${element.label}" data-confirmLink="justClose" data-confirmText="Not implemented yet!">
+            <img class="operationIcon" src="/files/images/icons-white/operation.png">
+            <span>${element.label}</span>
+        </button>
+        <#else>
+        <a href="#" class="panelLinks">${element.label}</a>
+        </#if>
+        </#list>
+    </div>
+</#list>
+</#if>
+</#if>
 </div>
-</#if>
-</#if>
 <!-- /OPERATIONS DIV -->
 <!--  INPUT FORM -->
 <form class="inputForm" action="/add/${panel.entityBean.entityClass.name}" name="addForm" method="post">

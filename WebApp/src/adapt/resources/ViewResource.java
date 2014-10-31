@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.h2.constant.SysProperties;
 import org.restlet.Context;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -19,15 +20,19 @@ import adapt.core.AppCache;
 import adapt.enumerations.OpenedAs;
 import adapt.enumerations.PanelType;
 import adapt.exceptions.EntityAttributeNotFoundException;
+import adapt.model.AbstractElement;
 import adapt.model.ejb.EntityBean;
 import adapt.model.ejb.JoinColumnAttribute;
 import adapt.model.panel.AdaptPanel;
 import adapt.model.panel.AdaptParentChildPanel;
 import adapt.model.panel.AdaptStandardPanel;
+import adapt.model.panel.configuration.Next;
 import adapt.model.panel.configuration.PanelSettings;
+import adapt.model.panel.configuration.operation.Operation;
 import adapt.util.ejb.EntityHelper;
 import adapt.util.ejb.PersisenceHelper;
 import adapt.util.html.HTMLToolbarAction;
+import adapt.util.html.OperationGroup;
 import adapt.util.html.TableModel;
 import adapt.util.xml_readers.PanelReader;
 import ejb.Permission;
@@ -107,6 +112,7 @@ public class ViewResource extends BaseResource {
 				prepareTableControls(stdPanel);
 				prepareTableData(stdPanel, query);
 				prepareInputForm(stdPanel);
+				prepareOperationGroups(stdPanel);
 				//break;
 			//}
 		}
@@ -171,6 +177,44 @@ public class ViewResource extends BaseResource {
 		addToDataModel("tableControls", controls);
 		
 	}
+	
+	public void prepareOperationGroups(AdaptStandardPanel panel) {
+		LinkedHashMap<String, ArrayList<OperationGroup>> panelOperationGroups = new LinkedHashMap<String, ArrayList<OperationGroup>>();
+		ArrayList<OperationGroup> groups = new ArrayList<OperationGroup>();
+		for (Operation operation : panel.getStandardOperations().getOperations()) {
+			if(operation.getParentGroup() != null) {
+				OperationGroup group = getOperationGroup(groups, operation.getParentGroup());
+				if(group == null) {
+					group = new OperationGroup(operation.getParentGroup(), new ArrayList<AbstractElement>());
+					groups.add(group);
+				}
+				group.getElements().add(operation);
+			}
+		}
+		for (Next next : panel.getNextPanels()) {
+			if(next.getParentGroup() != null) {
+				OperationGroup group = getOperationGroup(groups, next.getParentGroup());
+				if(group == null) {
+					group = new OperationGroup(next.getParentGroup(), new ArrayList<AbstractElement>());
+					groups.add(group);
+				}
+				group.getElements().add(next);
+			}
+		}
+		panelOperationGroups.put(panel.getName(), groups);
+		addToDataModel("panelOperationGroups", panelOperationGroups);
+	}
+	
+	private OperationGroup getOperationGroup(ArrayList<OperationGroup> groups, String name) {
+		System.out.println("GRUPA BILA NULL, TRAZIM " + name);
+		for (OperationGroup operationGroup : groups) {
+			if(operationGroup.getName().equals(name)) {
+				return operationGroup;
+			}
+		}
+		return null;
+	}
+	
 	
 	@Override
 	public Representation represent(Variant variant) throws ResourceException {
