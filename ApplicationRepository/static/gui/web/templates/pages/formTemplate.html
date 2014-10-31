@@ -121,7 +121,11 @@
         <#list group.elements as element>
         <#if element.class.simpleName == "Operation">
         <button class="buttons-blue operationButton" data-operation="${element.label}" data-confirmLink="justClose" data-confirmText="Not implemented yet!">
+            <#if element.type == "BUSINESSTRANSACTION">
             <img class="operationIcon" src="/files/images/icons-white/operation.png">
+            <#elseif element.type == "VIEWREPORT">
+            <img class="operationIcon" src="/files/images/icons-white/report.png">
+            </#if>
             <span>${element.label}</span>
         </button>
         <#else>
