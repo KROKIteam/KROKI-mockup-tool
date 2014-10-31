@@ -93,7 +93,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		dao.administration.UserHibernateDao uDao = new dao.administration.UserHibernateDao();
 		ejb.administration.User admin = new ejb.administration.User();
 		admin.setUsername("admin");
-		admin.setPassword("admin");
+		admin.setPassword("12345");
 		uDao.save(admin);
 		
 		dao.administration.RoleHibernateDao rDao = new dao.administration.RoleHibernateDao();

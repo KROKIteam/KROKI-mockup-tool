@@ -113,7 +113,7 @@ public class ProjectExporter {
 			enumGenerator.generateXMLFiles(enumerations);
 			enumGenerator.generateEnumFiles(enumerations);
 		}else {
-			//appRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
+			appRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
 			MainFrame.getInstance(); // If admin subsystem isn't started
 			adminGenerator.generate();
 		}
