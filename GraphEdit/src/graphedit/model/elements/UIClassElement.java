@@ -580,12 +580,12 @@ public class UIClassElement extends ClassElement{
 
 
 		if (!(targetPanel instanceof ParentChild)){
-			List<Hierarchy> possibleParents = ((ParentChild)visibleClass).possibleParents(hierarchy, hierarchy.getLevel());
-			if (possibleParents != null && possibleParents.size() == 1){
-				hierarchy.setHierarchyParent(possibleParents.get(0));
+			List<Hierarchy> possibleParents = ((ParentChild)visibleClass).possibleParents(hierarchy, hierarchy.getLevel() - 1);
+			if (possibleParents != null  && possibleParents.size() >= 1){ 
+				hierarchy.setHierarchyParent(possibleParents.get(0)); //set the first one by default, users can change it in mockup editor
 				hierarchy.setLevel(possibleParents.get(0).getLevel() + 1);
 				List<VisibleAssociationEnd> possibleEnds = ((ParentChild)visibleClass).possibleAssociationEnds(hierarchy);
-				if (possibleEnds != null && possibleEnds.size() == 1)
+				if (possibleEnds != null  && possibleEnds.size() >= 1)
 					hierarchy.setViaAssociationEnd(possibleEnds.get(0));
 			}
 		}
@@ -596,6 +596,10 @@ public class UIClassElement extends ClassElement{
 
 		hierarchy.setParentGroup(gr);
 
+		
+	      //  element.getComponent().setAbsolutePosition(point);
+	        
+		
 
 		gr.update();
 		visibleClass.update();

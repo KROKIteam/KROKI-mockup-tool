@@ -56,12 +56,15 @@ public class AddingLayouter extends AbstractLayouter{
 				
 				for (Connector conn : ((LinkableElement)element).getConnectors()){
 					Point2D conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
-
+					
 					if (conn.getLoadedPosition() != null){
 						conPosition.setLocation(conn.getLoadedPosition());
 					}
+					
+					
 					else  //ako je nova veza
 						conPosition.setLocation((Point2D) element.getProperty(GraphElementProperties.POSITION));
+					System.out.println(conPosition);
 
 				}
 					
