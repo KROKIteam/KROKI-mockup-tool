@@ -80,6 +80,7 @@ public class UIClassElement extends ClassElement{
 			this.umlClass = new StandardPanel();
 			visibleClass = (VisibleClass)umlClass;
 			((StandardPanel)visibleClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
 		}
 		else{
 			this.umlClass = new ParentChild();
