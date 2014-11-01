@@ -4,6 +4,8 @@
  */
 package kroki.app;
 
+
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -19,12 +21,14 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.controller.TreeController;
 import kroki.app.gui.GuiManager;
+import kroki.app.model.ClipboardManager;
 import kroki.app.model.ProjectHierarchyModel;
 import kroki.app.model.Workspace;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.KrokiLookAndFeel;
 import kroki.app.utils.StringResource;
 import kroki.app.utils.TypeComponentMapper;
+import kroki.app.view.Canvas;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
@@ -283,5 +287,10 @@ public class KrokiMockupToolApp {
 
 	public void setGuiManager(GuiManager guiManager) {
 		this.guiManager = guiManager;
+	}
+	
+	public ClipboardManager getClipboardManager() {
+		ClipboardManager.getInstance().setCanvas(getTabbedPaneController().getCurrentTabContent());
+		return ClipboardManager.getInstance();
 	}
 }

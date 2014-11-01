@@ -1,13 +1,12 @@
 package kroki.app.generators;
 
-import gui.menudesigner.model.Submenu;
-
 import java.io.File;
 import java.util.ArrayList;
 
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.Menu;
+import kroki.app.menu.Submenu;
 import kroki.profil.VisibleElement;
 import kroki.profil.utils.DatabaseProps;
 

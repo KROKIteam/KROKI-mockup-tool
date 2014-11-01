@@ -1,7 +1,5 @@
 package kroki.app.generators;
 
-import gui.menudesigner.model.MenuItem;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -19,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.generators.utils.XMLWriter;
+import kroki.app.menu.MenuItem;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -280,8 +279,8 @@ public class MenuGenerator {
 	/**
 	 * NEW DEFAULT MENU
 	 */
-	private gui.menudesigner.model.Submenu root;
-	public void generateNewMenu(gui.menudesigner.model.Submenu rootMenu) {
+	private kroki.app.menu.Submenu root;
+	public void generateNewMenu(kroki.app.menu.Submenu rootMenu) {
 		this.root = rootMenu;
 		XMLWriter writer = new XMLWriter();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -326,9 +325,9 @@ public class MenuGenerator {
 
 	}
 	
-	private void extractChildren(Element parentTag, ArrayList<gui.menudesigner.model.Menu> children, Document doc) {
+	private void extractChildren(Element parentTag, ArrayList<kroki.app.menu.Menu> children, Document doc) {
 		
-		for (gui.menudesigner.model.Menu m : children) {
+		for (kroki.app.menu.Menu m : children) {
 			if (m instanceof MenuItem) {
 				MenuItem temp = (MenuItem)m;
 				String tempMenuItemName = null;
@@ -354,12 +353,12 @@ public class MenuGenerator {
 				Element panelTypeTag = doc.createElement("panel_type");
 				panelTypeTag.setTextContent(temp.getPanelType() != null ? temp.getPanelType() : "");
 				tempMenuItemTag.appendChild(panelTypeTag);
-			} else if (m instanceof gui.menudesigner.model.Submenu) {
-				gui.menudesigner.model.Submenu temp = (gui.menudesigner.model.Submenu)m;
+			} else if (m instanceof kroki.app.menu.Submenu) {
+				kroki.app.menu.Submenu temp = (kroki.app.menu.Submenu)m;
 				Element tempSubmenuTag = doc.createElement("submenu");
 				parentTag.appendChild(tempSubmenuTag);
 				
-				gui.menudesigner.model.Submenu parentSubmenu = (gui.menudesigner.model.Submenu)temp.getParent();
+				kroki.app.menu.Submenu parentSubmenu = (kroki.app.menu.Submenu)temp.getParent();
 				Element submenuParentTag = doc.createElement("submenu_parent");
 				submenuParentTag.setTextContent(parentSubmenu != null ? parentSubmenu.getName() : "");
 				tempSubmenuTag.appendChild(submenuParentTag);

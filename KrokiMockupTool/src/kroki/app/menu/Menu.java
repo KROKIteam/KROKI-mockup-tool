@@ -1,4 +1,5 @@
-package gui.menudesigner.model;
+package kroki.app.menu;
+
 
 public class Menu {
 	

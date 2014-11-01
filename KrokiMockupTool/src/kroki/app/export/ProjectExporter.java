@@ -1,7 +1,6 @@
 package kroki.app.export;
 
 import framework.MainFrame;
-import gui.menudesigner.model.MenuItem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +24,7 @@ import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
+import kroki.app.menu.MenuItem;
 import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
@@ -68,7 +68,7 @@ public class ProjectExporter {
 	private AdministrationSubsystemGenerator adminGenerator;
 	private ApplicationRepositoryGenerator appRepoGenerator;
 	private NamingUtil cc;
-	private gui.menudesigner.model.Submenu rootMenu;
+	private kroki.app.menu.Submenu rootMenu;
 
 
 	public ProjectExporter(boolean swing) {
@@ -83,7 +83,7 @@ public class ProjectExporter {
 		webGenerator = new WebResourceGenerator();
 		adminGenerator = new AdministrationSubsystemGenerator();
 		appRepoGenerator = new ApplicationRepositoryGenerator();
-		rootMenu = new gui.menudesigner.model.Submenu("Menu");
+		rootMenu = new kroki.app.menu.Submenu("Menu");
 		cc = new NamingUtil();
 		this.swing = swing;
 	}
@@ -160,7 +160,7 @@ public class ProjectExporter {
 	 * @param menu
 	 * @throws NoZoomPanelException
 	 */
-	public void getClassData(VisibleElement el, String classPackage, Menu menu, gui.menudesigner.model.Submenu subMenuNew) throws NoZoomPanelException {
+	public void getClassData(VisibleElement el, String classPackage, Menu menu, kroki.app.menu.Submenu subMenuNew) throws NoZoomPanelException {
 		if(el instanceof StandardPanel) {
 			try {
 				getStandardPanelData(el, classPackage, menu, subMenuNew);
@@ -184,7 +184,7 @@ public class ProjectExporter {
 	 * @param subMenuNew 
 	 * @throws NoZoomPanelException
 	 */
-	public void getStandardPanelData(VisibleElement el, String classPackage, Menu menu, gui.menudesigner.model.Submenu subMenuNew) throws NoZoomPanelException {
+	public void getStandardPanelData(VisibleElement el, String classPackage, Menu menu, kroki.app.menu.Submenu subMenuNew) throws NoZoomPanelException {
 		StandardPanel sp = (StandardPanel)el;
 		VisibleClass vc = (VisibleClass)el;
 
@@ -260,7 +260,7 @@ public class ProjectExporter {
 			men.addSubmenu(sub);
 			menus.add(men);
 			
-			gui.menudesigner.model.Submenu subMenuTemp = new gui.menudesigner.model.Submenu(label);
+			kroki.app.menu.Submenu subMenuTemp = new kroki.app.menu.Submenu(label);
 			subMenuTemp.getChildren().add(menuItem);
 			menuItem.setParent(subMenuTemp);
 			rootMenu.getChildren().add(subMenuTemp);
@@ -274,7 +274,7 @@ public class ProjectExporter {
 	 * @param menu
 	 * @param subMenuNew 
 	 */
-	public void getParentChildData(VisibleElement el, Menu menu, gui.menudesigner.model.Submenu subMenuNew) {
+	public void getParentChildData(VisibleElement el, Menu menu, kroki.app.menu.Submenu subMenuNew) {
 		ParentChild pcPanel = (ParentChild)el;
 		String activate = cc.toCamelCase(pcPanel.name(), false) + "_pc";
 		String label = pcPanel.getLabel();
@@ -309,7 +309,7 @@ public class ProjectExporter {
 			men.addSubmenu(sub);
 			menus.add(men);
 			
-			gui.menudesigner.model.Submenu subMenuTemp = new gui.menudesigner.model.Submenu(label);
+			kroki.app.menu.Submenu subMenuTemp = new kroki.app.menu.Submenu(label);
 			subMenuTemp.getChildren().add(menuItem);
 			menuItem.setParent(subMenuTemp);
 			rootMenu.getChildren().add(subMenuTemp);
@@ -402,7 +402,7 @@ public class ProjectExporter {
 	 * @param index
 	 * @param mmenu
 	 */
-	public void getSubSystemData(VisibleElement el, int index, Menu mmenu, gui.menudesigner.model.Submenu subMenuNew) {
+	public void getSubSystemData(VisibleElement el, int index, Menu mmenu, kroki.app.menu.Submenu subMenuNew) {
 		//          MENU GENERATION DATA
 		String n = el.name();
 		if(n == null) {
@@ -413,7 +413,7 @@ public class ProjectExporter {
 		Menu menu = new Menu(name, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 
 		//NEW
-		gui.menudesigner.model.Submenu subMenuTemp = new gui.menudesigner.model.Submenu(label);
+		kroki.app.menu.Submenu subMenuTemp = new kroki.app.menu.Submenu(label);
 		BussinesSubsystem bs = (BussinesSubsystem) el;
 
 		for(int m=0; m<bs.ownedElementCount(); m++) {

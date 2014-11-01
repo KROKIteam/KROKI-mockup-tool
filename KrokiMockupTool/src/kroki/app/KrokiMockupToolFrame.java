@@ -4,6 +4,9 @@
  */
 package kroki.app;
 
+import graphedit.model.ClipboardManager;
+import graphedit.view.GraphEditView;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -471,4 +474,5 @@ public class KrokiMockupToolFrame extends JFrame {
 	public void setConsole(CommandPanel console) {
 		this.console = console;
 	}
+	
 }

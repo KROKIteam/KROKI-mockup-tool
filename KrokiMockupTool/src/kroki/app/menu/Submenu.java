@@ -1,4 +1,4 @@
-package gui.menudesigner.model;
+package kroki.app.menu;
 
 import java.util.ArrayList;
 

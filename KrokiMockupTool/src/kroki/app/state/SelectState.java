@@ -4,20 +4,28 @@
  */
 package kroki.app.state;
 
+
+
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.command.Command;
 import kroki.app.command.CommandManager;
+import kroki.app.command.PasteCommand;
 import kroki.app.command.RemoveCommand;
 import kroki.app.controller.TabbedPaneController;
+import kroki.app.model.ClipboardContents;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
 import kroki.app.view.Handle;
 import kroki.app.view.HandleManager;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Next;
+import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 
 /**
@@ -39,12 +47,14 @@ public class SelectState extends State {
         VisibleClass visibleClass = c.getVisibleClass();
         VisibleElement visibleElement = visibleClass.getVisibleElementAtPoint(e.getPoint());
         SelectionModel selectionModel = c.getSelectionModel();
+        
         Handle h = null;
         //ukoliko je samo jedan selektovan pokazi handlove.
         if (selectionModel.getSelectionNum() == 1) {
             VisibleElement el = selectionModel.getVisibleElementAt(0);
             h = HandleManager.getHandleForPoint(el, e.getPoint());
         }
+        
         if (h == null) {
             if (visibleElement != null && e.isControlDown() && !selectionModel.isSelected(visibleElement)) {
                 selectionModel.addToSelection(visibleElement);
@@ -105,25 +115,97 @@ public class SelectState extends State {
 
     @Override
     public void keyPressed(KeyEvent e) {
+    	TabbedPaneController tabbedPaneController = KrokiMockupToolApp.getInstance().getTabbedPaneController();
+        Canvas c = tabbedPaneController.getCurrentTabContent();
+        CommandManager commandManager = c.getCommandManager();
+        SelectionModel selectionModel = c.getSelectionModel();
+        List<VisibleElement> selected = selectionModel.getVisibleElementList();
+        
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-            TabbedPaneController tabbedPaneController = KrokiMockupToolApp.getInstance().getTabbedPaneController();
-            Canvas c = tabbedPaneController.getCurrentTabContent();
-            CommandManager commandManager = c.getCommandManager();
-            SelectionModel selectionModel = c.getSelectionModel();
-            //pravim listu elemenata za izbaciti iz selekcije
-            List<VisibleElement> deleted = new ArrayList<VisibleElement>();
-            for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
-                if (!(visibleElement instanceof VisibleClass) && visibleElement.getParentGroup() != null) {
-                    deleted.add(visibleElement);
-                }
-            }
-            //ukoliko se u listi nalazi vise od 0 elemenata onda kreiram objekat klase RemoveCommand
-            if (deleted.size() > 0) {
-                RemoveCommand removeCommand = new RemoveCommand(deleted);
-                commandManager.addCommand(removeCommand);
-                selectionModel.removeFromSelection(deleted);
-            }
-            c.repaint();
+            deleteAction(tabbedPaneController, c, commandManager, selectionModel);
         }
+        
+		if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X) {
+			cutAction(tabbedPaneController, c, commandManager, selectionModel);
+		}
+		
+		if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
+			pasteAction(tabbedPaneController, c, commandManager, selectionModel);
+		}
     }
+
+	private void pasteAction(TabbedPaneController tabbedPaneController,
+			Canvas c, CommandManager commandManager,
+			SelectionModel selectionModel) {
+		
+		@SuppressWarnings("unchecked")
+		List<VisibleElement> clipboardElements = (List<VisibleElement>) KrokiMockupToolApp.getInstance().getClipboardManager().getElement(ClipboardContents.clipboardVisibleElementsFlavor);
+
+		//pravim listu elemenata za izbaciti iz selekcije
+        List<VisibleElement> selected = new ArrayList<VisibleElement>();
+        for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
+            if (!(visibleElement instanceof VisibleClass)) {
+            	selected.add(visibleElement);
+            }
+        }
+        
+        //ukoliko se u listi nalazi tacno jedan selektovani element i da je ElementsGroup
+		if (selected.size() == 1 && selected.get(0) instanceof ElementsGroup) {
+			ElementsGroup temp = (ElementsGroup) selected.get(0);
+			
+			for (VisibleElement el : clipboardElements) {
+				if (!temp.checkIfCanAdd(el)) {
+					return;
+				}
+			}
+			
+			Command command = new PasteCommand(c.getVisibleClass(), temp, clipboardElements, null);
+			commandManager.addCommand(command);
+			selectionModel.clearSelection();			
+		}
+        c.repaint();
+	}
+
+	private void cutAction(TabbedPaneController tabbedPaneController, Canvas c,
+			CommandManager commandManager, SelectionModel selectionModel) {
+		
+		VisibleClass visibleClass;
+		ElementsGroup elementsGroup;
+		
+        //pravim listu elemenata za izbaciti iz selekcije
+        List<VisibleElement> cutted = new ArrayList<VisibleElement>();
+        for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
+            if (!(visibleElement instanceof VisibleClass) && visibleElement.getParentGroup() != null) {
+            	cutted.add(visibleElement);
+            }
+        }
+        KrokiMockupToolApp.getInstance().getClipboardManager().cutSelectedElements();
+
+        if (cutted.size() > 0) {
+            RemoveCommand removeCommand = new RemoveCommand(cutted);
+            commandManager.addCommand(removeCommand);
+            selectionModel.removeFromSelection(cutted);
+        } 
+
+        c.repaint();	
+	}
+
+	private void deleteAction(TabbedPaneController tabbedPaneController, Canvas c, CommandManager commandManager, SelectionModel selectionModel) {
+		 //pravim listu elemenata za izbaciti iz selekcije
+        List<VisibleElement> deleted = new ArrayList<VisibleElement>();
+        for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
+            if (!(visibleElement instanceof VisibleClass) && visibleElement.getParentGroup() != null) {
+                deleted.add(visibleElement);
+            }
+        }
+        
+        //ukoliko se u listi nalazi vise od 0 elemenata onda kreiram objekat klase RemoveCommand
+        if (deleted.size() > 0) {
+            RemoveCommand removeCommand = new RemoveCommand(deleted);
+            commandManager.addCommand(removeCommand);
+            selectionModel.removeFromSelection(deleted);
+        }
+        
+        c.repaint();
+	}
 }
