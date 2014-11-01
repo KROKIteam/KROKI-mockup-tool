@@ -57,6 +57,10 @@ public class PasteCommand implements Command {
 	        elementsGroup.update();
 	        visibleClass.update();
 	        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
+	        
+            if (element.getComponentType() != null){
+				visibleClass.incrementCount(element.getComponentType());
+			}
 		}
 	}
 

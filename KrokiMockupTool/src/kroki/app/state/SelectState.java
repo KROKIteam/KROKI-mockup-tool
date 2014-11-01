@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.command.AddCommand;
 import kroki.app.command.Command;
 import kroki.app.command.CommandManager;
 import kroki.app.command.PasteCommand;
@@ -102,6 +103,7 @@ public class SelectState extends State {
         }
         c.repaint();
     }
+       
 
     @Override
     public void mouseMoved(MouseEvent e) {
@@ -119,7 +121,6 @@ public class SelectState extends State {
         Canvas c = tabbedPaneController.getCurrentTabContent();
         CommandManager commandManager = c.getCommandManager();
         SelectionModel selectionModel = c.getSelectionModel();
-        List<VisibleElement> selected = selectionModel.getVisibleElementList();
         
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
             deleteAction(tabbedPaneController, c, commandManager, selectionModel);
@@ -169,9 +170,6 @@ public class SelectState extends State {
 	private void cutAction(TabbedPaneController tabbedPaneController, Canvas c,
 			CommandManager commandManager, SelectionModel selectionModel) {
 		
-		VisibleClass visibleClass;
-		ElementsGroup elementsGroup;
-		
         //pravim listu elemenata za izbaciti iz selekcije
         List<VisibleElement> cutted = new ArrayList<VisibleElement>();
         for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
@@ -182,7 +180,7 @@ public class SelectState extends State {
         KrokiMockupToolApp.getInstance().getClipboardManager().cutSelectedElements();
 
         if (cutted.size() > 0) {
-            RemoveCommand removeCommand = new RemoveCommand(cutted);
+        	RemoveCommand removeCommand = new RemoveCommand(cutted);
             commandManager.addCommand(removeCommand);
             selectionModel.removeFromSelection(cutted);
         } 
@@ -204,6 +202,7 @@ public class SelectState extends State {
             RemoveCommand removeCommand = new RemoveCommand(deleted);
             commandManager.addCommand(removeCommand);
             selectionModel.removeFromSelection(deleted);
+            
         }
         
         c.repaint();

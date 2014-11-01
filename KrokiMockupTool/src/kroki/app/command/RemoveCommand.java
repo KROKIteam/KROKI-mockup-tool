@@ -99,6 +99,11 @@ public class RemoveCommand implements Command {
 				visibleClass.removeVisibleElement(visibleElement);
 				visibleClass.update();
 			}
+			
+			
+            if (visibleElement.getComponentType() != null){
+				visibleClass.decrementCount(visibleElement.getComponentType());
+			}
 		}
 	}
 
