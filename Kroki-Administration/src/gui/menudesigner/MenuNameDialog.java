@@ -75,6 +75,7 @@ public class MenuNameDialog extends JDialog {
 				DefaultTreeModel model = (DefaultTreeModel) menusTree.getModel();
 				model.reload(selectedNode);
 				menusList.add(rootMenu);
+				menuName = "Menu"; // TODO: CHANGE
 				rootMenu.setName(menuName);
 				menuDesignerPanel.dispose();
 				MenuNameDialog.this.dispose();
