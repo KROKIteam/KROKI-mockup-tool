@@ -26,6 +26,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import kroki.commons.camelcase.NamingUtil;
 import kroki.intl.Intl;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -39,6 +40,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 
 	protected JLabel typelbl;
     protected JLabel columnLabelLb;
+    protected JLabel labelToCodeLb;
     protected JLabel displayFormatLb;
     protected JLabel valuesLb;
     protected JLabel representativeLb;
@@ -48,6 +50,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     protected JLabel defaultValueLb;
     protected JComboBox<String> typeCb;
     protected JTextField columnLabelTf;
+    protected JCheckBox labelToCodeCb;
     protected JTextField displayFormatTf;
     protected ComboBoxValuesPanel valuesPanel;
     protected JTextField defaultValueTf;
@@ -58,7 +61,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 
     public VisiblePropertySettings(SettingsCreator settingsCreator) {
         super(settingsCreator);
-        System.out.println("KONSTRUKTOR");
         initComponents();
         layoutComponents();
         addActions();
@@ -66,6 +68,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 
     private void initComponents() {
     	typelbl = new JLabel("Data type");
+    	labelToCodeLb = new JLabel(Intl.getValue("visibleProperty.labelToCode"));
         columnLabelLb = new JLabel(Intl.getValue("visibleProperty.columnLabel"));
         displayFormatLb = new JLabel(Intl.getValue("visibleProperty.displayFormat"));
         valuesLb = new JLabel(Intl.getValue("visibleProperty.values"));
@@ -81,6 +84,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         typeCb.setEnabled(false);
         
         columnLabelTf = new JTextField(30);
+        labelToCodeCb = new JCheckBox();
         displayFormatTf = new JTextField(30);
         valuesPanel = new ComboBoxValuesPanel(this, (VisibleProperty) visibleElement);
         valuesPanel.setVisibleProperty((VisibleProperty)visibleElement);
@@ -106,6 +110,8 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         }
         intermediate.add(typelbl);
         intermediate.add(typeCb);
+        intermediate.add(labelToCodeLb);
+        intermediate.add(labelToCodeCb);
         intermediate.add(columnLabelLb);
         intermediate.add(columnLabelTf);
         intermediate.add(displayFormatLb);
@@ -144,6 +150,27 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 						visibleProperty.setDataType("String");
 					}
 				}
+			}
+		});
+    	
+    	labelToCodeCb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JCheckBox checkBox = (JCheckBox) e.getSource();
+				boolean value = checkBox.isSelected();
+				VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+				if(value) {
+					visibleProperty.setLabelToCode(true);
+				    columnLabelTf.setEditable(false);
+				    NamingUtil namer = new NamingUtil();
+					visibleProperty.setColumnLabel(namer.toDatabaseFormat(visibleProperty.umlClass().name().replace("_", " "), labelTf.getText().trim()));
+					columnLabelTf.setText(visibleProperty.getColumnLabel());
+				}else {
+					visibleProperty.setLabelToCode(false);
+					columnLabelTf.setEditable(true);
+				}
+				updatePreformed();
 			}
 		});
     	
@@ -210,7 +237,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 				for(int i=0; i<values.length; i++) {
 					enumeration +=values[i] + ";";
 				}
-				System.out.println("FOCUS LOST: " + enumeration);
 				prop.setEnumeration(enumeration);
 				updatePreformed();
 			}
@@ -321,11 +347,19 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         representativeCb.setSelected(visibleProperty.isRepresentative());
         autoGoCb.setSelected(visibleProperty.isAutoGo());
         disabledCb.setSelected(visibleProperty.isDisabled());
+        
+        if (visibleProperty.isLabelToCode()){
+        	columnLabelTf.setEditable(false);
+        	labelToCodeCb.setSelected(true);
+        }
+        else{
+        	columnLabelTf.setEditable(true);
+        	labelToCodeCb.setSelected(false);
+        }
     }
 
     @Override
     public void updateSettings(VisibleElement visibleElement) {
-    	System.out.println("UPDATE SETTINGS");
         super.updateSettings(visibleElement);
         VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
         columnLabelTf.setText(visibleProperty.getColumnLabel());

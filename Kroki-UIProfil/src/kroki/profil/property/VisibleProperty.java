@@ -25,6 +25,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 
     /*Obelezja klase VisibleProperty*/
     protected String columnLabel;
+    protected boolean labelToCode = true;
     protected String displayFormat;
     protected boolean representative;
     protected boolean autoGo;
@@ -244,5 +245,13 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 
 	public void setEnumeration(String enumeration) {
 		this.enumeration = enumeration;
+	}
+
+	public boolean isLabelToCode() {
+		return labelToCode;
+	}
+
+	public void setLabelToCode(boolean labelToCode) {
+		this.labelToCode = labelToCode;
 	}
 }
