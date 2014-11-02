@@ -66,7 +66,7 @@ public class ClipboardManager implements ClipboardOwner {
 		return elements;
 	}
 	
-	private void clearClipboard() {
+	public void clearClipboard() {
 		clipboard.setContents(newClipboard, this);
 	}
 	

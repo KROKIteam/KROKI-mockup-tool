@@ -36,7 +36,8 @@ import kroki.profil.panel.VisibleClass;
 public class SelectState extends State {
 
     private Point currentPosition;
-
+    private static boolean cutAction = false;
+    
     public SelectState(Context context) {
         super(context, "app.state.select");
     }
@@ -133,15 +134,44 @@ public class SelectState extends State {
 		if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
 			pasteAction(tabbedPaneController, c, commandManager, selectionModel);
 		}
+		
+		if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
+			copy(tabbedPaneController, c, commandManager, selectionModel);
+		}
     }
 
+	private void copy(TabbedPaneController tabbedPaneController, Canvas c,
+			CommandManager commandManager, SelectionModel selectionModel) {
+        //pravim listu elemenata za izbaciti iz selekcije
+        List<VisibleElement> cutted = new ArrayList<VisibleElement>();
+        for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
+            if (!(visibleElement instanceof VisibleClass) && visibleElement.getParentGroup() != null) {
+            	cutted.add(visibleElement);
+            }
+        }
+        KrokiMockupToolApp.getInstance().getClipboardManager().copySelectedElements();
+        cutAction = false;
+        c.repaint();		
+	}
+
+	/**
+	 * Potrebno je izvrsiti proveru da li se moze element koji se pastuje dodati na zeljeno mesto,
+	 * ukoliko nije moguce zaustavlja se operacija pre brisanja clipboarda, inace bi se ispraznio
+	 * iako paste nije izvrsen na odgovarajuce mesto
+	 * @param tabbedPaneController
+	 * @param c
+	 * @param commandManager
+	 * @param selectionModel
+	 */
 	private void pasteAction(TabbedPaneController tabbedPaneController,
 			Canvas c, CommandManager commandManager,
 			SelectionModel selectionModel) {
 		
 		@SuppressWarnings("unchecked")
 		List<VisibleElement> clipboardElements = (List<VisibleElement>) KrokiMockupToolApp.getInstance().getClipboardManager().getElement(ClipboardContents.clipboardVisibleElementsFlavor);
-
+		if(clipboardElements == null || clipboardElements.isEmpty())
+			return;
+		
 		//pravim listu elemenata za izbaciti iz selekcije
         List<VisibleElement> selected = new ArrayList<VisibleElement>();
         for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
@@ -160,9 +190,11 @@ public class SelectState extends State {
 				}
 			}
 			
-			Command command = new PasteCommand(c.getVisibleClass(), temp, clipboardElements, null);
+			Command command = new PasteCommand(c.getVisibleClass(), temp, clipboardElements, null, cutAction);
 			commandManager.addCommand(command);
 			selectionModel.clearSelection();			
+			if(cutAction)
+				KrokiMockupToolApp.getInstance().getClipboardManager().clearClipboard();
 		}
         c.repaint();
 	}
@@ -178,6 +210,7 @@ public class SelectState extends State {
             }
         }
         KrokiMockupToolApp.getInstance().getClipboardManager().cutSelectedElements();
+        cutAction = true;
 
         if (cutted.size() > 0) {
         	RemoveCommand removeCommand = new RemoveCommand(cutted);

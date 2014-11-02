@@ -155,6 +155,11 @@ public class RemoveCommand implements Command {
 				elementsGroup.addVisibleElement(groupIndex, visibleElement);
 				elementsGroup.update();
 			}
+			
+
+            if (visibleElement.getComponentType() != null){
+				visibleClass.incrementCount(visibleElement.getComponentType());
+			}
 
 		}
 

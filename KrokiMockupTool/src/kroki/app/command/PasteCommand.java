@@ -22,14 +22,16 @@ public class PasteCommand implements Command {
     private ElementsGroup elementsGroup;
     private Point point;
     private int classIndex, groupIndex;
+    private boolean cutAction;
 	
     @SuppressWarnings("unchecked")
-	public PasteCommand(VisibleClass visibleClass, ElementsGroup elementsGroup, List<VisibleElement> elements, Point point) {
-    	 Object deserializedObjects[] = SerializationUtility.deepCopy(elements, elements);
+	public PasteCommand(VisibleClass visibleClass, ElementsGroup elementsGroup, List<VisibleElement> elements, Point point, boolean cutAction) {
+    	Object deserializedObjects[] = SerializationUtility.deepCopy(elements, elements);
         this.visibleClass = visibleClass;
         this.elementsGroup = elementsGroup;
         this.elements = (List<VisibleElement>)deserializedObjects[0];
         this.point = point;
+        this.cutAction = cutAction;
         classIndex = visibleClass.getVisibleElementList().size();
         groupIndex = elementsGroup.getVisibleElementList().size();
     }
@@ -40,6 +42,17 @@ public class PasteCommand implements Command {
 			visibleClass.addVisibleElement(classIndex, element);
 	        elementsGroup.addVisibleElement(groupIndex, element);
 	        
+	        if (!cutAction) {
+	        	element.changeUuid();
+	        }
+	        
+	        if (element instanceof VisibleElement) {
+				element.setParentGroup(elementsGroup);
+				elementsGroup.addVisibleElement(element);
+				element.update();
+			}
+	        
+	        /*
 	        if (element instanceof VisibleProperty) {
 	            VisibleProperty prop = (VisibleProperty) element;
 	            NamingUtil namer = new NamingUtil();
@@ -50,10 +63,9 @@ public class PasteCommand implements Command {
 				next.setActivationPanel(visibleClass);
 				next.getActivationPanel().update();
 				elementsGroup.addVisibleElement(element);
-			} else if (element instanceof VisibleElement) {
-				element.setParentGroup(elementsGroup);
-				elementsGroup.addVisibleElement(element);
-			}
+			} 
+	        PREVIOUS ITERATION VISIBLE ELEMENT IF WAS LAST
+	        */
 	        elementsGroup.update();
 	        visibleClass.update();
 	        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
@@ -76,6 +88,10 @@ public class PasteCommand implements Command {
 	        elementsGroup.removeVisibleElement(element);
 	        elementsGroup.update();
 	        visibleClass.update();
+	        
+            if (element.getComponentType() != null){
+				visibleClass.decrementCount(element.getComponentType());
+			}
 		}
 	}
 
