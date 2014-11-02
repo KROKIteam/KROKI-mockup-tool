@@ -165,6 +165,10 @@ public class VisibleElement implements UmlNamedElement, Serializable {
 		return uuid;
 	}
 	
+	public void changeUuid() {
+		this.uuid = UUID.randomUUID();
+	}
+	
     /**************************************************/
     /*IMPLEMENTIRANE METODE INTERFEJSA UmlNamedElement*/
     /**************************************************/
