@@ -30,6 +30,7 @@ import javax.swing.text.Document;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
+import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
 import net.miginfocom.swing.MigLayout;
@@ -153,11 +154,23 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 				} catch (BadLocationException ex) {
 				}
 				visibleElement.setLabel(text);
-				NamingUtil namer = new NamingUtil();
 				if(visibleElement instanceof VisibleProperty) {
 					VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
-					visibleProperty.setColumnLabel(namer.toDatabaseFormat(visibleProperty.umlClass().name().replace("_", " "), labelTf.getText().trim()));
-					updatePreformed();
+					//only set column label if labelToCode is true
+					if (visibleProperty.isLabelToCode()){
+						NamingUtil namer = new NamingUtil();
+						visibleProperty.setColumnLabel(namer.toDatabaseFormat(visibleProperty.umlClass().name().replace("_", " "), labelTf.getText().trim()));
+						updatePreformed();
+					}
+				}
+				else if (visibleElement instanceof StandardPanel){
+					StandardPanel panel = (StandardPanel) visibleElement;
+					//only set column label if labelToCode is true
+					if (panel.getPersistentClass().isLabelToCode()){
+						NamingUtil namer = new NamingUtil();
+						panel.getPersistentClass().setTableName(namer.toDatabaseFormat(panel.project().getLabel(), panel.getLabel()));
+						updatePreformed();
+					}
 				}
 				if (visibleElement instanceof VisibleClass) {
 					updatePreformedIncludeTree();

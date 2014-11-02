@@ -6,6 +6,7 @@ package kroki.profil.persistent;
 
 import java.io.Serializable;
 import java.util.List;
+
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlPackage;
@@ -19,6 +20,11 @@ public class PersistentClass implements UmlClass, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	
+	/**Naziv tabele u bazu*/
+	protected String tableName;
+	/**Transformisanje labele u naziv tabele*/
+	protected boolean labelToCode = true;
     /**Naziv elementa*/
     protected String name;
     /**Kvalitifikovano ime elementa.*/
@@ -33,6 +39,14 @@ public class PersistentClass implements UmlClass, Serializable {
     protected List<UmlOperation> ownedOperation;
     /**Generalizacije date klase*/
     protected List<UmlClass> superClass;
+    
+    public PersistentClass(){
+    	
+    }
+    	
+    public PersistentClass(String tableName){
+    	this.tableName = tableName;
+    }
 
     /*IMPLEMENTIRANE METODE INTERFEJSA UmlClass*/
     public boolean isAbstract() {
@@ -95,4 +109,20 @@ public class PersistentClass implements UmlClass, Serializable {
     public void setQualifiedName(String qualifiedName) {
         this.qualifiedName = qualifiedName;
     }
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public boolean isLabelToCode() {
+		return labelToCode;
+	}
+
+	public void setLabelToCode(boolean labelToCode) {
+		this.labelToCode = labelToCode;
+	}
 }

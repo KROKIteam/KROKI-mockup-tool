@@ -10,7 +10,9 @@ import graphedit.model.elements.UIClassElement;
 import graphedit.model.enums.ClassStereotypeUI;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
+import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
+import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 
 public class AddElementCommand extends Command {
@@ -41,13 +43,14 @@ public class AddElementCommand extends Command {
 	@Override
 	public void execute() {
 	
-		
 		if (element.getUmlType() instanceof VisibleElement){
 			model.getParentPackage().getUmlPackage().addOwnedType(element.getUmlType());
 			
 			element.getUmlType().setUmlPackage(model.getParentPackage().getUmlPackage());
 			if (element instanceof UIClassElement)
 				model.getParentPackage().getClassElementsByVisibleClassesMap().put((VisibleClass)element.getUmlType(), (UIClassElement) element);
+			
+			((StandardPanel) element.getUmlType()).getPersistentClass().setTableName(new NamingUtil().toDatabaseFormat(((StandardPanel) element.getUmlType()).project().getLabel(), ((StandardPanel) element.getUmlType()).getLabel()));
 		}
 		model.addDiagramElement(component);
 		view.addElementPainter(elementPainter);

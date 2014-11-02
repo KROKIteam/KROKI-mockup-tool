@@ -111,8 +111,10 @@ public class UIClassElement extends ClassElement{
 		}
 		visibleClass = (VisibleClass) umlClass;
 		visibleClass.setName((String) element.getProperty(GraphElementProperties.NAME));
-		if (visibleClass instanceof StandardPanel)
+		if (visibleClass instanceof StandardPanel){
 			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
+			((StandardPanel) visibleClass).getPersistentClass().setTableName(namer.toDatabaseFormat(((StandardPanel) visibleClass).project().getLabel(), ((StandardPanel) visibleClass).getLabel()));
+		}
 
 		//create properties
 		for (Attribute attribute : (List<Attribute>)element.getProperty(GraphElementProperties.ATTRIBUTES))
@@ -122,10 +124,11 @@ public class UIClassElement extends ClassElement{
 
 	}
 
-	public void formPanel(String name, String label, List<VisibleElement> visibleElements, String stereotype){
+	public void formPanel(String name,String tableName, String label, List<VisibleElement> visibleElements, String stereotype){
 		if (stereotype.equals(ClassStereotypeUI.STANDARD_PANEL.toString())){
 			umlClass = new StandardPanel();
 			((StandardPanel) umlClass).getPersistentClass().setName(namer.toCamelCase(name, false).trim());
+			((StandardPanel) visibleClass).getPersistentClass().setTableName(tableName);
 		}
 		else if (stereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString()))
 			umlClass = new ParentChild();
@@ -442,7 +445,8 @@ public class UIClassElement extends ClassElement{
 		property.setLabel(namer.transformClassName(newName));
 		NamingUtil namer = new NamingUtil();
 		property.setName(newName);
-		property.setColumnLabel(namer.toDatabaseFormat(visibleClass.getLabel(),newName));
+		if (property.isLabelToCode())
+			property.setColumnLabel(namer.toDatabaseFormat(visibleClass.getLabel(),newName));
 	}
 
 
@@ -1072,6 +1076,7 @@ public class UIClassElement extends ClassElement{
 
 		String label = visibleClass.getLabel();
 		String name = visibleClass.name();
+		String tableName = ((StandardPanel)visibleClass).getPersistentClass().getTableName();
 
 		UmlPackage umlPackage = MainFrame.getInstance().getCurrentView().getModel().getParentPackage().getUmlPackage();
 		umlPackage.removeOwnedType(visibleClass);
@@ -1084,7 +1089,7 @@ public class UIClassElement extends ClassElement{
 			propertiesGroup = PARENTCHILD_PANEL_PROPERTIES;
 			operationsGroup = PARENTCHILD_PANEL_OPERATIONS;
 		}
-		formPanel(name, label, visibleElements, stereotype);
+		formPanel(name, tableName, label, visibleElements, stereotype);
 		umlPackage.addOwnedType(umlClass);
 	}
 
@@ -1172,7 +1177,10 @@ public class UIClassElement extends ClassElement{
 		if (visibleClass instanceof StandardPanel){
 			if (namer == null)
 				namer = new NamingUtil();
-			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase(newName, false).trim());
+			StandardPanel panel  = (StandardPanel) visibleClass;
+			panel.getPersistentClass().setName(namer.toCamelCase(newName, false).trim());
+			if (panel.getPersistentClass().isLabelToCode())
+				panel.getPersistentClass().setTableName(namer.toDatabaseFormat(panel.project().getLabel(), panel.getLabel()));
 		}
 
 	}

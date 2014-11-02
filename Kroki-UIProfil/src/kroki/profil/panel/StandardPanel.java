@@ -4,6 +4,7 @@
  */
 package kroki.profil.panel;
 
+import kroki.commons.camelcase.NamingUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.TitledContainer;
@@ -12,6 +13,7 @@ import kroki.mockup.model.layout.FlowLayoutManager;
 import kroki.mockup.model.layout.LayoutManager;
 import kroki.mockup.model.layout.VerticalLayoutManager;
 import kroki.mockup.utils.SerializableBufferedImage;
+import kroki.profil.BusinessProcessModelingSubject;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupAlignment;
@@ -20,8 +22,11 @@ import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.std.StdDataSettings;
 import kroki.profil.panel.std.StdPanelSettings;
 import kroki.profil.persistent.PersistentClass;
+import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.StandardPanelSettings;
+import kroki.uml_core_basic.UmlClass;
+import kroki.uml_core_basic.UmlPackage;
 
 /**
  * <code>StandardPanel</code> oznacava da se datoj perzistentnoj klasi (u
@@ -88,10 +93,10 @@ public class StandardPanel extends VisibleClass {
         persistentClass = new PersistentClass();
     }
 
-    public StandardPanel(String label, boolean visible, ComponentType componentType, boolean modal) {
+    public StandardPanel(String tableName, String label, boolean visible, ComponentType componentType, boolean modal) {
         super(label, visible, componentType, modal);
         defaultGuiSettings();
-        persistentClass = new PersistentClass();
+        persistentClass = new PersistentClass(tableName);
     }
 
     public StandardPanel(boolean modal) {
@@ -230,6 +235,13 @@ public class StandardPanel extends VisibleClass {
     @Override
     public String toString() {
         return label;
+    }
+    
+    public BussinesSubsystem project(){
+    	UmlPackage currentPack = umlPackage;
+    	while (currentPack.nestingPackage() != null)
+    		currentPack = currentPack.nestingPackage();
+    	return (BussinesSubsystem) currentPack;
     }
 
     /*****************/
