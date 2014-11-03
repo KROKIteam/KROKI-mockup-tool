@@ -79,12 +79,14 @@ public class ViewResource extends BaseResource {
 			//Child form request
 			//Association end = name of the join column in child entity associated with parent on current parent-child panel
 			if(childPanelName != null && associationEnd != null && pid != null) {
+				System.out.println("CHILD PANEL REQUEST [" + childPanelName + "]");
 				AdaptStandardPanel childPanel  = (AdaptStandardPanel) PanelReader.loadPanel(childPanelName,  PanelType.STANDARDPANEL, null, OpenedAs.DEFAULT);
 				EntityBean childBean = childPanel.getEntityBean();
 				try {
 					//Get join column for this form, so entities could be queried based on it
 					JoinColumnAttribute jcAttribute = EntityHelper.getJoinByFieldName(childBean, associationEnd);
 					String query = "FROM " + childBean.getEntityClass().getName() + " x WHERE x." + jcAttribute.getFieldName() + ".id = " + pid;
+					System.out.println("QUERY: " + query);
 					prepareContent(childPanel, query);
 					panels.add(childPanel);
 				} catch (EntityAttributeNotFoundException ea) {
@@ -172,18 +174,22 @@ public class ViewResource extends BaseResource {
 			HTMLToolbarAction deleteAction = new  HTMLToolbarAction("btnDelete", "Delete entity", "/files/images/icons-white/delete.png", true);
 			controls.add(deleteAction);
 		}
-		HTMLToolbarAction nextAction = new HTMLToolbarAction("btnNextForms", "View connected forms", "/files/images/icons-white/next-forms.png", false);
-		controls.add(nextAction);
+		//HTMLToolbarAction nextAction = new HTMLToolbarAction("btnNextForms", "View connected forms", "/files/images/icons-white/next-forms.png", false);
+		//controls.add(nextAction);
 		addToDataModel("tableControls", controls);
 		
 	}
 	
+	// Sorts operations, reports and links into groups (div in HTML) according to mockup specification
 	public void prepareOperationGroups(AdaptStandardPanel panel) {
+		// Groups for each standard panel are contained in this map where list of groups is associated with panel name
 		LinkedHashMap<String, ArrayList<OperationGroup>> panelOperationGroups = new LinkedHashMap<String, ArrayList<OperationGroup>>();
 		ArrayList<OperationGroup> groups = new ArrayList<OperationGroup>();
 		for (Operation operation : panel.getStandardOperations().getOperations()) {
 			if(operation.getParentGroup() != null) {
+				// Operations and links are put in corresponding groups based on parentGroup attribute
 				OperationGroup group = getOperationGroup(groups, operation.getParentGroup());
+				// If the group with specified name exists, use it, else create new
 				if(group == null) {
 					group = new OperationGroup(operation.getParentGroup(), new ArrayList<AbstractElement>());
 					groups.add(group);
@@ -205,8 +211,8 @@ public class ViewResource extends BaseResource {
 		addToDataModel("panelOperationGroups", panelOperationGroups);
 	}
 	
+	// Search operation group by name
 	private OperationGroup getOperationGroup(ArrayList<OperationGroup> groups, String name) {
-		System.out.println("GRUPA BILA NULL, TRAZIM " + name);
 		for (OperationGroup operationGroup : groups) {
 			if(operationGroup.getName().equals(name)) {
 				return operationGroup;

@@ -95,7 +95,7 @@ public class ProjectExporter {
 	 * @param proj KROKI mockup project that needs to be exported 
 	 * @param message
 	 */
-	public void export(File file, BussinesSubsystem proj, String message) {
+	public void export(File file, String jarName, BussinesSubsystem proj, String message) {
 		this.project = proj;
 
 		//collecting the data from KROKI project
@@ -120,7 +120,7 @@ public class ProjectExporter {
 
 		writeProjectName(proj.getLabel(), "This application is a prototype generated from KROKI specification. Please log in to continue.");
 
-		runAnt(file, proj, message);
+		runAnt(file, proj, jarName, message);
 	}
 
 	/**
@@ -577,7 +577,7 @@ public class ProjectExporter {
 	 * @param proj
 	 * @param message
 	 */
-	public void runAnt(File file, BussinesSubsystem proj, String message) {
+	public void runAnt(File file, BussinesSubsystem proj, String jarName, String message) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		String appFolderName = "SwingApp";
@@ -585,7 +585,6 @@ public class ProjectExporter {
 			appFolderName = "WebApp";
 		}
 
-		String jarName = proj.getLabel().replace(" ", "_");
 		File buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "build.xml");
 		if(!swing) {
 			buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "kroki-build.xml");

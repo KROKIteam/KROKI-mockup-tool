@@ -9,6 +9,7 @@ public class Next extends AbstractElement {
 	protected String panelId;
 	protected PanelType panelType;
 	protected String parentGroup;
+	protected String opposite;
 	
 	public String getPanelId() {
 		return panelId;
@@ -27,5 +28,11 @@ public class Next extends AbstractElement {
 	}
 	public void setParentGroup(String parentGroup) {
 		this.parentGroup = parentGroup;
+	}
+	public String getOpposite() {
+		return opposite;
+	}
+	public void setOpposite(String opposite) {
+		this.opposite = opposite;
 	}
 }

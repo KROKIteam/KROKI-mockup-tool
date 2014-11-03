@@ -37,6 +37,7 @@ public class Tags {
 	public static final String CHILD_PANEL = read("child_panel");
 	public static final String PANEL_REF = read("panel_reference");
 	public static final String MANY_TO_MANY = read("many_to_many");
+	public static final String OPPOSITE = read("opposite");
 	
 	public static final String PANEL = read("panel");
 	

@@ -4,7 +4,8 @@
 <!-- ...........................................|| ${panel.name} Standard form ||.......................................... -->
 <h1 class="formTitle">${panel.label}</h1>
 <!--  TABLE DIV -->
-<div class="tableDiv" <#if panel.standardOperations??><#if panel.standardOperations.hasAllowedOperations()>style="width: 75%; border-right: 1px solid black;"</#if></#if>>
+<#assign hasOperationPanel = panel.standardOperations.hasAllowedOperations() || (panel.nextPanels?? && panel.nextPanels?has_content)>
+<div class="tableDiv" <#if panel.standardOperations??><#if hasOperationPanel>style="width: 75%; border-right: 1px solid black;"</#if></#if>>
     <#if panel.panelSettings.hideToolbar == false>
     <!--  FORM TOOLBAR -->
     <div class="formToolbar">
@@ -58,10 +59,6 @@
                     <#list panel.entityBean.attributes as attribute>
                     <#if attribute.hidden == false>
                     <th>
-                        <!--
-                        <span>${attribute.label}</span>
-                        <div class="innerTHDiv">${attribute.label}</div>
-                        -->
                         ${attribute.label}
                     </th>
                     </#if>
@@ -93,26 +90,8 @@
 </div>
 <!-- /TABLE DIV -->
 <!-- OPERATIONS DIV -->
-<#if panel.standardOperations.operations??>
-<#if panel.standardOperations.operations?has_content>
+<#if hasOperationPanel>
 <div class="operationsDiv">
-<!--
-<#list panel.standardOperations.operations as operation>
-    <button class="buttons-blue operationButton" data-operation="${operation.label}" data-confirmLink="justClose" data-confirmText="Not implemented yet!">
-    <img class="operationIcon" src="/files/images/icons-white/report.png">
-    <span>${operation.label}</span>
-    </button>
-</#list>
-</#if>
-</#if>
-<#if panel.nextPanels??>
-<#if panel.nextPanels?has_content>
-<#list panel.nextPanels as next>
-    <a class="panelLinks" href="#">${next.label}</a>
-</#list>
-</#if>
-</#if>
--->
 <#if panelOperationGroups??>
 <#if panelOperationGroups[panel.name]?has_content>
 <#list panelOperationGroups[panel.name] as group>
@@ -128,8 +107,8 @@
             </#if>
             <span>${element.label}</span>
         </button>
-        <#else>
-        <a href="#" class="panelLinks">${element.label}</a>
+        <#elseif element.class.simpleName == "Next">
+        <a href="#" class="panelLinks activator disabled" data-resourceId="${element.panelId}" data-activate="/showChildren/${element.panelId}/${element.opposite}" data-label="${element.label} from ${panel.label}" data-paneltype="next-panel">${element.label}</a>
         </#if>
         </#list>
     </div>
@@ -137,6 +116,7 @@
 </#if>
 </#if>
 </div>
+</#if>
 <!-- /OPERATIONS DIV -->
 <!--  INPUT FORM -->
 <form class="inputForm" action="/add/${panel.entityBean.entityClass.name}" name="addForm" method="post">

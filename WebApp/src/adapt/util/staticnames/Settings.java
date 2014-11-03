@@ -20,6 +20,7 @@ public class Settings {
 	public static final String DATE_TIME_MINUTES_FORMAT = "MMM d  H:mm:ss";
 	public static final String FULL_DATE_FORMAT = "dd.MM.yyyy";
 	public static final String FULL_DATE_TIME_FORMAT = "dd.MM.yyyy  H:mm:ss:SSS";
+	public static final String CONDENSED_DATE_FORMAT = "ddMMyyyHmmss";
 	
 	public static final String WEB_THEME = PropertiesReader.readStaticProp("main", "web.theme");
 	public static final String ICONS_DIR = PropertiesReader.readStaticProp("main", "icons.dir");

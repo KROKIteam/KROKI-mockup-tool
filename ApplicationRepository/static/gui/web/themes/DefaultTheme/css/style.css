@@ -711,3 +711,9 @@ is shown and to stop click propagation, making the dialog modal
 .panelLinks:hover {
 	color: #16a085;
 }
+
+a.disabled {
+	pointer-events: none;
+  	cursor: default;
+  	color: grey;
+}

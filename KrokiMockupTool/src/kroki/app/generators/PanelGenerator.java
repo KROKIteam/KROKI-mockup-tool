@@ -167,6 +167,14 @@ public class PanelGenerator {
 								Attr linkPanelAttr = doc.createAttribute("panel-ref");
 								linkPanelAttr.setNodeValue(panelName);
 								linkTag.setAttributeNode(linkPanelAttr);
+								
+								if(next.opposite() != null) {
+									//atribut opposite
+									Attr linkOppositeAttr = doc.createAttribute("opposite");
+									System.out.println("LINK: " + panelName + " --> " + vClass.getLabel() + " [" + next.opposite().qualifiedName() + "]");
+									linkOppositeAttr.setValue(next.opposite().name());
+									linkTag.setAttributeNode(linkOppositeAttr);
+								}
 							}
 							
 							//atribut "elementgroup"

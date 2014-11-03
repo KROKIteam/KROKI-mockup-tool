@@ -449,7 +449,7 @@ public class PanelReader {
 				next.setPanelId(nextElement.getAttribute(Tags.PANEL_REF));
 				next.setPanelType(PanelTypeResolver.getType(Tags.STANDARD_PANEL));
 				next.setParentGroup(nextElement.getAttribute(Tags.OPERATION_GROUP));
-				System.out.println("NEXT: " + next.getLabel() + " in " + next.getParentGroup());
+				next.setOpposite(nextElement.getAttribute(Tags.OPPOSITE));
 				nexts.add(next);
 			} catch (Exception e) {
 				AppCache.displayTextOnMainFrame("Error reading next data from file", 1);

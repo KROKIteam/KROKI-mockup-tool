@@ -139,10 +139,11 @@
     $(document).on("click", ".activator", function(e) {
         e.stopPropagation();
         var activator = $(this);
-        var activate = $(this).attr("data-activate");
+        var activate = "/show/" + $(this).attr("data-activate");
         var label = $(this).attr("data-label");
         var panelType = $(this).attr("data-paneltype");
         var showback = false;
+        resourceId = $(this).attr("data-activate");
 
         //ACTIVATOR SPECIFIC OPERATIONS:
         //if activator is menu item, return menu to inital state
@@ -156,7 +157,7 @@
             activator.closest("li.mainMenuItems").removeClass("hover");
         }
         //if activator is next link, change activate link to get the child panel instead of standard panel
-        if(activator.hasClass("")) {
+        if(activator.hasClass("panelLinks")) {
             var form = activator.closest("div.standardForms");
             var tableDiv = form.find("div.tableDiv");
             var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
@@ -165,13 +166,9 @@
 
             if(selectedRow.length > 0) {
                 var id = selectedRow.find("#idCell").text();
-                var cresName = activator.attr("data-childid");
-                var presName = form.attr("data-resourceId");
-
-                activate = "/showChildren/" + cresName + "/" + presName  + "/" + id;
-                label = cresName + " from " + presName;
+                activate = $(this).attr("data-activate") + "/" + id;
                 panelType = "next-panel";
-
+                resourceId = $(this).attr("data-resourceId");
                 activator.closest(".nextPopup").hide();
             }
         }
@@ -188,7 +185,7 @@
         }
 
         //finally, pass data to method that creates forms
-        makeNewWindow(activate, label, panelType, showback, returnTo, zoomName);
+        makeNewWindow(activate, label, panelType, showback, returnTo, zoomName, resourceId);
     });
 
 	//CLOSE FORM ON 'X' BUTTON CLICK
@@ -241,7 +238,7 @@
 	});
 
 	//FUNCTION THAT CREATES HTML WINDOWS
-	function makeNewWindow(activate, label, panelType, showback, returnTo, zoomName) {
+	function makeNewWindow(activate, label, panelType, showback, returnTo, zoomName, resourceId) {
 		//make div.window
 		var newWindow = $(document.createElement("div"));
         //add unique ID for each window
@@ -269,8 +266,8 @@
 		newWindowHeader.append(newWindowName);
 		newWindowHeader.append(newHeaderButtonDiv);
 
-		var activateLink = "/show/" + activate;
-		var activateSplit = activateLink.split("/");
+		//var activateLink = "/show/" + activate;
+		var activateSplit = activate.split("/");
 
 		//make div.windowBody
 		newWindowBody = $(document.createElement("div"));
@@ -289,7 +286,7 @@
 		//and get data for each form by envoking standard panel ajax call to server
 		if(panelType == "PARENTCHILDPANEL") {
 			//get JSON data from server
-			$.getJSON("/getInfo/" + activate, function(data) {
+			$.getJSON("/getInfo/" + resourceId, function(data) {
 				//Create <div> element for each contained panel
 				for(var i=0; i<data.panels.length; i++) {
 					var activate = data.panels[i].activate;
@@ -298,12 +295,12 @@
                     newStandardForm.attr("id", generateUUID());
                     newStandardForm.addClass("standardForms");
                     newStandardForm.attr("data-activate", "/show/" + activate);
-                    newStandardForm.attr("data-resourceId", activate);
                     newStandardForm.attr("data-assocend", associationEnd);
                     newStandardForm.css({"height": (90/data.panels.length) + "%"});
+                    newStandardForm.attr("data-resourceId", activate);
 
                     newWindowBody.append(newStandardForm);
-                    loadDataToForm(newStandardForm, true, showback);
+                    loadDataToForm(newStandardForm, true, false);
                     updateBounds(newWindowBody);
                 }              
             });
@@ -311,8 +308,8 @@
 			var newStandardForm = $(document.createElement("div"));
 			newStandardForm.addClass("standardForms");
 			newStandardForm.attr("id", generateUUID());
-			newStandardForm.attr("data-activate", activateLink);
-			newStandardForm.attr("data-resourceId", activate);
+			newStandardForm.attr("data-activate", activate);
+			newStandardForm.attr("data-resourceId", resourceId);
 
 			newWindowBody.append(newStandardForm);
 			loadDataToForm(newStandardForm, false, showback);
@@ -367,6 +364,7 @@
 		form.find("#btnDelete").removeAttr("disabled");
 		form.find("#btnNextForms").removeAttr("disabled");
         form.find("#btnZoomBack").removeAttr("disabled");
+        form.find("a.panelLinks").removeClass("disabled");
 
 		//if the table is on parent-child panel, filter data on table below and select first row
 		if(window.find(".standardForms").length > 1) {
@@ -384,6 +382,7 @@
                     contentType: "text/html; charset=UTF-8",
                     success: function(data) {
                         childForm.html(data);
+                        childForm.find("button#btnZoomBack").remove();
                         var firstRow = childForm.find(".mainTable tbody tr:first-child");
                         if(firstRow.length > 0) {
                             firstRow.trigger("click");

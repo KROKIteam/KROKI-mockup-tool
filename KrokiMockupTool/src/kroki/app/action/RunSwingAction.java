@@ -56,13 +56,13 @@ public class RunSwingAction extends AbstractAction {
 						String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
 						File tempDir = new File(appPath);
 
-						deleteFiles(tempDir);
+						//deleteFiles(tempDir);
 
 						//generate connection settings for embedded h2 database
 						DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
 						ProjectExporter exporter = new ProjectExporter(true);
-						exporter.export(tempDir, proj, "Project exported OK! Running project...");
+						exporter.export(tempDir, proj.getLabel().replace(" ", "_"), proj, "Project exported OK! Running project...");
 
 						
 						//run exported jar file
