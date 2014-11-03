@@ -128,18 +128,20 @@ public class SelectState extends State {
         }
         
 		if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_X) {
-			cutAction(tabbedPaneController, c, commandManager, selectionModel);
+			//cutAction(tabbedPaneController, c, commandManager, selectionModel);
 		}
 		
 		if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
-			pasteAction(tabbedPaneController, c, commandManager, selectionModel);
+			//pasteAction(tabbedPaneController, c, commandManager, selectionModel);
 		}
 		
 		if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_C) {
-			copy(tabbedPaneController, c, commandManager, selectionModel);
+			//copy(tabbedPaneController, c, commandManager, selectionModel);
 		}
     }
 
+    //TO BE DELETED
+    @Deprecated
 	private void copy(TabbedPaneController tabbedPaneController, Canvas c,
 			CommandManager commandManager, SelectionModel selectionModel) {
         //pravim listu elemenata za izbaciti iz selekcije
@@ -154,6 +156,8 @@ public class SelectState extends State {
         c.repaint();		
 	}
 
+    //TO BE DELETED
+    @Deprecated
 	/**
 	 * Potrebno je izvrsiti proveru da li se moze element koji se pastuje dodati na zeljeno mesto,
 	 * ukoliko nije moguce zaustavlja se operacija pre brisanja clipboarda, inace bi se ispraznio
@@ -199,6 +203,8 @@ public class SelectState extends State {
         c.repaint();
 	}
 
+    //TO BE DELETED
+    @Deprecated
 	private void cutAction(TabbedPaneController tabbedPaneController, Canvas c,
 			CommandManager commandManager, SelectionModel selectionModel) {
 		

@@ -115,11 +115,12 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		oDao.save(removeOperation);
 		oDao.save(modifyOperation);
 		
+		/*
 		dao.administration.UserRolesHibernateDao urDao = new dao.administration.UserRolesHibernateDao();
 		ejb.administration.UserRoles adminUserRole = new ejb.administration.UserRoles();
 		adminUserRole.setRole(adminRole);
 		adminUserRole.setUser(admin);
-		urDao.save(adminUserRole);		
+		urDao.save(adminUserRole);	*/	
 	}
 
 	private boolean compareResources(List<String> sResources) {

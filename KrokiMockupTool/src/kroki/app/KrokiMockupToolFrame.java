@@ -4,9 +4,6 @@
  */
 package kroki.app;
 
-import graphedit.model.ClipboardManager;
-import graphedit.view.GraphEditView;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -28,9 +25,9 @@ import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
-import org.eclipse.uml2.uml.UMLPackage;
-
 import kroki.app.action.AboutAction;
+import kroki.app.action.CopyAction;
+import kroki.app.action.CutAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
 import kroki.app.action.ExportEclipseUMLDiagramAction;
@@ -42,6 +39,7 @@ import kroki.app.action.NewFileAction;
 import kroki.app.action.NewProjectAction;
 import kroki.app.action.OpenFileAction;
 import kroki.app.action.OpenProjectAction;
+import kroki.app.action.PasteAction;
 import kroki.app.action.RedoAction;
 import kroki.app.action.RunSwingAction;
 import kroki.app.action.RunWebAction;
@@ -96,6 +94,9 @@ public class KrokiMockupToolFrame extends JFrame {
 	/***********************************/
 	/*KOMPONENTE SADRZANE U MAIN MENU-u*/
 	/***********************************/
+	private CutAction cutAction;
+	private CopyAction copyAction;
+	private PasteAction pasteAction;
 	/************************************/
 	/*KOMPONENTE SADRZANE U STATUS BAR-u*/
 	/************************************/
@@ -207,7 +208,11 @@ public class KrokiMockupToolFrame extends JFrame {
 	private void initMainMenu() {
 		mainMenuBar = new JMenuBar();
 		mainMenuBar.setName("menuBar");
-
+		
+		cutAction = new CutAction();
+		pasteAction = new PasteAction();
+		copyAction = new CopyAction();
+		
 		JMenu file = new JMenu();
 		file.setName("file");
 		file.setText(StringResource.getStringResource("menu.file.name"));
@@ -254,7 +259,11 @@ public class KrokiMockupToolFrame extends JFrame {
 		edit.add(new UndoAction());
 		edit.add(new RedoAction());
 		edit.addSeparator();
-
+		
+		edit.add(cutAction);
+		edit.add(copyAction);
+		edit.add(pasteAction);
+		
 		JMenu export = new JMenu();
 		export.setName("export");
 		export.setText("Export...");
@@ -473,6 +482,22 @@ public class KrokiMockupToolFrame extends JFrame {
 
 	public void setConsole(CommandPanel console) {
 		this.console = console;
+	}
+
+	public CutAction getCutAction() {
+		return cutAction;
+	}
+
+	public void setCutAction(CutAction cutAction) {
+		this.cutAction = cutAction;
+	}
+
+	public PasteAction getPasteAction() {
+		return pasteAction;
+	}
+
+	public void setPasteAction(PasteAction pasteAction) {
+		this.pasteAction = pasteAction;
 	}
 	
 }

@@ -52,20 +52,6 @@ public class PasteCommand implements Command {
 				element.update();
 			}
 	        
-	        /*
-	        if (element instanceof VisibleProperty) {
-	            VisibleProperty prop = (VisibleProperty) element;
-	            NamingUtil namer = new NamingUtil();
-	            prop.setColumnLabel(namer.toDatabaseFormat(visibleClass.getLabel(), element.getLabel()));
-	        } else if (element instanceof Next) {
-				Next next = (Next)element;
-				next.setParentGroup(elementsGroup);
-				next.setActivationPanel(visibleClass);
-				next.getActivationPanel().update();
-				elementsGroup.addVisibleElement(element);
-			} 
-	        PREVIOUS ITERATION VISIBLE ELEMENT IF WAS LAST
-	        */
 	        elementsGroup.update();
 	        visibleClass.update();
 	        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
