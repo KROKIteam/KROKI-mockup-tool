@@ -9,6 +9,10 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -24,6 +28,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
+
+import org.apache.commons.io.FileDeleteStrategy;
 
 import kroki.app.action.AboutAction;
 import kroki.app.action.CopyAction;
@@ -135,6 +141,19 @@ public class KrokiMockupToolFrame extends JFrame {
 		mainSplitPane.setName("mainSplitPane");
 		initMainPanel();
 		addContent(mainSplitPane);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				//get temporary location in KROKI directory
+				File f = new File(".");
+				String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
+				File tempDir = new File(appPath);
+
+				deleteFiles(tempDir);
+			}
+		});
 	}
 
 	/**
@@ -391,6 +410,33 @@ public class KrokiMockupToolFrame extends JFrame {
 		}
 		
 		return proj;
+	}
+	
+	// Delete contents of temp directory
+	public static boolean deleteFiles(File directory) {
+		boolean success = false;
+
+		if (!directory.exists()) {
+			return false;
+		}
+		if (!directory.canWrite()) {
+			return false;
+		}
+
+		File[] files = directory.listFiles();
+		for(int i=0; i<files.length; i++) {
+			File file = files[i];
+			if(file.isDirectory()) {
+				deleteFiles(file);
+			}
+			try {
+				FileDeleteStrategy.FORCE.delete(file);
+				success =  !file.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		}
+		return success;
 	}
 	
 	/*****************/

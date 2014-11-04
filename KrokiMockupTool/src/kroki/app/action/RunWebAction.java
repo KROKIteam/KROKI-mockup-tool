@@ -54,14 +54,13 @@ public class RunWebAction extends AbstractAction {
 						SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmmssSSS");
 						Date today = new Date();
 						String dateSuffix = formatter.format(today);
-						String jarName = proj.getLabel().replace(" ", "_") + "_" + formatter.format(today);
+						String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
 						
 						//get temporary location in KROKI directory
 						File f = new File(".");
 						String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
 						File tempDir = new File(appPath);
 
-						//deleteFiles(tempDir);
 
 						//generate connection settings for embedded h2 database
 						DatabaseProps tempProps = new DatabaseProps();
@@ -90,31 +89,4 @@ public class RunWebAction extends AbstractAction {
 		thread.start();
 		
 	}
-
-	public static boolean deleteFiles(File directory) {
-		boolean success = false;
-
-		if (!directory.exists()) {
-			return false;
-		}
-		if (!directory.canWrite()) {
-			return false;
-		}
-
-		File[] files = directory.listFiles();
-		for(int i=0; i<files.length; i++) {
-			File file = files[i];
-			if(file.isDirectory()) {
-				deleteFiles(file);
-			}
-			try {
-				FileDeleteStrategy.FORCE.delete(file);
-				success =  !file.delete();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} 
-		}
-		return success;
-	}
-	
 }
