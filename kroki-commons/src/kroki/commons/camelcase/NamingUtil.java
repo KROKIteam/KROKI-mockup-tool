@@ -6,8 +6,8 @@ package kroki.commons.camelcase;
  */
 public class NamingUtil {
 
-	
-	
+
+
 	/**
 	 * Converts given string to camel case.
 	 * Used to generate names for classes and properties.
@@ -27,19 +27,19 @@ public class NamingUtil {
 			s = s.replace('Š', 's');
 			s = s.replaceAll("đ", "dj");
 			s = s.replaceAll("Đ", "dj");
-		    
+
 			String sb = toCamelCaseIE(s.trim(), cap);
-		    if(cap) {
-		    	return sb.toString().substring(0, 1).toLowerCase() + sb.toString().substring(1);
-		    }else {
-		    	return sb.toString().substring(0, 1).toUpperCase() + sb.toString().substring(1);
-		    }
-			
+			if(cap) {
+				return sb.toString().substring(0, 1).toLowerCase() + sb.toString().substring(1);
+			}else {
+				return sb.toString().substring(0, 1).toUpperCase() + sb.toString().substring(1);
+			}
+
 		}else {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Converts given string to format suitable for naming database columns.
 	 * Column names consist of column label in upper case with words separated by underscore and prefix which is based on table name.
@@ -52,7 +52,7 @@ public class NamingUtil {
 	 */
 	public String toDatabaseFormat(String tableName, String columnName) {
 		String prefix = "";
-		
+
 		String[] prefixElements = tableName.split(" ");
 		if(prefixElements.length == 1) {
 			String tabName = prefixElements[0];
@@ -68,7 +68,7 @@ public class NamingUtil {
 		}
 		return prefix.toUpperCase() + "_" + columnName.replace(" ", "_").toUpperCase();
 	}
-	
+
 	/**
 	 * Converts given string to camel case while preserving Serbian unique letters (Ž,Č,Ć,Đ,Š).
 	 * Used to generate camel case names for elements of UML diagrams during import and export functions.
@@ -86,7 +86,7 @@ public class NamingUtil {
 					builder.append(Character.toLowerCase(c));
 				else
 					builder.append(c);
-				
+
 				boolean prazno=false;
 				for(char p:s.substring(1).toCharArray())
 				{
@@ -108,7 +108,7 @@ public class NamingUtil {
 		return "";
 		/**/
 	}
-	
+
 	/**
 	 * Method that transforms Camel case sentences to sentences in which words are separated with empty spaces.
 	 * For example:<br/>
@@ -138,7 +138,7 @@ public class NamingUtil {
 			}
 		return "";
 	}
-	
+
 	/**
 	 * Checks if given string is java compliant name.
 	 *  Java names can only start with letters
@@ -146,7 +146,7 @@ public class NamingUtil {
 	public boolean checkName(String name) {
 		return Character.isLetter(name.charAt(0));
 	}
-	
+
 	/**
 	 * Returns given string with the first letter transformed to lower case
 	 * @param string
@@ -155,16 +155,16 @@ public class NamingUtil {
 	public String lowerFirstLetter(String string){
 		if (string.equals(""))
 			return "";
-		
+
 		Character c1 = string.charAt(0);
 		c1 = Character.toLowerCase(c1);
 		if (string.length() == 1)
 			return c1 + "";
-		
+
 		return c1 + string.substring(1);
 	}
-	
-	
+
+
 	/**
 	 * Transforms class name into label by adding spaces before capital letters
 	 * @return
@@ -185,18 +185,20 @@ public class NamingUtil {
 		}
 		return result.toString();
 	}	
-	
+
 	public String transformLabelToJavaName(String name){
 		String[] split = name.split(" ");
 		StringBuilder builder = new StringBuilder();
 		for (String s : split){
-			builder.append(Character.toUpperCase(s.charAt(0)));
-			if (s.length()>1)
-				builder.append(s.substring(1));
+			if (s.length() > 0){
+				builder.append(Character.toUpperCase(s.charAt(0)));
+				if (s.length()>1)
+					builder.append(s.substring(1));
+			}
 		}
 		return lowerFirstLetter(builder.toString().trim());
 	}
-	
 
-	
+
+
 }
