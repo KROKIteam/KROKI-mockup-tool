@@ -28,7 +28,7 @@ public class NamingUtil {
 			s = s.replaceAll("đ", "dj");
 			s = s.replaceAll("Đ", "dj");
 		    
-			String sb = toCamelCaseIE(s, cap);
+			String sb = toCamelCaseIE(s.trim(), cap);
 		    if(cap) {
 		    	return sb.toString().substring(0, 1).toLowerCase() + sb.toString().substring(1);
 		    }else {

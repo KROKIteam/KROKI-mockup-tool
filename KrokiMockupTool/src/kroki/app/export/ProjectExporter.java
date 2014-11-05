@@ -216,17 +216,18 @@ public class ProjectExporter {
 		if(menu != null) {
 			sys = cc.toCamelCase(menu.getLabel(), true);
 		}
-		
+
 		if(subMenuNew != null) {
-            sys = cc.toCamelCase(subMenuNew.getName(), true);
-        }
-		
+			sys = cc.toCamelCase(subMenuNew.getName(), true);
+		}
+
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
 		if(!swing) {
 			pack = "ejb_generated";
 		}
 		EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes);
+		System.out.println("DODAJEM KLASU: " + ejb.getName());
 		classes.add(ejb);
 
 		//       SUBMENU GENERATION DATA
@@ -239,18 +240,18 @@ public class ProjectExporter {
 		}*/
 		Submenu sub = new Submenu(activate, label, panel_type);
 		//if it is in a subsystem, it is added as sub-menu item
-		
+
 		/******************************NEW PART******************************/
 		kroki.app.generators.utils.Submenu subOld = new kroki.app.generators.utils.Submenu(activate, label, panel_type);    
-        MenuItem menuItem = new MenuItem();
-        menuItem.setActivate(activate);
-        menuItem.setFormName(label);
-        menuItem.setMenuName(label);
-        menuItem.setPanelType(panel_type);
+		MenuItem menuItem = new MenuItem();
+		menuItem.setActivate(activate);
+		menuItem.setFormName(label);
+		menuItem.setMenuName(label);
+		menuItem.setPanelType(panel_type);
 		/********************************************************************/
 		if(menu != null) {
 			menu.addSubmenu(sub);
-			
+
 			//New
 			subMenuNew.getChildren().add(menuItem);
 			menuItem.setParent(subMenuNew);
@@ -259,7 +260,7 @@ public class ProjectExporter {
 			Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 			men.addSubmenu(sub);
 			menus.add(men);
-			
+
 			kroki.app.menu.Submenu subMenuTemp = new kroki.app.menu.Submenu(label);
 			subMenuTemp.getChildren().add(menuItem);
 			menuItem.setParent(subMenuTemp);
@@ -281,7 +282,7 @@ public class ProjectExporter {
 		String panel_type = "parent-child";
 		/*if(!swing) {
 			activate = "/resources/" + cc.toCamelCase(pcPanel.name(), false);
-			
+
 			//add list to contained panels enclosed in square brackets
 			panel_type += "[";
 			for(Hierarchy hierarchy: pcPanel.containedHierarchies()) {
@@ -291,16 +292,16 @@ public class ProjectExporter {
 		}*/
 		Submenu sub = new Submenu(activate, label, panel_type);
 		/******************************NEW PART******************************/   
-        MenuItem menuItem = new MenuItem();
-        menuItem.setActivate(activate);
-        menuItem.setFormName(label);
-        menuItem.setMenuName(label);
-        menuItem.setPanelType(panel_type);
+		MenuItem menuItem = new MenuItem();
+		menuItem.setActivate(activate);
+		menuItem.setFormName(label);
+		menuItem.setMenuName(label);
+		menuItem.setPanelType(panel_type);
 		/********************************************************************/
-		
+
 		if(menu != null) {
 			menu.addSubmenu(sub);
-			
+
 			//New
 			subMenuNew.getChildren().add(menuItem);
 			menuItem.setParent(subMenuNew);
@@ -308,7 +309,7 @@ public class ProjectExporter {
 			Menu men = new Menu("menu" + activate, label, new ArrayList<Submenu>(), new ArrayList<Menu>());
 			men.addSubmenu(sub);
 			menus.add(men);
-			
+
 			kroki.app.menu.Submenu subMenuTemp = new kroki.app.menu.Submenu(label);
 			subMenuTemp.getChildren().add(menuItem);
 			menuItem.setParent(subMenuTemp);
@@ -371,28 +372,31 @@ public class ProjectExporter {
 	 * @return
 	 */
 	public EJBAttribute getZoomData(Zoom z, String className) {
+		//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("GET ZOOM DATA: " + z.getLabel() + " in " + className, 0);
 		if(z.getTargetPanel() != null) {
-			
-			//String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);//OVO JE BILO ORIGINALNO
-			//String type = z.getTargetPanel().getComponent().getName();
-			String type = ((StandardPanel)z.getTargetPanel()).getPersistentClass().name();//OVO JE IZMENA
-				
-			ArrayList<String> anotations = new ArrayList<String>();
-			//String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);//OVO JE BILO ORIGINALNO
-			String name = cc.toCamelCase(z.getLabel(), true);
-			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			String propName = cc.toCamelCase(className, true) + "_" + name;
-			String databaseName = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
-			String label = z.getLabel();
-			Boolean mandatory = z.lower() != 0;
-			
+			VisibleClass vc = z.getTargetPanel();
+			if(vc instanceof StandardPanel) {
+				StandardPanel spanel = (StandardPanel)vc;
+				String type = spanel.getPersistentClass().name();
 
-			anotations.add("@ManyToOne");
-			anotations.add("@JoinColumn(name=\"" + propName + "\", referencedColumnName=\"ID\",  nullable = " + !mandatory + ")");
+				ArrayList<String> anotations = new ArrayList<String>();
+				//String name = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), true);//OVO JE BILO ORIGINALNO
+				String name = cc.toCamelCase(z.getLabel(), true);
+				//////////////////////////////////////////////////////////////////////////////////////////////////////
+				String propName = cc.toCamelCase(className, true) + "_" + name;
+				String databaseName = z.getLabel().substring(0, 1).toLowerCase() + z.getLabel().substring(1);
+				String label = z.getLabel();
+				Boolean mandatory = z.lower() != 0;
 
-			EJBAttribute attribute = new EJBAttribute(anotations, type, propName, label, databaseName, mandatory, false, false, null);
-			return attribute;
 
+				anotations.add("@ManyToOne");
+				anotations.add("@JoinColumn(name=\"" + propName + "\", referencedColumnName=\"ID\",  nullable = " + !mandatory + ")");
+
+				EJBAttribute attribute = new EJBAttribute(anotations, type, propName, label, databaseName, mandatory, false, false, null);
+				return attribute;
+			}else {
+				return null;
+			}
 		}else {
 			return null;
 		}
@@ -432,12 +436,12 @@ public class ProjectExporter {
 		}
 		if(mmenu != null) {
 			mmenu.addMenu(menu);
-			
+
 			subMenuNew.getChildren().add(subMenuTemp);
 			subMenuTemp.setParent(subMenuNew);
 		}else {
 			menus.add(menu);
-			
+
 			rootMenu.getChildren().add(subMenuTemp);
 			subMenuTemp.setParent(rootMenu);
 		}
@@ -468,6 +472,8 @@ public class ProjectExporter {
 						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, true, false, false, null);
 						oppositeCLass.getAttributes().add(attr);
 
+						System.out.println("DODAJEM: " + attr.getName() + " u " + oppositeCLass.getName());
+						
 						for(int k=0; k<oppositeCLass.getAttributes().size(); k++) {
 							EJBAttribute att = oppositeCLass.getAttributes().get(k);
 							if(att.getRepresentative()) {
@@ -493,7 +499,6 @@ public class ProjectExporter {
 		EJBClass clas = null;
 		for(int i=0; i<classes.size(); i++) {
 			EJBClass cl = classes.get(i);
-			System.out.println(cl.getName());
 			if(cl.getName().equalsIgnoreCase(name)) {
 				clas = cl;
 			}
@@ -533,7 +538,7 @@ public class ProjectExporter {
 
 		if(!swing) {
 			propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "ApplicationRepository" + File.separator + "generated" + 
-																			File.separator + "props" + File.separator + "main.properties");
+					File.separator + "props" + File.separator + "main.properties");
 			toAppendName = "app.title";
 		}
 
