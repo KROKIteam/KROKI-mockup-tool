@@ -453,7 +453,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		
 		//panel.getComponent().setName(newName);
 		PersistentClass persistent=panel.getPersistentClass();
-		persistent.setLabelToCode(labelToCode);
+		persistent.setLabelToCode(!extraLabelFile);
 		/*
 		if(labelToCode)
 		{
@@ -837,10 +837,11 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			property.setDataType(dataType);
 		}
 		
-		property.setLabelToCode(labelToCode);
+		property.setLabelToCode(!extraLabelFile);
+		/*
 		if(labelToCode)
 			property.setColumnLabel(namingUtil.toDatabaseFormat(panel.getLabel(), label));
-		else
+		else*/
 			property.setColumnLabel(label);
 		
 		if(!visiblePropertyOnly)
