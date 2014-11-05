@@ -5,12 +5,14 @@
 package kroki.app.command;
 
 import java.awt.Point;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
+import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
 
@@ -44,6 +46,8 @@ public class AddCommand implements Command {
         	VisibleProperty prop = (VisibleProperty) element;
         	NamingUtil namer = new NamingUtil();
         	prop.setColumnLabel(namer.toDatabaseFormat(visibleClass.getLabel(), element.getLabel()));
+        	if (visibleClass instanceof StandardPanel)
+        		prop.setLabelToCode(((StandardPanel)visibleClass).getPersistentClass().isLabelToCode());
         }
         elementsGroup.update();
         visibleClass.update();

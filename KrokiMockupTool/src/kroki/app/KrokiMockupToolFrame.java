@@ -23,7 +23,11 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 
 import kroki.app.action.AboutAction;
 import kroki.app.action.CopyAction;
@@ -49,6 +53,7 @@ import kroki.app.action.SaveAsAction;
 import kroki.app.action.UndoAction;
 import kroki.app.gui.GuiManager;
 import kroki.app.gui.console.CommandPanel;
+import kroki.app.gui.settings.SettingsFactory;
 import kroki.app.model.Workspace;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
@@ -101,6 +106,8 @@ public class KrokiMockupToolFrame extends JFrame {
 	/*KOMPONENTE SADRZANE U STATUS BAR-u*/
 	/************************************/
 	private JLabel statusMessage;
+
+	private SettingsFactory settingFactory = new SettingsFactory();
 
 	/**Konstruise {@code KrokiMockupToolFrame} bez parametara*/
 	public KrokiMockupToolFrame(GuiManager guiManager) {
@@ -172,6 +179,29 @@ public class KrokiMockupToolFrame extends JFrame {
 
 			}
 		});
+
+
+
+		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+
+		tree.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+
+						Object node = tree.getLastSelectedPathComponent();
+						if (node == null) 
+							return;
+						if (node instanceof VisibleElement)
+							settingFactory.treeUpdatePerformed((VisibleElement) node);
+
+					}
+				});
+			}
+			});
+		
 		treeTabbedPane.addTab(StringResource.getStringResource("app.tab.hierarchy.label"), new ImageIcon(ImageResource.getImageResource("app.tab.hierarchy.icon")), new JScrollPane(tree));
 		//tabbed pane sa canvasom i panelom za podesavanja
 
@@ -200,304 +230,304 @@ public class KrokiMockupToolFrame extends JFrame {
 
 		mainSplitPane.setLeftComponent(leftSplitPane);
 		mainSplitPane.setRightComponent(canvasSplitPane);
-	}
-
-	/**
-	 * Inicijalizuje glavni meni
-	 */
-	private void initMainMenu() {
-		mainMenuBar = new JMenuBar();
-		mainMenuBar.setName("menuBar");
-		
-		cutAction = new CutAction();
-		pasteAction = new PasteAction();
-		copyAction = new CopyAction();
-		
-		JMenu file = new JMenu();
-		file.setName("file");
-		file.setText(StringResource.getStringResource("menu.file.name"));
-
-		file.add(new NewProjectAction());
-		file.add(new NewFileAction());
-		file.addSeparator();
-		file.add(new OpenProjectAction());
-		file.add(new OpenFileAction());
-		file.addSeparator();
-		file.add(new SaveAction());
-		file.add(new SaveAsAction());
-		file.add(new SaveAllAction());
-		file.addSeparator();
-		//Dodavanje dela za import i export
-		JMenu importFileMenu=new JMenu();
-		importFileMenu.setName("import");
-		importFileMenu.setText(StringResource.getStringResource("menu.file.submenu.import"));
-		file.add(importFileMenu);
-
-		importFileMenu.add(new ImportEclipseUMLDiagramAction());
-
-		JMenu exportFileMenu=new JMenu();
-		exportFileMenu.setName("export");
-		exportFileMenu.setText(StringResource.getStringResource("menu.file.submenu.export"));
-		file.add(exportFileMenu);
-
-		exportFileMenu.add(new ExportEclipseUMLDiagramAction(true,true));
-		exportFileMenu.add(new ExportEclipseUMLDiagramAction(true,false));
-
-		exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,true));
-		exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,false));
-
-
-		file.addSeparator();
-		//Kraj dela za dodavanje import i export
-
-		file.add(new ExitAction());
-
-		JMenu edit = new JMenu();
-		edit.setName("edit");
-		edit.setText(StringResource.getStringResource("menu.edit.name"));
-
-		edit.add(new UndoAction());
-		edit.add(new RedoAction());
-		edit.addSeparator();
-		
-		edit.add(cutAction);
-		edit.add(copyAction);
-		edit.add(pasteAction);
-		
-		JMenu export = new JMenu();
-		export.setName("export");
-		export.setText("Export...");
-		export.add(new ExportSwingAction());
-		export.add(new ExportWebAction());
-
-		JMenu run = new JMenu();
-		run.setName("run");
-		run.setText("Run...");
-		run.add(new RunSwingAction());
-		run.add(new RunWebAction());
-
-		JMenu project = new JMenu();
-		project.setName("project");
-		project.setText(StringResource.getStringResource("menu.project.name"));
-		project.add(export);
-		project.addSeparator();
-		project.add(run);
-		project.addSeparator();
-		project.add(new DBConneectionSettingsAction());
-
-		JMenu help = new JMenu();
-		help.setName("help");
-		help.setText(StringResource.getStringResource("menu.help.name"));
-
-		help.add(new HelpAction());
-		help.add(new AboutAction());
-
-		mainMenuBar.add(file);
-		mainMenuBar.add(edit);
-		mainMenuBar.add(project);
-		mainMenuBar.add(help);
-		topPanel.add(mainMenuBar, BorderLayout.NORTH);
-	}
-
-	/**
-	 * Inicijalizuje toolbar
-	 */
-	private void initToolbars() {
-		mainToolbar = new JToolBar(JToolBar.HORIZONTAL);
-		mainToolbar.setRollover(false);
-		mainToolbar.setFloatable(false);
-
-
-		JToolBar runToolbar = new JToolBar(JToolBar.HORIZONTAL);
-		runToolbar.add(new RunSwingAction());
-		runToolbar.add(new RunWebAction());
-
-		mainToolbar.add(guiManager.getMainToolbar());
-		mainToolbar.add(runToolbar);
-		mainToolbar.add(guiManager.getStyleToolbar());
-		topPanel.add(mainToolbar, BorderLayout.CENTER);
-
-		this.add(guiManager.getPallete(), BorderLayout.EAST);
-	}
-
-	/**
-	 * Inicijalizuje status bar.
-	 */
-	private void initStatusBar() {
-		statusMessage = new JLabel();
-		statusMessage.setName("Status message");
-		//TODO: staviti iz resource bunde-a
-		statusMessage.setText("Status message");
-		statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
-		statusBar.add(statusMessage);
-	}
-
-	/**
-	 * Dodaje komponentu na mesto glavnog panela.
-	 * @param c glavni panel
-	 */
-	private void addContent(JComponent c) {
-		this.add(c, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Dodaje komponentu na mesto glavnog menia
-	 * @param c glavni meni
-	 */
-	private void addMenuBar(JComponent c) {
-		this.add(c, BorderLayout.NORTH);
-	}
-
-	/**
-	 * Dodaje komponentu na mesto status bara.
-	 * @param c status bar.
-	 */
-	private void addStatusBar(JComponent c) {
-		this.add(c, BorderLayout.SOUTH);
-	}
-
-	/**
-	 * Returns currently selected project from workspace with regard to these rules:
-	 * 	- If a project is selected, returns it
-	 * 	- If package or panel is selected, finds containing project and returns it
-	 *  - If nothing is selected and only one project exists in workspace, return that project
-	 * @return
-	 */
-	public BussinesSubsystem getCurrentProject() {
-		BussinesSubsystem proj = null;
-		
-		TreePath path = getTree().getSelectionPath();
-		if(path != null) {
-			Object node = path.getLastPathComponent();
-			//if package is selected, find parent project
-			if(node instanceof BussinesSubsystem) {
-				BussinesSubsystem subsys = (BussinesSubsystem) node;
-				proj = KrokiMockupToolApp.getInstance().findProject(subsys);
-			}else if(node instanceof VisibleClass) {
-				//if panel is selected, get parent node from tree and find project
-				Object parent = getTree().getSelectionPath().getParentPath().getLastPathComponent();
-				if(parent instanceof BussinesSubsystem) {
-					proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
-				}
-			}
-		}else {
-			Workspace workspace = KrokiMockupToolApp.getInstance().getWorkspace();
-			if(workspace.getPackageCount() == 1) {
-				UmlPackage pack = workspace.getPackageAt(0);
-				if(pack instanceof BussinesSubsystem) {
-					proj = (BussinesSubsystem) pack;
-				}
-			}
 		}
-		
-		return proj;
-	}
-	
-	/*****************/
-	/*GETERI I SETERI*/
-	/*****************/
-	public JTabbedPane getCanvasTabbedPane() {
-		return canvasTabbedPane;
-	}
 
-	public void setCanvasTabbedPane(JTabbedPane canvasTabbedPane) {
-		this.canvasTabbedPane = canvasTabbedPane;
-	}
+		/**
+		 * Inicijalizuje glavni meni
+		 */
+		private void initMainMenu() {
+			mainMenuBar = new JMenuBar();
+			mainMenuBar.setName("menuBar");
 
-	public JTabbedPane getTreeTabbedPane() {
-		return treeTabbedPane;
-	}
+			cutAction = new CutAction();
+			pasteAction = new PasteAction();
+			copyAction = new CopyAction();
 
-	public void setTreeTabbedPane(JTabbedPane hierarchyTabbedPane) {
-		this.treeTabbedPane = hierarchyTabbedPane;
-	}
+			JMenu file = new JMenu();
+			file.setName("file");
+			file.setText(StringResource.getStringResource("menu.file.name"));
 
-	public JSplitPane getMainSplitPane() {
-		return mainSplitPane;
-	}
+			file.add(new NewProjectAction());
+			file.add(new NewFileAction());
+			file.addSeparator();
+			file.add(new OpenProjectAction());
+			file.add(new OpenFileAction());
+			file.addSeparator();
+			file.add(new SaveAction());
+			file.add(new SaveAsAction());
+			file.add(new SaveAllAction());
+			file.addSeparator();
+			//Dodavanje dela za import i export
+			JMenu importFileMenu=new JMenu();
+			importFileMenu.setName("import");
+			importFileMenu.setText(StringResource.getStringResource("menu.file.submenu.import"));
+			file.add(importFileMenu);
 
-	public void setMainSplitPane(JSplitPane mainSplitPane) {
-		this.mainSplitPane = mainSplitPane;
-	}
+			importFileMenu.add(new ImportEclipseUMLDiagramAction());
 
-	public JToolBar getMainToolbar() {
-		return mainToolbar;
-	}
+			JMenu exportFileMenu=new JMenu();
+			exportFileMenu.setName("export");
+			exportFileMenu.setText(StringResource.getStringResource("menu.file.submenu.export"));
+			file.add(exportFileMenu);
 
-	public void setMainToolbar(JToolBar mainToolbar) {
-		this.mainToolbar = mainToolbar;
-	}
+			exportFileMenu.add(new ExportEclipseUMLDiagramAction(true,true));
+			exportFileMenu.add(new ExportEclipseUMLDiagramAction(true,false));
 
-	public JMenuBar getMainMenuBar() {
-		return mainMenuBar;
-	}
+			exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,true));
+			exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,false));
 
-	public void setMainMenuBar(JMenuBar mainMenuBar) {
-		this.mainMenuBar = mainMenuBar;
-	}
 
-	public JTree getTree() {
-		return tree;
-	}
+			file.addSeparator();
+			//Kraj dela za dodavanje import i export
 
-	public void setTree(JTree projectHierarchy) {
-		this.tree = projectHierarchy;
-	}
+			file.add(new ExitAction());
 
-	public JPanel getStatusBar() {
-		return statusBar;
-	}
+			JMenu edit = new JMenu();
+			edit.setName("edit");
+			edit.setText(StringResource.getStringResource("menu.edit.name"));
 
-	public void setStatusBar(JPanel statusBar) {
-		this.statusBar = statusBar;
-	}
+			edit.add(new UndoAction());
+			edit.add(new RedoAction());
+			edit.addSeparator();
 
-	public JLabel getStatusMessage() {
-		return statusMessage;
-	}
+			edit.add(cutAction);
+			edit.add(copyAction);
+			edit.add(pasteAction);
 
-	public void setStatusMessage(JLabel statusMessage) {
-		this.statusMessage = statusMessage;
-	}
+			JMenu export = new JMenu();
+			export.setName("export");
+			export.setText("Export...");
+			export.add(new ExportSwingAction());
+			export.add(new ExportWebAction());
 
-	public JPanel getTopPanel() {
-		return topPanel;
-	}
+			JMenu run = new JMenu();
+			run.setName("run");
+			run.setText("Run...");
+			run.add(new RunSwingAction());
+			run.add(new RunWebAction());
 
-	public void setTopPanel(JPanel topPanel) {
-		this.topPanel = topPanel;
-	}
+			JMenu project = new JMenu();
+			project.setName("project");
+			project.setText(StringResource.getStringResource("menu.project.name"));
+			project.add(export);
+			project.addSeparator();
+			project.add(run);
+			project.addSeparator();
+			project.add(new DBConneectionSettingsAction());
 
-	public JSplitPane getLeftSplitPane() {
-		return leftSplitPane;
-	}
+			JMenu help = new JMenu();
+			help.setName("help");
+			help.setText(StringResource.getStringResource("menu.help.name"));
 
-	public void setLeftSplitPane(JSplitPane leftSplitPane) {
-		this.leftSplitPane = leftSplitPane;
-	}
+			help.add(new HelpAction());
+			help.add(new AboutAction());
 
-	public CommandPanel getConsole() {
-		return console;
-	}
+			mainMenuBar.add(file);
+			mainMenuBar.add(edit);
+			mainMenuBar.add(project);
+			mainMenuBar.add(help);
+			topPanel.add(mainMenuBar, BorderLayout.NORTH);
+		}
 
-	public void setConsole(CommandPanel console) {
-		this.console = console;
-	}
+		/**
+		 * Inicijalizuje toolbar
+		 */
+		private void initToolbars() {
+			mainToolbar = new JToolBar(JToolBar.HORIZONTAL);
+			mainToolbar.setRollover(false);
+			mainToolbar.setFloatable(false);
 
-	public CutAction getCutAction() {
-		return cutAction;
-	}
 
-	public void setCutAction(CutAction cutAction) {
-		this.cutAction = cutAction;
-	}
+			JToolBar runToolbar = new JToolBar(JToolBar.HORIZONTAL);
+			runToolbar.add(new RunSwingAction());
+			runToolbar.add(new RunWebAction());
 
-	public PasteAction getPasteAction() {
-		return pasteAction;
-	}
+			mainToolbar.add(guiManager.getMainToolbar());
+			mainToolbar.add(runToolbar);
+			mainToolbar.add(guiManager.getStyleToolbar());
+			topPanel.add(mainToolbar, BorderLayout.CENTER);
 
-	public void setPasteAction(PasteAction pasteAction) {
-		this.pasteAction = pasteAction;
+			this.add(guiManager.getPallete(), BorderLayout.EAST);
+		}
+
+		/**
+		 * Inicijalizuje status bar.
+		 */
+		private void initStatusBar() {
+			statusMessage = new JLabel();
+			statusMessage.setName("Status message");
+			//TODO: staviti iz resource bunde-a
+			statusMessage.setText("Status message");
+			statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
+			statusBar.add(statusMessage);
+		}
+
+		/**
+		 * Dodaje komponentu na mesto glavnog panela.
+		 * @param c glavni panel
+		 */
+		private void addContent(JComponent c) {
+			this.add(c, BorderLayout.CENTER);
+		}
+
+		/**
+		 * Dodaje komponentu na mesto glavnog menia
+		 * @param c glavni meni
+		 */
+		private void addMenuBar(JComponent c) {
+			this.add(c, BorderLayout.NORTH);
+		}
+
+		/**
+		 * Dodaje komponentu na mesto status bara.
+		 * @param c status bar.
+		 */
+		private void addStatusBar(JComponent c) {
+			this.add(c, BorderLayout.SOUTH);
+		}
+
+		/**
+		 * Returns currently selected project from workspace with regard to these rules:
+		 * 	- If a project is selected, returns it
+		 * 	- If package or panel is selected, finds containing project and returns it
+		 *  - If nothing is selected and only one project exists in workspace, return that project
+		 * @return
+		 */
+		public BussinesSubsystem getCurrentProject() {
+			BussinesSubsystem proj = null;
+
+			TreePath path = getTree().getSelectionPath();
+			if(path != null) {
+				Object node = path.getLastPathComponent();
+				//if package is selected, find parent project
+				if(node instanceof BussinesSubsystem) {
+					BussinesSubsystem subsys = (BussinesSubsystem) node;
+					proj = KrokiMockupToolApp.getInstance().findProject(subsys);
+				}else if(node instanceof VisibleClass) {
+					//if panel is selected, get parent node from tree and find project
+					Object parent = getTree().getSelectionPath().getParentPath().getLastPathComponent();
+					if(parent instanceof BussinesSubsystem) {
+						proj = KrokiMockupToolApp.getInstance().findProject((BussinesSubsystem)parent);
+					}
+				}
+			}else {
+				Workspace workspace = KrokiMockupToolApp.getInstance().getWorkspace();
+				if(workspace.getPackageCount() == 1) {
+					UmlPackage pack = workspace.getPackageAt(0);
+					if(pack instanceof BussinesSubsystem) {
+						proj = (BussinesSubsystem) pack;
+					}
+				}
+			}
+
+			return proj;
+		}
+
+		/*****************/
+		/*GETERI I SETERI*/
+		/*****************/
+		public JTabbedPane getCanvasTabbedPane() {
+			return canvasTabbedPane;
+		}
+
+		public void setCanvasTabbedPane(JTabbedPane canvasTabbedPane) {
+			this.canvasTabbedPane = canvasTabbedPane;
+		}
+
+		public JTabbedPane getTreeTabbedPane() {
+			return treeTabbedPane;
+		}
+
+		public void setTreeTabbedPane(JTabbedPane hierarchyTabbedPane) {
+			this.treeTabbedPane = hierarchyTabbedPane;
+		}
+
+		public JSplitPane getMainSplitPane() {
+			return mainSplitPane;
+		}
+
+		public void setMainSplitPane(JSplitPane mainSplitPane) {
+			this.mainSplitPane = mainSplitPane;
+		}
+
+		public JToolBar getMainToolbar() {
+			return mainToolbar;
+		}
+
+		public void setMainToolbar(JToolBar mainToolbar) {
+			this.mainToolbar = mainToolbar;
+		}
+
+		public JMenuBar getMainMenuBar() {
+			return mainMenuBar;
+		}
+
+		public void setMainMenuBar(JMenuBar mainMenuBar) {
+			this.mainMenuBar = mainMenuBar;
+		}
+
+		public JTree getTree() {
+			return tree;
+		}
+
+		public void setTree(JTree projectHierarchy) {
+			this.tree = projectHierarchy;
+		}
+
+		public JPanel getStatusBar() {
+			return statusBar;
+		}
+
+		public void setStatusBar(JPanel statusBar) {
+			this.statusBar = statusBar;
+		}
+
+		public JLabel getStatusMessage() {
+			return statusMessage;
+		}
+
+		public void setStatusMessage(JLabel statusMessage) {
+			this.statusMessage = statusMessage;
+		}
+
+		public JPanel getTopPanel() {
+			return topPanel;
+		}
+
+		public void setTopPanel(JPanel topPanel) {
+			this.topPanel = topPanel;
+		}
+
+		public JSplitPane getLeftSplitPane() {
+			return leftSplitPane;
+		}
+
+		public void setLeftSplitPane(JSplitPane leftSplitPane) {
+			this.leftSplitPane = leftSplitPane;
+		}
+
+		public CommandPanel getConsole() {
+			return console;
+		}
+
+		public void setConsole(CommandPanel console) {
+			this.console = console;
+		}
+
+		public CutAction getCutAction() {
+			return cutAction;
+		}
+
+		public void setCutAction(CutAction cutAction) {
+			this.cutAction = cutAction;
+		}
+
+		public PasteAction getPasteAction() {
+			return pasteAction;
+		}
+
+		public void setPasteAction(PasteAction pasteAction) {
+			this.pasteAction = pasteAction;
+		}
+
 	}
-	
-}

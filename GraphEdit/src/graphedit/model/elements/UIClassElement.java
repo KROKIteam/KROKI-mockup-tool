@@ -268,13 +268,15 @@ public class UIClassElement extends ClassElement{
 		int groupIndex = args[1];
 
 		String propLabel = attribute.getName();
-
-
 		String type = attribute.getType();
 		ComponentType componentType = getComponentType(type);
 		VisibleProperty prop = makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
 		prop.setDataType(attribute.getDataType());
 		attribute.setUmlProperty(prop);
+		
+		if (visibleClass instanceof StandardPanel){
+			prop.setLabelToCode(((StandardPanel)visibleClass).getPersistentClass().isLabelToCode());
+		}
 	}
 
 	public void addMethod(Method method, int ... args){

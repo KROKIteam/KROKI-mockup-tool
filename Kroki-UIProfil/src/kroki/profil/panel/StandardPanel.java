@@ -4,7 +4,6 @@
  */
 package kroki.profil.panel;
 
-import kroki.commons.camelcase.NamingUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.TitledContainer;
@@ -13,7 +12,6 @@ import kroki.mockup.model.layout.FlowLayoutManager;
 import kroki.mockup.model.layout.LayoutManager;
 import kroki.mockup.model.layout.VerticalLayoutManager;
 import kroki.mockup.utils.SerializableBufferedImage;
-import kroki.profil.BusinessProcessModelingSubject;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupAlignment;
@@ -25,7 +23,6 @@ import kroki.profil.persistent.PersistentClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.StandardPanelSettings;
-import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlPackage;
 
 /**
@@ -247,6 +244,8 @@ public class StandardPanel extends VisibleClass {
     /*****************/
     /*Geteri i seteri*/
     /*****************/
+    
+    
     public StdDataSettings getStdDataSettings() {
         return stdDataSettings;
     }

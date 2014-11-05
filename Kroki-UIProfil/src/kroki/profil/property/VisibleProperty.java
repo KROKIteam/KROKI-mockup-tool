@@ -6,6 +6,8 @@ package kroki.profil.property;
 
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.panel.StandardPanel;
+import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.VisiblePropertySettings;
 import kroki.uml_core_basic.UmlClass;
@@ -25,7 +27,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 
     /*Obelezja klase VisibleProperty*/
     protected String columnLabel;
-    protected boolean labelToCode = true;
+    protected boolean labelToCode;
     protected String displayFormat;
     protected boolean representative;
     protected boolean autoGo;
@@ -72,6 +74,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.defaultValue = defaultValue;
         this.dataType = "String";
         this.lower = 1;
+        System.out.println(umlClass);
     }
 
     public VisibleProperty() {
@@ -81,6 +84,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     public VisibleProperty(String label, boolean visible, ComponentType componentType) {
         super(label, visible, componentType);
         this.lower = 1;
+        System.out.println(umlClass);
     }
 
     @Override

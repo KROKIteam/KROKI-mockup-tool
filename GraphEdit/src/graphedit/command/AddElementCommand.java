@@ -51,6 +51,7 @@ public class AddElementCommand extends Command {
 				model.getParentPackage().getClassElementsByVisibleClassesMap().put((VisibleClass)element.getUmlType(), (UIClassElement) element);
 			
 			((StandardPanel) element.getUmlType()).getPersistentClass().setTableName(new NamingUtil().toDatabaseFormat(((StandardPanel) element.getUmlType()).project().getLabel(), ((StandardPanel) element.getUmlType()).getLabel()));
+			((StandardPanel) element.getUmlType()).getPersistentClass().setLabelToCode(((StandardPanel) element.getUmlType()).project().isLabelToCode());
 		}
 		model.addDiagramElement(component);
 		view.addElementPainter(elementPainter);

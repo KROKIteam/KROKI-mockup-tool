@@ -28,7 +28,6 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.KrokiLookAndFeel;
 import kroki.app.utils.StringResource;
 import kroki.app.utils.TypeComponentMapper;
-import kroki.app.view.Canvas;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**

@@ -24,7 +24,7 @@ public class PersistentClass implements UmlClass, Serializable {
 	/**Naziv tabele u bazu*/
 	protected String tableName;
 	/**Transformisanje labele u naziv tabele*/
-	protected boolean labelToCode = true;
+	protected boolean labelToCode;
     /**Naziv elementa*/
     protected String name;
     /**Kvalitifikovano ime elementa.*/
@@ -40,8 +40,13 @@ public class PersistentClass implements UmlClass, Serializable {
     /**Generalizacije date klase*/
     protected List<UmlClass> superClass;
     
+    
     public PersistentClass(){
     	
+    }
+    
+    public PersistentClass(boolean labelToCode){
+    	this.labelToCode = labelToCode;
     }
     	
     public PersistentClass(String tableName){

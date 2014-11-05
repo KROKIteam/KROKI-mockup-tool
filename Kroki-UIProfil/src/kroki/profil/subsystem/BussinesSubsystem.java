@@ -14,6 +14,8 @@ import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.DatabaseProps;
+import kroki.profil.utils.settings.BusinessSubsystemSettings;
+import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.visitor.AllPosibleHierarchyPanels;
 import kroki.profil.utils.visitor.AllPosibleNextPanels;
 import kroki.profil.utils.visitor.AllPosibleNexts;
@@ -22,11 +24,7 @@ import kroki.profil.utils.visitor.ContainingPanels;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
-/**
- * Klasa koja se koristi za definisanje
- * poslovnih podsistema i referata, na nacin definisan HCI standardom.
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
- */
+@SettingsPanel(BusinessSubsystemSettings.class)
 public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	/**
 	 * 
@@ -40,6 +38,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private DatabaseProps DBConnectionProps = new DatabaseProps();
 	private File file;
 	private Object graphPackage;
+	private boolean labelToCode = true;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
 		super();
@@ -263,6 +262,14 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
 	public void setGraphPackage(Object graphPackage) {
 		this.graphPackage = graphPackage;
+	}
+
+	public boolean isLabelToCode() {
+		return labelToCode;
+	}
+
+	public void setLabelToCode(boolean labelToCode) {
+		this.labelToCode = labelToCode;
 	}
 
 
