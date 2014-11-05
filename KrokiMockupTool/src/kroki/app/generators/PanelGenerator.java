@@ -169,9 +169,9 @@ public class PanelGenerator {
 								linkTag.setAttributeNode(linkPanelAttr);
 								
 								if(next.opposite() != null) {
-									//atribut opposite
+									//atribut opposite NESTO NECE
 									Attr linkOppositeAttr = doc.createAttribute("opposite");
-									System.out.println("LINK: " + panelName + " --> " + vClass.getLabel() + " [" + next.opposite().qualifiedName() + "]");
+									//System.out.println("LINK: " + panelName + " --> " + vClass.getLabel() + " [" + next.opposite().qualifiedName() + "]");
 									linkOppositeAttr.setValue(next.opposite().name());
 									linkTag.setAttributeNode(linkOppositeAttr);
 								}
