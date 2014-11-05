@@ -1,6 +1,11 @@
 package kroki.app.importt;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -38,6 +43,7 @@ import kroki.profil.operation.Transaction;
 import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.persistent.PersistentClass;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
 
@@ -130,6 +136,61 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	private BussinesSubsystem project;
 	
+	protected String removeFileExtension(String fileName){
+		int pos=fileName.lastIndexOf(".");
+		if(pos==-1)
+			return fileName;
+		else
+			return fileName.substring(0,pos);
+	}
+
+	private HashMap<String, String> labels;
+	private boolean extraLabelFile=false;
+	protected void extractLabelFile(File file){
+		if(!file.exists())
+		{
+			publishWarning("Label file "+file.getAbsolutePath()+" does not exist");
+			publishWarning("UML element names will be used for persistent name and labels");
+			extraLabelFile=false;
+			return;
+		}
+		else
+		{
+			publishText("Loading labels from "+file.getAbsolutePath());
+			BufferedReader reader=null;
+			try {
+				labels=new HashMap<String, String>();
+				reader=new BufferedReader(new FileReader(file));
+				String line,key,value;
+				int commaPosition;
+				while((line=reader.readLine())!=null)
+				{
+					commaPosition=line.indexOf(',');
+					key=line.substring(0, commaPosition);
+					
+					value=line.substring(++commaPosition);
+					//System.out.println(key+"|"+value);
+					labels.put(key, value);
+				}
+				extraLabelFile=true;
+				publishText("Finished loading labels from "+file.getAbsolutePath());
+			} catch (FileNotFoundException e) {
+			
+			} catch (IOException e) {
+				publishWarning("Error while loading label file "+file.getAbsolutePath());
+				publishWarning("UML element names will be used for persistent name and labels");
+			}finally{
+				if(reader!=null)
+					try {
+						reader.close();
+					} catch (IOException e) {
+						
+					}
+			}
+			
+		}
+	}
+	
 	/**
 	 * Imports file with the Eclipse UML diagram that was received in the constructor.
 	 * @throws Exception  if Eclipse UML model can not be loaded from the file and if the Kroki project files can not be created
@@ -142,6 +203,10 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
         
 		addIndentation();
 	    Model model=loadFile(file.getAbsolutePath());
+	    String fileName=removeFileExtension(file.getName());
+	    
+	    File labelFile=new File(file.getParentFile().getAbsolutePath()+File.separatorChar+fileName+".txt");
+	    extractLabelFile(labelFile);
 	    removeIndentation(1);
 	    
 	    if(model!=null)
@@ -164,7 +229,6 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
 					publishText("Project for Eclipse UML model created successfully");
 					publishText("Importing Eclipse UML diagram finished successfully.");
-					JOptionPane.showMessageDialog(getFrame(), "Importing Eclipse UML diagram finished successfully.");
 				}else{
 					publishText("Error occurred while creating project from Eclipse UML model.");
 					throw new Exception("Error while creating project from Eclipse UML model.");
@@ -186,6 +250,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	public void done(){
 		try {
 			get();
+			JOptionPane.showMessageDialog(getFrame(), "Importing Eclipse UML diagram finished successfully.");
 		} catch (InterruptedException | ExecutionException e) {
 			showErrorMessage(e);
 		} catch(CancellationException e){
@@ -253,6 +318,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		if(model!=null)
 		{
 			project=new BussinesSubsystem(createHumanReadableLabel(model.getName()), true, ComponentType.MENU, null);
+			project.setLabelToCode(!extraLabelFile);
 			addIndentation();
 			publishText("Project with name "+project.getLabel()+" created");
 			addIndentation();
@@ -363,12 +429,45 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	public VisibleClass createStandardPanel(String name,BussinesSubsystem classOwner){
 		StandardPanel panel = new StandardPanel();
-		String newName=removePrefixSuffix(name, UMLElementsEnum.CLASS, true);
-		newName=createHumanReadableLabel(newName);
-		newName=removePrefixSuffix(newName, UMLElementsEnum.CLASS, false);
+		String newName=null;
+		boolean labelToCode=false;
+		if(extraLabelFile)
+		{
+			newName=labels.get(name);
+		}
+		
+		if(!extraLabelFile||newName==null)
+		{
+			newName=removePrefixSuffix(name, UMLElementsEnum.CLASS, true);
+			newName=createHumanReadableLabel(newName);
+			newName=removePrefixSuffix(newName, UMLElementsEnum.CLASS, false);
+			if(extraLabelFile)
+				publishWarning("Label for class "+name+" not found in label file");
+			publishText("Label "+newName+" set for class "+name);
+			labelToCode=true;
+		}else
+		{
+			publishText("Label "+newName+" retreived from label file");
+		}
 		panel.setLabel(newName);
-		panel.getComponent().setName(newName);
-		panel.getPersistentClass().setName(namingUtil.toCamelCase(panel.getLabel(), false));
+		
+		//panel.getComponent().setName(newName);
+		PersistentClass persistent=panel.getPersistentClass();
+		persistent.setLabelToCode(labelToCode);
+		/*
+		if(labelToCode)
+		{
+			panel.getComponent().setName(namingUtil.toCamelCase(panel.getLabel(), false));
+			persistent.setName(namingUtil.toCamelCase(panel.getLabel(), false));
+		}
+		else
+		*/
+		{
+			panel.getComponent().setName(name);
+			persistent.setName(name);
+			persistent.setTableName(name);
+		}
+		
 		/*
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(1);
 		((Composite) gr.getComponent()).setLayoutManager(new VerticalLayoutManager());
@@ -397,6 +496,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		newName=createHumanReadableLabel(newName);
 		newName=removePrefixSuffix(newName, UMLElementsEnum.PACKAGE, false);
 		pack.setLabel(newName);
+		pack.setLabelToCode(!extraLabelFile);
 		subsystemOwner.addNestedPackage(pack);
 		return pack;
 	}
@@ -523,11 +623,11 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.COMBO_BOX,"", panel,true);
 					else
 					*/
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true,classObject.getName());
 				}else if(dataType instanceof Enumeration)
 				{
 					enumObject=(Enumeration)dataType;
-					property=createVisibleProperty(attribute.getName(), true, ComponentType.COMBO_BOX,"", panel,true);
+					property=createVisibleProperty(attribute.getName(), true, ComponentType.COMBO_BOX,"", panel,true,classObject.getName());
 					enumerationLiterals=new StringBuilder();
 					for(EnumerationLiteral literal:enumObject.getOwnedLiterals())
 						enumerationLiterals.append(literal.getName()+";");
@@ -542,33 +642,34 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 					}else
 					if(dataType.getName().toLowerCase().contains(ExportProjectToEclipseUML.ENUMERATION_ELEMENT_TYPE.toLowerCase()))
 					{
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.COMBO_BOX,"", panel,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.COMBO_BOX,"", panel,true,classObject.getName());
 					}else
 					if(dataType.getName().toLowerCase().contains("boolean"))
 					{
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.CHECK_BOX,"", panel ,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.CHECK_BOX,"", panel ,true,classObject.getName());
 					}
 					else if(dataType.getName().toLowerCase().contains("bigdecimal")||
 							dataType.getName().toLowerCase().contains("double")||
 							dataType.getName().toLowerCase().contains("float"))
 					{
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"BigDecimal", panel,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"BigDecimal", panel,true,classObject.getName());
 					}
 					else if(dataType.getName().toLowerCase().contains("string"))
 					{
 						if(attribute.getUpper()>50)
-							createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_AREA,"", panel,true);
+							createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_AREA,"", panel,true,classObject.getName());
 						else
-							createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true);
+							createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true,classObject.getName());
 					}
 					else if(dataType.getName().toLowerCase().contains("int"))
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Integer", panel,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Integer", panel,true,classObject.getName());
 					else if(dataType.getName().toLowerCase().contains("long"))
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Long", panel,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Long", panel,true,classObject.getName());
 					else if(dataType.getName().toLowerCase().contains("date"))
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Date", panel,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Date", panel,true,classObject.getName());
 					else
-						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true);
+						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true,classObject.getName());
+					attribute.getLabel();
 				}
 				if(createdObject!=null)
 				{
@@ -703,17 +804,45 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 * @param panel     parent window to which to add the created VisibleProperty element
 	 * @return          created VisibleProperty element
 	 */
-	private VisibleProperty createVisibleProperty(String label, boolean visible, ComponentType type,String dataType, VisibleClass panel,boolean visiblePropertyOnly){
+	private VisibleProperty createVisibleProperty(String label, boolean visible, ComponentType type,String dataType, VisibleClass panel,boolean visiblePropertyOnly,String umlClassName){
 		int group=1;
+		String humanReadable=null;
+		boolean labelToCode=false;
+		if(extraLabelFile)
+		{
+			humanReadable=labels.get(umlClassName+"."+label);
+		}
+		
+		if(!extraLabelFile||humanReadable==null)
+		{
+			humanReadable=removePrefixSuffix(label, UMLElementsEnum.CLASS, true);
+			humanReadable=createHumanReadableLabel(humanReadable);
+			humanReadable=removePrefixSuffix(humanReadable, UMLElementsEnum.CLASS, false);
+			if(extraLabelFile)
+				publishWarning("Label for property "+umlClassName+"."+label+" not found in label file");
+			publishText("Label "+humanReadable+" set for property "+label);
+			labelToCode=true;
+		}else
+		{
+			publishText("Label "+humanReadable+" retreived from label file");
+		}
+		/*
 		String humanReadable=removePrefixSuffix(label, UMLElementsEnum.PROPERTY, true);
 		humanReadable=createHumanReadableLabel(humanReadable);
 		humanReadable=removePrefixSuffix(humanReadable, UMLElementsEnum.PROPERTY, false);
+		*/
 		VisibleProperty property = new VisibleProperty(humanReadable, visible, type);
 		property.setLabel(humanReadable);
 		if(type == ComponentType.TEXT_FIELD) {
 			property.setDataType(dataType);
 		}
-		property.setColumnLabel(namingUtil.toDatabaseFormat(panel.getLabel(), label));
+		
+		property.setLabelToCode(labelToCode);
+		if(labelToCode)
+			property.setColumnLabel(namingUtil.toDatabaseFormat(panel.getLabel(), label));
+		else
+			property.setColumnLabel(label);
+		
 		if(!visiblePropertyOnly)
 		{
 			panel.addVisibleElement(property);
@@ -844,7 +973,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		
 		
 		
-		VisibleProperty visibleProperty=createVisibleProperty(zoomName, true, ComponentType.COMBO_BOX, "", firstVisibleClass,true);
+		VisibleProperty visibleProperty=createVisibleProperty(zoomName, true, ComponentType.COMBO_BOX, "", firstVisibleClass,true,secondClass.getName());
 		/*
 		ElementsGroup elg = (ElementsGroup) firstVisibleClass.getVisibleElementList().get(group);
         if (elg != null) {
