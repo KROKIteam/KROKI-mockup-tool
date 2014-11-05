@@ -101,6 +101,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		super();
 		this.file=file;
 		this.textsToBeRemoved=textsToBeRemoved;
+		namingUtil = new NamingUtil();
 		execute();
 	}
 	
@@ -214,7 +215,6 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	    	publishText("Eclipse UML model loaded successfully.");
 	    	publishText("Creating project for Eclipse UML model.");
 		    project=null;
-		    namingUtil = new NamingUtil();
 		    associations=new ArrayList<Association>();
 		    operationsToCheck=new ArrayList<Operation>();
 		    classMap=new HashMap<ClassImpl, VisibleClass>();
@@ -464,7 +464,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		*/
 		{
 			panel.getComponent().setName(name);
-			persistent.setName(name);
+			persistent.setName(firstUpper(name));
 			persistent.setTableName(name);
 		}
 		
@@ -480,6 +480,13 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		panel.update();
 		publishText("Created "+StandardPanel.class.getSimpleName()+" "+panel.getLabel());
 		return panel;
+	}
+	
+	protected String firstUpper(String name){
+		String newName=name;
+		if(!name.isEmpty())
+			newName=newName.substring(0, 1).toUpperCase()+newName.substring(1);
+		return newName;
 	}
 	
 	/**
@@ -949,7 +956,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				{
 					element=(VisibleElement)value.getValue();
 					if(zoomName!=null && element.getLabel()!=null)
-						while(zoomName.equals(element.getLabel()))
+						while(zoomName.equalsIgnoreCase(element.getLabel()))
 						{
 							sufix=updateSufix(sufix);
 							zoomName=createText(base, sufix);
@@ -1053,9 +1060,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 					}
 					label= builder.toString();
 				}
-				label=label.replaceAll("[ ]+", " ");
-				label=label.replaceAll("[\t]+", " ");
-				label=label.replaceAll("[\n]+", " ");
+				
 				StringBuilder builder=new StringBuilder();
 				char c;
 				for(int i=0;i<label.length();i++)
@@ -1065,6 +1070,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 						builder.append(c);
 				}
 				label=builder.toString();
+				label=label.replaceAll("[ ]+", " ");
+				label=label.replaceAll("[\t]+", " ");
+				label=label.replaceAll("[\n]+", " ");
 				return label.trim();
 				
 			}
@@ -1169,7 +1177,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				{
 					element=(VisibleElement)value.getValue();
 					if(nextName!=null && element.getLabel()!=null)
-						while(nextName.equals(element.getLabel()))
+						while(nextName.equalsIgnoreCase(element.getLabel()))
 						{
 							sufix=updateSufix(sufix);
 							nextName=createText(base, sufix);
@@ -1185,7 +1193,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				{
 					element=(VisibleElement)value.getValue();
 					if(nextName!=null && element.getLabel()!=null)
-						while(nextName.equals(element.getLabel()))
+						while(nextName.equalsIgnoreCase(element.getLabel()))
 						{
 							sufix=updateSufix(sufix);
 							nextName=createText(base, sufix);

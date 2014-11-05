@@ -74,7 +74,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.defaultValue = defaultValue;
         this.dataType = "String";
         this.lower = 1;
-        System.out.println(umlClass);
+        //System.out.println(umlClass);
     }
 
     public VisibleProperty() {
@@ -84,7 +84,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     public VisibleProperty(String label, boolean visible, ComponentType componentType) {
         super(label, visible, componentType);
         this.lower = 1;
-        System.out.println(umlClass);
+        //System.out.println(umlClass);
     }
 
     @Override
