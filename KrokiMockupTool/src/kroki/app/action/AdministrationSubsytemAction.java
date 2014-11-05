@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.exceptions.NoZoomPanelException;
 import kroki.app.utils.ImageResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -115,12 +116,12 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		oDao.save(removeOperation);
 		oDao.save(modifyOperation);
 		
-		/*
+		
 		dao.administration.UserRolesHibernateDao urDao = new dao.administration.UserRolesHibernateDao();
 		ejb.administration.UserRoles adminUserRole = new ejb.administration.UserRoles();
 		adminUserRole.setRole(adminRole);
 		adminUserRole.setUser(admin);
-		urDao.save(adminUserRole);	*/	
+		urDao.save(adminUserRole);	
 	}
 
 	private boolean compareResources(List<String> sResources) {
@@ -163,10 +164,14 @@ public class AdministrationSubsytemAction extends AbstractAction{
 				
 				String panelTypeTemp = panelType.get(element.name());
 				if (panelTypeTemp.contains("standard-panel")) {
-					activate = element.name().toLowerCase() + "_st";
+					StandardPanel sp = (StandardPanel)element;
+					activate = sp.getPersistentClass().name().toLowerCase() + "_st";
+					//activate = element.name().toLowerCase() + "_st";
 					resource.setPaneltype("standard-panel");
 				} else if (panelTypeTemp.contains("parent-child")) {
-					activate = cc.toCamelCase(element.name(), false) + "_pc";
+					ParentChild pcPanel = (ParentChild)element;
+					activate =cc.toCamelCase(pcPanel.name(), false) + "_pc"; 
+					//activate = cc.toCamelCase(element.name(), false) + "_pc";
 					resource.setPaneltype("parent-child");
 				}
 				resource.setLink(activate);

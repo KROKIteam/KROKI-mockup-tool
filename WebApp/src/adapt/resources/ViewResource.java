@@ -153,12 +153,16 @@ public class ViewResource extends BaseResource {
 		} else {
 			Role userGroup = (Role)e.createQuery("SELECT ur.role FROM UserRoles ur WHERE ur.user.id =:uid").setParameter("uid", user.getId()).getSingleResult();
 			ArrayList<Permission> permissions = (ArrayList<Permission>)e.createQuery("SELECT rp.permission FROM RolePermission rp WHERE rp.role.id =:rid").setParameter("rid", userGroup.getId()).getResultList();
-			
-			for (Permission p : permissions) {
-				if (p.getResource().getName().trim().equals(panel.getLabel())) {
-					perms.add(p.getOperation().getName().trim());
+			if(userGroup.getName().equals("admins")){
+				perms.add("add");
+				perms.add("modify");
+				perms.add("remove");
+			}else
+				for (Permission p : permissions) {
+					if (p.getResource().getName().trim().equals(panel.getLabel())) {
+						perms.add(p.getOperation().getName().trim());
+					}
 				}
-			}
 		}
 		e.close();
 		
