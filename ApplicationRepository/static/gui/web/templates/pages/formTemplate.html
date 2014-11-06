@@ -108,7 +108,7 @@
             <span>${element.label}</span>
         </button>
         <#elseif element.class.simpleName == "Next">
-        <a href="#" class="panelLinks activator disabled" data-resourceId="${element.panelId}" data-activate="/showChildren/${element.panelId}/${element.opposite}" data-label="${element.label} from ${panel.label}" data-paneltype="next-panel">${element.label}</a>
+        <a href="#" class="panelLinks activator" data-resourceId="${element.panelId}" data-activate="/showChildren/${element.panelId}/${element.opposite}" data-label="${element.label} from ${panel.label}" data-paneltype="next-panel" data-labelClean="${element.label}">${element.label}</a>
         </#if>
         </#list>
     </div>

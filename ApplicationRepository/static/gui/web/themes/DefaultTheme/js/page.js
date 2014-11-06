@@ -163,14 +163,18 @@
             var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
             var returnTo = null;
             var zoomName = null;
+            resourceId = $(this).attr("data-resourceId");
 
             if(selectedRow.length > 0) {
                 var id = selectedRow.find("#idCell").text();
                 activate = $(this).attr("data-activate") + "/" + id;
                 panelType = "next-panel";
-                resourceId = $(this).attr("data-resourceId");
-                activator.closest(".nextPopup").hide();
+            }else {
+				// If nothing is selected, show unfiltered data in new form
+				label = $(this).attr("data-labelClean");
+				activate = "/show/" + resourceId;
             }
+            activator.closest(".nextPopup").hide();
         }
 
         //if activator is lookup button, show back button 
@@ -314,6 +318,8 @@
 			newWindowBody.append(newStandardForm);
 			loadDataToForm(newStandardForm, false, showback);
         }
+
+        forms = newWindow.find("div.standardForms").length;
         if(forms > 2) {
             var newHeight = forms*200;
             if(newHeight < $("#container").height()) {
