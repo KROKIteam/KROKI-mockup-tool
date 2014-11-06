@@ -181,7 +181,9 @@ public class NextSettings extends VisibleAssociationEndSettings {
 						if (next.opposite() != null)
 							next.opposite().setOpposite(null);
 						//set opposite
-						next.setOpposite((Zoom)selected);
+						Zoom selectedZoom = (Zoom)selected;
+						next.setOpposite(selectedZoom);
+						next.opposite().setName(selectedZoom.name());
 						panel = ((Zoom)selected).getActivationPanel();
 						//set zoom's opposite
 						((Zoom)selected).setOpposite((Next) visibleElement);

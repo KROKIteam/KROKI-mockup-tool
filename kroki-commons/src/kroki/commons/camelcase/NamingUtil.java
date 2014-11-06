@@ -66,7 +66,9 @@ public class NamingUtil {
 				prefix += prefixElements[i].charAt(0);
 			}
 		}
-		return prefix.toUpperCase() + "_" + columnName.replace(" ", "_").toUpperCase();
+		// Remove special characters
+		columnName = columnName.replaceAll("[-#;*/\\|<>.,~`]", "");
+		return prefix.toUpperCase() + "_" + columnName.replaceAll(" ", "_").toUpperCase();
 	}
 
 	/**

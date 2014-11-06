@@ -10,9 +10,9 @@ import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.ZoomSettings;
 
 /**
- * Stereotip Zoom označava da odredišni panel ima ulogu zoom forme za
- * potrebe aktivacionog panela, na način definisan HCI standardom
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * Stereotip Zoom oznaÄ�ava da odrediÅ¡ni panel ima ulogu zoom forme za
+ * potrebe aktivacionog panela, na naÄ�in definisan HCI standardom
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(ZoomSettings.class)
 public class Zoom extends VisibleAssociationEnd {
@@ -22,12 +22,13 @@ public class Zoom extends VisibleAssociationEnd {
     /**
      * Indikator da se dati  zoom implementira kao
      * combobox  napunjen vrednostima reprezentativnog
-     * obeležja odredišne klase.
+     * obeleÅ¾ja odrediÅ¡ne klase.
      */
     protected boolean combozoom = true;
 
     public Zoom(VisibleProperty visibleProperty) {
         this.label = visibleProperty.getLabel();
+        this.name = visibleProperty.name();
         this.visible = visibleProperty.isVisible();
         this.componentType = visibleProperty.getComponentType();
         this.component = visibleProperty.getComponent();

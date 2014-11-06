@@ -314,25 +314,6 @@
 			newWindowBody.append(newStandardForm);
 			loadDataToForm(newStandardForm, false, showback);
         }
-
-		/*
-		 * If number of columns is more than 6, add 200 pixels for each
-		 * and 200 px in height for each standard form 
-		 */
-        var columns = newWindow.find("th").length;
-        var forms = newWindow.find(".standardForms").length;
-        if(columns > 6) {
-            var newWidth = columns*200;
-            if(newWidth<$("#container").width()) {
-                newWindow.width(newWidth);
-            }else {
-                newWindow.width("98%");
-                newWindow.css({
-                   "top": 60,
-                   "left": 20,
-               });
-            }
-        }
         if(forms > 2) {
             var newHeight = forms*200;
             if(newHeight < $("#container").height()) {
@@ -738,6 +719,27 @@
             		dateFormat:  "dd.mm.yy.",
             		yearRange:   "1900:2100"
             	});
+
+            	/*
+				 * If number of columns is more than 6, add 200 pixels for each
+				 * and 200 px in height for each standard form 
+				 */
+				newWindow = form.closest(".windows");
+		        var columns = newWindow.find("th").length;
+		        if(columns > 6) {
+		            var newWidth = columns*200;
+		            if(newWidth<$("#container").width()) {
+		                newWindow.width(newWidth);
+		                newWindow.css("width", "98%");
+		            }else {
+		                //newWindow.style.width("98%");
+		                newWindow.css({
+		                	"width": "98%",
+		                   	"top": 60,
+		                   	"left": 20
+		               });
+		            }
+		        }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
         	   window.remove();
