@@ -4,17 +4,13 @@
  */
 package kroki.profil.panel;
 
-import java.util.HashMap;
-
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.TitledContainer;
 import kroki.mockup.model.layout.BorderLayoutManager;
 import kroki.mockup.model.layout.FlowLayoutManager;
-import kroki.mockup.model.layout.FreeLayoutManager;
 import kroki.mockup.model.layout.LayoutManager;
 import kroki.mockup.model.layout.VerticalLayoutManager;
-import kroki.mockup.utils.KrokiImagesLoader;
 import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
@@ -24,6 +20,8 @@ import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.std.StdDataSettings;
 import kroki.profil.panel.std.StdPanelSettings;
 import kroki.profil.persistent.PersistentClass;
+import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.uml_core_basic.UmlPackage;
 
 /**
  * <code>StandardPanel</code> oznacava da se datoj perzistentnoj klasi (u
@@ -34,6 +32,8 @@ import kroki.profil.persistent.PersistentClass;
  */
 public class StandardPanel extends VisibleClass {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Dozvoljen/zabranjen unos novih podataka */
     protected boolean add = true;
     /**Dozvoljena/zabranjena izmena podataka */
@@ -87,10 +87,10 @@ public class StandardPanel extends VisibleClass {
         persistentClass = new PersistentClass();
     }
 
-    public StandardPanel(String label, boolean visible, ComponentType componentType, boolean modal) {
+    public StandardPanel(String tableName, String label, boolean visible, ComponentType componentType, boolean modal) {
         super(label, visible, componentType, modal);
         defaultGuiSettings();
-        persistentClass = new PersistentClass();
+        persistentClass = new PersistentClass(tableName);
     }
 
     public StandardPanel(boolean modal) {
@@ -230,10 +230,19 @@ public class StandardPanel extends VisibleClass {
     public String toString() {
         return label;
     }
+    
+    public BussinesSubsystem project(){
+    	UmlPackage currentPack = umlPackage;
+    	while (currentPack.nestingPackage() != null)
+    		currentPack = currentPack.nestingPackage();
+    	return (BussinesSubsystem) currentPack;
+    }
 
     /*****************/
     /*Geteri i seteri*/
     /*****************/
+    
+    
     public StdDataSettings getStdDataSettings() {
         return stdDataSettings;
     }
@@ -347,7 +356,7 @@ public class StandardPanel extends VisibleClass {
             ((Composite) toolbarPanel.getComponent()).removeChild(updateButton);
         }
     }
-
+    
     public Button getAddButton() {
         return addButton;
     }

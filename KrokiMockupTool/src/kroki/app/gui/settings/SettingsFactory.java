@@ -23,69 +23,83 @@ import kroki.profil.panel.VisibleClass;
  */
 public class SettingsFactory implements UpdateListener, SettingsCreator {
 
-    private HashMap<String, Settings> settingsMap;
+	private HashMap<String, Settings> settingsMap;
 
-    public SettingsFactory() {
-        settingsMap = new HashMap<String, Settings>();
-    }
+	public SettingsFactory() {
+		settingsMap = new HashMap<String, Settings>();
+	}
 
-    public void updatePerformed(EventObject e) {
-        SelectionModel selectionModel = (SelectionModel) e.getSource();
-        if (selectionModel.getSelectionNum() == 1) {
+	public void treeUpdatePerformed(VisibleElement visibleElement){
+		performUpdate(visibleElement);
+	}
 
-            VisibleElement visibleElment = selectionModel.getVisibleElementAt(0);
-            SettingsPanel annotation = visibleElment.getClass().getAnnotation(SettingsPanel.class);
-            if (annotation != null) {
-                Class clazz = annotation.value();
-                Settings settings = null;
-                if (settingsMap.containsKey(clazz.getName())) {
-                    settings = settingsMap.get(clazz.getName());
-                } else {
-                    try {
-                        settings = (Settings) clazz.getDeclaredConstructor(SettingsCreator.class).newInstance(this);
-                        settingsMap.put(clazz.getName(), settings);
-                    } catch (NoSuchMethodException ex) {
-                        Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SecurityException ex) {
-                        Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InstantiationException ex) {
-                        Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvocationTargetException ex) {
-                        Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+	public void updatePerformed(EventObject e) {
+		SelectionModel selectionModel = (SelectionModel) e.getSource();
+		if (selectionModel.getSelectionNum() == 1) {
+			VisibleElement visibleElment = selectionModel.getVisibleElementAt(0);
+			performUpdate(visibleElment);
+		} else {
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().setRightComponent(null);
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().resetToPreferredSizes();
+		}
 
-                if (settings != null) {
-                    settings.updateSettings(visibleElment);
-                    KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().setRightComponent((Component) settings);
-                    KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().resetToPreferredSizes();
-                }
+	}
 
-            }
-        } else {
-            KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().setRightComponent(null);
-            KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().resetToPreferredSizes();
-        }
+	private void performUpdate(VisibleElement visibleElment){
+
+		SettingsPanel annotation = visibleElment.getClass().getAnnotation(SettingsPanel.class);
+		if (annotation != null) {
+			Class clazz = annotation.value();
+			Settings settings = null;
+			if (settingsMap.containsKey(clazz.getName())) {
+				settings = settingsMap.get(clazz.getName());
+			} else {
+				try {
+					settings = (Settings) clazz.getDeclaredConstructor(SettingsCreator.class).newInstance(this);
+					settingsMap.put(clazz.getName(), settings);
+				} catch (NoSuchMethodException ex) {
+					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (SecurityException ex) {
+					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (InstantiationException ex) {
+					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (IllegalAccessException ex) {
+					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (IllegalArgumentException ex) {
+					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (InvocationTargetException ex) {
+					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
+
+			if (settings != null) {
+				settings.updateSettings(visibleElment);
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().setRightComponent((Component) settings);
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().resetToPreferredSizes();
+			}
+
+		}
 
 
-    }
 
-    public void settingsPreformed() {
-        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().getVisibleClass().update();
-        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
-    }
+	}
 
-    public void settingsPreformedIncludeTree() {
-        KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
-        VisibleClass visibleClass = KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().getVisibleClass();
-        int index = KrokiMockupToolApp.getInstance().getTabbedPaneController().getTabIndex(visibleClass);
-        KrokiMockupToolApp.getInstance().getTabbedPaneController().getTabbedPane().setTitleAt(index, visibleClass.getLabel());
-        KrokiMockupToolApp.getInstance().getTabbedPaneController().getTabbedPane().updateUI();
-        visibleClass.update();
-        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
-    }
+	public void settingsPreformed() {
+		if (KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent() != null){
+			KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().getVisibleClass().update();
+			KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
+		}
+	}
+
+	public void settingsPreformedIncludeTree() {
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
+		if (KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent() != null){
+			VisibleClass visibleClass = KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().getVisibleClass();
+			int index = KrokiMockupToolApp.getInstance().getTabbedPaneController().getTabIndex(visibleClass);
+			KrokiMockupToolApp.getInstance().getTabbedPaneController().getTabbedPane().setTitleAt(index, visibleClass.getLabel());
+			KrokiMockupToolApp.getInstance().getTabbedPaneController().getTabbedPane().updateUI();
+			visibleClass.update();
+			KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
+		}
+	}
 }

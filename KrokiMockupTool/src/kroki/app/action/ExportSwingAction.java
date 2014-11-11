@@ -62,7 +62,7 @@ public class ExportSwingAction extends AbstractAction {
 				File file = jfc.getSelectedFile();
 				//pass selected project and directory to exporter class
 				ProjectExporter exporter = new ProjectExporter(true);
-				exporter.export(file, proj, "Project exported successfuly to " + file.getAbsolutePath());
+				exporter.export(file, proj.getLabel().replace(" ", "_"), proj, "Project exported successfuly to " + file.getAbsolutePath());
 			} else {
 				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Export canceled by user.", 0);
 			}

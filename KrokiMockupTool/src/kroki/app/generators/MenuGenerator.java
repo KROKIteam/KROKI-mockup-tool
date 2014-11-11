@@ -17,6 +17,7 @@ import javax.xml.transform.stream.StreamResult;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.generators.utils.XMLWriter;
+import kroki.app.menu.MenuItem;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -41,6 +42,28 @@ public class MenuGenerator {
 			}
 			
 			writer.write(doc, "menu", true);
+			
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void generateMenu(ArrayList<Menu> menus) {
+		XMLWriter writer = new XMLWriter();
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			//korenski element <menus>
+			Element root = doc.createElement("menus");
+			doc.appendChild(root);
+			
+			for(int i=0; i<menus.size(); i++) {
+				Menu menu = menus.get(i);
+				printSWINGMenu(menu, doc, root);
+			}
+			
+			writer.write(doc, "menu", false);
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -72,6 +95,8 @@ public class MenuGenerator {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	//prints menu tags in menu xml file for swing application
 	public void printSWINGMenu(Menu menu, Document doc, Element root) {
@@ -248,6 +273,103 @@ public class MenuGenerator {
 			e.printStackTrace();
 		} catch (TransformerException e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * NEW DEFAULT MENU
+	 */
+	private kroki.app.menu.Submenu root;
+	public void generateNewMenu(kroki.app.menu.Submenu rootMenu) {
+		this.root = rootMenu;
+		XMLWriter writer = new XMLWriter();
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder;
+		
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+
+			Document doc = docBuilder.newDocument();
+
+			// korenski tag <classes>
+			Element resourcesRoot = doc.createElement("menus");
+			doc.appendChild(resourcesRoot);
+			
+			generateMenu(resourcesRoot, doc);
+			
+			writer.write(doc, "menu-generated-default", false);
+
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	private void generateMenu(Element resourcesRoot, Document doc) {
+		//<menu>
+		Element menuTag = doc.createElement("menu");
+		resourcesRoot.appendChild(menuTag);
+		
+		Element rolesTag = doc.createElement("roles");
+		menuTag.appendChild(rolesTag);
+		
+		/*
+		for (Object o : roles) {
+			Element roleTag = doc.createElement("role");
+			roleTag.setTextContent(o.toString());
+			rolesTag.appendChild(roleTag);
+		}*/
+		
+		if(!root.getChildren().isEmpty())
+			extractChildren(menuTag, root.getChildren(), doc);
+
+	}
+	
+	private void extractChildren(Element parentTag, ArrayList<kroki.app.menu.Menu> children, Document doc) {
+		
+		for (kroki.app.menu.Menu m : children) {
+			if (m instanceof MenuItem) {
+				MenuItem temp = (MenuItem)m;
+				String tempMenuItemName = null;
+				if (temp.getParent().equals(root))
+					tempMenuItemName = "menu_item_main";
+				else
+					tempMenuItemName = "menu_item";
+				Element tempMenuItemTag = doc.createElement(tempMenuItemName);
+				parentTag.appendChild(tempMenuItemTag);
+				
+				Element menuNameTag = doc.createElement("menu_name");
+				menuNameTag.setTextContent(temp.getMenuName());
+				tempMenuItemTag.appendChild(menuNameTag);
+				
+				Element formNameTag = doc.createElement("form_name");
+				formNameTag.setTextContent(temp.getFormName() != null ? temp.getFormName() : "");
+				tempMenuItemTag.appendChild(formNameTag);
+				
+				Element activateTag = doc.createElement("activate");
+				activateTag.setTextContent(temp.getActivate() != null ? temp.getActivate() : "");
+				tempMenuItemTag.appendChild(activateTag);
+				
+				Element panelTypeTag = doc.createElement("panel_type");
+				panelTypeTag.setTextContent(temp.getPanelType() != null ? temp.getPanelType() : "");
+				tempMenuItemTag.appendChild(panelTypeTag);
+			} else if (m instanceof kroki.app.menu.Submenu) {
+				kroki.app.menu.Submenu temp = (kroki.app.menu.Submenu)m;
+				Element tempSubmenuTag = doc.createElement("submenu");
+				parentTag.appendChild(tempSubmenuTag);
+				
+				kroki.app.menu.Submenu parentSubmenu = (kroki.app.menu.Submenu)temp.getParent();
+				Element submenuParentTag = doc.createElement("submenu_parent");
+				submenuParentTag.setTextContent(parentSubmenu != null ? parentSubmenu.getName() : "");
+				tempSubmenuTag.appendChild(submenuParentTag);
+				
+				Element tempSubmenuNameTag = doc.createElement("submenu_name");
+				tempSubmenuNameTag.setTextContent(temp.getName());
+				tempSubmenuTag.appendChild(tempSubmenuNameTag);
+				if (!temp.getChildren().isEmpty()) {
+					extractChildren(tempSubmenuTag, temp.getChildren(), doc);
+				}
+			}
 		}
 	}
 }

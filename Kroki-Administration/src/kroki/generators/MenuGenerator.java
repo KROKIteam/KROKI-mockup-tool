@@ -34,7 +34,7 @@ public class MenuGenerator {
 			Document doc = docBuilder.newDocument();
 
 			// korenski tag <classes>
-			Element resourcesRoot = doc.createElement("classes");
+			Element resourcesRoot = doc.createElement("menus");
 			doc.appendChild(resourcesRoot);
 			
 			generateMenu(resourcesRoot, doc);
@@ -51,6 +51,7 @@ public class MenuGenerator {
 	private void generateMenu(Element resourcesRoot, Document doc) {
 		for (Submenu menu : menus) {
 			//<menu>
+			this.root = menu;
 			Element menuTag = doc.createElement("menu");
 			resourcesRoot.appendChild(menuTag);
 			
@@ -117,32 +118,5 @@ public class MenuGenerator {
 		}
 	}
 
-	private void generateRolePermissions(Element resourcesRoot, Document doc) {
-		//<role_permissions> tag
-		Element rolePermissionsTag = doc.createElement("role_permissions");
-		resourcesRoot.appendChild(rolePermissionsTag);
-			
-		dao.administration.RolePermissionHibernateDao pDao = new dao.administration.RolePermissionHibernateDao();
-		List<ejb.administration.RolePermission> permissions = pDao.findAll();
-		
-		for (ejb.administration.RolePermission rp : permissions) {
-			Element rolePermissionTag = doc.createElement("role_permission");
-			rolePermissionsTag.appendChild(rolePermissionTag);
-			
-			Element idTag = doc.createElement("id");
-			idTag.setTextContent(rp.getId().toString());
-			rolePermissionTag.appendChild(idTag);
-			
-			Element roleTag = doc.createElement("role_name");
-			roleTag.setTextContent(rp.getRole().getName().toString());
-			rolePermissionTag.appendChild(roleTag);
-			
-			Element permissionTag = doc.createElement("permission_name");
-			permissionTag.setTextContent(rp.getPermission().getName());
-			rolePermissionTag.appendChild(permissionTag);
-			
-		}
-		
-	}
 
 }

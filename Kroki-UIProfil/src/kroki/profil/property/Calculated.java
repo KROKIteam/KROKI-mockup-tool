@@ -12,6 +12,8 @@ package kroki.profil.property;
  */
 
 public class Calculated extends VisibleProperty {
+	
+	private static final long serialVersionUID = 1L;
 
     protected String expression;
 

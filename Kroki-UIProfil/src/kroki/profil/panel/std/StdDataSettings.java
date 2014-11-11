@@ -12,6 +12,8 @@ import kroki.profil.property.VisibleProperty;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class StdDataSettings implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     /**OCL iskaz kojim se definiše podskup podataka koji se prikazuje u okviru datog panela.   */
     private String dataFilter;

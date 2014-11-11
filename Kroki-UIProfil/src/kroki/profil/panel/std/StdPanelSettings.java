@@ -13,6 +13,8 @@ import kroki.profil.panel.mode.ViewMode;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class StdPanelSettings implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     /** Podrazumevani prikaz - prikaz u kome se panel nalazi prilikom prvog pojavljivanja. Moguće vrednosti su definisane nabrojanim tipom ViewMode*/
     private ViewMode defaultViewMode = ViewMode.INPUT_PANEL_MODE;

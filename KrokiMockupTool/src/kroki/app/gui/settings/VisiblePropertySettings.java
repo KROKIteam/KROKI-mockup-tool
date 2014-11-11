@@ -15,9 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -25,6 +23,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import kroki.commons.camelcase.NamingUtil;
 import kroki.intl.Intl;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -32,13 +31,13 @@ import kroki.profil.property.VisibleProperty;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class VisiblePropertySettings extends VisibleElementSettings {
 
 	protected JLabel typelbl;
     protected JLabel columnLabelLb;
+    protected JLabel labelToCodeLb;
     protected JLabel displayFormatLb;
     protected JLabel valuesLb;
     protected JLabel representativeLb;
@@ -48,9 +47,9 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     protected JLabel defaultValueLb;
     protected JComboBox<String> typeCb;
     protected JTextField columnLabelTf;
+    protected JCheckBox labelToCodeCb;
     protected JTextField displayFormatTf;
-    protected JScrollPane valuesSp;
-    protected JTextArea valuesTa;
+    protected ComboBoxValuesPanel valuesPanel;
     protected JTextField defaultValueTf;
     protected JCheckBox representativeCb;
     protected JCheckBox mandatoryCb;
@@ -66,6 +65,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 
     private void initComponents() {
     	typelbl = new JLabel("Data type");
+    	labelToCodeLb = new JLabel(Intl.getValue("visibleProperty.labelToCode"));
         columnLabelLb = new JLabel(Intl.getValue("visibleProperty.columnLabel"));
         displayFormatLb = new JLabel(Intl.getValue("visibleProperty.displayFormat"));
         valuesLb = new JLabel(Intl.getValue("visibleProperty.values"));
@@ -81,12 +81,11 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         typeCb.setEnabled(false);
         
         columnLabelTf = new JTextField(30);
+        labelToCodeCb = new JCheckBox();
         displayFormatTf = new JTextField(30);
-        valuesTa = new JTextArea(5, 30);
-        valuesTa.setFont(this.getFont());
-        valuesSp = new JScrollPane(valuesTa);
-        valuesSp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        valuesSp.setMinimumSize(valuesTa.getPreferredScrollableViewportSize());
+        valuesPanel = new ComboBoxValuesPanel(this, (VisibleProperty) visibleElement);
+        valuesPanel.setVisibleProperty((VisibleProperty)visibleElement);
+        valuesPanel.setFont(this.getFont());
         defaultValueTf = new JTextField(30);
         representativeCb = new JCheckBox();
         mandatoryCb = new JCheckBox();
@@ -108,12 +107,14 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         }
         intermediate.add(typelbl);
         intermediate.add(typeCb);
+        intermediate.add(labelToCodeLb);
+        intermediate.add(labelToCodeCb);
         intermediate.add(columnLabelLb);
         intermediate.add(columnLabelTf);
         intermediate.add(displayFormatLb);
         intermediate.add(displayFormatTf);
         intermediate.add(valuesLb);
-        intermediate.add(valuesSp);
+        intermediate.add(valuesPanel, "height ::100");
         intermediate.add(mandatoryLb);
         intermediate.add(mandatoryCb);
         intermediate.add(representativeLb);
@@ -128,7 +129,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     }
 
     private void addActions() {
-    	
     	VisiblePropertySettings.this.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
@@ -137,7 +137,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 		});
     	
     	typeCb.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
@@ -148,6 +147,27 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 						visibleProperty.setDataType("String");
 					}
 				}
+			}
+		});
+    	
+    	labelToCodeCb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JCheckBox checkBox = (JCheckBox) e.getSource();
+				boolean value = checkBox.isSelected();
+				VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+				if(value) {
+					visibleProperty.setLabelToCode(true);
+				    columnLabelTf.setEditable(false);
+				    NamingUtil namer = new NamingUtil();
+					visibleProperty.setColumnLabel(namer.toDatabaseFormat(visibleProperty.umlClass().name().replace("_", " "), labelTf.getText().trim()));
+					columnLabelTf.setText(visibleProperty.getColumnLabel());
+				}else {
+					visibleProperty.setLabelToCode(false);
+					columnLabelTf.setEditable(true);
+				}
+				updatePreformed();
 			}
 		});
     	
@@ -205,21 +225,21 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             }
         });
 
-        valuesTa.addFocusListener(new FocusListener() {
-			
+        valuesPanel.addFocusListener(new FocusListener() {
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void focusLost(FocusEvent arg0) {
 				VisibleProperty prop = (VisibleProperty) visibleElement;
-				String[] values = valuesTa.getText().split("\\n");
+				String[] values = valuesPanel.getValuesAsArray();
 				String enumeration = "";
 				for(int i=0; i<values.length; i++) {
 					enumeration +=values[i] + ";";
 				}
 				prop.setEnumeration(enumeration);
+				updatePreformed();
 			}
 			
 			@Override
-			public void focusGained(FocusEvent e) {
+			public void focusGained(FocusEvent arg0) {
 			}
 		});
         
@@ -288,7 +308,6 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         });
 
         disabledCb.addActionListener(new AbstractAction() {
-
             public void actionPerformed(ActionEvent e) {
                 JCheckBox checkBox = (JCheckBox) e.getSource();
                 boolean value = checkBox.isSelected();
@@ -303,6 +322,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     public void updateComponents() {
         super.updateComponents();
         VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+        valuesPanel.setVisibleProperty(visibleProperty);
         if(visibleProperty.getComponentType() == ComponentType.TEXT_FIELD) {
         	typeCb.setEnabled(true);
         	typeCb.setSelectedItem(visibleProperty.getDataType());
@@ -310,17 +330,29 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         columnLabelTf.setText(visibleProperty.getColumnLabel());
         displayFormatTf.setText(visibleProperty.getDisplayFormat());
         if(visibleProperty.getEnumeration() != null) {
+        	/*
         	valuesTa.setText("");
             String[] vals = visibleProperty.getEnumeration().split(";");
             for(int i=0; i<vals.length; i++) {
             	valuesTa.append(vals[i] + "\n");
-            }
+            }*/
+        	String[] vals = visibleProperty.getEnumeration().split(";");
+        	valuesPanel.setValues(vals);
         }
         defaultValueTf.setText(visibleProperty.getDefaultValue());
         mandatoryCb.setSelected(visibleProperty.lower() != 0);
         representativeCb.setSelected(visibleProperty.isRepresentative());
         autoGoCb.setSelected(visibleProperty.isAutoGo());
         disabledCb.setSelected(visibleProperty.isDisabled());
+        
+        if (visibleProperty.isLabelToCode()){
+        	columnLabelTf.setEditable(false);
+        	labelToCodeCb.setSelected(true);
+        }
+        else{
+        	columnLabelTf.setEditable(true);
+        	labelToCodeCb.setSelected(false);
+        }
     }
 
     @Override
@@ -328,6 +360,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         super.updateSettings(visibleElement);
         VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
         columnLabelTf.setText(visibleProperty.getColumnLabel());
+        valuesPanel.setVisibleProperty(visibleProperty);
         //ako nije text field, ne treba podesavanje za tip
         if(visibleElement.getComponentType() != ComponentType.TEXT_FIELD) {
         	typelbl.setVisible(false);
@@ -339,10 +372,10 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         //ako nije combobox, ne treba lista sa vrednostima
         if(visibleElement.getComponentType() != ComponentType.COMBO_BOX) {
         	valuesLb.setVisible(false);
-        	valuesSp.setVisible(false);
+        	valuesPanel.setVisible(false);
         }else {
         	valuesLb.setVisible(true);
-        	valuesSp.setVisible(true);
+        	valuesPanel.setVisible(true);
         }
         if(mandatoryCb.isSelected()) {
         	visibleProperty.setLower(1);

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+	KROKI data types to GUI component mapping specification
+	********************************************************************
+	Each data type is associated with a specific GUI component
+	identified by its ID as specified in the components-desktop.xml
+	and components-web.xml files. Desktop and web components share
+	the IDs, so this is the uniqe mapping specification, but web and
+	desktop frameworks read only its own component specification file.
+-->
+<map>
+	<property language-type="java.lang.String" component-id="textField" />
+	<property language-type="java.lang.String:TextArea" component-id="textArea" />
+    <property language-type="java.lang.String:ComboBox" component-id="comboBox" />
+	<property language-type="java.lang.Long" component-id="textField" />
+	<property language-type="java.lang.Integer" component-id="textField" />
+	<property language-type="java.math.BigDecimal" component-id="textField" />
+	<property language-type="java.util.Date" component-id="datePicker" />
+	<property language-type="java.lang.Boolean" component-id="checkBox" />
+    <property language-type="kroki.joinColumn" component-id="zoomFiled" />
+</map>

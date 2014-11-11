@@ -28,7 +28,9 @@ import com.sun.corba.se.spi.orbutil.fsm.Input;
  */
 public class VisibleElement implements UmlNamedElement, Serializable {
 
-    /**Labela*/
+	private static final long serialVersionUID = 1L;
+	 
+	/**Labela*/
     protected String label;
     /**Indikator vidljivosti elementa*/
     protected boolean visible = true;
@@ -43,7 +45,6 @@ public class VisibleElement implements UmlNamedElement, Serializable {
     protected String qualifiedName;
     
 	private UUID uuid;
-
 	
 	public VisibleElement(){
 		uuid = UUID.randomUUID();
@@ -161,6 +162,10 @@ public class VisibleElement implements UmlNamedElement, Serializable {
 		return uuid;
 	}
 	
+	public void changeUuid() {
+		this.uuid = UUID.randomUUID();
+	}
+	
     /**************************************************/
     /*IMPLEMENTIRANE METODE INTERFEJSA UmlNamedElement*/
     /**************************************************/
@@ -223,4 +228,5 @@ public class VisibleElement implements UmlNamedElement, Serializable {
     public void setParentGroup(ElementsGroup parentGroup) {
         this.parentGroup = parentGroup;
     }
+
 }

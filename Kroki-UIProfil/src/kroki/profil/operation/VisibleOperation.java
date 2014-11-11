@@ -22,6 +22,8 @@ import kroki.uml_core_basic.UmlType;
  */
 public class VisibleOperation extends BusinessProcessModelingSubject implements UmlOperation {
 
+	private static final long serialVersionUID = 1L;
+	
     /*OBELEÅ½JA METAKLASE OPERATION*/
     protected UmlClass umlClass;
     protected List<UmlType> raisedException;

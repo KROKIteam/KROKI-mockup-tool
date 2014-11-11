@@ -17,6 +17,8 @@ import kroki.profil.VisibleElement;
  */
 public class ContainerPanel extends VisibleClass {
 
+	private static final long serialVersionUID = 1L;
+	
     @Override
     public void update() {
     }

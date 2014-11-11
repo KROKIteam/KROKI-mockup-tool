@@ -14,6 +14,8 @@ import kroki.profil.persistent.PersistentProperty;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Aggregated extends VisibleProperty {
+	
+	private static final long serialVersionUID = 1L;
 
     protected AggregateFunciton funciton = AggregateFunciton.SUM;
     protected String selection;

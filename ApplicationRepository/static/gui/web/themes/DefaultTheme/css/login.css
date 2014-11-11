@@ -1,0 +1,119 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "Open Sans Condensed","Lato",Helvetica,Arial,sans-serif;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+	font-size: 100%;	
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	background: url(../images/back.png) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	overflow: hidden;
+}
+
+#loginContainer {
+	width: 96%;
+	background-color: rgba(0,0,0, 0.5);
+	margin: 10% auto;
+	border-top: 5px solid rgba(255,255,255, 0.5);
+	border-bottom: 5px solid rgba(255,255,255, 0.5);
+	padding: 2%;
+}
+
+#loginText {
+	width: 60%;
+	float: left;
+	color: #fff;
+}
+
+#loginText h1 {
+	text-decoration: none;
+	font-weight: normal;
+	font-size: 3.5em;
+	line-height: 1em;
+}
+
+#loginText h2 {
+	margin-top: 20px;
+	font-weight: normal;
+}
+
+#loginForm {
+	width: 300px;
+	height: 200px;
+	float: right;
+	background-color: #f3f4f5;
+	display: block;
+	border-radius: 4px;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+#loginHeader {
+	width: 95%;
+	height: 20%;
+	clear: both;
+	background-color: #34495e;
+	color: #fff;
+	padding-left: 5%;
+	border-radius: 4px 4px 0 0;
+	font-size: 1.5em;
+}
+
+#loginTable {
+	width: 100%;
+	height: 80%;
+	color: #34495e;
+	font-size: 1.5em;
+	padding: 5px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.inputColumn {
+	text-align: right;
+}
+
+.loginInputs {
+	height: 1.2em;
+	font-size: 1.1em;
+	color: #415b76;
+	width: 100%;
+}
+
+.loginButton {
+	width: 40%;
+	height: 100%;
+	padding: 5px;
+	border: medium none;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: normal;
+    transition: border 0.25s linear 0s, color 0.25s linear 0s, background-color 0.25s linear 0s;
+	background-color: #34495e;
+	color: #fff;
+	cursor: pointer;
+}
+
+.loginButton:hover {
+	background-color: #16a085;
+}

@@ -16,6 +16,7 @@ import graphedit.model.properties.PropertyEnums.DiagramProperties;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
+import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.state.AddElementState;
 import graphedit.state.LassoSelectionState;
 import graphedit.state.LassoZoomState;
@@ -816,10 +817,43 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			return;
 		if (this.containedPackages == null)
 			this.containedPackages = new ArrayList<Package>();
-		if (!this.containedPackages.contains(newGraphEditPackage))
-			this.containedPackages.add(newGraphEditPackage);
+		
+		sortedInsertPackage(newGraphEditPackage);
+			
 		fireUpdates();
 	}
+	
+	public void sortedInsertPackage(Package newGraphEditPackage){
+		for (int i = 0; i < containedPackages.size(); i++){
+			Package el =  containedPackages.get(i);
+			if (((String)el.getProperty(GraphElementProperties.NAME)).toLowerCase().compareTo(
+					((String)newGraphEditPackage.getProperty(GraphElementProperties.NAME)).toLowerCase()) > 0){
+				containedPackages.add(i, newGraphEditPackage);
+				break;
+			}
+		}
+		
+		if (!this.containedPackages.contains(newGraphEditPackage))
+			this.containedPackages.add(newGraphEditPackage);
+	}
+	
+	
+	public void sortedInsert(GraphElement newGraphElement){
+		
+		for (int i = 0; i < diagramElements.size(); i++){
+			GraphElement el =  diagramElements.get(i);
+			
+			if (((String)el.getProperty(GraphElementProperties.NAME)).toLowerCase().compareTo(
+					((String)newGraphElement.getProperty(GraphElementProperties.NAME)).toLowerCase()) > 0){
+				diagramElements.add(i, newGraphElement);
+				break;
+			}
+		}
+		
+		if (!this.diagramElements.contains(newGraphElement))
+			this.diagramElements.add(newGraphElement);
+	}
+	
 
 	public void removeGraphEditPackage(Package oldGraphEditPackage) {
 		if (oldGraphEditPackage == null)

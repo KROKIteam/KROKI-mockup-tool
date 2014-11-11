@@ -7,6 +7,7 @@ import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.model.properties.Properties;
+import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.model.properties.PropertyEnums.WorkspaceProperties;
 import graphedit.properties.Preferences;
 import graphedit.util.WorkspaceUtility;
@@ -186,12 +187,24 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		if (this.packageList == null)
 			this.packageList = new ArrayList<GraphEditPackage>();
 		if (!this.packageList.contains(newGraphEditPackage))
-			this.packageList.add(newGraphEditPackage);
+			sortedInsert(newGraphEditPackage);
 
 		// fire-uj izmene
 		this.setChanged();
 		this.notifyObservers();
 	}
+	
+	  private void sortedInsert(GraphEditPackage newGraphEditPackage){
+			for (int i = 0; i < packageList.size(); i++){
+				GraphEditPackage el =  packageList.get(i);
+				if (((String)el.getProperty(PackageProperties.NAME)).toLowerCase().compareTo(
+						((String)newGraphEditPackage.getProperty(PackageProperties.NAME)).toLowerCase()) > 0){
+					packageList.add(i, newGraphEditPackage);
+					return;
+				}
+			}
+			packageList.add(newGraphEditPackage);
+		}
 
 	public void removeProject(GraphEditPackage oldGraphEditPackage) {
 		if (oldGraphEditPackage == null)

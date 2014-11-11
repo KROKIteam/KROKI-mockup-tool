@@ -7,7 +7,9 @@ package kroki.app.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.app.utils.StringResource;
+import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 
 /**
@@ -28,9 +30,20 @@ public final class Workspace implements Serializable{
 
     public void addPackage(UmlPackage umlPackage) {
         if (!packageList.contains(umlPackage)) {
-            packageList.add(umlPackage);
+        	sortedInsert((BussinesSubsystem) umlPackage);
         }
     }
+    
+    private void sortedInsert(BussinesSubsystem element){
+		for (int i = 0; i < packageList.size(); i++){
+			BussinesSubsystem el = (BussinesSubsystem) packageList.get(i);
+			if (el.getLabel().toLowerCase().compareTo(element.getLabel().toLowerCase()) > 0){
+				packageList.add(i, element);
+				return;
+			}
+		}
+		packageList.add(element);
+	}
 
     public void removePackage(UmlPackage umlPackage) {
         if (packageList.contains(umlPackage)) {

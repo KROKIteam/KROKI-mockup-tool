@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="WebApp" default="deploy">
-
+<project name="WebApp" default="deploy" basedir=".">
 	<!-- Base directory for compilation targets -->
 	<property name="build.home" value="." />
-
 	<!-- Main class -->
-	<property name="main.class" value="adapt.application.Application" />
-
+	<property name="main.class" value="adapt.core.Application" />
 	<!-- The base directory for all libraries (jar) files -->
 	<property name="lib.home" value="lib" />
-
 	<target name="init">
 		<delete dir="${build.home}/bin" />
 		<delete dir="${deploy.home}" />
 		<mkdir dir="${build.home}/bin" />
-		<!--
-			<copy file="${build.home}/src/hibernate.cfg.xml" todir="${build.home}/bin"/>
-			-->
-		<copy todir="${build.home}/bin/templates">
-			<fileset dir="${build.home}/src/adapt/templates">
+		<!-- <copy file="${build.home}/src/hibernate.cfg.xml" todir="${build.home}/bin"/> -->
+		<copy todir="${build.home}/bin/ApplicationRepository">
+			<fileset dir="../ApplicationRepository">
 			</fileset>
 		</copy>
 	</target>
-
 	<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
 		<classpath>
-			<pathelement location="${build.home}/lib/aspectjtools.jar"/>
+			<pathelement location="${build.home}/lib/aspectjtools.jar" />
 		</classpath>
 	</taskdef>
-
 	<target name="build" depends="init">
-		<iajc destdir="${build.home}/bin" sourceroots="${build.home}" source="1.6">
+		<iajc destdir="${build.home}/bin" sourceroots="${build.home}"
+			source="1.6">
 			<classpath>
-				<pathelement path="${build.home}/lib"/>
+				<pathelement path="${build.home}/lib" />
 				<fileset dir="lib">
-					<include name="**/*.jar"/>
+					<include name="**/*.jar" />
 				</fileset>
 			</classpath>
 		</iajc>
 	</target>
-
 	<target name="jar" depends="build">
 		<!-- Prepare the list of jars from lib folder to be added to classpath -->
 		<pathconvert property="libs.project" pathsep=" ">
@@ -47,8 +39,7 @@
 				<chainedmapper>
 					<!-- remove absolute path -->
 					<flattenmapper />
-
-					<!-- add lib/ prefix to jar files-->
+					<!-- add lib/ prefix to jar files -->
 					<globmapper from="*" to="lib/*" />
 				</chainedmapper>
 			</mapper>
@@ -59,104 +50,53 @@
 				</fileset>
 			</path>
 		</pathconvert>
-
 		<!-- Prepare the list of properties files to be added to classpath -->
 		<pathconvert property="props.project" pathsep=" ">
 			<mapper>
 				<chainedmapper>
 					<!-- remove absolute path -->
 					<flattenmapper />
-
-					<!-- add props/ prefix to .properties files-->
-					<globmapper from="*" to="props/*" />
+					<!-- add props/ prefix to .properties files -->
+					<globmapper from="*" to="ApplicationRepository/generated/props/*" />
 				</chainedmapper>
 			</mapper>
 			<path>
 				<!-- lib.home contains all jar files, in several subdirectories -->
-				<fileset dir="${build.home}/props">
+				<fileset dir="../ApplicationRepository/generated/props">
 					<include name="**/*.properties" />
 				</fileset>
 			</path>
 		</pathconvert>
-
-
-		<pathconvert property="templates.project" pathsep=" ">
-			<mapper>
-				<chainedmapper>
-					<!-- remove absolute path -->
-					<flattenmapper />
-
-					<!-- add lib/ prefix to jar files-->
-					<globmapper from="*" to="templates/*" />
-				</chainedmapper>
-			</mapper>
-			<path>
-				<!-- lib.home contains all jar files, in several subdirectories -->
-				<fileset dir="${build.home}/src/adapt/templates">
-					<include name="*" />
-				</fileset>
-			</path>
-		</pathconvert>
-
-		<pathconvert property="config.project" pathsep=" ">
-			<mapper>
-				<chainedmapper>
-					<!-- remove absolute path -->
-					<flattenmapper />
-
-					<!-- add lib/ prefix to jar files-->
-					<globmapper from="*" to="config/*" />
-				</chainedmapper>
-			</mapper>
-			<path>
-				<!-- lib.home contains all jar files, in several subdirectories -->
-				<fileset dir="${build.home}/config">
-					<include name="*" />
-				</fileset>
-			</path>
-		</pathconvert>
-		
 		<!-- create the jar -->
 		<jar jarfile="${deploy.home}/${jar.name}">
 			<manifest>
 				<attribute name="Main-Class" value="${main.class}" />
-
 				<!-- Finally, use the generated libs path -->
-				<attribute name="Class-Path" value="${libs.project} ${props.project} ${templates.project} ${config.project}" />
+				<attribute name="Class-Path" value="${libs.project} ${props.project}"/>
 			</manifest>
 			<!-- Files to be included in jar -->
-			<!-- All contents from bin folder (class files) except compiled configuration files -->
-			<fileset dir="${build.home}/bin" excludes="*.xsd, mapping-types.xml, *.properties"/>
+			<!-- All contents from bin folder (class files) except compiled configuration 
+				files -->
+			<fileset dir="${build.home}/bin" excludes="*.xsd" />
 			<!-- Resource files from src folder -->
-			<fileset dir="${build.home}" excludes="**/src/, **/.settings/, **/bin/, **/lib/, *.classpath, *.project, *.xml"/>
-			<metainf  dir="${build.home}/etc/META-INF"/>
+			<fileset dir="${build.home}"
+				excludes="**/src/, **/.settings/, **/bin/, *.classpath, *.project, *.xml" />
+			<metainf dir="${build.home}/etc/META-INF" />
 		</jar>
 	</target>
-
 	<!-- Copy jar application files to user selected destination -->
 	<target name="deploy" depends="jar">
-		<mkdir dir="${deploy.home}"/>
-		<mkdir dir="${deploy.home}/lib"/>
-		<mkdir dir="${deploy.home}/config"/>
-		<mkdir dir="${deploy.home}/templates"/>
+		<mkdir dir="${deploy.home}" />
+		<mkdir dir="${deploy.home}/lib" />
+		<mkdir dir="${deploy.home}/ApplicationRepository" />
 		<copy todir="${deploy.home}/lib">
 			<fileset dir="${build.home}/lib">
-				<include name="**/*.jar"/>
+				<include name="**/*.jar" />
 			</fileset>
 		</copy>
-		<copy todir="${deploy.home}/config">
-			<fileset dir="${build.home}/config">
-				<include name="**/*.xml"/>
-			</fileset>
-		</copy>
-		<copy todir="${deploy.home}/templates">
-			<fileset dir="${build.home}/src/adapt/templates">
-				<include name="**/*"/>
-			</fileset>
-		</copy>
-		<copy todir="${deploy.home}/props">
-			<fileset dir="${build.home}/props">
-				<include name="**/*.properties"/>
+		<copy todir="${deploy.home}/ApplicationRepository">
+			<fileset dir="../ApplicationRepository">
+				<include name="**/*" />
 			</fileset>
 		</copy>
 	</target>

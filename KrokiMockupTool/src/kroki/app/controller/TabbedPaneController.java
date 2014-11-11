@@ -128,7 +128,10 @@ public class TabbedPaneController extends AbstractController {
      */
     public Canvas getCurrentTabContent() {
         int index = tabbedPane.getSelectedIndex();
-        return canvasList.get(index);
+        if (index != -1)
+        	return canvasList.get(index);
+        else 
+        	return null;
     }
 
     /**

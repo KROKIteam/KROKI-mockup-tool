@@ -11,20 +11,17 @@ import java.util.List;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.VisibleAssociationEnd;
-import kroki.profil.association.Zoom;
-import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.panel.container.ParentChild;
 import kroki.profil.utils.DatabaseProps;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
-/**
- * Klasa koja se koristi za definisanje
- * poslovnih podsistema i referata, na nacin definisan HCI standardom.
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
- */
 public class BussinesSubsystem extends VisibleElement implements UmlPackage {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private UmlPackage nestingPackage;
 	private List<VisibleElement> ownedElement = new ArrayList<VisibleElement>();
 	private List<UmlPackage> nestedPackage = new ArrayList<UmlPackage>();
@@ -32,6 +29,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private DatabaseProps DBConnectionProps = new DatabaseProps();
 	private File file;
 	private Object graphPackage;
+	private boolean labelToCode = true;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
 		super();
@@ -66,7 +64,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		if (!ownedType.contains(umlType)) {
 			ownedType.add(umlType);
 			umlType.setUmlPackage(this);
-			ownedElement.add((VisibleElement) umlType);
+			sortedInsert((VisibleElement) umlType);
 		}
 	}
 
@@ -81,7 +79,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		if (!nestedPackage.contains(umlPackage)) {
 			nestedPackage.add(umlPackage);
 			umlPackage.setNestingPackage(this);
-			ownedElement.add((VisibleElement) umlPackage);
+			sortedInsert((VisibleElement) umlPackage);
 		}
 	}
 
@@ -91,6 +89,36 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 			ownedElement.remove((VisibleElement) umlPackage);
 		}
 	}
+
+	private void sortedInsert(VisibleElement element){
+		for (int i = 0; i < ownedElementCount(); i++){
+			VisibleElement el = ownedElement.get(i);
+			if (element.getClass() != el.getClass()){
+				if (element instanceof UmlPackage){
+					ownedElement.add(i, element);
+					return;
+				}
+				continue;
+			}
+			if (el.getLabel().toLowerCase().compareTo(element.getLabel().toLowerCase()) > 0){
+				ownedElement.add(i, element);
+				return;
+			}
+		}
+		ownedElement.add(element);
+	}
+	
+	 @Override
+	 public void setLabel(String label) {
+		 super.setLabel(label);
+		 BussinesSubsystem pack = (BussinesSubsystem) nestingPackage;
+		 
+		 if (pack != null &&  pack.ownedType().contains(this)){
+			 pack.removeNestedPackage(this);
+			 pack.addNestedPackage(this);
+		 }
+	 }
+
 
 	public List<UmlPackage> nestedPackage() {
 		return nestedPackage;
@@ -131,21 +159,21 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		allAssociationEnds(this, ret);
 		return ret;
 	}
-	
+
 
 	public List<VisibleClass> allPanels(){
 		ArrayList<VisibleClass> ret = new ArrayList<VisibleClass>();
 		allPanels(this, ret);
 		return ret;
 	}
-	
+
 
 	/**
 	 * Finds all visible association ends which are contained by the subsystem and its nested packages
 	 * @param pack
 	 * @param ret
 	 */
-	 protected void allAssociationEnds(BussinesSubsystem pack, List<VisibleAssociationEnd> ret){
+	protected void allAssociationEnds(BussinesSubsystem pack, List<VisibleAssociationEnd> ret){
 		for (UmlType ownedType : pack.ownedType()){
 			if (!(ownedType instanceof VisibleClass))
 				continue;
@@ -155,22 +183,22 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		}
 		for (UmlPackage ownedPackage : pack.nestedPackage())
 			allAssociationEnds((BussinesSubsystem) ownedPackage, ret);
-	 }
+	}
 
-	 protected void allPanels(BussinesSubsystem pack, List<VisibleClass> ret){
+	protected void allPanels(BussinesSubsystem pack, List<VisibleClass> ret){
 		for (UmlType ownedType : pack.ownedType()){
 			if ((ownedType instanceof VisibleClass))
 				ret.add((VisibleClass) ownedType);
 		}
 		for (UmlPackage ownedPackage : pack.nestedPackage())
 			allPanels((BussinesSubsystem) ownedPackage, ret);
-	 }
+	}
 
 
-	 @Override
-	 public String toString() {
-		 return label;
-	 }
+	@Override
+	public String toString() {
+		return label;
+	}
 
 	public Object getGraphPackage() {
 		return graphPackage;
@@ -178,6 +206,14 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
 	public void setGraphPackage(Object graphPackage) {
 		this.graphPackage = graphPackage;
+	}
+
+	public boolean isLabelToCode() {
+		return labelToCode;
+	}
+
+	public void setLabelToCode(boolean labelToCode) {
+		this.labelToCode = labelToCode;
 	}
 
 

@@ -6,9 +6,11 @@ package kroki.app.gui.settings;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -41,6 +45,8 @@ public class StandardPanelSettings extends VisibleClassSettings {
 	NamingUtil cc = new NamingUtil();
 	
 	protected JTextField classTf;
+	protected JTextField tableTf;
+	protected JCheckBox labelToCodeCb;
     protected JCheckBox addCb;
     protected JCheckBox updateCb;
     protected JCheckBox copyCb;
@@ -57,6 +63,8 @@ public class StandardPanelSettings extends VisibleClassSettings {
     protected JTextField sortByTf;
     protected JButton sortByBtn;
     protected JLabel classLb;
+    protected JLabel tableLb;
+    protected JLabel labelToCodeLb;
     protected JLabel addLb;
     protected JLabel updateLb;
     protected JLabel copyLb;
@@ -84,6 +92,10 @@ public class StandardPanelSettings extends VisibleClassSettings {
 
     	classLb = new JLabel();
     	classLb.setText(Intl.getValue("stdPanelSettings.persistentClass"));
+    	tableLb = new JLabel();
+    	tableLb.setText(Intl.getValue("stfPanelSettings.tableName"));
+    	labelToCodeLb = new JLabel();
+    	labelToCodeLb.setText(Intl.getValue("stfPanelSettings.labelToCode"));
         addLb = new JLabel();
         addLb.setText(Intl.getValue("stdOperations.add"));
         updateLb = new JLabel();
@@ -114,6 +126,8 @@ public class StandardPanelSettings extends VisibleClassSettings {
         sortByLb.setText(Intl.getValue("stdDataSettings.sortBy"));
 
         classTf = new JTextField();
+        labelToCodeCb = new JCheckBox();
+        tableTf = new JTextField();
         addCb = new JCheckBox();
         updateCb = new JCheckBox();
         copyCb = new JCheckBox();
@@ -194,6 +208,11 @@ public class StandardPanelSettings extends VisibleClassSettings {
         intermediate.add(sortByLb);
         intermediate.add(sortByTf, "split 2, grow");
         intermediate.add(sortByBtn, "shrink");
+        
+        persistent.add(labelToCodeLb);
+        persistent.add(labelToCodeCb);
+        persistent.add(tableLb);
+        persistent.add(tableTf);
 
     }
 
@@ -225,9 +244,55 @@ public class StandardPanelSettings extends VisibleClassSettings {
             sortByValue = visibleClass.getStdDataSettings().getSortBy().toString();
         }
         sortByTf.setText(sortByValue);
+        tableTf.setText(visibleClass.getPersistentClass().getTableName());
+        labelToCodeCb.setSelected(visibleClass.getPersistentClass().isLabelToCode());
+        
+        if (visibleClass.getPersistentClass().isLabelToCode()){
+        	tableTf.setEditable(false);
+        	labelToCodeCb.setSelected(true);
+        }
+        else{
+        	tableTf.setEditable(true);
+        	labelToCodeCb.setSelected(false);
+        }
     }
 
     private void addActions() {
+    	
+    	this.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				updateComponents();
+			}
+		});
+    	
+    	tableTf.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent e) {
+                contentChanged(e);
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                contentChanged(e);
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                //nista se ne desava
+            }
+
+            private void contentChanged(DocumentEvent e) {
+                Document doc = e.getDocument();
+                String text = "";
+                try {
+                    text = doc.getText(0, doc.getLength());
+                } catch (BadLocationException ex) {
+                }
+                StandardPanel visibleClass = (StandardPanel) visibleElement;
+				visibleClass.getPersistentClass().setTableName(tableTf.getText().trim());
+				updatePreformed();
+            }
+        });
+			
     	
     	classTf.addFocusListener(new FocusListener() {
 			
@@ -235,10 +300,32 @@ public class StandardPanelSettings extends VisibleClassSettings {
 			public void focusLost(FocusEvent arg0) {
 				StandardPanel visibleClass = (StandardPanel) visibleElement;
 				visibleClass.getPersistentClass().setName(classTf.getText().trim());
+				updatePreformed();
 			}
 			
 			@Override
 			public void focusGained(FocusEvent arg0) {
+			}
+		});
+    	
+    	labelToCodeCb.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				  JCheckBox checkBox = (JCheckBox) e.getSource();
+	               boolean value = checkBox.isSelected();
+	               StandardPanel visibleClass = (StandardPanel) visibleElement;
+	               visibleClass.getPersistentClass().setLabelToCode(value);
+	               
+	               
+	           	if(value) {
+				    tableTf.setEditable(false);
+				    visibleClass.getPersistentClass().setTableName(cc.toDatabaseFormat(visibleClass.project().getLabel(), visibleClass.getLabel()));
+					tableTf.setText(visibleClass.getPersistentClass().getTableName());
+				}else {
+					tableTf.setEditable(true);
+				}
+				
 			}
 		});
     	

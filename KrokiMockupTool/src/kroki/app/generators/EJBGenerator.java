@@ -54,7 +54,7 @@ public class EJBGenerator {
 
 		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb");
 		if(!swing) {
-			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "adapt" + File.separator + "entities" + File.separator + "generated");
+			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "ejb_generated");
 		}
 		deleteFiles(dir);
 
@@ -72,7 +72,7 @@ public class EJBGenerator {
 				File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
 				//ako je swing false onda se generisu ejb klase u web projekat
 				if(!swing) {
-					fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src" + File.separator + "adapt" + File.separator + "entities" + File.separator + "generated" + File.separator + cl.getName() + ".java");
+					fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
 				}
 
 				//JOptionPane.showMessageDialog(null, "EJB GENERATOR: generisem u " + fout.getAbsolutePath());
@@ -109,12 +109,16 @@ public class EJBGenerator {
 	/***********************************************/
 	/*        EJB XML FILES GENERATION             */
 	/***********************************************/
-	public void generateEJBXmlFiles(ArrayList<EJBClass> classes) {
+	public void generateEJBXmlFiles(ArrayList<EJBClass> classes, String path) {
 
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 
-		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "model" + File.separator + "ejb");
+		if(path == null) {
+			path = "SwingApp" + File.separator + "model" + File.separator + "ejb";
+		}
+		
+		File dir = new File(appPath.substring(0, appPath.length()-16) +  path);
 		deleteFiles(dir);
 
 		try {
@@ -140,7 +144,11 @@ public class EJBGenerator {
 
 				//atribut "class-name"
 				Attr clasNameAttr = doc.createAttribute("class-name");
-				clasNameAttr.setValue("ejb." + clas.getName());
+				if(path == null) {
+					clasNameAttr.setValue("ejb." + clas.getName());
+				}else {
+					clasNameAttr.setValue("ejb_generated." + clas.getName());
+				}
 				entityRoot.setAttributeNode(clasNameAttr);
 
 				//tag <attributes>
@@ -181,6 +189,11 @@ public class EJBGenerator {
 				idKeyAttr.setValue("true");
 				idColumn.setAttributeNode(idKeyAttr);
 
+				//atribut "hidden"
+				Attr hiddenAttr = doc.createAttribute("hidden");
+				hiddenAttr.setValue("true");
+				idColumn.setAttributeNode(hiddenAttr);
+				
 				attributes.appendChild(idColumn);
 
 				//-----------------------------------------------------------
@@ -230,6 +243,18 @@ public class EJBGenerator {
 							colKeyAttr.setValue("false");
 							columnAttr.setAttributeNode(colKeyAttr);
 
+							//atribut "hidden"
+							Attr colHiddenAttr = doc.createAttribute("hidden");
+							colHiddenAttr.setValue("false");
+							columnAttr.setAttributeNode(colHiddenAttr);
+							
+							//atribut 'enum'
+							if(attribute.getEnumeration() != null) {
+								Attr colEnumAttr = doc.createAttribute("enum");
+								colEnumAttr.setValue(attribute.getEnumeration().getName());
+								columnAttr.setAttributeNode(colEnumAttr);
+							}
+							
 							attributes.appendChild(columnAttr);
 						}else if(getAttributeType(attribute).equals("ManyToOne")) {
 							Element zoomTag = doc.createElement("zoom-attribute");
@@ -251,7 +276,11 @@ public class EJBGenerator {
 
 							//atribut "class-name"
 							Attr classNameAttr = doc.createAttribute("class-name");
-							classNameAttr.setValue("ejb." + attribute.getType());
+							if(path == null) {
+								classNameAttr.setValue("ejb." + attribute.getType());
+							}else {
+								classNameAttr.setValue("ejb_generated." + attribute.getType());
+							}
 							zoomTag.setAttributeNode(classNameAttr);
 
 							//atribut "zoomed-by"
@@ -290,7 +319,6 @@ public class EJBGenerator {
 									cr.setAttributeNode(attrLbl);
 
 									zoomTag.appendChild(cr);
-
 								}
 							}
 							
@@ -299,7 +327,11 @@ public class EJBGenerator {
 					}
 				}
 
-				writer.write(doc, "ejb" + File.separator + clas.getName(), true);
+				if(path == null) {
+					writer.write(doc, "ejb" + File.separator + clas.getName(), true);
+				}else {
+					writer.write(doc, "ejb" + File.separator + clas.getName(), false);
+				}
 
 			}
 
@@ -311,7 +343,7 @@ public class EJBGenerator {
 	/***********************************************/
 	/*     XML-MAPPING FILE GENERATION             */
 	/***********************************************/
-	public void generateXMLMappingFile(ArrayList<EJBClass> classes) {
+	public void generateXMLMappingFile(ArrayList<EJBClass> classes, Object repo) {
 
 		try {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -329,7 +361,11 @@ public class EJBGenerator {
 
 				//atribut "class-name"
 				Attr nameAttr = doc.createAttribute("class-name");
-				nameAttr.setValue("ejb." + ejb.getName());
+				if(repo == null) {
+					nameAttr.setValue("ejb." + ejb.getName());
+				}else {
+					nameAttr.setValue("ejb_generated." + ejb.getName());
+				}
 				property.setAttributeNode(nameAttr);
 
 				//atribut "xml-file"
@@ -341,7 +377,11 @@ public class EJBGenerator {
 				mapRoot.appendChild(property);
 			}
 
-			writer.write(doc, "xml-mapping", true);
+			if(repo == null) {
+				writer.write(doc, "xml-mapping", true);
+			}else {
+				writer.write(doc, "xml-mapping", false);
+			}
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
