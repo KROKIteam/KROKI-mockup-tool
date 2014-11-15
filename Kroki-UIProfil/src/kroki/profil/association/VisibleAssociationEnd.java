@@ -36,9 +36,9 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeÄ‡i, prethodni i poslednji) */
     protected boolean dataNavigation = true;
     /**Standardna podesavanja panela*/
-    protected StdPanelSettings stdPanelSettings = new StdPanelSettings();
+    protected transient StdPanelSettings stdPanelSettings = new StdPanelSettings();
     /**Standardna podesavanja podataka*/
-    protected StdDataSettings stdDataSettings = new StdDataSettings();
+    protected transient StdDataSettings stdDataSettings = new StdDataSettings();
     /**Panel sa kojeg se aktivira*/
     protected VisibleClass activationPanel;
     /**Panel koji se aktivira*/
@@ -59,7 +59,6 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     protected int upper;
 
     public VisibleAssociationEnd() {
-    	
     }
 
     public VisibleAssociationEnd(String label, boolean visible, ComponentType componentType) {
@@ -166,6 +165,8 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     /*GETERI I SETERI*/
     /*****************/
     public StdDataSettings getStdDataSettings() {
+    	if (stdDataSettings == null)
+    		stdDataSettings = new StdDataSettings();
         return stdDataSettings;
     }
 
@@ -174,6 +175,8 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     }
 
     public StdPanelSettings getStdPanelSettings() {
+    	if (stdPanelSettings == null)
+    		stdPanelSettings = new StdPanelSettings();
         return stdPanelSettings;
     }
 
