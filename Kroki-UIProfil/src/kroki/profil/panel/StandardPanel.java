@@ -49,9 +49,9 @@ public class StandardPanel extends VisibleClass {
     /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeÄ‡i, prethodni i poslednji) */
     protected boolean dataNavigation = true;
     /**PodeÅ¡avanja standardnog panela*/
-    protected StdPanelSettings stdPanelSettings = new StdPanelSettings();
+    protected transient StdPanelSettings stdPanelSettings = new StdPanelSettings();
     /**PodeÅ¡avanja vezana za podatke koje standardni panel prikazuje*/
-    protected StdDataSettings stdDataSettings = new StdDataSettings();
+    protected transient StdDataSettings stdDataSettings = new StdDataSettings();
     /**Perzistentna klasa koja je vezana za standardni panel*/
     protected PersistentClass persistentClass;
 
@@ -244,6 +244,8 @@ public class StandardPanel extends VisibleClass {
     
     
     public StdDataSettings getStdDataSettings() {
+    	if (stdDataSettings == null)
+    		stdDataSettings = new StdDataSettings();
         return stdDataSettings;
     }
 
@@ -252,6 +254,8 @@ public class StandardPanel extends VisibleClass {
     }
 
     public StdPanelSettings getStdPanelSettings() {
+    	if (stdPanelSettings == null)
+    		stdPanelSettings = new StdPanelSettings();
         return stdPanelSettings;
     }
 
