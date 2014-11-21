@@ -1035,6 +1035,22 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public void setLayout(boolean layout) {
 		this.layout = layout;
 	}
+	
+	public void setConnectorsLoaded(boolean b) {
+		for (Link link : links){
+			link.getSourceConnector().setLoaded(b);
+			link.getDestinationConnector().setLoaded(b);
+		}
+	}
+	
+	public void removeLinkNodes(){
+		for (Link link : links){
+			if (link.getNodes().size() > 2){
+				for (int i = 1; i < link.getNodes().size(); i++)
+					link.getNodes().remove(i);
+			}
+		}
+	}
 
 
 }

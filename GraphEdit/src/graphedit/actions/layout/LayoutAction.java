@@ -18,7 +18,10 @@ public abstract class LayoutAction extends AbstractAction {
 	public void actionPerformed(ActionEvent arg0) {
 		GraphEditView view = MainFrame.getInstance().getCurrentView();
 		view.setLayout(true);
+		view.getModel().setConnectorsLoaded(false);
+		view.getModel().removeLinkNodes();
 		view.setLayoutStrategy(strategy);
+		view.getSelectionModel().clearSelection();
 		view.getModel().fireUpdates();
 	}
 }

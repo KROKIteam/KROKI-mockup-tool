@@ -1192,4 +1192,6 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		this.layoutStrategy = layoutStrategy;
 	}
 
+
+
 }
