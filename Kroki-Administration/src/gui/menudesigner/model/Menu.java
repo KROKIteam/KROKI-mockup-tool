@@ -1,7 +1,13 @@
 package gui.menudesigner.model;
 
-public class Menu {
+import java.io.Serializable;
+
+public class Menu implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5529723233860087796L;
 	protected Menu parent;
 
 	public Menu getParent() {
