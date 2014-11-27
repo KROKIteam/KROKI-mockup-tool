@@ -1,0 +1,1860 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menus>
+<menu>
+<roles/>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Citation</submenu_name>
+<menu_item>
+<menu_name>Citation</menu_name>
+<form_name>Citation</form_name>
+<activate>cfcite_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Citation Class</menu_name>
+<form_name>Citation Class</form_name>
+<activate>cfcite_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Citation Description</menu_name>
+<form_name>Citation Description</form_name>
+<activate>cfcitedescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Citation Medium</menu_name>
+<form_name>Citation Medium</form_name>
+<activate>cfcite_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Citation Title</menu_name>
+<form_name>Citation Title</form_name>
+<activate>cfcitetitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Classification</submenu_name>
+<menu_item>
+<menu_name>Classification</menu_name>
+<form_name>Classification</form_name>
+<activate>cfclass_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification - Classification</menu_name>
+<form_name>Classification - Classification</form_name>
+<activate>cfclass_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Definition</menu_name>
+<form_name>Classification Definition</form_name>
+<activate>cfclassdef_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Description</menu_name>
+<form_name>Classification Description</form_name>
+<activate>cfclassdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Example</menu_name>
+<form_name>Classification Example</form_name>
+<activate>cfclassex_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Scheme</menu_name>
+<form_name>Classification Scheme</form_name>
+<activate>cfclassscheme_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Scheme - Classification Scheme</menu_name>
+<form_name>Classification Scheme - Classification Scheme</form_name>
+<activate>cfclassscheme_classscheme_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Scheme Description</menu_name>
+<form_name>Classification Scheme Description</form_name>
+<activate>cfclassschemedescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Scheme Name</menu_name>
+<form_name>Classification Scheme Name</form_name>
+<activate>cfclassschemename_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Classification Term</menu_name>
+<form_name>Classification Term</form_name>
+<activate>cfclassterm_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Country</submenu_name>
+<menu_item>
+<menu_name>Country</menu_name>
+<form_name>Country</form_name>
+<activate>cfcountry_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Country Classification</menu_name>
+<form_name>Country Classification</form_name>
+<activate>cfcountry_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Country Name</menu_name>
+<form_name>Country Name</form_name>
+<activate>cfcountryname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Currency</submenu_name>
+<menu_item>
+<menu_name>Currency</menu_name>
+<form_name>Currency</form_name>
+<activate>cfcurrency_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Currency Classification</menu_name>
+<form_name>Currency Classification</form_name>
+<activate>cfcurrency_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Currency Entity Name</menu_name>
+<form_name>Currency Entity Name</form_name>
+<activate>cfcurrencyentname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Currency Name</menu_name>
+<form_name>Currency Name</form_name>
+<activate>cfcurrencyname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Curriculum Vitae</submenu_name>
+<menu_item>
+<menu_name>Curriculum Vitae</menu_name>
+<form_name>Curriculum Vitae</form_name>
+<activate>cfcv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Curriculum Vitae - Classification</menu_name>
+<form_name>Curriculum Vitae - Classification</form_name>
+<activate>cfcv_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Doublin Core</submenu_name>
+<menu_item>
+<menu_name>Dublin Core</menu_name>
+<form_name>Dublin Core</form_name>
+<activate>cfdc_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Audience</menu_name>
+<form_name>Dublin Core Audience</form_name>
+<activate>cfdcaudience_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Contributor</menu_name>
+<form_name>Dublin Core Contributor</form_name>
+<activate>cfdccontributor_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Coverage</menu_name>
+<form_name>Dublin Core Coverage</form_name>
+<activate>cfdccoverage_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Coverage Spatial</menu_name>
+<form_name>Dublin Core Coverage Spatial</form_name>
+<activate>cfdccoveragespatial_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Coverage Temporal</menu_name>
+<form_name>Dublin Core Coverage Temporal</form_name>
+<activate>cfdccoveragetemporal_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Creator</menu_name>
+<form_name>Dublin Core Creator</form_name>
+<activate>cfdccreator_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Date</menu_name>
+<form_name>Dublin Core Date</form_name>
+<activate>cfdcdate_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Description</menu_name>
+<form_name>Dublin Core Description</form_name>
+<activate>cfdcdescription_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Format</menu_name>
+<form_name>Dublin Core Format</form_name>
+<activate>cfdcformat_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Language</menu_name>
+<form_name>Dublin Core Language</form_name>
+<activate>cfdclanguage_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Provenance</menu_name>
+<form_name>Dublin Core Provenance</form_name>
+<activate>cfdcprovenance_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Publisher</menu_name>
+<form_name>Dublin Core Publisher</form_name>
+<activate>cfdcpublisher_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Relation</menu_name>
+<form_name>Dublin Core Relation</form_name>
+<activate>cfdcrelation_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Resource Identifier</menu_name>
+<form_name>Dublin Core Resource Identifier</form_name>
+<activate>cfdcresourceidentifier_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Resource Type</menu_name>
+<form_name>Dublin Core Resource Type</form_name>
+<activate>cfdcresourcetype_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Rights Holder</menu_name>
+<form_name>Dublin Core Rights Holder</form_name>
+<activate>cfdcrightsholder_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Rights Management</menu_name>
+<form_name>Dublin Core Rights Management</form_name>
+<activate>cfdcrightsmm_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Rights Management Access Rights</menu_name>
+<form_name>Dublin Core Rights Management Access Rights</form_name>
+<activate>cfdcrightsmmaccessrights_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Rights Management License</menu_name>
+<form_name>Dublin Core Rights Management License</form_name>
+<activate>cfdcrightsmmlicense_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Source</menu_name>
+<form_name>Dublin Core Source</form_name>
+<activate>cfdcsource_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Subject</menu_name>
+<form_name>Dublin Core Subject</form_name>
+<activate>cfdcsubject_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Dublin Core Title</menu_name>
+<form_name>Dublin Core Title</form_name>
+<activate>cfdctitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Electronic Address</submenu_name>
+<menu_item>
+<menu_name>Electronic Address</menu_name>
+<form_name>Electronic Address</form_name>
+<activate>cfeaddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Electronic Address Classification</menu_name>
+<form_name>Electronic Address Classification</form_name>
+<activate>cfeaddr_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Equipment</submenu_name>
+<menu_item>
+<menu_name>Equipment</menu_name>
+<form_name>Equipment</form_name>
+<activate>cfequip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Classification</menu_name>
+<form_name>Equipment Classification</form_name>
+<activate>cfequip_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Description</menu_name>
+<form_name>Equipment Description</form_name>
+<activate>cfequipdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Equipment</menu_name>
+<form_name>Equipment Equipment</form_name>
+<activate>cfequip_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Event</menu_name>
+<form_name>Equipment Event</form_name>
+<activate>cfequip_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Funding</menu_name>
+<form_name>Equipment Funding</form_name>
+<activate>cfequip_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Indicator</menu_name>
+<form_name>Equipment Indicator</form_name>
+<activate>cfequip_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Keywords</menu_name>
+<form_name>Equipment Keywords</form_name>
+<activate>cfequipkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Measurement</menu_name>
+<form_name>Equipment Measurement</form_name>
+<activate>cfequip_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Medium</menu_name>
+<form_name>Equipment Medium</form_name>
+<activate>cfequip_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Name</menu_name>
+<form_name>Equipment Name</form_name>
+<activate>cfequipname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Post Address</menu_name>
+<form_name>Equipment Post Address</form_name>
+<activate>cfequip_paddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Equipment Service</menu_name>
+<form_name>Equipment Service</form_name>
+<activate>cfequip_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Event</submenu_name>
+<menu_item>
+<menu_name>Event</menu_name>
+<form_name>Event</form_name>
+<activate>cfevent_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Classification</menu_name>
+<form_name>Event Classification</form_name>
+<activate>cfevent_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Description</menu_name>
+<form_name>Event Description</form_name>
+<activate>cfeventdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Event</menu_name>
+<form_name>Event Event</form_name>
+<activate>cfevent_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Funding</menu_name>
+<form_name>Event Funding</form_name>
+<activate>cfevent_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Indicator</menu_name>
+<form_name>Event Indicator</form_name>
+<activate>cfevent_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Keywords</menu_name>
+<form_name>Event Keywords</form_name>
+<activate>cfeventkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Measurement</menu_name>
+<form_name>Event Measurement</form_name>
+<activate>cfevent_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Medium</menu_name>
+<form_name>Event Medium</form_name>
+<activate>cfevent_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Event Name</menu_name>
+<form_name>Event Name</form_name>
+<activate>cfeventname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Expertise And Skills</submenu_name>
+<menu_item>
+<menu_name>Expertise And Skills</menu_name>
+<form_name>Expertise And Skills</form_name>
+<activate>cfexpskills_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Expertise And Skills Classification</menu_name>
+<form_name>Expertise And Skills Classification</form_name>
+<activate>cfexpskills_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Expertise And Skills Description</menu_name>
+<form_name>Expertise And Skills Description</form_name>
+<activate>cfexpskillsdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Expertise And Skills Keywords</menu_name>
+<form_name>Expertise And Skills Keywords</form_name>
+<activate>cfexpskillskeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Expertise And Skills Name</menu_name>
+<form_name>Expertise And Skills Name</form_name>
+<activate>cfexpskillsname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Formalised Dublin Core Rights</submenu_name>
+<menu_item>
+<menu_name>Formalised Dublin Core Rights Management Pricing</menu_name>
+<form_name>Formalised Dublin Core Rights Management Pricing</form_name>
+<activate>cffdcrightsmmpricing_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Formalised Dublin Core Rights Management Privacy</menu_name>
+<form_name>Formalised Dublin Core Rights Management Privacy</form_name>
+<activate>cffdcrightsmmprivacy_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Formalised Dublin Core Rights Management Rights</menu_name>
+<form_name>Formalised Dublin Core Rights Management Rights</form_name>
+<activate>cffdcrightsmmrights_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Formalised Dublin Core Rights Management Security</menu_name>
+<form_name>Formalised Dublin Core Rights Management Security</form_name>
+<activate>cffdcrightsmmsecurity_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Facility</submenu_name>
+<menu_item>
+<menu_name>Facility</menu_name>
+<form_name>Facility</form_name>
+<activate>cffacil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Classification</menu_name>
+<form_name>Facility Classification</form_name>
+<activate>cffacil_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Description</menu_name>
+<form_name>Facility Description</form_name>
+<activate>cffacildescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Equipment</menu_name>
+<form_name>Facility Equipment</form_name>
+<activate>cffacil_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Event</menu_name>
+<form_name>Facility Event</form_name>
+<activate>cffacil_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Facility</menu_name>
+<form_name>Facility Facility</form_name>
+<activate>cffacil_facil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Funding</menu_name>
+<form_name>Facility Funding</form_name>
+<activate>cffacil_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Indicator</menu_name>
+<form_name>Facility Indicator</form_name>
+<activate>cffacil_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Kewords</menu_name>
+<form_name>Facility Kewords</form_name>
+<activate>cffacilkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Measurement</menu_name>
+<form_name>Facility Measurement</form_name>
+<activate>cffacil_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Medium</menu_name>
+<form_name>Facility Medium</form_name>
+<activate>cffacil_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Name</menu_name>
+<form_name>Facility Name</form_name>
+<activate>cffacilname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Post Address</menu_name>
+<form_name>Facility Post Address</form_name>
+<activate>cffacil_paddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Facility Service</menu_name>
+<form_name>Facility Service</form_name>
+<activate>cffacil_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Federated Identifier</submenu_name>
+<menu_item>
+<menu_name>Federated Identifier</menu_name>
+<form_name>Federated Identifier</form_name>
+<activate>cffedid_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Federated Identifier Classification</menu_name>
+<form_name>Federated Identifier Classification</form_name>
+<activate>cffedid_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Funding</submenu_name>
+<menu_item>
+<menu_name>Funding</menu_name>
+<form_name>Funding</form_name>
+<activate>cffund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Funding - Funding</menu_name>
+<form_name>Funding - Funding</form_name>
+<activate>cffund_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Funding Classification</menu_name>
+<form_name>Funding Classification</form_name>
+<activate>cffund_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Funding Description</menu_name>
+<form_name>Funding Description</form_name>
+<activate>cffunddescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Funding Indicator</menu_name>
+<form_name>Funding Indicator</form_name>
+<activate>cffund_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Funding Keywords</menu_name>
+<form_name>Funding Keywords</form_name>
+<activate>cffundkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Funding Measurement</menu_name>
+<form_name>Funding Measurement</form_name>
+<activate>cffund_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Funding Name</menu_name>
+<form_name>Funding Name</form_name>
+<activate>cffundname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Geographic Bounding Box</submenu_name>
+<menu_item>
+<menu_name>Geographic Bounding Box</menu_name>
+<form_name>Geographic Bounding Box</form_name>
+<activate>cfgeobbox_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Geographic Bounding Box - Geographic Bounding Box</menu_name>
+<form_name>Geographic Bounding Box - Geographic Bounding Box</form_name>
+<activate>cfgeobbox_geobbox_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Geographic Bounding Box Classification</menu_name>
+<form_name>Geographic Bounding Box Classification</form_name>
+<activate>cfgeobbox_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Geographic Bounding Box Description</menu_name>
+<form_name>Geographic Bounding Box Description</form_name>
+<activate>cfgeobboxdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Geographic Bounding Box Keywords</menu_name>
+<form_name>Geographic Bounding Box Keywords</form_name>
+<activate>cfgeobboxkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Geographic Bounding Box Name</menu_name>
+<form_name>Geographic Bounding Box Name</form_name>
+<activate>cfgeobboxname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Indicator</submenu_name>
+<menu_item>
+<menu_name>Indicator</menu_name>
+<form_name>Indicator</form_name>
+<activate>cfindic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Indicator - Indicator</menu_name>
+<form_name>Indicator - Indicator</form_name>
+<activate>cfindic_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Indicator Classification</menu_name>
+<form_name>Indicator Classification</form_name>
+<activate>cfindic_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Indicator Description</menu_name>
+<form_name>Indicator Description</form_name>
+<activate>cfindicdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Indicator Keywords</menu_name>
+<form_name>Indicator Keywords</form_name>
+<activate>cfindickeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Indicator Measurement</menu_name>
+<form_name>Indicator Measurement</form_name>
+<activate>cfindic_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Indicator Name</menu_name>
+<form_name>Indicator Name</form_name>
+<activate>cfindicname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Language</submenu_name>
+<menu_item>
+<menu_name>Language</menu_name>
+<form_name>Language</form_name>
+<activate>cflang_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Language Classification</menu_name>
+<form_name>Language Classification</form_name>
+<activate>cflang_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Language Name</menu_name>
+<form_name>Language Name</form_name>
+<activate>cflangname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Measurement</submenu_name>
+<menu_item>
+<menu_name>Measurement</menu_name>
+<form_name>Measurement</form_name>
+<activate>cfmeas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Measurement - Measurement</menu_name>
+<form_name>Measurement - Measurement</form_name>
+<activate>cfmeas_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Measurement Classification</menu_name>
+<form_name>Measurement Classification</form_name>
+<activate>cfmeas_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Measurement Description</menu_name>
+<form_name>Measurement Description</form_name>
+<activate>cfmeasdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Measurement Keywords</menu_name>
+<form_name>Measurement Keywords</form_name>
+<activate>cfmeaskeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Measurement Name</menu_name>
+<form_name>Measurement Name</form_name>
+<activate>cfmeasname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Medium</submenu_name>
+<menu_item>
+<menu_name>Medium</menu_name>
+<form_name>Medium</form_name>
+<activate>cfmedium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium - Measurement</menu_name>
+<form_name>Medium - Measurement</form_name>
+<activate>cfmedium_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium - Medium</menu_name>
+<form_name>Medium - Medium</form_name>
+<activate>cfmedium_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium Classification</menu_name>
+<form_name>Medium Classification</form_name>
+<activate>cfmedium_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium Description</menu_name>
+<form_name>Medium Description</form_name>
+<activate>cfmediumdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium Funding</menu_name>
+<form_name>Medium Funding</form_name>
+<activate>cfmedium_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium Indicator</menu_name>
+<form_name>Medium Indicator</form_name>
+<activate>cfmedium_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium Keywords</menu_name>
+<form_name>Medium Keywords</form_name>
+<activate>cfmediumkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Medium Title</menu_name>
+<form_name>Medium Title</form_name>
+<activate>cfmediumtitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Metrics</submenu_name>
+<menu_item>
+<menu_name>Metrics</menu_name>
+<form_name>Metrics</form_name>
+<activate>cfmetrics_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Metrics Classification</menu_name>
+<form_name>Metrics Classification</form_name>
+<activate>cfmetrics_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Metrics Description</menu_name>
+<form_name>Metrics Description</form_name>
+<activate>cfmetricsdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Metrics Keywords</menu_name>
+<form_name>Metrics Keywords</form_name>
+<activate>cfmetricskeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Metrics Name</menu_name>
+<form_name>Metrics Name</form_name>
+<activate>cfmetricsname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Organisation Unit</submenu_name>
+<menu_item>
+<menu_name>Organisation Unit</menu_name>
+<form_name>Organisation Unit</form_name>
+<activate>cforgunit_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit - Organisation Unit</menu_name>
+<form_name>Organisation Unit - Organisation Unit</form_name>
+<activate>cforgunit_orgunit_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Classification</menu_name>
+<form_name>Organisation Unit Classification</form_name>
+<activate>cforgunit_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit DC</menu_name>
+<form_name>Organisation Unit DC</form_name>
+<activate>cforgunit_dc_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Electronic Address</menu_name>
+<form_name>Organisation Unit Electronic Address</form_name>
+<activate>cforgunit_eaddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Equipment</menu_name>
+<form_name>Organisation Unit Equipment</form_name>
+<activate>cforgunit_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Event</menu_name>
+<form_name>Organisation Unit Event</form_name>
+<activate>cforgunit_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Expertise And Skills</menu_name>
+<form_name>Organisation Unit Expertise And Skills</form_name>
+<activate>cforgunit_expskills_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Facility</menu_name>
+<form_name>Organisation Unit Facility</form_name>
+<activate>cforgunit_facil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Funding</menu_name>
+<form_name>Organisation Unit Funding</form_name>
+<activate>cforgunit_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Indicator</menu_name>
+<form_name>Organisation Unit Indicator</form_name>
+<activate>cforgunit_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Keywords</menu_name>
+<form_name>Organisation Unit Keywords</form_name>
+<activate>cforgunitkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Measurement</menu_name>
+<form_name>Organisation Unit Measurement</form_name>
+<activate>cforgunit_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Medium</menu_name>
+<form_name>Organisation Unit Medium</form_name>
+<activate>cforgunit_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Name</menu_name>
+<form_name>Organisation Unit Name</form_name>
+<activate>cforgunitname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Post Address</menu_name>
+<form_name>Organisation Unit Post Address</form_name>
+<activate>cforgunit_paddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Prize Award</menu_name>
+<form_name>Organisation Unit Prize Award</form_name>
+<activate>cforgunit_prize_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Research Activity</menu_name>
+<form_name>Organisation Unit Research Activity</form_name>
+<activate>cforgunitresact_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Result Patent</menu_name>
+<form_name>Organisation Unit Result Patent</form_name>
+<activate>cforgunit_respat_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Result Product</menu_name>
+<form_name>Organisation Unit Result Product</form_name>
+<activate>cforgunit_resprod_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Result Publication</menu_name>
+<form_name>Organisation Unit Result Publication</form_name>
+<activate>cforgunit_respubl_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Organisation Unit Service</menu_name>
+<form_name>Organisation Unit Service</form_name>
+<activate>cforgunit_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Post Address</submenu_name>
+<menu_item>
+<menu_name>Post Address</menu_name>
+<form_name>Post Address</form_name>
+<activate>cfpaddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Post Address Classification</menu_name>
+<form_name>Post Address Classification</form_name>
+<activate>cfpaddr_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Post Address Geographic Bounding Box</menu_name>
+<form_name>Post Address Geographic Bounding Box</form_name>
+<activate>cfpaddr_geobbox_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Person</submenu_name>
+<menu_item>
+<menu_name>Person</menu_name>
+<form_name>Person</form_name>
+<activate>cfpers_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Classification</menu_name>
+<form_name>Person Classification</form_name>
+<activate>cfpers_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Country</menu_name>
+<form_name>Person Country</form_name>
+<activate>cfpers_country_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Curriculum Vitae</menu_name>
+<form_name>Person Curriculum Vitae</form_name>
+<activate>cfpers_cv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Dublin Core</menu_name>
+<form_name>Person Dublin Core</form_name>
+<activate>cfpers_dc_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Electronic Address</menu_name>
+<form_name>Person Electronic Address</form_name>
+<activate>cfpers_eaddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Equipment</menu_name>
+<form_name>Person Equipment</form_name>
+<activate>cfpers_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Event</menu_name>
+<form_name>Person Event</form_name>
+<activate>cfpers_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Expertise And Skills</menu_name>
+<form_name>Person Expertise And Skills</form_name>
+<activate>cfpers_expskills_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Facility</menu_name>
+<form_name>Person Facility</form_name>
+<activate>cfpers_facil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Funding</menu_name>
+<form_name>Person Funding</form_name>
+<activate>cfpers_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Indicator</menu_name>
+<form_name>Person Indicator</form_name>
+<activate>cfpers_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Keywords</menu_name>
+<form_name>Person Keywords</form_name>
+<activate>cfperskeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Language</menu_name>
+<form_name>Person Language</form_name>
+<activate>cfpers_lang_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Measurement</menu_name>
+<form_name>Person Measurement</form_name>
+<activate>cfpers_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Medium</menu_name>
+<form_name>Person Medium</form_name>
+<activate>cfpers_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Name</menu_name>
+<form_name>Person Name</form_name>
+<activate>cfpersname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Name - Person</menu_name>
+<form_name>Person Name - Person</form_name>
+<activate>cfpersname_pers_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Organisation Unit</menu_name>
+<form_name>Person Organisation Unit</form_name>
+<activate>cfpers_orgunit_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Person</menu_name>
+<form_name>Person Person</form_name>
+<activate>cfpers_pers_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Post Address</menu_name>
+<form_name>Person Post Address</form_name>
+<activate>cfpers_paddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Prize Award</menu_name>
+<form_name>Person Prize Award</form_name>
+<activate>cfpers_prize_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Qualification</menu_name>
+<form_name>Person Qualification</form_name>
+<activate>cfpers_qual_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Research Interest</menu_name>
+<form_name>Person Research Interest</form_name>
+<activate>cfpersresint_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Result Patent</menu_name>
+<form_name>Person Result Patent</form_name>
+<activate>cfpers_respat_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Result Product</menu_name>
+<form_name>Person Result Product</form_name>
+<activate>cfpers_resprod_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Result Publication</menu_name>
+<form_name>Person Result Publication</form_name>
+<activate>cfpers_respubl_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Person Service</menu_name>
+<form_name>Person Service</form_name>
+<activate>cfpers_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Prize Award</submenu_name>
+<menu_item>
+<menu_name>Prize Award</menu_name>
+<form_name>Prize Award</form_name>
+<activate>cfprize_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Prize Award Classification</menu_name>
+<form_name>Prize Award Classification</form_name>
+<activate>cfprize_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Prize Award Description</menu_name>
+<form_name>Prize Award Description</form_name>
+<activate>cfprizedescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Prize Award Keywords</menu_name>
+<form_name>Prize Award Keywords</form_name>
+<activate>cfprizekeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Prize Award Name</menu_name>
+<form_name>Prize Award Name</form_name>
+<activate>cfprizename_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Project</submenu_name>
+<menu_item>
+<menu_name>Project</menu_name>
+<form_name>Project</form_name>
+<activate>cfproj_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project - Project</menu_name>
+<form_name>Project - Project</form_name>
+<activate>cfproj_proj_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Abstract</menu_name>
+<form_name>Project Abstract</form_name>
+<activate>cfprojabstr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Classification</menu_name>
+<form_name>Project Classification</form_name>
+<activate>cfproj_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Dublin Core</menu_name>
+<form_name>Project Dublin Core</form_name>
+<activate>cfproj_dc_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Equipment</menu_name>
+<form_name>Project Equipment</form_name>
+<activate>cfproj_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Event</menu_name>
+<form_name>Project Event</form_name>
+<activate>cfproj_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Facility</menu_name>
+<form_name>Project Facility</form_name>
+<activate>cfproj_facil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Funding</menu_name>
+<form_name>Project Funding</form_name>
+<activate>cfproj_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Indicator</menu_name>
+<form_name>Project Indicator</form_name>
+<activate>cfproj_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Keywords</menu_name>
+<form_name>Project Keywords</form_name>
+<activate>cfprojkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Measurement</menu_name>
+<form_name>Project Measurement</form_name>
+<activate>cfproj_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Medium</menu_name>
+<form_name>Project Medium</form_name>
+<activate>cfproj_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Organisation Unit</menu_name>
+<form_name>Project Organisation Unit</form_name>
+<activate>cfproj_orgunit_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Person</menu_name>
+<form_name>Project Person</form_name>
+<activate>cfproj_pers_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Prize Award</menu_name>
+<form_name>Project Prize Award</form_name>
+<activate>cfproj_prize_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Result Patent</menu_name>
+<form_name>Project Result Patent</form_name>
+<activate>cfproj_respat_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Result Product</menu_name>
+<form_name>Project Result Product</form_name>
+<activate>cfproj_resprod_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Result Publication</menu_name>
+<form_name>Project Result Publication</form_name>
+<activate>cfproj_respubl_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Service</menu_name>
+<form_name>Project Service</form_name>
+<activate>cfproj_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Project Title</menu_name>
+<form_name>Project Title</form_name>
+<activate>cfprojtitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Qualification</submenu_name>
+<menu_item>
+<menu_name>Qualification</menu_name>
+<form_name>Qualification</form_name>
+<activate>cfqual_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Qualification Classification</menu_name>
+<form_name>Qualification Classification</form_name>
+<activate>cfqual_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Qualification Description</menu_name>
+<form_name>Qualification Description</form_name>
+<activate>cfqualdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Qualification Keywords</menu_name>
+<form_name>Qualification Keywords</form_name>
+<activate>cfqualkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Qualification Title</menu_name>
+<form_name>Qualification Title</form_name>
+<activate>cfqualtitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Result Patent</submenu_name>
+<menu_item>
+<menu_name>Result Patent</menu_name>
+<form_name>Result Patent</form_name>
+<activate>cfrespat_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent - Result Patent</menu_name>
+<form_name>Result Patent - Result Patent</form_name>
+<activate>cfrespat_respat_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Abstract</menu_name>
+<form_name>Result Patent Abstract</form_name>
+<activate>cfrespatabstr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Classification</menu_name>
+<form_name>Result Patent Classification</form_name>
+<activate>cfrespat_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Equipment</menu_name>
+<form_name>Result Patent Equipment</form_name>
+<activate>cfrespat_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Facility</menu_name>
+<form_name>Result Patent Facility</form_name>
+<activate>cfrespat_facil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Funding</menu_name>
+<form_name>Result Patent Funding</form_name>
+<activate>cfrespat_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Indicator</menu_name>
+<form_name>Result Patent Indicator</form_name>
+<activate>cfrespat_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Keywords</menu_name>
+<form_name>Result Patent Keywords</form_name>
+<activate>cfrespatkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Measurement</menu_name>
+<form_name>Result Patent Measurement</form_name>
+<activate>cfrespat_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Medium</menu_name>
+<form_name>Result Patent Medium</form_name>
+<activate>cfrespat_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Service</menu_name>
+<form_name>Result Patent Service</form_name>
+<activate>cfrespat_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Title</menu_name>
+<form_name>Result Patent Title</form_name>
+<activate>cfrespattitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Patent Version Info</menu_name>
+<form_name>Result Patent Version Info</form_name>
+<activate>cfrespatversinfo_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Result Product</submenu_name>
+<menu_item>
+<menu_name>Result Product</menu_name>
+<form_name>Result Product</form_name>
+<activate>cfresprod_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product - Result Product</menu_name>
+<form_name>Result Product - Result Product</form_name>
+<activate>cfresprod_resprod_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Classification</menu_name>
+<form_name>Result Product Classification</form_name>
+<activate>cfresprod_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Description</menu_name>
+<form_name>Result Product Description</form_name>
+<activate>cfresproddescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Equipment</menu_name>
+<form_name>Result Product Equipment</form_name>
+<activate>cfresprod_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Facility</menu_name>
+<form_name>Result Product Facility</form_name>
+<activate>cfresprod_facil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Funding</menu_name>
+<form_name>Result Product Funding</form_name>
+<activate>cfresprod_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Indicator</menu_name>
+<form_name>Result Product Indicator</form_name>
+<activate>cfresprod_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Keywords</menu_name>
+<form_name>Result Product Keywords</form_name>
+<activate>cfresprodkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Measurement</menu_name>
+<form_name>Result Product Measurement</form_name>
+<activate>cfresprod_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Medium</menu_name>
+<form_name>Result Product Medium</form_name>
+<activate>cfresprod_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Name</menu_name>
+<form_name>Result Product Name</form_name>
+<activate>cfresprodname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Service</menu_name>
+<form_name>Result Product Service</form_name>
+<activate>cfresprod_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Product Version Info</menu_name>
+<form_name>Result Product Version Info</form_name>
+<activate>cfresprodversinfo_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Result Publication</submenu_name>
+<menu_item>
+<menu_name>Result Publication</menu_name>
+<form_name>Result Publication</form_name>
+<activate>cfrespubl_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication - Result Patent</menu_name>
+<form_name>Result Publication - Result Patent</form_name>
+<activate>cfrespubl_respat_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication - Result Product</menu_name>
+<form_name>Result Publication - Result Product</form_name>
+<activate>cfrespubl_resprod_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication - Result Publication</menu_name>
+<form_name>Result Publication - Result Publication</form_name>
+<activate>cfrespubl_respubl_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Abstract</menu_name>
+<form_name>Result Publication Abstract</form_name>
+<activate>cfrespublabstr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Bibliographic Note</menu_name>
+<form_name>Result Publication Bibliographic Note</form_name>
+<activate>cfrespublbiblnote_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Citation</menu_name>
+<form_name>Result Publication Citation</form_name>
+<activate>cfrespubl_cite_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Classification</menu_name>
+<form_name>Result Publication Classification</form_name>
+<activate>cfrespubl_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Dublin Core</menu_name>
+<form_name>Result Publication Dublin Core</form_name>
+<activate>cfrespubl_dc_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Equipment</menu_name>
+<form_name>Result Publication Equipment</form_name>
+<activate>cfrespubl_equip_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Event</menu_name>
+<form_name>Result Publication Event</form_name>
+<activate>cfrespubl_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Facility</menu_name>
+<form_name>Result Publication Facility</form_name>
+<activate>cfrespubl_facil_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Funding</menu_name>
+<form_name>Result Publication Funding</form_name>
+<activate>cfrespubl_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Indicator</menu_name>
+<form_name>Result Publication Indicator</form_name>
+<activate>cfrespubl_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Keywords</menu_name>
+<form_name>Result Publication Keywords</form_name>
+<activate>cfrespublkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Measurement</menu_name>
+<form_name>Result Publication Measurement</form_name>
+<activate>cfrespubl_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Medium</menu_name>
+<form_name>Result Publication Medium</form_name>
+<activate>cfrespubl_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Metrics</menu_name>
+<form_name>Result Publication Metrics</form_name>
+<activate>cfrespubl_metrics_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Name Abbreviation</menu_name>
+<form_name>Result Publication Name Abbreviation</form_name>
+<activate>cfrespublnameabbrev_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Service</menu_name>
+<form_name>Result Publication Service</form_name>
+<activate>cfrespubl_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Subtitle</menu_name>
+<form_name>Result Publication Subtitle</form_name>
+<activate>cfrespublsubtitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Title</menu_name>
+<form_name>Result Publication Title</form_name>
+<activate>cfrespubltitle_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Result Publication Version Info</menu_name>
+<form_name>Result Publication Version Info</form_name>
+<activate>cfrespublversinfo_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>Service</submenu_name>
+<menu_item>
+<menu_name>Service</menu_name>
+<form_name>Service</form_name>
+<activate>cfsrv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service - Service</menu_name>
+<form_name>Service - Service</form_name>
+<activate>cfsrv_srv_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Classification</menu_name>
+<form_name>Service Classification</form_name>
+<activate>cfsrv_class_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Description</menu_name>
+<form_name>Service Description</form_name>
+<activate>cfsrvdescr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Event</menu_name>
+<form_name>Service Event</form_name>
+<activate>cfsrv_event_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Federated Identifier</menu_name>
+<form_name>Service Federated Identifier</form_name>
+<activate>cfsrv_fedid_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Funding</menu_name>
+<form_name>Service Funding</form_name>
+<activate>cfsrv_fund_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Indicator</menu_name>
+<form_name>Service Indicator</form_name>
+<activate>cfsrv_indic_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Keywords</menu_name>
+<form_name>Service Keywords</form_name>
+<activate>cfsrvkeyw_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Measurement</menu_name>
+<form_name>Service Measurement</form_name>
+<activate>cfsrv_meas_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Medium</menu_name>
+<form_name>Service Medium</form_name>
+<activate>cfsrv_medium_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Name</menu_name>
+<form_name>Service Name</form_name>
+<activate>cfsrvname_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+<menu_item>
+<menu_name>Service Post Address</menu_name>
+<form_name>Service Post Address</form_name>
+<activate>cfsrv_paddr_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+</menu>
+</menus>
