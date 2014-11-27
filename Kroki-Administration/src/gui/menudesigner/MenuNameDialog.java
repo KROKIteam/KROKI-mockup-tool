@@ -1,6 +1,7 @@
 package gui.menudesigner;
 
 import gui.menudesigner.model.Submenu;
+import gui.menudesigner.tree.MenusWorkspace;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -25,10 +26,9 @@ public class MenuNameDialog extends JDialog {
 
 	private JButton btnOK;
 
-	public MenuNameDialog(MenuDesignerPanel menuDesignerPanel, DefaultMutableTreeNode menusRoot, JTree menusTree, List<Submenu> menusList, Submenu rootMenu) {
+	public MenuNameDialog(MenuDesignerPanel menuDesignerPanel, Submenu rootMenu, JTree tree, MenusWorkspace workspace, JTree menusTree) {
 		setLocationRelativeTo(null);
-		BtnOKActionLister btnOkActionListener = new BtnOKActionLister(menuDesignerPanel,
-				menusRoot, menusTree, menusList, rootMenu);
+		BtnOKActionLister btnOkActionListener = new BtnOKActionLister(menuDesignerPanel, rootMenu, tree, workspace, menusTree);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(400, 90);
 		setModal(true);
@@ -51,34 +51,28 @@ public class MenuNameDialog extends JDialog {
 	}
 
 	private class BtnOKActionLister implements ActionListener {
-		private DefaultMutableTreeNode selectedNode;
-		private JTree menusTree;
-		private Map<String, Submenu> menuMap;
+		private JTree tree;
 		private Submenu rootMenu;
-		private Submenu selectedSubmenu;
-		private List<Submenu> menusList;
 		MenuDesignerPanel menuDesignerPanel;
-		public BtnOKActionLister(MenuDesignerPanel menuDesignerPanel, DefaultMutableTreeNode menusRoot,
-				JTree menusTree, List<Submenu> menusList, Submenu rootMenu) {
-			this.selectedNode = menusRoot;
-			this.menusTree = menusTree;
+		MenusWorkspace workspace;
+		JTree menusTree;
+		public BtnOKActionLister(MenuDesignerPanel menuDesignerPanel, Submenu rootMenu, JTree tree, MenusWorkspace workspace, JTree menusTree) {
+			this.tree = tree;
 			this.rootMenu = rootMenu;
-			this.menusList = menusList;
 			this.menuDesignerPanel = menuDesignerPanel;
+			this.workspace = workspace;
+			this.menusTree = menusTree;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (selectedNode != null) {
-				String menuName = tfMenuName.getText();
-				selectedNode.add(new DefaultMutableTreeNode(menuName));
-				DefaultTreeModel model = (DefaultTreeModel) menusTree.getModel();
-				model.reload(selectedNode);
-				menusList.add(rootMenu);
-				rootMenu.setName(menuName);
-				menuDesignerPanel.dispose();
-				MenuNameDialog.this.dispose();
-			}
+			String menuName = tfMenuName.getText();
+			rootMenu.setName(menuName);
+			workspace.addMenu(rootMenu);
+			tree.updateUI();
+			menusTree.updateUI();
+			menuDesignerPanel.dispose();
+			MenuNameDialog.this.dispose();
 		}
 
 	}
