@@ -99,6 +99,11 @@ public class RemoveCommand implements Command {
 				visibleClass.removeVisibleElement(visibleElement);
 				visibleClass.update();
 			}
+			
+			
+            if (visibleElement.getComponentType() != null){
+				visibleClass.decrementCount(visibleElement.getComponentType());
+			}
 		}
 	}
 
@@ -149,6 +154,11 @@ public class RemoveCommand implements Command {
 				elementsGroup.removeVisibleElement(visibleElement);
 				elementsGroup.addVisibleElement(groupIndex, visibleElement);
 				elementsGroup.update();
+			}
+			
+
+            if (visibleElement.getComponentType() != null){
+				visibleClass.incrementCount(visibleElement.getComponentType());
 			}
 
 		}

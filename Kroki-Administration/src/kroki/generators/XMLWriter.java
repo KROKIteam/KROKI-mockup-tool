@@ -24,7 +24,9 @@ public class XMLWriter {
 			
 			File fout = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "model" + File.separator +  fileName + ".xml");
 			if(!swing) {
-				fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "config" + File.separator +  fileName + ".xml");
+				//F:\workspace\github\KROKI-mockup-tool\ApplicationRepository\generated\model
+				fout = new File(appPath.substring(0, appPath.length()-16) +  "ApplicationRepository" + File.separator + "generated" + File.separator + 
+																		      File.separator + "model" + File.separator + fileName + ".xml");
 			}
 			if (!fout.getParentFile().exists()) 
 				if (!fout.getParentFile().mkdirs()) {

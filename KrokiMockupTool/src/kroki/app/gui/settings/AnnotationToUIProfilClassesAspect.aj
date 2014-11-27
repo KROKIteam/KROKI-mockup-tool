@@ -6,6 +6,8 @@ import kroki.profil.panel.*;
 import kroki.profil.operation.*;
 import kroki.profil.association.*;
 import kroki.profil.group.ElementsGroup;
+import kroki.profil.subsystem.*;
+
 import kroki.profil.*;
 
 public aspect AnnotationToUIProfilClassesAspect {
@@ -34,5 +36,7 @@ public aspect AnnotationToUIProfilClassesAspect {
 	declare @type : Next : @SettingsPanel(NextSettings.class) ;
 	declare @type : Hierarchy : @SettingsPanel(HierarchySettings.class) ;
 	declare @type : VisibleElement : @SettingsPanel(VisibleElementSettings.class) ;
+	
+	declare @type : BussinesSubsystem : @SettingsPanel(BusinessSubsystemSettings.class);
 
 }

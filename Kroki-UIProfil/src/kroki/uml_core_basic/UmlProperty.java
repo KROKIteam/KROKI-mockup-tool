@@ -5,7 +5,6 @@
 package kroki.uml_core_basic;
 
 /**
- *
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface UmlProperty extends UmlTypedElement, UmlMultiplicityElement {

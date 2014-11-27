@@ -14,12 +14,21 @@ KrokiMockupTool/Temp/
 kroki.h2.db
 kroki.lock.db
 
+#                      Applicaiton repository excludes
+######################################################
+ApplicationRepository/generated/*.xml
+ApplicationRepository/generated/db_config/*.xml
+ApplicationRepository/generated/model/*.xml
+ApplicationRepository/generated/model/ejb/*.xml
+ApplicationRepository/generated/model/panel*.xml
+ApplicationRepository/generated/model/users/*.xml
+ApplicationRepository/generated/props/*.properties
+
 #                                       WebApp excludes
 #######################################################
 WebApp/bin/
 WebApp/etc/META-INF/persistence.xml
 WebApp/src/adapt/entities/generated
-WebApp/src/adapt/enumerations/
 !WebApp/config
 WebApp/config/*
 !WebApp/config/actions.xml
@@ -28,7 +37,8 @@ WebApp/config/*
 WebApp/src/config/resources-generated.xml
 WebApp/src/adapt/templates/menu.html
 WebApp/props/app.properties
-
+WebApp/src/ejb_generated
+WebApp/src/ejb_generated/*
 #                                    SwingApp excludes
 ######################################################
 SwingApp/bin/
@@ -56,3 +66,9 @@ SwingApp/ddl_createDatabase.sql
 SwingApp/src/panelcomposer/enumerations/
 SwingApp/model/menu.xml
 SwingApp/model/panel/
+ApplicationRepository/generated/model/panel/panel-map.xml
+ApplicationRepository/generated/model/panel/panel.xml
+ApplicationRepository/generated/model/users/.gitkeep
+ApplicationRepository/generated/model/users/.gitkeep
+WebApp/.classpath
+WebApp/src/ejb_generated/*.java

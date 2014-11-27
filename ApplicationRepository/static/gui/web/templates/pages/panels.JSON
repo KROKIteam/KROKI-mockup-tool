@@ -1,0 +1,14 @@
+<#if panels??>
+<#if panels?has_content>
+{
+    "panels": [
+        <#list panels as panel>
+        {
+            ${panel}
+
+        } <#if (panel_has_next)>,</#if>
+        </#list>
+    ]
+}
+</#if>
+</#if>

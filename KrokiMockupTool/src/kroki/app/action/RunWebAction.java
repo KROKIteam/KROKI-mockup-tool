@@ -4,25 +4,22 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
-import javax.swing.tree.TreePath;
 
-import org.apache.commons.io.FileDeleteStrategy;
-
-import kroki.app.KrokiDiagramFrame;
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.KrokiMockupToolFrame;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.DatabaseProps;
+
+import org.apache.commons.io.FileDeleteStrategy;
 
 /**
  * Action that runs selected project as web application
@@ -54,23 +51,26 @@ public class RunWebAction extends AbstractAction {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
+						SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmmssSSS");
+						Date today = new Date();
+						String dateSuffix = formatter.format(today);
+						String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+						
 						//get temporary location in KROKI directory
 						File f = new File(".");
 						String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
 						File tempDir = new File(appPath);
 
-						deleteFiles(tempDir);
 
 						//generate connection settings for embedded h2 database
 						DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
 						ProjectExporter exporter = new ProjectExporter(false);
-						exporter.export(tempDir, proj, "Project exported OK! Running project...");
+						exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
 
-						
 						//run exported jar file
 						RunAnt runner = new RunAnt();
-						runner.runRun(proj.getLabel().replace(" ", "_"), tempDir, false);
+						runner.runRun(jarName, tempDir, false);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					} catch (Exception e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -89,31 +89,4 @@ public class RunWebAction extends AbstractAction {
 		thread.start();
 		
 	}
-
-	public boolean deleteFiles(File directory) {
-		boolean success = false;
-
-		if (!directory.exists()) {
-			return false;
-		}
-		if (!directory.canWrite()) {
-			return false;
-		}
-
-		File[] files = directory.listFiles();
-		for(int i=0; i<files.length; i++) {
-			File file = files[i];
-			if(file.isDirectory()) {
-				deleteFiles(file);
-			}
-			try {
-				FileDeleteStrategy.FORCE.delete(file);
-				success =  !file.delete();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} 
-		}
-		return success;
-	}
-	
 }

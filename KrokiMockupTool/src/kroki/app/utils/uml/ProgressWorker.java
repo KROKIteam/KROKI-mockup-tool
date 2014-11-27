@@ -1,5 +1,7 @@
 package kroki.app.utils.uml;
 
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -12,7 +14,7 @@ import kroki.app.KrokiMockupToolApp;
  * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
  *
  */
-public abstract class ProgressWorker extends SwingWorker<Void, String> {
+public abstract class ProgressWorker extends SwingWorker<Void, WorkerPublishModel> {
 
 	/**
 	 * Saves the current indentation used when showing messages from the
@@ -32,8 +34,11 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	 * @param text  message of the current progress
 	 */
 	public void publishText(String text){
+		/*
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
 				indentation+text, 0);
+		*/
+		publish(new WorkerPublishModel(indentation+text, 0));
 	}
 	
 	/**
@@ -41,8 +46,11 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	 * @param text  message of the current progress
 	 */
 	public void publishWarning(String text){
+		/*
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
 				indentation+text, 2);
+		*/
+		publish(new WorkerPublishModel(indentation+text, 2));
 	}
 	
 	/**
@@ -50,9 +58,20 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 	 * @param text  error message
 	 */
 	public void publishErrorText(String text){
+		/*
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
 				text, 3);
+		*/
+		publish(new WorkerPublishModel(text, 3));
 	}
+	
+	@Override
+    protected void process(List<WorkerPublishModel> chunks) {
+        for (WorkerPublishModel chunk : chunks) {
+        	KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
+    				chunk.getText(), chunk.getTypeOfMessage());
+        }
+    }
 	
 	/**
 	 * Method that removes the exception class from the Exception 
@@ -77,17 +96,7 @@ public abstract class ProgressWorker extends SwingWorker<Void, String> {
 		}
 		return "Unspecified error ocured";
 	}
-/*Should not use publish because there is a problem of synchronizing
- * the message with the added indentations. 
-	@Override
-	public void process(List<String> texts){
-		for(String text:texts)
-		{
-			System.out.println(text);
-			frame.appendText(text);
-		}
-	}
-*/	
+
 	/**
 	 * Adds indentation to the message that should be displayed.
 	 */

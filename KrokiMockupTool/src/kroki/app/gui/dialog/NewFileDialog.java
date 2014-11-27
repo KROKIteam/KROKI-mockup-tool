@@ -169,6 +169,9 @@ public class NewFileDialog extends JDialog {
             	StandardPanel vc = (StandardPanel) visibleClass;
                 vc.getPersistentClass().setName(cc.toCamelCase(visibleClass.getLabel(), false));
                 vc.setName(cc.toCamelCase(visibleClass.getLabel(), false));
+                BussinesSubsystem proj = KrokiMockupToolApp.getInstance().findProject(owner);
+                vc.getPersistentClass().setTableName(cc.toDatabaseFormat(proj.getLabel(), visibleClass.getLabel()));
+                vc.getPersistentClass().setLabelToCode(proj.isLabelToCode());
             }
             visibleClass.update();
             //Dodavanje fajla u paket

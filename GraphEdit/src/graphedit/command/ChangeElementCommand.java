@@ -7,6 +7,7 @@ import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkableElement;
+import graphedit.model.components.Package;
 import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.elements.AbstractLinkElement;
 import graphedit.model.elements.GraphEditElement;
@@ -69,8 +70,17 @@ public class ChangeElementCommand extends Command {
 		if (element instanceof Class) {
 			updatePainters((LinkableElement) element);
 		}
-		if (property == GraphElementProperties.NAME)
+		if (property == GraphElementProperties.NAME){
 			graphEditElement.setName(newName);
+			if (graphEditElement.element() instanceof graphedit.model.components.Package){
+				view.getModel().removeGraphEditPackage((Package) graphEditElement.element());
+				view.getModel().sortedInsertPackage((Package) graphEditElement.element());
+			}
+			else{
+				view.getModel().removeDiagramElement(graphEditElement.element());
+				view.getModel().sortedInsert(graphEditElement.element());
+			}
+		}
 		else if (property == GraphElementProperties.STEREOTYPE){
 			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE 
 					|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
@@ -93,8 +103,18 @@ public class ChangeElementCommand extends Command {
 	public void undo() {
 		element.setProperty(property, oldName);
 		
-		if (property == GraphElementProperties.NAME)
+		if (property == GraphElementProperties.NAME){
 			graphEditElement.setName(oldName);
+			graphEditElement.setName(newName);
+			if (graphEditElement.element() instanceof graphedit.model.components.Package){
+				view.getModel().removeGraphEditPackage((Package) graphEditElement.element());
+				view.getModel().sortedInsertPackage((Package) graphEditElement.element());
+			}
+			else{
+				view.getModel().removeDiagramElement(graphEditElement.element());
+				view.getModel().sortedInsert(graphEditElement.element());
+			}
+		}
 		
 		if (element instanceof Class) {
 			updatePainters((LinkableElement) element);

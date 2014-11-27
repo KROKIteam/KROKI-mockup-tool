@@ -31,6 +31,9 @@ public class Resource extends AbstractEntity implements Serializable {
          
 		@Column(name="link", unique = false, nullable = false)
 		private String link;
+		
+		@Column(name="paneltype", unique = false, nullable = false)
+		private String paneltype;
          
     	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "resource")
   		private Set<Permission> permission = new HashSet<Permission>();
@@ -73,7 +76,15 @@ public class Resource extends AbstractEntity implements Serializable {
            this.link = link;
       }
       
-      public Set<Permission> getPermission(){
+      public String getPaneltype() {
+		return paneltype;
+	}
+
+	public void setPaneltype(String paneltype) {
+		this.paneltype = paneltype;
+	}
+
+	public Set<Permission> getPermission(){
            return permission;
       }
       
@@ -97,6 +108,7 @@ public class Resource extends AbstractEntity implements Serializable {
 		list.add(id);		
 		list.add(name.toString());
 		list.add(link.toString());
+		list.add(paneltype.toString());
 		 
 		 return list.toArray();
 	}
@@ -107,6 +119,7 @@ public class Resource extends AbstractEntity implements Serializable {
 		
 		result.append(name + " ");
 		result.append(link + " ");
+		result.append(paneltype + " ");
 		
 		return result.toString();
 	}

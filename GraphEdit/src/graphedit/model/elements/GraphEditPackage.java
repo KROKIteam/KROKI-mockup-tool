@@ -415,6 +415,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					else{
 						c1.setLoaded(true);
 						c2.setLoaded(true);
+						c1.setLoadedPosition(sourcePosition);
+						c2.setLoadedPosition(destinationPosition);
 					}
 
 					zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
@@ -535,8 +537,18 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					loadedNodes.add(0, c1);
 					loadedNodes.add(loadedNodes.size(), c2);
 
-					c1.setLoadedPosition(sourcePosition);
-					c2.setLoadedPosition(destinationPosition);
+					
+
+					if (diagram.isLayout()){
+						c1.setLoadedPosition(sourcePosition);
+						c2.setLoadedPosition(destinationPosition);
+					}
+					else{
+						c1.setLoaded(true);
+						c2.setLoaded(true);
+						c1.setLoadedPosition(sourcePosition);
+						c2.setLoadedPosition(destinationPosition);
+					}
 
 
 					if (loadedLink instanceof CompositionLink)
@@ -558,15 +570,12 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
 				}
 
-
 				link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
 				c1.setLink(link);
 				c2.setLink(link);
 
-
 				sourceElement.addConnectors(link.getSourceConnector());
 				destinationElement.addConnectors(link.getDestinationConnector());
-
 
 				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
 				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);

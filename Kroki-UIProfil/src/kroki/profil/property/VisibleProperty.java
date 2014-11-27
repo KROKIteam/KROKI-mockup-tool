@@ -17,9 +17,12 @@ import kroki.uml_core_basic.UmlType;
  * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 public class VisibleProperty extends VisibleElement implements UmlProperty {
+	
+	private static final long serialVersionUID = 1L;
 
     /*Obelezja klase VisibleProperty*/
     protected String columnLabel;
+    protected boolean labelToCode;
     protected String displayFormat;
     protected boolean representative;
     protected boolean autoGo;
@@ -66,6 +69,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.defaultValue = defaultValue;
         this.dataType = "String";
         this.lower = 1;
+        //System.out.println(umlClass);
     }
 
     public VisibleProperty() {
@@ -75,6 +79,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     public VisibleProperty(String label, boolean visible, ComponentType componentType) {
         super(label, visible, componentType);
         this.lower = 1;
+        //System.out.println(umlClass);
     }
 
     @Override
@@ -239,5 +244,13 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 
 	public void setEnumeration(String enumeration) {
 		this.enumeration = enumeration;
+	}
+
+	public boolean isLabelToCode() {
+		return labelToCode;
+	}
+
+	public void setLabelToCode(boolean labelToCode) {
+		this.labelToCode = labelToCode;
 	}
 }

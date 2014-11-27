@@ -1,5 +1,6 @@
 package gui.menudesigner;
 
+import dao.administration.ResourceHibernateDao;
 import ejb.administration.Resource;
 import framework.MainFrame;
 import gui.menudesigner.model.MenuItem;

@@ -65,7 +65,6 @@ public class AddState extends State {
 					return;
 				}
 				AddCommand addCommand = new AddCommand(visibleClass, elementsGroup, element, e.getPoint());
-				//update counter for current component type on visible class
 				if (element.getComponentType() != null){
 					visibleClass.incrementCount(element.getComponentType());
 					//set label so it contains updated count

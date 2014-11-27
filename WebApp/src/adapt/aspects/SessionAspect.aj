@@ -1,71 +1,98 @@
 package adapt.aspects;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import adapt.entities.MyResource;
-import adapt.entities.User;
+import org.restlet.data.Form;
+
+import adapt.core.AppCache;
 import adapt.resources.HomeResource;
 import adapt.resources.IndexResource;
+import adapt.util.ejb.PersisenceHelper;
+import ejb.User;
 
-public aspect SessionAspect { 
-	
+/**
+ * Aspect that intercepts login and logout links and stores info about currently logged user
+ * @author Milorad Filipovic
+ */
+public aspect SessionAspect {
+
 	private static User currentUser;
-	private static ArrayList<MyResource> myResources = new ArrayList<MyResource>();
+	/**
+	 * Map used to store user data during login time
+	 */
+	private static Map<Object, Object>  session = new HashMap<Object, Object>();
 	
-	public pointcut login(EntityManager e) :
-					call (* HomeResource.findUser(..)) &&
-					args(String, String, e);
-	public pointcut logout() :
-					set(* IndexResource.dataModel);
-	public pointcut modifyUser(String username, String pass) :
-					call (* HomeResource.modify(..)) &&
-					args(Long, username, pass, EntityManager);
+	// Intercept the prepareContent() method and use the HomeResource instance to access it's data in advice
+	public pointcut login(HomeResource homeResource) : 
+		call (public void HomeResource.prepareContent()) && 
+		this(homeResource);
 	
+	// Intercept the IndexResource(Login page) visit
+	// Currently, every visit to this page is considered as log out action, since the only way
+	// to get to this page using UI is via 'Log out' link
+	public pointcut logout() : call (public void IndexResource.prepareContent());
 	
-	public static  User getCurrentUser() {
-		return currentUser;
-	}
-
-	public void setCurrentUser(User currentUser) {
-		SessionAspect.currentUser = currentUser;
-	}
-	
-	public static ArrayList<MyResource> getMyResources() {
-		return myResources;
-	}
-	public static void setMyResources(ArrayList<MyResource> myResources) {
-		SessionAspect.myResources = myResources;
-	}
-	
-	@SuppressWarnings("unchecked")
-	after(EntityManager e) returning(User u) : login(e) {
-		setCurrentUser(u);
-		if(u != null) {
-			EntityTransaction tx = e.getTransaction();
-			tx.begin();
-			try {
-				 
-				ArrayList<MyResource> myres = (ArrayList<MyResource>) e.createQuery("FROM MyResource mr WHERE mr.user.id =:uid").setParameter("uid", u.getId()).getResultList();
-				Collections.reverse(myres);
-				myResources.addAll(myres);
-				
-			} catch (javax.persistence.NoResultException e1) {
-				myResources = null;
+	/**
+	 * When home page is visited, check user credentials and log in
+	 */
+	before(HomeResource homeResource): login(homeResource) {
+		if(currentUser == null) {
+			Form loginForm = homeResource.getRequest().getEntityAsForm();
+			EntityManager em = PersisenceHelper.createEntityManager();
+			
+			// Get username and password from login form
+			String username = (String)loginForm.getFirstValue("korki-username");
+			String password = (String)loginForm.getFirstValue("korki-password");
+			
+			if(username != null && password != null) {
+				EntityTransaction tx = em.getTransaction();
+				tx.begin();
+				try {
+					// Find the user with specified credentials in database
+					User u = (User)em.createQuery("FROM User u WHERE u.username =:uname and u.password =:pword").
+							setParameter("uname", username).
+							setParameter("pword", password).
+							getSingleResult();
+					if(u != null) {
+						// Set the found user as currentUser, so all other aspects that need to administer user rights
+						// can call getCurrent user and get currently logged user 
+						currentUser = u;
+						homeResource.addToDataModel("user", u);
+						AppCache.displayTextOnMainFrame("User " + u.getUsername() + " logged in from " + homeResource.getRequest().getClientInfo().getAddress(), 0);
+						System.out.println("[SESSION ASPECT] User logged in.");
+					}
+				} catch (Exception e) {
+				}
 			}
+		}else {
+			homeResource.addToDataModel("user", currentUser);
 		}
 	}
 	
-	after() : logout() {
-		setCurrentUser(null);
-		myResources.clear();
+	/**
+	 * Logout by setting currentUser to null
+	 */
+	before() : logout() {
+		currentUser = null;
+	}
+	//---------------------------------------------------------------------------|| UTIL METHODS
+	public static User getCurrentUser() {
+		return currentUser;
 	}
 	
-	after(String username, String pass) : modifyUser(username, pass) {
-		currentUser.setUsername(username);
-		currentUser.setPassword(pass);
+	public static void addToSession(Object key, Object value) {
+		session.put(key, value);
+	}
+	
+	public static Object getFromSession(Object key) {
+		return session.get(key);
+	}
+	
+	public static void removeFromSession(Object key) {
+		session.remove(key);
 	}
 }

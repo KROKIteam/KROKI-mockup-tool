@@ -14,6 +14,8 @@ import kroki.profil.persistent.PersistentProperty;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Persistent extends VisibleProperty {
+	
+	private static final long serialVersionUID = 1L;
 
     /**Perzistentno polje*/
     protected PersistentProperty persistentProperty;

@@ -15,10 +15,12 @@ import kroki.uml_core_basic.UmlType;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 public class VisibleAssociationEnd extends VisibleElement implements UmlProperty {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Dozvoljen/zabranjen unos novih podataka */
     protected boolean add = true;
     /**Dozvoljena/zabranjena izmena podataka */
@@ -29,35 +31,34 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     protected boolean delete = true;
     /**Dozvoljena/zabranjena pretraga podataka */
     protected boolean search = true;
-    /**Dozvoljena/zabranjena promena prikaza (iz tabelarnog u “jedan ekran–jedan slog” i obrnuto */
+    /**Dozvoljena/zabranjena promena prikaza (iz tabelarnog u â€œjedan ekranâ€“jedan slogâ€� i obrnuto */
     protected boolean changeMode = true;
-    /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeći, prethodni i poslednji) */
+    /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeÄ‡i, prethodni i poslednji) */
     protected boolean dataNavigation = true;
     /**Standardna podesavanja panela*/
-    protected StdPanelSettings stdPanelSettings = new StdPanelSettings();
+    protected transient StdPanelSettings stdPanelSettings = new StdPanelSettings();
     /**Standardna podesavanja podataka*/
-    protected StdDataSettings stdDataSettings = new StdDataSettings();
+    protected transient StdDataSettings stdDataSettings = new StdDataSettings();
     /**Panel sa kojeg se aktivira*/
     protected VisibleClass activationPanel;
     /**Panel koji se aktivira*/
     protected VisibleClass targetPanel;
 
-    /*OBELEŽJA METAKLASE PROPERTY*/
+    /*OBELEÅ½JA METAKLASE PROPERTY*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
     protected boolean isReadOnly = false;
     protected UmlProperty opposite = null;
     protected UmlClass umlClass;
-    /*OBELEŽJA METAKLASE TYPEDELEMENT*/
+    /*OBELEÅ½JA METAKLASE TYPEDELEMENT*/
     protected UmlType umlType;
-    /*OBELEŽJA METAKLASE MULTIPLICITYELEMENT*/
+    /*OBELEÅ½JA METAKLASE MULTIPLICITYELEMENT*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
     protected int upper;
 
     public VisibleAssociationEnd() {
-    	
     }
 
     public VisibleAssociationEnd(String label, boolean visible, ComponentType componentType) {
@@ -164,6 +165,8 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     /*GETERI I SETERI*/
     /*****************/
     public StdDataSettings getStdDataSettings() {
+    	if (stdDataSettings == null)
+    		stdDataSettings = new StdDataSettings();
         return stdDataSettings;
     }
 
@@ -172,6 +175,8 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     }
 
     public StdPanelSettings getStdPanelSettings() {
+    	if (stdPanelSettings == null)
+    		stdPanelSettings = new StdPanelSettings();
         return stdPanelSettings;
     }
 

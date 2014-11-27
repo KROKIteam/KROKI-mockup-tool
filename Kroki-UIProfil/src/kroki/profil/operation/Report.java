@@ -13,6 +13,8 @@ import kroki.profil.ComponentType;
  */
 public class Report extends BussinessOperation {
 
+	private static final long serialVersionUID = 1L;
+	
     /**Putanja do izveštaja koji se pokreće */
     private String reportName;
     /**OCL iskaz kojim se definiše opseg podataka koji se prikazuju okviru izveštaja */

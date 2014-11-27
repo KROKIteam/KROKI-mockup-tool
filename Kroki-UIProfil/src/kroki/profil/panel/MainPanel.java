@@ -11,6 +11,8 @@ package kroki.profil.panel;
  */
 public class MainPanel extends VisibleClass{
 
+	private static final long serialVersionUID = 1L;
+	
     @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet.");

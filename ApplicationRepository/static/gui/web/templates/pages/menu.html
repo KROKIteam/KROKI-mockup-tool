@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ul id="mainMenu">
+<#list menu.children as submenu>
+		<li class="mainMenuItems">
+			<#if submenu.name??>
+				<div class="menu">
+					<div class="mainMenuText">${submenu.name}</div>
+					<div class="arrow-down">/</div>
+				</div>
+				<#if submenu.children?has_content>
+				<ul class="L1SubMenu">
+					<@menugenerator menuList=submenu.children/>
+				</ul>
+				</#if>
+			<#else>
+				<div class="menu">
+					<div class="mainMenuText">${submenu.menuName}</div>
+					<div class="arrow-down">/</div>
+				</div>
+			</#if>
+		</li>
+</#list>
+</ul>
+
+
+<#macro menugenerator menuList>
+        <#if menuList??>
+				<#foreach child in menuList>
+					<#if child.name??>
+						<li class="subMenuItem subMenuLink">${child.name}<div class="arrow-right">/</div>
+							<ul class="L2SubMenu">
+								<#if child.children?has_content>
+									<@menugenerator menuList=child.children/>
+								</#if>
+							</ul>
+						</li>
+					<#else>
+						<li class="subMenuItem activator" data-activate="${child.activate}" data-panelType="${child.panelType}" data-label="${child.menuName}">${child.menuName}</li>
+					</#if>
+				</#foreach>			
+        </#if>
+</#macro>
+
+
+

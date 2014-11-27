@@ -1,0 +1,10 @@
+<#if attribute.columns??>
+<#assign width = 87.5/attribute.columns?size>
+<input id="${attribute.fieldName}-id" name="${attribute.fieldName}" class="zoomInputs" type="text" readonly="readonly" style="width: ${width?floor}%" <#if zoomEditMap??><#if zoomEditMap?has_content>value="${zoomEditMap[attribute.fieldName]["id"]}"</#if><#else>value="ID"</#if>>
+<#list attribute.columns as column>
+<#if column.hidden == false>
+<input id="${attribute.fieldName}-${column.fieldName}" class="zoomInputs" type="text" readonly="readonly" style="width: ${width?floor}%" <#if zoomEditMap??><#if zoomEditMap?has_content>value="${zoomEditMap[attribute.fieldName][column.fieldName]}"</#if><#else>value="${column.label}"</#if>>
+</#if>
+</#list>
+<button class="buttons-blue zoomInputs activator" id="button-zoom" type="button" style="color: #fff; font-weight: bold; width: 10%" data-activate="${zoomMap[attribute.fieldName]}" data-label="${attribute.label}" data-paneltype="STANDARDPANEL" >...</button>
+</#if>

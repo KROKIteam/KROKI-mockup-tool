@@ -16,6 +16,8 @@ import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
+import kroki.profil.association.Next;
+import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
@@ -29,7 +31,7 @@ import kroki.uml_core_basic.UmlParameter;
 
 public class PanelGenerator {
 	
-	public void generate(ArrayList<VisibleElement> elements) {
+	public void generate(ArrayList<VisibleElement> elements, Object repo) {
 		
 		XMLWriter writer = new XMLWriter();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -82,6 +84,10 @@ public class PanelGenerator {
 					
 					String id = panel.getPersistentClass().name().toLowerCase() + "_st";
 					String ejbRef = "ejb." + panel.getPersistentClass().name();
+					if(repo != null) {
+						ejbRef = "ejb_generated." + panel.getPersistentClass().name();
+					}
+						
 					
 					//atribut "id"
 					Attr idAttr = doc.createAttribute("id");
@@ -124,6 +130,63 @@ public class PanelGenerator {
 					
 					stdPanel.appendChild(eSettings);
 					
+					//linkovi
+					if(!vClass.containedNexts().isEmpty()) {
+						Element linksTag = doc.createElement("nexts");
+						stdPanel.appendChild(linksTag);
+						
+						for (Next next : vClass.containedNexts()) {
+							Element linkTag = doc.createElement("next");
+							
+							ElementsGroup elemGr = next.getParentGroup();
+							String groupName = "operations";
+							if(elemGr != null) {
+								groupName = elemGr.getLabel();
+							}
+							
+							//atribut label
+							String label = next.getLabel();
+							Attr linkLabelAttr = doc.createAttribute("label");
+							linkLabelAttr.setValue(label);
+							linkTag.setAttributeNode(linkLabelAttr);
+							
+							//atribut activate
+							VisibleClass vclTarget = next.getTargetPanel();
+							if(vclTarget instanceof StandardPanel) {
+								StandardPanel stdPanelTarget = (StandardPanel)vclTarget;
+								String panelName = stdPanelTarget.getPersistentClass().name().toLowerCase() + "_st";
+								
+								Attr linkNameAttr = doc.createAttribute("name");
+								linkNameAttr.setNodeValue(label.toLowerCase().replaceAll(" ", ""));
+								linkTag.setAttributeNode(linkNameAttr);
+								
+								Attr linkPanelTypeAttr = doc.createAttribute("panel-type");
+								linkPanelTypeAttr.setNodeValue("STANDARDPANEL");
+								linkTag.setAttributeNode(linkPanelTypeAttr);
+								
+								Attr linkPanelAttr = doc.createAttribute("panel-ref");
+								linkPanelAttr.setNodeValue(panelName);
+								linkTag.setAttributeNode(linkPanelAttr);
+
+								//atribut opposite NESTO NECE
+								if(next.opposite() != null) {
+									Attr linkOppositeAttr = doc.createAttribute("opposite");
+									linkOppositeAttr.setValue(next.opposite().name());
+									linkTag.setAttributeNode(linkOppositeAttr);
+								}
+							}
+							
+							//atribut "elementgroup"
+							if(!groupName.equals("operations")) {
+								Attr opGroupAttr = doc.createAttribute("operationgroup");
+								opGroupAttr.setValue(groupName);
+								linkTag.setAttributeNode(opGroupAttr);
+							}
+							
+							linksTag.appendChild(linkTag);
+						}
+					}
+					
 					//<operations> tag
 					if(!vClass.containedOperations().isEmpty()) {
 						Element operationsTag = doc.createElement("operations");
@@ -132,8 +195,12 @@ public class PanelGenerator {
 						for(int k=0; k<vClass.containedOperations().size(); k++) {
 							VisibleOperation vo = vClass.containedOperations().get(k);
 							if(vo instanceof BussinessOperation) {
-								
 								Element opTag = doc.createElement("operation");
+								ElementsGroup elemGroup = vo.getParentGroup();
+								String groupName = "operations";
+								if(elemGroup != null) {
+									groupName = elemGroup.getLabel();
+								}
 								
 								//atribut "name"
 								Attr opNameAttr = doc.createAttribute("name");
@@ -144,6 +211,13 @@ public class PanelGenerator {
 								Attr opLabelAttr = doc.createAttribute("label");
 								opLabelAttr.setValue(vo.getLabel());
 								opTag.setAttributeNode(opLabelAttr);
+								
+								//atribut "elementgroup"
+								if(!groupName.equals("operations")) {
+									Attr opGroupAttr = doc.createAttribute("operationgroup");
+									opGroupAttr.setValue(groupName);
+									opTag.setAttributeNode(opGroupAttr);
+								}
 								
 								//atribut "type"
 								Attr opTypeAttr = doc.createAttribute("type");
@@ -175,7 +249,7 @@ public class PanelGenerator {
 								opTag.setAttributeNode(opAllowedAttr);
 								
 								//za svaki paraterar ide 
-								//<parameter name="sifra" label="Šifra" type="java.lang.String" parameter-type="in" /> tag
+								//<parameter name="sifra" label="ï¿½ifra" type="java.lang.String" parameter-type="in" /> tag
 								if(vo.ownedParameter() != null) {
 									if(!vo.ownedParameter().isEmpty()) {
 										for(int l=0;l<vo.ownedParameter().size();l++) {
@@ -263,7 +337,7 @@ public class PanelGenerator {
 						
 						//atribut id
 						Attr hPanelIdAttr = doc.createAttribute("id");
-						hPanelIdAttr.setValue(h.name());
+						hPanelIdAttr.setValue(hPanel.name());
 						hPanelTag.setAttributeNode(hPanelIdAttr);
 						
 						//atribut panel-ref
@@ -276,14 +350,26 @@ public class PanelGenerator {
 						hPanelLevel.setValue(String.valueOf(h.getLevel()));
 						hPanelTag.setAttributeNode(hPanelLevel);
 						
+						//association end
+						if(h.getLevel() > 1) {
+							Attr hPanelAssociationEnd = doc.createAttribute("association-end");
+							hPanelAssociationEnd.setValue(h.getViaAssociationEnd().name());
+							hPanelTag.setAttributeNode(hPanelAssociationEnd);
+						}
+						
 						pcTag.appendChild(hPanelTag);
 						
 					}
 				}
 			}
 			
-			writer.write(doc, "panel" + File.separator + "panel", true);
-			writer.write(mapDoc, "panel" + File.separator + "panel-map", true);
+			if(repo == null) {
+				writer.write(doc, "panel" + File.separator + "panel", true);
+				writer.write(mapDoc, "panel" + File.separator + "panel-map", true);
+			}else {
+				writer.write(doc, "panel" + File.separator + "panel", false);
+				writer.write(mapDoc, "panel" + File.separator + "panel-map", false);
+			}
 		} catch (DOMException e) {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {

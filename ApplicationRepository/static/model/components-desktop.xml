@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+	GUI components specification for KROKI generic desktop business application.
+    *************************************************************************************
+	Each component has java class attached to it, which object is later obtained
+	by generic framework using class name specified here.
+-->
+<components>
+	<component id="textField" class="javax.swing.JTextField"/>
+	<component id="textArea"  class="javax.swing.JTextArea"/>
+	<component id="checkBox"  class="javax.swing.JCheckBox"/>
+	<component id="comboBox"  class="javax.swing.JComboBox"/>
+</components>

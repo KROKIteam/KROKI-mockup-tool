@@ -13,6 +13,8 @@ import kroki.profil.ComponentType;
  */
 public class Next extends VisibleAssociationEnd {
 
+	private static final long serialVersionUID = 1L;
+	
     /**
      * Indikator da se  next forma automatski pokreće
      * odmah posle unosa reda u okviru aktivacionog
