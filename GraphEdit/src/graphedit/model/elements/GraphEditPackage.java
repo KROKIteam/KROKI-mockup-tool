@@ -415,6 +415,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					else{
 						c1.setLoaded(true);
 						c2.setLoaded(true);
+						c1.setLoadedPosition(sourcePosition);
+						c2.setLoadedPosition(destinationPosition);
 					}
 
 					zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
@@ -544,6 +546,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					else{
 						c1.setLoaded(true);
 						c2.setLoaded(true);
+						c1.setLoadedPosition(sourcePosition);
+						c2.setLoadedPosition(destinationPosition);
 					}
 
 
