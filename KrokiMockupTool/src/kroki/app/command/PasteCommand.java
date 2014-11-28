@@ -8,6 +8,7 @@ import java.util.List;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
+import kroki.common.copy.DeepCopy;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Next;
@@ -26,10 +27,9 @@ public class PasteCommand implements Command {
 	
     @SuppressWarnings("unchecked")
 	public PasteCommand(VisibleClass visibleClass, ElementsGroup elementsGroup, List<VisibleElement> elements, Point point, boolean cutAction) {
-    	Object deserializedObjects[] = SerializationUtility.deepCopy(elements, elements);
         this.visibleClass = visibleClass;
         this.elementsGroup = elementsGroup;
-        this.elements = (List<VisibleElement>)deserializedObjects[0];
+        this.elements = (List<VisibleElement>) DeepCopy.copy(elements);
         this.point = point;
         this.cutAction = cutAction;
         classIndex = visibleClass.getVisibleElementList().size();
