@@ -228,6 +228,16 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		this.setChanged();
 		this.notifyObservers();
 	}
+	
+	public GraphEditModel findModelContainingElement(GraphElement element){
+		GraphEditModel diag = null;
+		for (GraphEditPackage graphPackage : packageList){
+			diag = graphPackage.findDiagramContainingElement(element);
+			if (diag != null)
+				break;
+		}
+		return diag;
+	}
 
 
 	public LayoutStrategy getLayoutStrategy(GraphEditPackage pack){

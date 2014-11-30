@@ -330,7 +330,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		fireUpdates();
 		return addedLinks;
 	}
-
+	
 	/**
 	 * Method checks whether this diagram contains an element with provided name. 
 	 * @param name represents a unique identifier for <code>GraphElement</code>

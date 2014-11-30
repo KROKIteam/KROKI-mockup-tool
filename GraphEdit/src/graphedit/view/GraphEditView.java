@@ -157,7 +157,7 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 
 	@Override
 	protected void paintOurView(Graphics g, boolean includeTransform){
-
+		
 
 		Graphics2D g2 = (Graphics2D)g;
 
@@ -272,11 +272,13 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		selectedLink = selectionModel.getSelectedLink();
 		if (selectedLink==null)
 			linkNodePainters.clear();
-		//	setLinkNodePainters(selectedLink);
+			
 
-		if (selectedLink != null) 
+		if (selectedLink != null) {
+			setLinkNodePainters(selectedLink);
 			for (LinkNodePainter lnp:linkNodePainters) 
 				lnp.paint(g2);
+		}
 
 
 		g2.setColor(Color.BLACK);
@@ -780,6 +782,11 @@ public class GraphEditView extends GraphEditViewPanel implements View {
 		miniView.scaleViewSize();
 	}
 
+	public void zoomToPoint(Point2D position){
+		transformFromUserSpace(position);
+		zoomToPoint(1, position, false);
+	}
+	
 	@Override
 	public void zoomToPoint(double scale, Point2D position, boolean limistScale) {
 		super.zoomToPoint(scale, position, limistScale);
