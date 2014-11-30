@@ -5,6 +5,7 @@ import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.diagram.GraphEditModel;
+import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.util.ResourceLoader;
@@ -15,7 +16,6 @@ import java.awt.geom.Point2D;
 
 import javax.swing.AbstractAction;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.tree.TreePath;
 
 public class FindInProjectAction extends AbstractAction {
@@ -25,7 +25,7 @@ public class FindInProjectAction extends AbstractAction {
 
 	public FindInProjectAction() {
 		putValue(NAME, "Find in project");
-		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("best_fit.png"));
+		putValue(SMALL_ICON, new ResourceLoader().loadImageIcon("folder_search.png"));
 		putValue(SHORT_DESCRIPTION, "Find in project...");
 	}
 
@@ -34,12 +34,15 @@ public class FindInProjectAction extends AbstractAction {
 
 		TreePath selectedPath = MainFrame.getInstance().getMainTree().getSelectionPath();
 		Object selected = selectedPath.getLastPathComponent();
-
+		if (selected instanceof GraphEditPackage)
+			selected = ((GraphEditPackage)selected).getPackageElement();
+		
 		if (selected instanceof GraphElement){
+			
 			element = (GraphElement) selected;
+			
 			GraphEditModel model = GraphEditWorkspace.getInstance().findModelContainingElement(element);
 			MainFrame.getInstance().showDiagram(model);
-			
 			
 			SwingUtilities.invokeLater(new Runnable() {
 				
