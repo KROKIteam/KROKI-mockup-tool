@@ -70,7 +70,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	private transient StateFactory stateFactory;
 
 	private int linkCounter, classCounter, packageCounter , interfaceCounter;
-	
+
 	private boolean layout = true;
 
 	public GraphEditModel(String name) {
@@ -330,7 +330,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		fireUpdates();
 		return addedLinks;
 	}
-
+	
 	/**
 	 * Method checks whether this diagram contains an element with provided name. 
 	 * @param name represents a unique identifier for <code>GraphElement</code>
@@ -379,7 +379,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	 * @author specijalac
 	 */
 	public void insertIntoElementByConnectorStructure(Connector connector, GraphElement element) {
-		
+
 		if (elementByConnector != null && elementByConnector instanceof Map)
 			elementByConnector.put(connector, element);
 	}
@@ -610,8 +610,8 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		link.setProperty(LinkProperties.DESTINATION_NAVIGABLE, newDestinationNavigable);
 		fireUpdates();
 	}
-	
-	
+
+
 	public boolean containsElementOrShortcut(GraphElement element){
 		if (diagramElements.contains(element))
 			return true;
@@ -621,7 +621,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 					return true;
 		return false;
 	}
-	
+
 	public boolean containsElementOrShortcutExcluding(GraphElement element, Shortcut shortcut){
 		if (diagramElements.contains(element))
 			return true;
@@ -631,18 +631,18 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 					return true;
 		return false;
 	}
-	
+
 	public List<GraphElement> getAllShortcutsToElementInDiagram(GraphElement element){
 		List<GraphElement> ret = new ArrayList<GraphElement>();
-			
+
 		for (GraphElement el : diagramElements)
 			if (el instanceof Shortcut)
 				if (((Shortcut)el).shortcutTo() == element)
 					ret.add(el);
-		
+
 		return ret;
 	}
-	
+
 
 
 	/*
@@ -823,6 +823,7 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 		fireUpdates();
 	}
 	
+
 	public void sortedInsertPackage(Package newGraphEditPackage){
 		for (int i = 0; i < containedPackages.size(); i++){
 			Package el =  containedPackages.get(i);
@@ -832,7 +833,6 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 				break;
 			}
 		}
-		
 		if (!this.containedPackages.contains(newGraphEditPackage))
 			this.containedPackages.add(newGraphEditPackage);
 	}

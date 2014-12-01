@@ -1,6 +1,7 @@
 package graphedit.actions.popup;
 
 import graphedit.actions.file.DeleteAction;
+import graphedit.actions.view.FindInProjectAction;
 
 import javax.swing.JPopupMenu;
 
@@ -10,5 +11,6 @@ public class ElementPopupMenu extends JPopupMenu {
 	
 	public ElementPopupMenu() {
 		add(new DeleteAction());
+		add(new FindInProjectAction());
 	}
 }

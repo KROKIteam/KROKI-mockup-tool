@@ -89,6 +89,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 
 	public void addVisibleElement(int index, VisibleElement visibleElement) {
 		if (!visibleElementList.contains(visibleElement)) {
+			//visibleElement.setParentPanel(this);
 			if (visibleElement instanceof UmlProperty) {
 				((UmlProperty) visibleElement).setUmlClass(this);
 				visibleElementList.add(index, visibleElement);

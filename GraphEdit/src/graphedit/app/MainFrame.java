@@ -962,6 +962,7 @@ public class MainFrame extends JDialog{
 
 
 			view.repaint();
+			
 
 
 		}

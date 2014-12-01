@@ -194,7 +194,6 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 			allPanels((BussinesSubsystem) ownedPackage, ret);
 	}
 
-
 	@Override
 	public String toString() {
 		return label;

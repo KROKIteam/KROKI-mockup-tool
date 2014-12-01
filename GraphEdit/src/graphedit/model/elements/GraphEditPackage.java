@@ -642,6 +642,22 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		return LayoutUtil.getBestLayoutingStrategy(diagram);
 
 	}
+	
+	public GraphEditModel findDiagramContainingElement(GraphElement element){
+		//check if current diagram contains element
+		if (diagram.getAllElements().contains(element))
+			return diagram;
+		
+		//check any of subpackages contains diagram with the given element
+		GraphEditModel diag = null;
+		for (GraphEditPackage subPack : subPackages){
+			diag = subPack.findDiagramContainingElement(element);
+			if (diag != null)
+				break;
+		}
+		
+		return diag;
+	}
 
 	//**********************************************************************
 	/*

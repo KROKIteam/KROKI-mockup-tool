@@ -119,7 +119,6 @@ public class SelectionModel extends Observable {
 		fireUpdates();
 	}
 
-	
 	public void clearSelection(){
 		removeAllSelectedElements();
 		removeSelecredLink(selectedLink);
