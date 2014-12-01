@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
@@ -25,8 +24,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-import javax.swing.text.html.HTMLEditorKit;
 
+import kroki.api.element.UIPropertyUtil;
+import kroki.api.panel.StandardPanelUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.toolbar.StyleToolbar;
 import kroki.app.model.Workspace;
@@ -40,7 +40,6 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.uml_core_basic.UmlType;
 
 /**
  * GUI component that simulates console behavior
@@ -404,6 +403,7 @@ public class CommandPanel extends JPanel {
 	 */
 	public VisibleClass makeStdPanel(BussinesSubsystem owner, String label, String[] components) {
 		VisibleClass panel = new StandardPanel();
+		StandardPanelUtil.defaultGuiSettings((StandardPanel) panel);
 		NamingUtil cc = new NamingUtil();
 		panel.setLabel(label);
 		panel.getComponent().setName(label);
@@ -443,7 +443,7 @@ public class CommandPanel extends JPanel {
 				}else if(type.equalsIgnoreCase("link")) {
 					Next next = new Next(propLabel);
 					next.setActivationPanel(panel);
-					panel.addVisibleElement(next);
+					UIPropertyUtil.addVisibleElement(panel, next);
 					ElementsGroup group = (ElementsGroup) panel.getVisibleElementList().get(2);
 					group.addVisibleElement(next);
 					group.update();
@@ -470,7 +470,7 @@ public class CommandPanel extends JPanel {
 			property.setDataType("String");
 		}
 		property.setColumnLabel(namer.toDatabaseFormat(panel.getLabel(), label));
-		panel.addVisibleElement(property);
+		UIPropertyUtil.addVisibleElement(panel, property);
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(group);
 		gr.addVisibleElement(property);
 		//TODO Vidi sta se ovde buni

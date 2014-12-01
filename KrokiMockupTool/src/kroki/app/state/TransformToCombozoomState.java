@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import kroki.api.element.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;
@@ -85,12 +86,12 @@ public class TransformToCombozoomState extends State {
             if (elg != null) {
                 int position = elg.indexOf(visibleProperty);
                 elg.removeVisibleElement(visibleProperty);
-                visibleClass.removeVisibleElement(visibleProperty);
+                UIPropertyUtil.removeVisibleElement(visibleClass,visibleProperty);
 
                 Zoom zoom = new Zoom(visibleProperty);
                 zoom.setActivationPanel(visibleClass);
                 elg.addVisibleElement(position, zoom);
-                visibleClass.addVisibleElement(zoom);
+                UIPropertyUtil.addVisibleElement(visibleClass, zoom);
 
                 elg.update();
                 visibleClass.update();

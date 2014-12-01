@@ -7,6 +7,7 @@ package kroki.app.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import kroki.api.element.UIPropertyUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
@@ -96,7 +97,7 @@ public class RemoveCommand implements Command {
 				elementsGroup.update();
 			}
 			if (visibleClass != null) {
-				visibleClass.removeVisibleElement(visibleElement);
+				UIPropertyUtil.removeVisibleElement(visibleClass, visibleElement);
 				visibleClass.update();
 			}
 			
@@ -138,7 +139,7 @@ public class RemoveCommand implements Command {
 				elementsGroup.addVisibleElement(visibleElement);
 
 			if (visibleClass != null) 
-				visibleClass.addVisibleElement(visibleElement);
+				UIPropertyUtil.addVisibleElement(visibleClass, visibleElement);
 		}
 
 

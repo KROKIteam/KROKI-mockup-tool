@@ -83,142 +83,20 @@ public class StandardPanel extends VisibleClass {
         component.getAbsolutePosition().setLocation(5, 5);
         component.getDimension().setSize(800, 500);
         component.getElementPainter().update();
-        defaultGuiSettings();
         persistentClass = new PersistentClass();
     }
 
     public StandardPanel(String tableName, String label, boolean visible, ComponentType componentType, boolean modal) {
         super(label, visible, componentType, modal);
-        defaultGuiSettings();
         persistentClass = new PersistentClass(tableName);
     }
 
     public StandardPanel(boolean modal) {
         super(modal);
-        defaultGuiSettings();
         persistentClass = new PersistentClass();
     }
 
-      /********************/
-     /*Private operations*/
-    /********************/
-    private void defaultGuiSettings() {
-        //root komponenta i njen layout manager
-        Composite root = ((Composite) component);
-        root.setLayoutManager(new BorderLayoutManager());
-        //OVO JE NOVO
-        toolbarPanel = new ElementsGroup("toolbar", ComponentType.PANEL);
-        toolbarPanel.setGroupOrientation(GroupOrientation.horizontal);
-        toolbarPanel.setGroupAlignment(GroupAlignment.left);
-        toolbarPanel.setGroupLocation(GroupLocation.toolbar);
-        LayoutManager toolbarLayout = new FlowLayoutManager();
-        toolbarLayout.setAlign(LayoutManager.LEFT);
-        ((Composite) toolbarPanel.getComponent()).setLayoutManager(toolbarLayout);
-        ((Composite) toolbarPanel.getComponent()).setLocked(true);
-
-        propertiesPanel = new ElementsGroup("properties", ComponentType.PANEL);
-        propertiesPanel.setGroupLocation(GroupLocation.componentPanel);
-        propertiesPanel.setGroupOrientation(GroupOrientation.vertical);
-        LayoutManager propertiesLayout = new VerticalLayoutManager(10, 10, VerticalLayoutManager.LEFT);
-        ((Composite) propertiesPanel.getComponent()).setLayoutManager(propertiesLayout);
-        ((Composite) propertiesPanel.getComponent()).setLocked(true);
-
-        operationsPanel = new ElementsGroup("operations", ComponentType.PANEL);
-        operationsPanel.setGroupLocation(GroupLocation.operationPanel);
-        operationsPanel.setGroupOrientation(GroupOrientation.vertical);
-        operationsPanel.setGroupAlignment(GroupAlignment.center);
-        LayoutManager operationsLayout = new VerticalLayoutManager();
-        operationsLayout.setAlign(LayoutManager.CENTER);
-        ((Composite) operationsPanel.getComponent()).setLayoutManager(operationsLayout);
-        ((Composite) operationsPanel.getComponent()).setLocked(true);
-
-        addVisibleElement(toolbarPanel);
-        addVisibleElement(propertiesPanel);
-        addVisibleElement(operationsPanel);
-
-        createMockupForStandardOperations();
-        initializeStandardToolbar();
-
-        root.addChild(toolbarPanel.getComponent(), BorderLayoutManager.NORTH);
-        root.addChild(propertiesPanel.getComponent(), BorderLayoutManager.CENTER);
-        root.addChild(operationsPanel.getComponent(), BorderLayoutManager.EAST);
-
-        update();
-
-    }
-
-    /**
-     * Kreira mockup komponente za operacije u standardnom toolbaru
-     */
-    private void createMockupForStandardOperations() {
-        addButton = new Button();
-        addButton.setImage(new SerializableBufferedImage("plus"));
-        addButton.updateComponent();
-
-        updateButton = new Button();
-        updateButton.setImage(new SerializableBufferedImage("pencil"));
-        updateButton.updateComponent();
-
-        copyButton = new Button();
-        copyButton.setImage(new SerializableBufferedImage("copy"));
-        copyButton.updateComponent();
-
-        deleteButton = new Button();
-        deleteButton.setImage(new SerializableBufferedImage("minus"));
-        deleteButton.updateComponent();
-
-        searchButton = new Button();
-        searchButton.setImage(new SerializableBufferedImage("zoom"));
-        searchButton.updateComponent();
-
-        changeModeButton = new Button();
-        changeModeButton.setImage(new SerializableBufferedImage("reload-1"));
-        changeModeButton.updateComponent();
-
-        firstButton = new Button();
-        firstButton.setImage(new SerializableBufferedImage("arrow-first"));
-        firstButton.updateComponent();
-
-        previuosButton = new Button();
-        previuosButton.setImage(new SerializableBufferedImage("arrow-left"));
-        previuosButton.updateComponent();
-
-        nextButton = new Button();
-        nextButton.setImage(new SerializableBufferedImage("arrow-right"));
-        nextButton.updateComponent();
-
-        lastButton = new Button();
-        lastButton.setImage(new SerializableBufferedImage("arrow-last"));
-        lastButton.updateComponent();
-    }
-
-    public void initializeStandardToolbar() {
-        Composite composite = (Composite) toolbarPanel.getComponent();
-        if (search) {
-            composite.addChild(searchButton);
-        }
-        if (dataNavigation) {
-            composite.addChild(firstButton);
-            composite.addChild(previuosButton);
-            composite.addChild(nextButton);
-            composite.addChild(lastButton);
-        }
-        if (add) {
-            composite.addChild(addButton);
-        }
-        if (update) {
-            composite.addChild(updateButton);
-        }
-        if (delete) {
-            composite.addChild(deleteButton);
-        }
-        if (copy) {
-            composite.addChild(copyButton);
-        }
-        if (changeMode) {
-            composite.addChild(changeModeButton);
-        }
-    }
+    
 
     @Override
     public void update() {

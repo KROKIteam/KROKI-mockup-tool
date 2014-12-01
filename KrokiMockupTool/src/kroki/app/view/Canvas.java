@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
+import kroki.api.panel.StandardPanelUtil;
 import kroki.app.command.CommandManager;
 import kroki.app.model.SelectionModel;
 import kroki.profil.VisibleElement;
@@ -63,6 +64,7 @@ public class Canvas extends JPanel {
 
     public final void createNewStandardPanel() throws Exception {
         visibleClass = new StandardPanel();
+        StandardPanelUtil.defaultGuiSettings((StandardPanel)visibleClass);
     }
 
     @Override

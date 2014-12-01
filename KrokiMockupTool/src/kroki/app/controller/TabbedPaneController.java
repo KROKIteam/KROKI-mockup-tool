@@ -13,11 +13,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import kroki.api.panel.StandardPanelUtil;
 import kroki.app.gui.ButtonTabComponent;
 import kroki.app.state.Context;
 import kroki.app.view.Canvas;
@@ -63,6 +66,7 @@ public class TabbedPaneController extends AbstractController {
      */
     public void openTab() {
         VisibleClass visibleClass = new StandardPanel();
+        StandardPanelUtil.defaultGuiSettings((StandardPanel)visibleClass);
         visibleClass.setLabel("New standard panel");
         Canvas canvas = new Canvas(visibleClass);
         canvasList.add(canvas);

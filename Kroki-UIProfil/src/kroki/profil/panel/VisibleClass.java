@@ -71,78 +71,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 	/**************/
 	/*JAVNE METODE*/
 	/**************/
-	/**
-	 * Dodaje novi vidljivi element u listu svih vidljivih elemenata koje poseduje klasa.
-	 * @param visibleElement vidljivi element
-	 */
-	public void addVisibleElement(VisibleElement visibleElement) {
-		if (!visibleElementList.contains(visibleElement)) {
-			if (visibleElement instanceof UmlProperty) {
-				((UmlProperty) visibleElement).setUmlClass(this);
-				visibleElementList.add(visibleElement);
-			} else if (visibleElement instanceof UmlOperation) {
-				((UmlOperation) visibleElement).setUmlClass(this);
-				visibleElementList.add(visibleElement);
-			}
-		}
-	}
-
-	public void addVisibleElement(int index, VisibleElement visibleElement) {
-		if (!visibleElementList.contains(visibleElement)) {
-			//visibleElement.setParentPanel(this);
-			if (visibleElement instanceof UmlProperty) {
-				((UmlProperty) visibleElement).setUmlClass(this);
-				visibleElementList.add(index, visibleElement);
-			} else if (visibleElement instanceof UmlOperation) {
-				((UmlOperation) visibleElement).setUmlClass(this);
-				visibleElementList.add(index, visibleElement);
-			} else {
-				return;
-			}
-		}
-	}
-
-	/**
-	 * BriÅ¡e vidljivi element iz liste svih vidljivih elemenata koje poseduje klasa.
-	 * @param visibleElement vidljivi element
-	 */
-	public void removeVisibleElement(VisibleElement visibleElement) {
-		if (visibleElementList.contains(visibleElement)) {
-			visibleElementList.remove(visibleElement);
-			((Composite) component).removeChild(visibleElement.getComponent());
-		}
-	}
-
-	/**
-	 * BriÅ¡e vidljivi element sa odreÄ‘ene pozicije u listi svih vidljivih elemenata klase.
-	 * @param index pozicija vidljivog elementa u listi
-	 * @return vidljivi element koji je obrisan. U sluÄ�aju da je <code>index</code> van opsega povratna vrednost ove metode je <code>null</code>
-	 */
-	public VisibleElement removeVisibleElement(int index) {
-		VisibleElement removed = null;
-		if (index >= 0 || index < visibleElementList.size()) {
-			removed = visibleElementList.remove(index);
-			((Composite) component).removeChild(removed.getComponent());
-		}
-		return removed;
-	}
-
-	/**
-	 * VraÄ‡a vidljivi element iz liste svih vidljivih elemenata sa pozicije odreÄ‘ene prosleÄ‘enim indeksom.
-	 * @param index indeks
-	 * @return vidljivi element
-	 */
-	public VisibleElement getVisibleElementAt(int index) {
-		return visibleElementList.get(index);
-	}
-
-	/**
-	 * VraÄ‡a broj vidljivih elemenata
-	 * @return broj vidljivih elemenata
-	 */
-	public int getVisibleElementNum() {
-		return visibleElementList.size();
-	}
+	
 
 	/**
 	 * Pronalazi vidljiv element Ä�ija se grafiÄ�ka komponenta nalazi na prosleÄ‘enoj lokaciji

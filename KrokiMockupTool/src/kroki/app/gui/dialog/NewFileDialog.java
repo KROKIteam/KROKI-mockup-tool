@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import kroki.api.panel.ParentChildUtil;
+import kroki.api.panel.StandardPanelUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.ChangeLayoutCommand;
 import kroki.app.command.CommandManager;
@@ -160,8 +162,11 @@ public class NewFileDialog extends JDialog {
         if(cc.checkName(nameTf.getText())) {
         	if (fileTypeCb.getSelectedItem() == FileType.STANDARD_PANEL) {
                 visibleClass = new StandardPanel();
+                StandardPanelUtil.defaultGuiSettings((StandardPanel)visibleClass);
             } else if (fileTypeCb.getSelectedItem() == FileType.PARENT_CHILD_PANEL) {
                 visibleClass = new ParentChild();
+                ParentChildUtil.defaultGuiSettings((ParentChild)visibleClass);
+                
             }
             visibleClass.setLabel(nameTf.getText());
             visibleClass.getComponent().setName(nameTf.getText());

@@ -21,6 +21,7 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import kroki.api.element.UIPropertyUtil;
 import kroki.app.gui.visitor.AllPosibleNexts;
 import kroki.app.gui.visitor.Visitor;
 import kroki.commons.document.OnlyDigitsDocumentFilter;
@@ -296,17 +297,17 @@ public class NextSettings extends VisibleAssociationEndSettings {
 		int firstIndexCl = visibleClass.getVisibleElementList().indexOf(p1);
 		int secondIndexCl = visibleClass.getVisibleElementList().indexOf(p2);
 
-		visibleClass.removeVisibleElement(p1);
-		visibleClass.removeVisibleElement(p2);
+		UIPropertyUtil.removeVisibleElement(visibleClass, p1);
+		UIPropertyUtil.removeVisibleElement(visibleClass,p2);
 
 
 		if (firstIndexCl < secondIndexCl){
-			visibleClass.addVisibleElement(firstIndexCl, p2);
-			visibleClass.addVisibleElement(secondIndexCl, p1);
+			UIPropertyUtil.addVisibleElement(visibleClass, firstIndexCl, p2);
+			UIPropertyUtil.addVisibleElement(visibleClass, secondIndexCl, p1);
 		}
 		else{
-			visibleClass.addVisibleElement(secondIndexCl, p1);
-			visibleClass.addVisibleElement(firstIndexCl, p2);
+			UIPropertyUtil.addVisibleElement(visibleClass, secondIndexCl, p1);
+			UIPropertyUtil.addVisibleElement(visibleClass, firstIndexCl, p2);
 		}
 	}
 
@@ -320,9 +321,9 @@ public class NextSettings extends VisibleAssociationEndSettings {
 
 		int secondIndexCl = visibleClass.getVisibleElementList().indexOf(p2);
 
-		visibleClass.removeVisibleElement(p1);
+		UIPropertyUtil.removeVisibleElement(visibleClass, p1);
 
-		visibleClass.addVisibleElement(secondIndexCl, p1);
+		UIPropertyUtil.addVisibleElement(visibleClass, secondIndexCl, p1);
 	}
 }
 

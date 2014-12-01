@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
+import kroki.api.element.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;
@@ -98,11 +100,11 @@ public class TransformToCalculatedState extends State {
             if (elg != null) {
                 int position = elg.indexOf(visibleProperty);
                 elg.removeVisibleElement(visibleProperty);
-                visibleClass.removeVisibleElement(visibleProperty);
+                UIPropertyUtil.removeVisibleElement(visibleClass, visibleProperty);
 
                 Calculated calculated = new Calculated(visibleProperty);
                 elg.addVisibleElement(position, calculated);
-                visibleClass.addVisibleElement(calculated);
+                UIPropertyUtil.addVisibleElement(visibleClass, calculated);
 
                 elg.update();
                 visibleClass.update();

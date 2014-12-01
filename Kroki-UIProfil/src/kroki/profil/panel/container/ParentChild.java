@@ -50,32 +50,9 @@ public class ParentChild extends ContainerPanel {
 		component.getRelativePosition().setLocation(5, 5);
 		component.getAbsolutePosition().setLocation(5, 5);
 		component.getDimension().setSize(800, 500);
-		defaultGuiSettings();
 	}
 
-	private void defaultGuiSettings() {
-		Composite root = ((Composite) component);
-		root.setLayoutManager(new BorderLayoutManager());
-		propertiesPanel = new ElementsGroup("properties", ComponentType.PANEL);
-		propertiesPanel.setGroupLocation(GroupLocation.componentPanel);
-		propertiesPanel.setGroupOrientation(GroupOrientation.area);
-		LayoutManager propertiesLayout = new FreeLayoutManager();
-		((Composite) propertiesPanel.getComponent()).setLayoutManager(propertiesLayout);
-		((Composite) propertiesPanel.getComponent()).setLocked(true);
-		operationsPanel = new ElementsGroup("operations", ComponentType.PANEL);
-		operationsPanel.setGroupLocation(GroupLocation.operationPanel);
-		operationsPanel.setGroupOrientation(GroupOrientation.horizontal);
-		operationsPanel.setGroupAlignment(GroupAlignment.left);
-		LayoutManager operationsLayout = new FlowLayoutManager();
-		operationsLayout.setAlign(LayoutManager.LEFT);
-		((Composite) operationsPanel.getComponent()).setLayoutManager(operationsLayout);
-		((Composite) operationsPanel.getComponent()).setLocked(true);
-		addVisibleElement(propertiesPanel);
-		addVisibleElement(operationsPanel);
-		root.addChild(propertiesPanel.getComponent(), BorderLayoutManager.CENTER);
-		root.addChild(operationsPanel.getComponent(), BorderLayoutManager.SOUTH);
-		update();
-	}
+	
 
 	@Override
 	public void update() {
@@ -381,42 +358,7 @@ public class ParentChild extends ContainerPanel {
 		return ret;
 	}
 
-	@Override
-	public void addVisibleElement(VisibleElement visibleElement) {
-		if (visibleElement instanceof Hierarchy) {
-			Hierarchy hierarchy = (Hierarchy) visibleElement;
-			setHierarchhyAttributes(hierarchy);
-		}
-		super.addVisibleElement(visibleElement);
-	}
-
-
-	@Override
-	public void addVisibleElement(int index, VisibleElement visibleElement) {
-		if (visibleElement instanceof Hierarchy) {
-			Hierarchy hierarchy = (Hierarchy) visibleElement;
-			setHierarchhyAttributes(hierarchy);
-		}
-		super.addVisibleElement(index, visibleElement);
-	}
-
-	private void setHierarchhyAttributes(Hierarchy hierarchy){
-		if (hierarchy.getLevel() != 0)
-			return;
-		int count = getHierarchyCount();
-		if (count == 0) {
-			hierarchy.setLevel(1);
-			hierarchy.setHierarchyParent(null);
-		} else if (count == 1) {
-			hierarchy.setLevel(2);
-			hierarchy.setHierarchyParent(getHierarchyRoot());
-		} else {
-			//ako ima dva ili vise elemenata
-			//u pocetku ce biti nedefinisan dok se ne izabere targetPanel 
-			//(prikikom cega ce se odrediti level na osnovu uzajamnih veza izmedju elemenata hijerarhije
-			hierarchy.setLevel(-1);
-		}
-	}
+	
 
 	public void updateTargetPanel(Hierarchy h, VisibleClass newTarget){
 		
@@ -433,15 +375,6 @@ public class ParentChild extends ContainerPanel {
 
 	
 
-	@Override
-	public void removeVisibleElement(VisibleElement visibleElement) {
-		super.removeVisibleElement(visibleElement);
-	}
-
-	@Override
-	public VisibleElement removeVisibleElement(int index) {
-		return super.removeVisibleElement(index);
-	}
 
 	/*******************/
 	/**GETERI I SETERI**/

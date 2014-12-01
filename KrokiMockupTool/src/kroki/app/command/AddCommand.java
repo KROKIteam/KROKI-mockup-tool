@@ -6,6 +6,7 @@ package kroki.app.command;
 
 import java.awt.Point;
 
+import kroki.api.element.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
@@ -39,7 +40,7 @@ public class AddCommand implements Command {
     }
 
     public void doCommand() {
-        visibleClass.addVisibleElement(classIndex, element);
+    	UIPropertyUtil.addVisibleElement(visibleClass,classIndex, element);
         elementsGroup.addVisibleElement(groupIndex, element);
         element.getComponent().setAbsolutePosition(point);
         if(element instanceof VisibleProperty) {
@@ -59,7 +60,7 @@ public class AddCommand implements Command {
         if (selectionModel.isSelected(element)) {
             selectionModel.removeFromSelection(element);
         }
-        visibleClass.removeVisibleElement(element);
+        UIPropertyUtil.removeVisibleElement(visibleClass, element);
         elementsGroup.removeVisibleElement(element);
         elementsGroup.update();
         visibleClass.update();

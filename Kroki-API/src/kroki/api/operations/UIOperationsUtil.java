@@ -1,5 +1,6 @@
 package kroki.api.operations;
 
+import kroki.api.element.UIPropertyUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.Report;
@@ -30,9 +31,9 @@ public class UIOperationsUtil {
 		else
 			gr.addVisibleElement(operation);
 		if (indexClass != -1)
-			panel.addVisibleElement(indexClass, operation);
+			UIPropertyUtil.addVisibleElement(panel, indexClass, operation);
 		else
-			panel.addVisibleElement(operation);
+			UIPropertyUtil.addVisibleElement(panel, operation);
 		return operation;
 
 	}

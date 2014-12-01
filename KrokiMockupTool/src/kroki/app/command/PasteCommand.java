@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kroki.api.element.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
@@ -50,7 +51,7 @@ public class PasteCommand implements Command {
 	public void doCommand() {
 		for (VisibleElement element : copies.keySet()) {
 			restoreAttributes(copies.get(element), element);
-			visibleClass.addVisibleElement(classIndex, element);
+			UIPropertyUtil.addVisibleElement(visibleClass,classIndex, element);
 	        elementsGroup.addVisibleElement(groupIndex, element);
 	        
 	        if (!cutAction) {
@@ -81,7 +82,7 @@ public class PasteCommand implements Command {
 	        if (selectionModel.isSelected(element)) {
 	            selectionModel.removeFromSelection(element);
 	        }
-	        visibleClass.removeVisibleElement(element);
+	        UIPropertyUtil.removeVisibleElement(visibleClass, element);
 	        elementsGroup.removeVisibleElement(element);
 	        elementsGroup.update();
 	        visibleClass.update();
