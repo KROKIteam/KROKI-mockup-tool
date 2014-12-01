@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menus>
+<menu label="Citation" name="menu0_Citation">
+<submenu activate="cfcite_st" label="Citation" panel-type="standard-panel"/>
+<submenu activate="cfcite_class_st" label="Citation Class" panel-type="standard-panel"/>
+<submenu activate="cfcitedescr_st" label="Citation Description" panel-type="standard-panel"/>
+<submenu activate="cfcite_medium_st" label="Citation Medium" panel-type="standard-panel"/>
+<submenu activate="cfcitetitle_st" label="Citation Title" panel-type="standard-panel"/>
+</menu>
+<menu label="Classification" name="menu1_Classification">
+<submenu activate="cfclass_st" label="Classification" panel-type="standard-panel"/>
+<submenu activate="cfclass_class_st" label="Classification - Classification" panel-type="standard-panel"/>
+<submenu activate="cfclassdef_st" label="Classification Definition" panel-type="standard-panel"/>
+<submenu activate="cfclassdescr_st" label="Classification Description" panel-type="standard-panel"/>
+<submenu activate="cfclassex_st" label="Classification Example" panel-type="standard-panel"/>
+<submenu activate="cfclassscheme_st" label="Classification Scheme" panel-type="standard-panel"/>
+<submenu activate="cfclassscheme_classscheme_st" label="Classification Scheme - Classification Scheme" panel-type="standard-panel"/>
+<submenu activate="cfclassschemedescr_st" label="Classification Scheme Description" panel-type="standard-panel"/>
+<submenu activate="cfclassschemename_st" label="Classification Scheme Name" panel-type="standard-panel"/>
+<submenu activate="cfclassterm_st" label="Classification Term" panel-type="standard-panel"/>
+</menu>
+<menu label="Country" name="menu2_Country">
+<submenu activate="cfcountry_st" label="Country" panel-type="standard-panel"/>
+<submenu activate="cfcountry_class_st" label="Country Classification" panel-type="standard-panel"/>
+<submenu activate="cfcountryname_st" label="Country Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Currency" name="menu3_Currency">
+<submenu activate="cfcurrency_st" label="Currency" panel-type="standard-panel"/>
+<submenu activate="cfcurrency_class_st" label="Currency Classification" panel-type="standard-panel"/>
+<submenu activate="cfcurrencyentname_st" label="Currency Entity Name" panel-type="standard-panel"/>
+<submenu activate="cfcurrencyname_st" label="Currency Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Curriculum Vitae" name="menu4_Curriculum_Vitae">
+<submenu activate="cfcv_st" label="Curriculum Vitae" panel-type="standard-panel"/>
+<submenu activate="cfcv_class_st" label="Curriculum Vitae - Classification" panel-type="standard-panel"/>
+</menu>
+<menu label="Doublin Core" name="menu5_Doublin_Core">
+<submenu activate="cfdc_st" label="Dublin Core" panel-type="standard-panel"/>
+<submenu activate="cfdcaudience_st" label="Dublin Core Audience" panel-type="standard-panel"/>
+<submenu activate="cfdccontributor_st" label="Dublin Core Contributor" panel-type="standard-panel"/>
+<submenu activate="cfdccoverage_st" label="Dublin Core Coverage" panel-type="standard-panel"/>
+<submenu activate="cfdccoveragespatial_st" label="Dublin Core Coverage Spatial" panel-type="standard-panel"/>
+<submenu activate="cfdccoveragetemporal_st" label="Dublin Core Coverage Temporal" panel-type="standard-panel"/>
+<submenu activate="cfdccreator_st" label="Dublin Core Creator" panel-type="standard-panel"/>
+<submenu activate="cfdcdate_st" label="Dublin Core Date" panel-type="standard-panel"/>
+<submenu activate="cfdcdescription_st" label="Dublin Core Description" panel-type="standard-panel"/>
+<submenu activate="cfdcformat_st" label="Dublin Core Format" panel-type="standard-panel"/>
+<submenu activate="cfdclanguage_st" label="Dublin Core Language" panel-type="standard-panel"/>
+<submenu activate="cfdcprovenance_st" label="Dublin Core Provenance" panel-type="standard-panel"/>
+<submenu activate="cfdcpublisher_st" label="Dublin Core Publisher" panel-type="standard-panel"/>
+<submenu activate="cfdcrelation_st" label="Dublin Core Relation" panel-type="standard-panel"/>
+<submenu activate="cfdcresourceidentifier_st" label="Dublin Core Resource Identifier" panel-type="standard-panel"/>
+<submenu activate="cfdcresourcetype_st" label="Dublin Core Resource Type" panel-type="standard-panel"/>
+<submenu activate="cfdcrightsholder_st" label="Dublin Core Rights Holder" panel-type="standard-panel"/>
+<submenu activate="cfdcrightsmm_st" label="Dublin Core Rights Management" panel-type="standard-panel"/>
+<submenu activate="cfdcrightsmmaccessrights_st" label="Dublin Core Rights Management Access Rights" panel-type="standard-panel"/>
+<submenu activate="cfdcrightsmmlicense_st" label="Dublin Core Rights Management License" panel-type="standard-panel"/>
+<submenu activate="cfdcsource_st" label="Dublin Core Source" panel-type="standard-panel"/>
+<submenu activate="cfdcsubject_st" label="Dublin Core Subject" panel-type="standard-panel"/>
+<submenu activate="cfdctitle_st" label="Dublin Core Title" panel-type="standard-panel"/>
+</menu>
+<menu label="Electronic Address" name="menu6_Electronic_Address">
+<submenu activate="cfeaddr_st" label="Electronic Address" panel-type="standard-panel"/>
+<submenu activate="cfeaddr_class_st" label="Electronic Address Classification" panel-type="standard-panel"/>
+</menu>
+<menu label="Equipment" name="menu7_Equipment">
+<submenu activate="cfequip_st" label="Equipment" panel-type="standard-panel"/>
+<submenu activate="cfequip_class_st" label="Equipment Classification" panel-type="standard-panel"/>
+<submenu activate="cfequipdescr_st" label="Equipment Description" panel-type="standard-panel"/>
+<submenu activate="cfequip_equip_st" label="Equipment Equipment" panel-type="standard-panel"/>
+<submenu activate="cfequip_event_st" label="Equipment Event" panel-type="standard-panel"/>
+<submenu activate="cfequip_fund_st" label="Equipment Funding" panel-type="standard-panel"/>
+<submenu activate="cfequip_indic_st" label="Equipment Indicator" panel-type="standard-panel"/>
+<submenu activate="cfequipkeyw_st" label="Equipment Keywords" panel-type="standard-panel"/>
+<submenu activate="cfequip_meas_st" label="Equipment Measurement" panel-type="standard-panel"/>
+<submenu activate="cfequip_medium_st" label="Equipment Medium" panel-type="standard-panel"/>
+<submenu activate="cfequipname_st" label="Equipment Name" panel-type="standard-panel"/>
+<submenu activate="cfequip_paddr_st" label="Equipment Post Address" panel-type="standard-panel"/>
+<submenu activate="cfequip_srv_st" label="Equipment Service" panel-type="standard-panel"/>
+</menu>
+<menu label="Event" name="menu8_Event">
+<submenu activate="cfevent_st" label="Event" panel-type="standard-panel"/>
+<submenu activate="cfevent_class_st" label="Event Classification" panel-type="standard-panel"/>
+<submenu activate="cfeventdescr_st" label="Event Description" panel-type="standard-panel"/>
+<submenu activate="cfevent_event_st" label="Event Event" panel-type="standard-panel"/>
+<submenu activate="cfevent_fund_st" label="Event Funding" panel-type="standard-panel"/>
+<submenu activate="cfevent_indic_st" label="Event Indicator" panel-type="standard-panel"/>
+<submenu activate="cfeventkeyw_st" label="Event Keywords" panel-type="standard-panel"/>
+<submenu activate="cfevent_meas_st" label="Event Measurement" panel-type="standard-panel"/>
+<submenu activate="cfevent_medium_st" label="Event Medium" panel-type="standard-panel"/>
+<submenu activate="cfeventname_st" label="Event Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Expertise And Skills" name="menu9_Expertise_And_Skills">
+<submenu activate="cfexpskills_st" label="Expertise And Skills" panel-type="standard-panel"/>
+<submenu activate="cfexpskills_class_st" label="Expertise And Skills Classification" panel-type="standard-panel"/>
+<submenu activate="cfexpskillsdescr_st" label="Expertise And Skills Description" panel-type="standard-panel"/>
+<submenu activate="cfexpskillskeyw_st" label="Expertise And Skills Keywords" panel-type="standard-panel"/>
+<submenu activate="cfexpskillsname_st" label="Expertise And Skills Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Formalised Dublin Core Rights" name="menu10_Formalised_Dublin_Core_Rights">
+<submenu activate="cffdcrightsmmpricing_st" label="Formalised Dublin Core Rights Management Pricing" panel-type="standard-panel"/>
+<submenu activate="cffdcrightsmmprivacy_st" label="Formalised Dublin Core Rights Management Privacy" panel-type="standard-panel"/>
+<submenu activate="cffdcrightsmmrights_st" label="Formalised Dublin Core Rights Management Rights" panel-type="standard-panel"/>
+<submenu activate="cffdcrightsmmsecurity_st" label="Formalised Dublin Core Rights Management Security" panel-type="standard-panel"/>
+</menu>
+<menu label="Facility" name="menu11_Facility">
+<submenu activate="cffacil_st" label="Facility" panel-type="standard-panel"/>
+<submenu activate="cffacil_class_st" label="Facility Classification" panel-type="standard-panel"/>
+<submenu activate="cffacildescr_st" label="Facility Description" panel-type="standard-panel"/>
+<submenu activate="cffacil_equip_st" label="Facility Equipment" panel-type="standard-panel"/>
+<submenu activate="cffacil_event_st" label="Facility Event" panel-type="standard-panel"/>
+<submenu activate="cffacil_facil_st" label="Facility Facility" panel-type="standard-panel"/>
+<submenu activate="cffacil_fund_st" label="Facility Funding" panel-type="standard-panel"/>
+<submenu activate="cffacil_indic_st" label="Facility Indicator" panel-type="standard-panel"/>
+<submenu activate="cffacilkeyw_st" label="Facility Kewords" panel-type="standard-panel"/>
+<submenu activate="cffacil_meas_st" label="Facility Measurement" panel-type="standard-panel"/>
+<submenu activate="cffacil_medium_st" label="Facility Medium" panel-type="standard-panel"/>
+<submenu activate="cffacilname_st" label="Facility Name" panel-type="standard-panel"/>
+<submenu activate="cffacil_paddr_st" label="Facility Post Address" panel-type="standard-panel"/>
+<submenu activate="cffacil_srv_st" label="Facility Service" panel-type="standard-panel"/>
+</menu>
+<menu label="Federated Identifier" name="menu12_Federated_Identifier">
+<submenu activate="cffedid_st" label="Federated Identifier" panel-type="standard-panel"/>
+<submenu activate="cffedid_class_st" label="Federated Identifier Classification" panel-type="standard-panel"/>
+</menu>
+<menu label="Funding" name="menu13_Funding">
+<submenu activate="cffund_st" label="Funding" panel-type="standard-panel"/>
+<submenu activate="cffund_fund_st" label="Funding - Funding" panel-type="standard-panel"/>
+<submenu activate="cffund_class_st" label="Funding Classification" panel-type="standard-panel"/>
+<submenu activate="cffunddescr_st" label="Funding Description" panel-type="standard-panel"/>
+<submenu activate="cffund_indic_st" label="Funding Indicator" panel-type="standard-panel"/>
+<submenu activate="cffundkeyw_st" label="Funding Keywords" panel-type="standard-panel"/>
+<submenu activate="cffund_meas_st" label="Funding Measurement" panel-type="standard-panel"/>
+<submenu activate="cffundname_st" label="Funding Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Geographic Bounding Box" name="menu14_Geographic_Bounding_Box">
+<submenu activate="cfgeobbox_st" label="Geographic Bounding Box" panel-type="standard-panel"/>
+<submenu activate="cfgeobbox_geobbox_st" label="Geographic Bounding Box - Geographic Bounding Box" panel-type="standard-panel"/>
+<submenu activate="cfgeobbox_class_st" label="Geographic Bounding Box Classification" panel-type="standard-panel"/>
+<submenu activate="cfgeobboxdescr_st" label="Geographic Bounding Box Description" panel-type="standard-panel"/>
+<submenu activate="cfgeobboxkeyw_st" label="Geographic Bounding Box Keywords" panel-type="standard-panel"/>
+<submenu activate="cfgeobboxname_st" label="Geographic Bounding Box Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Indicator" name="menu15_Indicator">
+<submenu activate="cfindic_st" label="Indicator" panel-type="standard-panel"/>
+<submenu activate="cfindic_indic_st" label="Indicator - Indicator" panel-type="standard-panel"/>
+<submenu activate="cfindic_class_st" label="Indicator Classification" panel-type="standard-panel"/>
+<submenu activate="cfindicdescr_st" label="Indicator Description" panel-type="standard-panel"/>
+<submenu activate="cfindickeyw_st" label="Indicator Keywords" panel-type="standard-panel"/>
+<submenu activate="cfindic_meas_st" label="Indicator Measurement" panel-type="standard-panel"/>
+<submenu activate="cfindicname_st" label="Indicator Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Language" name="menu16_Language">
+<submenu activate="cflang_st" label="Language" panel-type="standard-panel"/>
+<submenu activate="cflang_class_st" label="Language Classification" panel-type="standard-panel"/>
+<submenu activate="cflangname_st" label="Language Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Measurement" name="menu17_Measurement">
+<submenu activate="cfmeas_st" label="Measurement" panel-type="standard-panel"/>
+<submenu activate="cfmeas_meas_st" label="Measurement - Measurement" panel-type="standard-panel"/>
+<submenu activate="cfmeas_class_st" label="Measurement Classification" panel-type="standard-panel"/>
+<submenu activate="cfmeasdescr_st" label="Measurement Description" panel-type="standard-panel"/>
+<submenu activate="cfmeaskeyw_st" label="Measurement Keywords" panel-type="standard-panel"/>
+<submenu activate="cfmeasname_st" label="Measurement Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Medium" name="menu18_Medium">
+<submenu activate="cfmedium_st" label="Medium" panel-type="standard-panel"/>
+<submenu activate="cfmedium_meas_st" label="Medium - Measurement" panel-type="standard-panel"/>
+<submenu activate="cfmedium_medium_st" label="Medium - Medium" panel-type="standard-panel"/>
+<submenu activate="cfmedium_class_st" label="Medium Classification" panel-type="standard-panel"/>
+<submenu activate="cfmediumdescr_st" label="Medium Description" panel-type="standard-panel"/>
+<submenu activate="cfmedium_fund_st" label="Medium Funding" panel-type="standard-panel"/>
+<submenu activate="cfmedium_indic_st" label="Medium Indicator" panel-type="standard-panel"/>
+<submenu activate="cfmediumkeyw_st" label="Medium Keywords" panel-type="standard-panel"/>
+<submenu activate="cfmediumtitle_st" label="Medium Title" panel-type="standard-panel"/>
+</menu>
+<menu label="Metrics" name="menu19_Metrics">
+<submenu activate="cfmetrics_st" label="Metrics" panel-type="standard-panel"/>
+<submenu activate="cfmetrics_class_st" label="Metrics Classification" panel-type="standard-panel"/>
+<submenu activate="cfmetricsdescr_st" label="Metrics Description" panel-type="standard-panel"/>
+<submenu activate="cfmetricskeyw_st" label="Metrics Keywords" panel-type="standard-panel"/>
+<submenu activate="cfmetricsname_st" label="Metrics Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Organisation Unit" name="menu20_Organisation_Unit">
+<submenu activate="cforgunit_st" label="Organisation Unit" panel-type="standard-panel"/>
+<submenu activate="cforgunit_orgunit_st" label="Organisation Unit - Organisation Unit" panel-type="standard-panel"/>
+<submenu activate="cforgunit_class_st" label="Organisation Unit Classification" panel-type="standard-panel"/>
+<submenu activate="cforgunit_dc_st" label="Organisation Unit DC" panel-type="standard-panel"/>
+<submenu activate="cforgunit_eaddr_st" label="Organisation Unit Electronic Address" panel-type="standard-panel"/>
+<submenu activate="cforgunit_equip_st" label="Organisation Unit Equipment" panel-type="standard-panel"/>
+<submenu activate="cforgunit_event_st" label="Organisation Unit Event" panel-type="standard-panel"/>
+<submenu activate="cforgunit_expskills_st" label="Organisation Unit Expertise And Skills" panel-type="standard-panel"/>
+<submenu activate="cforgunit_facil_st" label="Organisation Unit Facility" panel-type="standard-panel"/>
+<submenu activate="cforgunit_fund_st" label="Organisation Unit Funding" panel-type="standard-panel"/>
+<submenu activate="cforgunit_indic_st" label="Organisation Unit Indicator" panel-type="standard-panel"/>
+<submenu activate="cforgunitkeyw_st" label="Organisation Unit Keywords" panel-type="standard-panel"/>
+<submenu activate="cforgunit_meas_st" label="Organisation Unit Measurement" panel-type="standard-panel"/>
+<submenu activate="cforgunit_medium_st" label="Organisation Unit Medium" panel-type="standard-panel"/>
+<submenu activate="cforgunitname_st" label="Organisation Unit Name" panel-type="standard-panel"/>
+<submenu activate="cforgunit_paddr_st" label="Organisation Unit Post Address" panel-type="standard-panel"/>
+<submenu activate="cforgunit_prize_st" label="Organisation Unit Prize Award" panel-type="standard-panel"/>
+<submenu activate="cforgunitresact_st" label="Organisation Unit Research Activity" panel-type="standard-panel"/>
+<submenu activate="cforgunit_respat_st" label="Organisation Unit Result Patent" panel-type="standard-panel"/>
+<submenu activate="cforgunit_resprod_st" label="Organisation Unit Result Product" panel-type="standard-panel"/>
+<submenu activate="cforgunit_respubl_st" label="Organisation Unit Result Publication" panel-type="standard-panel"/>
+<submenu activate="cforgunit_srv_st" label="Organisation Unit Service" panel-type="standard-panel"/>
+</menu>
+<menu label="Post Address" name="menu21_Post_Address">
+<submenu activate="cfpaddr_st" label="Post Address" panel-type="standard-panel"/>
+<submenu activate="cfpaddr_class_st" label="Post Address Classification" panel-type="standard-panel"/>
+<submenu activate="cfpaddr_geobbox_st" label="Post Address Geographic Bounding Box" panel-type="standard-panel"/>
+</menu>
+<menu label="Person" name="menu22_Person">
+<submenu activate="cfpers_st" label="Person" panel-type="standard-panel"/>
+<submenu activate="cfpers_class_st" label="Person Classification" panel-type="standard-panel"/>
+<submenu activate="cfpers_country_st" label="Person Country" panel-type="standard-panel"/>
+<submenu activate="cfpers_cv_st" label="Person Curriculum Vitae" panel-type="standard-panel"/>
+<submenu activate="cfpers_dc_st" label="Person Dublin Core" panel-type="standard-panel"/>
+<submenu activate="cfpers_eaddr_st" label="Person Electronic Address" panel-type="standard-panel"/>
+<submenu activate="cfpers_equip_st" label="Person Equipment" panel-type="standard-panel"/>
+<submenu activate="cfpers_event_st" label="Person Event" panel-type="standard-panel"/>
+<submenu activate="cfpers_expskills_st" label="Person Expertise And Skills" panel-type="standard-panel"/>
+<submenu activate="cfpers_facil_st" label="Person Facility" panel-type="standard-panel"/>
+<submenu activate="cfpers_fund_st" label="Person Funding" panel-type="standard-panel"/>
+<submenu activate="cfpers_indic_st" label="Person Indicator" panel-type="standard-panel"/>
+<submenu activate="cfperskeyw_st" label="Person Keywords" panel-type="standard-panel"/>
+<submenu activate="cfpers_lang_st" label="Person Language" panel-type="standard-panel"/>
+<submenu activate="cfpers_meas_st" label="Person Measurement" panel-type="standard-panel"/>
+<submenu activate="cfpers_medium_st" label="Person Medium" panel-type="standard-panel"/>
+<submenu activate="cfpersname_st" label="Person Name" panel-type="standard-panel"/>
+<submenu activate="cfpersname_pers_st" label="Person Name - Person" panel-type="standard-panel"/>
+<submenu activate="cfpers_orgunit_st" label="Person Organisation Unit" panel-type="standard-panel"/>
+<submenu activate="cfpers_pers_st" label="Person Person" panel-type="standard-panel"/>
+<submenu activate="cfpers_paddr_st" label="Person Post Address" panel-type="standard-panel"/>
+<submenu activate="cfpers_prize_st" label="Person Prize Award" panel-type="standard-panel"/>
+<submenu activate="cfpers_qual_st" label="Person Qualification" panel-type="standard-panel"/>
+<submenu activate="cfpersresint_st" label="Person Research Interest" panel-type="standard-panel"/>
+<submenu activate="cfpers_respat_st" label="Person Result Patent" panel-type="standard-panel"/>
+<submenu activate="cfpers_resprod_st" label="Person Result Product" panel-type="standard-panel"/>
+<submenu activate="cfpers_respubl_st" label="Person Result Publication" panel-type="standard-panel"/>
+<submenu activate="cfpers_srv_st" label="Person Service" panel-type="standard-panel"/>
+</menu>
+<menu label="Prize Award" name="menu23_Prize_Award">
+<submenu activate="cfprize_st" label="Prize Award" panel-type="standard-panel"/>
+<submenu activate="cfprize_class_st" label="Prize Award Classification" panel-type="standard-panel"/>
+<submenu activate="cfprizedescr_st" label="Prize Award Description" panel-type="standard-panel"/>
+<submenu activate="cfprizekeyw_st" label="Prize Award Keywords" panel-type="standard-panel"/>
+<submenu activate="cfprizename_st" label="Prize Award Name" panel-type="standard-panel"/>
+</menu>
+<menu label="Project" name="menu24_Project">
+<submenu activate="cfproj_st" label="Project" panel-type="standard-panel"/>
+<submenu activate="cfproj_proj_st" label="Project - Project" panel-type="standard-panel"/>
+<submenu activate="cfprojabstr_st" label="Project Abstract" panel-type="standard-panel"/>
+<submenu activate="cfproj_class_st" label="Project Classification" panel-type="standard-panel"/>
+<submenu activate="cfproj_dc_st" label="Project Dublin Core" panel-type="standard-panel"/>
+<submenu activate="cfproj_equip_st" label="Project Equipment" panel-type="standard-panel"/>
+<submenu activate="cfproj_event_st" label="Project Event" panel-type="standard-panel"/>
+<submenu activate="cfproj_facil_st" label="Project Facility" panel-type="standard-panel"/>
+<submenu activate="cfproj_fund_st" label="Project Funding" panel-type="standard-panel"/>
+<submenu activate="cfproj_indic_st" label="Project Indicator" panel-type="standard-panel"/>
+<submenu activate="cfprojkeyw_st" label="Project Keywords" panel-type="standard-panel"/>
+<submenu activate="cfproj_meas_st" label="Project Measurement" panel-type="standard-panel"/>
+<submenu activate="cfproj_medium_st" label="Project Medium" panel-type="standard-panel"/>
+<submenu activate="cfproj_orgunit_st" label="Project Organisation Unit" panel-type="standard-panel"/>
+<submenu activate="cfproj_pers_st" label="Project Person" panel-type="standard-panel"/>
+<submenu activate="cfproj_prize_st" label="Project Prize Award" panel-type="standard-panel"/>
+<submenu activate="cfproj_respat_st" label="Project Result Patent" panel-type="standard-panel"/>
+<submenu activate="cfproj_resprod_st" label="Project Result Product" panel-type="standard-panel"/>
+<submenu activate="cfproj_respubl_st" label="Project Result Publication" panel-type="standard-panel"/>
+<submenu activate="cfproj_srv_st" label="Project Service" panel-type="standard-panel"/>
+<submenu activate="cfprojtitle_st" label="Project Title" panel-type="standard-panel"/>
+</menu>
+<menu label="Qualification" name="menu25_Qualification">
+<submenu activate="cfqual_st" label="Qualification" panel-type="standard-panel"/>
+<submenu activate="cfqual_class_st" label="Qualification Classification" panel-type="standard-panel"/>
+<submenu activate="cfqualdescr_st" label="Qualification Description" panel-type="standard-panel"/>
+<submenu activate="cfqualkeyw_st" label="Qualification Keywords" panel-type="standard-panel"/>
+<submenu activate="cfqualtitle_st" label="Qualification Title" panel-type="standard-panel"/>
+</menu>
+<menu label="Result Patent" name="menu26_Result_Patent">
+<submenu activate="cfrespat_st" label="Result Patent" panel-type="standard-panel"/>
+<submenu activate="cfrespat_respat_st" label="Result Patent - Result Patent" panel-type="standard-panel"/>
+<submenu activate="cfrespatabstr_st" label="Result Patent Abstract" panel-type="standard-panel"/>
+<submenu activate="cfrespat_class_st" label="Result Patent Classification" panel-type="standard-panel"/>
+<submenu activate="cfrespat_equip_st" label="Result Patent Equipment" panel-type="standard-panel"/>
+<submenu activate="cfrespat_facil_st" label="Result Patent Facility" panel-type="standard-panel"/>
+<submenu activate="cfrespat_fund_st" label="Result Patent Funding" panel-type="standard-panel"/>
+<submenu activate="cfrespat_indic_st" label="Result Patent Indicator" panel-type="standard-panel"/>
+<submenu activate="cfrespatkeyw_st" label="Result Patent Keywords" panel-type="standard-panel"/>
+<submenu activate="cfrespat_meas_st" label="Result Patent Measurement" panel-type="standard-panel"/>
+<submenu activate="cfrespat_medium_st" label="Result Patent Medium" panel-type="standard-panel"/>
+<submenu activate="cfrespat_srv_st" label="Result Patent Service" panel-type="standard-panel"/>
+<submenu activate="cfrespattitle_st" label="Result Patent Title" panel-type="standard-panel"/>
+<submenu activate="cfrespatversinfo_st" label="Result Patent Version Info" panel-type="standard-panel"/>
+</menu>
+<menu label="Result Product" name="menu27_Result_Product">
+<submenu activate="cfresprod_st" label="Result Product" panel-type="standard-panel"/>
+<submenu activate="cfresprod_resprod_st" label="Result Product - Result Product" panel-type="standard-panel"/>
+<submenu activate="cfresprod_class_st" label="Result Product Classification" panel-type="standard-panel"/>
+<submenu activate="cfresproddescr_st" label="Result Product Description" panel-type="standard-panel"/>
+<submenu activate="cfresprod_equip_st" label="Result Product Equipment" panel-type="standard-panel"/>
+<submenu activate="cfresprod_facil_st" label="Result Product Facility" panel-type="standard-panel"/>
+<submenu activate="cfresprod_fund_st" label="Result Product Funding" panel-type="standard-panel"/>
+<submenu activate="cfresprod_indic_st" label="Result Product Indicator" panel-type="standard-panel"/>
+<submenu activate="cfresprodkeyw_st" label="Result Product Keywords" panel-type="standard-panel"/>
+<submenu activate="cfresprod_meas_st" label="Result Product Measurement" panel-type="standard-panel"/>
+<submenu activate="cfresprod_medium_st" label="Result Product Medium" panel-type="standard-panel"/>
+<submenu activate="cfresprodname_st" label="Result Product Name" panel-type="standard-panel"/>
+<submenu activate="cfresprod_srv_st" label="Result Product Service" panel-type="standard-panel"/>
+<submenu activate="cfresprodversinfo_st" label="Result Product Version Info" panel-type="standard-panel"/>
+</menu>
+<menu label="Result Publication" name="menu28_Result_Publication">
+<submenu activate="cfrespubl_st" label="Result Publication" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_respat_st" label="Result Publication - Result Patent" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_resprod_st" label="Result Publication - Result Product" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_respubl_st" label="Result Publication - Result Publication" panel-type="standard-panel"/>
+<submenu activate="cfrespublabstr_st" label="Result Publication Abstract" panel-type="standard-panel"/>
+<submenu activate="cfrespublbiblnote_st" label="Result Publication Bibliographic Note" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_cite_st" label="Result Publication Citation" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_class_st" label="Result Publication Classification" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_dc_st" label="Result Publication Dublin Core" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_equip_st" label="Result Publication Equipment" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_event_st" label="Result Publication Event" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_facil_st" label="Result Publication Facility" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_fund_st" label="Result Publication Funding" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_indic_st" label="Result Publication Indicator" panel-type="standard-panel"/>
+<submenu activate="cfrespublkeyw_st" label="Result Publication Keywords" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_meas_st" label="Result Publication Measurement" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_medium_st" label="Result Publication Medium" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_metrics_st" label="Result Publication Metrics" panel-type="standard-panel"/>
+<submenu activate="cfrespublnameabbrev_st" label="Result Publication Name Abbreviation" panel-type="standard-panel"/>
+<submenu activate="cfrespubl_srv_st" label="Result Publication Service" panel-type="standard-panel"/>
+<submenu activate="cfrespublsubtitle_st" label="Result Publication Subtitle" panel-type="standard-panel"/>
+<submenu activate="cfrespubltitle_st" label="Result Publication Title" panel-type="standard-panel"/>
+<submenu activate="cfrespublversinfo_st" label="Result Publication Version Info" panel-type="standard-panel"/>
+</menu>
+<menu label="Service" name="menu29_Service">
+<submenu activate="cfsrv_st" label="Service" panel-type="standard-panel"/>
+<submenu activate="cfsrv_srv_st" label="Service - Service" panel-type="standard-panel"/>
+<submenu activate="cfsrv_class_st" label="Service Classification" panel-type="standard-panel"/>
+<submenu activate="cfsrvdescr_st" label="Service Description" panel-type="standard-panel"/>
+<submenu activate="cfsrv_event_st" label="Service Event" panel-type="standard-panel"/>
+<submenu activate="cfsrv_fedid_st" label="Service Federated Identifier" panel-type="standard-panel"/>
+<submenu activate="cfsrv_fund_st" label="Service Funding" panel-type="standard-panel"/>
+<submenu activate="cfsrv_indic_st" label="Service Indicator" panel-type="standard-panel"/>
+<submenu activate="cfsrvkeyw_st" label="Service Keywords" panel-type="standard-panel"/>
+<submenu activate="cfsrv_meas_st" label="Service Measurement" panel-type="standard-panel"/>
+<submenu activate="cfsrv_medium_st" label="Service Medium" panel-type="standard-panel"/>
+<submenu activate="cfsrvname_st" label="Service Name" panel-type="standard-panel"/>
+<submenu activate="cfsrv_paddr_st" label="Service Post Address" panel-type="standard-panel"/>
+</menu>
+</menus>

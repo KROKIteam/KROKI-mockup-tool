@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Submenu extends Menu {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4034834290792523311L;
 	private String name;
 	private ArrayList<Menu> children;
 	private ArrayList<String> roles;
@@ -38,6 +42,11 @@ public class Submenu extends Menu {
 
 	public void setRoles(ArrayList<String> roles) {
 		this.roles = roles;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 
 

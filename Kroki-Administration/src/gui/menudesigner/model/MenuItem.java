@@ -2,6 +2,10 @@ package gui.menudesigner.model;
 
 public class MenuItem extends Menu {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3109657186274102017L;
 	private String formName;
 	private String menuName;
 	private String activate;
@@ -30,6 +34,11 @@ public class MenuItem extends Menu {
 	}
 	public void setPanelType(String panelType) {
 		this.panelType = panelType;
+	}
+	
+	@Override
+	public String toString() {
+		return menuName;
 	}
 
 }

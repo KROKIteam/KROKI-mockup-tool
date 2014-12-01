@@ -29,6 +29,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private DatabaseProps DBConnectionProps = new DatabaseProps();
 	private File file;
 	private Object graphPackage;
+	private Object menu;
 	private boolean labelToCode = true;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
@@ -207,6 +208,15 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		this.graphPackage = graphPackage;
 	}
 
+
+	public Object getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Object menu) {
+		this.menu = menu;
+	}
+	
 	public boolean isLabelToCode() {
 		return labelToCode;
 	}
