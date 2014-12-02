@@ -6,7 +6,7 @@ package kroki.app.command;
 
 import java.awt.Point;
 
-import kroki.api.element.UIPropertyUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;

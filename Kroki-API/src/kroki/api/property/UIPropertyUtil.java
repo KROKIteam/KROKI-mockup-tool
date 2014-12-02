@@ -1,4 +1,4 @@
-package kroki.api.element;
+package kroki.api.property;
 
 
 import kroki.commons.camelcase.NamingUtil;
@@ -142,7 +142,7 @@ public class UIPropertyUtil {
 	public static void addVisibleElement(ParentChild panel, VisibleElement visibleElement) {
 		if (visibleElement instanceof Hierarchy) {
 			Hierarchy hierarchy = (Hierarchy) visibleElement;
-			setHierarchhyAttributes(panel, hierarchy);
+			HierarchyUtil.setHierarchhyAttributes(panel, hierarchy);
 		}
 		addVisibleElement((VisibleClass)panel, visibleElement);
 	}
@@ -151,30 +151,13 @@ public class UIPropertyUtil {
 	public static void addVisibleElement(ParentChild panel, int index, VisibleElement visibleElement) {
 		if (visibleElement instanceof Hierarchy) {
 			Hierarchy hierarchy = (Hierarchy) visibleElement;
-			setHierarchhyAttributes(panel, hierarchy);
+			HierarchyUtil.setHierarchhyAttributes(panel, hierarchy);
 		}
 		addVisibleElement((VisibleClass)panel, index, visibleElement);
 	}
 
-	private static void setHierarchhyAttributes(ParentChild panel, Hierarchy hierarchy){
-		if (hierarchy.getLevel() != 0)
-			return;
-		int count = panel.getHierarchyCount();
-		if (count == 0) {
-			hierarchy.setLevel(1);
-			hierarchy.setHierarchyParent(null);
-		} else if (count == 1) {
-			hierarchy.setLevel(2);
-			hierarchy.setHierarchyParent(panel.getHierarchyRoot());
-		} else {
-			//ako ima dva ili vise elemenata
-			//u pocetku ce biti nedefinisan dok se ne izabere targetPanel 
-			//(prikikom cega ce se odrediti level na osnovu uzajamnih veza izmedju elemenata hijerarhije
-			hierarchy.setLevel(-1);
-		}
-	}
 
-
+	
 	private static int getPropertiesGroupIndex(VisibleClass panel){
 		if (panel instanceof StandardPanel)
 			return STANDARD_PANEL_PROPERTIES;

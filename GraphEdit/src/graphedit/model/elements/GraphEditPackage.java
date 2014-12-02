@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Next;
@@ -288,7 +289,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 			UIClassElement loadedClass = savedClass(visibleClass, loadedElement);
 
-			for (Zoom zoom : visibleClass.containedZooms()){
+			for (Zoom zoom : VisibleClassUtil.containedZooms(visibleClass)){
 
 
 				//onaj koji sadrzi zoom je destination
@@ -457,7 +458,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 			}
 
-			for (Hierarchy hierarchy : visibleClass.containedHierarchies()){
+			for (Hierarchy hierarchy : VisibleClassUtil.containedHierarchies(visibleClass)){
 
 				UIClassElement targetElement = allElementsMap.get(hierarchy.getTargetPanel());
 				if (targetElement == null)

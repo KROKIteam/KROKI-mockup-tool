@@ -8,7 +8,8 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import kroki.api.element.UIPropertyUtil;
+import kroki.api.panel.VisibleClassUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;
@@ -38,7 +39,7 @@ public class TransformToAggregatedState extends State {
         Canvas c = tabbedPaneController.getCurrentTabContent();
         VisibleClass visibleClass = c.getVisibleClass();
 
-        List<VisibleProperty> visiblePropertyList = visibleClass.containedProperties();
+        List<VisibleProperty> visiblePropertyList = VisibleClassUtil.containedProperties(visibleClass);
         boolean flag = false;
         for (int i = 0; i < visiblePropertyList.size(); i++) {
             VisibleProperty visibleProperty = visiblePropertyList.get(i);
@@ -70,7 +71,7 @@ public class TransformToAggregatedState extends State {
             return;
         }
 
-        List<VisibleProperty> visiblePropertyList = visibleClass.containedProperties();
+        List<VisibleProperty> visiblePropertyList = VisibleClassUtil.containedProperties(visibleClass);
         int index = -1;
         VisibleProperty visibleProperty = null;
         for (int i = 0; i < visiblePropertyList.size(); i++) {
@@ -87,7 +88,7 @@ public class TransformToAggregatedState extends State {
 
         //OVO MORA BITI UNDOABLE I REDO-ABLE
         if (index != -1) {
-            ElementsGroup elg = visibleClass.getElementsGroupAtPoint(e.getPoint());
+            ElementsGroup elg = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
             if (elg != null) {
                 int position = elg.indexOf(visibleProperty);
                 elg.removeVisibleElement(visibleProperty);

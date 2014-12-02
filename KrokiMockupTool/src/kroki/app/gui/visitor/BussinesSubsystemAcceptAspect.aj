@@ -1,5 +1,6 @@
 package kroki.app.gui.visitor;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlType;
@@ -29,7 +30,7 @@ public privileged aspect BussinesSubsystemAcceptAspect {
 	 public void BussinesSubsystem.accept(AllPosibleNexts visitor) {
 		 for (UmlType owned : ownedType)
 			 if (owned instanceof StandardPanel)
-				 visitor.addAllObjects(((StandardPanel)owned).containedZooms());
+				 visitor.addAllObjects(VisibleClassUtil.containedZooms(((StandardPanel)owned)));
 
 		 for (int i = 0; i < nestedPackage.size(); i++) {
 			 BussinesSubsystem subsystem = (BussinesSubsystem) nestedPackage.get(i);

@@ -22,11 +22,11 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
 
-import kroki.api.element.UIPropertyUtil;
 import kroki.api.operations.OperationType;
 import kroki.api.operations.UIOperationsUtil;
 import kroki.api.panel.ParentChildUtil;
 import kroki.api.panel.StandardPanelUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -566,11 +566,11 @@ public class UIClassElement extends ClassElement{
 
 
 		if (!(targetPanel instanceof ParentChild)){
-			List<Hierarchy> possibleParents = ((ParentChild)visibleClass).possibleParents(hierarchy, hierarchy.getLevel() - 1);
+			List<Hierarchy> possibleParents = ParentChildUtil.possibleParents((ParentChild)visibleClass, hierarchy, hierarchy.getLevel() - 1);
 			if (possibleParents != null  && possibleParents.size() >= 1){ 
 				hierarchy.setHierarchyParent(possibleParents.get(0)); //set the first one by default, users can change it in mockup editor
 				hierarchy.setLevel(possibleParents.get(0).getLevel() + 1);
-				List<VisibleAssociationEnd> possibleEnds = ((ParentChild)visibleClass).possibleAssociationEnds(hierarchy);
+				List<VisibleAssociationEnd> possibleEnds = ParentChildUtil.possibleAssociationEnds((ParentChild)visibleClass, hierarchy);
 				if (possibleEnds != null  && possibleEnds.size() >= 1)
 					hierarchy.setViaAssociationEnd(possibleEnds.get(0));
 			}

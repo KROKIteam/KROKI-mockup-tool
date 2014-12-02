@@ -6,6 +6,8 @@ package kroki.app.gui.visitor;
 
 import java.util.Iterator;
 import java.util.List;
+
+import kroki.api.panel.VisibleClassUtil;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
@@ -53,7 +55,7 @@ public class AllPosibleNextPanels extends Visitor {
         while (iter.hasNext()) {
 
             VisibleClass visibleClass = (VisibleClass) iter.next();
-            List<Zoom> zooms = visibleClass.containedZooms();
+            List<Zoom> zooms = VisibleClassUtil.containedZooms(visibleClass);
             boolean flag = false;
             for (int i = 0; i < zooms.size(); i++) {
                 if (zooms.get(i).getTargetPanel() == umlClass) {

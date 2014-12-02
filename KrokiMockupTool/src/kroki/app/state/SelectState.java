@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.AddCommand;
 import kroki.app.command.Command;
@@ -47,7 +48,7 @@ public class SelectState extends State {
         currentPosition = (Point) e.getPoint().clone();
         Canvas c = context.getTabbedPaneController().getCurrentTabContent();
         VisibleClass visibleClass = c.getVisibleClass();
-        VisibleElement visibleElement = visibleClass.getVisibleElementAtPoint(e.getPoint());
+        VisibleElement visibleElement = VisibleClassUtil.getVisibleElementAtPoint(visibleClass, e.getPoint());
         SelectionModel selectionModel = c.getSelectionModel();
         
         Handle h = null;

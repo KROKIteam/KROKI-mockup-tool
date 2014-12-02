@@ -10,8 +10,6 @@ import java.util.List;
 
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
-import kroki.profil.association.VisibleAssociationEnd;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.DatabaseProps;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
@@ -155,45 +153,6 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
 
 
-	public List<VisibleAssociationEnd> allAssociationEnds(){
-		ArrayList<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
-		allAssociationEnds(this, ret);
-		return ret;
-	}
-
-
-	public List<VisibleClass> allPanels(){
-		ArrayList<VisibleClass> ret = new ArrayList<VisibleClass>();
-		allPanels(this, ret);
-		return ret;
-	}
-
-
-	/**
-	 * Finds all visible association ends which are contained by the subsystem and its nested packages
-	 * @param pack
-	 * @param ret
-	 */
-	protected void allAssociationEnds(BussinesSubsystem pack, List<VisibleAssociationEnd> ret){
-		for (UmlType ownedType : pack.ownedType()){
-			if (!(ownedType instanceof VisibleClass))
-				continue;
-			VisibleClass visibleClass = (VisibleClass)ownedType;
-			for (VisibleAssociationEnd end : visibleClass.containedAssociationEnds())
-				ret.add(end);
-		}
-		for (UmlPackage ownedPackage : pack.nestedPackage())
-			allAssociationEnds((BussinesSubsystem) ownedPackage, ret);
-	}
-
-	protected void allPanels(BussinesSubsystem pack, List<VisibleClass> ret){
-		for (UmlType ownedType : pack.ownedType()){
-			if ((ownedType instanceof VisibleClass))
-				ret.add((VisibleClass) ownedType);
-		}
-		for (UmlPackage ownedPackage : pack.nestedPackage())
-			allPanels((BussinesSubsystem) ownedPackage, ret);
-	}
 
 	@Override
 	public String toString() {

@@ -17,8 +17,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 
-import kroki.api.element.UIPropertyUtil;
 import kroki.api.panel.StandardPanelUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ExportProjectToEclipseUML;
 import kroki.app.utils.uml.OperationsTypeDialog;

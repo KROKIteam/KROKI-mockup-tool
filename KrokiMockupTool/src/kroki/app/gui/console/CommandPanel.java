@@ -25,8 +25,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import kroki.api.element.UIPropertyUtil;
 import kroki.api.panel.StandardPanelUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.toolbar.StyleToolbar;
 import kroki.app.model.Workspace;

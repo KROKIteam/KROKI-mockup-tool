@@ -21,7 +21,8 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import kroki.api.element.UIPropertyUtil;
+import kroki.api.panel.VisibleClassUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.app.gui.visitor.AllPosibleNexts;
 import kroki.app.gui.visitor.Visitor;
 import kroki.commons.document.OnlyDigitsDocumentFilter;
@@ -118,7 +119,7 @@ public class NextSettings extends VisibleAssociationEndSettings {
 
 
 		VisibleClass panel = (VisibleClass) ((UmlProperty) visibleElement).umlClass();
-		int position = panel.containedNexts().indexOf(next) + 1;
+		int position = VisibleClassUtil.containedNexts(panel).indexOf(next) + 1;
 		positionTf.setText(position + "");
 
 
@@ -234,7 +235,7 @@ public class NextSettings extends VisibleAssociationEndSettings {
 				int oldPosition = panel.getVisibleElementList().indexOf(next);
 
 
-				Next otherNext = panel.containedNexts().get(newPosition);
+				Next otherNext = VisibleClassUtil.containedNexts(panel).get(newPosition);
 				newPosition = panel.getVisibleElementList().indexOf(otherNext);
 
 
@@ -271,7 +272,7 @@ public class NextSettings extends VisibleAssociationEndSettings {
 	private boolean positionValid(int position, VisibleClass visClass){
 		if (position < 0)
 			return false;
-		return position < visClass.containedNexts().size();
+		return position < VisibleClassUtil.containedNexts(visClass).size();
 	}
 
 	//TODO ovo kasnije ubaciti u commons

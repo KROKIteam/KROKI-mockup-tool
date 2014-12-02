@@ -27,6 +27,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
@@ -494,7 +495,7 @@ public class StandardPanelSettings extends VisibleClassSettings {
             public void actionPerformed(ActionEvent e) {
                 //stdDataSettings.choose.sortBy
                 StandardPanel visibleClass = (StandardPanel) visibleElement;
-                List<VisibleProperty> list = visibleClass.containedProperties();
+                List<VisibleProperty> list = VisibleClassUtil.containedProperties(visibleClass);
                 VisibleProperty sortBy = (VisibleProperty) ListDialog.showDialog(list.toArray(), Intl.getValue("stdDataSettings.choose.sortBy"));
                 if (sortBy != null) {
                     visibleClass.getStdDataSettings().setSortBy(sortBy);

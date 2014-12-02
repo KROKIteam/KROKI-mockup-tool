@@ -7,6 +7,8 @@ package kroki.app.gui.visitor;
 import java.util.Iterator;
 import java.util.List;
 
+import kroki.api.panel.ParentChildUtil;
+import kroki.api.panel.VisibleClassUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
@@ -53,7 +55,7 @@ public class AllPosibleHierarchyPanels extends Visitor {
 		Hierarchy hierarchy = (Hierarchy)object;
 		if (hierarchy.getLevel() > 1 || hierarchy.getLevel() == -1){
 			objectList.clear();
-			objectList.addAll(parentChild.getAllPosibleTargetPanels());
+			objectList.addAll(ParentChildUtil.getAllPosibleTargetPanels(parentChild));
 		}
 		else{
 			objectList.remove(parentChild);
@@ -63,7 +65,7 @@ public class AllPosibleHierarchyPanels extends Visitor {
 				Object next = iter.next();
 				if (next instanceof ParentChild){
 					parentChild2 = (ParentChild)next;
-					for (Hierarchy h : parentChild2.containedHierarchies())
+					for (Hierarchy h : VisibleClassUtil.containedHierarchies(parentChild2))
 						if (h.getTargetPanel() == parentChild){
 							iter.remove();
 							break;

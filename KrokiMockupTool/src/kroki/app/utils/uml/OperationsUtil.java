@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
+import korki.api.subsystem.BusinessSubsystemUtil;
+import kroki.api.property.HierarchyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.visitor.ContainingPanels;
 import kroki.profil.VisibleElement;
@@ -81,12 +83,12 @@ public class OperationsUtil {
 		//koije je negde hierarhija, osvezi prikaz komponente
 		
 		BussinesSubsystem project = (BussinesSubsystem) findCurrentProject();
-		List<VisibleClass> panels = project.allPanels();
+		List<VisibleClass> panels = BusinessSubsystemUtil.allPanels(project);
 		
-		for (VisibleAssociationEnd end: project.allAssociationEnds()){
+		for (VisibleAssociationEnd end: BusinessSubsystemUtil.allAssociationEnds(project)){
 			if (panel == end.getTargetPanel()){
 				if (end instanceof Hierarchy){
-					((Hierarchy)end).updateTargetPanel(null);
+					HierarchyUtil.updateTargetPanel((Hierarchy)end, null);
 				}
 				else{
 					end.setTargetPanel(null);
@@ -95,7 +97,7 @@ public class OperationsUtil {
 			}
 			else if (end instanceof Hierarchy){
 				if (panel == ((Hierarchy)end).getAppliedToPanel()){
-					((Hierarchy)end).updateAppliedTo(null);
+					HierarchyUtil.updateAppliedTo((Hierarchy)end, null);
 				}
 			}
 		}
@@ -105,7 +107,7 @@ public class OperationsUtil {
 
 		BussinesSubsystem project = (BussinesSubsystem) findCurrentProject();
 		
-		for (VisibleAssociationEnd end: project.allAssociationEnds()){
+		for (VisibleAssociationEnd end: BusinessSubsystemUtil.allAssociationEnds(project)){
 			if (panels.contains(end.getTargetPanel())){
 				end.setTargetPanel(null);
 				end.setOpposite(null);

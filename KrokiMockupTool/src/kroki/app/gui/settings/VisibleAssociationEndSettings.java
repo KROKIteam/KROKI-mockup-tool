@@ -23,6 +23,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import kroki.api.panel.ParentChildUtil;
+import kroki.api.panel.VisibleClassUtil;
 import kroki.app.gui.visitor.AllPosibleHierarchyPanels;
 import kroki.app.gui.visitor.AllPosibleNextPanels;
 import kroki.app.gui.visitor.AllPosibleZoomPanels;
@@ -437,7 +439,7 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 				if (visibleAssociationEnd.getTargetPanel() != null) {
 					if (visibleAssociationEnd.getTargetPanel() instanceof StandardPanel) {
 						StandardPanel visibleClass = (StandardPanel) visibleAssociationEnd.getTargetPanel();
-						List<VisibleProperty> list = visibleClass.containedProperties();
+						List<VisibleProperty> list = VisibleClassUtil.containedProperties(visibleClass);
 						VisibleProperty sortBy = (VisibleProperty) ListDialog.showDialog(list.toArray(), Intl.getValue("stdDataSettings.choose.sortBy"));
 						if (sortBy != null) {
 							visibleAssociationEnd.getStdDataSettings().setSortBy(sortBy);
@@ -501,9 +503,9 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 							if (visibleAssociationEnd.getTargetPanel() != selected){
 								Hierarchy h = (Hierarchy)visibleElement;
 								ParentChild panel = (ParentChild)h.getActivationPanel(); 
-								panel.updateTargetPanel(h, (VisibleClass) selected);
+								ParentChildUtil.updateTargetPanel(panel, h, (VisibleClass) selected);
 								if (h.getLevel() == 2 && h.getViaAssociationEnd() == null){
-									List<VisibleAssociationEnd> ends = panel.possibleAssociationEnds(h);
+									List<VisibleAssociationEnd> ends = ParentChildUtil.possibleAssociationEnds(panel, h);
 									if (ends.size() == 1)
 										h.setViaAssociationEnd(ends.get(0));
 								}

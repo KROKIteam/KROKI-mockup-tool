@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import kroki.api.property.HierarchyUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.panel.container.ParentChild;
 
@@ -64,7 +65,7 @@ public class CutLinkCommand extends Command {
 				HierarchyElement hierarchyElement = ((UIClassElement)sourceElement).getHierarchyMap().get(link.getSourceConnector());
 				Hierarchy hierarchy = hierarchyElement.getHierarchy();
 
-				List<Hierarchy> successors = hierarchy.allSuccessors();
+				List<Hierarchy> successors = HierarchyUtil.allSuccessors(hierarchy);
 				successors.add(hierarchy);
 
 

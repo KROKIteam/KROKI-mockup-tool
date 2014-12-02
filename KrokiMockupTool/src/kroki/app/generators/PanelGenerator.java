@@ -12,6 +12,8 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import kroki.api.panel.ParentChildUtil;
+import kroki.api.panel.VisibleClassUtil;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -131,11 +133,11 @@ public class PanelGenerator {
 					stdPanel.appendChild(eSettings);
 					
 					//linkovi
-					if(!vClass.containedNexts().isEmpty()) {
+					if(!VisibleClassUtil.containedNexts(vClass).isEmpty()) {
 						Element linksTag = doc.createElement("nexts");
 						stdPanel.appendChild(linksTag);
 						
-						for (Next next : vClass.containedNexts()) {
+						for (Next next : VisibleClassUtil.containedNexts(vClass)) {
 							Element linkTag = doc.createElement("next");
 							
 							ElementsGroup elemGr = next.getParentGroup();
@@ -188,12 +190,12 @@ public class PanelGenerator {
 					}
 					
 					//<operations> tag
-					if(!vClass.containedOperations().isEmpty()) {
+					if(!VisibleClassUtil.containedOperations(vClass).isEmpty()) {
 						Element operationsTag = doc.createElement("operations");
 						stdPanel.appendChild(operationsTag);
 						
-						for(int k=0; k<vClass.containedOperations().size(); k++) {
-							VisibleOperation vo = vClass.containedOperations().get(k);
+						for(int k=0; k < VisibleClassUtil.containedOperations(vClass).size(); k++) {
+							VisibleOperation vo = VisibleClassUtil.containedOperations(vClass).get(k);
 							if(vo instanceof BussinessOperation) {
 								Element opTag = doc.createElement("operation");
 								ElementsGroup elemGroup = vo.getParentGroup();
@@ -328,8 +330,8 @@ public class PanelGenerator {
 					
 					//za svaki panel u hijerarhiji ide <panel> tag
 					//<panel id="dnmp_sk" level="4" panel-ref="sektor_st" />
-					for(int m=0; m<pcPanel.allContainedHierarchies().size(); m++) {
-						Hierarchy h = pcPanel.allContainedHierarchies().get(m);
+					for(int m=0; m < ParentChildUtil.allContainedHierarchies(pcPanel).size(); m++) {
+						Hierarchy h = ParentChildUtil.allContainedHierarchies(pcPanel).get(m);
 						StandardPanel hPanel = (StandardPanel) h.getTargetPanel();
 						System.out.println("Hierarhija: id = " + h.name() + ", panel-ref = " + hPanel.getPersistentClass().name().toLowerCase() + "_st, level = " + h.getLevel());
 						

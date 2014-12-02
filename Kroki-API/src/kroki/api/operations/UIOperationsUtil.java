@@ -1,6 +1,6 @@
 package kroki.api.operations;
 
-import kroki.api.element.UIPropertyUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.Report;

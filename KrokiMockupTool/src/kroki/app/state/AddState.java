@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.app.command.AddCommand;
 import kroki.app.command.CommandManager;
 import kroki.app.controller.TabbedPaneController;
@@ -37,7 +38,7 @@ public class AddState extends State {
 		TabbedPaneController tabbedPaneController = context.getTabbedPaneController();
 		Canvas canvas = tabbedPaneController.getCurrentTabContent();
 		VisibleClass visibleClass = canvas.getVisibleClass();
-		VisibleElement visibleElement = visibleClass.getVisibleElementAtPoint(e.getPoint());
+		VisibleElement visibleElement = VisibleClassUtil.getVisibleElementAtPoint(visibleClass, e.getPoint());
 		boolean flag = false;
 		if (visibleElement == null) {
 			flag = false;
@@ -59,7 +60,7 @@ public class AddState extends State {
 		CommandManager commandManager = canvas.getCommandManager();
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			VisibleClass visibleClass = canvas.getVisibleClass();
-			ElementsGroup elementsGroup = visibleClass.getElementsGroupAtPoint(e.getPoint());
+			ElementsGroup elementsGroup = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
 			if (elementsGroup != null) {
 				if (!elementsGroup.checkIfCanAdd(element)) {
 					return;

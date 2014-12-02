@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
@@ -94,15 +95,15 @@ public class WebResourceGenerator {
 				resourceTag.appendChild(formsTag);
 				
 				//tagovi za atribute
-				if(!vClass.containedProperties().isEmpty()) {
+				if(!VisibleClassUtil.containedProperties(vClass).isEmpty()) {
 					
 					//prvo korenski tag <Attributes>
 					Element attributesTag = doc.createElement("Attributes");
 					resourceTag.appendChild(attributesTag);
 					
 					//za svaki atribut klase ide <attribute> tag
-					for(int j=0; j<vClass.containedProperties().size();j++) {
-						VisibleProperty prop = vClass.containedProperties().get(j);
+					for(int j=0; j < VisibleClassUtil.containedProperties(vClass).size();j++) {
+						VisibleProperty prop = VisibleClassUtil.containedProperties(vClass).get(j);
 						
 						Element attributeTag = doc.createElement("attribute");
 						attributesTag.appendChild(attributeTag);
@@ -176,15 +177,15 @@ public class WebResourceGenerator {
 				}
 				
 				//many-to-one atributi (zoom)
-				if(!vClass.containedZooms().isEmpty()) {
+				if(!VisibleClassUtil.containedZooms(vClass).isEmpty()) {
 					
 					//korenski tag <ManyToOneAttributes>
 					Element zoomsTag = doc.createElement("ManyToOneAttributes");
 					resourceTag.appendChild(zoomsTag);
 					
 					//za svaki zoom atribut ide <manyToOne> tag
-					for(int k=0; k<vClass.containedZooms().size(); k++) {
-						Zoom zoom = vClass.containedZooms().get(k);
+					for(int k=0; k < VisibleClassUtil.containedZooms(vClass).size(); k++) {
+						Zoom zoom = VisibleClassUtil.containedZooms(vClass).get(k);
 						StandardPanel zoomPanel = (StandardPanel) zoom.getTargetPanel();
 						
 						Element zoomElement = doc.createElement("manyToOne");
@@ -227,12 +228,12 @@ public class WebResourceGenerator {
 				}
 				
 				//<operations> tag
-				if(!vClass.containedOperations().isEmpty()) {
+				if(!VisibleClassUtil.containedOperations(vClass).isEmpty()) {
 					Element operationsTag = doc.createElement("Operations");
 					resourceTag.appendChild(operationsTag);
 					
-					for(int k=0; k<vClass.containedOperations().size(); k++) {
-						VisibleOperation vo = vClass.containedOperations().get(k);
+					for(int k=0; k < VisibleClassUtil.containedOperations(vClass).size(); k++) {
+						VisibleOperation vo = VisibleClassUtil.containedOperations(vClass).get(k);
 						System.out.println("[GENERISEM OPERACIJU] " + vo.getLabel());
 						if(vo instanceof BussinessOperation) {
 							

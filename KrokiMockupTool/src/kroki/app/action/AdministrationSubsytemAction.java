@@ -12,8 +12,8 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.exceptions.NoZoomPanelException;
 import kroki.app.utils.ImageResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -209,7 +209,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 					
 					//add list to contained panels enclosed in square brackets
 					panel_type += "[";
-					for(Hierarchy hierarchy: pcPanel.containedHierarchies()) {
+					for(Hierarchy hierarchy: VisibleClassUtil.containedHierarchies(pcPanel)) {
 						panel_type += cc.toCamelCase(hierarchy.getTargetPanel().getComponent().getName(), false) + ":";
 					}
 					panel_type = panel_type.substring(0, panel_type.length()-1) + "]";

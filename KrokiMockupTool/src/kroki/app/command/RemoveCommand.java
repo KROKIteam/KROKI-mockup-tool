@@ -7,7 +7,8 @@ package kroki.app.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.element.UIPropertyUtil;
+import kroki.api.property.HierarchyUtil;
+import kroki.api.property.UIPropertyUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
@@ -58,7 +59,7 @@ public class RemoveCommand implements Command {
 			if (panel == null)
 				panel = (ParentChild)hierarchy.umlClass();
 			currentSuccessors.clear();
-			currentSuccessors = hierarchy.allSuccessors();
+			currentSuccessors = HierarchyUtil.allSuccessors(hierarchy);
 			currentSuccessors.add(0,hierarchy);
 
 			for (Hierarchy h : currentSuccessors)

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import kroki.api.panel.VisibleClassUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.view.Canvas;
 import kroki.commons.camelcase.NamingUtil;
@@ -92,20 +93,20 @@ public class ExportAction extends AbstractAction {
         			
         			
         			//-------------------------ATRIBUTI KLASE-----------------------------------------------------------------------------
-        			for(int j=0; j<vc.containedProperties().size(); j++) {
-        				VisibleProperty vp = vc.containedProperties().get(j);
+        			for(int j=0; j < VisibleClassUtil.containedProperties(vc).size(); j++) {
+        				VisibleProperty vp = VisibleClassUtil.containedProperties(vc).get(j);
         			
         				ejbString += "	" + j + " " + cc.toCamelCase(vp.getLabel(), true) + "(" + vp.getColumnLabel()  +") : " + vp.getComponentType() + "\n";
         			}
         			
-        			for(int l=0; l<vc.containedZooms().size(); l++) {
-        				Zoom z = vc.containedZooms().get(l);
+        			for(int l=0; l < VisibleClassUtil.containedZooms(vc).size(); l++) {
+        				Zoom z = VisibleClassUtil.containedZooms(vc).get(l);
         				ejbString += "	" + l + " " + cc.toCamelCase(z.getLabel(), true) + " : " + z.getTargetPanel().getLabel() + "\n";
         			}
         			
         			//--------------------------OPERACIJE------------------------------------------------
-        			for(int k=0; k<vc.containedOperations().size(); k++) {
-        				VisibleOperation vo = vc.containedOperations().get(k);
+        			for(int k=0; k < VisibleClassUtil.containedOperations(vc).size(); k++) {
+        				VisibleOperation vo = VisibleClassUtil.containedOperations(vc).get(k);
         				if(vo instanceof BussinessOperation) {
         					if(vo instanceof Report) {
         						Report r = (Report)vo;
