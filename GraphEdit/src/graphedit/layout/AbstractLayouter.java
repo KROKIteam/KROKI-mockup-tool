@@ -103,6 +103,7 @@ public abstract class AbstractLayouter implements Layouter{
 				}
 				else{
 
+					
 					if (!conn.isLoaded()){
 						conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
 						conPosition.setLocation(xPosition, yPosition);

@@ -64,7 +64,6 @@ public class AddingLayouter extends AbstractLayouter{
 					
 					else  //ako je nova veza
 						conPosition.setLocation((Point2D) element.getProperty(GraphElementProperties.POSITION));
-					System.out.println(conPosition);
 
 				}
 					
