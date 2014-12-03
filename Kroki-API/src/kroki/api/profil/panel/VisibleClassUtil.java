@@ -1,9 +1,11 @@
-package kroki.api.panel;
+package kroki.api.profil.panel;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Next;
@@ -30,7 +32,7 @@ public class VisibleClassUtil {
 			if (visibleElement instanceof ElementsGroup) {
 				ElementsGroup elementsGroup = (ElementsGroup) visibleElement;
 				if (elementsGroup.getComponent().contains(point)) {
-					returnElement = elementsGroup.getVisibleElementAtPoint(point);
+					returnElement = ElementsGroupUtil.getVisibleElementAtPoint(elementsGroup, point);
 					if (returnElement == null) {
 						returnElement = elementsGroup;
 					}
@@ -57,7 +59,7 @@ public class VisibleClassUtil {
 			if (visibleElement instanceof ElementsGroup) {
 				ElementsGroup elementsGroup = (ElementsGroup) visibleElement;
 				if (elementsGroup.getComponent().contains(point)) {
-					returnElement = elementsGroup.getElementsGroupAtPoint(point);
+					returnElement = ElementsGroupUtil.getElementsGroupAtPoint(elementsGroup, point);
 					if (returnElement == null) {
 						returnElement = elementsGroup;
 					}
@@ -176,5 +178,39 @@ public class VisibleClassUtil {
 		 return hierarchyList;
 	 }
 
+	 /**
+	  * Gets number of components with specified type
+	  */
+	 public static Integer getComponentCount(VisibleClass panel, ComponentType type) {
+		 Integer count = 0;
+		 if(panel.getComponentCounts().get(type) != null) {
+			 count = panel.getComponentCounts().get(type);
+		 }
+		 return count;
+	 }
+
+	 /**
+	  * Increments number of components with specfied type and returns incremented count
+	  * If that components type is not found in count map, it is added with count set to 1
+	  */
+	 public static Integer incrementCount(VisibleClass panel, ComponentType type) {
+		 Integer count = panel.getComponentCounts().get(type);
+		 if(count != null) {
+			 count++;
+			 panel.getComponentCounts().put(type, count);
+			 return count;
+		 }else {
+			 panel.getComponentCounts().put(type, 1);
+			 return 1;
+		 }
+	 }
+
+	 public static void decrementCount(VisibleClass panel, ComponentType type) {
+		 Integer count = panel.getComponentCounts().get(type);
+		 if(count != null && count > 0) {
+			 count--;
+			 panel.getComponentCounts().put(type, count);
+		 }
+	 }
 	
 }

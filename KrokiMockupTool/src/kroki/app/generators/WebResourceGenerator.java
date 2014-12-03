@@ -12,7 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;

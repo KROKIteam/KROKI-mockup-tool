@@ -6,8 +6,8 @@ import java.util.List;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
-import korki.api.subsystem.BusinessSubsystemUtil;
-import kroki.api.property.HierarchyUtil;
+import kroki.api.profil.property.HierarchyUtil;
+import kroki.api.profil.subsystem.BusinessSubsystemUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.visitor.ContainingPanels;
 import kroki.profil.VisibleElement;

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import kroki.api.property.HierarchyUtil;
+import kroki.api.profil.property.HierarchyUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.panel.container.ParentChild;
 

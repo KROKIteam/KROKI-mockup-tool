@@ -7,6 +7,8 @@ package kroki.app.command;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
+import kroki.api.profil.group.ElementsGroupUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 
@@ -40,7 +42,7 @@ public class MoveCommand implements Command {
             Point newPos = new Point(elemAbsPos.x + dx, elemAbsPos.y + dy);
             visibleElement.getComponent().setAbsolutePosition(newPos);
             if (visibleElement instanceof ElementsGroup) {
-                if (((ElementsGroup) visibleElement).getVisibleElementsNum() > 0) {
+                if (ElementsGroupUtil.getVisibleElementsNum((ElementsGroup) visibleElement) > 0) {
                     dragElementsGroup((ElementsGroup) visibleElement, dx, dy);
                 }
             }
@@ -55,7 +57,7 @@ public class MoveCommand implements Command {
             Point newPos = new Point(elemAbsPos.x - dx, elemAbsPos.y - dy);
             visibleElement.getComponent().setAbsolutePosition(newPos);
             if (visibleElement instanceof ElementsGroup) {
-                if (((ElementsGroup) visibleElement).getVisibleElementsNum() > 0) {
+                if (ElementsGroupUtil.getVisibleElementsNum((ElementsGroup) visibleElement) > 0) {
                     dragElementsGroup((ElementsGroup) visibleElement, -dx, -dy);
                 }
             }
@@ -67,8 +69,8 @@ public class MoveCommand implements Command {
     /*PRIVATNE METODE*/
     /*****************/
     private void dragElementsGroup(ElementsGroup elementsGroup, int dx, int dy) {
-        for (int i = 0; i < elementsGroup.getVisibleElementsNum(); i++) {
-            VisibleElement visibleElement = elementsGroup.getVisibleElementAt(i);
+        for (int i = 0; i < ElementsGroupUtil.getVisibleElementsNum(elementsGroup); i++) {
+            VisibleElement visibleElement = ElementsGroupUtil.getVisibleElementAt(elementsGroup, i);
             Point elemAbsPos = (Point) visibleElement.getComponent().getAbsolutePosition().clone();
             Point newPos = new Point(elemAbsPos.x + dx, elemAbsPos.y + dy);
             visibleElement.getComponent().setAbsolutePosition(newPos);

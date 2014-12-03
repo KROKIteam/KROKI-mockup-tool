@@ -4,17 +4,12 @@
  */
 package kroki.profil.association;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import kroki.common.copy.DeepCopy;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.NullComponent;
 import kroki.profil.ComponentType;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.panel.container.ParentChild;
 
 /**
  * Stereotip  Hierarchy  označava da odredišni panel ima ulogu
@@ -66,48 +61,6 @@ public class Hierarchy extends VisibleAssociationEnd {
 		ret += "[ level = " +level + "]"; 
 		return ret;
 	}
-
-	public void forceUpdateComponent() {
-
-		int relX = component.getRelativePosition().x;
-		int relY = component.getRelativePosition().y;
-		int absX = component.getAbsolutePosition().x;
-		int absY = component.getAbsolutePosition().y;
-		((Composite) this.getParentGroup().getComponent()).removeChild(component);
-
-		if (targetPanel != null) {
-			//kloniram ceo target panel zbog prikaza!!!
-			targetPanelClone = (VisibleClass) DeepCopy.copy(targetPanel);
-
-			//ukoliko su neke od akcija u targetPanelu zabranjene one se ne mogu ododbriti od strane kraja asocijacije!!!!
-			if (targetPanelClone instanceof StandardPanel) {
-				StandardPanel panel = (StandardPanel)targetPanel;
-				setAdd(panel.isAdd());
-				setChangeMode(panel.isChangeMode());
-				setCopy(panel.isCopy());
-				setDataNavigation(panel.isDataNavigation());
-				setDelete(panel.isDelete());
-				setSearch(panel.isSearch());
-				setUpdate(panel.isUpdate());
-			}
-			this.component = targetPanelClone.getComponent();
-			label = targetPanel.getLabel();
-		}
-		else{
-			label = "Hierarchy";
-			component = new NullComponent(label);
-			targetPanelClone = null;
-		}
-
-
-		this.component.getAbsolutePosition().setLocation(absX, absY);
-		this.component.getRelativePosition().setLocation(relX, relY);
-		((Composite) this.getParentGroup().getComponent()).addChild(component);
-
-
-	}
-
-
 
 
 	/************************************************/

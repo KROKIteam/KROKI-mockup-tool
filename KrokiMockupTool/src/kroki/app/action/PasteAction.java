@@ -9,6 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import kroki.api.profil.group.ElementsGroupUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.Command;
 import kroki.app.command.CommandManager;
@@ -80,7 +81,7 @@ public class PasteAction extends AbstractAction {
     			ElementsGroup temp = (ElementsGroup) selected.get(0);
     			
     			for (VisibleElement el : clipboardElements) {
-    				if (!temp.checkIfCanAdd(el)) {
+    				if (!ElementsGroupUtil.checkIfCanAdd(temp, el)) {
     					return;
     				}
     			}

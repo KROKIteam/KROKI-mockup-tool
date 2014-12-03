@@ -1,11 +1,11 @@
-package kroki.api.panel;
+package kroki.api.profil.panel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import kroki.api.property.HierarchyUtil;
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.property.HierarchyUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.layout.BorderLayoutManager;
 import kroki.mockup.model.layout.FlowLayoutManager;
@@ -48,9 +48,9 @@ public class ParentChildUtil {
 		((Composite) panel.getOperationsPanel().getComponent()).setLayoutManager(operationsLayout);
 		((Composite) panel.getOperationsPanel().getComponent()).setLocked(true);
 		UIPropertyUtil.addVisibleElement(panel, panel.getPropertiesPanel());
-		UIPropertyUtil.addVisibleElement(panel, panel.getPropertiesPanel());
+		UIPropertyUtil.addVisibleElement(panel, panel.getOperationsPanel());
 		root.addChild(panel.getPropertiesPanel().getComponent(), BorderLayoutManager.CENTER);
-		root.addChild(panel.getPropertiesPanel().getComponent(), BorderLayoutManager.SOUTH);
+		root.addChild(panel.getOperationsPanel().getComponent(), BorderLayoutManager.SOUTH);
 		panel.update();
 	}
 	

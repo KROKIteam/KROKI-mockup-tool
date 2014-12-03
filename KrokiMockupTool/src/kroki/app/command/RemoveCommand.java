@@ -7,8 +7,10 @@ package kroki.app.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.property.HierarchyUtil;
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
+import kroki.api.profil.property.HierarchyUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
@@ -94,7 +96,7 @@ public class RemoveCommand implements Command {
 			}
 			elementsGroup = visibleElement.getParentGroup();
 			if (elementsGroup != null) {
-				elementsGroup.removeVisibleElement(visibleElement);
+				ElementsGroupUtil.removeVisibleElement(elementsGroup, visibleElement);
 				elementsGroup.update();
 			}
 			if (visibleClass != null) {
@@ -104,7 +106,7 @@ public class RemoveCommand implements Command {
 			
 			
             if (visibleElement.getComponentType() != null){
-				visibleClass.decrementCount(visibleElement.getComponentType());
+				VisibleClassUtil.decrementCount(visibleClass, visibleElement.getComponentType());
 			}
 		}
 	}
@@ -137,7 +139,7 @@ public class RemoveCommand implements Command {
 			if (visibleClass == null)
 				continue;
 			if (elementsGroup != null) 
-				elementsGroup.addVisibleElement(visibleElement);
+				ElementsGroupUtil.addVisibleElement(elementsGroup, visibleElement);
 
 			if (visibleClass != null) 
 				UIPropertyUtil.addVisibleElement(visibleClass, visibleElement);
@@ -153,14 +155,14 @@ public class RemoveCommand implements Command {
 			int groupIndex = groupIndexes.get(index ++);
 
 			if (elementsGroup != null) {
-				elementsGroup.removeVisibleElement(visibleElement);
-				elementsGroup.addVisibleElement(groupIndex, visibleElement);
+				ElementsGroupUtil.removeVisibleElement(elementsGroup, visibleElement);
+				ElementsGroupUtil.addVisibleElement(elementsGroup, groupIndex, visibleElement);
 				elementsGroup.update();
 			}
 			
 
             if (visibleElement.getComponentType() != null){
-				visibleClass.incrementCount(visibleElement.getComponentType());
+				VisibleClassUtil.incrementCount(visibleClass, visibleElement.getComponentType());
 			}
 
 		}

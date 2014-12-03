@@ -8,8 +8,9 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import kroki.api.panel.VisibleClassUtil;
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;
@@ -90,13 +91,13 @@ public class TransformToAggregatedState extends State {
         if (index != -1) {
             ElementsGroup elg = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
             if (elg != null) {
-                int position = elg.indexOf(visibleProperty);
-                elg.removeVisibleElement(visibleProperty);
+                int position = ElementsGroupUtil.indexOf(elg, visibleProperty);
+                ElementsGroupUtil.removeVisibleElement(elg, visibleProperty);
                
                 UIPropertyUtil.removeVisibleElement(visibleClass,visibleProperty);
 
                 Aggregated calculated = new Aggregated(visibleProperty);
-                elg.addVisibleElement(position, calculated);
+                ElementsGroupUtil.addVisibleElement(elg, position, calculated);
                 UIPropertyUtil.addVisibleElement(visibleClass, calculated);
 
                 elg.update();

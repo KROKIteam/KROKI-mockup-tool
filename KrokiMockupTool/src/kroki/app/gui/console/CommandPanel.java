@@ -25,8 +25,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import kroki.api.panel.StandardPanelUtil;
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.api.profil.panel.StandardPanelUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.toolbar.StyleToolbar;
 import kroki.app.model.Workspace;
@@ -445,7 +446,7 @@ public class CommandPanel extends JPanel {
 					next.setActivationPanel(panel);
 					UIPropertyUtil.addVisibleElement(panel, next);
 					ElementsGroup group = (ElementsGroup) panel.getVisibleElementList().get(2);
-					group.addVisibleElement(next);
+					ElementsGroupUtil.addVisibleElement(group, next);
 					group.update();
 					panel.update();
 				}
@@ -472,7 +473,7 @@ public class CommandPanel extends JPanel {
 		property.setColumnLabel(namer.toDatabaseFormat(panel.getLabel(), label));
 		UIPropertyUtil.addVisibleElement(panel, property);
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(group);
-		gr.addVisibleElement(property);
+		ElementsGroupUtil.addVisibleElement(gr, property);
 		//TODO Vidi sta se ovde buni
 		//property.getComponent().setAbsolutePosition(gr.getComponent().getAbsolutePosition());
 		gr.update();

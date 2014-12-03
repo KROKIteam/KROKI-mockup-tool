@@ -7,8 +7,8 @@ package kroki.app.gui.visitor;
 import java.util.Iterator;
 import java.util.List;
 
-import kroki.api.panel.ParentChildUtil;
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.ParentChildUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;

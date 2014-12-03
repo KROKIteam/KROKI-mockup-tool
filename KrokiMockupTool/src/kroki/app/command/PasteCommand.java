@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
@@ -52,7 +54,7 @@ public class PasteCommand implements Command {
 		for (VisibleElement element : copies.keySet()) {
 			restoreAttributes(copies.get(element), element);
 			UIPropertyUtil.addVisibleElement(visibleClass,classIndex, element);
-	        elementsGroup.addVisibleElement(groupIndex, element);
+	        ElementsGroupUtil.addVisibleElement(elementsGroup, groupIndex, element);
 	        
 	        if (!cutAction) {
 	        	element.changeUuid();
@@ -60,7 +62,7 @@ public class PasteCommand implements Command {
 	        
 	        if (element instanceof VisibleElement) {
 				element.setParentGroup(elementsGroup);
-				elementsGroup.addVisibleElement(element);
+				ElementsGroupUtil.addVisibleElement(elementsGroup, element);
 				element.update();
 			}
 	        
@@ -69,7 +71,7 @@ public class PasteCommand implements Command {
 	        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
 	        
             if (element.getComponentType() != null){
-				visibleClass.incrementCount(element.getComponentType());
+            	VisibleClassUtil.incrementCount(visibleClass, element.getComponentType());
 			}
 		}
 	}
@@ -83,12 +85,12 @@ public class PasteCommand implements Command {
 	            selectionModel.removeFromSelection(element);
 	        }
 	        UIPropertyUtil.removeVisibleElement(visibleClass, element);
-	        elementsGroup.removeVisibleElement(element);
+	        ElementsGroupUtil.removeVisibleElement(elementsGroup, element);
 	        elementsGroup.update();
 	        visibleClass.update();
 	        
             if (element.getComponentType() != null){
-				visibleClass.decrementCount(element.getComponentType());
+				VisibleClassUtil.decrementCount(visibleClass, element.getComponentType());
 			}
 		}
 	}

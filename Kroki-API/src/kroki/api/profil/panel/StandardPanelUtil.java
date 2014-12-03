@@ -1,6 +1,6 @@
-package kroki.api.panel;
+package kroki.api.profil.panel;
 
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.layout.BorderLayoutManager;

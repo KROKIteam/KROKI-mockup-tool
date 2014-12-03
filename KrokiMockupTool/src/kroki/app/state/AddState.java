@@ -6,14 +6,13 @@ package kroki.app.state;
 
 import java.awt.Image;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.command.AddCommand;
 import kroki.app.command.CommandManager;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.view.Canvas;
-import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
@@ -44,7 +43,7 @@ public class AddState extends State {
 			flag = false;
 		} else if (visibleElement instanceof ElementsGroup) {
 			ElementsGroup elementsGroup = (ElementsGroup) visibleElement;
-			flag = elementsGroup.checkIfCanAdd(element);
+			flag = ElementsGroupUtil.checkIfCanAdd(elementsGroup, element);
 		}
 		if (flag) {
 			tabbedPaneController.changeCursorImage(addEnabledIcon);
@@ -62,14 +61,14 @@ public class AddState extends State {
 			VisibleClass visibleClass = canvas.getVisibleClass();
 			ElementsGroup elementsGroup = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
 			if (elementsGroup != null) {
-				if (!elementsGroup.checkIfCanAdd(element)) {
+				if (!ElementsGroupUtil.checkIfCanAdd(elementsGroup, element)) {
 					return;
 				}
 				AddCommand addCommand = new AddCommand(visibleClass, elementsGroup, element, e.getPoint());
 				if (element.getComponentType() != null){
-					visibleClass.incrementCount(element.getComponentType());
+					VisibleClassUtil.incrementCount(visibleClass, element.getComponentType());
 					//set label so it contains updated count
-					String newLabel = element.getComponentType().toString() + "_" + visibleClass.getComponentCount(element.getComponentType()); 
+					String newLabel = element.getComponentType().toString() + "_" + VisibleClassUtil.getComponentCount(visibleClass, element.getComponentType()); 
 					element.setLabel(newLabel);
 					element.update();
 				}

@@ -7,7 +7,7 @@ package kroki.app.gui.visitor;
 import java.util.Iterator;
 import java.util.List;
 
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.profil.association.Zoom;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;

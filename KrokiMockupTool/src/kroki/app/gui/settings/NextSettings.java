@@ -21,8 +21,9 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import kroki.api.panel.VisibleClassUtil;
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.gui.visitor.AllPosibleNexts;
 import kroki.app.gui.visitor.Visitor;
 import kroki.commons.document.OnlyDigitsDocumentFilter;
@@ -278,20 +279,20 @@ public class NextSettings extends VisibleAssociationEndSettings {
 	//TODO ovo kasnije ubaciti u commons
 	private void swapProperties(VisibleClass visibleClass, VisibleElement p1, VisibleElement p2, ElementsGroup gr){
 
-		int firstIndexGr = gr.indexOf(p1);
-		int secondIndexGr = gr.indexOf(p2);
+		int firstIndexGr = ElementsGroupUtil.indexOf(gr, p1);
+		int secondIndexGr = ElementsGroupUtil.indexOf(gr, p2);
 
 
-		gr.removeVisibleElement(p1);
-		gr.removeVisibleElement(p2);
+		ElementsGroupUtil.removeVisibleElement(gr, p1);
+		ElementsGroupUtil.removeVisibleElement(gr, p2);
 
 		if (firstIndexGr < secondIndexGr){
-			gr.addVisibleElement(firstIndexGr, p2);
-			gr.addVisibleElement(secondIndexGr, p1);
+			ElementsGroupUtil.addVisibleElement(gr, firstIndexGr, p2);
+			ElementsGroupUtil.addVisibleElement(gr, secondIndexGr, p1);
 		}
 		else{
-			gr.addVisibleElement(secondIndexGr, p1);
-			gr.addVisibleElement(firstIndexGr, p2);
+			ElementsGroupUtil.addVisibleElement(gr, secondIndexGr, p1);
+			ElementsGroupUtil.addVisibleElement(gr, firstIndexGr, p2);
 		}
 
 
@@ -314,11 +315,11 @@ public class NextSettings extends VisibleAssociationEndSettings {
 
 	private void insertOn(VisibleClass visibleClass, VisibleElement p1, VisibleElement p2, ElementsGroup gr){
 
-		int secondIndexGr = gr.indexOf(p2);
+		int secondIndexGr = ElementsGroupUtil.indexOf(gr, p2);
 
 
-		gr.removeVisibleElement(p1);
-		gr.addVisibleElement(secondIndexGr, p1);
+		ElementsGroupUtil.removeVisibleElement(gr, p1);
+		ElementsGroupUtil.addVisibleElement(gr, secondIndexGr, p1);
 
 		int secondIndexCl = visibleClass.getVisibleElementList().indexOf(p2);
 

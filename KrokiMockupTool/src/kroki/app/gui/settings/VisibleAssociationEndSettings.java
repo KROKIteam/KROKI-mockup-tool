@@ -23,8 +23,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import kroki.api.panel.ParentChildUtil;
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.ParentChildUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
+import kroki.api.profil.property.HierarchyUtil;
 import kroki.app.gui.visitor.AllPosibleHierarchyPanels;
 import kroki.app.gui.visitor.AllPosibleNextPanels;
 import kroki.app.gui.visitor.AllPosibleZoomPanels;
@@ -516,8 +517,8 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 						targetPanelTf.setText(selected.toString());
 						//ako je u pitanju kraj Hijerarhija onda prisili promenu komponente
 						if (visibleElement instanceof Hierarchy) {
-							((Hierarchy) visibleElement).forceUpdateComponent();
-							 updateComponents();
+							HierarchyUtil.forceUpdateComponent(((Hierarchy) visibleElement));
+							updateComponents();
 						}
 						updatePreformed();
 					}

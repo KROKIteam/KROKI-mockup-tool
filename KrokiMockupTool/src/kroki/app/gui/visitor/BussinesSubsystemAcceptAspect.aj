@@ -1,6 +1,6 @@
 package kroki.app.gui.visitor;
 
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlType;

@@ -12,8 +12,8 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import kroki.api.panel.ParentChildUtil;
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.ParentChildUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;

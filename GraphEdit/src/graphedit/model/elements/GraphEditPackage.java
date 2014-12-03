@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Next;

@@ -4,25 +4,13 @@
  */
 package kroki.profil.panel;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import kroki.mockup.model.Composite;
 import kroki.profil.BusinessProcessModelingSubject;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
-import kroki.profil.association.Hierarchy;
-import kroki.profil.association.Next;
-import kroki.profil.association.VisibleAssociationEnd;
-import kroki.profil.association.Zoom;
-import kroki.profil.group.ElementsGroup;
-import kroki.profil.operation.Report;
-import kroki.profil.operation.Transaction;
-import kroki.profil.operation.VisibleOperation;
-import kroki.profil.property.Persistent;
-import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlOperation;
@@ -45,7 +33,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 	protected boolean isAbstract;
 	protected UmlPackage umlPackage;
 	//Component counter map used for incremental component naming
-	HashMap<ComponentType, Integer> componentCounts;
+	protected HashMap<ComponentType, Integer> componentCounts;
 
 	/*****************/
 	/*Konstruktori   */
@@ -68,12 +56,6 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 		componentCounts = new HashMap<ComponentType, Integer>();
 	}
 
-	/**************/
-	/*JAVNE METODE*/
-	/**************/
-	
-
-
 
 	 /**
 	  * OsveÅ¾ava stanje svojih grafiÄ�kih komponenti.
@@ -83,40 +65,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 		 super.update();
 	 }
 
-	 /**
-	  * Gets number of components with specified type
-	  */
-	 public Integer getComponentCount(ComponentType type) {
-		 Integer count = 0;
-		 if(componentCounts.get(type) != null) {
-			 count = componentCounts.get(type);
-		 }
-		 return count;
-	 }
-
-	 /**
-	  * Increments number of components with specfied type and returns incremented count
-	  * If that components type is not found in count map, it is added with count set to 1
-	  */
-	 public Integer incrementCount(ComponentType type) {
-		 Integer count = componentCounts.get(type);
-		 if(count != null) {
-			 count++;
-			 componentCounts.put(type, count);
-			 return count;
-		 }else {
-			 componentCounts.put(type, 1);
-			 return 1;
-		 }
-	 }
-
-	 public void decrementCount(ComponentType type) {
-		 Integer count = componentCounts.get(type);
-		 if(count != null && count > 0) {
-			 count--;
-			 componentCounts.put(type, count);
-		 }
-	 }
+	
 	 /*******************************************/
 	 /*Implementirane metode interfejsa UmlClass*/
 	 /*******************************************/
@@ -199,4 +148,8 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 	 public String toString() {
 		 return label;
 	 }
+
+	public HashMap<ComponentType, Integer> getComponentCounts() {
+		return componentCounts;
+	}
 }

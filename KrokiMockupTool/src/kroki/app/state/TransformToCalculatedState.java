@@ -5,17 +5,16 @@
 package kroki.app.state;
 
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import kroki.api.panel.VisibleClassUtil;
-import kroki.api.property.UIPropertyUtil;
+import kroki.api.profil.group.ElementsGroupUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
+import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;
 import kroki.app.view.Canvas;
-import kroki.mockup.model.Component;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
@@ -99,12 +98,12 @@ public class TransformToCalculatedState extends State {
         if (index != -1) {
             ElementsGroup elg = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
             if (elg != null) {
-                int position = elg.indexOf(visibleProperty);
-                elg.removeVisibleElement(visibleProperty);
+                int position = ElementsGroupUtil.indexOf(elg, visibleProperty);
+                ElementsGroupUtil.removeVisibleElement(elg, visibleProperty);
                 UIPropertyUtil.removeVisibleElement(visibleClass, visibleProperty);
 
                 Calculated calculated = new Calculated(visibleProperty);
-                elg.addVisibleElement(position, calculated);
+                ElementsGroupUtil.addVisibleElement(elg, position, calculated);
                 UIPropertyUtil.addVisibleElement(visibleClass, calculated);
 
                 elg.update();

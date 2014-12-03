@@ -1,10 +1,13 @@
-package kroki.api.property;
+package kroki.api.profil.property;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.panel.ParentChildUtil;
-import kroki.api.panel.VisibleClassUtil;
+import kroki.api.profil.panel.ParentChildUtil;
+import kroki.api.profil.panel.VisibleClassUtil;
+import kroki.common.copy.DeepCopy;
+import kroki.mockup.model.Composite;
+import kroki.mockup.model.components.NullComponent;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
@@ -111,7 +114,7 @@ public class HierarchyUtil {
 		hierarchy.setViaAssociationEnd(null);
 		hierarchy.setTargetPanel(null);
 		hierarchy.setAppliedToPanel(null);
-		hierarchy.forceUpdateComponent();
+		forceUpdateComponent(hierarchy);
 	}
 	
 	public static List<Hierarchy> childHierarchies(Hierarchy hierarchy){
@@ -179,5 +182,47 @@ public class HierarchyUtil {
 			hierarchy.setLevel(-1);
 		}
 	}
+	
+
+	public static void forceUpdateComponent(Hierarchy hierarchy) {
+
+		int relX = hierarchy.getComponent().getRelativePosition().x;
+		int relY = hierarchy.getComponent().getRelativePosition().y;
+		int absX = hierarchy.getComponent().getAbsolutePosition().x;
+		int absY = hierarchy.getComponent().getAbsolutePosition().y;
+		((Composite) hierarchy.getParentGroup().getComponent()).removeChild(hierarchy.getComponent());
+
+		if (hierarchy.getTargetPanel() != null) {
+			//kloniram ceo target panel zbog prikaza!!!
+			 hierarchy.setTargetPanelClone((VisibleClass) DeepCopy.copy(hierarchy.getTargetPanel()));
+
+			//ukoliko su neke od akcija u targetPanelu zabranjene one se ne mogu ododbriti od strane kraja asocijacije!!!!
+			if (hierarchy.getTargetPanelClone() instanceof StandardPanel) {
+				StandardPanel panel = (StandardPanel)hierarchy.getTargetPanel();
+				hierarchy.setAdd(panel.isAdd());
+				hierarchy.setChangeMode(panel.isChangeMode());
+				hierarchy.setCopy(panel.isCopy());
+				hierarchy.setDataNavigation(panel.isDataNavigation());
+				hierarchy.setDelete(panel.isDelete());
+				hierarchy.setSearch(panel.isSearch());
+				hierarchy.setUpdate(panel.isUpdate());
+			}
+			hierarchy.setComponent(hierarchy.getTargetPanelClone().getComponent());
+			hierarchy.setLabel(hierarchy.getTargetPanel().getLabel());
+		}
+		else{
+			hierarchy.setLabel("Hierarchy");
+			hierarchy.setComponent(new NullComponent(hierarchy.getLabel()));
+			hierarchy.setTargetPanelClone(null);
+		}
+
+
+		hierarchy.getComponent().getAbsolutePosition().setLocation(absX, absY);
+		hierarchy.getComponent().getRelativePosition().setLocation(relX, relY);
+		((Composite) hierarchy.getParentGroup().getComponent()).addChild(hierarchy.getComponent());
+
+
+	}
+
 
 }

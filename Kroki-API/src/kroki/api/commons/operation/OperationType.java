@@ -1,4 +1,4 @@
-package kroki.api.operations;
+package kroki.api.commons.operation;
 
 public enum OperationType {
 

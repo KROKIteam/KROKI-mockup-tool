@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
-import kroki.api.panel.StandardPanelUtil;
+import kroki.api.profil.panel.StandardPanelUtil;
 import kroki.app.command.CommandManager;
 import kroki.app.model.SelectionModel;
 import kroki.profil.VisibleElement;

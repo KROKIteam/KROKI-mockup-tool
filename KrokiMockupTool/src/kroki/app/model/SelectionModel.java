@@ -8,6 +8,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import kroki.api.profil.group.ElementsGroupUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.event.SelectionModelUpdateEvent;
 import kroki.app.event.UpdateListener;
@@ -101,8 +103,8 @@ public class SelectionModel {
      * @param elGroup Grupa elemenata koju je potrebno 
      */
     public void prepareForMove(ElementsGroup elGroup) {
-        for (int j = 0; j < elGroup.getVisibleElementsNum(); j++) {
-            VisibleElement subEl = elGroup.getVisibleElementAt(j);
+        for (int j = 0; j < ElementsGroupUtil.getVisibleElementsNum(elGroup); j++) {
+            VisibleElement subEl = ElementsGroupUtil.getVisibleElementAt(elGroup, j);
             if (visibleElementList.contains(subEl)) {
                 temporaryDeselected.add(subEl);
                 visibleElementList.remove(subEl);
@@ -118,8 +120,8 @@ public class SelectionModel {
             VisibleElement el = visibleElementList.get(i);
             if (el instanceof ElementsGroup) {
                 ElementsGroup eg = (ElementsGroup) el;
-                for (int j = 0; j < eg.getVisibleElementsNum(); j++) {
-                    VisibleElement subEl = eg.getVisibleElementAt(j);
+                for (int j = 0; j < ElementsGroupUtil.getVisibleElementsNum(eg); j++) {
+                    VisibleElement subEl = ElementsGroupUtil.getVisibleElementAt(eg, j);
                     if (visibleElementList.contains(subEl)) {
                         temporaryDeselected.add(subEl);
                         visibleElementList.remove(subEl);
