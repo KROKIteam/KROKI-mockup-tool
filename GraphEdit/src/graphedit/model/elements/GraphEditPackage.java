@@ -390,8 +390,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 				}
 
+				String name = zoomLabel;
+				if (nextLabel != null && !nextLabel.equals(""))
+					name += "_" + nextLabel;
+				
 				if (loadedLink == null){
-					
 					Point  p1 = new Point(0,0);
 					Point p2 = new Point(200,200);
 					c1 = new Connector(p1, sourceElement);
@@ -399,7 +402,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					nodes.add(c1);
 					nodes.add(c2);
 					
-					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 				}
 				else{
 
@@ -433,11 +436,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 						if (loadedLink instanceof CompositionLink)
-							link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+							link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 						else if (loadedLink instanceof AggregationLink)
-							link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+							link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name ,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 						else
-							link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+							link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 
 						if (!switchSourceAndDestination){
 							link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
