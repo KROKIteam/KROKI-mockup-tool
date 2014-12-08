@@ -58,7 +58,9 @@ public class MenuGenerator {
 			
 			//atribut "name"
 			Attr nameAttr = doc.createAttribute("name");
-			nameAttr.setValue(menu.getName());
+			String menuName = menu.getName();
+			nameAttr.setValue(menuName);
+			
 			menuTag.setAttributeNode(nameAttr);
 			
 			Element rolesTag = doc.createElement("roles");

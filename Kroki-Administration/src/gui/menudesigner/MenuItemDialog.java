@@ -102,13 +102,23 @@ public class MenuItemDialog extends JDialog {
 			}
 			String formName = cbForm.getSelectedItem().toString();
 			String menuName = tfMenuName.getText();
-
+			
+			ResourceHibernateDao rDao = new ResourceHibernateDao();
+			Resource tempRes = null;
+			List<Resource> listaRes = rDao.findAll();
+			for (Resource r : listaRes) {
+				if (r.getName().equals(formName)) {
+					tempRes = r;
+				}
+			}
+			
 			MenuItem tempMenuItem = new MenuItem();
 			tempMenuItem.setFormName(formName);
 			tempMenuItem.setMenuName(menuName);
 			tempMenuItem.setParent(submenu);
-			tempMenuItem.setActivate("/resources/" + formName);
-			tempMenuItem.setPanelType(MainFrame.getInstance().getPanelType().get(formName));
+			tempMenuItem.setActivate(tempRes.getLink());
+			tempMenuItem.setPanelType(tempRes.getPaneltype());
+//			tempMenuItem.setPanelType(MainFrame.getInstance().getPanelType().get(formName));
 			submenu.getChildren().add(tempMenuItem);
 			tree.updateUI();
 			dispose();
