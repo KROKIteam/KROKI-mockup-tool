@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -54,6 +55,11 @@ public class MenuGenerator {
 			this.root = menu;
 			Element menuTag = doc.createElement("menu");
 			resourcesRoot.appendChild(menuTag);
+			
+			//atribut "name"
+			Attr nameAttr = doc.createAttribute("name");
+			nameAttr.setValue(menu.getName());
+			menuTag.setAttributeNode(nameAttr);
 			
 			Element rolesTag = doc.createElement("roles");
 			menuTag.appendChild(rolesTag);

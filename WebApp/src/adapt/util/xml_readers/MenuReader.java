@@ -83,16 +83,18 @@ public class MenuReader {
 
 		for (int i = 0; i < resNodes.getLength(); i++) {
 			AdaptSubMenu rootMenu = new AdaptSubMenu();
-			rootMenu.setName("Menu");
+			
+			Element menuElement = (Element) resNodes.item(i);
+			NodeList menuChildren = menuElement.getChildNodes();
+			
+			rootMenu.setName(menuElement.getAttribute("name"));
 			rootMenus.add(rootMenu);
 
 			HashMap<String, AdaptSubMenu> menuMap = new HashMap<String, AdaptSubMenu>();
-			menuMap.put("Menu", rootMenu);
+			menuMap.put(menuElement.getAttribute("name"), rootMenu);
 			menuMaps.add(menuMap);
-
-			Element menuElement = (Element) resNodes.item(i);
-			NodeList menuChildren = menuElement.getChildNodes();
-
+			
+			
 			for (int j = 0; j < menuChildren.getLength(); j++) {
 				Node n = (Node) menuChildren.item(j);
 				if (n.getNodeType() == Node.ELEMENT_NODE) {
