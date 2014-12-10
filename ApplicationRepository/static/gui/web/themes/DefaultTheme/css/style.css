@@ -338,7 +338,7 @@ ul.L2SubMenu {
 .windows {
 	margin: 0 auto;
 	width: 950px;
-	height: 500px;
+	min-height: 500px;
 	position: absolute;
 	top: 50px;
 	left: 200px;
@@ -349,6 +349,7 @@ ul.L2SubMenu {
 	-webkit-user-select: none;        
 	-moz-user-select: none;
 	-ms-user-select: none;
+	padding-bottom: 20px;
 }
 
 .focused {
