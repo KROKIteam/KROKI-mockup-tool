@@ -9,6 +9,7 @@
 	<classpathentry kind="lib" path="libs/JungLayouting/jung-api-2.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/JungLayouting/jung-graph-impl-2.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/JungLayouting/jung-visualization-2.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/JungLayouting/collections-generic-4.01.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>

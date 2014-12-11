@@ -92,7 +92,6 @@ public class MenuReader {
 			else
 				rootMenu.setName(menuName);
 			
-			AppCache.displayTextOnMainFrame("Menu name je " + rootMenu.getName(), 0);
 			rootMenus.add(rootMenu);
 
 			HashMap<String, AdaptSubMenu> menuMap = new HashMap<String, AdaptSubMenu>();
@@ -121,7 +120,6 @@ public class MenuReader {
 		switch (menu_type) {
 			case DEFAULT_MENU:
 				AdaptSubMenu temp = rootMenus.get(0);
-				AppCache.displayTextOnMainFrame("DEFAULT " + temp.getChildren().size(), 0);
 				AppCache.getInstance().addToCacheDefaultMenu(temp);
 				break;
 			case GENERATED_MENUS:

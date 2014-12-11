@@ -43,9 +43,7 @@ public aspect AdministrationAspect {
 		List<UserRoles> roles = em.createQuery("SELECT r FROM UserRoles r").getResultList();
 		if (roles == null || roles.size() == 0) {
 			//If there are no UserRoles defined, use default menu 
-			AppCache.displayTextOnMainFrame("DEFAULT MENU PRVI", 0);
 			AdaptSubMenu adapt = AppCache.getInstance().getDefaultMenu();
-			AppCache.displayTextOnMainFrame("adapt meni " + adapt.getChildren().size(), 0);
 			homeResource.addToDataModel("menu", AppCache.getInstance().getDefaultMenu());
 		} else {
 			AdaptSubMenu rootMenu = null;
@@ -62,7 +60,6 @@ public aspect AdministrationAspect {
 			//If there is no user specified menu defined
 			//add default
 			if (rootMenu ==  null) {
-				AppCache.displayTextOnMainFrame("VRACAM DEFAULT MENU", 0);
 				homeResource.addToDataModel("menu", AppCache.getInstance().getDefaultMenu());
 			} else {
 				homeResource.addToDataModel("menu", rootMenu);
