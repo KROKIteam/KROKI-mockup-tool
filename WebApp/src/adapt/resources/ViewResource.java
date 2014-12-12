@@ -58,7 +58,7 @@ public class ViewResource extends BaseResource {
 			
 			//Standard form request
 			if(panelName != null) {
-				System.out.println("[HANDLE GET] panelName = " + panelName);
+				System.out.println("[HANDLE GET] panelName = " + panelName + ", " + panelType);
 				AdaptPanel panel = PanelReader.loadPanel(panelName, panelType, null, OpenedAs.DEFAULT);
 				if(panelType == PanelType.STANDARDPANEL) {
 					AdaptStandardPanel stdPanel = (AdaptStandardPanel) panel;

@@ -288,7 +288,7 @@
 		//if the form that needs to ne displayed is parent-child form
 		//get containing panels with ajax call to /getInfo/panelName
 		//and get data for each form by envoking standard panel ajax call to server
-		if(panelType == "PARENTCHILDPANEL") {
+		if(panelType == "parent-child") {
 			//get JSON data from server
 			$.getJSON("/getInfo/" + resourceId, function(data) {
 				//Create <div> element for each contained panel

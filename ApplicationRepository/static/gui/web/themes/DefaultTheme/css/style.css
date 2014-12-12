@@ -323,6 +323,7 @@ ul.L2SubMenu {
 }
 
 .windowBody {
+    float: left;
 	width: 97%;
 	height: 88%;
 	clear: both;
@@ -367,6 +368,8 @@ ul.L2SubMenu {
 }
 
 .standardForms {
+    float: left;
+    clear: both;
 	width: 100%;
 	height: 100%;
 	clear: both;
@@ -390,7 +393,7 @@ ul.L2SubMenu {
 
 .operationsDiv {
 	width: 20%;
-	height: 100%;
+	max-height: 500px;
 	overflow-y: auto;
 	overflow-x: hidden;  
 	text-align: center;
