@@ -20,10 +20,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 import kroki.commons.camelcase.NamingUtil;
+import kroki.commons.document.OnlyDigitsDocumentFilter;
 import kroki.intl.Intl;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -45,10 +47,14 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     protected JLabel autoGoLb;
     protected JLabel disabledLb;
     protected JLabel defaultValueLb;
+    protected JLabel lengthLb;
+    protected JLabel precisionLb;
     protected JComboBox<String> typeCb;
     protected JTextField columnLabelTf;
     protected JCheckBox labelToCodeCb;
     protected JTextField displayFormatTf;
+    protected JTextField lengthTf;
+    protected JTextField precisionTf;
     protected ComboBoxValuesPanel valuesPanel;
     protected JTextField defaultValueTf;
     protected JCheckBox representativeCb;
@@ -74,7 +80,8 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         autoGoLb = new JLabel(Intl.getValue("visibleProperty.autoGo"));
         disabledLb = new JLabel(Intl.getValue("visibleProperty.disabled"));
         defaultValueLb = new JLabel(Intl.getValue("visibleProperty.defaultValue"));
-        
+        lengthLb = new JLabel(Intl.getValue("visibleProperty.length"));
+        precisionLb = new JLabel(Intl.getValue("visibleProperty.precision"));
         String[] types = { "String", "Integer", "Long", "BigDecimal", "Date" };
         typeCb = new JComboBox<String>(types);
         typeCb.setSelectedIndex(0);
@@ -91,6 +98,12 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         mandatoryCb = new JCheckBox();
         autoGoCb = new JCheckBox();
         disabledCb = new JCheckBox();
+        precisionTf = new JTextField(20);
+        lengthTf = new JTextField(20);
+        AbstractDocument precisionDocument = (AbstractDocument) precisionTf.getDocument();
+        precisionDocument.setDocumentFilter(new OnlyDigitsDocumentFilter());
+        AbstractDocument lengthDocument = (AbstractDocument) lengthTf.getDocument();
+        lengthDocument.setDocumentFilter(new OnlyDigitsDocumentFilter());
     }
 
     private void layoutComponents() {
@@ -105,12 +118,21 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             pane = new JScrollPane(intermediate);
             addTab(Intl.getValue("group.INTERMEDIATE"), pane);
         }
+        
+        JPanel persistent = null;
+        JScrollPane persistentPane;
+		if(panelMap.containsKey("group.PERSISTENT")) {
+			persistent = panelMap.get("group.PERSISTENT");
+		}else {
+			persistent = new JPanel();
+			persistent.setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
+			persistentPane = new JScrollPane(persistent);
+			addTab("Persistent", persistentPane);
+			panelMap.put("group.PERSISTENT", persistent);
+		}
+		
         intermediate.add(typelbl);
         intermediate.add(typeCb);
-        intermediate.add(labelToCodeLb);
-        intermediate.add(labelToCodeCb);
-        intermediate.add(columnLabelLb);
-        intermediate.add(columnLabelTf);
         intermediate.add(displayFormatLb);
         intermediate.add(displayFormatTf);
         intermediate.add(valuesLb);
@@ -126,6 +148,15 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         intermediate.add(defaultValueLb);
         intermediate.add(defaultValueTf);
         //intermediate.doLayout();
+        
+        persistent.add(labelToCodeLb);
+        persistent.add(labelToCodeCb);
+        persistent.add(columnLabelLb);
+        persistent.add(columnLabelTf);
+        persistent.add(lengthLb);
+        persistent.add(lengthTf);
+        persistent.add(precisionLb);
+        persistent.add(precisionTf);
     }
 
     private void addActions() {
@@ -316,6 +347,64 @@ public class VisiblePropertySettings extends VisibleElementSettings {
                 updatePreformed();
             }
         });
+        
+        lengthTf.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent e) {
+                contentChanged(e);
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                contentChanged(e);
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                //nista se ne desava
+            }
+
+            private void contentChanged(DocumentEvent e) {
+                Document doc = e.getDocument();
+                String text = "";
+                try {
+                    text = doc.getText(0, doc.getLength());
+                } catch (BadLocationException ex) {
+                }
+                VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+                int intValue = 0;
+                if (text.length() > 0)
+                	intValue = Integer.parseInt(text);
+                visibleProperty.setLength(intValue);
+            }
+        });
+        
+        precisionTf.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent e) {
+                contentChanged(e);
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                contentChanged(e);
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                //nista se ne desava
+            }
+
+            private void contentChanged(DocumentEvent e) {
+                Document doc = e.getDocument();
+                String text = "";
+                try {
+                    text = doc.getText(0, doc.getLength());
+                } catch (BadLocationException ex) {
+                }
+                VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+                int intValue = 0;
+                if (text.length() > 0)
+                	intValue = Integer.parseInt(text);
+                visibleProperty.setPrecision(intValue);
+            }
+        });
     }
 
     @Override
@@ -353,6 +442,9 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         	columnLabelTf.setEditable(true);
         	labelToCodeCb.setSelected(false);
         }
+        
+       lengthTf.setText(visibleProperty.getLength() + "");
+       precisionTf.setText(visibleProperty.getPrecision() + "");
     }
 
     @Override
