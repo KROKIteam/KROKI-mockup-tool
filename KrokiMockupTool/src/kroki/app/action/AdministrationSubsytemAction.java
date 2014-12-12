@@ -26,6 +26,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import org.apache.commons.collections.CollectionUtils;
 
 import framework.MainFrame;
+import gui.menudesigner.model.Submenu;
 
 /**
  * 
@@ -50,7 +51,13 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		//Get selected project from the workspace
 		BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
 		MainFrame mainFrame = MainFrame.getNewInstance(true);
-		if (proj != null) {	
+		if (proj != null) {
+			if (proj.getMenu() != null) {
+				gui.menudesigner.MenuSketchDialog.menus = (List<Submenu>) proj.getMenu();
+			} else {
+				gui.menudesigner.MenuSketchDialog.menus = new ArrayList<Submenu>();
+				proj.setMenu(gui.menudesigner.MenuSketchDialog.menus);
+			}
 			//Formiranje dela podsistema za administraciju podacima koji su unapred poznati
 			dao.administration.ResourceHibernateDao rDao = new dao.administration.ResourceHibernateDao();
 			List<String> sResources = new ArrayList<String>();
@@ -62,6 +69,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 					findAndPersistAllFormsAsResources(proj);
 					addInitialData();
 				}
+				
 				mainFrame.setPanelType(panelType);
 				mainFrame.setVisible(true);
 			} else {

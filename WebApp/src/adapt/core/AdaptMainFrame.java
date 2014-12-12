@@ -51,6 +51,8 @@ import ejb.User;
  */
 public class AdaptMainFrame extends JFrame {
 
+	public static String DEPLOY_SERVER = "server";
+	public static String DEPLOY_DEVELOP = "develop";
 	private JScrollPane scrollPane;
 	private JTextPane statusPane;
 	Component component;
@@ -64,6 +66,9 @@ public class AdaptMainFrame extends JFrame {
 		loadIcon();
 		component = new Component();
 		init();
+		if (Settings.DEPLOY.equals(DEPLOY_DEVELOP)) {
+			setVisible(true);
+		}
 	}
 
 	private void init() {
@@ -193,6 +198,11 @@ public class AdaptMainFrame extends JFrame {
 	 * @param type Message type: 0 - info, 1 - error, 2 - warning
 	 */
 	public void displayText(String text, int type) {
+		if (Settings.DEPLOY.equals(DEPLOY_SERVER)) {
+			System.out.println(text);
+			return;
+		}
+		
 		StyledDocument document = statusPane.getStyledDocument();
 		SimpleAttributeSet set = new SimpleAttributeSet();
 		statusPane.setCharacterAttributes(set, true);
@@ -223,6 +233,10 @@ public class AdaptMainFrame extends JFrame {
 	 * @param e
 	 */
 	public void displayStackTrace(Exception e) {
+		if (Settings.DEPLOY.equals(DEPLOY_SERVER)) {
+			e.printStackTrace();
+			return;
+		}
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		String stacktrace = sw.toString();

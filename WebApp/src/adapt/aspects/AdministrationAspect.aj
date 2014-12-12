@@ -43,6 +43,7 @@ public aspect AdministrationAspect {
 		List<UserRoles> roles = em.createQuery("SELECT r FROM UserRoles r").getResultList();
 		if (roles == null || roles.size() == 0) {
 			//If there are no UserRoles defined, use default menu 
+			AdaptSubMenu adapt = AppCache.getInstance().getDefaultMenu();
 			homeResource.addToDataModel("menu", AppCache.getInstance().getDefaultMenu());
 		} else {
 			AdaptSubMenu rootMenu = null;

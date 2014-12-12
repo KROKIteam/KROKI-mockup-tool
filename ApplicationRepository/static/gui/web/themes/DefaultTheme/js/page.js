@@ -306,6 +306,18 @@
                     newWindowBody.append(newStandardForm);
                     loadDataToForm(newStandardForm, true, false);
                     updateBounds(newWindowBody);
+
+					var newHeight = (data.panels.length) * 200;
+					if(newHeight < $("#container").height()) {
+						alert("New New: " + newHeight);
+		                newWindow.height(newHeight);
+		            }else {
+		                newWindow.height("85%");
+		                newWindow.css({
+		                "top": 60,
+		                "left": 20,
+		                });
+		            }
                 }              
             });
 		}else {

@@ -39,6 +39,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private File file;
 	private Object graphPackage;
 	private boolean labelToCode = true;
+	private Object menu;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
 		super();
@@ -270,6 +271,14 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 
 	public void setLabelToCode(boolean labelToCode) {
 		this.labelToCode = labelToCode;
+	}
+	
+	public Object getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Object menu) {
+		this.menu = menu;
 	}
 
 

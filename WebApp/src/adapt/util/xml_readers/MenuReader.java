@@ -83,16 +83,25 @@ public class MenuReader {
 
 		for (int i = 0; i < resNodes.getLength(); i++) {
 			AdaptSubMenu rootMenu = new AdaptSubMenu();
-			rootMenu.setName("Menu");
+			
+			Element menuElement = (Element) resNodes.item(i);
+			NodeList menuChildren = menuElement.getChildNodes();
+			String menuName = menuElement.getAttribute("name");
+			if(menuName == null || menuName.trim().equals(""))
+				rootMenu.setName("Menu");
+			else
+				rootMenu.setName(menuName);
+			
 			rootMenus.add(rootMenu);
 
 			HashMap<String, AdaptSubMenu> menuMap = new HashMap<String, AdaptSubMenu>();
-			menuMap.put("Menu", rootMenu);
+			if(menuName == null || menuName.trim().equals(""))
+				menuMap.put("Menu", rootMenu);
+			else
+				menuMap.put(menuName, rootMenu);
 			menuMaps.add(menuMap);
-
-			Element menuElement = (Element) resNodes.item(i);
-			NodeList menuChildren = menuElement.getChildNodes();
-
+			
+			
 			for (int j = 0; j < menuChildren.getLength(); j++) {
 				Node n = (Node) menuChildren.item(j);
 				if (n.getNodeType() == Node.ELEMENT_NODE) {
@@ -222,13 +231,14 @@ public class MenuReader {
 			tMenuItem.setMenuName(menuName);
 			tMenuItem.setFormName(formName);
 			tMenuItem.setActivate(activate);
-			PanelType ptr = null;
-			try {
-				ptr = PanelTypeResolver.getType(panelType);
-			} catch (PanelTypeParsingException e) {
-				e.printStackTrace();
-			}
-			tMenuItem.setPanelType(ptr.name().toString());
+			tMenuItem.setPanelType(panelType);
+//			PanelType ptr = null;
+//			try {
+//				ptr = PanelTypeResolver.getType(panelType);
+//			} catch (PanelTypeParsingException e) {
+//				e.printStackTrace();
+//			}
+//			tMenuItem.setPanelType(ptr.name().toString());
 			tMenuItem.setParent(tempSubmenu);
 			tempSubmenu.getChildren().add(tMenuItem);
 		}
