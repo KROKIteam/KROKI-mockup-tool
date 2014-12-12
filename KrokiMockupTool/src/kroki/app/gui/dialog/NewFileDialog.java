@@ -21,8 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import kroki.api.profil.panel.ParentChildUtil;
-import kroki.api.profil.panel.StandardPanelUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.ChangeLayoutCommand;
 import kroki.app.command.CommandManager;
@@ -36,6 +34,8 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.StandardPanelUtil;
 import kroki.uml_core_basic.UmlPackage;
 import net.miginfocom.swing.MigLayout;
 

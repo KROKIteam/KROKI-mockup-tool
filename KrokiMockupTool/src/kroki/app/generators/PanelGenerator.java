@@ -12,8 +12,6 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import kroki.api.profil.panel.ParentChildUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -29,6 +27,8 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.panel.std.StdPanelSettings;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlParameter;
 
 public class PanelGenerator {

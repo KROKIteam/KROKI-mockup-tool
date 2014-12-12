@@ -25,9 +25,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.StandardPanelUtil;
-import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.toolbar.StyleToolbar;
 import kroki.app.model.Workspace;
@@ -41,6 +38,9 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.StandardPanelUtil;
+import kroki.profil.utils.UIPropertyUtil;
 
 /**
  * GUI component that simulates console behavior

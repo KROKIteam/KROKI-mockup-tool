@@ -1,4 +1,4 @@
-package kroki.api.profil.panel;
+package kroki.profil.utils;
 
 import java.util.ArrayList;
 import java.util.List;

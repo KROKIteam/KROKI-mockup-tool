@@ -23,9 +23,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import kroki.api.profil.panel.ParentChildUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
-import kroki.api.profil.property.HierarchyUtil;
 import kroki.app.gui.visitor.AllPosibleHierarchyPanels;
 import kroki.app.gui.visitor.AllPosibleNextPanels;
 import kroki.app.gui.visitor.AllPosibleZoomPanels;
@@ -42,6 +39,9 @@ import kroki.profil.panel.container.ParentChild;
 import kroki.profil.panel.mode.OperationMode;
 import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.HierarchyUtil;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.VisibleClassUtil;
 import net.miginfocom.swing.MigLayout;
 
 /**

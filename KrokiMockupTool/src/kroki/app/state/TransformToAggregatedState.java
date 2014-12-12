@@ -8,9 +8,6 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
-import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;
@@ -20,6 +17,9 @@ import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.Aggregated;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.UIPropertyUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 /**
  *

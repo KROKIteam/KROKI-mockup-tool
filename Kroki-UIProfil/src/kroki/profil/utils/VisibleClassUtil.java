@@ -1,10 +1,9 @@
-package kroki.api.profil.panel;
+package kroki.profil.utils;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.group.ElementsGroupUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;

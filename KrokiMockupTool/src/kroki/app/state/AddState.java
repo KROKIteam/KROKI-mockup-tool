@@ -7,8 +7,6 @@ package kroki.app.state;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.command.AddCommand;
 import kroki.app.command.CommandManager;
 import kroki.app.controller.TabbedPaneController;
@@ -16,6 +14,8 @@ import kroki.app.view.Canvas;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 /**
  * Klasa koja predstavlja stanje dodavanja elementa.

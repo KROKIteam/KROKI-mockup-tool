@@ -27,7 +27,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
@@ -35,6 +34,7 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.mode.OperationMode;
 import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.VisibleClassUtil;
 import net.miginfocom.swing.MigLayout;
 
 /**

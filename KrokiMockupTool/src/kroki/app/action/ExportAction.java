@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.view.Canvas;
 import kroki.commons.camelcase.NamingUtil;
@@ -20,6 +19,7 @@ import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.panel.std.StdPanelSettings;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.VisibleClassUtil;
 
 
 /**

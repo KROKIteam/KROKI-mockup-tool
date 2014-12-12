@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.group.ElementsGroupUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.event.SelectionModelUpdateEvent;
 import kroki.app.event.UpdateListener;
@@ -17,6 +16,7 @@ import kroki.app.gui.settings.SettingsFactory;
 import kroki.mockup.model.Component;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
+import kroki.profil.utils.ElementsGroupUtil;
 
 /**
  *

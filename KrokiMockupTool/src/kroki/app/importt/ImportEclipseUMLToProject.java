@@ -17,9 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.StandardPanelUtil;
-import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ExportProjectToEclipseUML;
 import kroki.app.utils.uml.OperationsTypeDialog;
@@ -49,6 +46,9 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.persistent.PersistentClass;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.StandardPanelUtil;
+import kroki.profil.utils.UIPropertyUtil;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;

@@ -22,8 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import kroki.api.profil.panel.ParentChildUtil;
-import kroki.api.profil.property.HierarchyUtil;
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
@@ -31,6 +29,8 @@ import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
+import kroki.profil.utils.HierarchyUtil;
+import kroki.profil.utils.ParentChildUtil;
 import kroki.uml_core_basic.UmlProperty;
 import net.miginfocom.swing.MigLayout;
 

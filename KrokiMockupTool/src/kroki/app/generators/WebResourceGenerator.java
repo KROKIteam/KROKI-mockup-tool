@@ -12,7 +12,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
@@ -28,6 +27,7 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlParameter;
 
 public class WebResourceGenerator {

@@ -1,8 +1,8 @@
 package kroki.app.gui.visitor;
 
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlType;
 
 public privileged aspect BussinesSubsystemAcceptAspect {

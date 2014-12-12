@@ -1,4 +1,4 @@
-package kroki.api.profil.property;
+package kroki.profil.utils;
 
 
 import kroki.mockup.model.Composite;

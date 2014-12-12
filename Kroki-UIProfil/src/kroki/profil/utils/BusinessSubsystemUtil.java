@@ -1,9 +1,8 @@
-package kroki.api.profil.subsystem;
+package kroki.profil.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;

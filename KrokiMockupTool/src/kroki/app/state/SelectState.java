@@ -12,8 +12,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.Command;
 import kroki.app.command.CommandManager;
@@ -28,6 +26,8 @@ import kroki.app.view.HandleManager;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 /**
  *

@@ -7,10 +7,6 @@ package kroki.app.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
-import kroki.api.profil.property.HierarchyUtil;
-import kroki.api.profil.property.UIPropertyUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
@@ -18,6 +14,10 @@ import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.HierarchyUtil;
+import kroki.profil.utils.UIPropertyUtil;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlProperty;
 

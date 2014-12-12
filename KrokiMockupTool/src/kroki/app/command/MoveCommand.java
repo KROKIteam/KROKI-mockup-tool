@@ -8,9 +8,9 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.group.ElementsGroupUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
+import kroki.profil.utils.ElementsGroupUtil;
 
 /**
  * Komanda pomeranja elemenata.

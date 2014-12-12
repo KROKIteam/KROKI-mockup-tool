@@ -3,8 +3,6 @@ package kroki.app.generators;
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.panel.ParentChildUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.generators.utils.EJBAttribute;
@@ -23,6 +21,8 @@ import kroki.profil.panel.container.ManyToMany;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 public class UMLDescriptionGenerator {
 	

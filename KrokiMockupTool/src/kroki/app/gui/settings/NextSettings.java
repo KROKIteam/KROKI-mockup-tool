@@ -21,9 +21,6 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
-import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.gui.visitor.AllPosibleNexts;
 import kroki.app.gui.visitor.Visitor;
 import kroki.commons.document.OnlyDigitsDocumentFilter;
@@ -33,6 +30,9 @@ import kroki.profil.association.Next;
 import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.UIPropertyUtil;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlProperty;
 import net.miginfocom.swing.MigLayout;
 

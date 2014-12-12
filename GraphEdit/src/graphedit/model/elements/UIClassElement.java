@@ -22,14 +22,8 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
 
-import kroki.api.commons.operation.OperationType;
-import kroki.api.commons.operation.UIOperationsCommons;
-import kroki.api.commons.property.HierarchyPropertyCommons;
-import kroki.api.commons.property.UIPropertyCommons;
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.panel.ParentChildUtil;
-import kroki.api.profil.panel.StandardPanelUtil;
-import kroki.api.profil.property.UIPropertyUtil;
+import kroki.api.commons.ApiCommons;
+import kroki.api.enums.OperationType;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -46,6 +40,10 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.StandardPanelUtil;
+import kroki.profil.utils.UIPropertyUtil;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlNamedElement;
 import kroki.uml_core_basic.UmlOperation;
@@ -158,7 +156,7 @@ public class UIClassElement extends ClassElement{
 			if (element instanceof VisibleAssociationEnd)
 				continue;
 			if (element instanceof UmlProperty)
-				UIPropertyCommons.makeVisiblePropertyAt(element.getLabel(), element.isVisible(), element.getComponentType(), visibleClass, -1, -1);
+				ApiCommons.makeVisiblePropertyAt(element.getLabel(), element.isVisible(), element.getComponentType(), visibleClass, -1, -1);
 			else if (element instanceof UmlOperation){
 				String opStereotype;
 				if (element instanceof Transaction)
@@ -286,7 +284,7 @@ public class UIClassElement extends ClassElement{
 		String propLabel = attribute.getName();
 		String type = attribute.getType();
 		ComponentType componentType = getComponentType(type);
-		VisibleProperty prop = UIPropertyCommons.makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
+		VisibleProperty prop = ApiCommons.makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
 		prop.setDataType(attribute.getDataType());
 		attribute.setUmlProperty(prop);
 		
@@ -307,18 +305,18 @@ public class UIClassElement extends ClassElement{
 
 
 	public void removeAttribute(int classIndex){
-		UIPropertyCommons.removeProperty(visibleClass, classIndex);
+		ApiCommons.removeProperty(visibleClass, classIndex);
 	}
 
 	public void removeMethod(int classIndex){
-		UIOperationsCommons.removeOperation(visibleClass, classIndex);
+		ApiCommons.removeOperation(visibleClass, classIndex);
 	}
 
 
 	public VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType, VisibleClass panel, String operationType, int indexClass, int indexGroup){
 		if (operationType.equals(MethodStereotypeUI.REPORT.toString()))
-			return UIOperationsCommons.makeVisibleOperation(label, visible, componentType, panel, OperationType.REPORT, indexClass, indexGroup);
-		return UIOperationsCommons.makeVisibleOperation(label, visible, componentType, panel, OperationType.TRANSACTION, indexClass, indexGroup);
+			return ApiCommons.makeVisibleOperation(label, visible, componentType, panel, OperationType.REPORT, indexClass, indexGroup);
+		return ApiCommons.makeVisibleOperation(label, visible, componentType, panel, OperationType.TRANSACTION, indexClass, indexGroup);
 
 	}
 
@@ -348,7 +346,7 @@ public class UIClassElement extends ClassElement{
 
 		ComponentType componentType = getComponentType(newStereotype);
 		VisibleOperation operation = (VisibleOperation) method.getUmlOperation();
-		UIOperationsCommons.removeOperation(visibleClass, classIndex);
+		ApiCommons.removeOperation(visibleClass, classIndex);
 		operation = makeVisibleOperation(operation.getLabel(), true, componentType, visibleClass, newStereotype, classIndex, groupIndex);
 		method.setUmlOperation(operation);
 	}
@@ -360,8 +358,8 @@ public class UIClassElement extends ClassElement{
 
 		ComponentType componentType = getComponentType(newType);
 		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
-		UIPropertyCommons.removeProperty(visibleClass, classIndex);
-		VisibleProperty prop = UIPropertyCommons.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
+		ApiCommons.removeProperty(visibleClass, classIndex);
+		VisibleProperty prop = ApiCommons.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 		attribute.setUmlProperty(prop);
 		attribute.setDataType(getDataTypeFor(newType));
 	}
@@ -374,8 +372,8 @@ public class UIClassElement extends ClassElement{
 		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
 		if (!component.equals(attribute.getType())){
 			ComponentType componentType = getComponentType(component);
-			UIPropertyCommons.removeProperty(visibleClass, classIndex);
-			VisibleProperty prop = UIPropertyCommons.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
+			ApiCommons.removeProperty(visibleClass, classIndex);
+			VisibleProperty prop = ApiCommons.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 			attribute.setUmlProperty(prop);
 			attribute.setType(component);
 		}
@@ -555,7 +553,7 @@ public class UIClassElement extends ClassElement{
 
 	public void addHierarchyElement(Hierarchy hierarchy, VisibleClass targetPanel, Connector connector){
 
-		HierarchyPropertyCommons.addHierarchyElement(visibleClass, hierarchy, targetPanel);
+		ApiCommons.addHierarchyElement(visibleClass, hierarchy, targetPanel);
 		ElementsGroup gr = hierarchy.getParentGroup();
 		hierarchyMap.put(connector, new HierarchyElement(hierarchy, UIPropertyUtil.getVisibleElementNum(visibleClass) -1, ElementsGroupUtil.getVisibleElementsNum(gr) -1));
 
@@ -1107,7 +1105,7 @@ public class UIClassElement extends ClassElement{
 		int groupIndex = args[1];
 		int type = args[2];
 
-		UIPropertyCommons.moveElementUp(visibleClass, classIndex, groupIndex, type);
+		ApiCommons.moveElementUp(visibleClass, classIndex, groupIndex, type);
 
 	}
 
@@ -1122,7 +1120,7 @@ public class UIClassElement extends ClassElement{
 		int groupIndex = args[1];
 		int type = args[2];
 
-		UIPropertyCommons.moveElementDown(visibleClass, classIndex, groupIndex, type);
+		ApiCommons.moveElementDown(visibleClass, classIndex, groupIndex, type);
 
 	}
 	

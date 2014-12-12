@@ -1,4 +1,4 @@
-package kroki.api.profil.group;
+package kroki.profil.utils;
 
 import java.awt.Point;
 

@@ -9,7 +9,6 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import kroki.api.profil.group.ElementsGroupUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.Command;
 import kroki.app.command.CommandManager;
@@ -26,6 +25,7 @@ import kroki.app.view.Canvas;
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ElementsGroupUtil;
 
 public class PasteAction extends AbstractAction {
 

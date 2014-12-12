@@ -6,8 +6,6 @@ package kroki.app.command;
 
 import java.awt.Point;
 
-import kroki.api.profil.group.ElementsGroupUtil;
-import kroki.api.profil.property.UIPropertyUtil;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.view.Canvas;
@@ -17,6 +15,8 @@ import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.UIPropertyUtil;
 
 /**
  * Komanda dodavanja elementa

@@ -20,12 +20,12 @@ import javax.swing.JViewport;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import kroki.api.profil.panel.StandardPanelUtil;
 import kroki.app.gui.ButtonTabComponent;
 import kroki.app.state.Context;
 import kroki.app.view.Canvas;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.StandardPanelUtil;
 
 /**
  *

@@ -1,10 +1,8 @@
-package kroki.api.profil.property;
+package kroki.profil.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import kroki.api.profil.panel.ParentChildUtil;
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.common.copy.DeepCopy;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.NullComponent;

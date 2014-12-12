@@ -48,10 +48,10 @@ import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 
-import kroki.api.profil.panel.ParentChildUtil;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
+import kroki.profil.utils.ParentChildUtil;
 
 public class LinkState extends State {
 

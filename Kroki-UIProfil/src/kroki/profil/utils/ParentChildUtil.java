@@ -1,11 +1,9 @@
-package kroki.api.profil.panel;
+package kroki.profil.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import kroki.api.profil.property.HierarchyUtil;
-import kroki.api.profil.property.UIPropertyUtil;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.layout.BorderLayoutManager;
 import kroki.mockup.model.layout.FlowLayoutManager;

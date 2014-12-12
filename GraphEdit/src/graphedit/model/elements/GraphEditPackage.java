@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
-import kroki.api.profil.panel.VisibleClassUtil;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Next;
@@ -45,6 +44,7 @@ import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlNamedElement;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
