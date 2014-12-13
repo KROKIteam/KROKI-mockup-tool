@@ -34,6 +34,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     protected String dataType;
     private int length;
     private int precision;
+    private String persistentType;
     /*Obelezja metaklase Property*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
@@ -274,4 +275,16 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 	public void setPrecision(int precision) {
 		this.precision = precision;
 	}
+	
+	
+	public String getPersistentType() {
+		return persistentType;
+	}
+
+	public void setPersistentType(String persistentType) {
+		this.persistentType = persistentType;
+	}
+
+	
+	
 }

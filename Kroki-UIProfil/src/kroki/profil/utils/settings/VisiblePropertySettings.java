@@ -49,12 +49,14 @@ public class VisiblePropertySettings extends VisibleElementSettings {
     protected JLabel defaultValueLb;
     protected JLabel lengthLb;
     protected JLabel precisionLb;
+    protected JLabel peristentTypeLb;
     protected JComboBox<String> typeCb;
     protected JTextField columnLabelTf;
     protected JCheckBox labelToCodeCb;
     protected JTextField displayFormatTf;
     protected JTextField lengthTf;
     protected JTextField precisionTf;
+    protected JComboBox<String> persistentTypeCb;
     protected ComboBoxValuesPanel valuesPanel;
     protected JTextField defaultValueTf;
     protected JCheckBox representativeCb;
@@ -82,10 +84,15 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         defaultValueLb = new JLabel(Intl.getValue("visibleProperty.defaultValue"));
         lengthLb = new JLabel(Intl.getValue("visibleProperty.length"));
         precisionLb = new JLabel(Intl.getValue("visibleProperty.precision"));
+        peristentTypeLb = new JLabel(Intl.getValue("visibleProperty.persistentType"));
         String[] types = { "String", "Integer", "Long", "BigDecimal", "Date" };
         typeCb = new JComboBox<String>(types);
         typeCb.setSelectedIndex(0);
         typeCb.setEnabled(false);
+        
+        String[] peristentTypes = { "Char", "Varchar", "Text", "Integer", "Number", "Float", "Decimal", "Boolean", "Date", "Time", "DateTime"};
+        persistentTypeCb = new JComboBox<String>(peristentTypes);
+        persistentTypeCb.setSelectedIndex(0);        
         
         columnLabelTf = new JTextField(30);
         labelToCodeCb = new JCheckBox();
@@ -99,6 +106,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         autoGoCb = new JCheckBox();
         disabledCb = new JCheckBox();
         precisionTf = new JTextField(20);
+        precisionTf.setEnabled(false);
         lengthTf = new JTextField(20);
         AbstractDocument precisionDocument = (AbstractDocument) precisionTf.getDocument();
         precisionDocument.setDocumentFilter(new OnlyDigitsDocumentFilter());
@@ -153,6 +161,9 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         persistent.add(labelToCodeCb);
         persistent.add(columnLabelLb);
         persistent.add(columnLabelTf);
+        persistent.add(peristentTypeLb);
+        persistent.add(persistentTypeCb);
+        
         persistent.add(lengthLb);
         persistent.add(lengthTf);
         persistent.add(precisionLb);
@@ -177,9 +188,23 @@ public class VisiblePropertySettings extends VisibleElementSettings {
 					}else{
 						visibleProperty.setDataType("String");
 					}
-				}
+				}				
 			}
 		});
+    	
+    	persistentTypeCb.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
+				if(persistentTypeCb.isEnabled()) {
+					if(persistentTypeCb.getSelectedItem() != null) {
+						visibleProperty.setPersistentType(persistentTypeCb.getSelectedItem().toString());
+					}
+					updateLengthAndPrecision(visibleProperty);
+				}
+			}
+		});    	
+    	
     	
     	labelToCodeCb.addActionListener(new ActionListener() {
 			
@@ -406,6 +431,64 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             }
         });
     }
+    
+    /*
+    private void setDefaultPersistentType() {
+    	if (persistentTypeCb.getSelectedItem() != null)
+    			return;
+    	String type;
+		if( typeCb.getSelectedItem() != null) {
+			type = typeCb.getSelectedItem().toString();
+		} else 
+			return;
+		
+		switch (type) {
+		case "String":
+			persistentTypeCb.setSelectedItem("Varchar");
+			break;
+		case "Integer":
+			persistentTypeCb.setSelectedItem("Integer");
+			break;
+		case "Long":
+			persistentTypeCb.setSelectedItem("Number");			
+			break;
+		case "BigDecimal":
+			persistentTypeCb.setSelectedItem("Decimal");			
+			break;
+		case "Date":
+			persistentTypeCb.setSelectedItem("Date");			
+			break;
+		}
+    }
+    */
+    
+    private void updateLengthAndPrecision(VisibleProperty visibleProperty) {
+    	String persType;
+		if( persistentTypeCb.getSelectedItem() != null) {
+			persType = persistentTypeCb.getSelectedItem().toString();
+		}else {
+			persType = "";
+		}
+	    switch (persType) {
+	    case "Char": case "Varchar": case "Text": case "Number":
+	    	lengthTf.setEnabled(true);
+	    	precisionTf.setEnabled(false);
+	    	visibleProperty.setPrecision(0);
+	    	precisionTf.setText("0");
+	    	break;
+	    case "Decimal":
+	    	lengthTf.setEnabled(true);
+	    	precisionTf.setEnabled(true);
+	    	break;	    	
+	    default: // "Integer", "Float", "Boolean", "Date", "Time", "DateTime"
+	    	lengthTf.setEnabled(false);
+	    	precisionTf.setEnabled(false);
+	    	visibleProperty.setLength(0);
+	    	visibleProperty.setPrecision(0);
+	    	lengthTf.setText("0");
+	    	precisionTf.setText("0");	    	
+	    }    	              
+    }
 
     @Override
     public void updateComponents() {
@@ -414,8 +497,8 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         valuesPanel.setVisibleProperty(visibleProperty);
         if(visibleProperty.getComponentType() == ComponentType.TEXT_FIELD) {
         	typeCb.setEnabled(true);
-        	typeCb.setSelectedItem(visibleProperty.getDataType());
-        }
+        	typeCb.setSelectedItem(visibleProperty.getDataType()); 	
+        } 
         columnLabelTf.setText(visibleProperty.getColumnLabel());
         displayFormatTf.setText(visibleProperty.getDisplayFormat());
         if(visibleProperty.getEnumeration() != null) {
@@ -442,7 +525,9 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         	columnLabelTf.setEditable(true);
         	labelToCodeCb.setSelected(false);
         }
-        
+       persistentTypeCb.setEnabled(true);
+       persistentTypeCb.setSelectedItem(visibleProperty.getPersistentType());
+       updateLengthAndPrecision(visibleProperty);      
        lengthTf.setText(visibleProperty.getLength() + "");
        precisionTf.setText(visibleProperty.getPrecision() + "");
     }
