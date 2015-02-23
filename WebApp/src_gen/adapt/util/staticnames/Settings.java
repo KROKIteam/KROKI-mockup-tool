@@ -26,4 +26,5 @@ public class Settings {
 	public static final String ICONS_DIR = PropertiesReader.readStaticProp("main", "icons.dir");
 	public static final String WINDOW_ICON = PropertiesReader.readStaticProp("main", "windows.icon");
 	public static final String WEB_MAINFRAME_ICON =  PropertiesReader.readStaticProp("main", "web.main.icon");
+	public static final String DEPLOY = PropertiesReader.readStaticProp("main", "deploy");
 }

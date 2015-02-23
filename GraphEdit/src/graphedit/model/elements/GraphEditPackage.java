@@ -249,8 +249,9 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 			if (el.getVisibleElement().equals(testZoom)){
 				//nadji konektor 
 				for (Connector c : loadedClass.getZoomMap().keySet()){
-					if (loadedClass.getZoomMap().get(c) == el)
+					if (loadedClass.getZoomMap().get(c) == el){
 						return c.getLink();
+					}
 				}
 			}
 
@@ -284,8 +285,9 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap,
 			GraphEditPackage loadedElement){
 
-		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
 
+		
+		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
 			UIClassElement loadedClass = savedClass(visibleClass, loadedElement);
 
 			for (Zoom zoom : visibleClass.containedZooms()){
@@ -303,6 +305,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				Link loadedLink = savedLink(zoom, loadedClass);
 				LinkableElement sourceElement = null;
 				LinkableElement destinationElement = null;
+
 
 				//proveri da li je source ili destination shortcut
 
@@ -339,19 +342,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 
-				Point  p1 = new Point(0,0);
-				Point p2 = new Point(200,200);
-				Connector c1 = new Connector(p1, sourceElement);
-				Connector c2 = new Connector(p2, destinationElement);
-				c2.setRepresentedElement(thisElement);
-				c1.setRepresentedElement(targetElement);
+				Connector c1 = null;
+				Connector c2 = null;
 
 				String zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
 				int classIndex = visibleClass.getVisibleElementList().indexOf(zoom);
 				int groupIndex = ((ElementsGroup) visibleClass.getVisibleElementList().get(UIClassElement.STANDARD_PANEL_PROPERTIES)).getVisibleElementList().indexOf(zoom);
 				NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex, zoomLabel,"1..1",zoom);
-				thisElement.getZoomMap().put(c2, zoomElement);
 
 				Integer count = thisElement.getRelationshipsCounterMap().get(targetElement);
 				if (count == null)
@@ -375,8 +373,6 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				}
 
 				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
-				nodes.add(c1);
-				nodes.add(c2);
 				Link link = null;
 
 
@@ -394,20 +390,36 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 				}
 
+				String name = zoomLabel;
+				if (nextLabel != null && !nextLabel.equals(""))
+					name += "_" + nextLabel;
+				
 				if (loadedLink == null){
-					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					Point  p1 = new Point(0,0);
+					Point p2 = new Point(200,200);
+					c1 = new Connector(p1, sourceElement);
+					c2 = new Connector(p2, destinationElement);
+					nodes.add(c1);
+					nodes.add(c2);
+					
+					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 				}
 				else{
 
+					
+					c1 = loadedLink.getSourceConnector();
+					c2 = loadedLink.getDestinationConnector();
+					
+					
+					Point2D loadedSourcePosition = (Point2D) loadedLink.getSourceConnector().getProperty(LinkNodeProperties.POSITION);
+					Point2D sourcePosition = new Point2D.Double(loadedSourcePosition.getX(), loadedSourcePosition.getY());
+					Point2D loadedDestinationPosition = (Point2D) loadedLink.getDestinationConnector().getProperty(LinkNodeProperties.POSITION);
+					Point2D destinationPosition = new Point2D.Double(loadedDestinationPosition.getX(), loadedDestinationPosition.getY());
+					
 					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
 					loadedNodes.addAll(loadedLink.getNodes());
-					Point2D sourcePosition = (Point2D) loadedLink.getNodes().get(0).getProperty(LinkNodeProperties.POSITION);
-					Point2D destinationPosition = (Point2D) loadedLink.getNodes().get(loadedNodes.size() - 1).getProperty(LinkNodeProperties.POSITION);
-					loadedNodes.remove(0);
-					loadedNodes.remove(loadedNodes.size() - 1);
-					loadedNodes.add(0, c1);
-					loadedNodes.add(loadedNodes.size(), c2);
-
+					
+					
 					if (diagram.isLayout()){
 						c1.setLoadedPosition(sourcePosition);
 						c2.setLoadedPosition(destinationPosition);
@@ -419,428 +431,446 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 						c2.setLoadedPosition(destinationPosition);
 					}
 
-					zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
+
+						zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
 
-					if (loadedLink instanceof CompositionLink)
-						link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
-					else if (loadedLink instanceof AggregationLink)
-						link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
-					else
-						link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						if (loadedLink instanceof CompositionLink)
+							link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						else if (loadedLink instanceof AggregationLink)
+							link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name ,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						else
+							link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 
-					if (!switchSourceAndDestination){
-						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
-						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
-					}
-					else{
-						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
-						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
-					}
-					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
-				}
-
-
-				link.setProperty(LinkProperties.STEREOTYPE, "zoom");
-				c1.setLink(link);
-				c2.setLink(link);
-
-				sourceElement.addConnectors(link.getSourceConnector());
-				destinationElement.addConnectors(link.getDestinationConnector());
-
-
-				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
-				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
-				diagram.addLink(link);
-
-
-
-			}
-
-			for (Hierarchy hierarchy : visibleClass.containedHierarchies()){
-
-				UIClassElement targetElement = allElementsMap.get(hierarchy.getTargetPanel());
-				if (targetElement == null)
-					continue;
-
-				UIClassElement thisElement = allElementsMap.get(visibleClass);
-
-				Link loadedLink = savedHierarchyLink(hierarchy, loadedClass);
-				LinkableElement sourceElement = null;
-				LinkableElement destinationElement = null;
-
-				//proveri da li je source ili destination shortcut
-
-				boolean switchSourceAndDestination = false;
-
-				if (loadedLink != null){
-					String sourceCardinality = (String) loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY);
-
-					GraphElement origSourceElement;
-					GraphElement origDestinationElement;
-					if (sourceCardinality.endsWith("*"))
-						switchSourceAndDestination = true;
-
-					if (!switchSourceAndDestination){
-						origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
-						origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
-					}
-					else{
-						origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
-						origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
+						if (!switchSourceAndDestination){
+							link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+							link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+						}
+						else{
+							link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+							link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+						}
+						link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
 					}
 
-					if (origSourceElement instanceof ClassShortcut)
-						sourceElement = findShortcut((ClassShortcut) origSourceElement);
-					if (origDestinationElement instanceof ClassShortcut)
-						destinationElement = findShortcut((ClassShortcut) origDestinationElement);
+					
+				
+					link.setProperty(LinkProperties.STEREOTYPE, "zoom");
+					
+					c2.setRepresentedElement(thisElement);
+					c1.setRepresentedElement(targetElement);
+					link.setSourceConnector(c1);
+					link.setDestinationConnector(c2);
+					c1.setLink(link);
+					c2.setLink(link);
+					thisElement.getZoomMap().put(c2, zoomElement);
+
+					sourceElement.addConnectors(link.getSourceConnector());
+					destinationElement.addConnectors(link.getDestinationConnector());
+
+
+					diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
+					diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
+					diagram.addLink(link);
+
+
 
 				}
 
-				if (sourceElement == null)
-					sourceElement = getDiagramElement(thisElement);
-				if (destinationElement == null)
-					destinationElement = getDiagramElement(targetElement);
+				for (Hierarchy hierarchy : visibleClass.containedHierarchies()){
+
+					UIClassElement targetElement = allElementsMap.get(hierarchy.getTargetPanel());
+					if (targetElement == null)
+						continue;
+
+					UIClassElement thisElement = allElementsMap.get(visibleClass);
+
+					Link loadedLink = savedHierarchyLink(hierarchy, loadedClass);
+					LinkableElement sourceElement = null;
+					LinkableElement destinationElement = null;
+
+					//proveri da li je source ili destination shortcut
+
+					boolean switchSourceAndDestination = false;
+
+					if (loadedLink != null){
+						String sourceCardinality = (String) loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY);
+
+						GraphElement origSourceElement;
+						GraphElement origDestinationElement;
+						if (sourceCardinality.endsWith("*"))
+							switchSourceAndDestination = true;
+
+						if (!switchSourceAndDestination){
+							origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
+							origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
+						}
+						else{
+							origSourceElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getDestinationConnector());
+							origDestinationElement = loadedElement.getDiagram().getElementByConnector().get(loadedLink.getSourceConnector());
+						}
+
+						if (origSourceElement instanceof ClassShortcut)
+							sourceElement = findShortcut((ClassShortcut) origSourceElement);
+						if (origDestinationElement instanceof ClassShortcut)
+							destinationElement = findShortcut((ClassShortcut) origDestinationElement);
+
+					}
+
+					if (sourceElement == null)
+						sourceElement = getDiagramElement(thisElement);
+					if (destinationElement == null)
+						destinationElement = getDiagramElement(targetElement);
 
 
 
-				Point  p1 = new Point(0,0);
-				Point p2 = new Point(200,200);
-				Connector c1 = new Connector(p1, sourceElement);
-				Connector c2 = new Connector(p2, destinationElement);
-				c2.setRepresentedElement(thisElement);
-				c1.setRepresentedElement(targetElement);
+					Connector c1 = null;
+					Connector c2 = null;
 
 
-				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(1);
-				int classIndex = visibleClass.getVisibleElementList().indexOf(hierarchy);
-				int groupIndex = gr.getVisibleElementList().indexOf(hierarchy);
-				thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
+					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(1);
+					int classIndex = visibleClass.getVisibleElementList().indexOf(hierarchy);
+					int groupIndex = gr.getVisibleElementList().indexOf(hierarchy);
+					
 
 
-				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
-				nodes.add(c1);
-				nodes.add(c2);
+					ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
+					
 
-				Link link;
+					Link link;
 
-				if (loadedLink == null)
-					link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, MainFrame.getInstance().incrementLinkCounter());
-				else{
+					if (loadedLink == null){
+						link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, MainFrame.getInstance().incrementLinkCounter());
+						Point  p1 = new Point(0,0);
+						Point p2 = new Point(200,200);
+						c1 = new Connector(p1, sourceElement);
+						c2 = new Connector(p2, destinationElement);
+						nodes.add(c1);
+						nodes.add(c2);
+					}
+					else{
 
-					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
-					loadedNodes.addAll(loadedLink.getNodes());
-					Point2D sourcePosition = (Point2D) loadedLink.getNodes().get(0).getProperty(LinkNodeProperties.POSITION);
-					Point2D destinationPosition = (Point2D) loadedLink.getNodes().get(loadedNodes.size() - 1).getProperty(LinkNodeProperties.POSITION);
-					loadedNodes.remove(0);
-					loadedNodes.remove(loadedNodes.size() - 1);
-					loadedNodes.add(0, c1);
-					loadedNodes.add(loadedNodes.size(), c2);
+						c1 = loadedLink.getSourceConnector();
+						c2 = loadedLink.getDestinationConnector();
+						
+						Point2D loadedSourcePosition = (Point2D) loadedLink.getSourceConnector().getProperty(LinkNodeProperties.POSITION);
+						Point2D sourcePosition = new Point2D.Double(loadedSourcePosition.getX(), loadedSourcePosition.getY());
+						Point2D loadedDestinationPosition = (Point2D) loadedLink.getDestinationConnector().getProperty(LinkNodeProperties.POSITION);
+						Point2D destinationPosition = new Point2D.Double(loadedDestinationPosition.getX(), loadedDestinationPosition.getY());
+						
+						ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
+						loadedNodes.addAll(loadedLink.getNodes());
+
+						if (diagram.isLayout()){
+							c1.setLoadedPosition(sourcePosition);
+							c2.setLoadedPosition(destinationPosition);
+						}
+						else{
+							c1.setLoaded(true);
+							c2.setLoaded(true);
+							c1.setLoadedPosition(sourcePosition);
+							c2.setLoadedPosition(destinationPosition);
+						}
+
+
+						if (loadedLink instanceof CompositionLink)
+							link = new CompositionLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
+						else if (loadedLink instanceof AggregationLink)
+							link = new AggregationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
+						else
+							link = new AssociationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
+
+
+						if (!switchSourceAndDestination){
+							link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+							link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+						}
+						else{
+							link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
+							link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
+						}
+						link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
+					}
+
+					link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
+					
+					c2.setRepresentedElement(thisElement);
+					c1.setRepresentedElement(targetElement);
+					link.setSourceConnector(c1);
+					link.setDestinationConnector(c2);
+					c1.setLink(link);
+					c2.setLink(link);
+					thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
 
 					
 
-					if (diagram.isLayout()){
-						c1.setLoadedPosition(sourcePosition);
-						c2.setLoadedPosition(destinationPosition);
-					}
-					else{
-						c1.setLoaded(true);
-						c2.setLoaded(true);
-						c1.setLoadedPosition(sourcePosition);
-						c2.setLoadedPosition(destinationPosition);
-					}
+					sourceElement.addConnectors(link.getSourceConnector());
+					destinationElement.addConnectors(link.getDestinationConnector());
 
-
-					if (loadedLink instanceof CompositionLink)
-						link = new CompositionLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
-					else if (loadedLink instanceof AggregationLink)
-						link = new AggregationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
-					else
-						link = new AssociationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
-
-
-					if (!switchSourceAndDestination){
-						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
-						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
-					}
-					else{
-						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.SOURCE_CARDINALITY));
-						link.setProperty(LinkProperties.SOURCE_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
-					}
-					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
+					diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
+					diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
+					diagram.addLink(link);
 				}
-
-				link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
-				c1.setLink(link);
-				c2.setLink(link);
-
-				sourceElement.addConnectors(link.getSourceConnector());
-				destinationElement.addConnectors(link.getDestinationConnector());
-
-				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
-				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
-				diagram.addLink(link);
 			}
 		}
-	}
 
-	private LinkableElement getDiagramElement(ClassElement classElement){
-		LinkableElement ret;
+		private LinkableElement getDiagramElement(ClassElement classElement){
+			LinkableElement ret;
 
-		//check if elements are from other diagram (package)
-		if (!diagram.getDiagramElements().contains(classElement.element())){
+			//check if elements are from other diagram (package)
+			if (!diagram.getDiagramElements().contains(classElement.element())){
 
-			//check if a shortcut was already created
-			List<GraphElement> shortcuts = diagram.getAllShortcutsToElementInDiagram(classElement.element());
-			if (shortcuts.size() > 0)
-				return (LinkableElement) shortcuts.get(0);
+				//check if a shortcut was already created
+				List<GraphElement> shortcuts = diagram.getAllShortcutsToElementInDiagram(classElement.element());
+				if (shortcuts.size() > 0)
+					return (LinkableElement) shortcuts.get(0);
 
-			//else create shortcut  and return it
-			ret = new  ClassShortcut(new Point2D.Double(0,0), (Class)classElement.element(), 
-					GraphEditWorkspace.getInstance().getDiagramContainingElement(classElement.element()));
-			ret.setRepresentedElement(classElement);
-			diagram.addDiagramElement((Class)ret);
-			((Shortcut)ret).setShortcutToModel(diagram);
-			((Shortcut)ret).setShortcutInfo(diagram);
+				//else create shortcut  and return it
+				ret = new  ClassShortcut(new Point2D.Double(0,0), (Class)classElement.element(), 
+						GraphEditWorkspace.getInstance().getDiagramContainingElement(classElement.element()));
+				ret.setRepresentedElement(classElement);
+				diagram.addDiagramElement((Class)ret);
+				((Shortcut)ret).setShortcutToModel(diagram);
+				((Shortcut)ret).setShortcutInfo(diagram);
+			}
+			else
+				ret = (LinkableElement) classElement.element();
+
+			return ret;
 		}
-		else
-			ret = (LinkableElement) classElement.element();
-
-		return ret;
-	}
 
 
 
-	public void formPanels(){
-		if (MainFrame.getInstance().getAppMode() != ApplicationMode.USER_INTERFACE)
-			return;
-		for (GraphElement diagramElement : diagram.getDiagramElements()){
-			UIClassElement clazz = (UIClassElement) diagramElement.getRepresentedElement();
-			clazz.formPanel();
-			umlPackage.addOwnedType(clazz.getUmlType());
+		public void formPanels(){
+			if (MainFrame.getInstance().getAppMode() != ApplicationMode.USER_INTERFACE)
+				return;
+			for (GraphElement diagramElement : diagram.getDiagramElements()){
+				UIClassElement clazz = (UIClassElement) diagramElement.getRepresentedElement();
+				clazz.formPanel();
+				umlPackage.addOwnedType(clazz.getUmlType());
+			}
+			for (Package contained : diagram.getContainedPackages()){
+				contained.getHierarchyPackage().formPanels();
+			}
 		}
-		for (Package contained : diagram.getContainedPackages()){
-			contained.getHierarchyPackage().formPanels();
+
+
+		public Object getProperty(PackageProperties key) {
+			return properties.get(key);
 		}
-	}
+
+		public Object setProperty(PackageProperties key, Object value) {
+			Object result = properties.set(key, value);
+			fireChanges();
+			return result;
+		}
 
 
-	public Object getProperty(PackageProperties key) {
-		return properties.get(key);
-	}
+		public LayoutStrategy getLayoutStrategy(){
+			if (loaded && !diagram.isLayout())
+				return LayoutStrategy.ADDING;
+			return LayoutUtil.getBestLayoutingStrategy(diagram);
 
-	public Object setProperty(PackageProperties key, Object value) {
-		Object result = properties.set(key, value);
-		fireChanges();
-		return result;
-	}
+		}
+
+		public GraphEditModel findDiagramContainingElement(GraphElement element){
+			//check if current diagram contains element
+			if (diagram.getAllElements().contains(element))
+				return diagram;
+
+			//check any of subpackages contains diagram with the given element
+			GraphEditModel diag = null;
+			for (GraphEditPackage subPack : subPackages){
+				diag = subPack.findDiagramContainingElement(element);
+				if (diag != null)
+					break;
+			}
+
+			return diag;
+		}
+
+		//**********************************************************************
+		/*
+		 * GraphEditTreeNode's methods
+		 * Show inner packages first, then other diagram elements
+		 */
+
+		public void fireChanges(){
+			// fire-uj izmene
+			this.setChanged();
+			this.notifyObservers();
+		}
+
+		@Override
+		public Object getNodeAt(int index) {
+
+			if (index < diagram.getContainedPackages().size())
+				return ((Package)diagram.getContainedPackages().get(index)).getHierarchyPackage();
+
+			else if (index < diagram.getContainedPackages().size() + diagram.getDiagramElements().size())
+				return (((GraphElement) diagram.getDiagramElements().get(index - diagram.getContainedPackages().size())));
+			else 
+				return diagram.getLinks().get(index - diagram.getContainedPackages().size() - diagram.getDiagramElements().size());
+		}
+
+		@Override
+		public int getNodeCount() {
+			return diagram.getDiagramElements().size() + diagram.getContainedPackages().size() + diagram.getLinks().size();
+		}
+
+		@Override
+		public int getNodeIndex(Object node){
+			if (node instanceof GraphEditPackage){
+				if (diagram.getContainedPackages().contains(node))
+					return diagram.getContainedPackages().indexOf(node);
+			}
+			else if (node instanceof Link) {
+				if (diagram.getLinks().contains(node)) 
+					return diagram.getLinks().indexOf(node);
+			}
+			else if (node instanceof GraphElement){
+				if (diagram.getDiagramElements().contains(node))
+					return diagram.getDiagramElements().indexOf(node);
+			}
+			return -1;
+		}
 
 
-	public LayoutStrategy getLayoutStrategy(){
-		if (loaded && !diagram.isLayout())
-			return LayoutStrategy.ADDING;
-		return LayoutUtil.getBestLayoutingStrategy(diagram);
 
-	}
-	
-	public GraphEditModel findDiagramContainingElement(GraphElement element){
-		//check if current diagram contains element
-		if (diagram.getAllElements().contains(element))
+		@Override
+		public String toString() {
+			return (String) properties.get(PackageProperties.NAME);
+		}
+
+		public GraphEditPackage getParentPackage() {
+			return parentPackage;
+		}
+
+		public void setParentPackage(GraphEditPackage parentPackage) {
+			this.parentPackage = parentPackage;
+		}
+
+
+		public UmlPackage getUmlPackage() {
+			return umlPackage;
+		}
+
+		public void setUmlPackage(UmlPackage umlPackage) {
+			this.umlPackage = umlPackage;
+		}
+
+
+		public GraphEditModel getDiagram() {
 			return diagram;
-		
-		//check any of subpackages contains diagram with the given element
-		GraphEditModel diag = null;
-		for (GraphEditPackage subPack : subPackages){
-			diag = subPack.findDiagramContainingElement(element);
-			if (diag != null)
-				break;
 		}
-		
-		return diag;
-	}
 
-	//**********************************************************************
-	/*
-	 * GraphEditTreeNode's methods
-	 * Show inner packages first, then other diagram elements
-	 */
-
-	public void fireChanges(){
-		// fire-uj izmene
-		this.setChanged();
-		this.notifyObservers();
-	}
-
-	@Override
-	public Object getNodeAt(int index) {
-
-		if (index < diagram.getContainedPackages().size())
-			return ((Package)diagram.getContainedPackages().get(index)).getHierarchyPackage();
-
-		else if (index < diagram.getContainedPackages().size() + diagram.getDiagramElements().size())
-			return (((GraphElement) diagram.getDiagramElements().get(index - diagram.getContainedPackages().size())));
-		else 
-			return diagram.getLinks().get(index - diagram.getContainedPackages().size() - diagram.getDiagramElements().size());
-	}
-
-	@Override
-	public int getNodeCount() {
-		return diagram.getDiagramElements().size() + diagram.getContainedPackages().size() + diagram.getLinks().size();
-	}
-
-	@Override
-	public int getNodeIndex(Object node){
-		if (node instanceof GraphEditPackage){
-			if (diagram.getContainedPackages().contains(node))
-				return diagram.getContainedPackages().indexOf(node);
+		public void setDiagram(GraphEditModel diagram) {
+			this.diagram = diagram;
 		}
-		else if (node instanceof Link) {
-			if (diagram.getLinks().contains(node)) 
-				return diagram.getLinks().indexOf(node);
+
+		public Package getPackageElement() {
+			return packageElement;
 		}
-		else if (node instanceof GraphElement){
-			if (diagram.getDiagramElements().contains(node))
-				return diagram.getDiagramElements().indexOf(node);
+
+		public void setPackageElement(Package packageElement) {
+			this.packageElement = packageElement;
 		}
-		return -1;
-	}
+
+
+		@Override
+		public GraphElement element() {
+			return packageElement;
+		}
+
+		@Override
+		public void setElement(GraphElement element) {
+			packageElement = (Package)element;
+
+		}
 
 
 
-	@Override
-	public String toString() {
-		return (String) properties.get(PackageProperties.NAME);
-	}
+		@Override
+		public void changeLinkProperty(Link link, LinkProperties property, Object newValue, Object...args) {
+			// TODO Auto-generated method stub
 
-	public GraphEditPackage getParentPackage() {
-		return parentPackage;
-	}
+		}
 
-	public void setParentPackage(GraphEditPackage parentPackage) {
-		this.parentPackage = parentPackage;
-	}
+		@Override
+		public void setOldLink(Link link, Object... args) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public UmlNamedElement getUmlElement() {
+			return umlPackage;
+		}
+
+		@Override
+		public void setUmlElement(UmlNamedElement umlElement) {
+			umlPackage = (UmlPackage)umlElement;
+
+		}
+
+		@Override
+		public void setName(String newName) {
+			umlPackage.setName(newName);
+			if (umlPackage instanceof BussinesSubsystem)
+				((BussinesSubsystem)umlPackage).setLabel(newName);
+
+		}
+
+		public Map<VisibleClass, UIClassElement> getSubClassesMap() {
+			return subClassesMap;
+		}
+
+		public List<GraphEditPackage> getSubPackages() {
+			return subPackages;
+		}
+
+		@Override
+		public void link(Link link, Object... args) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void unlink(Link link, Object... args) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public File getFile() {
+			return file;
+		}
+
+		public void setFile(File file) {
+			this.file = file;
+		}
+
+		public boolean isChanged() {
+			return changed;
+		}
+
+		public void setChanged(boolean changed) {
+			this.changed = changed;
+		}
+
+		public Map<VisibleClass, UIClassElement> getClassElementsByVisibleClassesMap() {
+			return classElementsByVisibleClassesMap;
+		}
+
+		public boolean isLoaded() {
+			return loaded;
+		}
+
+		public void setLoaded(boolean loaded) {
+			this.loaded = loaded;
+		}
 
 
-	public UmlPackage getUmlPackage() {
-		return umlPackage;
-	}
-
-	public void setUmlPackage(UmlPackage umlPackage) {
-		this.umlPackage = umlPackage;
-	}
 
 
-	public GraphEditModel getDiagram() {
-		return diagram;
-	}
-
-	public void setDiagram(GraphEditModel diagram) {
-		this.diagram = diagram;
-	}
-
-	public Package getPackageElement() {
-		return packageElement;
-	}
-
-	public void setPackageElement(Package packageElement) {
-		this.packageElement = packageElement;
-	}
-
-
-	@Override
-	public GraphElement element() {
-		return packageElement;
-	}
-
-	@Override
-	public void setElement(GraphElement element) {
-		packageElement = (Package)element;
-
-	}
-
-
-
-	@Override
-	public void changeLinkProperty(Link link, LinkProperties property, Object newValue, Object...args) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setOldLink(Link link, Object... args) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public UmlNamedElement getUmlElement() {
-		return umlPackage;
-	}
-
-	@Override
-	public void setUmlElement(UmlNamedElement umlElement) {
-		umlPackage = (UmlPackage)umlElement;
-
-	}
-
-	@Override
-	public void setName(String newName) {
-		umlPackage.setName(newName);
-		if (umlPackage instanceof BussinesSubsystem)
-			((BussinesSubsystem)umlPackage).setLabel(newName);
-
-	}
-
-	public Map<VisibleClass, UIClassElement> getSubClassesMap() {
-		return subClassesMap;
-	}
-
-	public List<GraphEditPackage> getSubPackages() {
-		return subPackages;
-	}
-
-	@Override
-	public void link(Link link, Object... args) {
-		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void unlink(Link link, Object... args) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public File getFile() {
-		return file;
-	}
-
-	public void setFile(File file) {
-		this.file = file;
-	}
-
-	public boolean isChanged() {
-		return changed;
-	}
-
-	public void setChanged(boolean changed) {
-		this.changed = changed;
-	}
-
-	public Map<VisibleClass, UIClassElement> getClassElementsByVisibleClassesMap() {
-		return classElementsByVisibleClassesMap;
-	}
-
-	public boolean isLoaded() {
-		return loaded;
-	}
-
-	public void setLoaded(boolean loaded) {
-		this.loaded = loaded;
-	}
-
-
-
-
-
-}

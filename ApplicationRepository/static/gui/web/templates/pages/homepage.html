@@ -14,7 +14,10 @@
 <body>
 	<#if user??>
 		<nav>
-			<#include "pages/menu.html" parse=true>
+			<#-- Windows -->
+			<#include "pages/menu.html" parse=true ignore_missing=true>
+			<#-- Linux -->
+			<#include "menu.html" parse=true ignore_missing=true>
 			<!--ul.mainMenu-->
 			<div id="logoutDiv">
 				<a id="logoutLink" href="/">${user.username}</a>

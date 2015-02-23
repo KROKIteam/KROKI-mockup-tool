@@ -288,7 +288,7 @@
 		//if the form that needs to ne displayed is parent-child form
 		//get containing panels with ajax call to /getInfo/panelName
 		//and get data for each form by envoking standard panel ajax call to server
-		if(panelType == "PARENTCHILDPANEL") {
+		if(panelType == "parent-child") {
 			//get JSON data from server
 			$.getJSON("/getInfo/" + resourceId, function(data) {
 				//Create <div> element for each contained panel
@@ -306,6 +306,18 @@
                     newWindowBody.append(newStandardForm);
                     loadDataToForm(newStandardForm, true, false);
                     updateBounds(newWindowBody);
+
+					var newHeight = (data.panels.length) * 200;
+					if(newHeight < $("#container").height()) {
+						alert("New New: " + newHeight);
+		                newWindow.height(newHeight);
+		            }else {
+		                newWindow.height("85%");
+		                newWindow.css({
+		                "top": 60,
+		                "left": 20,
+		                });
+		            }
                 }              
             });
 		}else {

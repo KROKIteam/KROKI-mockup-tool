@@ -94,7 +94,20 @@ public class SchemaGenerator {
 		}
 		else { // Deal with case where files are within a JAR
 			final String[] parts = directory.getPath().split(".jar!\\\\");
-			if (parts.length == 2) {
+			if (parts.length == 1) { // Linux paths
+				String[] parts2 = directory.getPath().split(".jar!");
+				String jarFilename = System.getProperty("file.separator") + parts2[0].substring(6) + ".jar";
+				String relativePath = parts2[1].substring(1).replaceAll(File.separator, System.getProperty("file.separator"));
+				JarFile jarFile = new JarFile(jarFilename);
+				final Enumeration entries = jarFile.entries();
+				while (entries.hasMoreElements()) {
+					final JarEntry entry = (JarEntry) entries.nextElement();
+					final String entryName = entry.getName();
+					if ((entryName.length() > relativePath.length()) && entryName.startsWith(relativePath)) {
+						classNames.add(entryName.replaceAll("/", System.getProperty("file.separator")));
+					}
+				}
+			}else if(parts.length == 2) { // Windows paths
 				String jarFilename = parts[0].substring(6) + ".jar";
 				String relativePath = parts[1].replace(File.separatorChar, '/');
 				JarFile jarFile = new JarFile(jarFilename);

@@ -1,28 +1,24 @@
 package gui.menudesigner;
 
-import ejb.administration.Role;
 import gui.menudesigner.model.Submenu;
+import gui.menudesigner.tree.MenusWorkspace;
+import gui.menudesigner.tree.MenusHierarchyModel;
+import gui.menudesigner.tree.MenusTreeController;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
-import java.util.Map;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTree;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -40,23 +36,19 @@ public class MenuSketchDialog extends JDialog {
 	private JButton btnDelete;
 	private JButton btnGenerate;
 	
-	//Mapa predstavlja meni
-	//Kljuc je naziv menija koji sadrzi podmenije
-	//vrednost je lista menu nodova
-	private Map<String, Submenu> menuMap;
-	private Submenu rootMenu;
+	MenusTreeController menusTreeController;
+	MenusHierarchyModel menusHierarchyModel;
+	MenusWorkspace workspace;
+	/**
+	 * List containing all menus 
+	 */
+	public static List<Submenu> menus;
 	
-	private List<Submenu> menus;
 	public MenuSketchDialog() {
 		setLocationRelativeTo(null);
 		Container content = getContentPane();
 		content.setBackground(Color.WHITE);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-		menuMap = new HashMap<String, Submenu>();
-		rootMenu = new Submenu("Menu");
-		menuMap.put("Menu", rootMenu);
-		menus = new ArrayList<Submenu>();
 		
 		panelBottom = new JPanel();
 		panelBottom.setSize(200, 600);
@@ -71,36 +63,34 @@ public class MenuSketchDialog extends JDialog {
 		
 		//create the root node
         root = new DefaultMutableTreeNode("Menus");
-        //create the child nodes
 
         //create the tree by passing in the root node
-        tree = new JTree(root);
+        tree = new JTree();
         tree.setShowsRootHandles(true);
         //tree.setRootVisible(false);
+        
+        workspace = new MenusWorkspace();
+        workspace.setMenus(menus);
+        menusTreeController = new MenusTreeController(tree, workspace);
+        menusHierarchyModel = new MenusHierarchyModel(tree, workspace);
+        
+        tree.addMouseListener(menusTreeController);
+        tree.addTreeSelectionListener(menusTreeController);
+        menusHierarchyModel.addTreeModelListener(menusTreeController);
+        tree.setModel(menusHierarchyModel);
+
 
         add(new JScrollPane(tree), BorderLayout.CENTER);
         add(panelBottom, BorderLayout.SOUTH);
-         
-        //Selekcija nodea u tree i postavljanje vrednosti selected node...
-        tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
-			@Override
-			public void valueChanged(TreeSelectionEvent e) {
-				selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-			}
-		});
-              
         
         btnNewMenu.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				MenuDesignerPanel mdp = new MenuDesignerPanel(root, tree, menus);
-				mdp.setVisible(true);	
+				menusTreeController.openMenuDesignerPanel();
 			}
 		});
         
         btnDelete.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (selectedNode == null)
@@ -125,7 +115,6 @@ public class MenuSketchDialog extends JDialog {
 		});
         
         btnGenerate.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MenuGenerator mgen = new MenuGenerator(menus);
@@ -135,22 +124,6 @@ public class MenuSketchDialog extends JDialog {
         
         this.pack();
         setLocationRelativeTo(null);
-	}
-
-	public DefaultMutableTreeNode getRoot() {
-		return root;
-	}
-
-	public void setRoot(DefaultMutableTreeNode root) {
-		this.root = root;
-	}
-
-	public Map<String, Submenu> getMenuMap() {
-		return menuMap;
-	}
-
-	public void setMenuMap(Map<String, Submenu> menuMap) {
-		this.menuMap = menuMap;
 	}
 
 }

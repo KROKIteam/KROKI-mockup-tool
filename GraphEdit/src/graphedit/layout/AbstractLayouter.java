@@ -103,6 +103,7 @@ public abstract class AbstractLayouter implements Layouter{
 				}
 				else{
 
+					
 					if (!conn.isLoaded()){
 						conPosition = (Point2D) conn.getProperty(LinkNodeProperties.POSITION);
 						conPosition.setLocation(xPosition, yPosition);
@@ -117,7 +118,7 @@ public abstract class AbstractLayouter implements Layouter{
 	
 	public void setConnectorLocations(LinkableElement graphElement){
 		int xPosition = (int) ((Point2D) graphElement.getProperty(GraphElementProperties.POSITION)).getX();
-		int yPosition = (int) ((Point2D) graphElement.getProperty(GraphElementProperties.POSITION)).getX();
+		int yPosition = (int) ((Point2D) graphElement.getProperty(GraphElementProperties.POSITION)).getY();
 		setConnectorLocations(graphElement, xPosition, yPosition);
 	}
 

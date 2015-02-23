@@ -6,8 +6,6 @@ package kroki.profil.property;
 
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
-import kroki.profil.panel.StandardPanel;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.settings.SettingsPanel;
 import kroki.profil.utils.settings.VisiblePropertySettings;
 import kroki.uml_core_basic.UmlClass;
@@ -34,6 +32,9 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     protected boolean disabled;
     protected String defaultValue;
     protected String dataType;
+    private int length;
+    private int precision;
+    private String persistentType;
     /*Obelezja metaklase Property*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
@@ -258,4 +259,32 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 	public void setLabelToCode(boolean labelToCode) {
 		this.labelToCode = labelToCode;
 	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public int getPrecision() {
+		return precision;
+	}
+
+	public void setPrecision(int precision) {
+		this.precision = precision;
+	}
+	
+	
+	public String getPersistentType() {
+		return persistentType;
+	}
+
+	public void setPersistentType(String persistentType) {
+		this.persistentType = persistentType;
+	}
+
+	
+	
 }

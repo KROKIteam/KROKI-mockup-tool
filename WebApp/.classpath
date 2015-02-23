@@ -7,7 +7,6 @@
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/com.noelios.restlet.jar"/>
 	<classpathentry kind="lib" path="lib/org.restlet.jar"/>
-	<classpathentry kind="lib" path="lib/freemarker.jar"/>
 	<classpathentry kind="lib" path="lib/org.restlet.ext.freemarker_2.3.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
 	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
@@ -20,5 +19,6 @@
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="lib/freemarker.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
