@@ -54,7 +54,7 @@ public class EJBGenerator {
 
 		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb");
 		if(!swing) {
-			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src" + File.separator + "ejb_generated");
+			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src_gen" + File.separator + "ejb_generated");
 		}
 		deleteFiles(dir);
 
@@ -72,7 +72,7 @@ public class EJBGenerator {
 				File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
 				//ako je swing false onda se generisu ejb klase u web projekat
 				if(!swing) {
-					fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
+					fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src_gen" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
 				}
 
 				//JOptionPane.showMessageDialog(null, "EJB GENERATOR: generisem u " + fout.getAbsolutePath());
@@ -431,5 +431,4 @@ public class EJBGenerator {
 		}
 		return success;
 	}
-
 }

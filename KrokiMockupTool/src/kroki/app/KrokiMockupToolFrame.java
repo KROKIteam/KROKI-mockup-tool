@@ -40,6 +40,7 @@ import kroki.app.action.CopyAction;
 import kroki.app.action.CutAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
+import kroki.app.action.ExportEclipseProjectAction;
 import kroki.app.action.ExportEclipseUMLDiagramAction;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
@@ -318,6 +319,8 @@ public class KrokiMockupToolFrame extends JFrame {
 			export.setText("Export...");
 			export.add(new ExportSwingAction());
 			export.add(new ExportWebAction());
+			export.addSeparator();
+			export.add(new ExportEclipseProjectAction());
 
 			JMenu run = new JMenu();
 			run.setName("run");
@@ -463,7 +466,8 @@ public class KrokiMockupToolFrame extends JFrame {
 				FileDeleteStrategy.FORCE.delete(file);
 				success =  !file.delete();
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
+				//e.printStackTrace();
 			} 
 		}
 		return success;

@@ -36,7 +36,8 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private List<UmlPackage> nestedPackage = new ArrayList<UmlPackage>();
 	private List<UmlType> ownedType = new ArrayList<UmlType>();
 	private DatabaseProps DBConnectionProps = new DatabaseProps();
-	private File file;
+	private File file; // .kroki file to which the project is saved
+	private File eclipseProjectPath; // path to the exported Exlipse project
 	private Object graphPackage;
 	private boolean labelToCode = true;
 
@@ -161,14 +162,19 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		this.file = file;
 	}
 
+	public File getEclipseProjectPath() {
+		return eclipseProjectPath;
+	}
 
+	public void setEclipseProjectPath(File eclipseProjectPath) {
+		this.eclipseProjectPath = eclipseProjectPath;
+	}
 
 	public List<VisibleAssociationEnd> allAssociationEnds(){
 		ArrayList<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
 		allAssociationEnds(this, ret);
 		return ret;
 	}
-
 
 	public List<VisibleClass> allPanels(){
 		ArrayList<VisibleClass> ret = new ArrayList<VisibleClass>();
@@ -271,6 +277,4 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	public void setLabelToCode(boolean labelToCode) {
 		this.labelToCode = labelToCode;
 	}
-
-
 }

@@ -89,13 +89,22 @@ public class ProjectExporter {
 	}
 
 	/**
-	 * Main method for exporting projects.
+	 * Generates code and applicaion repository from the Kroki project and builds the exported application
 	 * All other exprot methods are called from this point
 	 * @param file export path
 	 * @param proj KROKI mockup project that needs to be exported 
 	 * @param message
 	 */
 	public void export(File file, String jarName, BussinesSubsystem proj, String message) {
+		generateAppAndRepo(proj, message);
+		writeProjectName(proj.getLabel(), "This application is a prototype generated from KROKI specification. Please log in to continue.");
+		runAnt(file, proj, jarName, message);
+	}
+
+	/**
+	 * Gnerates application classes and repository without running the build script
+	 */
+	public void generateAppAndRepo(BussinesSubsystem proj, String message) {
 		this.project = proj;
 
 		//collecting the data from KROKI project
@@ -117,12 +126,8 @@ public class ProjectExporter {
 			MainFrame.getInstance(); // If admin subsystem isn't started
 			adminGenerator.generate();
 		}
-
-		writeProjectName(proj.getLabel(), "This application is a prototype generated from KROKI specification. Please log in to continue.");
-
-		runAnt(file, proj, jarName, message);
 	}
-
+	
 	/**
 	 * Fetches project data into lists that are used by generators
 	 * @param proj KROKI mockup project that is being exported
@@ -600,7 +605,9 @@ public class ProjectExporter {
 
 		RunAnt runner = new RunAnt();
 		runner.runBuild(jarName + ".jar", buildFile, outputFile);
-		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, 0);
+		if(message != null) {
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, 0);
+		}
 	}
 
 	/**
