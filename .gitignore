@@ -72,3 +72,4 @@ ApplicationRepository/generated/model/users/.gitkeep
 ApplicationRepository/generated/model/users/.gitkeep
 WebApp/.classpath
 WebApp/src/ejb_generated/*.java
+WebApp/src_gen/ejb_generated/Automobil.java

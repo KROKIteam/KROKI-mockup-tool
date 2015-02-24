@@ -1,5 +1,6 @@
 package kroki.app.action;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
+import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 
 import kroki.app.KrokiMockupToolApp;
@@ -58,13 +60,14 @@ public class ExportEclipseProjectAction extends AbstractAction {
 				}
 			}
 			// If the Kroki project is exported for the first time, both the Application repository and Web app need to be exported
-			// Else, only the Application repository is exported, so the manualy added files are kept in WebApp
+			// Else, only the Application repository and generated EJB classes are exported, so the manually added files are kept in WebApp
 			boolean needsApp = false;
-			
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.WAIT_CURSOR);
+
 			// If the project doesn't have asoiciated Eclipse directory with it, chose one
 			if(proj.getEclipseProjectPath() == null) {
 				NamingUtil namer = new NamingUtil();
-				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 				JFileChooser jfc = new JFileChooser();
 				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
@@ -74,23 +77,42 @@ public class ExportEclipseProjectAction extends AbstractAction {
 					// Set flag for the first export
 					needsApp = true;
 				}
+			}else {
+				checkDirectory(proj.getEclipseProjectPath());
+				System.out.println("[ECLIPSE PROJECT EXPORT] Project directory ok! Exporting project...");
 			}
-			
+
 			System.out.println("Needs APP: " + needsApp);
 			if(proj.getEclipseProjectPath() != null) {
 				if(!proj.getEclipseProjectPath().exists()) {
 					needsApp = true;
 				}
-				
+
 				ProjectExporter exporter = new ProjectExporter(false);
 				exporter.generateAppAndRepo(proj, null);
-				
+
 				File rootFile = new File(".");
 				String appPath = rootFile.getAbsolutePath().substring(0,rootFile.getAbsolutePath().length()-18);
-				
+
 				// WebApp and ApplicationRepository directories need to be copied to a selected location
 				File repositoryDirSrc = new File(appPath + File.separator + "ApplicationRepository");
 				File repositoryDirDest = new File(proj.getEclipseProjectPath().getAbsolutePath() + File.separator + "ApplicationRepository");
+				File appDirScr = new File(appPath + File.separator + "WebApp");
+				File appDirDest = new File(proj.getEclipseProjectPath().getAbsolutePath() + File.separator + "WebApp");
+				
+				// If needed, copy WebApp files
+				if(needsApp) {
+					if(appDirScr.exists()) {
+						appDirDest.mkdir();
+						try {
+							FileUtils.copyDirectory(appDirScr, appDirDest);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}else {
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated web application!", 3);
+					}
+				}
 				
 				// Copy the exported application repository
 				if(repositoryDirSrc.exists()) {
@@ -105,27 +127,118 @@ public class ExportEclipseProjectAction extends AbstractAction {
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated application repository!", 3);
 				}
 				
-				// If needed, copy WebApp files
-				if(needsApp) {
-					File appDirScr = new File(appPath + File.separator + "WebApp");
-					File appDirDest = new File(proj.getEclipseProjectPath().getAbsolutePath() + File.separator + "WebApp");
-					
-					if(appDirScr.exists()) {
-						appDirDest.mkdir();
-						try {
-							FileUtils.copyDirectory(appDirScr, appDirDest);
-						} catch (IOException e) {
-							e.printStackTrace();
+				// TODO copy EJB classes
+				if(appDirScr.exists()) {
+					File ejbSrc = new File(appDirScr.getAbsolutePath() + File.separator + "src_gen" + File.separator + "ejb_generated");
+					if(ejbSrc.exists()) {
+						if(appDirDest.exists()) {
+							File ejbDest = new File(appDirDest.getAbsolutePath() + File.separator + "src_gen" + File.separator + "ejb_generated");
+							if(ejbDest.exists()) {
+								deleteFiles(ejbDest);
+								try {
+									FileUtils.copyDirectory(ejbSrc, ejbDest);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}else {
+								KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate EJB location in associated folder!", 3);
+							}
+						}else {
+							KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate WebApp location in associated folder!", 3);
 						}
 					}else {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated web application!", 3);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated EJB location!", 3);
 					}
+				}else {
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated EJB location!", 3);
 				}
+				
 				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project exported successfuly to " + proj.getEclipseProjectPath().getAbsolutePath() + ". It can now be imported to Eclipse IDE", 0);
 			}
 		} else {
 			//if no project is selected, inform user to select one
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
 		}
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.DEFAULT_CURSOR);
+	}
+
+	/**
+	 * Checks if selected directory is exported Eclipse project directory
+	 * It should contain 'ApplicationRepository' and 'WebApp' directories
+	 * WebApp should have the '.project' file.
+	 * If the specified directory does not comply to this, user can select another directory which is also checked. 
+	 */
+	public boolean checkDirectory(File dir) {
+		boolean ok = false;
+		System.out.println("[ECLIPSE PROJECT EXPORT] Checking project dir: " + dir.getAbsolutePath());
+		if(dir.exists()) {
+			System.out.println("[ECLIPSE PROJECT EXPORT] Project directory OK.");
+			File repoDir = new File(dir.getAbsolutePath() + File.separator + "ApplicationRepository");
+			File appDir = new File(dir.getAbsolutePath() + File.separator + "WebApp");
+			System.out.println("[ECLIPSE PROJECT EXPORT] Checking the ApplicationRepository folder at: " + repoDir.getAbsolutePath());
+			if(repoDir.exists()) {
+				System.out.println("[ECLIPSE PROJECT EXPORT] ApplicationRepository found.");
+				System.out.println("[ECLIPSE PROJECT EXPORT] Checking the WebApp folder at: " + appDir.getAbsolutePath());
+				if(appDir.exists()) {
+					System.out.println("[ECLIPSE PROJECT EXPORT] WebApp found");
+					File projFile = new File(appDir.getAbsolutePath() + File.separator + ".project");
+					System.out.println("[ECLIPSE PROJECT EXPORT] Checking the .project file in: " + projFile.getAbsolutePath());
+					if(projFile.exists()) {
+						System.out.println("[ECLIPSE PROJECT EXPORT] .project file found!");
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Export directory Ok. Exporting project...", 0);
+						return true;
+					}else {
+						System.out.println("[ECLIPSE PROJECT EXPORT] WebApp does not contain Eclipse .project file!");
+						ok = false;
+					}
+				}else {
+					System.out.println("[ECLIPSE PROJECT EXPORT] Cannot fint the associated WebApp location!");
+					ok =false;
+				}
+			}else {
+				System.out.println("[ECLIPSE PROJECT EXPORT] Cannot find the associated ApplicationRepository location!");
+				ok =false;
+			}
+		}
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Existing export directory could not be found. Please select a new one.", 2);
+		// If the function has not returned yet, choose another folder and check it
+		System.out.println("[ECLIPSE PROJECT EXPORT] Directory check failed! Specifying a new one...");
+		JFileChooser jfc = new JFileChooser();
+		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
+		if(retValue == JFileChooser.APPROVE_OPTION) {
+			File newDir = jfc.getSelectedFile();
+			checkDirectory(newDir);
+		}
+		return ok;
+	}
+	
+	/**
+	 * Deletes all files from a directory
+	 */
+	public boolean deleteFiles(File directory) {
+		boolean success = false;
+
+		if (!directory.exists()) {
+			return false;
+		}
+		if (!directory.canWrite()) {
+			return false;
+		}
+
+		File[] files = directory.listFiles();
+		for(int i=0; i<files.length; i++) {
+			File file = files[i];
+			if(file.isDirectory()) {
+				deleteFiles(file);
+			}
+			try {
+				FileDeleteStrategy.FORCE.delete(file);
+				success =  !file.delete();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		}
+		return success;
 	}
 }
