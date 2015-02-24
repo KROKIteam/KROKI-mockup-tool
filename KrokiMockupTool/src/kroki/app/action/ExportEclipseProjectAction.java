@@ -127,13 +127,14 @@ public class ExportEclipseProjectAction extends AbstractAction {
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated application repository!", 3);
 				}
 				
-				// TODO copy EJB classes
+				// Copy generated EJB classes
 				if(appDirScr.exists()) {
 					File ejbSrc = new File(appDirScr.getAbsolutePath() + File.separator + "src_gen" + File.separator + "ejb_generated");
 					if(ejbSrc.exists()) {
 						if(appDirDest.exists()) {
 							File ejbDest = new File(appDirDest.getAbsolutePath() + File.separator + "src_gen" + File.separator + "ejb_generated");
 							if(ejbDest.exists()) {
+								// First cleanup the EJB folder
 								deleteFiles(ejbDest);
 								try {
 									FileUtils.copyDirectory(ejbSrc, ejbDest);

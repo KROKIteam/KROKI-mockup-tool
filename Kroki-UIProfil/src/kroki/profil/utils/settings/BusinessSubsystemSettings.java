@@ -1,9 +1,16 @@
 package kroki.profil.utils.settings;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +37,9 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 	protected JTextField tfLabel;
 	protected JLabel lblLabelToCode;
 	protected JCheckBox chLabelToCode;
+	protected JLabel lblEclipsePath;
+	protected JTextField tfEclipsePath;
+	protected JButton btnUnlink;
 
 	public BusinessSubsystemSettings(SettingsCreator settingsCreator){
 		panelLayout = new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]");
@@ -46,6 +56,19 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		lblLabelToCode = new JLabel();
 		lblLabelToCode.setText(Intl.getValue("stfPanelSettings.labelToCode"));
 		chLabelToCode = new JCheckBox();
+		lblEclipsePath = new JLabel();
+		lblEclipsePath.setText(Intl.getValue("stfPanelSettings.eclipseProjectPath"));
+		tfEclipsePath = new JTextField(50);
+		tfEclipsePath.setEditable(false);
+		btnUnlink = new JButton();
+		try {
+			Image img = ImageIO.read(getClass().getResource("/resources/images/unlink.png"));
+			btnUnlink.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			btnUnlink.setText("unlink");
+		}
+		btnUnlink.setToolTipText("Unlink current project directory.");
+		btnUnlink.setEnabled(false);
 	}
 
 	private void layoutComponents() {
@@ -54,6 +77,9 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		add(tfLabel);
 		add(lblLabelToCode);
 		add(chLabelToCode);
+		add(lblEclipsePath);
+		add(tfEclipsePath, "split 2");
+		add(btnUnlink);
 	}
 
 	public void updateComponents() {
@@ -73,6 +99,13 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 			add(chLabelToCode);
 		}
 		chLabelToCode.setSelected(businessSubsystem.isLabelToCode());
+		if(businessSubsystem.getEclipseProjectPath() != null) {
+			tfEclipsePath.setText(businessSubsystem.getEclipseProjectPath().getAbsolutePath());
+			btnUnlink.setEnabled(true);
+		}else{
+			tfEclipsePath.setText("");
+			btnUnlink.setEnabled(false);
+		}
 	}
 
 
@@ -106,13 +139,22 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 
 
 		chLabelToCode.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				JCheckBox src = (JCheckBox) e.getSource();
 				boolean value = src.isSelected();
 				businessSubsystem.setLabelToCode(value);
 				System.out.println(businessSubsystem.isLabelToCode());
 				updatePreformed();
+			}
+		});
+		
+		btnUnlink.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				businessSubsystem.setEclipseProjectPath(null);
+				updatePreformed();
+				tfEclipsePath.setText("");
 			}
 		});
 	}
@@ -136,6 +178,4 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		updateComponents();
 
 	}
-
-
 }
