@@ -598,9 +598,17 @@ public class ProjectExporter {
 		}
 
 		File buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "build.xml");
-		if(!swing) {
-			buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "kroki-build.xml");
+		
+		if(proj.getEclipseProjectPath() != null) {
+			if(!swing) {
+				buildFile = new File(proj.getEclipseProjectPath().getAbsolutePath() + File.separator + appFolderName + File.separator + "kroki-build.xml");
+			}
+		}else {
+			if(!swing) {
+				buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "kroki-build.xml");
+			}
 		}
+		
 		File outputFile = new File(file.getAbsolutePath() + File.separator + jarName);
 
 		RunAnt runner = new RunAnt();

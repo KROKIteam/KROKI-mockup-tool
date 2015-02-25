@@ -60,7 +60,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 				}
 			}
 			// If the Kroki project is exported for the first time, both the Application repository and Web app need to be exported
-			// Else, only the Application repository and generated EJB classes are exported, so the manually added files are kept in WebApp
+			// Else, only the Application repository and src_gen from the web app are exported, so the manually added files are kept in WebApp
 			boolean needsApp = false;
 			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.WAIT_CURSOR);
@@ -78,16 +78,18 @@ public class ExportEclipseProjectAction extends AbstractAction {
 					needsApp = true;
 				}
 			}else {
+				// If it has been exported before check the existing linked Eclipse project, and export to it if everything is ok
 				checkDirectory(proj.getEclipseProjectPath());
 				System.out.println("[ECLIPSE PROJECT EXPORT] Project directory ok! Exporting project...");
 			}
 
-			System.out.println("Needs APP: " + needsApp);
+			// If at this point the associated Eclipse directory does not exist for some reason, export everything
 			if(proj.getEclipseProjectPath() != null) {
 				if(!proj.getEclipseProjectPath().exists()) {
 					needsApp = true;
 				}
 
+				// Generate application repository and web app contents
 				ProjectExporter exporter = new ProjectExporter(false);
 				exporter.generateAppAndRepo(proj, null);
 
@@ -127,14 +129,14 @@ public class ExportEclipseProjectAction extends AbstractAction {
 					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated application repository!", 3);
 				}
 				
-				// Copy generated EJB classes
+				// Copy generated src folder
 				if(appDirScr.exists()) {
-					File ejbSrc = new File(appDirScr.getAbsolutePath() + File.separator + "src_gen" + File.separator + "ejb_generated");
+					File ejbSrc = new File(appDirScr.getAbsolutePath() + File.separator + "src_gen");
 					if(ejbSrc.exists()) {
 						if(appDirDest.exists()) {
-							File ejbDest = new File(appDirDest.getAbsolutePath() + File.separator + "src_gen" + File.separator + "ejb_generated");
+							File ejbDest = new File(appDirDest.getAbsolutePath() + File.separator + "src_gen");
 							if(ejbDest.exists()) {
-								// First cleanup the EJB folder
+								// First cleanup the destination folder
 								deleteFiles(ejbDest);
 								try {
 									FileUtils.copyDirectory(ejbSrc, ejbDest);
@@ -142,16 +144,16 @@ public class ExportEclipseProjectAction extends AbstractAction {
 									e.printStackTrace();
 								}
 							}else {
-								KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate EJB location in associated folder!", 3);
+								KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate src_gen location in associated folder!", 3);
 							}
 						}else {
 							KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate WebApp location in associated folder!", 3);
 						}
 					}else {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated EJB location!", 3);
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated src_gen location!", 3);
 					}
 				}else {
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated EJB location!", 3);
+					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated WebApp location!", 3);
 				}
 				
 				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project exported successfuly to " + proj.getEclipseProjectPath().getAbsolutePath() + ". It can now be imported to Eclipse IDE", 0);

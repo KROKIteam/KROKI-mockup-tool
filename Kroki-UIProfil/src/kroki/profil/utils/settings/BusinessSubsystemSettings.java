@@ -67,7 +67,7 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		} catch (IOException e) {
 			btnUnlink.setText("unlink");
 		}
-		btnUnlink.setToolTipText("Unlink current project directory.");
+		btnUnlink.setToolTipText(Intl.getValue("stfPanelSettings.unlinkTooltip"));
 		btnUnlink.setEnabled(false);
 	}
 
@@ -87,16 +87,25 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		if (businessSubsystem.nestingPackage() != null){
 			remove(lblLabelToCode);
 			remove(chLabelToCode);
+			remove(lblEclipsePath);
+			remove(tfEclipsePath);
+			remove(btnUnlink);
 		}
 		else{
 			remove(lblLabelToCode);
 			remove(chLabelToCode);
 			remove(lblLabel);
 			remove(lblLabel);
+			remove(lblEclipsePath);
+			remove(tfEclipsePath);
+			remove(btnUnlink);
 			add(lblLabel);
 			add(tfLabel);
 			add(lblLabelToCode);
 			add(chLabelToCode);
+			add(lblEclipsePath);
+			add(tfEclipsePath, "split 2");
+			add(btnUnlink);
 		}
 		chLabelToCode.setSelected(businessSubsystem.isLabelToCode());
 		if(businessSubsystem.getEclipseProjectPath() != null) {

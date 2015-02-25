@@ -1,0 +1,273 @@
+---- AspectJ Properties ---
+AspectJ Compiler 1.6.11 built on Tuesday Mar 15, 2011 at 15:31:04 GMT
+---- Dump Properties ---
+Dump file: ajcore.20150225.135559.979.txt
+Dump reason: org.aspectj.apache.bcel.classfile.ClassFormatException
+Dump on exception: true
+Dump at exit condition: abort
+---- Exception Information ---
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 15
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:467)
+	at org.aspectj.weaver.World.resolve(World.java:308)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:97)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:41)
+	at org.aspectj.weaver.bcel.BcelObjectType.ensureGenericSignatureUnpacked(BcelObjectType.java:810)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:257)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.ResolvedType.collectInterTypeMungers(ResolvedType.java:1390)
+	at org.aspectj.weaver.ResolvedType.getInterTypeMungersIncludingSupers(ResolvedType.java:1371)
+	at org.aspectj.weaver.ResolvedType.checkInterTypeMungers(ResolvedType.java:1442)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:809)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doPendingWeaves(AjLookupEnvironment.java:427)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.completeTypeBindings(AjLookupEnvironment.java:213)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.internalBeginToCompile(Compiler.java:616)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:357)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.aspectj.tools.ant.taskdefs.AjcTask.executeInSameVM(AjcTask.java:1240)
+	at org.aspectj.tools.ant.taskdefs.AjcTask.execute(AjcTask.java:1050)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:392)
+	at org.apache.tools.ant.Target.performTasks(Target.java:413)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1399)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1368)
+	at kroki.app.utils.RunAnt.runBuild(RunAnt.java:28)
+	at kroki.app.export.ProjectExporter.runAnt(ProjectExporter.java:615)
+	at kroki.app.export.ProjectExporter.export(ProjectExporter.java:101)
+	at kroki.app.action.RunWebAction$1.run(RunWebAction.java:69)
+	at java.lang.Thread.run(Unknown Source)
+---- System Properties ---
+jboss.i18n.generate-proxies=true
+java.runtime.name=Java(TM) SE Runtime Environment
+sun.boot.library.path=C:\Program Files\Java\jre1.8.0_31\bin
+java.vm.version=25.31-b07
+java.vm.vendor=Oracle Corporation
+java.vendor.url=http://java.oracle.com/
+path.separator=;
+java.vm.name=Java HotSpot(TM) 64-Bit Server VM
+file.encoding.pkg=sun.io
+user.country=US
+user.script=
+sun.java.launcher=SUN_STANDARD
+sun.os.patch.level=Service Pack 1
+java.vm.specification.name=Java Virtual Machine Specification
+user.dir=D:\workspace\KROKI-mockup-tool\KrokiMockupTool
+java.runtime.version=1.8.0_31-b13
+java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment
+java.endorsed.dirs=C:\Program Files\Java\jre1.8.0_31\lib\endorsed
+os.arch=amd64
+java.io.tmpdir=C:\Users\mrd\AppData\Local\Temp\
+line.separator=
+
+java.vm.specification.vendor=Oracle Corporation
+user.variant=
+javax.net.ssl.keyStore=C:/Users/mrd/.h2.keystore
+os.name=Windows 7
+javax.net.ssl.keyStorePassword=h2pass
+sun.jnu.encoding=Cp1252
+java.library.path=C:\Program Files\Java\jre1.8.0_31\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre1.8.0_31/bin/server;C:/Program Files/Java/jre1.8.0_31/bin;C:/Program Files/Java/jre1.8.0_31/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\eclipse;;.
+sun.awt.enableExtraMouseButtons=true
+java.specification.name=Java Platform API Specification
+java.class.version=52.0
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+os.version=6.1
+user.home=C:\Users\mrd
+user.timezone=Europe/Prague
+java.awt.printerjob=sun.awt.windows.WPrinterJob
+file.encoding=Cp1252
+java.specification.version=1.8
+java.class.path=D:\workspace\KROKI-mockup-tool\KrokiMockupTool\bin;D:\workspace\KROKI-mockup-tool\Kroki\build\classes;D:\workspace\KROKI-mockup-tool\Kroki\lib\CopyLibs\org-netbeans-modules-java-j2seproject-copylibstask.jar;D:\workspace\KROKI-mockup-tool\Kroki\lib\junit_4\junit-4.5-src.jar;D:\workspace\KROKI-mockup-tool\Kroki\lib\junit_4\junit-4.5.jar;D:\workspace\KROKI-mockup-tool\Kroki\lib\junit\junit-3.8.2.jar;D:\workspace\KROKI-mockup-tool\Kroki\lib\swing-app-framework\appframework-1.0.3.jar;D:\workspace\KROKI-mockup-tool\Kroki\lib\swing-app-framework\swing-worker-1.1.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\build\classes;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\commons-lang-2.6-javadoc.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\commons-lang-2.6-sources.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\commons-lang-2.6.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\CopyLibs\org-netbeans-modules-java-j2seproject-copylibstask.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\junit_4\junit-4.5-src.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\junit_4\junit-4.5.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\junit\junit-3.8.2.jar;D:\workspace\KROKI-mockup-tool\kroki-commons\lib\xstream-1.3.1.jar;D:\workspace\KROKI-mockup-tool\kroki-intl\build\classes;D:\workspace\KROKI-mockup-tool\kroki-intl\lib\CopyLibs\org-netbeans-modules-java-j2seproject-copylibstask.jar;D:\workspace\KROKI-mockup-tool\kroki-intl\lib\junit_4\junit-4.5-src.jar;D:\workspace\KROKI-mockup-tool\kroki-intl\lib\junit_4\junit-4.5.jar;D:\workspace\KROKI-mockup-tool\kroki-intl\lib\junit\junit-3.8.2.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\build\classes;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\beans-binding\beansbinding-1.2.1.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\commons-lang-2.6-javadoc.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\commons-lang-2.6-sources.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\commons-lang-2.6.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\CopyLibs\org-netbeans-modules-java-j2seproject-copylibstask.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\junit_4\junit-4.5-src.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\junit_4\junit-4.5.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\junit\junit-3.8.2.jar;D:\workspace\KROKI-mockup-tool\Kroki-UIProfil\lib\miglayout-4.0.jar;D:\workspace\KROKI-mockup-tool\BusinessProcessModelingTool\bin;D:\workspace\KROKI-mockup-tool\BusinessProcessModelingTool\lib\miglayout-4.0.jar;D:\workspace\KROKI-mockup-tool\BusinessProcessModelingTool\lib\junit-4.5.jar;D:\workspace\KROKI-mockup-tool\BusinessProcessModelingTool\lib\xpp3_min-1.1.4c.jar;D:\workspace\KROKI-mockup-tool\BusinessProcessModelingTool\lib\xstream-1.4.7.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\ant-launcher.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\ant.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-anim.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-awt-util.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-bridge.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-codec.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-css.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-dom.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-ext.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-gvt.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-parser.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-rasterizer.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-script.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-slideshow.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-squiggle.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-svg-dom.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-svgpp.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-swing.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-transcoder.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-ttf2svg.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-util.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik-xml.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\batik.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\commons-lang-2.6-javadoc.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\commons-lang-2.6-sources.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\commons-lang-2.6.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\commons.io-1.4.0.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\freemarker.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\hibernate-entitymanager.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\hibernate-tools.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\jta-1.1.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\JTattoo.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\jtds-1.3.0.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\miglayout-4.0.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\mysql-connector-java-5.0.7-bin.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\plantuml.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\postgresql-9.2-1002.jdbc4.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\xml-apis-ext.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\xml-apis.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\xstream-1.3.1.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\bin;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\xstream-1.3.1.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\org.abego.treelayout.core.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\miglayout-3.7.3.1-swing.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\xpp3-1.1.3_8.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\JungLayouting\jung-api-2.0.1.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\JungLayouting\collections-generic-4.01.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\JungLayouting\jung-algorithms-2.0.1.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\JungLayouting\jung-graph-impl-2.0.1.jar;D:\workspace\KROKI-mockup-tool\GraphEdit\libs\JungLayouting\jung-visualization-2.0.1.jar;C:\eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;C:\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.emf.common_2.9.0.v20130528-0742.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.emf.ecore_2.9.0.v20130528-0742.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.emf.ecore.xmi_2.9.0.v20130528-0742.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.emf.mapping.ecore2xml_2.7.0.v20130610-0406.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.uml2.common_1.8.0.v20130610-0712.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.uml2.types_1.1.0.v20130610-0712.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.uml2.uml_4.1.0.v20130610-0712.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.uml2.uml.profile.l2_1.1.0.v20130610-0712.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.uml2.uml.profile.l3_1.1.0.v20130610-0712.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\libECore\org.eclipse.uml2.uml.resources_4.1.0.v20130610-0712.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\bin;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\dom4j-1.6.1.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\hibernate-commons-annotations-4.0.2.Final.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\hibernate-jpa-2.0-api-1.0.1.Final.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\javassist-3.18.1-GA.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\jboss-logging-3.1.0.GA.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\jboss-transaction-api_1.1_spec-1.0.1.Final.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\validation-api-1.0.0.GA.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\miglayout-4.0.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\mysql-connector-java-5.1.25-bin.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\jdatepicker-1.3.2.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\commons-beanutils-1.8.2.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\commons-collections-3.2.1.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\commons-digester-2.1.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\commons-logging-1.1.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\groovy-all-2.0.1.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\jasperreports-5.2.0.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\h2-1.3.175.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\antlr-2.7.7.jar;D:\workspace\KROKI-mockup-tool\Kroki-Administration\lib\hibernate-core-4.2.8.Final.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\h2-1.3.175.jar;D:\workspace\KROKI-mockup-tool\KrokiMockupTool\lib\hibernate-core-4.2.8.Final.jar
+user.name=mrd
+java.vm.specification.version=1.8
+sun.java.command=kroki.app.KrokiMockupToolApp
+java.home=C:\Program Files\Java\jre1.8.0_31
+sun.arch.data.model=64
+user.language=en
+java.specification.vendor=Oracle Corporation
+awt.toolkit=sun.awt.windows.WToolkit
+java.vm.info=mixed mode
+java.version=1.8.0_31
+java.ext.dirs=C:\Program Files\Java\jre1.8.0_31\lib\ext;C:\Windows\Sun\Java\lib\ext
+sun.boot.class.path=C:\Program Files\Java\jre1.8.0_31\lib\resources.jar;C:\Program Files\Java\jre1.8.0_31\lib\rt.jar;C:\Program Files\Java\jre1.8.0_31\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_31\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_31\lib\jce.jar;C:\Program Files\Java\jre1.8.0_31\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_31\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_31\classes
+java.vendor=Oracle Corporation
+file.separator=\
+java.vendor.url.bug=http://bugreport.sun.com/bugreport/
+sun.io.unicode.encoding=UnicodeLittle
+sun.cpu.endian=little
+sun.desktop=windows
+sun.cpu.isalist=amd64
+---- Command Line ---
+-d
+D:\workspace\KROKI-mockup-tool\WebApp\bin
+-source
+1.6
+-classpath
+D:\workspace\KROKI-mockup-tool\WebApp\lib;D:\workspace\KROKI-mockup-tool\WebApp\lib\antlr-2.7.6.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\aspectjtools.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\com.noelios.restlet.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\commons-collections-3.2.1.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\dom4j-1.6.1.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\freemarker.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\h2-1.3.170.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-entitymanager.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-jpa-2.0-api-1.0.0.Final.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-tools.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate3.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\javassist.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\jta-1.1.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\org.restlet.ext.freemarker_2.3.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\org.restlet.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\slf4j-api-1.7.2.jar
+-sourceroots
+D:\workspace\KROKI-mockup-tool\WebApp
+---- Full Classpath ---
+C:\Program Files\Java\jre1.8.0_31\lib\resources.jar(3487757 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\rt.jar(53973880 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\sunrsasign.jar(missing)
+C:\Program Files\Java\jre1.8.0_31\lib\jsse.jar(560499 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\jce.jar(113593 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\charsets.jar(3035005 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\jfr.jar(559333 bytes)
+C:\Program Files\Java\jre1.8.0_31\classes(missing)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\access-bridge-64.jar(187471 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\cldrdata.jar(3860522 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\dnsns.jar(8286 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\jaccess.jar(44115 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\jfxrt.jar(15588521 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\localedata.jar(2206685 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\nashorn.jar(1618832 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\sunec.jar(39773 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\sunjce_provider.jar(278033 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\sunmscapi.jar(32654 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\sunpkcs11.jar(249280 bytes)
+C:\Program Files\Java\jre1.8.0_31\lib\ext\zipfs.jar(68836 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib(16 entries)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\antlr-2.7.6.jar(443432 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\aspectjtools.jar(8918431 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\com.noelios.restlet.jar(205887 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\commons-collections-3.2.1.jar(575389 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\dom4j-1.6.1.jar(313898 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\freemarker.jar(1187413 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\h2-1.3.170.jar(1469903 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-entitymanager.jar(119292 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-jpa-2.0-api-1.0.0.Final.jar(100884 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-tools.jar(322763 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate3.jar(4089101 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\javassist.jar(644931 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\jta-1.1.jar(10899 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\org.restlet.ext.freemarker_2.3.jar(6095 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\org.restlet.jar(249754 bytes)
+D:\workspace\KROKI-mockup-tool\WebApp\lib\slf4j-api-1.7.2.jar(26083 bytes)
+---- Compiler Messages ---
+warning couldn't find aspectjrt.jar on classpath, checked: C:\Program Files\Java\jre1.8.0_31\lib\resources.jar;C:\Program Files\Java\jre1.8.0_31\lib\rt.jar;C:\Program Files\Java\jre1.8.0_31\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_31\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_31\lib\jce.jar;C:\Program Files\Java\jre1.8.0_31\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_31\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_31\classes;C:\Program Files\Java\jre1.8.0_31\lib\ext\access-bridge-64.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\cldrdata.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\dnsns.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\jaccess.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\jfxrt.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\localedata.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\nashorn.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\sunec.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\sunjce_provider.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\sunmscapi.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\sunpkcs11.jar;C:\Program Files\Java\jre1.8.0_31\lib\ext\zipfs.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib;D:\workspace\KROKI-mockup-tool\WebApp\lib\antlr-2.7.6.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\aspectjtools.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\com.noelios.restlet.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\commons-collections-3.2.1.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\dom4j-1.6.1.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\freemarker.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\h2-1.3.170.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-entitymanager.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-jpa-2.0-api-1.0.0.Final.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate-tools.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\hibernate3.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\javassist.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\jta-1.1.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\org.restlet.ext.freemarker_2.3.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\org.restlet.jar;D:\workspace\KROKI-mockup-tool\WebApp\lib\slf4j-api-1.7.2.jar
+info directory classpath entry does not exist: C:\Program Files\Java\jre1.8.0_31\lib\sunrsasign.jar
+info zipfile classpath entry does not exist: C:\Program Files\Java\jre1.8.0_31\classes
+info Pipelining compilation
+error at (no source information available)
+D:\workspace\KROKI-mockup-tool\WebApp\src_gen\ejb_generated\Vendor.java:0::0 Internal compiler error
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 15
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:467)
+	at org.aspectj.weaver.World.resolve(World.java:308)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:97)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:41)
+	at org.aspectj.weaver.bcel.BcelObjectType.ensureGenericSignatureUnpacked(BcelObjectType.java:810)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:257)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.ResolvedType.collectInterTypeMungers(ResolvedType.java:1390)
+	at org.aspectj.weaver.ResolvedType.getInterTypeMungersIncludingSupers(ResolvedType.java:1371)
+	at org.aspectj.weaver.ResolvedType.checkInterTypeMungers(ResolvedType.java:1442)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:809)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doPendingWeaves(AjLookupEnvironment.java:427)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.completeTypeBindings(AjLookupEnvironment.java:213)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.internalBeginToCompile(Compiler.java:616)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:357)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.aspectj.tools.ant.taskdefs.AjcTask.executeInSameVM(AjcTask.java:1240)
+	at org.aspectj.tools.ant.taskdefs.AjcTask.execute(AjcTask.java:1050)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:392)
+	at org.apache.tools.ant.Target.performTasks(Target.java:413)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1399)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1368)
+	at kroki.app.utils.RunAnt.runBuild(RunAnt.java:28)
+	at kroki.app.export.ProjectExporter.runAnt(ProjectExporter.java:615)
+	at kroki.app.export.ProjectExporter.export(ProjectExporter.java:101)
+	at kroki.app.action.RunWebAction$1.run(RunWebAction.java:69)
+	at java.lang.Thread.run(Unknown Source)
+
+abort ABORT -- (ClassFormatException) File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 15
+File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 15
+org.aspectj.apache.bcel.classfile.ClassFormatException: File: 'java/lang/CharSequence.class': Invalid byte tag in constant pool: 15
+	at org.aspectj.apache.bcel.classfile.ClassParser.readConstantPool(ClassParser.java:192)
+	at org.aspectj.apache.bcel.classfile.ClassParser.parse(ClassParser.java:131)
+	at org.aspectj.weaver.bcel.BcelWorld.lookupJavaClass(BcelWorld.java:424)
+	at org.aspectj.weaver.bcel.BcelWorld.resolveDelegate(BcelWorld.java:376)
+	at org.aspectj.weaver.World.resolveToReferenceType(World.java:467)
+	at org.aspectj.weaver.World.resolve(World.java:308)
+	at org.aspectj.weaver.World.resolve(World.java:218)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:97)
+	at org.aspectj.weaver.bcel.BcelGenericSignatureToTypeXConverter.classTypeSignature2TypeX(BcelGenericSignatureToTypeXConverter.java:41)
+	at org.aspectj.weaver.bcel.BcelObjectType.ensureGenericSignatureUnpacked(BcelObjectType.java:810)
+	at org.aspectj.weaver.bcel.BcelObjectType.getDeclaredInterfaces(BcelObjectType.java:257)
+	at org.aspectj.weaver.ReferenceType.getDeclaredInterfaces(ReferenceType.java:624)
+	at org.aspectj.weaver.ResolvedType.getDirectSupertypes(ResolvedType.java:76)
+	at org.aspectj.weaver.ResolvedType.collectInterTypeMungers(ResolvedType.java:1390)
+	at org.aspectj.weaver.ResolvedType.getInterTypeMungersIncludingSupers(ResolvedType.java:1371)
+	at org.aspectj.weaver.ResolvedType.checkInterTypeMungers(ResolvedType.java:1442)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:809)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.weaveInterTypeDeclarations(AjLookupEnvironment.java:652)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.doPendingWeaves(AjLookupEnvironment.java:427)
+	at org.aspectj.ajdt.internal.compiler.lookup.AjLookupEnvironment.completeTypeBindings(AjLookupEnvironment.java:213)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.internalBeginToCompile(Compiler.java:616)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.beginToCompile(Compiler.java:357)
+	at org.aspectj.org.eclipse.jdt.internal.compiler.Compiler.compile(Compiler.java:371)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performCompilation(AjBuildManager.java:1021)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.performBuild(AjBuildManager.java:268)
+	at org.aspectj.ajdt.internal.core.builder.AjBuildManager.batchBuild(AjBuildManager.java:181)
+	at org.aspectj.ajdt.ajc.AjdtCommand.doCommand(AjdtCommand.java:112)
+	at org.aspectj.ajdt.ajc.AjdtCommand.runCommand(AjdtCommand.java:60)
+	at org.aspectj.tools.ajc.Main.run(Main.java:371)
+	at org.aspectj.tools.ajc.Main.runMain(Main.java:248)
+	at org.aspectj.tools.ant.taskdefs.AjcTask.executeInSameVM(AjcTask.java:1240)
+	at org.aspectj.tools.ant.taskdefs.AjcTask.execute(AjcTask.java:1050)
+	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:106)
+	at org.apache.tools.ant.Task.perform(Task.java:348)
+	at org.apache.tools.ant.Target.execute(Target.java:392)
+	at org.apache.tools.ant.Target.performTasks(Target.java:413)
+	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1399)
+	at org.apache.tools.ant.Project.executeTarget(Project.java:1368)
+	at kroki.app.utils.RunAnt.runBuild(RunAnt.java:28)
+	at kroki.app.export.ProjectExporter.runAnt(ProjectExporter.java:615)
+	at kroki.app.export.ProjectExporter.export(ProjectExporter.java:101)
+	at kroki.app.action.RunWebAction$1.run(RunWebAction.java:69)
+	at java.lang.Thread.run(Unknown Source)
+

@@ -51,7 +51,7 @@ public class RunWebAction extends AbstractAction {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-						SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmmssSSS");
+						SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmm");
 						Date today = new Date();
 						String dateSuffix = formatter.format(today);
 						String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
@@ -70,7 +70,7 @@ public class RunWebAction extends AbstractAction {
 
 						//run exported jar file
 						RunAnt runner = new RunAnt();
-						runner.runRun(jarName, tempDir, false);
+						runner.runRun(proj, tempDir, false);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					} catch (Exception e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
