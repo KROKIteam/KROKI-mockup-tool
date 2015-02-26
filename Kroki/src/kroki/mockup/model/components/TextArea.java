@@ -1,18 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.utils.KrokiTextMeasurer;
 import kroki.mockup.view.painters.components.TextAreaPainter;
 
 /**
- * Klasa koja predstavlja tekstualno polje.
+ * Component which represent a text area
  * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class TextArea extends Component {
 
     /**Broj kolona*/

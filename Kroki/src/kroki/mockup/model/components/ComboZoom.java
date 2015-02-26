@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
@@ -12,12 +8,15 @@ import kroki.mockup.model.layout.FlowLayoutManager;
 import kroki.mockup.view.painters.components.ComboZoomPainter;
 
 /**
- *
+ * Represent combo zoom component
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class ComboZoom extends Composite {
 
+	/**Combo zoom button*/
     private Button button;
+    /**Combo box*/
     private ComboBox comboBox;
 
     public ComboZoom(String name) {

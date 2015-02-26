@@ -1,47 +1,46 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model;
 
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
+
 import kroki.mockup.view.GraphElement;
 
 /**
- * Klasa koja predstavlja apstraktnu komponentu kroki.mockup sistema.
- * Deo je implementacije <code>Composite design pattern</code>-a.
+ * The class represent and abstract component of the Kroki mockup system
+ * It is a part of an implementation of <code>Composite design pattern</code>-a.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public abstract class Component extends GraphElement implements Serializable {
 
-    /**Referenca ka roditeljskoj komponenti. Vrednost može biti <code>null</code> ukoliko je ova komponenta korenska tj. u vrhu hijerarhije.*/
+    /**Reference to the parent component. Its value can be <code>null</code> 
+     * if the component is the root of the hierarchy*/
     protected Composite parent;
-    /**Prazan prostor oko sadržaja komponente*/
+    /**Empty space around the component's content*/
     protected Insets insets;
-    /**Prazan prostor unutar sadržaja komponente. Koristi se u slučaju tekstualnih komponenti*/
+    /**Empty space inside the component's content. Used if the component is a textual component */
     protected Margins margins;
-    /**Apsolutna pozicija komponente.*/
+    /**The absolute position of the component*/
     protected Point absolutePosition;
-    /**Relativna pozicija komponente. Pozicija komponente u odnosu na njenu roditeljsku komponentu*/
+    /**Relative position of the component - in respect to its parent component */
     protected Point relativePosition;
-    /** Dimenzije komponente*/
+    /** Component's dimension*/
     protected Dimension dimension;
-    /** Naziv komponente*/
+    /** Component's name*/
     protected String name;
-    /**Pokazatelj da je komponenti omogućen rad*/
+    /**Indicates if the component is enabled*/
     protected boolean enabled;
-    /**Pokazatelj da je komponenta vidljiva*/
+    /**Indicates if the component is visible*/
     protected boolean visible;
-    /**Tekst koji se ispisuje unutar komponente kao njen podrazumevani sadržaj ili kao naslov komponente u slučaju da je u pitanju panel*/
+    /**Text shown inside the component as its default content or is used as its default title if it is a panel*/
     protected String text;
-    /**Indikator da li je komponenta zaključana za pomeranje, promenu veličine, selekciju*/
+    /**Indicates if the component is locked i.e if it can be moved, resized and selected*/
     protected boolean locked;
 
     /**
-     * Podrazumevani konstruktor
+     * Default constructor
      */
     public Component() {
         super();
@@ -56,8 +55,8 @@ public abstract class Component extends GraphElement implements Serializable {
     }
 
     /**
-     * Konstruktor klase {@link Component}
-     * @param name naziv komponente
+     * Constructor of {@link Component}
+     * @param name Components name
      */
     public Component(String name) {
         super();
@@ -73,20 +72,19 @@ public abstract class Component extends GraphElement implements Serializable {
     }
 
     /**************/
-    /*JAVNE METODE*/
+    /*PUBLIC METHODS
     /**************/
-    /**
-     * Metoda koja izračunava dimenziju komponente na osnovu njenog sadržaja i načina raspoređivanja sadržaja
-     * @return dimenzije komponente
+    /**Calculates the compoenent's dimension based on its content and the way its content are arranged
+     *@return compoent's dimension 
      */
     public Dimension getPreferredSize() {
         return dimension;
     }
 
     /**
-     * Metoda koja proverava da li se prosleđena lokacija kursora nalazi unutar komponente.
-     * @param point pozicija kursora
-     * @return true ako da, false ako ne.
+     * Checks if the passed cursor position is inside the component
+     * @param point cursor's position
+     * @return true if it is, false otherwise
      */
     public boolean contains(Point point) {
         if (point.x > absolutePosition.x && point.x < absolutePosition.x + dimension.width) {
@@ -97,16 +95,16 @@ public abstract class Component extends GraphElement implements Serializable {
         return false;
     }
 
-    /**Osvezava komponentu i njen painter*/
+    /**Refreshes the component and its painter*/
     public abstract void updateComponent();
 
-    /**Vraća minimalnu dimenziju komponente - najmanji prostor koji komponenta može da zauzme*/
+    /**Returns the minimal dimension of the component- the minimal amount of space that it can take*/
     public abstract Dimension getMinimumSize();
 
-    /**Vraća maksimalnu dimenziju komponente - najveći prostor koji komponenta može da zauzme*/
+    /**Return maximal dimension of the compoenent- the maximal amount of space that it can take*/
     public abstract Dimension getMaximumSize();
 
-    /**Vraća pravougaonik koji uokviruje komponentu sa njenim relativnim pozicijama*/
+    /**Return a rectangle which surrounds the component with its relative positions*/
     public Rectangle2D getBoundsForRelativePosition() {
         int x = relativePosition.x;
         int y = relativePosition.y;
@@ -118,7 +116,7 @@ public abstract class Component extends GraphElement implements Serializable {
         return rec;
     }
 
-    /**Vraća pravougaonik koji uokviruje komponentu sa njenim apsolutnim pozicijama*/
+    /**Return a rectangle which surrounds the component with its absolute positions*/
     public Rectangle2D getBoundsForAbsolutePosition() {
         int x = absolutePosition.x;
         int y = absolutePosition.y;
@@ -131,7 +129,7 @@ public abstract class Component extends GraphElement implements Serializable {
     }
 
     /*****************/
-    /*GETERI I SETERI*/
+    /*GETTERS AND SETTERS*/
     /*****************/
     public String getName() {
         return name;

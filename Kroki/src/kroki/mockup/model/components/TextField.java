@@ -1,18 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.utils.KrokiTextMeasurer;
 import kroki.mockup.view.painters.components.TextFieldPainter;
 
 /**
- * Klasa koja predstavlja tekstualno polje.
+ * Class which represents a textual field
  * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class TextField extends Component {
 
     private int cols;
