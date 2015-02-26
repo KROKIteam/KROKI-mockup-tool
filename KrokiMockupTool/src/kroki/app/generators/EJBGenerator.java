@@ -198,7 +198,7 @@ public class EJBGenerator {
 
 				//-----------------------------------------------------------
 				
-				//tag <column-attribute> za svaki atribut klase
+				// Generate <column-attribute> element for every EJB attribute
 				if(!clas.getAttributes().isEmpty()) {
 					for (EJBAttribute attribute : clas.getAttributes()) {
 						if(getAttributeType(attribute).equals("Column")) {
@@ -235,9 +235,14 @@ public class EJBGenerator {
 
 							//atribut "length"
 							Attr colLength = doc.createAttribute("length");
-							colLength.setValue("50");
+							colLength.setValue(String.valueOf(attribute.getLength()));
 							columnAttr.setAttributeNode(colLength);
-
+							
+							//atribut "length"
+							Attr colPrecision = doc.createAttribute("precision");
+							colPrecision.setValue(String.valueOf(attribute.getPrecision()));
+							columnAttr.setAttributeNode(colPrecision);
+							
 							//atribut "key"
 							Attr colKeyAttr = doc.createAttribute("key");
 							colKeyAttr.setValue("false");

@@ -365,9 +365,16 @@ public class ProjectExporter {
 		////////////////////////////////////////////////////////////////////////
 		String label = vp.getLabel();
 		String columnLabel = vp.getColumnLabel();
-
-		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false)");
-		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(), enumeration);
+		int length = vp.getLength();
+		int precision = vp.getPrecision();
+		
+		String lenPrecAnnotation = "";
+		// Skip length and precision specification if length = 0
+		if(length > 0) {
+			lenPrecAnnotation += ", length = " + length + ", precision = " + precision;
+		}
+		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false " + lenPrecAnnotation + ")");
+		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true, false, vp.isRepresentative(), enumeration);
 		return attribute;
 	}
 
@@ -393,11 +400,11 @@ public class ProjectExporter {
 				String label = z.getLabel();
 				Boolean mandatory = z.lower() != 0;
 
-
 				anotations.add("@ManyToOne");
 				anotations.add("@JoinColumn(name=\"" + propName + "\", referencedColumnName=\"ID\",  nullable = " + !mandatory + ")");
-
-				EJBAttribute attribute = new EJBAttribute(anotations, type, propName, label, databaseName, mandatory, false, false, null);
+				
+				// Length and precision for zoom fields are left 0, which indicates they are ignored on the template
+				EJBAttribute attribute = new EJBAttribute(anotations, type, propName, label, databaseName, 0, 0, mandatory, false, false, null);
 				return attribute;
 			}else {
 				return null;
@@ -474,10 +481,10 @@ public class ProjectExporter {
 						ArrayList<String> annotations = new ArrayList<String>();
 						annotations.add("@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = \"" + mappedBy + "\")");
 
-						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, true, false, false, null);
+						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, 0, 0, true, false, false, null);
 						oppositeCLass.getAttributes().add(attr);
 
-						System.out.println("DODAJEM: " + attr.getName() + " u " + oppositeCLass.getName());
+						System.out.println("[PROJECT EXPORTER] Adding refference: " + attr.getName() + " --> " + oppositeCLass.getName());
 						
 						for(int k=0; k<oppositeCLass.getAttributes().size(); k++) {
 							EJBAttribute att = oppositeCLass.getAttributes().get(k);
@@ -626,11 +633,11 @@ public class ProjectExporter {
 		//Add User class to classes list
 		ArrayList<String> usernameAnnotations = new ArrayList<String>();
 		usernameAnnotations.add("@Column(name = \"username\", unique = false, nullable = false)");
-		EJBAttribute usernameAttribute = new EJBAttribute(usernameAnnotations, "java.lang.String", "username", "User name", "username", true, false, true, null);
-
+		EJBAttribute usernameAttribute = new EJBAttribute(usernameAnnotations, "java.lang.String", "username", "User name", "username", 20, 0, true, false, true, null);
+		
 		ArrayList<String> passwordAnnotations = new ArrayList<String>();
 		passwordAnnotations.add("@Column(name = \"password\", unique = false, nullable = false)");
-		EJBAttribute passwordAttribute = new EJBAttribute(passwordAnnotations, "java.lang.String", "password", "Password", "password", true, false, false, null);
+		EJBAttribute passwordAttribute = new EJBAttribute(passwordAnnotations, "java.lang.String", "password", "Password", "password" , 20, 0, true, false, false, null);
 
 		String userTableName = cc.toDatabaseFormat(proj.getLabel(), "User");
 		ArrayList<EJBAttribute> userAttributes = new ArrayList<EJBAttribute>();
@@ -667,23 +674,23 @@ public class ProjectExporter {
 		//ACTION                                                                             					
 		ArrayList<String> annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"ACT_NAME\", unique = false, nullable = false)");
-		EJBAttribute actionName = new EJBAttribute(annotations, "java.lang.String", "name", "Name", "ACT_NAMER", true, false, true, null);
+		EJBAttribute actionName = new EJBAttribute(annotations, "java.lang.String", "name", "Name", "ACT_NAMER", 20, 0, true, false, true, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"ACT_LINK\", unique = false, nullable = false)");
-		EJBAttribute actionLink = new EJBAttribute(annotations, "java.lang.String", "link", "Link", "ACT_LINK", true, false, false, null);
+		EJBAttribute actionLink = new EJBAttribute(annotations, "java.lang.String", "link", "Link", "ACT_LINK", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"ACT_IMG_PATH\", unique = false, nullable = false)");
-		EJBAttribute actionImagePath = new EJBAttribute(annotations, "java.lang.String", "imagePath", "Image path", "ACT_IMAGE_PATH", false, false, false, null);
+		EJBAttribute actionImagePath = new EJBAttribute(annotations, "java.lang.String", "imagePath", "Image path", "ACT_IMAGE_PATH", 20, 0, false, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"ACT_TYPE\", unique = false, nullable = false)");
-		EJBAttribute actionType = new EJBAttribute(annotations, "java.lang.String", "type", "Type", "ACT_TYPE", true, false, false, null);
+		EJBAttribute actionType = new EJBAttribute(annotations, "java.lang.String", "type", "Type", "ACT_TYPE", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"ACT_TIP\", unique = false, nullable = false)");
-		EJBAttribute actionTip = new EJBAttribute(annotations, "java.lang.String", "tip", "Tip", "ACT_TIP", false, false, false, null);
+		EJBAttribute actionTip = new EJBAttribute(annotations, "java.lang.String", "tip", "Tip", "ACT_TIP", 20, 0, false, false, false, null);
 
 		ArrayList<EJBAttribute> actionAttributes = new ArrayList<EJBAttribute>();
 		actionAttributes.add(actionName);
@@ -697,15 +704,15 @@ public class ProjectExporter {
 		//USER																								
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"USER_USERNAME\", unique = true, nullable = false)");
-		EJBAttribute userName = new EJBAttribute(annotations, "java.lang.String", "username", "Username", "USER_USERNAME", true, true, true, null);
+		EJBAttribute userName = new EJBAttribute(annotations, "java.lang.String", "username", "Username", "USER_USERNAME", 20, 0, true, true, true, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"USER_PASSWORD\", unique = false, nullable = false)");
-		EJBAttribute userPassword = new EJBAttribute(annotations, "String", "password", "Password", "USER_PASSWORD", true, false, false, null);
+		EJBAttribute userPassword = new EJBAttribute(annotations, "String", "password", "Password", "USER_PASSWORD", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = \"user\")");
-		EJBAttribute userRights = new EJBAttribute(annotations, "Set<UserRights>", "rights", "Rights", "USER_RIGHTS", false, false, false, null);
+		EJBAttribute userRights = new EJBAttribute(annotations, "Set<UserRights>", "rights", "Rights", "USER_RIGHTS", 20, 0, false, false, false, null);
 
 		ArrayList<EJBAttribute> userAttributes = new ArrayList<EJBAttribute>();
 		userAttributes.add(userName);
@@ -717,28 +724,28 @@ public class ProjectExporter {
 		//MYRESOURCE																									
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"MYRES_ENT_ID\", unique = false, nullable = false)");
-		EJBAttribute myResourceEntityID = new EJBAttribute(annotations, "java.lang.Long", "entityId", "Entity ID", "MYERS_ENT_ID", true, false, false, null);
+		EJBAttribute myResourceEntityID = new EJBAttribute(annotations, "java.lang.Long", "entityId", "Entity ID", "MYERS_ENT_ID", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"MYRES_TABLE\", unique = false, nullable = false)");
-		EJBAttribute myResourceTable = new EJBAttribute(annotations, "java.lang.String", "table", "Table", "MYRES_TABLE", true, false, false, null);
+		EJBAttribute myResourceTable = new EJBAttribute(annotations, "java.lang.String", "table", "Table", "MYRES_TABLE", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"MYRES_ENT_LABEL\", unique = false, nullable = false)");
-		EJBAttribute myResourceEntityLabel = new EJBAttribute(annotations, "java.lang.String", "entityLabel", "Entity label", "MYRES_ENT_LABEL", true, false, false, null);
+		EJBAttribute myResourceEntityLabel = new EJBAttribute(annotations, "java.lang.String", "entityLabel", "Entity label", "MYRES_ENT_LABEL", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"MYRES_TABLE_LABEL\", unique = false, nullable = false)");
-		EJBAttribute myResourceTableLabel = new EJBAttribute(annotations, "java.lang.String", "tableLabel", "Table", "MYRES_TABLE_LABEL", true, false, false, null);
+		EJBAttribute myResourceTableLabel = new EJBAttribute(annotations, "java.lang.String", "tableLabel", "Table", "MYRES_TABLE_LABEL", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"MYRES_RESLINK\", unique = false, nullable = false)");
-		EJBAttribute myResourceResourceLink = new EJBAttribute(annotations, "java.lang.String", "resLink", "Resource link", "MYRES_RESLINK", true, false, false, null);
+		EJBAttribute myResourceResourceLink = new EJBAttribute(annotations, "java.lang.String", "resLink", "Resource link", "MYRES_RESLINK", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@ManyToOne");
 		annotations.add("@JoinColumn(name=\"user\", referencedColumnName=\"ID\",  nullable = false)");
-		EJBAttribute myResourceUser = new EJBAttribute(annotations, "User", "user", "User", "MYRES_USER", true, false, false, null);
+		EJBAttribute myResourceUser = new EJBAttribute(annotations, "User", "user", "User", "MYRES_USER", 20, 0, true, false, false, null);
 
 		ArrayList<EJBAttribute> myResourceAttributes = new ArrayList<EJBAttribute>();
 		myResourceAttributes.add(myResourceEntityID);
@@ -753,11 +760,11 @@ public class ProjectExporter {
 		//RESOURCE                                                                            
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"RES_NAME\", unique = false, nullable = false)");
-		EJBAttribute resourceName = new EJBAttribute(annotations, "java.lang.String", "name", "Name", "RES_NAME", true, true, true, null);
+		EJBAttribute resourceName = new EJBAttribute(annotations, "java.lang.String", "name", "Name", "RES_NAME", 20, 0, true, true, true, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"RES_LINK\", unique = false, nullable = false)");
-		EJBAttribute resourceLink = new EJBAttribute(annotations, "java.lang.String", "link", "Link", "RES_LINK", true, true, false, null);
+		EJBAttribute resourceLink = new EJBAttribute(annotations, "java.lang.String", "link", "Link", "RES_LINK", 50, 0, true, true, false, null);
 
 		ArrayList<EJBAttribute> resourceAttributes = new ArrayList<EJBAttribute>();
 		resourceAttributes.add(resourceName);
@@ -768,22 +775,22 @@ public class ProjectExporter {
 		//USERRIGHTS                                                                                     
 		annotations = new ArrayList<String>();
 		annotations.add("@Column(name = \"UR_ALLOWED\", unique = false, nullable = false)");
-		EJBAttribute userRightsAllowed = new EJBAttribute(annotations, "java.lang.Boolean", "allowed", "Allowed", "UR_ALLOWED", true, false, false, null);
+		EJBAttribute userRightsAllowed = new EJBAttribute(annotations, "java.lang.Boolean", "allowed", "Allowed", "UR_ALLOWED", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@ManyToOne");
 		annotations.add("@JoinColumn(name=\"user\", referencedColumnName=\"ID\",  nullable = false)");
-		EJBAttribute userRightsUser = new EJBAttribute(annotations, "User", "user", "User", "UR_USER", true, false, false, null);
+		EJBAttribute userRightsUser = new EJBAttribute(annotations, "User", "user", "User", "UR_USER", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@ManyToOne");
 		annotations.add("@JoinColumn(name=\"action\", referencedColumnName=\"ID\",  nullable = false)");
-		EJBAttribute userRightsAction = new EJBAttribute(annotations, "Action", "action", "Action", "UR_ACTION", true, false, false, null);
+		EJBAttribute userRightsAction = new EJBAttribute(annotations, "Action", "action", "Action", "UR_ACTION", 20, 0, true, false, false, null);
 
 		annotations = new ArrayList<String>();
 		annotations.add("@ManyToOne");
 		annotations.add("@JoinColumn(name=\"resource\", referencedColumnName=\"ID\",  nullable = false)");
-		EJBAttribute userRightsResource = new EJBAttribute(annotations, "Resource", "resource", "resource", "UR_RESOURCE", true, false, false, null);
+		EJBAttribute userRightsResource = new EJBAttribute(annotations, "Resource", "resource", "resource", "UR_RESOURCE", 20, 0, true, false, false, null);
 
 		ArrayList<EJBAttribute> userRightsAttributes = new ArrayList<EJBAttribute>();
 		userRightsAttributes.add(userRightsAllowed);

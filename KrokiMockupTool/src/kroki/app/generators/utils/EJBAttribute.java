@@ -5,25 +5,30 @@ import java.util.ArrayList;
 public class EJBAttribute {
 
 	private ArrayList<String> annotations;
-	private String type;
-	private String name;
-	private String label;
-	private String databaseName;
+	private String 	type;
+	private String 	name;
+	private String 	label;
+	private String 	databaseName;
+	private int 	length;
+	private int 	precision;
 	private Boolean mandatory;
 	private Boolean unique;
 	private Boolean representative;
 	private Enumeration enumeration;
 	private ArrayList<EJBAttribute> columnRefs;
 	
-	public EJBAttribute(ArrayList<String> annotations, String type, String name,
-			String label, String databaseName, Boolean mandatory,
-			Boolean unique, Boolean representative, Enumeration enumeration) {
+	public EJBAttribute(ArrayList<String> annotations, String type,
+			String name, String label, String databaseName, int length,
+			int precision, Boolean mandatory, Boolean unique,
+			Boolean representative, Enumeration enumeration) {
 		super();
 		this.annotations = annotations;
 		this.type = type;
 		this.name = name;
 		this.label = label;
 		this.databaseName = databaseName;
+		this.length = length;
+		this.precision = precision;
 		this.mandatory = mandatory;
 		this.unique = unique;
 		this.representative = representative;
@@ -109,5 +114,21 @@ public class EJBAttribute {
 
 	public void setColumnRefs(ArrayList<EJBAttribute> columnRefs) {
 		this.columnRefs = columnRefs;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public int getPrecision() {
+		return precision;
+	}
+
+	public void setPrecision(int precision) {
+		this.precision = precision;
 	}
 }

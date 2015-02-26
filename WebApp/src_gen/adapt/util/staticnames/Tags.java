@@ -17,6 +17,7 @@ public class Tags {
 	public static final String FIELD_NAME = read("field_name");
 	public static final String DATA_TYPE = read("data_type");
 	public static final String LENGTH = read("length");
+	public static final String PRECISION = read("precision");
 	public static final String SCALE = read("scale");
 	public static final String UNIQUE = read("unique");
 	public static final String NULLABLE = read("nullable");

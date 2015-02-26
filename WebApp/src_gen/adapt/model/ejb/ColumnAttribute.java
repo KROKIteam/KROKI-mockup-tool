@@ -7,6 +7,7 @@ public class ColumnAttribute extends AbstractAttribute {
 	protected Boolean key = false;
 	protected Integer length;
 	protected Integer scale;
+	protected Integer precision;
 	protected String dataType;
 	protected Boolean disabled = false;
 	protected Boolean editableInTable = false;
@@ -75,7 +76,12 @@ public class ColumnAttribute extends AbstractAttribute {
 	public void setEnumeration(Enumeration enumeration) {
 		this.enumeration = enumeration;
 	}
-	
+	public Integer getPrecision() {
+		return precision;
+	}
+	public void setPrecision(Integer precision) {
+		this.precision = precision;
+	}
 	@Override
 	public String toString() {
 		return "ColumnAttribute [key=" + key + ", length=" + length

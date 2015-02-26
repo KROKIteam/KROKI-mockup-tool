@@ -145,6 +145,18 @@ public class EntityReader {
 			columnAttribute.setHidden(hidden);
 		}
 		
+		String lengthString = attributeElement.getAttribute(Tags.LENGTH);
+		if(lengthString != null && lengthString != "") {
+			int len = Integer.parseInt(lengthString);
+			columnAttribute.setLength(len);
+		}
+		
+		String precisionString = attributeElement.getAttribute(Tags.PRECISION);
+		if(precisionString != null && precisionString != "") {
+			int prec = Integer.parseInt(precisionString);
+			columnAttribute.setPrecision(prec);
+		}
+		
 		//TODO Parsiranje DERIVED i CALCULATED OBELEZJA
 		return columnAttribute;
 	}
