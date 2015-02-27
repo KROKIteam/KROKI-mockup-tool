@@ -8,7 +8,7 @@ import kroki.mockup.view.painters.components.TextFieldPainter;
 
 /**
  * Class which represents a textual field
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 @SuppressWarnings("serial")
 public class TextField extends Component {
@@ -48,7 +48,10 @@ public class TextField extends Component {
         elementPainter = new TextFieldPainter(this);
     }
 
-    /**IzraÄ�unava dimenziju koju zauzima tekst uraÄ�unavajuÄ‡i i prazan prostor izmeÄ‘u teksta i polja za unos*/
+    /**
+     * Calculates dimension of space filled by the text, taking into account the empty space between
+     * the input field and the text
+     */
     private Dimension calculateLabelDim() {
         Dimension dim = new Dimension();
         if (name != null && !name.equals("")) {
@@ -67,7 +70,9 @@ public class TextField extends Component {
         return dim;
     }
 
-    /**IzraÄ�unava dimenziju koju zauzima polje za unos teksta*/
+    /**
+     * Calculates dimension of the input field
+     */
     private Dimension calculateFieldDim() {
         Dimension dim = KrokiTextMeasurer.measureText("M", getFont());
         dim.width *= (cols > 0) ? cols : MIN_COLS;
@@ -84,7 +89,9 @@ public class TextField extends Component {
         return dim;
     }
 
-    /**IzraÄ�unava minimalnu dimenziju polja za unos teksta*/
+    /**
+     * Calculates the minimal dimension of the input field
+     */
     private Dimension calculateMinFieldDim() {
         Dimension dim = KrokiTextMeasurer.measureText("M", getFont());
         dim.width *= MIN_COLS;
@@ -152,11 +159,18 @@ public class TextField extends Component {
         elementPainter.update();
     }
 
-    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima labela*/
+    /**
+     * Takes into account changes made to the component and calculates the new dimension
+     * of the label
+     */
     private void updateLabel() {
         labelDim = calculateLabelDim();
     }
 
+    /**
+     * Takes into account changes made to the component and calculates the new dimension
+     * of input text field
+     */
     /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima tekstualno polje*/
     private void updateField() {
         int fieldWidth = dimension.width - labelDim.width - insets.left - insets.right;
@@ -172,7 +186,10 @@ public class TextField extends Component {
         fieldDim.height = fieldHeight;
     }
 
-    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima cela komponenta*/
+    /**
+     * Takes into account changes made to the component and calculates the new dimension
+     * whole component
+     */
     private void updateTextField() {
         updateLabel();
         updateField();

@@ -5,15 +5,17 @@
 package kroki.mockup.model.layout;
 
 import java.awt.Dimension;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.Composite;
 import kroki.mockup.utils.KrokiGrid;
 
 /**
- * Layout Manager koji dozovljava da se komponente korisničkog interfejsa ređaju ručno.
- * Metoda koja layoutira komponente vrši izračunavanje relativnih na osnovu absolutnih pozicija.
+ * Layout manager which enables manual placement of the components
+ * Method which lays out the components calculates the relative position based on the absolute ones
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class FreeLayoutManager extends LayoutManager {
 
     @Override

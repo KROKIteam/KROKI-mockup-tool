@@ -1,33 +1,33 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.layout;
 
 import java.awt.Dimension;
 import java.io.Serializable;
+
 import kroki.mockup.model.Component;
 
 /**
- * Klasa koja predstavla abstraktni layout manager. Njegove naslednice definišu pravila raspoređivanja komponenti unutar određenog kontejnera.
+ * Class represents an abstract layout manager
+ * Classes which extend provide the rules which define how the components contained 
+ * by a container will be laid out
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public abstract class LayoutManager implements Serializable{
 
-    public static final int LEFT = 1;
+	public static final int LEFT = 1;
     public static final int CENTER = 2;
     public static final int RIGHT = 3;
-    /**Horizontalno rastojanje izmedju komponenti unutar određenog kontejnera*/
+    /**Horizontal gap between components inside a container*/
     protected int hgap;
-    /**Vertikalno rastojanje između komponenti unutar nekog kontejnera*/
+    /**Vertical gap between components inside a container*/
     protected int vgap;
-    /**Poravnavanje*/
+    /**Align*/
     protected int align;
 
     /**
-     * Konstruktor layout managera.
-     * @param hgap horizontalno rastojanje izmedju komponenti unutar određenog kontejnetra.
-     * @param vgap vertikalno rastojanje između komponenti unutar nekog kontejnera.
+     * Layout manager constructor
+     * @param hgap Horizontal gap between components inside a container
+     * @param vgap Vertical gap between components inside a container
      */
     public LayoutManager(int hgap, int vgap, int align) {
         this.hgap = hgap;
@@ -36,7 +36,7 @@ public abstract class LayoutManager implements Serializable{
     }
 
     /**
-     * Konstruktor podrazumevanog layout managera.
+     * Default constructor of a layout manager
      */
     public LayoutManager() {
         this.hgap = 5;
@@ -45,30 +45,36 @@ public abstract class LayoutManager implements Serializable{
     }
 
     /**
-     * Metoda koja raspoređuje komponente unutar prosleđene po određenom pravilu.
+     * Arranges the components inside a passed container component 
      * @param c
      */
     public abstract void layoutComponent(Component c);
 
     /**
-     * Određuje najpoželjnije dimenzije komponente <code>c</code> na osnovu njenog sadržaja.
-     * Svaki layout manager implementira ovu metodu u zavisnosti od svojih pravila raspoređivanja komponenti.
+     * Determines the preferred size of a component <code>c</code> based on its content
+     * Every layout manager implements this method based on its rules for arranging the components
      * @param c
-     * @return najpoželjnija dimenzija komponente {@link Dimension}
+     * @return Preferred size of a component {@link Dimension}
      */
     public abstract Dimension preferredLayoutSize(Component c);
 
     /**
-     * Određuje minimalne dimenzije komponente <code>c</code> na osnovu njenog sadržaja.
-     * Svaki layout manager implementira ovu metodu u zavisnosti od svojih pravila raspoređivanja komponenti.
+     * Determines the minimal size of a component <code>c</code> based on its content
+     * Every layout manager implements this method based on its rules for arranging the components
      * @param c
-     * @return minimalna dimenzija komponente {@link Dimension}
+     * @return Minimal size of a component {@link Dimension}
      */
     public abstract Dimension minimumLayoutSize(Component c);
 
+    /**
+     * Determines the maximal size of a component <code>c</code> based on its content
+     * Every layout manager implements this method based on its rules for arranging the components
+     * @param c
+     * @return Maximal size of a component {@link Dimension}
+     */
     public abstract Dimension maximumLayoutSize(Component c);
 
-    //GETERI I SETERI
+    //GETTERS AND SETTERS
     public int getHgap() {
         return hgap;
     }

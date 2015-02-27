@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import kroki.mockup.model.Composite;
@@ -9,9 +5,10 @@ import kroki.mockup.model.Insets;
 import kroki.mockup.view.painters.components.TitledContainerPainter;
 
 /**
- * Komponenta koja predstavlja kontejner sa naslovom (koji se nalazi u gornjem delu panela).
+ * Component represent a titled container, where the title is located in the top part of the panel
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class TitledContainer extends Composite {
 
     public TitledContainer() {

@@ -8,7 +8,7 @@ import kroki.mockup.view.painters.components.TextAreaPainter;
 
 /**
  * Component which represent a text area
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 @SuppressWarnings("serial")
 public class TextArea extends Component {

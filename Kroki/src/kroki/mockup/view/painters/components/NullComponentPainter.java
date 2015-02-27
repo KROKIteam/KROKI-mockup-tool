@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view.painters.components;
 
 import java.awt.BasicStroke;
@@ -10,15 +6,17 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.components.NullComponent;
 import kroki.mockup.view.GraphElement;
 import kroki.mockup.view.painters.ComponentPainter;
 
 /**
- *
+ * Represents null component painter
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class NullComponentPainter extends ComponentPainter {
 
     public NullComponentPainter(GraphElement graphElement) {

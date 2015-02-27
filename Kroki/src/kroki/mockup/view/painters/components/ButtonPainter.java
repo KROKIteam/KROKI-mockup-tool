@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view.painters.components;
 
 import java.awt.Color;
@@ -13,6 +9,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.utils.KrokiTextMeasurer;
@@ -20,9 +17,10 @@ import kroki.mockup.view.GraphElement;
 import kroki.mockup.view.painters.ComponentPainter;
 
 /**
- *
+ * Represents button painter
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class ButtonPainter extends ComponentPainter {
 
     public ButtonPainter(GraphElement graphElement) {

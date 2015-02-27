@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view.painters.components;
 
 import java.awt.Color;
@@ -11,18 +7,19 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.components.CheckBox;
-import kroki.mockup.utils.KrokiImagesLoader;
 import kroki.mockup.utils.KrokiTextMeasurer;
 import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.mockup.view.GraphElement;
 import kroki.mockup.view.painters.ComponentPainter;
 
 /**
- *
+ * Represents check box painter
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class CheckBoxPainter extends ComponentPainter {
 
     private SerializableBufferedImage checked;
