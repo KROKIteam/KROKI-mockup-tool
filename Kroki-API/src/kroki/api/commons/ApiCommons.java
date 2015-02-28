@@ -21,6 +21,12 @@ import kroki.profil.utils.HierarchyUtil;
 import kroki.profil.utils.ParentChildUtil;
 import kroki.profil.utils.UIPropertyUtil;
 
+/**
+ * Class containing methods for creating new operations and properties,
+ * as well as for adding and removing them from panels
+ * @author KROKI Team
+ *
+ */
 public class ApiCommons {
 
 	/**
@@ -80,6 +86,12 @@ public class ApiCommons {
 		UIPropertyUtil.removeVisibleElement(visibleClass, classIndex);
 	}
 	
+	/**
+	 * Adds hierarchy to the given panel. Sets properties of the hierarchy
+	 * @param visibleClass Visible panel to which the property is being added
+	 * @param hierarchy Hierarchy
+	 * @param targetPanel Hierarchy's target panel
+	 */
 	public static void addHierarchyElement(VisibleClass visibleClass, Hierarchy hierarchy, VisibleClass targetPanel){
 		hierarchy.setActivationPanel(visibleClass);
 		UIPropertyUtil.addVisibleElement(visibleClass, hierarchy);

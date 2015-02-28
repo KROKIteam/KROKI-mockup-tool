@@ -1,16 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.group;
 
 import java.io.Serializable;
 import kroki.intl.Intl;
 
 /**
- * Nabrojani tip  GroupAlignment definiše skup mogućih vrednosti za
- * definisanje poravnanja elemenata u okviru grupe. Nemaju smisla za grupe
- * koje modeluju meni.
+ * Enumerated type <code>GroupAlignment</code> defines a set of possible
+ * values for defining alignment of elements inside a group.
+ * Not suited for groups which model menus
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public enum GroupAlignment implements Serializable{

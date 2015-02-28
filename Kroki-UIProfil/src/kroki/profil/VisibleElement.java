@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil;
 
 import java.io.Serializable;
@@ -14,24 +10,24 @@ import kroki.profil.utils.VisibleElementUtil;
 import kroki.uml_core_basic.UmlNamedElement;
 
 /**
- * Klasa predstavlja element modela koji se preslikava na element korisniÄ�kog interfejsa.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * An element of the model which is which represents an element of the user interface  
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleElement implements UmlNamedElement, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	 
-	/**Labela*/
+	/**Label*/
     protected String label;
-    /**Indikator vidljivosti elementa*/
+    /**Indicates visibility of the element*/
     protected boolean visible = true;
-    /**Komponenta koju referencira*/
+    /**Referenced component*/
     protected Component component;
-    /**Tip komponente*/
+    /**Component type*/
     protected ComponentType componentType;
-    /**Grupa kojoj pripada*/
+    /**Group which contains the element*/
     protected ElementsGroup parentGroup;
-    //OBELEÅ½JA METAKLASE NAMEDELEMENT
+    //Properties of the metaclass NAMEDELEMENT
     protected String name;
     protected String qualifiedName;
     
@@ -47,8 +43,7 @@ public class VisibleElement implements UmlNamedElement, Serializable {
         this.visible = visible;
         this.componentType = componentType;
     	uuid = UUID.randomUUID();
-        //nakon ovoga je potrebno kreirati komponentu korisniÄ�kog interfejsa na koju se ovaj element mapira.
-        //to se vrÅ¡i na osnovu nabrojanog tipa: Input
+    	//now create user interface component which this element is mapped to
     	VisibleElementUtil.createDefaultComponent(this);
     }
 
@@ -78,7 +73,7 @@ public class VisibleElement implements UmlNamedElement, Serializable {
 	}
 	
     /**************************************************/
-    /*IMPLEMENTIRANE METODE INTERFEJSA UmlNamedElement*/
+    /*UmlNamedElement INTERFACE METHODS*/
     /**************************************************/
     public String name() {
         return name;

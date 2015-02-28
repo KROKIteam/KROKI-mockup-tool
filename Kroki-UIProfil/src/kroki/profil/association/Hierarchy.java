@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.association;
 
 import kroki.mockup.model.Composite;
@@ -12,32 +8,30 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 
 /**
- * Stereotip  Hierarchy  označava da odredišni panel ima ulogu
- * elementa hijerarhije u okviru “Parent-Child” aktivacionog panela
+ * Stereotype Hierarchy specifies that the target panel is
+ * an element of the hierarchy contained by the activation panel 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Hierarchy extends VisibleAssociationEnd {
 
 	private static final long serialVersionUID = 1L;
 	
-	/**Nivo panela u okviru hijerarhije.*/
+	/**Panel's level inside the hierarchy*/
 	private int level;
-	/**Kraj (obeležje) asocijacije preko koga se ostvaruje povezivanje panela*/
+	/**The association end through which panel is connected*/
 	private VisibleAssociationEnd viaAssociationEnd;
 	/**
-	 * Standardni panel na koji se primenjuju tagovi
-	 * dataFilter,  add,  update,  copy,  delete,  search,
-	 * changeMode, dataNavigation, defaultViewMode i
-	 * defaultOperationMode. Ako je definisan, može
-	 * biti ili odredišni panel ili panel koji je sadržan
-	 * (direktno ili indirektno) u okviru odredišnog
-	 * panela.
+	 * Standard panel which tags dataFilter,  add,  update,  copy,  delete,  search,
+	 * changeMode, dataNavigation, defaultViewMode and defaultOperationMode are applied to.
+	 * If it is defined, it can either be a target panel or a panel which is
+	 * directly or indirectly contained by the target panel
 	 */
 	private VisibleClass appliedToPanel;
-	/*POMOCNI ATRIBUTI - NISU DEO UI PROFILA*/
-	/**Roditelj hijerarhije. Na osnovu njega se vrsi odredjivanje viaAssociationEnd, level*/
-	Hierarchy hierarchyParent;
-	/**Ovaj atribut predstavlja klon targetPanela - potreban je za iscrtavanja i prikazivanja promena koje su nastale na njemu*/
+	
+	/*ADDITIONL ATTRIBUTES WHICH ARE NOT PART OF THE PROFILE*/
+	/**Hierarchy parent. Used to determine viaAssociationEnd and level attributes*/ 
+	private Hierarchy hierarchyParent;
+	/**Clone of the target panel - needed to show the panel and changes made to it*/
 	transient private VisibleClass targetPanelClone;
 
 	public Hierarchy(String label, boolean visible, ComponentType componentType) {
@@ -64,7 +58,7 @@ public class Hierarchy extends VisibleAssociationEnd {
 
 
 	/************************************************/
-	/*REDEFINISANE METODE OD VISIBLE ASSOCIATION END*/
+	/*VISIBLE ASSOCIATION END METHODS*/
 	/************************************************/
 	@Override
 	public void setAdd(boolean add) {
@@ -175,7 +169,7 @@ public class Hierarchy extends VisibleAssociationEnd {
 	}
 
 	/*****************/
-	/*GETERI I SETERI*/
+	/*GETTERS AND SETTERS*/
 	/*****************/
 	public int getLevel() {
 		return level;

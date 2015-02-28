@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.common.copy;
 
 import java.io.BufferedInputStream;
@@ -94,6 +90,7 @@ public class DeepCopy {
 		return true;
 	}
 
+	@SuppressWarnings("resource")
 	public static Object open(File file) {
 		Object obj = null;
 		try {
@@ -120,7 +117,6 @@ public class DeepCopy {
 			return xstream.fromXML(in);
 
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

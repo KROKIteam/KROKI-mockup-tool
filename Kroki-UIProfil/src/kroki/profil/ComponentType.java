@@ -7,8 +7,8 @@ package kroki.profil;
 import java.io.Serializable;
 
 /**
- * Nabrojani tip  <code>ComponentType</code> definiše skup mogućih vrednosti za
- * vrstu komponente koja se može pridružiti elementu {@link VisibleElement}F
+ * Enumerated type <code>ComponentType</code> defining a set of possible values
+ * of component type which an instance of {@link VisibleElement} can have
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public enum ComponentType implements Serializable {

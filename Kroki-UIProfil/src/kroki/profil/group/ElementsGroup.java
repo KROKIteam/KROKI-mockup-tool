@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.group;
 
 import java.util.ArrayList;
@@ -19,34 +15,32 @@ import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 
 /**
- * Klasa  <code>ElementsGroup</code> oznaÄ�ava obeleÅ¾je klase
- * VisibleClass koje se koristi za grupisanje njenih elemenata
- * (obeleÅ¾ja, metoda, veza), formirajuÄ‡i na taj naÄ�in semantiÄ�ke celine koje se
- * preslikavaju na grupe komponenti korisniÄ�kog interfejsa u okviru panela
- * pridruÅ¾enog klasi.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Class <code>ElementsGroup</code> specifies properties of class
+ * <code>VisibleClass</code> which are used to group its elements (properties, methods, links) 
+ * thus forming semantic parts which are mapped to groups of user interface components inside one panel 
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ElementsGroup extends VisibleElement implements UmlProperty {
 
 	private static final long serialVersionUID = 1L;
 	
-    /**Lista vidljivih elemenata*/
+    /**List of visible elements*/
     protected List<VisibleElement> visibleElementList = new ArrayList<VisibleElement>();
-    /**Orjentacija elemenata unutar grupe*/
+    /**Orientation of elements inside the group*/
     protected GroupOrientation groupOrientation;
-    /**Poravnavanje elemenata unutar grupe*/
+    /**Alignment of elements inside the group*/
     protected GroupAlignment groupAlignment = GroupAlignment.left;
-    /**Lokacija grupe*/
+    /**Location of the group*/
     protected GroupLocation groupLocation;
-    /*OBELEŽJA METAKLASE PROPERTY*/
+    /*PROPERTY METACLASS PROPERTIES*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
     protected boolean isReadOnly = false;
     protected UmlProperty opposite = null;
     protected UmlClass umlClass;
-    /*OBELEŽJA METAKLASE TYPEDELEMENT*/
+    /*TYPEDELEMENT METACLASS PROPERTIES*/
     protected UmlType umlType;
-    /*OBELŽJA METAKLASE MULTIPLICITYELEMENT*/
+    /*MULTIPLICITYELEMENT METACLASS PROPERTIES*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
@@ -69,12 +63,12 @@ public class ElementsGroup extends VisibleElement implements UmlProperty {
     }
 
     /***************/
-    /**JAVNE METODE*/
+    /**PUBLIC METHODS*/
     /***************/
   
 
     /**************************************/
-    /*IMPLEMENTIRANE METODE OD UmlProperty*/
+    /*UmlProperty PROPERTY METHODS*/
     /**************************************/
     public String getDefault() {
         return "";
@@ -166,7 +160,7 @@ public class ElementsGroup extends VisibleElement implements UmlProperty {
     }
 
     /******************/
-    /**GETERI I SETERI*/
+    /**GETTERS AND SETTERS*/
     /******************/
     public GroupAlignment getGroupAlignment() {
         return groupAlignment;

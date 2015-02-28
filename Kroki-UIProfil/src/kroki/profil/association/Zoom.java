@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.association;
 
 
@@ -9,18 +5,18 @@ import kroki.mockup.model.components.ComboBox;
 import kroki.profil.property.VisibleProperty;
 
 /**
- * Stereotip Zoom oznaÄ�ava da odrediÅ¡ni panel ima ulogu zoom forme za
- * potrebe aktivacionog panela, na naÄ�in definisan HCI standardom
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Stereotype Zoom specifies that the target panel is a zoom form for
+ * the activation panel. Follows the HCI standard.
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Zoom extends VisibleAssociationEnd {
 
 	private static final long serialVersionUID = 1L;
 	
     /**
-     * Indikator da se dati  zoom implementira kao
-     * combobox  napunjen vrednostima reprezentativnog
-     * obeleÅ¾ja odrediÅ¡ne klase.
+     * Indicates that the zoom is implemented as 
+     * combozoom filled with representative values
+     * of the target class
      */
     protected boolean combozoom = true;
 
@@ -35,7 +31,7 @@ public class Zoom extends VisibleAssociationEnd {
     }
 
     /*****************/
-    /*GETERI I SETERI*/
+    /*GETTERS AND SETTERS*/
     /*****************/
     public boolean isCombozoom() {
         return combozoom;

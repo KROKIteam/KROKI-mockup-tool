@@ -6,7 +6,7 @@ import javax.swing.text.DocumentFilter;
 
 /**
  * Filter which only accepts digits
- * @author Renata
+ * @author KROKI Team
  *
  */
 public class OnlyDigitsDocumentFilter extends DocumentFilter{
