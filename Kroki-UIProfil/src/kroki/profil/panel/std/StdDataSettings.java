@@ -1,23 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel.std;
 
 import java.io.Serializable;
 import kroki.profil.property.VisibleProperty;
 
 /**
- * <code>StdDataSettings</code> omogućava definisanje filtera za podatke i načina njihovog sortiranja
+ * <code>StdDataSettings</code> enables data filters to be defined
+ * as well as the ways of sorting the data
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class StdDataSettings implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-    /**OCL iskaz kojim se definiše podskup podataka koji se prikazuje u okviru datog panela.   */
+	/**OCL expression used to specify the subset of data being shown within the panel*/
     private String dataFilter;
-    /**Način sortiranja podataka u okviru standardnog panela */
+    /**Defines how the data contained by a standard panel is sorted*/
     private VisibleProperty sortBy;
 
     public StdDataSettings(String dataFilter, VisibleProperty sortBy) {

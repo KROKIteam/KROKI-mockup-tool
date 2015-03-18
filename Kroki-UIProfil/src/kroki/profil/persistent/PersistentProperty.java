@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.persistent;
 
 import java.io.Serializable;
@@ -10,37 +6,37 @@ import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 
 /**
- *
+ *Contains properties of a property directly mapped to certain database concepts.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class PersistentProperty implements UmlProperty, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-    /*Obelezja klase PersistentProperty*/
+    /*PersistentProperty metaclass properties*/
     protected boolean identifier = false;
     protected boolean identity = false;
     protected boolean nullable = true;
-    /*Obelezja metaklase NamedElement*/
+    /*NamedElement metaclass properties*/
     protected String name;
     protected String qualifiedName;
-    /*Obelezja metaklase Property*/
+    /*Property metaclass properties*/
     protected String defaultValue = "";
     protected boolean isComposite = false;
     protected boolean isDerived = false;
     protected boolean isReadOnly = false;
     protected UmlProperty opposite = null;
     protected UmlClass umlClass;
-    /*Obelezja metaklase TypedElement*/
+    /*TypedElement metaclass properties*/
     protected UmlType umlType;
-    /*Obelezja metaklase MultiplicityElement*/
+    /*MultiplicityElement metaclass properties*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
     protected int upper;
 
     /****************************************/
-    /*Operacije nasledjene od uml property-a*/
+    /* UmlProperty interface methods/
     /****************************************/
     public String getDefault() {
         return defaultValue;
@@ -147,7 +143,7 @@ public class PersistentProperty implements UmlProperty, Serializable {
     }
 
     /*****************/
-    /*GETERI I SETERI*/
+    /*GETTERS AND SETTERS*/
     /*****************/
     public boolean isIdentifier() {
         return identifier;

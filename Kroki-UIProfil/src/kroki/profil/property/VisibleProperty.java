@@ -11,10 +11,10 @@ import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 
 /**
- * <code>VisibleProperty</code> oznaÄ�ava obeleÅ¾je klase
+ * <code>VisibleProperty</code> oznaÃ„ï¿½ava obeleÃ…Â¾je klase
  * VisibleClass vidljivo u okviru panela dodeljenog klasi
- * putem pridruÅ¾ene komponente korisniÄ�kog interfejsa.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * putem pridruÃ…Â¾ene komponente korisniÃ„ï¿½kog interfejsa.
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleProperty extends VisibleElement implements UmlProperty {
 	

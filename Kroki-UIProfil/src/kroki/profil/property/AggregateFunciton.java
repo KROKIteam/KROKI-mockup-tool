@@ -8,7 +8,7 @@ import java.io.Serializable;
 import kroki.intl.Intl;
 
 /**
- * Nabrojani tip  AggregateFunction definiše skup funkcija za agregaciju
+ * Nabrojani tip  AggregateFunction definiÅ¡e skup funkcija za agregaciju
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public enum AggregateFunciton implements Serializable{

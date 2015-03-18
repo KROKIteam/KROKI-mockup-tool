@@ -7,10 +7,10 @@ package kroki.profil.property;
 import kroki.profil.persistent.PersistentProperty;
 
 /**
- * Klasa Aggregated označava agregirano obeležje,  tj. obeležje  čija
- * se vrednost računa primenom funkcije za agregaciju nad definisanim
- * skupom vrednosti izabranog obeležja. Izračunata vrednost se koristi samo
- * za prikaz u okviru panela i ne čuva se trajno u bazi.
+ * Klasa Aggregated oznaÄ�ava agregirano obeleÅ¾je,  tj. obeleÅ¾je  Ä�ija
+ * se vrednost raÄ�una primenom funkcije za agregaciju nad definisanim
+ * skupom vrednosti izabranog obeleÅ¾ja. IzraÄ�unata vrednost se koristi samo
+ * za prikaz u okviru panela i ne Ä�uva se trajno u bazi.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Aggregated extends VisibleProperty {

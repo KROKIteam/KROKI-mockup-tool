@@ -7,9 +7,9 @@ package kroki.profil.property;
 import kroki.profil.persistent.PersistentProperty;
 
 /**
- * Klasa koja označava perzistentno obeležje
- * vidljivo u okviru korisničkog interfejsa aplikacije  čija pridružena
- * komponenta korisničkog interfejsa omogućava pregled, ažuriranje i/ili
+ * Klasa koja oznaÄ�ava perzistentno obeleÅ¾je
+ * vidljivo u okviru korisniÄ�kog interfejsa aplikacije  Ä�ija pridruÅ¾ena
+ * komponenta korisniÄ�kog interfejsa omoguÄ‡ava pregled, aÅ¾uriranje i/ili
  * pretragu njegove vrednosti.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */

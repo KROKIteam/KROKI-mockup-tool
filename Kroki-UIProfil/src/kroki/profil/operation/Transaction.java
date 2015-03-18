@@ -1,30 +1,26 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.operation;
 
 import kroki.profil.ComponentType;
 
 /**
- * Apstraktni stereotip  BussinesTransaction označava složenu
- * poslovnu transakciju koja se implementira kao uskladištena procedura ili
- * kao metoda u srednjem sloju nekog troslojnog rešenja.
+ * Abstract stereotype which represents a complex business transaction
+ * implemented as a stored procedure or a method in the middle layer of 
+ * a three-layered application
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Transaction extends BussinessOperation {
 
 	private static final long serialVersionUID = 1L;
 	
-    /**indikator da je potrebno osvežiti prikaz tekućeg reda posle aktiviranja transakcije*/
+	/**Indicates if it is necessary to refresh the current row once the transaction is activated*/
     private boolean refreshRow;
-    /**indikator da je potrebno ponovno učitavanje podataka u okviru panela */
+    /**Indicates if it is necessary to reload the panel's data*/
     private boolean refreshAll;
-    /**Indikator da je potrebno traženje potvrde od korisnika pre pokretanja transakcije */
+    /**Indicates if a user should confirm that the transaction should be started*/
     private boolean askConfirmation;
-    /**Poruka za traženje potvrde */
+    /**Confirmation message*/
     private String confirmationMessage;
-    /**Indikator da li je potrebno prikazati eventualne greške na ekranu */
+    /**Indicates if the errors (if they occur) should be shown on the screen*/
     private boolean showErrors;
 
     public Transaction(String label) {
@@ -38,6 +34,10 @@ public class Transaction extends BussinessOperation {
     public Transaction() {
     }
 
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /*********************/
+    
     public boolean isAskConfirmation() {
         return askConfirmation;
     }

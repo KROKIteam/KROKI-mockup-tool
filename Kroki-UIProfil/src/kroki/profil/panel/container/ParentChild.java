@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel.container;
 
 import kroki.mockup.model.Composite;
@@ -10,9 +6,9 @@ import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.ContainerPanel;
 
 /**
- * <code>ParentChild</code> modeluje slozeni panel  ciji su
- * sastavni paneli organizovani u stablo, na nacin definisan HCI standardom. 
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
+ * <code>ParentChild</code> represents a parent-child panel whose contained panels 
+ * are organized in a hierarchical structure.
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  * @author Renata
  */
 public class ParentChild extends ContainerPanel {
@@ -48,7 +44,7 @@ public class ParentChild extends ContainerPanel {
 
 
 	/*******************/
-	/**GETERI I SETERI**/
+	/*GETTERS AND SETTERS**/
 	/*******************/
 	public ElementsGroup getOperationsPanel() {
 		return operationsPanel;

@@ -5,8 +5,8 @@
 package kroki.profil.property;
 
 /**
- * Klasa Calculated označava kalkulisano obeležje,  tj. obeležje čija
- * se vrednost računa primenom zadate formule  nad izabranim obeležjima
+ * Klasa Calculated oznaÄ�ava kalkulisano obeleÅ¾je,  tj. obeleÅ¾je Ä�ija
+ * se vrednost raÄ�una primenom zadate formule  nad izabranim obeleÅ¾jima
  * date ili neke druge klase.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */

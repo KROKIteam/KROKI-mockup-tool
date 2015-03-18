@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel;
 
 
 /**
- * <code>ContainerPanel</code> označava složeni panel
- * koji može posedovati druge panele (jednostavne i/ili složene), kao i
- * proizvoljan broj sopstvenih obeležja i metoda. Definiše pomoćne atribute,
- * metode i ograničenja za potrebe svojih naslednika
+ * <code>ContainerPanel</code> represents a panel which can contain other panels
+ * (ordinary or other container panels), as well as its own properties and methods
+ * The class defines attributes and methods which classes which inherit it might need
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ContainerPanel extends VisibleClass {

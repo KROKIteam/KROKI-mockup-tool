@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel;
 
 import kroki.mockup.model.Composite;
@@ -16,38 +12,37 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 
 /**
- * <code>StandardPanel</code> oznacava da se datoj perzistentnoj klasi (u
- * slucaju troslojnog resenja) ili odgovarajucoj tabeli nastaloj mapiranjem
- * objektnog na relacioni model (u slucaju dvoslojnog resenja) pridruzuje
- * standardni panel ciji su izgled i funkcionalnost definisani HCI standardom.
+ * <code>StandardPanel</code> represents a standard panel which is connected to
+ * a persistent class (in case of a three-layered application) or a table
+ * created when mapping an object model to a relational (in case of a two-layered application).
+ * The visual properties and functionalities of the standard panel respects the HCI standards.
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
 public class StandardPanel extends VisibleClass {
 
 	private static final long serialVersionUID = 1L;
-	
-    /**Dozvoljen/zabranjen unos novih podataka */
+	/**Is it permitted or forbidden to enter new data*/  
     protected boolean add = true;
-    /**Dozvoljena/zabranjena izmena podataka */
+    /**Is it permitted or forbidden modify existing data*/
     protected boolean update = true;
-    /**Dozvoljeno/zabranjeno kopiranje podataka */
+    /**Is it permitted or forbidden to copy data*/
     protected boolean copy = true;
-    /**Dozvoljeno/zabranjeno brisanje podataka */
+    /**Is it permitted or forbidden to delete data*/ 
     protected boolean delete = true;
-    /**Dozvoljena/zabranjena pretraga podataka */
+    /**Is it permitted or forbidden to perform data search*/
     protected boolean search = true;
-    /**Dozvoljena/zabranjena promena prikaza (iz tabelarnog u â€œjedan ekranâ€“jedan slogâ€� i obrnuto */
+    /**Is it permitted or forbidden to change data view (from tabular to one record one screen and vice versa*/
     protected boolean changeMode = true;
-    /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeÄ‡i, prethodni i poslednji) */
+    /**Is it permitted or forbidden to perform row navigation (first, previous, next, last)*/ 
     protected boolean dataNavigation = true;
-    /**PodeÅ¡avanja standardnog panela*/
+    /**Standard panel setting*/
     protected transient StdPanelSettings stdPanelSettings = new StdPanelSettings();
-    /**PodeÅ¡avanja vezana za podatke koje standardni panel prikazuje*/
+    /**Setting connected to data which the panel shows*/
     protected transient StdDataSettings stdDataSettings = new StdDataSettings();
-    /**Perzistentna klasa koja je vezana za standardni panel*/
+    /**Persistent class connected to the standard panel*/
     protected PersistentClass persistentClass;
 
-    /*mockup componente standardnih operacija*/
+    /*mockup components if the standard operations*/
     private Button addButton;
     private Button updateButton;
     private Button copyButton;
@@ -58,15 +53,15 @@ public class StandardPanel extends VisibleClass {
     private Button previuosButton;
     private Button nextButton;
     private Button lastButton;
-    /*paneli koji sacinjavaju standardnu formu*/
+    //panels which form the standard form
     private ElementsGroup toolbarPanel;
-    //panel sa komponentama
+    //panel with the components*/
     private ElementsGroup propertiesPanel;
-    //panel sa desne strane u koji se smestaju operacije (transakcije, izvestaji,...)
+    //panel on the right which contains the operations (transactions, reports...)
     private ElementsGroup operationsPanel;
     
     /*****************/
-    /*Konstruktori   */
+    /*Constructors   */
     /*****************/
     public StandardPanel() {
         super();
@@ -108,9 +103,9 @@ public class StandardPanel extends VisibleClass {
     	return (BussinesSubsystem) currentPack;
     }
 
-    /*****************/
-    /*Geteri i seteri*/
-    /*****************/
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /*********************/
     
     
     public StdDataSettings getStdDataSettings() {

@@ -1,25 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.operation;
 
 import kroki.profil.ComponentType;
 
 /**
- * Stereotip  Report označava metodu za pokretanje izveštaja
- * realizovanog nekim od raspoloživih alata za kreiranje izveštaja.
+ * Stereotype Reports represents an operation which shows reports.
+ * Reports should created using one of the available report building tools (iReport). 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Report extends BussinessOperation {
 
 	private static final long serialVersionUID = 1L;
 	
-    /**Putanja do izveštaja koji se pokreće */
+	/**Path to the report which is being shown*/
     private String reportName;
-    /**OCL iskaz kojim se definiše opseg podataka koji se prikazuju okviru izveštaja */
+    /**OCL expression which defines the data shown within the report*/
     private String dataFilter;
-    /**Način sortiranja podataka u okviru izveštaja*/
+    /**A way of sorting report data*/
     private String sortBy;
 
     public Report(String label) {
@@ -34,9 +30,9 @@ public class Report extends BussinessOperation {
         super();
     }
 
-    /*****************/
-    /*GETERI I SETERI*/
-    /*****************/
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /*********************/
     public String getDataFilter() {
         return dataFilter;
     }

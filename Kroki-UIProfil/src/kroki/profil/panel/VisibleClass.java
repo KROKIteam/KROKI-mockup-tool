@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel;
 
 import java.util.ArrayList;
@@ -18,25 +14,25 @@ import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- * Označava klasu koja se preslikava na panel (obični ili tabulatorski) u okviru korisničkog interfejsa aplikacije.
+ * Represents a panel within user interface of the application 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleClass extends BusinessProcessModelingSubject implements UmlClass {
 
 	private static final long serialVersionUID = 1L;
 	
-	/**Indikator modalnosti klase*/
+	/**Indicates if the class is modal*/
 	protected boolean modal = true;
-	/**Lista svih elemenata koje poseduje klasa*/
+	/**List of all elements contained by the class*/
 	protected List<VisibleElement> visibleElementList = new ArrayList<VisibleElement>();
-	/*OBELEÅ½JA METAKLASE CLASS*/
+	/*METACLASS CLASS properties*/
 	protected boolean isAbstract;
 	protected UmlPackage umlPackage;
 	//Component counter map used for incremental component naming
 	protected HashMap<ComponentType, Integer> componentCounts;
 
 	/*****************/
-	/*Konstruktori   */
+	/*Constructors   */
 	/*****************/
 	public VisibleClass(boolean modal) {
 		super();
@@ -58,7 +54,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 
 
 	 /**
-	  * OsveÅ¾ava stanje svojih grafiÄ�kih komponenti.
+	  * Refreshes states of its graphical components
 	  */
 	 @Override
 	 public void update() {
@@ -67,13 +63,13 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 
 	
 	 /*******************************************/
-	 /*Implementirane metode interfejsa UmlClass*/
+	 /*UmlClass interface methods*/
 	 /*******************************************/
 	 public boolean isAbstract() {
 		 return isAbstract;
 	 }
 
-	 /**VraÄ‡a listu svih atrubuta klase koji implmentiraju interfejs UmlProperty*/
+	 /**Returns a list of all attributes of the class which implement <code>UmlProperty</code> interface*/
 	 public List<UmlProperty> ownedAttribute() {
 		 List<UmlProperty> umlPropertyList = new ArrayList<UmlProperty>();
 		 for (int i = 0; i < visibleElementList.size(); i++) {
@@ -85,7 +81,8 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 		 return umlPropertyList;
 	 }
 
-	 /**VraÄ‡a listu svih operacija klase koji implmentiraju interfejs UmlOperation*/
+	 
+	 /**Returns a list of all attributes of the class which implement <code>UmlOperation</code> interface*/
 	 public List<UmlOperation> ownedOperation() {
 		 List<UmlOperation> umlOperationList = new ArrayList<UmlOperation>();
 		 for (int i = 0; i < visibleElementList.size(); i++) {
@@ -126,7 +123,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 	 }
 
 	 /*****************/
-	 /*GETERI I SETERI*/
+	 /*GETTERS AND SETTERS*/
 	 /*****************/
 	 public boolean isModal() {
 		 return modal;
