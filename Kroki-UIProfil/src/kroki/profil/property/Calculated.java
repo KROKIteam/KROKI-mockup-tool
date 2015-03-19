@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
 /**
- * Klasa Calculated oznaÄ�ava kalkulisano obeleÅ¾je,  tj. obeleÅ¾je Ä�ija
- * se vrednost raÄ�una primenom zadate formule  nad izabranim obeleÅ¾jima
- * date ili neke druge klase.
+ * Class <code>Calculated</code> represemmts a calculated property, whose 
+ * value is calculated by applying a specified function to chosen properties
+ * of the current or some other class
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 

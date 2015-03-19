@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
 import kroki.profil.ComponentType;
@@ -11,16 +7,15 @@ import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 
 /**
- * <code>VisibleProperty</code> oznaÃ„ï¿½ava obeleÃ…Â¾je klase
- * VisibleClass vidljivo u okviru panela dodeljenog klasi
- * putem pridruÃ…Â¾ene komponente korisniÃ„ï¿½kog interfejsa.
+ * <code>VisibleProperty</code> represents a visible 
+ * property which is placed on a panel
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleProperty extends VisibleElement implements UmlProperty {
 	
 	private static final long serialVersionUID = 1L;
 
-    /*Obelezja klase VisibleProperty*/
+    /*VisibleProperty metaclass properties*/
     protected String columnLabel;
     protected boolean labelToCode;
     protected String displayFormat;
@@ -29,15 +24,15 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     protected boolean disabled;
     protected String defaultValue;
     protected String dataType;
-    /*Obelezja metaklase Property*/
+    /*Property metaclass properties*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
     protected boolean isReadOnly = false;
     protected UmlProperty opposite = null;
     protected UmlClass umlClass;
-    /*Obelezja metaklase TypedElement*/
+    /*TypedElement metaclass properties*/
     protected UmlType umlType;
-    /*Obelezja metaklase MultiplicityElement*/
+    /*MultiplicityElement metaclass properties*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
@@ -46,7 +41,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     protected String enumeration;
     
     /*****************/
-    /*Konstruktori   */
+    /*Constructors   */
     /*****************/
     public VisibleProperty(String columnLabel, String displayFormat, boolean representative, boolean autoGo, boolean disabled, String defaultValue) {
         this.columnLabel = columnLabel;
@@ -88,7 +83,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     }
 
     /****************************************/
-    /*Operacije nasledjene od uml property-a*/
+    /*UmlProperty interface methods*/
     /****************************************/
     public String getDefault() {
         return defaultValue;
@@ -178,9 +173,9 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.upper = upper;
     }
 
-    /*****************/
-    /*Geteri i seteri*/
-    /*****************/
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /********************/
     public boolean isAutoGo() {
         return autoGo;
     }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.subsystem;
 
 import java.io.File;
@@ -14,20 +10,31 @@ import kroki.profil.utils.DatabaseProps;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
+/**
+ * Class represents a business subsystem i.e. a package
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ */
 public class BussinesSubsystem extends VisibleElement implements UmlPackage {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
+	/**Parent package which contains it*/
 	private UmlPackage nestingPackage;
+	/**Contained visible elements*/
 	private List<VisibleElement> ownedElement = new ArrayList<VisibleElement>();
+	/**Contained packages*/
 	private List<UmlPackage> nestedPackage = new ArrayList<UmlPackage>();
+	/**Contained elements*/
 	private List<UmlType> ownedType = new ArrayList<UmlType>();
+	/**Database properties*/
 	private DatabaseProps DBConnectionProps = new DatabaseProps();
+	/**File where the project is saved. Used if the project is at the top of the hierarchy*/
 	private File file;
+	/**Graph edit project connected to the project (if the project is at the top of the hierarchy*/
 	private Object graphPackage;
+	/**Menu connected to the project*/
 	private Object menu;
+	/**Indicates if the label is used to set the code*/
 	private boolean labelToCode = true;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
@@ -41,7 +48,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	}
 
 	/**************/
-	/*JAVNE METODE*/
+	/*PUBLIC METHODS*/
 	/**************/
 	public VisibleElement getOwnedElementAt(int index) {
 		if (index >= 0 && index < ownedElement.size()) {
@@ -55,10 +62,12 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		return ownedElement.size();
 	}
 
+	/**Returns of the index of the visible element within the package*/
 	public int indexOf(VisibleElement visibleElement) {
 		return ownedElement.indexOf(visibleElement);
 	}
 
+	/**Adds new element*/
 	public void addOwnedType(UmlType umlType) {
 		if (!ownedType.contains(umlType)) {
 			ownedType.add(umlType);
@@ -67,6 +76,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		}
 	}
 
+	/**Removes the element*/
 	public void removeOwnedType(UmlType umlType) {
 		if (ownedType.contains(umlType)) {
 			ownedType.remove(umlType);
@@ -74,6 +84,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		}
 	}
 
+	/**Adds a new package*/
 	public void addNestedPackage(UmlPackage umlPackage) {
 		if (!nestedPackage.contains(umlPackage)) {
 			nestedPackage.add(umlPackage);
@@ -82,6 +93,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		}
 	}
 
+	/**Removes a contained package*/
 	public void removeNestedPackage(UmlPackage umlPackage) {
 		if (nestedPackage.contains(umlPackage)) {
 			nestedPackage.remove(umlPackage);
@@ -89,6 +101,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		}
 	}
 
+	/**Inserts a new element and retains the sorted order*/
 	private void sortedInsert(VisibleElement element){
 		for (int i = 0; i < ownedElementCount(); i++){
 			VisibleElement el = ownedElement.get(i);

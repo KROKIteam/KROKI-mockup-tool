@@ -1,16 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
 import kroki.profil.persistent.PersistentProperty;
 
 /**
- * Klasa Aggregated oznaÄ�ava agregirano obeleÅ¾je,  tj. obeleÅ¾je  Ä�ija
- * se vrednost raÄ�una primenom funkcije za agregaciju nad definisanim
- * skupom vrednosti izabranog obeleÅ¾ja. IzraÄ�unata vrednost se koristi samo
- * za prikaz u okviru panela i ne Ä�uva se trajno u bazi.
+ * Class <Aggregated> represents an aggregated property i.e. property whose
+ * value is calculated by applying the aggregation function to a defined
+ * set of values of the chosen property. The calculated value is only shown
+ * inside the panel and is not permanently saved.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Aggregated extends VisibleProperty {
