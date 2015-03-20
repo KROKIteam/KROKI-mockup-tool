@@ -52,7 +52,7 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 	protected JTextArea descriptionTextArea;
 
 	public BusinessSubsystemSettings(SettingsCreator settingsCreator){
-		panelLayout = new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]");
+		panelLayout = new MigLayout("wrap 2,hidemode 0", "[right, shrink][fill, 200]");
 		this.settingsCreator = settingsCreator;
 		initComponents();
 		layoutComponents();
@@ -95,15 +95,15 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 	}
 
 	private void layoutComponents() {
-		setLayout(new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]"));
+		setLayout(new MigLayout("wrap 2,hidemode 0", "[right, shrink][fill, 200]"));
 		add(lblLabel);
 		add(tfLabel);
 		add(lblLabelToCode);
 		add(chLabelToCode);
 		add(lblEclipsePath);
 		add(tfEclipsePath, "split 3");
-		add(btnUnlink);
 		add(btnLink);
+		add(btnUnlink);
 		add(descriptionLabel);
 		add(descriptionTextArea);
 	}
@@ -133,8 +133,8 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 			add(chLabelToCode);
 			add(lblEclipsePath);
 			add(tfEclipsePath, "split 3");
-			add(btnUnlink);
 			add(btnLink);
+			add(btnUnlink);
 			add(descriptionLabel);
 			add(descriptionTextArea);
 		}
