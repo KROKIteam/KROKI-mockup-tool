@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,7 +20,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -44,6 +48,8 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 	protected JTextField tfEclipsePath;
 	protected JButton btnUnlink;
 	protected JButton btnLink;
+	protected JLabel descriptionLabel;
+	protected JTextArea descriptionTextArea;
 
 	public BusinessSubsystemSettings(SettingsCreator settingsCreator){
 		panelLayout = new MigLayout("wrap 2,hidemode 3", "[right, shrink][fill, 200]");
@@ -80,6 +86,12 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		}
 		btnUnlink.setToolTipText(Intl.getValue("stfPanelSettings.unlinkTooltip"));
 		btnLink.setToolTipText(Intl.getValue("stfPanelSettings.linkTooltip"));
+		descriptionLabel = new JLabel(Intl.getValue("stfPanelSettings.projectDescription"));
+		descriptionTextArea = new JTextArea(5, 5);
+		Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
+		descriptionTextArea.setBorder(border);
+		descriptionTextArea.setFont(tfLabel.getFont());
+		descriptionTextArea.setLineWrap(true);
 	}
 
 	private void layoutComponents() {
@@ -92,6 +104,8 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		add(tfEclipsePath, "split 3");
 		add(btnUnlink);
 		add(btnLink);
+		add(descriptionLabel);
+		add(descriptionTextArea);
 	}
 
 	public void updateComponents() {
@@ -111,6 +125,8 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 			remove(lblEclipsePath);
 			remove(tfEclipsePath);
 			remove(btnUnlink);
+			remove(descriptionLabel);
+			remove(descriptionTextArea);
 			add(lblLabel);
 			add(tfLabel);
 			add(lblLabelToCode);
@@ -119,6 +135,8 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 			add(tfEclipsePath, "split 3");
 			add(btnUnlink);
 			add(btnLink);
+			add(descriptionLabel);
+			add(descriptionTextArea);
 		}
 		chLabelToCode.setSelected(businessSubsystem.isLabelToCode());
 		if(businessSubsystem.getEclipseProjectPath() != null) {
@@ -127,6 +145,11 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 		}else{
 			tfEclipsePath.setText("");
 			btnUnlink.setVisible(false);
+		}
+		if(businessSubsystem.getProjectDescription() != null) {
+			descriptionTextArea.setText(businessSubsystem.getProjectDescription());
+		}else {
+			descriptionTextArea.setText("This application is a prototype generated from KROKI specification. Please log in to continue.");
 		}
 	}
 
@@ -194,6 +217,21 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 						updatePreformed();
 					}
 				}
+			}
+		});
+		descriptionTextArea.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				String newDescription = descriptionTextArea.getText();
+				if(!newDescription.equals("")) {
+					businessSubsystem.setProjectDescription(newDescription);
+					updatePreformed();
+				}
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
 			}
 		});
 	}

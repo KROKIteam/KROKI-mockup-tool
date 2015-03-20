@@ -97,7 +97,7 @@ public class ProjectExporter {
 	 */
 	public void export(File file, String jarName, BussinesSubsystem proj, String message) {
 		generateAppAndRepo(proj, message);
-		writeProjectName(proj.getLabel(), "This application is a prototype generated from KROKI specification. Please log in to continue.");
+		writeProjectName(proj.getLabel(), proj.getProjectDescription());
 		runAnt(file, proj, jarName, message);
 	}
 

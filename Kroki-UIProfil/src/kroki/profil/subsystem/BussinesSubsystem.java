@@ -41,6 +41,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private Object graphPackage;
 	private boolean labelToCode = true;
 	private Object menu;
+	private String projectDescription;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
 		super();
@@ -50,6 +51,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	public BussinesSubsystem(String label, boolean visible, ComponentType componentType, BussinesSubsystem owner) {
 		super(label, visible, componentType);
 		this.nestingPackage = owner;
+		this.projectDescription = "This application is a prototype generated from KROKI specification. Please log in to continue.";
 	}
 
 	/**************/
@@ -130,7 +132,6 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		 }
 	 }
 
-
 	public List<UmlPackage> nestedPackage() {
 		return nestedPackage;
 	}
@@ -183,7 +184,6 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		return ret;
 	}
 
-
 	/**
 	 * Finds all visible association ends which are contained by the subsystem and its nested packages
 	 * @param pack
@@ -209,8 +209,6 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		for (UmlPackage ownedPackage : pack.nestedPackage())
 			allPanels((BussinesSubsystem) ownedPackage, ret);
 	}
-
-
 
 	/****************************************************/
 	/*IMPLEMENTIRANE METODE INTERFEJSA VisitingSubsystem*/
@@ -287,5 +285,11 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		this.menu = menu;
 	}
 
+	public String getProjectDescription() {
+		return projectDescription;
+	}
 
+	public void setProjectDescription(String projectDescription) {
+		this.projectDescription = projectDescription;
+	}
 }
