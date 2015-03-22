@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.utils;
 
 import java.text.Normalizer;
@@ -9,20 +5,19 @@ import java.text.Normalizer.Form;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Klasa koja poseduje metodu za pretvaranje labele u code name;
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * Class contains name transformation methods
+ * @author Kroki Team
  */
 public class NamingUtils {
 
-    private static String[] searchList = {"Ä", "ä", "Ö", "ö", "Ü", "ü", "ß", "Š", "š", "Đ", "đ", "Č", "č", "Ć", "ć", "Ž", "ž"};
+    private static String[] searchList = {"Ã„", "Ã¤", "Ã–", "Ã¶", "Ãœ", "Ã¼", "ÃŸ", "Å ", "Å¡", "Ä�", "Ä‘", "ÄŒ", "Ä�", "Ä†", "Ä‡", "Å½", "Å¾"};
     private static String[] replaceList = {"Ae", "ae", "Oe", "oe", "Ue", "ue", "sz", "Sh", "sh", "Dj", "dj", "Ch", "ch", "Cj", "cj", "Z", "z"};
 
     /**
      * Normalizes a String by removing all accents to original 127 US-ASCII
      * characters. This method handles German umlauts and "sharp-s" correctly
      *
-     * @param s
-     *            The String to normalize
+     * @param s The String to normalize
      * @return The normalized String
      */
     public static String normalize(String s) {
@@ -55,8 +50,7 @@ public class NamingUtils {
      * <li>Question mark
      * </ul>
      *
-     * @param s
-     *            The String to slugify
+     * @param s The String to slugify
      * @return The slugified String
      * @see #normalize(String)
      */

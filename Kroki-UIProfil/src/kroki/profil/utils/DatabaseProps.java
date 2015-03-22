@@ -2,6 +2,10 @@ package kroki.profil.utils;
 
 import java.io.Serializable;
 
+/**
+ * Database properties
+ * @author Kroki Team
+ */
 public class DatabaseProps implements Serializable {
 	
 	private static final long serialVersionUID = 4393631741627929274L;

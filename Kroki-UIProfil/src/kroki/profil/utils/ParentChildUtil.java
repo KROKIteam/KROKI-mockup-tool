@@ -25,9 +25,18 @@ import kroki.profil.panel.container.ParentChild;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
+/**
+ * Class contains <code>Hierarchy</code> util methods 
+ * @author Kroki Team
+ */
 public class ParentChildUtil {
 
 
+	/**
+	 * Sets default values of gui properties of the given parent-child panel
+	 * (properties panel, operations panel, layouts etc.)
+	 * @param panel
+	 */
 	public static void defaultGuiSettings(ParentChild panel) {
 		Composite root = ((Composite) panel.getComponent());
 		root.setLayoutManager(new BorderLayoutManager());
@@ -54,10 +63,11 @@ public class ParentChildUtil {
 	
 	
 
-	/**************/
-	/*JAVNE METODE*/
-	/**************/
-	/**VraÄ‡a sve elemente koji predstavljaju deo hijerarhijske strukture*/
+	/**
+	 * Return all hierarchies contained by the panel
+	 * @param panel Parent-child panel
+	 * @return All contained hierarchies
+	 */
 	public static List<Hierarchy> allContainedHierarchies(ParentChild panel) {
 		List<Hierarchy> allContainedHierarchies = new ArrayList<Hierarchy>();
 		for (VisibleElement visibleElement : panel.getVisibleElementList()) {
@@ -68,6 +78,12 @@ public class ParentChildUtil {
 		return allContainedHierarchies;
 	}
 
+	/**
+	 * Return all panels contained by the panel (all or only standard)
+	 * @param panel Parent-child panel
+	 * @param onlyStandard Indicates if only standard or all panels are considered
+	 * @return All contained panels
+	 */
 	public static List<VisibleClass> allContainedPanels(ParentChild panel, boolean onlyStandard){
 		List<VisibleClass> allContainedPanels = new ArrayList<VisibleClass>();
 		for (VisibleElement visibleElement : panel.getVisibleElementList()) {
@@ -78,9 +94,13 @@ public class ParentChildUtil {
 			}
 		}
 		return allContainedPanels;
-	}
+ 	}
 
-	/**VraÄ‡a broj elemenata hijerarhijske strukture*/
+	/**
+	 * Returns number of the hierarchies contained by the panel
+	 * @param panel Parent-child panel
+	 * @return Number of contained hierarchies
+	 */
 	public static int getHierarchyCount(ParentChild panel) {
 		int i = 0;
 		for (VisibleElement visibleElement : panel.getVisibleElementList()) {
@@ -91,7 +111,11 @@ public class ParentChildUtil {
 		return i;
 	}
 
-	/**VraÄ‡a koren hijerarhije. Ukoliko ga nema vraÄ‡a null.*/
+	/**
+	 * Return the root of the hierarchy (or null if there is none)
+	 * @param panel Parent-child panel
+	 * @return Root of the hierarchy or null if there is none
+	 */
 	public static Hierarchy getHierarchyRoot(ParentChild panel) {
 		Hierarchy root = null;
 		for (VisibleElement visibleElement : panel.getVisibleElementList()) {
@@ -105,7 +129,12 @@ public class ParentChildUtil {
 		return root;
 	}
 
-	/**Pronalazi sve hijerarhije Ä�iji nivo je jednak prosleÄ‘enom parametru <code>level</code>*/
+	/**
+	 * Returns all hierarchies at the given level
+ 	 * @param panel Parent-child panel
+ 	 * @param level Level
+	 * @return All hierarchies at the specified level
+	 */
 	public static List<Hierarchy> allHierarchiesByLevel(ParentChild panel, int level) {
 		List<Hierarchy> allHierarchiesByLevel = new ArrayList<Hierarchy>();
 		for (VisibleElement visibleElement : panel.getVisibleElementList()) {
@@ -121,6 +150,14 @@ public class ParentChildUtil {
 
 	//----------Target panel--------------------------------
 
+	/**
+	 * Return all panels which can become target panels.
+	 * That is, all suitable standard panels (found when examining next association ends of existing target panels) 
+	 * and parent-child panels which contain those standard panels (between which and the current parent-child panels
+	 * are no references at the time)
+	 * @param panel Parent-child panel
+	 * @return All possible target panels
+	 */
 	public static List<VisibleClass> getAllPosibleTargetPanels(ParentChild panel){
 		List<VisibleClass> ret = new ArrayList<VisibleClass>();
 
@@ -134,6 +171,11 @@ public class ParentChildUtil {
 
 	}
 
+	/**
+	 * Finds all possible target standard panels
+	 * @param panel Parent-child panel
+	 * @return All possible target standard panels
+	 */
 	private static List<VisibleClass> possibleTargetStandardPanels(ParentChild panel){
 		List<VisibleClass> ret = new ArrayList<VisibleClass>();
 
@@ -154,13 +196,20 @@ public class ParentChildUtil {
 		return ret;
 	}
 
+	/**
+	 * Finds all parent-child panels containing the given list of panels
+	 * Checks for mutual references between parent-child panels (which are prohibited)
+	 * @param panel Parent-child panel
+	 * @param linkedPanels List of panels needed to be contained
+	 * @return List of parent-child panels containing the given list of panels
+	 */
 	private static List<ParentChild> allParentChildPanelsContainingPanels(
 							ParentChild panel, List<VisibleClass> linkedPanels){
 		
 		List<ParentChild> ret = new ArrayList<ParentChild>();
 
 		List<ParentChild> allParentChildPanels = new ArrayList<ParentChild>();
-		getAllParentChildPanels(panel, getProject(panel, panel.umlPackage()), allParentChildPanels);
+		getAllParentChildPanels(BusinessSubsystemUtil.getProject(panel.umlPackage()), allParentChildPanels);
 		allParentChildPanels.remove(panel);
 
 		for (ParentChild parentChild : allParentChildPanels){
@@ -181,21 +230,25 @@ public class ParentChildUtil {
 		return ret;
 	}
 
-
-	private static void getAllParentChildPanels(ParentChild panel, UmlPackage umlPackage, List<ParentChild> ret){
+	/**
+	 * Finds all parent-child panels contained by a package and its nested packages
+	 * @param umlPackage Package
+	 * @param ret All contained parent-child panels
+	 */
+	private static void getAllParentChildPanels(UmlPackage umlPackage, List<ParentChild> ret){
 		for (UmlType umlType : umlPackage.ownedType())
 			if (umlType instanceof ParentChild)
 				ret.add((ParentChild)umlType);
 		for (UmlPackage containedPackage : umlPackage.nestedPackage())
-			getAllParentChildPanels(panel, containedPackage, ret);
+			getAllParentChildPanels(containedPackage, ret);
 	}
 
-	private static UmlPackage getProject(ParentChild panel, UmlPackage umlPackage){
-		if (umlPackage.nestingPackage() == null)
-			return umlPackage;
-		return getProject(panel, umlPackage.nestingPackage());
-	}
-
+	/**
+	 * Finds all panels which can be used to set values of the applied to property
+	 * @param panel Parent-child panel
+	 * @param parentChild Parent parent-child panel
+	 * @return All possible applied to panels
+	 */
 	public static List<VisibleClass> getPossibleAppliedToPanels(ParentChild panel, ParentChild parentChild){
 		List<VisibleClass> ret = new ArrayList<VisibleClass>();
 		List<VisibleClass> containedPanels = allContainedPanels(parentChild, true);
@@ -207,9 +260,11 @@ public class ParentChildUtil {
 	}	
 
 	/**
-	 * Proverava koje hijerarhije mogu biti parent za prosledjenu
-	 * @param hierarchy
-	 * @return
+	 * Checks which hierarchies can be the given hierarchy's parent
+	 * @param hierarchy Hierarchy
+	 * @param level Hierarchy level
+	 * @param thisPanel Parent-child panel
+	 * @return All possible parents
 	 */
 	public static List<Hierarchy> possibleParents(ParentChild thisPanel, Hierarchy hierarchy, int level){
 		if (hierarchy.getTargetPanel() == null)
@@ -218,7 +273,7 @@ public class ParentChildUtil {
 		List<Hierarchy> successors = HierarchyUtil.allSuccessors(hierarchy);
 
 
-		//ako je parent child, proveriti za applied to
+		//if it is a parent-child panel, check for applied to
 		VisibleClass panel = hierarchy.getTargetPanel();
 
 		if (panel instanceof ParentChild)
@@ -248,6 +303,13 @@ public class ParentChildUtil {
 		return ret;
 	}
 
+	/**
+	 * Finds all possible association ends for the given hierarchy at the given level
+	 * @param thisPanel Parent-child panel
+	 * @param hierarchy Hierarchy
+	 * @param level Hierarchy's level
+	 * @return All possible association ends
+	 */
 	public static List<VisibleAssociationEnd> possibleAssociationEnds(ParentChild thisPanel, Hierarchy hierarchy, int level){
 		List<VisibleAssociationEnd> ret = new ArrayList<VisibleAssociationEnd>();
 
@@ -257,8 +319,8 @@ public class ParentChildUtil {
 		VisibleClass panel = hierarchy.getTargetPanel();
 		List<VisibleClass> possiblePanelParents = possiblePanelParents(thisPanel, hierarchy, level);
 
-		//postoji navigabilna asocijacija gde je kardinalitet tog panela ne veci od 1
-		//=> ima  zoom ka tom panelu
+		//if there is a navigable association whose cardinality is 1 or less
+		//=> these is a zoom to that panel
 
 		List<Zoom> associations = VisibleClassUtil.containedZooms(panel);
 		for (Zoom zoom : associations){
@@ -269,9 +331,10 @@ public class ParentChildUtil {
 	}
 
 	/**
-	 * Nalazi mogu ce krajeve asocijacije, kada su poznati i targeg i hierarchy parent
-	 * @param hierarchy
-	 * @return
+	 * Fins all possible association ends for the given hierarchy, whose parent and target panels are not null
+	 * @param hierarchy Hierarchy
+	 * @param panel Parent-child panel
+	 * @return All possible association ends
 	 */
 	public static List<VisibleAssociationEnd> possibleAssociationEnds(ParentChild panel, Hierarchy hierarchy){
 		if (hierarchy.getTargetPanel() == null || hierarchy.getHierarchyParent() == null)
@@ -279,7 +342,7 @@ public class ParentChildUtil {
 
 
 		VisibleClass childPanel = hierarchy.getTargetPanel();
-		//ako je parent child, uzmi applied to 
+		//if it is a parent-child panel, use applied to values
 		if (childPanel instanceof ParentChild)
 			childPanel = hierarchy.getAppliedToPanel();
 		if (childPanel == null)
@@ -307,6 +370,13 @@ public class ParentChildUtil {
 
 
 
+	/**
+	 * Finds all possible parent for the given hierarchy at the given level
+	 * @param panel Parent-child panel
+	 * @param hierarchy Hierarchy
+	 * @param level Hierarchy's level
+	 * @return All possible hierarchy parent
+	 */
 	public static List<VisibleClass> possiblePanelParents(ParentChild panel, Hierarchy hierarchy, int level){
 		if (hierarchy.getTargetPanel() == null)
 			return null;
@@ -321,9 +391,10 @@ public class ParentChildUtil {
 
 
 	/** 
-	 * Proverava na kom se nivoi moze nalaziti hijerarhija imajuci u vidu koji je target panel
-	 * @param hierarchy
-	 * @return
+	 * Check at which level a hierarchy can be located having in mind which panel is its target panel
+	 * @param hierarchy Hierarchy
+	 * @param panel Parent-child panel
+	 * @return Possible levels
 	 */
 	public static Vector<Integer> possibleLevels(ParentChild panel, Hierarchy hierarchy){
 
@@ -350,11 +421,17 @@ public class ParentChildUtil {
 	}
 
 	
-
+	/**
+	 * Updates panel's hierarchies once the value of the target panel property
+	 *  of the given hierarchy has been updated
+	 * @param panel Parent-child panel
+	 * @param h Hierarchy
+	 * @param newTarget New target panel
+	 */
 	public static void updateTargetPanel(ParentChild panel, Hierarchy h, VisibleClass newTarget){
 		
 		List<ParentChild> parentChildList = new ArrayList<ParentChild>(); 
-		getAllParentChildPanels(panel, getProject(panel, panel.umlPackage()), parentChildList);
+		getAllParentChildPanels(BusinessSubsystemUtil.getProject(panel.umlPackage()), parentChildList);
 		for (ParentChild parentChild : parentChildList)
 			for (Hierarchy containedHierarchy : VisibleClassUtil.containedHierarchies(parentChild))
 				if (containedHierarchy.getTargetPanel() == panel && containedHierarchy.getAppliedToPanel() == h.getTargetPanel()){

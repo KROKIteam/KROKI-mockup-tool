@@ -13,13 +13,22 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 
+/**
+ * Class contains <code>Hierarchy</code> util methods 
+ * @author Kroki Team
+ */
 public class HierarchyUtil {
 
+	/**
+	 * Updates the hierarchy and its contained (child) hierarchies when the applied property is changed
+	 * @param hierarchy Hierarchy
+	 * @param newAppliedTo The new value of applied to property 
+	 */
 	public static void updateAppliedTo (Hierarchy hierarchy, VisibleClass newAppliedTo){
 
 		hierarchy.setAppliedToPanel(newAppliedTo);
 
-		//check children, leave everything as is in cases when child's target panel is linked to neAppliedTo
+		//check children, leave everything as is in cases when child's target panel is linked to newAppliedTo
 		//in other cases, reset hierarchies
 
 		VisibleClass panel;
@@ -57,7 +66,11 @@ public class HierarchyUtil {
 		}
 	}
 
-
+	/**
+	 * Updates the hierarchy and its contained (child) hierarchies when the target panel property is changed
+	 * @param hierarchy Hierarchy
+	 * @param newTarget New value of target panel property
+	 */
 	public static void updateTargetPanel(Hierarchy hierarchy, VisibleClass newTarget){
 
 		hierarchy.setTargetPanel(newTarget);
@@ -105,7 +118,11 @@ public class HierarchyUtil {
 			reset(hierarchy);
 	}
 	
-
+	/**
+	 * Resets a hierarchy - set properties such as parent, association end, target and applied to panel to null
+	 * and level to -1
+	 * @param hierarchy Hierarchy
+	 */
 	public static void reset(Hierarchy hierarchy){
 		hierarchy.setHierarchyParent(null);
 		hierarchy.setLevel(-1);
@@ -115,6 +132,11 @@ public class HierarchyUtil {
 		forceUpdateComponent(hierarchy);
 	}
 	
+	/**
+	 * Return all child hierarchies of the given hierarchy
+	 * @param hierarchy Hierarchy
+	 * @return List of child hierarchies
+	 */
 	public static List<Hierarchy> childHierarchies(Hierarchy hierarchy){
 		List<Hierarchy> ret = new ArrayList<Hierarchy>();
 		ParentChild panel = (ParentChild)hierarchy.umlClass();
@@ -124,12 +146,24 @@ public class HierarchyUtil {
 		return ret;
 	}
 	
+	/**
+	 * Return all hierarchies directly or indirectly contained by the hierarchy 
+	 * i.e. all successors 
+	 * @param hierarchy Hierarchy
+	 * @return List of successor hierarchies
+	 */
 	public static List<Hierarchy> allSuccessors(Hierarchy hierarchy){
 		List<Hierarchy> ret = new ArrayList<Hierarchy>();
 		allSuccessors(ret, hierarchy);
 		return ret;
 	}
 
+	/**
+	 * Return all hierarchies directly or indirectly contained by the hierarchy 
+	 * i.e. all successors 
+	 * @param hierarchy Hierarchy
+	 * @param ret List containing the results
+	 */
 	public static void allSuccessors(List<Hierarchy> ret, Hierarchy hierarchy){
 		List<Hierarchy> childHierarcies = childHierarchies(hierarchy);
 		ret.addAll(childHierarcies);
@@ -137,6 +171,11 @@ public class HierarchyUtil {
 			allSuccessors(ret, h);
 	}
 
+	/**
+	 * Changes level of the given hierarchy
+	 * @param hierarchy Hierarchy
+	 * @param newLevel New level
+	 */
 	public static void changeLevel (Hierarchy hierarchy, int newLevel){
 		int oldLevel = hierarchy.getLevel();
 		int diff = oldLevel - newLevel;
@@ -148,6 +187,11 @@ public class HierarchyUtil {
 			h.setLevel(h.getLevel() - diff);
 	} 	
 	
+	/**
+	 * Updates the hierarchy parent property of the given hierarchy 
+	 * @param hierarchy Hierarchy 
+	 * @param hierarchyParent New hierarchy parent
+	 */
 	public static void updateParent(Hierarchy hierarchy, Hierarchy hierarchyParent) {
 		hierarchy.setHierarchyParent(hierarchyParent);
 		if (hierarchyParent != null) {
@@ -163,6 +207,11 @@ public class HierarchyUtil {
 		}
 	}
 
+	/**
+	 * Set level and hierarchy parent of the hierarchy
+	 * @param panel Parent-child panel containing the hierarchy
+	 * @param hierarchy Hierarchy
+	 */
 	public static void setHierarchhyAttributes(ParentChild panel, Hierarchy hierarchy){
 		if (hierarchy.getLevel() != 0)
 			return;
@@ -174,14 +223,18 @@ public class HierarchyUtil {
 			hierarchy.setLevel(2);
 			hierarchy.setHierarchyParent(ParentChildUtil.getHierarchyRoot(panel));
 		} else {
-			//ako ima dva ili vise elemenata
-			//u pocetku ce biti nedefinisan dok se ne izabere targetPanel 
-			//(prikikom cega ce se odrediti level na osnovu uzajamnih veza izmedju elemenata hijerarhije
+			//if the panel has two or more element
+			//hierarchy panel and level will stay undefined until target panel is picked
+			//(these attributes will then be determined based on relationships between elements
+			//of the hierarchy)
 			hierarchy.setLevel(-1);
 		}
 	}
 	
-
+	/**
+	 * Updates graphical component connected with the hierarchy
+	 * @param hierarchy Hierarchy
+	 */
 	public static void forceUpdateComponent(Hierarchy hierarchy) {
 
 		int relX = hierarchy.getComponent().getRelativePosition().x;
