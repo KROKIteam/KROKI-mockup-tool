@@ -24,7 +24,7 @@ import org.eclipse.uml2.uml.internal.impl.ClassImpl;
  * of business operation types to be created for the
  * given operation.
  * 
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class OperationTypeComponent extends JPanel {

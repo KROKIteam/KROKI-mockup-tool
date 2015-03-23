@@ -26,7 +26,7 @@ import org.eclipse.uml2.uml.Operation;
  * be created when when the operations in a UML diagram do not have
  * a stereotype set that determines which kind of operation to create.
  *
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  */
 public class OperationsTypeDialog extends JDialog implements ActionListener{
 

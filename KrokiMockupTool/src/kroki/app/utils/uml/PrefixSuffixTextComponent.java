@@ -30,7 +30,7 @@ import javax.swing.border.EtchedBorder;
  * in the package, class, property or operation elements
  * of the UML diagram.
  * 
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class PrefixSuffixTextComponent extends JPanel implements ItemListener {
