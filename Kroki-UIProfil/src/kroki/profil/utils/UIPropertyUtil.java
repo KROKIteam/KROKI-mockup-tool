@@ -9,14 +9,19 @@ import kroki.profil.panel.container.ParentChild;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlProperty;
 
+/**
+* Class contains <code>UIProperty</code> util methods 
+* @author Kroki Team
+*/
 public class UIPropertyUtil {
 
 	
 
 
 	/**
-	 * Dodaje novi vidljivi element u listu svih vidljivih elemenata koje poseduje klasa.
-	 * @param visibleElement vidljivi element
+	 * Adds new visible element to the visible elements list of the given visible class
+	 * @param visibleElement Visible element
+	 * @param panel Panel
 	 */
 	public static void addVisibleElement(VisibleClass panel, VisibleElement visibleElement) {
 		if (!panel.getVisibleElementList().contains(visibleElement)) {
@@ -30,6 +35,13 @@ public class UIPropertyUtil {
 		}
 	}
 
+	/**
+	 * Adds new visible element to the visible elements list of the given visible class
+	 * at the position specified with index
+	 * @param visibleElement Visible element
+	 * @param panel Panel
+	 * @param index Position
+	 */
 	public static void addVisibleElement(VisibleClass panel, int index, VisibleElement visibleElement) {
 		if (!panel.getVisibleElementList().contains(visibleElement)) {
 			//visibleElement.setParentPanel(this);
@@ -46,8 +58,9 @@ public class UIPropertyUtil {
 	}
 
 	/**
-	 * BriÅ¡e vidljivi element iz liste svih vidljivih elemenata koje poseduje klasa.
-	 * @param visibleElement vidljivi element
+	 * Removes the visible element from the visible elements list of the given visible class
+	 * @param panel Panel
+	 * @param visibleElement Visible element
 	 */
 	public static void removeVisibleElement(VisibleClass panel, VisibleElement visibleElement) {
 		if (panel.getVisibleElementList().contains(visibleElement)) {
@@ -57,9 +70,11 @@ public class UIPropertyUtil {
 	}
 
 	/**
-	 * BriÅ¡e vidljivi element sa odreÄ‘ene pozicije u listi svih vidljivih elemenata klase.
-	 * @param index pozicija vidljivog elementa u listi
-	 * @return vidljivi element koji je obrisan. U sluÄ�aju da je <code>index</code> van opsega povratna vrednost ove metode je <code>null</code>
+	 * Removes the visible element with the given index from the panel's list of visible elements
+	 * and returns the element 
+	 * @param index Element's position
+	 * @param panel Panel
+	 * @return removed element
 	 */
 	public static VisibleElement removeVisibleElement(VisibleClass panel, int index) {
 		VisibleElement removed = null;
@@ -71,22 +86,29 @@ public class UIPropertyUtil {
 	}
 
 	/**
-	 * VraÄ‡a vidljivi element iz liste svih vidljivih elemenata sa pozicije odreÄ‘ene prosleÄ‘enim indeksom.
-	 * @param index indeks
-	 * @return vidljivi element
+	 * Finds the visible element with the given index in the panel's list of visible elements
+	 * @param index Element's position
+	 * @param panel Panel
+	 * @return visible element
 	 */
 	public static VisibleElement getVisibleElementAt(VisibleClass panel, int index) {
 		return panel.getVisibleElementList().get(index);
 	}
 
 	/**
-	 * VraÄ‡a broj vidljivih elemenata
-	 * @return broj vidljivih elemenata
+	 * Returns the number of visible elements contained by the panel
+	 * @return Number of visible elements
 	 */
 	public static  int getVisibleElementNum(VisibleClass panel) {
 		return panel.getVisibleElementList().size();
 	}
 
+	/**
+	 * Adds visible element to the panel's list of visible elements
+	 * Sets hierarchy properties if the element is a hierarchy
+	 * @param panel Panel
+	 * @param visibleElement Visible element
+	 */
 	public static void addVisibleElement(ParentChild panel, VisibleElement visibleElement) {
 		if (visibleElement instanceof Hierarchy) {
 			Hierarchy hierarchy = (Hierarchy) visibleElement;
@@ -96,6 +118,14 @@ public class UIPropertyUtil {
 	}
 
 
+	/**
+	 * Adds visible element to the panel's list of visible elements at the position
+	 * specified with <code>index</code>
+	 * Sets hierarchy properties if the element is a hierarchy
+	 * @param panel Panel
+	 * @param index Position
+	 * @param visibleElement Visible element
+	 */
 	public static void addVisibleElement(ParentChild panel, int index, VisibleElement visibleElement) {
 		if (visibleElement instanceof Hierarchy) {
 			Hierarchy hierarchy = (Hierarchy) visibleElement;

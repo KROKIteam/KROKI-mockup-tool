@@ -12,12 +12,17 @@ import kroki.mockup.model.components.TextField;
 import kroki.profil.VisibleElement;
 
 
+/**
+ * Class contains <code>VisibleElement</code> util methods 
+ * @author Kroki Team
+ */
 public class VisibleElementUtil {
 
     /**
-     * Kreira podrazumevanu komponentu korisniÄ�kog interfejsa
-     * u zavisnosti tipa komponente koja mu je pridruÅ¾ena.
-     * Tip komponente oznaÄ�en je nabrojanim tipom {@link  Input}
+     * Creates default user interface component based on the 
+     * component type specified for the given element (text field, text area etc.)
+     * Component's type is specified with enumerated type {@link  Input}
+     * @param element Visible element
      */
     public static void createDefaultComponent(VisibleElement element) {
     	

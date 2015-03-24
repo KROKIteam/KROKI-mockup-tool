@@ -244,10 +244,11 @@ public class HierarchyUtil {
 		((Composite) hierarchy.getParentGroup().getComponent()).removeChild(hierarchy.getComponent());
 
 		if (hierarchy.getTargetPanel() != null) {
-			//kloniram ceo target panel zbog prikaza!!!
+			//cloning the whole panel in order to visualize it
 			 hierarchy.setTargetPanelClone((VisibleClass) DeepCopy.copy(hierarchy.getTargetPanel()));
 
-			//ukoliko su neke od akcija u targetPanelu zabranjene one se ne mogu ododbriti od strane kraja asocijacije!!!!
+			 //if some of the actions are forbidden within the target panel hey cannot be permitted
+			 //by the assocation end
 			if (hierarchy.getTargetPanelClone() instanceof StandardPanel) {
 				StandardPanel panel = (StandardPanel)hierarchy.getTargetPanel();
 				hierarchy.setAdd(panel.isAdd());

@@ -14,14 +14,23 @@ import kroki.profil.group.GroupLocation;
 import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.StandardPanel;
 
+/**
+* Class contains <code>StandardPanel</code> util methods 
+* @author Kroki Team
+*/
 public class StandardPanelUtil {
 
 	  
+	/**
+	 * Sets default gui settings of the given panel.
+	 * Creates toolbar, properties panel, option panel etc.
+	 * @param panel Panel
+	 */
    public static void defaultGuiSettings(StandardPanel panel) {
-       //root komponenta i njen layout manager
+       
        Composite root = ((Composite) panel.getComponent());
        root.setLayoutManager(new BorderLayoutManager());
-       //OVO JE NOVO
+       
        panel.setToolbarPanel(new ElementsGroup("toolbar", ComponentType.PANEL));
        panel.getToolbarPanel().setGroupOrientation(GroupOrientation.horizontal);
        panel.getToolbarPanel().setGroupAlignment(GroupAlignment.left);
@@ -63,7 +72,8 @@ public class StandardPanelUtil {
    }
 
    /**
-    * Kreira mockup komponente za operacije u standardnom toolbaru
+    * Creates mockup components which contain standard toolbar operations 
+    * @param panel Panel
     */
    private static void createMockupForStandardOperations(StandardPanel panel) {
        panel.setAddButton(new Button());
@@ -107,6 +117,11 @@ public class StandardPanelUtil {
        panel.getLastButton().updateComponent();
    }
 
+   /**
+    * Initializes standard toolbar (which contains operations such as first, previous, next, last, add ...)
+    * Checks if the operations should be present on panel
+    * @param panel Panel
+    */
    public static void initializeStandardToolbar(StandardPanel panel) {
        Composite composite = (Composite) panel.getToolbarPanel().getComponent();
        if (panel.isSearch()) {
