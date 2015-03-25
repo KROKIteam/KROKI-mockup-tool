@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.uml_core_basic;
 
 /**
- *
+ * Interface represents UML typed element. That is, named element 
+ * with the specified type
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface UmlTypedElement extends UmlNamedElement {

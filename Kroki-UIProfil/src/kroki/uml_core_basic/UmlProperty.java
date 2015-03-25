@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.uml_core_basic;
 
 /**
+ * Interface represents UML property
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface UmlProperty extends UmlTypedElement, UmlMultiplicityElement {

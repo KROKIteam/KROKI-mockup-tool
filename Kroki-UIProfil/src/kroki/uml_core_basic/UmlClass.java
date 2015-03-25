@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.uml_core_basic;
 
 import java.util.List;
 
 /**
- *
+ * Interface representing UML class
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface UmlClass extends UmlType {
@@ -22,15 +18,4 @@ public interface UmlClass extends UmlType {
 
     public List<UmlClass> superClass();
 
-//    public void addAttribute(UmlProperty umlProperty);
-//
-//    public void addOperation(UmlOperation umlOperation);
-//
-//    public void addUmlClass(UmlClass umlClass);
-//
-//    public void removeAttribute(UmlProperty umlProperty);
-//
-//    public void removeOperation(UmlOperation umlOperation);
-//
-//    public void removeSuperClass(UmlClass superClass);
 }
