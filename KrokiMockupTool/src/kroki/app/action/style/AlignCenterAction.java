@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.style;
 
 import java.awt.event.ActionEvent;
@@ -27,6 +23,8 @@ import kroki.profil.panel.VisibleClass;
  */
 public class AlignCenterAction extends AbstractAction {
 
+	private static final long serialVersionUID = 1L;
+	
     public AlignCenterAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.alignCenter.smallImage"));
         putValue(SMALL_ICON, smallIcon);

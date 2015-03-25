@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
@@ -16,12 +12,14 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 
 /**
- *
+ * Renames an element
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class RenameAction extends AbstractAction {
 
-    VisibleElement visibleElement;
+	private static final long serialVersionUID = 1L;
+	
+	private VisibleElement visibleElement;
 
     public RenameAction(VisibleElement visibleElement) {
         this.visibleElement = visibleElement;

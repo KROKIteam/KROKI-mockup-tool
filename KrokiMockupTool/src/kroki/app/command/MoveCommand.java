@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.awt.Point;
@@ -13,16 +9,16 @@ import kroki.profil.group.ElementsGroup;
 import kroki.profil.utils.ElementsGroupUtil;
 
 /**
- * Komanda pomeranja elemenata.
+ * Command for moving the elements
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class MoveCommand implements Command {
 
-    /**Lista elementata koja je pomerena*/
+    /**List of element which are to be moved*/
     private List<VisibleElement> visibleElementList;
-    /**Pomeraj po x osi*/
+    /**x axis distance*/
     private int dx;
-    /**Pomeraj po y osi*/
+    /**y axis distance*/
     private int dy;
 
     public MoveCommand(List<VisibleElement> visibleElementList, int dx, int dy) {
@@ -32,9 +28,6 @@ public class MoveCommand implements Command {
         this.dy = dy;
     }
 
-    /***********************/
-    /*IMPLEMENTIRANE METODE*/
-    /***********************/
     public void doCommand() {
         for (int i = 0; i < visibleElementList.size(); i++) {
             VisibleElement visibleElement = visibleElementList.get(i);
@@ -65,9 +58,6 @@ public class MoveCommand implements Command {
         }
     }
 
-    /*****************/
-    /*PRIVATNE METODE*/
-    /*****************/
     private void dragElementsGroup(ElementsGroup elementsGroup, int dx, int dy) {
         for (int i = 0; i < ElementsGroupUtil.getVisibleElementsNum(elementsGroup); i++) {
             VisibleElement visibleElement = ElementsGroupUtil.getVisibleElementAt(elementsGroup, i);

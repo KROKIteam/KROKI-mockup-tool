@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.util.ArrayList;
@@ -29,7 +25,7 @@ public class CommandManager {
     }
 
     /**
-     * Ponavlja operaciju
+     * Repeats the operation
      */
     public void doCommand() {
         if (currentCommand < commandList.size()) {
@@ -39,7 +35,7 @@ public class CommandManager {
     }
 
     /**
-     * Ponistava operaciju
+     * reverses the effect of an operation
      */
     public void undoCommand() {
         if (currentCommand > 0) {

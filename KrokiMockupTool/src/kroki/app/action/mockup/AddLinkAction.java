@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.mockup;
 
 import java.awt.Image;
@@ -23,10 +19,12 @@ import kroki.profil.association.Next;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class AddLinkAction extends AbstractAction {
+	
+	private static final long serialVersionUID = 1L;
 
-    ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.addLink.smallImage"));
-    Image addEnabledIcon = CursorResource.getCursorResource("action.addLink.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+	private ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.addLink.smallImage"));
+	private Image addEnabledIcon = CursorResource.getCursorResource("action.addLink.smallImage");
+	private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public AddLinkAction() {
         putValue(SMALL_ICON, smallIcon);

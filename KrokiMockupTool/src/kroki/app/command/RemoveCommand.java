@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.util.ArrayList;
@@ -22,7 +18,7 @@ import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- * Komanda brisanja elementa
+ * Command for removing elements
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  * @author Renata
  */

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.mockup;
 
 import java.awt.Image;
@@ -25,9 +21,11 @@ import kroki.profil.operation.VisibleOperation;
  */
 public class AddButtonAction extends AbstractAction {
 
-    ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.addButton.smallImage"));
-    Image addEnabledIcon = CursorResource.getCursorResource("action.addButton.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+	private static final long serialVersionUID = 1L;
+	
+	private ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.addButton.smallImage"));
+	private Image addEnabledIcon = CursorResource.getCursorResource("action.addButton.smallImage");
+	private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public AddButtonAction() {
         putValue(SMALL_ICON, smallIcon);

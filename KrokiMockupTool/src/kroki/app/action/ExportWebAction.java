@@ -7,18 +7,20 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
-import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
-
+/**
+ * Action that generates configuration xml files for web app 
+ * @author Kroki Team
+ */
 public class ExportWebAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public ExportWebAction() {
 		putValue(NAME, "Export web application");

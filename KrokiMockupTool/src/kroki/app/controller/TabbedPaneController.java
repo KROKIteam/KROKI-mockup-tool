@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.controller;
 
 import java.awt.Cursor;
@@ -29,15 +25,15 @@ import kroki.profil.utils.StandardPanelUtil;
 
 /**
  *
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TabbedPaneController extends AbstractController {
 
-    /**Kontekst u kojem se nalazi aplikacija*/
-    Context context;
-    /**Komponenta koju je potrebno kontrolisati*/
-    JTabbedPane tabbedPane;
-    /**Lista otvorenih tabova*/
+    /**Application's current context*/
+    private Context context;
+    /**Component to be controlled*/
+    private JTabbedPane tabbedPane;
+    /**Open tabs list*/
     private List<Canvas> canvasList;
 
     public TabbedPaneController(JTabbedPane tabbedPane) {
@@ -59,10 +55,10 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /***************************************/
-    /*JAVNE METODE ZA RAD SA TABBED PANE-om*/
+    /*PUBLIC METHODS*/
     /***************************************/
     /**
-     * Otvara novi tab prazan tab.
+     * Opens new empty tab
      */
     public void openTab() {
         VisibleClass visibleClass = new StandardPanel();
@@ -85,8 +81,8 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Otvara novi tab za odredjenu vidljivu klasu
-     * @param visibleClass vidljiva klasa.
+     * Opens new tab for the specified visible class
+     * @param visibleClass Visible class
      */
     public void openTab(VisibleClass visibleClass) {
         Canvas canvas = new Canvas(visibleClass);
@@ -108,8 +104,8 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Zatvara tab koji se nalazi na poziciji oznaÄ�enoj prosleÄ‘enim indeksom.
-     * @param index indeks.
+     * Closes tab which at position specified with the index
+     * @param index Index
      */
     public void closeTab(int index) {
         canvasList.get(index).getSelectionModel().clearSelection();
@@ -118,8 +114,8 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * VraÄ‡a komponentu koja je pridruÅ¾ena tabu sa prosleÄ‘enim indeksom.
-     * @param index indeks
+     * Returns component which is connected to the tab with the specified index
+     * @param index Index
      * @return Canvas
      */
     public Canvas getTabContentAt(int index) {
@@ -127,7 +123,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * VraÄ‡a komponentu pridruÅ¾enu tabu koji je trenutno selektovan
+     * Return component which is connected to the selected tab
      * @return Canvas
      */
     public Canvas getCurrentTabContent() {
@@ -139,9 +135,9 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * VraÄ‡a indeks taba koji u sebi sadrÅ¾i prosleÄ‘enu vidljivu klasu
-     * @param visibleClass vidljiva klasa
-     * @return indeks
+     * Returns index of the tab which contains the specified visible class
+     * @param visibleClass Visible class
+     * @return Index of the tab
      */
     public int getTabIndex(VisibleClass visibleClass) {
         for (int i = 0; i < canvasList.size(); i++) {
@@ -154,9 +150,9 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * Proverava da li postoji otvoreni tab koji u sebi sadrÅ¾i vidljivu klasu
-     * @param visibleClass vidljiva klasa
-     * @return true/false
+     * Checks if there is an open tab which contains the specified visible class
+     * @param visibleClass Visible class
+     * @return <code>true</code> if the tab is found, <code>false</code> otherwise
      */
     public boolean containsTab(VisibleClass visibleClass) {
         for (Canvas canvas : canvasList) {
@@ -168,17 +164,17 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * PodeÅ¡ava naslov u zaglavlju taba
-     * @param index indeks taba
-     * @param title naslov
+     * Set the tab's title
+     * @param index Tab's index
+     * @param title Tab's title
      */
     public void setTitleAt(int index, String title) {
         tabbedPane.setTitleAt(index, title);
     }
 
     /**
-     * PodeÅ¡ava naslov taba koji u sebi ima vidljivu klasu
-     * @param visibleClass vidljiva klasa
+     * Set title of the tab which contains the specified visible class
+     * @param visibleClass Visible class
      */
     public void setTitleAt(VisibleClass visibleClass) {
         int index = getTabIndex(visibleClass);
@@ -186,16 +182,16 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * PodeÅ¡ava trenutno selektovani tab na tab sa prosleÄ‘enim indeksom
-     * @param index indeks
+     * Selects tab with the specified index
+     * @param index Tab's index
      */
     public void setCurrentTabIndex(int index) {
         tabbedPane.setSelectedIndex(index);
     }
 
     /**
-     * Menja ikonicu kursora u prosleÄ‘enu
-     * @param image ikonica
+     * Changes cursor image
+     * @param image Cursor image
      */
     public void changeCursorImage(Image image) {
         Toolkit toolkit;
@@ -212,12 +208,16 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /**
-     * OsveÅ¾ava sadrÅ¾aj tabbed pane-a
+     * Refreshes the content of the tabbed pane
      */
     public void updateTabbedPane() {
         tabbedPane.updateUI();
     }
 
+    /**
+     * Updates settings of the tab with the specified index
+     * @param index Index
+     */
     public void updateSettingsAt(int index) {
         if (index >= canvasList.size() || index < 0) {
             return;
@@ -227,7 +227,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /******************************************/
-    /*METODE NASLEÄ�ENE OD ABSTRACT CONTROLLERA*/
+    /*ABSTRACT CONTROLLERA METHODS*/
     /******************************************/
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -273,7 +273,7 @@ public class TabbedPaneController extends AbstractController {
     }
 
     /******************/
-    /*GETERI I SETTERI*/
+    /*GETTERS AND SETTERS*/
     /******************/
     public List<Canvas> getCanvasList() {
         return canvasList;

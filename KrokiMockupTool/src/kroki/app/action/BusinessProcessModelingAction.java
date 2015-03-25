@@ -27,6 +27,10 @@ import bp.app.AppCore;
 import bp.model.data.Process;
 import bp.util.WorkspaceUtility;
 
+/**
+ * Business process modelling tool
+ * @author Kroki Team
+ */
 public class BusinessProcessModelingAction extends AbstractAction {
 
 	/**

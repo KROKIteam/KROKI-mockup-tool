@@ -3,7 +3,6 @@ package kroki.app.action;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,15 +16,14 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.profil.utils.DatabaseProps;
-
-import org.apache.commons.io.FileDeleteStrategy;
 
 /**
  * Action that runs selected project as web application
  * @author Milorad Filipovic
  */
 public class RunWebAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public RunWebAction() {
 		putValue(NAME, "Run web version");
@@ -53,7 +51,7 @@ public class RunWebAction extends AbstractAction {
 
 						SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmmssSSS");
 						Date today = new Date();
-						String dateSuffix = formatter.format(today);
+						//String dateSuffix = formatter.format(today);
 						String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
 						
 						//get temporary location in KROKI directory
@@ -63,8 +61,9 @@ public class RunWebAction extends AbstractAction {
 
 
 						//generate connection settings for embedded h2 database
-						DatabaseProps tempProps = new DatabaseProps();
+						//DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
+						
 						ProjectExporter exporter = new ProjectExporter(false);
 						exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
 

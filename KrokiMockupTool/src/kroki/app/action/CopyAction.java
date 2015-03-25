@@ -1,6 +1,7 @@
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,12 @@ import kroki.app.view.Canvas;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 
+/**
+ * Copies elements
+ * @author Kroki Team
+ */
 public class CopyAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public CopyAction() {
@@ -53,7 +55,7 @@ public class CopyAction extends AbstractAction {
             Canvas c = tabbedPaneController.getCurrentTabContent();
             SelectionModel selectionModel = c.getSelectionModel();
             
-            //pravim listu elemenata za izbaciti iz selekcije
+            //list of elements to be removed from the selection
             List<VisibleElement> cutted = new ArrayList<VisibleElement>();
             for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
                 if (!(visibleElement instanceof VisibleClass) && visibleElement.getParentGroup() != null) {

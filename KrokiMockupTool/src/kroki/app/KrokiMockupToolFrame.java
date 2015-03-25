@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app;
 
 import java.awt.BorderLayout;
@@ -70,52 +66,59 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 
 /**
- *
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
+ * Kroki mockup tool main frame
+ * @author Kroki Team
  */
 public class KrokiMockupToolFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	GuiManager guiManager;
 	/*******************/
-	/*GLAVNE KOMPONENTE*/
+	/*MAIN COMPONENTS*/
 	/*******************/
 	private JPanel topPanel;
-	/**Komponenta koja deli sadrzaj glavnog panela na dva dela.*/
+	/**Component which splits the content of the main panel into two parts*/ 
 	private JSplitPane mainSplitPane;
-	/**Glavni meni*/
+	/**Main menu*/
 	private JMenuBar mainMenuBar;
-	/**Panel za ispisivanje trenutnog statusa*/
+	/**Status bar*/
 	private JPanel statusBar;
-	/**splitPane sa canvasom i konzolom**/
+	/**Component which splits the central part of the frame into two parts - drawing canvas and command console*/
 	private JSplitPane canvasSplitPane;
 	/***************************************/
-	/*KOMPONENTE SADRZANE U GLAVNOM PANEL-u*/
+	/*Components contained by the main panel*/
 	/***************************************/
+	/**Main toolbar*/
 	private JToolBar mainToolbar;
-	/**Komponenta koja predstavlja tabulatorski panel u kojem ce se naci hijerarhijski uredjena struktura projekata. Levi deo mainSplitPane-a*/
+	/**Component which represents the tabular panel which will contain the hierarchically organize structure of the project.
+	 * It is placed on the left side of the {@link mainSplitPane}*/
 	private JTabbedPane treeTabbedPane;
-	/**Komponenta koja predstavlja tabulatorski panel u kojem ce se naci kanvas. Desni deo mainSplitPane-a*/
+	/**Component represents tabular panel which will contain the canvas. 
+	 * It is placed on the right side of the {@link mainSplitPane}*/
 	private JTabbedPane canvasTabbedPane;
-	/**Stablo kojim se prikazuje hijerarhija otvorenih projekata u datoj aplikaciji*/
+	/**Tree which shows the hierarchical structured of the opened projects*/
 	private JTree tree;
-
+	/**Command console*/
 	private CommandPanel console;
-
+	/**Components which splits the left part of the {@link mainSplitPane} into two parts*/
 	private JSplitPane leftSplitPane;
 	/***********************************/
-	/*KOMPONENTE SADRZANE U MAIN MENU-u*/
+	/*Components contained by the main menu*/
 	/***********************************/
 	private CutAction cutAction;
 	private CopyAction copyAction;
 	private PasteAction pasteAction;
 	/************************************/
-	/*KOMPONENTE SADRZANE U STATUS BAR-u*/
+	/*Status bar components*/
 	/************************************/
 	private JLabel statusMessage;
 
 	private SettingsFactory settingFactory = new SettingsFactory();
 
-	/**Konstruise {@code KrokiMockupToolFrame} bez parametara*/
+	/**Constructor of the {@code KrokiMockupToolFrame} class*/
 	public KrokiMockupToolFrame(GuiManager guiManager) {
 		super();
 		this.guiManager = guiManager;
@@ -125,11 +128,8 @@ public class KrokiMockupToolFrame extends JFrame {
 		setTitle(StringResource.getStringResource("app.header"));
 	}
 
-	/************************************/
-	/*PRIVATNE METODE ZA INICIJALIZACIJU*/
-	/************************************/
 	/**
-	 * Inicijalizuje osnovne sastavne komponente
+	 * Initializes main components
 	 */
 	private void initMainComponents() {
 		topPanel = new JPanel();
@@ -159,19 +159,31 @@ public class KrokiMockupToolFrame extends JFrame {
 				File tempDir = new File(appPath);
 
 				deleteFiles(tempDir);
+				
+				//save projects
+				if (KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount() == 0)
+		    		System.exit(1);
+		    	
+		    	int answer = JOptionPane.showConfirmDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(),
+		    			"Save changes before closing the application?", "?", JOptionPane.YES_NO_CANCEL_OPTION);
+		    	if (answer == JOptionPane.NO_OPTION)
+		    		System.exit(1);
+		    	else if (answer == JOptionPane.YES_OPTION){
+		    		KrokiMockupToolApp.getInstance().getWorkspace().saveAllProjects();
+		    		System.exit(1);
+		    	}
+		    	else {} //canceled
 			}
 		});
 	}
 
 	/**
-	 * Inicijalizuje glavni panel.
+	 * Initializes the main panel.
 	 */
 	private void initMainPanel() {
-		//debljina i pozicija dividera
 		mainSplitPane.setDividerSize(2);
 		mainSplitPane.setResizeWeight(0.2f);
 
-		//tabbed pane sa tree
 		treeTabbedPane = new JTabbedPane();
 		treeTabbedPane.setName("hierarchyTabbedPane");
 
@@ -222,7 +234,6 @@ public class KrokiMockupToolFrame extends JFrame {
 			});
 		
 		treeTabbedPane.addTab(StringResource.getStringResource("app.tab.hierarchy.label"), new ImageIcon(ImageResource.getImageResource("app.tab.hierarchy.icon")), new JScrollPane(tree));
-		//tabbed pane sa canvasom i panelom za podesavanja
 
 		console = new CommandPanel();
 		JLabel consoleLbl = new JLabel("Command Window");
@@ -252,7 +263,7 @@ public class KrokiMockupToolFrame extends JFrame {
 		}
 
 		/**
-		 * Inicijalizuje glavni meni
+		 * Initializes the main menu.
 		 */
 		private void initMainMenu() {
 			mainMenuBar = new JMenuBar();
@@ -276,7 +287,7 @@ public class KrokiMockupToolFrame extends JFrame {
 			file.add(new SaveAsAction());
 			file.add(new SaveAllAction());
 			file.addSeparator();
-			//Dodavanje dela za import i export
+			
 			JMenu importFileMenu=new JMenu();
 			importFileMenu.setName("import");
 			importFileMenu.setText(StringResource.getStringResource("menu.file.submenu.import"));
@@ -297,7 +308,6 @@ public class KrokiMockupToolFrame extends JFrame {
 
 
 			file.addSeparator();
-			//Kraj dela za dodavanje import i export
 
 			file.add(new ExitAction());
 
@@ -349,7 +359,7 @@ public class KrokiMockupToolFrame extends JFrame {
 		}
 
 		/**
-		 * Inicijalizuje toolbar
+		 * Initializes the toolbars.
 		 */
 		private void initToolbars() {
 			mainToolbar = new JToolBar(JToolBar.HORIZONTAL);
@@ -370,36 +380,35 @@ public class KrokiMockupToolFrame extends JFrame {
 		}
 
 		/**
-		 * Inicijalizuje status bar.
+		 * Initializes the status bar
 		 */
 		private void initStatusBar() {
 			statusMessage = new JLabel();
-			statusMessage.setName("Status message");
-			//TODO: staviti iz resource bunde-a
-			statusMessage.setText("Status message");
+			statusMessage.setName(StringResource.getStringResource("status.message.name"));
+			statusMessage.setText(StringResource.getStringResource("status.message.text"));
 			statusBar.setLayout(new FlowLayout(FlowLayout.LEFT));
 			statusBar.add(statusMessage);
 		}
 
 		/**
-		 * Dodaje komponentu na mesto glavnog panela.
-		 * @param c glavni panel
+		 * Adds the main panel to the frame
+		 * @param c Main panel
 		 */
 		private void addContent(JComponent c) {
 			this.add(c, BorderLayout.CENTER);
 		}
 
 		/**
-		 * Dodaje komponentu na mesto glavnog menia
-		 * @param c glavni meni
+		 * Adds the main menu
+		 * @param c Man menu
 		 */
 		private void addMenuBar(JComponent c) {
 			this.add(c, BorderLayout.NORTH);
 		}
 
 		/**
-		 * Dodaje komponentu na mesto status bara.
-		 * @param c status bar.
+		 * Adds the status bar
+		 * @param c Status bar
 		 */
 		private void addStatusBar(JComponent c) {
 			this.add(c, BorderLayout.SOUTH);
@@ -410,7 +419,7 @@ public class KrokiMockupToolFrame extends JFrame {
 		 * 	- If a project is selected, returns it
 		 * 	- If package or panel is selected, finds containing project and returns it
 		 *  - If nothing is selected and only one project exists in workspace, return that project
-		 * @return
+		 * @return Currently selected project
 		 */
 		public BussinesSubsystem getCurrentProject() {
 			BussinesSubsystem proj = null;
@@ -471,7 +480,7 @@ public class KrokiMockupToolFrame extends JFrame {
 	
 
 		/*****************/
-		/*GETERI I SETERI*/
+		/*GETTERS AND SETTERS*/
 		/*****************/
 		public JTabbedPane getCanvasTabbedPane() {
 			return canvasTabbedPane;

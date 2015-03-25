@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app;
 
 
@@ -32,14 +28,10 @@ import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
  *
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
- * ovo je sad izmenjeno
+ * @author Kroki Team
  */
 public class KrokiMockupToolApp {
 
-	/**
-	 *
-	 */
 	private static KrokiMockupToolApp krokiMockupApp;
 	private KrokiMockupToolFrame krokiMockupToolFrame;
 	private TabbedPaneController tabbedPaneController;
@@ -49,6 +41,7 @@ public class KrokiMockupToolApp {
 	private GuiManager guiManager;
 	private static KrokiMockupToolSplashScreen splash;
 
+	@SuppressWarnings("serial")
 	public KrokiMockupToolApp() {
 		KrokiLookAndFeel.setLookAndFeel();
 		guiManager = new GuiManager();
@@ -86,9 +79,9 @@ public class KrokiMockupToolApp {
 				//project icons
 				if(value instanceof BussinesSubsystem) {
 					BussinesSubsystem proj = (BussinesSubsystem) value;
-					Workspace workspace = KrokiMockupToolApp.getInstance().getWorkspace();
+					//Workspace workspace = KrokiMockupToolApp.getInstance().getWorkspace();
 					//since both projects and packages are BussinesSubsystem instances
-					//we need to change icons only for imediate childern of workspace (projects)
+					//we need to change icons only for immediate children of the workspace (projects)
 					if(krokiMockupApp.isProject(proj)) {
 						setIcon(projectIcon);
 					}
@@ -123,7 +116,7 @@ public class KrokiMockupToolApp {
 				krokiMockupToolFrame.setExtendedState(krokiMockupToolFrame.getExtendedState() | JFrame.NORMAL);
 				krokiMockupToolFrame.setLocationRelativeTo(null);
 				krokiMockupToolFrame.toFront();
-				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				krokiMockupToolFrame.getStatusMessage().setText(StringResource.getStringResource("app.state.select"));
 				try {
 					Thread.sleep(1000);
@@ -148,8 +141,8 @@ public class KrokiMockupToolApp {
 		tcm.getMappings();
 	}
 
-	/*
-	 * Returns dimension that is 80% of the screen size
+	/**
+	 * @return Dimension that is 80% of the screen size
 	 */
 	public Dimension getPreferredSize() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -160,11 +153,15 @@ public class KrokiMockupToolApp {
 		int h = (int)Math.floor(height*0.8);
 		return new Dimension(w, h);
 	}
-	
+
 
 	//*****************************************[ SEARCH METHODS ]***************************************************
 
-	//Finds project with specified label
+	/**
+	 * Finds project with specified label
+	 * @param label Label
+	 * @return Project with the specified label
+	 */
 	public BussinesSubsystem findProject(String label) {
 		BussinesSubsystem project = null;
 		for (int i=0; i<workspace.getPackageCount(); i++) {
@@ -175,30 +172,36 @@ public class KrokiMockupToolApp {
 		}
 		return project;
 	}
-	
-	//Finds project with specified file
-		public BussinesSubsystem findProject(File file) {
-			BussinesSubsystem project = null;
-			for (int i=0; i<workspace.getPackageCount(); i++) {
-				BussinesSubsystem proj = (BussinesSubsystem) workspace.getPackageAt(i);
-				if(proj.getFile() != null && proj.getFile().getPath().equals(file.getPath())) {
-					return proj;
-				}
-			}
-			return project;
-		}
 
-	//Finds package with specified label inside specified project or package
+	/**
+	 * Finds project with the specified file
+	 * @param file File
+	 * @return Project with the specified file
+	 */
+	public BussinesSubsystem findProject(File file) {
+		BussinesSubsystem project = null;
+		for (int i=0; i<workspace.getPackageCount(); i++) {
+			BussinesSubsystem proj = (BussinesSubsystem) workspace.getPackageAt(i);
+			if(proj.getFile() != null && proj.getFile().getPath().equals(file.getPath())) {
+				return proj;
+			}
+		}
+		return project;
+	}
+
+	/**
+	 * Finds package with specified label inside the specified project or package 
+	 * @param label Label
+	 * @param owner Project or package which contains the package with the specified label
+	 * @return Package with specified label inside the specified project or package 
+	 */
 	public BussinesSubsystem findPackage(String label, BussinesSubsystem owner) {
-		//System.out.println("\tTRAZIM " + label + " UNUTAR " + owner.getLabel());
 		for(int i=0; i<owner.ownedElementCount(); i++) {
 			if(owner.getOwnedElementAt(i) instanceof BussinesSubsystem) {
 				BussinesSubsystem p = (BussinesSubsystem) owner.getOwnedElementAt(i);
 				if(p.getLabel().equalsIgnoreCase(label)) {
-					//System.out.println("\tNASAO " + p.getLabel() + " UNUTAR " + owner.getLabel());
 					return p;
 				}else {
-					//System.out.println("\tNISAM NASAO IDEM U " + p.getLabel());
 					return findPackage(label, p);
 				}
 			}
@@ -207,7 +210,11 @@ public class KrokiMockupToolApp {
 	}
 
 
-	//Finds owner project for specified package
+	/**
+	 * Finds the project which directly contains the specified package (its owner)
+	 * @param pack Package 
+	 * @return Project owning the specified package
+	 */
 	public BussinesSubsystem findProject(BussinesSubsystem pack) {
 		if(isProject(pack)) {
 			//if passed subsystem is project, return it
@@ -215,24 +222,33 @@ public class KrokiMockupToolApp {
 		}else {
 			BussinesSubsystem owner = (BussinesSubsystem) pack.nestingPackage();
 			if(isProject(owner)) {
-				//if imediate parent is project, return it
+				//if immediate parent is a project, return it
 				return owner;
 			}else {
-				//else, go one level up, and check owner's parents until one of them is project
+				//else, go one level up, and check owner's parents until one of them is a project
 				return findProject(owner);
 			}
 		}
 	}
 
-	//checks if business subsystem is project (returns false if it's package)
+	/**
+	 * Checks if the specified package (business subsystem) is a project
+	 * @param sub Package
+	 * @return <code>true</code> if the package is a project, <code>false</code> otherwise
+	 */
 	public boolean isProject(BussinesSubsystem sub) {
-		if(sub.nestingPackage() == null) {
+		if(sub != null && sub.nestingPackage() == null) {
 			return true;
 		}else {
 			return false;
 		}
 	}
 
+	/**
+	 * Checks if a package with the given label is a project
+	 * @param label Package label
+	 * @return <code>true</code> if the package is a project, <code>false</code> otherwise
+	 */
 	public boolean isProject(String label) {
 		if(findProject(label) != null) {
 			return true;
@@ -240,10 +256,10 @@ public class KrokiMockupToolApp {
 			return false;
 		}
 	}
-	
+
 	//***************************************************************************************************************
 
-	
+
 	public KrokiMockupToolFrame getKrokiMockupToolFrame() {
 		return krokiMockupToolFrame;
 	}
@@ -287,7 +303,7 @@ public class KrokiMockupToolApp {
 	public void setGuiManager(GuiManager guiManager) {
 		this.guiManager = guiManager;
 	}
-	
+
 	public ClipboardManager getClipboardManager() {
 		ClipboardManager.getInstance().setCanvas(getTabbedPaneController().getCurrentTabContent());
 		return ClipboardManager.getInstance();

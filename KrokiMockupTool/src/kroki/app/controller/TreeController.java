@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.controller;
 
 import java.awt.event.KeyEvent;
@@ -22,8 +18,6 @@ import kroki.app.action.CreatePresistentDiagramAction;
 import kroki.app.action.CreateUIDiagramAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.DeleteAction;
-import kroki.app.action.ExportSwingAction;
-import kroki.app.action.ExportWebAction;
 import kroki.app.action.NewFileAction;
 import kroki.app.action.NewPackageAction;
 import kroki.app.action.NewProjectAction;
@@ -35,7 +29,7 @@ import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
  *
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TreeController extends AbstractTreeController {
 
@@ -77,7 +71,7 @@ public class TreeController extends AbstractTreeController {
 			} else if (node instanceof BussinesSubsystem) {
 				//System.out.println("BUSSINESSUBSYSTEM");
 			} else if (node instanceof VisibleClass) {
-				VisibleClass v = (VisibleClass) node;
+				//VisibleClass v = (VisibleClass) node;
 				if(node instanceof StandardPanel) {
 				}
 			}

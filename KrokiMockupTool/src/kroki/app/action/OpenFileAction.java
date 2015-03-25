@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
@@ -19,12 +15,14 @@ import kroki.app.utils.SaveUtil;
 import kroki.app.utils.StringResource;
 
 /**
- *
+ * Loads a saved project
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class OpenFileAction extends AbstractAction {
 
-    public OpenFileAction() {
+	private static final long serialVersionUID = 1L;
+
+	public OpenFileAction() {
         putValue(NAME, StringResource.getStringResource("action.openFile.name"));
         putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.openFile.description"));
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O,KeyEvent.CTRL_DOWN_MASK));

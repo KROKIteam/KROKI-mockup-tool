@@ -29,12 +29,14 @@ import framework.MainFrame;
 import gui.menudesigner.model.Submenu;
 
 /**
- * 
- * @author Bane - Administration Subsystem
+ * Administration Subsystem
+ * @author Bane
  *
  */
 public class AdministrationSubsytemAction extends AbstractAction{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String,String> panelType = new HashMap<String,String>();
 	private NamingUtil cc;
 	
@@ -46,6 +48,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		putValue(SMALL_ICON, smallIcon);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Get selected project from the workspace
@@ -132,6 +135,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		urDao.save(adminUserRole);	
 	}
 
+	@SuppressWarnings("rawtypes")
 	private boolean compareResources(List<String> sResources) {
 		dao.administration.ResourceHibernateDao rDao = new dao.administration.ResourceHibernateDao();
 		List<ejb.administration.Resource> resources = rDao.findAll();

@@ -22,11 +22,12 @@ import kroki.app.view.Canvas;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 
+/**
+ * Cuts elements
+ * @author Kroki Team
+ */
 public class CutAction extends AbstractAction {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public CutAction() {
@@ -55,7 +56,7 @@ public class CutAction extends AbstractAction {
             CommandManager commandManager = c.getCommandManager();
             SelectionModel selectionModel = c.getSelectionModel();
             
-            //pravim listu elemenata za izbaciti iz selekcije
+            //list of elements to be removed from the selection
             List<VisibleElement> cutted = new ArrayList<VisibleElement>();
             for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
                 if (!(visibleElement instanceof VisibleClass) && visibleElement.getParentGroup() != null) {

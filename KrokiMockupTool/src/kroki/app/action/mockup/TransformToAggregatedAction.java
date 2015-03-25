@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.mockup;
 
 import java.awt.Image;
@@ -16,14 +12,16 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 
 /**
- *
+ * Action for transforming a field into an aggrefate field
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TransformToAggregatedAction extends AbstractAction {
 
-    ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.transformToAggregated.smallImage"));
-    Image addEnabledIcon = CursorResource.getCursorResource("action.transformToAggregated.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+	private static final long serialVersionUID = 1L;
+	
+	private ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.transformToAggregated.smallImage"));
+	private Image addEnabledIcon = CursorResource.getCursorResource("action.transformToAggregated.smallImage");
+	private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public TransformToAggregatedAction() {
         putValue(SMALL_ICON, smallIcon);

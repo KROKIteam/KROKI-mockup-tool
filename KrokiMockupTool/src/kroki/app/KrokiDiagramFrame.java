@@ -34,12 +34,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -47,10 +42,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import kroki.app.model.Workspace;
 import kroki.app.utils.ImageResource;
-import kroki.common.copy.DeepCopy;
-
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -66,8 +58,14 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+/**
+ * Kroki project visualizer
+ * @author Kroki Team
+ */
 public class KrokiDiagramFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+	
 	private JSVGCanvas canvas;
 	private JPanel statusPanel;
 	private JLabel nameLabel;
@@ -341,7 +339,8 @@ public class KrokiDiagramFrame extends JFrame {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			// Write the image to "os"
-			String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+			//String desc = reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
+			reader.generateImage(os, new FileFormatOption(FileFormat.SVG));
 			os.close();
 			// The XML is stored into svg
 			String svg = new String(os.toByteArray());

@@ -23,10 +23,12 @@ import kroki.profil.utils.VisibleClassUtil;
 
 
 /**
- * Akcija za eksport projekta u xml fajl
- * @author mrd
+ * Export the project to an XML file
+ * @author Kroki Team
  */
 public class ExportAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public ExportAction() {
 		putValue(NAME, "Export...");
@@ -51,7 +53,7 @@ public class ExportAction extends AbstractAction {
         	
         	VisibleElement el = project.getOwnedElementAt(i);
         	if(el instanceof BussinesSubsystem) {
-        		System.out.println("Eelement " + i + ": " + el.getLabel() + " je podsistem");
+        		System.out.println("Eelement " + i + ": " + el.getLabel() + " is a subsystem");
         	}else if(el instanceof VisibleClass) {
         		if(el instanceof StandardPanel) {
         			StandardPanel sp = (StandardPanel)el;
@@ -92,7 +94,7 @@ public class ExportAction extends AbstractAction {
         			}
         			
         			
-        			//-------------------------ATRIBUTI KLASE-----------------------------------------------------------------------------
+        			//-------------------------CLASS ATTRIBUTES-----------------------------------------------------------------------------
         			for(int j=0; j < VisibleClassUtil.containedProperties(vc).size(); j++) {
         				VisibleProperty vp = VisibleClassUtil.containedProperties(vc).get(j);
         			
@@ -104,12 +106,12 @@ public class ExportAction extends AbstractAction {
         				ejbString += "	" + l + " " + cc.toCamelCase(z.getLabel(), true) + " : " + z.getTargetPanel().getLabel() + "\n";
         			}
         			
-        			//--------------------------OPERACIJE------------------------------------------------
+        			//--------------------------OPERATIONS------------------------------------------------
         			for(int k=0; k < VisibleClassUtil.containedOperations(vc).size(); k++) {
         				VisibleOperation vo = VisibleClassUtil.containedOperations(vc).get(k);
         				if(vo instanceof BussinessOperation) {
         					if(vo instanceof Report) {
-        						Report r = (Report)vo;
+        						//Report r = (Report)vo;
         						
         						opsString += "	" + k + " " + cc.toCamelCase(vo.getLabel(), true) + " : REPORT\n";
         					}else if (vo instanceof Transaction) {

@@ -21,12 +21,16 @@ import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 import kroki.uml_core_basic.UmlTypedElement;
 
+/**
+ * Command for pasting elements
+ * @author Kroki Team
+ */
 public class PasteCommand implements Command {
 
 	private List<VisibleElement> elements;
 	private VisibleClass visibleClass;
     private ElementsGroup elementsGroup;
-    private Point point;
+   // private Point point;
     private int classIndex, groupIndex;
     private boolean cutAction;
     private Map<UmlProperty, UmlProperty> oppositeMap = new HashMap<UmlProperty, UmlProperty>();
@@ -43,7 +47,7 @@ public class PasteCommand implements Command {
         	restoreAttributes(el, el);
         }
         	
-        this.point = point;
+       // this.point = point;
         this.cutAction = cutAction;
         classIndex = visibleClass.getVisibleElementList().size();
         groupIndex = elementsGroup.getVisibleElementList().size();

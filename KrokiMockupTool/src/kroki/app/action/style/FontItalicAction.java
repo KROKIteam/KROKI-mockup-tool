@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.style;
 
 import java.awt.Font;
@@ -21,6 +17,8 @@ import kroki.profil.VisibleElement;
  */
 public class FontItalicAction extends AbstractAction {
 
+	private static final long serialVersionUID = 1L;
+	
     public FontItalicAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.italic.smallImage"));
         putValue(SMALL_ICON, smallIcon);

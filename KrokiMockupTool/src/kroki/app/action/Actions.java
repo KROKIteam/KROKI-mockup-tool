@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.util.HashMap;
@@ -18,12 +14,11 @@ import kroki.app.action.mockup.AddTextAreaAction;
 import kroki.app.action.mockup.AddTextFieldAction;
 
 /**
- * Klasa koja rukuje sa akcijama
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Action handler
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Actions {
 
-    /*StatiÄ�ki atributi*/
     public static final String NEW_FILE = "NEW_FILE";
     public static final String NEW_PROJECT = "NEW_PROJECT";
     public static final String OPEN_PROJECT = "OPEN_PROJECT";
@@ -43,7 +38,7 @@ public class Actions {
     public static final String ADD_TEXTFIELD = "ADD_TEXTFIELD";
     public static final String ADD_CHECKBOX = "ADD_CHECKBOX";
     public static final String ADD_RADIOBUTTON = "ADD_RADIOBUTTON";
-    /**Mapa akcija*/
+    /**Actions map*/
     private HashMap<String, AbstractAction> actionMap;
 
     public Actions() {
@@ -57,7 +52,7 @@ public class Actions {
         actionMap.put(SAVE_AS, new SaveAsAction());
         actionMap.put(SAVE_ALL, new SaveAllAction());
         actionMap.put(EXIT, new ExitAction());
-        //akcije koje se nalaze na toolbaru za dodavanje komponenti
+        //actions located of the components palette
         actionMap.put(ADD_BUTTON, new AddButtonAction());
         actionMap.put(ADD_CHECKBOXES, new AddCheckBoxesAction());
         actionMap.put(ADD_COMBOBOX, new AddComboBoxAction());
@@ -71,26 +66,26 @@ public class Actions {
     }
 
     /**
-     * VraÄ‡a akciju sa zadatim kljuÄ�em
-     * @param key kljuÄ�
-     * @return akcija
+     * Finds action with the specified key
+     * @param key Key
+     * @return Action with the specified key
      */
     public AbstractAction getAction(String key) {
         return actionMap.get(key);
     }
 
     /**
-     * Registruje novu akciju
-     * @param key kljuÄ�
-     * @param action akcija
+     * Registers a new action
+     * @param key Key
+     * @param action Action
      */
     public void registerAction(String key, AbstractAction action) {
         actionMap.put(key, action);
     }
 
     /**
-     * Deregistruje akciju
-     * @param key kljuÄ�
+     * Unregisters the action with the specified key
+     * @param key Key
      */
     public void unregisterAction(String key) {
         actionMap.remove(key);

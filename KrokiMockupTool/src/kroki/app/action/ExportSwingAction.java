@@ -18,9 +18,12 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
- * Action that generates configuration xml files for web app 
+ * Action that generates configuration xml files for swing app 
+ * @author Kroki Team
  */
 public class ExportSwingAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public ExportSwingAction() {
 		putValue(NAME, "Export desktop application");

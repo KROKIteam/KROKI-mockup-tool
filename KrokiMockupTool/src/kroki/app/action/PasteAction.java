@@ -13,7 +13,6 @@ import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.Command;
 import kroki.app.command.CommandManager;
 import kroki.app.command.PasteCommand;
-import kroki.app.command.RemoveCommand;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.model.ClipboardContents;
 import kroki.app.model.SelectionModel;
@@ -27,6 +26,10 @@ import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.ElementsGroupUtil;
 
+/**
+ * Pastes elements
+ * @author Kroki Team
+ */
 public class PasteAction extends AbstractAction {
 
 	/**
@@ -68,7 +71,7 @@ public class PasteAction extends AbstractAction {
     		if(clipboardElements == null || clipboardElements.isEmpty())
     			return;
     		
-    		//pravim listu elemenata za izbaciti iz selekcije
+    		//list containing elements to be removed from the selection
             List<VisibleElement> selected = new ArrayList<VisibleElement>();
             for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {
                 if (!(visibleElement instanceof VisibleClass)) {
@@ -76,7 +79,7 @@ public class PasteAction extends AbstractAction {
                 }
             }
             
-            //ukoliko se u listi nalazi tacno jedan selektovani element i da je ElementsGroup
+            //if only one element is selection and it is an element group
     		if (selected.size() == 1 && selected.get(0) instanceof ElementsGroup) {
     			ElementsGroup temp = (ElementsGroup) selected.get(0);
     			

@@ -1,13 +1,11 @@
-/*
-  * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.mockup;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.state.AddState;
@@ -15,8 +13,6 @@ import kroki.app.state.State;
 import kroki.app.utils.CursorResource;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
-import kroki.app.view.Canvas;
-import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.property.VisibleProperty;
 
@@ -25,10 +21,12 @@ import kroki.profil.property.VisibleProperty;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class AddTextFieldAction extends AbstractAction {
+	
+	private static final long serialVersionUID = 1L;
 
-    ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.addTextField.smallImage"));
-    Image addEnabledIcon = CursorResource.getCursorResource("action.addTextField.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+	private ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.addTextField.smallImage"));
+	private Image addEnabledIcon = CursorResource.getCursorResource("action.addTextField.smallImage");
+	private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public AddTextFieldAction() {
         putValue(SMALL_ICON, smallIcon);
