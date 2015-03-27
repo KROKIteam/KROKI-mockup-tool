@@ -1,6 +1,7 @@
 package kroki.app.generators;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -23,7 +24,6 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
@@ -100,10 +100,24 @@ public class EnumerationGenerator {
 			Configuration cfg = new Configuration();
 			cfg.setObjectWrapper(new DefaultObjectWrapper());
 			FileTemplateLoader templateLoader;
+			Template tpl = null;
 			try {
 				templateLoader = new FileTemplateLoader(new File(appPath + "src" + File.separator + "kroki" + File.separator + "app" + File.separator + "generators" + File.separator + "templates"));
 				cfg.setTemplateLoader(templateLoader);
-				Template tpl = cfg.getTemplate("enumeration.ftl");
+				tpl = cfg.getTemplate("enumeration.ftl");
+				
+			} catch (IOException e) {
+				System.out.println("[ENUM GENERATOR] Templates directory not found. Trying the alternative one...");
+				try {
+					templateLoader = new FileTemplateLoader(new File(appPath + "templates"));
+					cfg.setTemplateLoader(templateLoader);
+					tpl = cfg.getTemplate("EJBClass.ftl");
+					System.out.println("[ENUM GENERATOR] Templates loaded ok.");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			try {
 				File outFile = new File(getOutputFile().getAbsolutePath() + File.separator + enumeration.getName() + ".java");
 				OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(outFile));
 				
@@ -117,13 +131,13 @@ public class EnumerationGenerator {
 				model.put("doc", doc);
 				
 				tpl.process(model, writer);
-				
-			} catch (IOException e) {
+			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (TemplateException e) {
 				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
 		}
 
 	}

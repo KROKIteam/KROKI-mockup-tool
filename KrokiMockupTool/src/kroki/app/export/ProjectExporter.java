@@ -542,14 +542,17 @@ public class ProjectExporter {
 	public void writeProjectName(String name, String description) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-
+		if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+			appPath = appPath.substring(0, appPath.length()-16);
+		}
+		
 		//Configuration file
-		File propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "props" + File.separator + "main-generated.properties");
+		File propertiesFile = new File(appPath + "SwingApp" + File.separator + "props" + File.separator + "main-generated.properties");
 		String toAppendName = "main.form.name";
 		String toAppendDescription = "app.description";
 
 		if(!swing) {
-			propertiesFile = new File(appPath.substring(0, appPath.length()-16) + "ApplicationRepository" + File.separator + "generated" + 
+			propertiesFile = new File(appPath + "ApplicationRepository" + File.separator + "generated" + 
 					File.separator + "props" + File.separator + "main.properties");
 			toAppendName = "app.title";
 		}

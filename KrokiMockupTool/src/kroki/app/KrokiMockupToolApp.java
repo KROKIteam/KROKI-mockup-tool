@@ -48,7 +48,8 @@ public class KrokiMockupToolApp {
 	private Workspace workspace;
 	private GuiManager guiManager;
 	private static KrokiMockupToolSplashScreen splash;
-
+	private boolean binaryRun = false;
+	
 	public KrokiMockupToolApp() {
 		KrokiLookAndFeel.setLookAndFeel();
 		guiManager = new GuiManager();
@@ -288,6 +289,17 @@ public class KrokiMockupToolApp {
 		this.guiManager = guiManager;
 	}
 	
+	public boolean isBinaryRun() {
+		return binaryRun;
+	}
+
+	public void setBinaryRun(boolean binaryRun) {
+		if(!this.binaryRun) {
+			this.binaryRun = binaryRun;
+			System.out.println("[KROKI APP] Setting the binary run flag up.");
+		}
+	}
+
 	public ClipboardManager getClipboardManager() {
 		ClipboardManager.getInstance().setCanvas(getTabbedPaneController().getCurrentTabContent());
 		return ClipboardManager.getInstance();

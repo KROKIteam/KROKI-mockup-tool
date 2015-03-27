@@ -17,7 +17,7 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
+import kroki.app.KrokiMockupToolApp;
 import kroki.profil.utils.DatabaseProps;
 
 public class DatabaseConfigGenerator {
@@ -37,7 +37,6 @@ public class DatabaseConfigGenerator {
 		geneateHibernateConfigXML(null);
 		generatePersistenceXMl(false);
 	}
-	
 			
 	  /***********************************************/
 	 /*        persistence.xml generation           */
@@ -49,17 +48,30 @@ public class DatabaseConfigGenerator {
 		
 		File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "props" + File.separator + "META-INF" + File.separator + "persistence.xml");
 		Template tpl = prepareTemplate("persistenceSwing.ftl");
+		Map model = new TreeMap();
+		OutputStreamWriter writer = null;
 		if(web){
 			fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "etc" + File.separator + "META-INF" + File.separator + "persistence.xml");
 			tpl = prepareTemplate("persistenceWeb.ftl");
 		}
-//		JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: generisem u " + fout.getAbsolutePath());
-		
-		OutputStreamWriter writer;
 		try {
 			writer = new OutputStreamWriter(new FileOutputStream(fout));
-			Map model = new TreeMap();
-			
+		} catch (FileNotFoundException e) {
+			if(web) {
+				fout = new File(appPath +  "WebApp" + File.separator + "etc" + File.separator + "META-INF" + File.separator + "persistence.xml");
+				tpl = prepareTemplate("persistenceWeb.ftl");
+			}else {
+				fout = new File(appPath +  "SwingApp" + File.separator + "props" + File.separator + "META-INF" + File.separator + "persistence.xml");
+				tpl = prepareTemplate("persistenceSwing.ftl");
+			}
+			try {
+				writer = new OutputStreamWriter(new FileOutputStream(fout));
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		try {
 			String driver = parameters.getDriverClass();
 			String protocol = getProtocol(parameters.getProfile());
 			String url = "jdbc:" + protocol + "://" + parameters.getHost()  + ":" + parameters.getPort() + "/" + parameters.getSchema();
@@ -77,16 +89,8 @@ public class DatabaseConfigGenerator {
 			model.put("dialect", dialect);
 			model.put("username", username);
 			model.put("password", password);
-			
 			tpl.process(model, writer);
-		} catch (FileNotFoundException e) {
-//			JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: FileNotFoundException");
-			e.printStackTrace();
-		} catch (TemplateException e) {
-//			JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: TemplateException");
-			e.printStackTrace();
-		} catch (IOException e) {
-//			JOptionPane.showMessageDialog(null, "DB CONFIG GENERATOR: IOException");
+		} catch (TemplateException | IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -98,39 +102,48 @@ public class DatabaseConfigGenerator {
 		System.out.println("[" + date + "]" + " generating hibernate.cfg.xml file...");
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		File fout = null;
+		OutputStreamWriter writer = null;
+		if(path == null) {
+			path = "SwingApp" + File.separator + "src"  + File.separator + "hibernate.cfg.xml";
+		}
 		try {
-			if(path == null) {
-				path = "SwingApp" + File.separator + "src"  + File.separator + "hibernate.cfg.xml";
-			}
-			File fout = new File(appPath.substring(0, appPath.length()-16) + path);
-			Template tpl = prepareTemplate("hibernate.cfg.ftl");
-			
-			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fout));
-			Map model = new TreeMap();
-			
-			String protocol = getProtocol(parameters.getProfile());
-			
-			String url = "jdbc:" + protocol + "://" + parameters.getHost()  + ":" + parameters.getPort() + "/" + parameters.getSchema();
-			if(parameters.getProfile() == 5) {
-				url = "jdbc:h2:mem:test";
-			}
-			String username = parameters.getUsername();
-			String password = parameters.getPassword();
-			String driver = parameters.getDriverClass();
-			String dialect = parameters.getDialect();
-			
-			model.put("doc", prepareComment());
-			model.put("url", url);
-			model.put("username", username);
-			model.put("password", password);
-			model.put("driver", driver);
-			model.put("dialect", dialect);
-			
-			tpl.process(model, writer);
+			fout = new File(appPath.substring(0, appPath.length()-16) + path);
+			writer = new OutputStreamWriter(new FileOutputStream(fout));
 		}catch (IOException ioe) {
-			ioe.printStackTrace();
-		} catch (TemplateException te) {
-			te.printStackTrace();
+			try {
+				fout = new File(appPath + path);
+				writer = new OutputStreamWriter(new FileOutputStream(fout));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		Template tpl = prepareTemplate("hibernate.cfg.ftl");
+		Map model = new TreeMap();
+		
+		String protocol = getProtocol(parameters.getProfile());
+		
+		String url = "jdbc:" + protocol + "://" + parameters.getHost()  + ":" + parameters.getPort() + "/" + parameters.getSchema();
+		if(parameters.getProfile() == 5) {
+			url = "jdbc:h2:mem:test";
+		}
+		String username = parameters.getUsername();
+		String password = parameters.getPassword();
+		String driver = parameters.getDriverClass();
+		String dialect = parameters.getDialect();
+		
+		model.put("doc", prepareComment());
+		model.put("url", url);
+		model.put("username", username);
+		model.put("password", password);
+		model.put("driver", driver);
+		model.put("dialect", dialect);
+		
+		try {
+			tpl.process(model, writer);
+		} catch (TemplateException | IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -146,7 +159,17 @@ public class DatabaseConfigGenerator {
 			cfg.setTemplateLoader(templateLoader);
 			template = cfg.getTemplate(templateFile);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("[DB CONFIG GENERATOR] Templates directory not found. Trying the alternative one...");
+			KrokiMockupToolApp.getInstance().setBinaryRun(true);
+			try {
+				templateLoader = new FileTemplateLoader(new File(appPath + "templates"));
+				cfg.setTemplateLoader(templateLoader);
+				template = cfg.getTemplate(templateFile);
+				System.out.println("[DB CONFIG GENERATOR] Templates loaded ok.");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 		
 		return template;

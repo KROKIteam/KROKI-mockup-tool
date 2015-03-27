@@ -1,6 +1,7 @@
 package kroki.app.generators;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -63,20 +64,33 @@ public class EJBGenerator {
 			Configuration cfg = new Configuration();
 			cfg.setObjectWrapper(new DefaultObjectWrapper());
 			FileTemplateLoader templateLoader;
+			Template tpl = null;
 			try {
 				templateLoader = new FileTemplateLoader(new File(appPath + "src/kroki/app/generators/templates"));
 				cfg.setTemplateLoader(templateLoader);
-				Template tpl = cfg.getTemplate("EJBClass.ftl");
-
-
-				File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
-				//ako je swing false onda se generisu ejb klase u web projekat
-				if(!swing) {
-					fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src_gen" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
+				tpl = cfg.getTemplate("EJBClass.ftl");
+			}catch (IOException ioe) {
+				//				JOptionPane.showMessageDialog(null, "EJB GENERATOR: IOException");
+				//e.printStackTrace();
+				System.out.println("[EJB GENERATOR] Templates directory not found. Trying the alternative one...");
+				try {
+					templateLoader = new FileTemplateLoader(new File(appPath + "templates"));
+					cfg.setTemplateLoader(templateLoader);
+					tpl = cfg.getTemplate("EJBClass.ftl");
+					System.out.println("[EJB GENERATOR] Templates loaded ok.");
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
+			}
+			File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
+			//ako je swing false onda se generisu ejb klase u web projekat
+			if(!swing) {
+				fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src_gen" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
+			}
 
-				//JOptionPane.showMessageDialog(null, "EJB GENERATOR: generisem u " + fout.getAbsolutePath());
+			//JOptionPane.showMessageDialog(null, "EJB GENERATOR: generisem u " + fout.getAbsolutePath());
 
+			try {
 				if (!fout.getParentFile().exists()) 
 					if (!fout.getParentFile().mkdirs()) {
 						throw new IOException("Greska pri kreiranju izlaznog direktorijuma ");
@@ -94,12 +108,12 @@ public class EJBGenerator {
 				model.put("doc", doc);
 
 				tpl.process(model, writer);
-			}catch (IOException ioe) {
-				//				JOptionPane.showMessageDialog(null, "EJB GENERATOR: IOException");
-				ioe.printStackTrace();
-			} catch (TemplateException te) {
-				//				JOptionPane.showMessageDialog(null, "EJB GENERATOR: TemplateException");
-				te.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TemplateException e) {
+				e.printStackTrace();
 			}
 		}
 		System.out.println("[" + d + "] " + classes.size() + " JPA classes successfully generated.");
