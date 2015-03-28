@@ -247,7 +247,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 						else if(dataType.contains("characters"))
 							valuesMap.put(VALUES_DATA_TYPE, "Char");
 						else if(dataType.contains("multibyte"))
-							valuesMap.put(VALUES_DATA_TYPE, "Varchar");
+							valuesMap.put(VALUES_DATA_TYPE, "Char");
 						else 
 							valuesMap.put(VALUES_DATA_TYPE, "Text");
 						
