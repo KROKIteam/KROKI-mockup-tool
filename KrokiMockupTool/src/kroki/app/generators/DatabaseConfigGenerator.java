@@ -1,6 +1,7 @@
 package kroki.app.generators;
 
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,16 +11,18 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.swing.JOptionPane;
-
+import kroki.profil.utils.DatabaseProps;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-import kroki.profil.utils.DatabaseProps;
-
+/**
+ * Generates database configurations
+ * @author Kroki Team
+ *
+ */
 public class DatabaseConfigGenerator {
 	
 	private DatabaseProps  parameters;

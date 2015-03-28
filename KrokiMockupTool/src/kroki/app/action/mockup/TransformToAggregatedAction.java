@@ -12,7 +12,7 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 
 /**
- * Action for transforming a field into an aggrefate field
+ * Action for transforming a field into an aggregated field
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TransformToAggregatedAction extends AbstractAction {

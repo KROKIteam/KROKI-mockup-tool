@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui;
 
 import java.awt.BasicStroke;
@@ -26,44 +22,47 @@ import kroki.app.utils.StringResource;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * Komponenta koja predstavlja paletu osnovnog skupa boja. Ukoliko skup nijansi nije dovoljan paleta nudi i dugme za otvaranje <code>JColorChooser</code> panela. Izgled palete prikazan je na slici:
- * <br/><img src="../../resources/images/ui-color-palette.png"/>
+ * Component which represents a color palette. If the set of colors offered by the palette isn't sufficient.
+ * it contains a button for opening <code>JColorChooser</code> panel.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ColorPalette extends JPanel {
 
-    /**Boja se primenjuje na ono što se nalazi u prvom planu komponente - tekst*/
+	private static final long serialVersionUID = 1L;
+	
+	/**Component's foreground color i.e. text color*/ 
     public static final int FG_COLOR = 0;
-    /**Boja se promenjuje na podzadinu komponente koja se prikazuje*/
+    /**Compoenent's background color*/
     public static final int BG_COLOR = 1;
-    /**Vrednost ovog polja može biti <code>ColorPalette.FG_COLOR</code> ili <code>ColorPalette.BG_COLOR</code>*/
+    /**<code>ColorPalette.FG_COLOR</code> or <code>ColorPalette.BG_COLOR</code>*/
     private int what;
-    /**Širina sličice koja predstavlja boju na paleti*/
+    /**Width of the image which represent a color on the palette*/
     private static final int width = 15;
-    /**Visina sličice koja predstavlja boju na paleti*/
+    /**Height of the image which represent a color on the palette*/
     private static final int height = 15;
-    /**Broj nijansi osnovnih boja*/
+    /**Number of tones of primary colors*/
     private static final int tones = 4;
-    /**Lista svih nijansi*/
+    /**List containing all colors*/
     private List<Color[]> colorList = new ArrayList<Color[]>();
-    /**Lista nijansi crne boje*/
+    /**List of black tones*/
     private Color[] blackTones = new Color[tones];
-    /**Lista nijansi bele boje*/
+    /**List of white tones*/
     private Color[] whiteTones = new Color[tones];
-    /**Lista nijansi crvene boje*/
+    /**List of red tones*/
     private Color[] redTons = new Color[tones];
-    /**Lista nijansi plave boje*/
+    /**List of blue tones*/
     private Color[] blueTones = new Color[tones];
-    /**Lista nijansi zelene boje*/
+    /**List of green tones*/
     private Color[] greenTones = new Color[tones];
-    /**Lista nijansi žute boje*/
+    /**List of yellow tones*/
     private Color[] yellowTones = new Color[tones];
-    /**Odabrana boja*/
+    /**Choosen color*/
     private Color choosenColor;
 
     /**
-     * Konstruktor ColorPalette klase.
-     * @param what - indikator da li se radi o paleti koja podesava boju prednjeg dela komponente ili njene podzadine. Vrednost ovog polja može biti <code>ColorPalette.FG_COLOR</code> ili <code>ColorPalette.BG_COLOR</code>
+     * Constructor
+     * Indicates if it is a pallete which sets the color of the front part of the component, or its background
+     * The value can be either <code>ColorPalette.FG_COLOR</code> or <code>ColorPalette.BG_COLOR</code>
      */
     public ColorPalette(int what) {
         this.what = what;
@@ -82,7 +81,7 @@ public class ColorPalette extends JPanel {
     }
 
     /**
-     * Kreira paletu
+     * Creates the palette
      */
     private void createUI() {
         for (int i = 0; i < colorList.size(); i++) {
@@ -125,9 +124,9 @@ public class ColorPalette extends JPanel {
     }
 
     /**
-     * Kreira ikonicu za odabir boje
-     * @param color boja
-     * @return vraća ikonicu čija je boja jednaka prosleđenoj
+     * Create the color image
+     * @param color Color
+     * @return Icon whose color is defined by the given color 
      */
     private Icon getColorIcon(Color color) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -141,9 +140,9 @@ public class ColorPalette extends JPanel {
     }
 
     /**
-     * Kreira ikonicu za odabir boje kada se komponenta za odabir nalazi u Rollover stanju
-     * @param color boja ikonice
-     * @return vraća ikonicu
+     * Creates the icon used to choose the color when the component is in the rollover state
+     * @param color Color of the icon
+     * @return Created icon
      */
     private Icon getRolloverIcon(Color color) {
         BufferedImage image = new BufferedImage(width + 1, height + 1, BufferedImage.TYPE_INT_ARGB);
@@ -165,7 +164,7 @@ public class ColorPalette extends JPanel {
         return new ImageIcon(image);
     }
 
-    /**Kreira nijanse crne boje*/
+    /**Generates black tones*/
     private void genBlackTones() {
         int r = 0;
         int g = 0;
@@ -183,7 +182,7 @@ public class ColorPalette extends JPanel {
         colorList.add(blackTones);
     }
 
-    /**Kreira nijanse bele boje*/
+    /**Generates white tones*/
     private void genWhiteTones() {
         int r = 255;
         int g = 255;
@@ -201,7 +200,7 @@ public class ColorPalette extends JPanel {
         colorList.add(whiteTones);
     }
 
-    /**Kreira nijanse crvene boje*/
+    /**Generates red tones*/
     private void genRedTones() {
         int r = 150;
         int g = 0;
@@ -217,7 +216,7 @@ public class ColorPalette extends JPanel {
         colorList.add(redTons);
     }
 
-    /**Kreira nijanse plave boje*/
+    /**Generates blue tones*/
     private void genBlueTones() {
         int r = 0;
         int g = 0;
@@ -233,7 +232,7 @@ public class ColorPalette extends JPanel {
         colorList.add(blueTones);
     }
 
-    /**Kreira nijanse žute boje*/
+    /**Generates yellow tones*/
     private void genYellowTones() {
         int r = 255;
         int g = 150;
@@ -248,8 +247,8 @@ public class ColorPalette extends JPanel {
         }
         colorList.add(yellowTones);
     }
-
-    /**Kreira nijanse zelene boje*/
+    
+    /**Generates green tones*/
     private void genGreenTones() {
         int r = 0;
         int g = 100;
@@ -265,17 +264,17 @@ public class ColorPalette extends JPanel {
         colorList.add(greenTones);
     }
 
-    /**Vraća odabranu boju*/
+    /**Returns the chosen color*/
     public Color getChoosenColor() {
         return choosenColor;
     }
 
-    /**Podešava odabranu boju na prosleđenu vrednost*/
+    /**Sets the chosen color*/
     public void setChoosenColor(Color choosenColor) {
         this.choosenColor = choosenColor;
     }
 
-    /**Akcija koja se odvija nakon odabira boje*/
+    /**Action which is performed after the color has been chosen*/
     private void chooseColorActionPreformed(Color color, ActionEvent e) {
         AbstractAction action = null;
         if (what == 1) {

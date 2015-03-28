@@ -14,11 +14,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
-import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 
@@ -33,6 +31,10 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+/**
+ * Generates EJB classes
+ * @author Kroki Team
+ */
 public class EJBGenerator {
 
 
@@ -70,7 +72,7 @@ public class EJBGenerator {
 
 
 				File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
-				//ako je swing false onda se generisu ejb klase u web projekat
+				//if swing is false, generate web project ejb classes
 				if(!swing) {
 					fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
 				}
@@ -128,21 +130,21 @@ public class EJBGenerator {
 				EJBClass clas = classes.get(i);
 				Document doc = docBuilder.newDocument();
 
-				//korenski tag <entity> za svaku klasu
+				//root <entity> tag 
 				Element entityRoot = doc.createElement("entity");
 				doc.appendChild(entityRoot);
 
-				//atribut "name"
+				//attribute "name"
 				Attr nameAttr = doc.createAttribute("name");
 				nameAttr.setValue(clas.getName().toUpperCase());
 				entityRoot.setAttributeNode(nameAttr);
 
-				//atribut "label"
+				//attribute "label"
 				Attr labelAttr = doc.createAttribute("label");
 				labelAttr.setValue(clas.getLabel());
 				entityRoot.setAttributeNode(labelAttr);
 
-				//atribut "class-name"
+				//attribute "class-name"
 				Attr clasNameAttr = doc.createAttribute("class-name");
 				if(path == null) {
 					clasNameAttr.setValue("ejb." + clas.getName());
@@ -159,37 +161,37 @@ public class EJBGenerator {
 				
 				Element idColumn = doc.createElement("column-attribute");
 
-				//atribut "name"
+				//attribute "name"
 				Attr idNameAttr = doc.createAttribute("name");
 				idNameAttr.setValue("id");
 				idColumn.setAttributeNode(idNameAttr);
 
-				//atribut "label"
+				//attribute "label"
 				Attr idLabelAttr = doc.createAttribute("label");
 				idLabelAttr.setValue("ID");
 				idColumn.setAttributeNode(idLabelAttr);
 
-				//atribut "field-name"
+				//attribute "field-name"
 				Attr idFieldNameAttr = doc.createAttribute("field-name");
 				idFieldNameAttr.setValue("id");
 				idColumn.setAttributeNode(idFieldNameAttr);
 
-				//atribut "type"
+				//attribute "type"
 				Attr idType = doc.createAttribute("type");
 				idType.setValue("java.lang.Long");
 				idColumn.setAttributeNode(idType);
 
-				//atribut "length"
+				//attribute "length"
 				Attr idLength = doc.createAttribute("length");
 				idLength.setValue("50");
 				idColumn.setAttributeNode(idLength);
 
-				//atribut "key"
+				//attribute "key"
 				Attr idKeyAttr = doc.createAttribute("key");
 				idKeyAttr.setValue("true");
 				idColumn.setAttributeNode(idKeyAttr);
 
-				//atribut "hidden"
+				//attribute "hidden"
 				Attr hiddenAttr = doc.createAttribute("hidden");
 				hiddenAttr.setValue("true");
 				idColumn.setAttributeNode(hiddenAttr);
@@ -198,28 +200,28 @@ public class EJBGenerator {
 
 				//-----------------------------------------------------------
 				
-				//tag <column-attribute> za svaki atribut klase
+				//tag <column-attribute> for every class atribbute
 				if(!clas.getAttributes().isEmpty()) {
 					for (EJBAttribute attribute : clas.getAttributes()) {
 						if(getAttributeType(attribute).equals("Column")) {
 							Element columnAttr = doc.createElement("column-attribute");
 
-							//atribut "name"
+							//attribute "name"
 							Attr colNameAttr = doc.createAttribute("name");
 							colNameAttr.setValue(attribute.getName());
 							columnAttr.setAttributeNode(colNameAttr);
 
-							//atribut "label"
+							//attribute "label"
 							Attr colLabelAttr = doc.createAttribute("label");
 							colLabelAttr.setValue(attribute.getLabel());
 							columnAttr.setAttributeNode(colLabelAttr);
 
-							//atribut "field-name"
+							//attribute "field-name"
 							Attr colFieldNameAttr = doc.createAttribute("field-name");
 							colFieldNameAttr.setValue(attribute.getName());
 							columnAttr.setAttributeNode(colFieldNameAttr);
 
-							//atribut "type"
+							//attribute "type"
 							Attr colType = doc.createAttribute("type");
 							colType.setValue(attribute.getType());
 
@@ -233,22 +235,22 @@ public class EJBGenerator {
 
 							columnAttr.setAttributeNode(colType);
 
-							//atribut "length"
+							//attribute "length"
 							Attr colLength = doc.createAttribute("length");
 							colLength.setValue("50");
 							columnAttr.setAttributeNode(colLength);
 
-							//atribut "key"
+							//attribute "key"
 							Attr colKeyAttr = doc.createAttribute("key");
 							colKeyAttr.setValue("false");
 							columnAttr.setAttributeNode(colKeyAttr);
 
-							//atribut "hidden"
+							//attribute "hidden"
 							Attr colHiddenAttr = doc.createAttribute("hidden");
 							colHiddenAttr.setValue("false");
 							columnAttr.setAttributeNode(colHiddenAttr);
 							
-							//atribut 'enum'
+							//attribute 'enum'
 							if(attribute.getEnumeration() != null) {
 								Attr colEnumAttr = doc.createAttribute("enum");
 								colEnumAttr.setValue(attribute.getEnumeration().getName());
@@ -259,22 +261,22 @@ public class EJBGenerator {
 						}else if(getAttributeType(attribute).equals("ManyToOne")) {
 							Element zoomTag = doc.createElement("zoom-attribute");
 
-							//atribut "name"
+							//attribute "name"
 							Attr zoomNameAttr = doc.createAttribute("name");
 							zoomNameAttr.setValue(attribute.getName());
 							zoomTag.setAttributeNode(zoomNameAttr);
 
-							//atribut "label"
+							//attribute "label"
 							Attr zoomLabelAttr = doc.createAttribute("label");
 							zoomLabelAttr.setValue(attribute.getLabel());
 							zoomTag.setAttributeNode(zoomLabelAttr);
 
-							//atribut "field-name"
+							//attribute "field-name"
 							Attr fieldNameAttr = doc.createAttribute("field-name");
 							fieldNameAttr.setValue(attribute.getName());
 							zoomTag.setAttributeNode(fieldNameAttr);
 
-							//atribut "class-name"
+							//attribute "class-name"
 							Attr classNameAttr = doc.createAttribute("class-name");
 							if(path == null) {
 								classNameAttr.setValue("ejb." + attribute.getType());
@@ -283,20 +285,20 @@ public class EJBGenerator {
 							}
 							zoomTag.setAttributeNode(classNameAttr);
 
-							//atribut "zoomed-by"
+							//attribute "zoomed-by"
 							Attr zoomedByAttr = doc.createAttribute("zoomed-by");
 							zoomedByAttr.setValue("id");
 							zoomTag.setAttributeNode(zoomedByAttr);
 
-							//tag <column-ref> za id (ako nema ni jedan drugi)
+							//tag <column-ref> for id (if there is no other)
 							Element columnRef = doc.createElement("column-ref");
 
-							//atribut "name"
+							//attribute "name"
 							Attr colRefNameAttr = doc.createAttribute("name");
 							colRefNameAttr.setValue("id");
 							columnRef.setAttributeNode(colRefNameAttr);
 
-							//atribut "label"
+							//attribute "label"
 							Attr colRefLabelAttr = doc.createAttribute("label");
 							colRefLabelAttr.setValue(attribute.getLabel() + " ID");
 							columnRef.setAttributeNode(colRefLabelAttr);
@@ -304,7 +306,7 @@ public class EJBGenerator {
 							zoomTag.appendChild(columnRef);
 							
 							if(!attribute.getColumnRefs().isEmpty()) {
-								//ako ima referenci u zoomu, ide column-ref tag
+								//if it has zoom references, make column-ref tag
 								for(int k=0;k<attribute.getColumnRefs().size(); k++) {
 									EJBAttribute a = attribute.getColumnRefs().get(k);
 
@@ -349,7 +351,7 @@ public class EJBGenerator {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
 
-			//korenski tag <map>
+			//root tag <map>
 			Element mapRoot = doc.createElement("map");
 			doc.appendChild(mapRoot);
 
@@ -368,7 +370,7 @@ public class EJBGenerator {
 				}
 				property.setAttributeNode(nameAttr);
 
-				//atribut "xml-file"
+				//attribute "xml-file"
 				Attr fileAttr = doc.createAttribute("xml-file");
 				//fileAttr.setValue("D:" + File.separator + "workspace" + File.separator + "kroki-integracija-clone" + File.separator + "SwingApp" + File.separator + "model" + File.separator + "ejb" + File.separator + ejb.getName());
 				fileAttr.setValue("ejb/" + ejb.getName());

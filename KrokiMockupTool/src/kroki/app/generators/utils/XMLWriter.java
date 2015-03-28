@@ -30,7 +30,7 @@ public class XMLWriter {
 			}
 			if (!fout.getParentFile().exists()) 
 				if (!fout.getParentFile().mkdirs()) {
-					throw new IOException("Greska pri kreiranju izlaznog direktorijuma ");
+					throw new IOException("Error occured while generating output directory!");
 			}
 			
 			System.out.println("XML Writer writing " + fout.getAbsolutePath());

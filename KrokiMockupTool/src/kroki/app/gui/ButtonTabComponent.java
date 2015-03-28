@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui;
 
 import java.awt.BasicStroke;
@@ -27,15 +23,19 @@ import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.StringResource;
 
 /**
- * Komponenta koja predstavlja panel za tab u kojem se nalazi close button.
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * Component represents a panel for a tab which can be closed using the close button.
+ * @author Vladan Marsenić(vladan.marsenic@gmail.com)
  */
 public class ButtonTabComponent extends JPanel {
 
-    private final JTabbedPane pane;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final JTabbedPane pane;
 
     public ButtonTabComponent(final JTabbedPane pane) {
-        //unset default FlowLayout' gaps
+        //default FlowLayout gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
             throw new NullPointerException("TabbedPane is null");

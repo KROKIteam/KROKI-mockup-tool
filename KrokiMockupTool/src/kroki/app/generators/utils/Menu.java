@@ -3,8 +3,9 @@ package kroki.app.generators.utils;
 import java.util.ArrayList;
 
 /**
- * Class that represents application menu (JMenu for desktop application or one {@code<li>} HTML element that contains list items for web application)
- * @author mrd
+ * Class that represents application menu 
+ * (JMenu for desktop application or one {@code<li>} HTML element that contains list items for web application)
+ * @author Milorad Filipović
  */
 public class Menu {
 	

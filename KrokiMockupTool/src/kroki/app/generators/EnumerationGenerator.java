@@ -14,6 +14,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import kroki.app.generators.utils.Enumeration;
+import kroki.app.generators.utils.XMLWriter;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,13 +27,12 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-import kroki.app.generators.utils.Enumeration;
-import kroki.app.generators.utils.XMLWriter;
-import kroki.commons.camelcase.NamingUtil;
-
+/**
+ * Generates enumerations
+ * @author Kroki Team
+ */
 public class EnumerationGenerator {
 
-	private NamingUtil cc;
 	private XMLWriter writer;
 	private DocumentBuilderFactory factory;
 	private Boolean swing;
@@ -38,7 +40,6 @@ public class EnumerationGenerator {
 	private String appPath;
 
 	public EnumerationGenerator(Boolean swing) {
-		this.cc = new NamingUtil();
 		this.writer = new XMLWriter();
 		this.factory = DocumentBuilderFactory.newInstance();
 		this.swing = swing;

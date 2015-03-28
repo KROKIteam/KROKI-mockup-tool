@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -32,16 +28,18 @@ import net.miginfocom.swing.MigLayout;
  */
 public class NewPackageDialog extends JDialog {
 
-	BussinesSubsystem owner;
-	BussinesSubsystem newSubsystem;
-	JPanel content;
-	JPanel action;
-	JButton okBtn;
-	JButton cancelBtn;
-	JLabel nameLbl;
-	JTextField nameTf;
-	JTextField projectTf;
-	JLabel projectLbl;
+	private static final long serialVersionUID = 1L;
+	
+	private BussinesSubsystem owner;
+	private BussinesSubsystem newSubsystem;
+	private JPanel content;
+	private JPanel action;
+	private JButton okBtn;
+	private JButton cancelBtn;
+	private JLabel nameLbl;
+	private JTextField nameTf;
+	private JTextField projectTf;
+	private JLabel projectLbl;
 
 	public NewPackageDialog(JFrame frame, BussinesSubsystem bussinesSubsystem) {
 		super(frame);

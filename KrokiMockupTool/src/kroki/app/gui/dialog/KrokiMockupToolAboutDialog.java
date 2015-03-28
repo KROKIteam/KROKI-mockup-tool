@@ -11,6 +11,8 @@ import kroki.app.utils.ImageResource;
 
 public class KrokiMockupToolAboutDialog extends JDialog {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private JLabel picLabel;
 	
 	public KrokiMockupToolAboutDialog() {
