@@ -15,6 +15,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
@@ -52,10 +53,13 @@ public class EJBGenerator {
 		System.out.println("[" + d + "]" + " generating JPA Entity classes...");
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-
-		File dir = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb");
+		if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+			appPath = appPath.substring(0, appPath.length()-16);
+		}
+		
+		File dir = new File(appPath +  "SwingApp" + File.separator + "src" + File.separator + "ejb");
 		if(!swing) {
-			dir = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" + File.separator + "src_gen" + File.separator + "ejb_generated");
+			dir = new File(appPath +  "WebApp" + File.separator + "src_gen" + File.separator + "ejb_generated");
 		}
 		deleteFiles(dir);
 
@@ -82,10 +86,10 @@ public class EJBGenerator {
 					e1.printStackTrace();
 				}
 			}
-			File fout = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
+			File fout = new File(appPath +  "SwingApp" + File.separator + "src" + File.separator + "ejb" + File.separator + cl.getName() + ".java");
 			//ako je swing false onda se generisu ejb klase u web projekat
 			if(!swing) {
-				fout = new File(appPath.substring(0, appPath.length()-16) +  "WebApp" +  File.separator + "src_gen" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
+				fout = new File(appPath +  "WebApp" +  File.separator + "src_gen" + File.separator + "ejb_generated" + File.separator + cl.getName() + ".java");
 			}
 
 			//JOptionPane.showMessageDialog(null, "EJB GENERATOR: generisem u " + fout.getAbsolutePath());
@@ -106,7 +110,9 @@ public class EJBGenerator {
 
 				model.put("class", cl);
 				model.put("doc", doc);
-
+				
+				System.out.println("[" + d + "] JPA Class " + cl.getName() + " generated to: " + fout.getAbsolutePath());
+				
 				tpl.process(model, writer);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

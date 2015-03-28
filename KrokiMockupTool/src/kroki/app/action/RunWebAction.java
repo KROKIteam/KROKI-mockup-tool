@@ -70,7 +70,7 @@ public class RunWebAction extends AbstractAction {
 
 						//run exported jar file
 						RunAnt runner = new RunAnt();
-						runner.runRun(proj, tempDir, false);
+						runner.runRun(proj, tempDir, false, jarName);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					} catch (Exception e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));

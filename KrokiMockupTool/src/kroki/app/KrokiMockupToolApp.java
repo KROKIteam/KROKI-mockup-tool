@@ -47,13 +47,12 @@ public class KrokiMockupToolApp {
 	private ProjectHierarchyModel projectHierarchyModel;
 	private Workspace workspace;
 	private GuiManager guiManager;
-	private static KrokiMockupToolSplashScreen splash;
+	private static KrokiMockupToolSplashScreen splash = new KrokiMockupToolSplashScreen();;
 	private boolean binaryRun = false;
 	
 	public KrokiMockupToolApp() {
 		KrokiLookAndFeel.setLookAndFeel();
 		guiManager = new GuiManager();
-		splash  = new KrokiMockupToolSplashScreen();
 		krokiMockupToolFrame = new KrokiMockupToolFrame(guiManager);
 		tabbedPaneController = new TabbedPaneController(krokiMockupToolFrame.getCanvasTabbedPane());
 		workspace = new Workspace();
@@ -113,7 +112,7 @@ public class KrokiMockupToolApp {
 	}
 
 	public void launch() {
-		splash.showSplashAndExit();
+		System.out.println("LAUNCH");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				krokiMockupToolFrame.pack();
@@ -126,12 +125,13 @@ public class KrokiMockupToolApp {
 				krokiMockupToolFrame.toFront();
 				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				krokiMockupToolFrame.getStatusMessage().setText(StringResource.getStringResource("app.state.select"));
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e1) {
+//					e1.printStackTrace();
+//				}
 				splash.turnOffSplash();
+				System.out.println("POKRENUT");
 				krokiMockupToolFrame.setVisible(true);
 			}
 		});
@@ -144,6 +144,7 @@ public class KrokiMockupToolApp {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
+		System.out.println("MAIN");
 		KrokiMockupToolApp.getInstance().launch();
 		TypeComponentMapper tcm = new TypeComponentMapper();
 		tcm.getMappings();

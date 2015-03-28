@@ -28,11 +28,13 @@ public class RunAnt {
 		p.executeTarget(p.getDefaultTarget());
 	}
 
-	public void runRun(BussinesSubsystem proj, File jarDir, boolean swing) {
+	public void runRun(BussinesSubsystem proj, File jarDir, boolean swing, String jarName) {
 		SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmm");
 		Date today = new Date();
 		String dateSuffix = formatter.format(today);
-		String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+		if(jarName == null) {
+			jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+		}
 		
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);

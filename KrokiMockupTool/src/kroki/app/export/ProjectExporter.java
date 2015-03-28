@@ -546,6 +546,10 @@ public class ProjectExporter {
 			appPath = appPath.substring(0, appPath.length()-16);
 		}
 		
+		if(description == null) {
+			description = "Please log in to continue.";
+		}
+		
 		//Configuration file
 		File propertiesFile = new File(appPath + "SwingApp" + File.separator + "props" + File.separator + "main-generated.properties");
 		String toAppendName = "main.form.name";
@@ -602,12 +606,15 @@ public class ProjectExporter {
 	public void runAnt(File file, BussinesSubsystem proj, String jarName, String message) {
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+			appPath = appPath.substring(0, appPath.length()-16);
+		}
 		String appFolderName = "SwingApp";
 		if(!swing) {
 			appFolderName = "WebApp";
 		}
 
-		File buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "build.xml");
+		File buildFile = new File(appPath + appFolderName + File.separator + "build.xml");
 		
 		if(proj.getEclipseProjectPath() != null) {
 			if(!swing) {
@@ -615,7 +622,7 @@ public class ProjectExporter {
 			}
 		}else {
 			if(!swing) {
-				buildFile = new File(appPath.substring(0, appPath.length()-16) + appFolderName + File.separator + "kroki-build.xml");
+				buildFile = new File(appPath + appFolderName + File.separator + "kroki-build.xml");
 			}
 		}
 		
