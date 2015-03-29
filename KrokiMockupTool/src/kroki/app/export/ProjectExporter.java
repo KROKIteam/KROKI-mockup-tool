@@ -2,6 +2,7 @@ package kroki.app.export;
 
 import framework.MainFrame;
 
+import java.awt.Cursor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -99,6 +100,7 @@ public class ProjectExporter {
 		generateAppAndRepo(proj, message);
 		writeProjectName(proj.getLabel(), proj.getProjectDescription());
 		runAnt(file, proj, jarName, message);
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	/**

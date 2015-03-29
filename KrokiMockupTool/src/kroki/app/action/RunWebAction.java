@@ -49,28 +49,35 @@ public class RunWebAction extends AbstractAction {
 				if(proj != null) {
 					try {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-						SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmm");
-						Date today = new Date();
-						String dateSuffix = formatter.format(today);
-						String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
-						
-						//get temporary location in KROKI directory
-						File f = new File(".");
-						String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
-						File tempDir = new File(appPath);
+						Thread runThread = new Thread(new Runnable() {
+							@Override
+							public void run() {
+								KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+								SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmm");
+								Date today = new Date();
+								String dateSuffix = formatter.format(today);
+								String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+								
+								//get temporary location in KROKI directory
+								File f = new File(".");
+								String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
+								File tempDir = new File(appPath);
 
 
-						//generate connection settings for embedded h2 database
-						DatabaseProps tempProps = new DatabaseProps();
-						//proj.setDBConnectionProps(tempProps);
-						ProjectExporter exporter = new ProjectExporter(false);
-						exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
+								//generate connection settings for embedded h2 database
+								DatabaseProps tempProps = new DatabaseProps();
+								//proj.setDBConnectionProps(tempProps);
+								ProjectExporter exporter = new ProjectExporter(false);
+								exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
 
-						//run exported jar file
-						RunAnt runner = new RunAnt();
-						runner.runRun(proj, tempDir, false, jarName);
+								//run exported jar file
+								RunAnt runner = new RunAnt();
+								runner.runRun(proj, tempDir, false, jarName);
+							}
+						});
+						runThread.setPriority(Thread.NORM_PRIORITY);
+						runThread.start();
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					} catch (Exception e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -87,6 +94,6 @@ public class RunWebAction extends AbstractAction {
 		});
 		thread.setPriority(Thread.NORM_PRIORITY);
 		thread.start();
-		
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 }

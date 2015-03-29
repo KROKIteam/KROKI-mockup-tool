@@ -112,7 +112,6 @@ public class KrokiMockupToolApp {
 	}
 
 	public void launch() {
-		System.out.println("LAUNCH");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				krokiMockupToolFrame.pack();
@@ -125,13 +124,7 @@ public class KrokiMockupToolApp {
 				krokiMockupToolFrame.toFront();
 				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				krokiMockupToolFrame.getStatusMessage().setText(StringResource.getStringResource("app.state.select"));
-//				try {
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e1) {
-//					e1.printStackTrace();
-//				}
 				splash.turnOffSplash();
-				System.out.println("POKRENUT");
 				krokiMockupToolFrame.setVisible(true);
 			}
 		});
@@ -150,6 +143,10 @@ public class KrokiMockupToolApp {
 		tcm.getMappings();
 	}
 
+	public void displayTextOnConsole(String message, int type) {
+		getKrokiMockupToolFrame().getConsole().displayText(message, type);
+	}
+	
 	/*
 	 * Returns dimension that is 80% of the screen size
 	 */

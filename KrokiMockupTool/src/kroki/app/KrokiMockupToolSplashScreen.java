@@ -24,7 +24,6 @@ public class KrokiMockupToolSplashScreen extends JWindow {
 	ImageIcon splashImg = null;
 	
 	public KrokiMockupToolSplashScreen() {
-		System.out.println("SPLASH");
 		JPanel content = (JPanel) getContentPane();
 		content.setBackground(Color.white);
 		setSize(new Dimension(600,200));
@@ -38,7 +37,6 @@ public class KrokiMockupToolSplashScreen extends JWindow {
 	}
 	
 	public void showSplash() {
-		System.out.println("SHOW SPLASH");
 		setAlwaysOnTop(true);
 		setVisible(true);
 	}

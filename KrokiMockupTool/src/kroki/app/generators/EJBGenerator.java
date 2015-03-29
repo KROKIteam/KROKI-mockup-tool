@@ -37,7 +37,6 @@ import freemarker.template.TemplateException;
 
 public class EJBGenerator {
 
-
 	NamingUtil cc;
 	XMLWriter writer = new XMLWriter();
 	DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -70,12 +69,13 @@ public class EJBGenerator {
 			FileTemplateLoader templateLoader;
 			Template tpl = null;
 			try {
-				templateLoader = new FileTemplateLoader(new File(appPath + "src/kroki/app/generators/templates"));
+				templateLoader = new FileTemplateLoader(new File(appPath + "KrokiMockupTool/src/kroki/app/generators/templates"));
 				cfg.setTemplateLoader(templateLoader);
 				tpl = cfg.getTemplate("EJBClass.ftl");
 			}catch (IOException ioe) {
 				//				JOptionPane.showMessageDialog(null, "EJB GENERATOR: IOException");
 				//e.printStackTrace();
+				System.out.println("[EJB GENERATOR] " + ioe.getMessage());
 				System.out.println("[EJB GENERATOR] Templates directory not found. Trying the alternative one...");
 				try {
 					templateLoader = new FileTemplateLoader(new File(appPath + "templates"));

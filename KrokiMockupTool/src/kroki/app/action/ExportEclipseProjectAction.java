@@ -51,6 +51,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 
 			// If the project doesn't have asoiciated Eclipse directory with it, chose one
 			if(proj.getEclipseProjectPath() == null) {
+				System.out.println("ECLIPSE EXPORT: nema folder");
 				NamingUtil namer = new NamingUtil();
 				JFileChooser jfc = new JFileChooser();
 				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -60,9 +61,11 @@ public class ExportEclipseProjectAction extends AbstractAction {
 					proj.setEclipseProjectPath(projectFile);
 					// Set flag for the first export
 					needsApp = true;
+					System.out.println("ECLIPSE EXPORT: odabran folder: " + projectFile.getAbsolutePath());
 				}
 			}else {
 				// If it has been exported before check the existing linked Eclipse project, and export to it if everything is ok
+				System.out.println("ELSE: " + proj.getEclipseProjectPath());
 				checkDirectory(proj.getEclipseProjectPath());
 				System.out.println("[ECLIPSE PROJECT EXPORT] Project directory ok! Exporting project...");
 			}
@@ -70,6 +73,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 			// If at this point the associated Eclipse directory does not exist for some reason, export everything
 			if(proj.getEclipseProjectPath() != null) {
 				if(!proj.getEclipseProjectPath().exists()) {
+					System.out.println("ECLIPSE EXPORT: Ima folder ali ne postoji");
 					needsApp = true;
 				}
 
@@ -84,7 +88,10 @@ public class ExportEclipseProjectAction extends AbstractAction {
 
 						File rootFile = new File(".");
 						String appPath = rootFile.getAbsolutePath().substring(0,rootFile.getAbsolutePath().length()-18);
-
+						if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
+							appPath = rootFile.getAbsolutePath();
+						}
+						
 						// WebApp and ApplicationRepository directories need to be copied to a selected location
 						File repositoryDirSrc = new File(appPath + File.separator + "ApplicationRepository");
 						File repositoryDirDest = new File(proj.getEclipseProjectPath().getAbsolutePath() + File.separator + "ApplicationRepository");
@@ -119,6 +126,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 						}
 
 						// Copy generated src folder
+						boolean exportOK = true;
 						if(appDirScr.exists()) {
 							File ejbSrc = new File(appDirScr.getAbsolutePath() + File.separator + "src_gen");
 							if(ejbSrc.exists()) {
@@ -133,18 +141,26 @@ public class ExportEclipseProjectAction extends AbstractAction {
 											e.printStackTrace();
 										}
 									}else {
-										KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate src_gen location in associated folder!", 3);
+										KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate src_gen location in associated folder!", 3);
+										exportOK = false;
 									}
 								}else {
-									KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate WebApp location in associated folder!", 3);
+									KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate WebApp location in associated folder!", 3);
+									exportOK = false;
 								}
 							}else {
-								KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated src_gen location!", 3);
+								KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate generated src_gen location!", 3);
+								exportOK = false;
 							}
 						}else {
-							KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated WebApp location!", 3);
+							KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate generated WebApp location!", 3);
+							exportOK = false;
 						}
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project exported successfuly to " + proj.getEclipseProjectPath().getAbsolutePath() + ". It can now be imported to Eclipse IDE", 0);
+						if(exportOK) {
+							KrokiMockupToolApp.getInstance().displayTextOnConsole("Project exported successfuly to " + proj.getEclipseProjectPath().getAbsolutePath() + ". It can now be imported to Eclipse IDE", 0);
+						}else {
+							KrokiMockupToolApp.getInstance().displayTextOnConsole("Project export failed.", 3);
+						}
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					}
 				});
@@ -155,7 +171,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 			//if no project is selected, inform user to select one
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "You must select a project from workspace!");
 		}
-		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.DEFAULT_CURSOR);
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	/**
