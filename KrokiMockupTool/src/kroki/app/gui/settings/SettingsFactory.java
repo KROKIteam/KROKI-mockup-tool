@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Component;
@@ -18,7 +14,7 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 
 /**
- *
+ * Contains methods for constructing settings classes
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class SettingsFactory implements UpdateListener, SettingsCreator {
@@ -49,7 +45,7 @@ public class SettingsFactory implements UpdateListener, SettingsCreator {
 
 		SettingsPanel annotation = visibleElment.getClass().getAnnotation(SettingsPanel.class);
 		if (annotation != null) {
-			Class clazz = annotation.value();
+			Class<?> clazz = annotation.value();
 			Settings settings = null;
 			if (settingsMap.containsKey(clazz.getName())) {
 				settings = settingsMap.get(clazz.getName());

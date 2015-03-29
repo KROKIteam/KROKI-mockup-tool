@@ -18,10 +18,14 @@ import kroki.profil.VisibleElement;
 import kroki.profil.subsystem.BussinesSubsystem;
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * Panel with business subsystem settings
+ * @author Kroki Team
+ *
+ */
 public class BusinessSubsystemSettings extends JPanel implements Settings{
 
 	private static final long serialVersionUID = 1L;
-
 
 	protected BussinesSubsystem businessSubsystem;
 	protected SettingsCreator settingsCreator;
@@ -89,7 +93,7 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 			}
 
 			public void changedUpdate(DocumentEvent e) {
-				//nista se ne desava
+				//nothing
 			}
 
 			private void contentChanged(DocumentEvent e) {

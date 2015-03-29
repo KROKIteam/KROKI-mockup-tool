@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import javax.swing.JCheckBox;
@@ -13,13 +9,15 @@ import kroki.profil.association.Zoom;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane showing zoom settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ZoomSettings extends VisibleAssociationEndSettings {
 
-    JLabel combozoomLb;
-    JCheckBox combozoomCb;
+	private static final long serialVersionUID = 1L;
+	
+	protected JLabel combozoomLb;
+	protected JCheckBox combozoomCb;
 
     public ZoomSettings(SettingsCreator settingsCreator) {
         super(settingsCreator);
@@ -56,7 +54,7 @@ public class ZoomSettings extends VisibleAssociationEndSettings {
     }
 
     private void addActions() {
-        //nema akcija
+        //there are no actions
     }
 
     @Override

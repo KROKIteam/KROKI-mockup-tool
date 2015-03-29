@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Color;
@@ -36,12 +32,15 @@ import kroki.profil.property.VisibleProperty;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * Panel sa podesavanjima za stereotip VisibleElement
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
+ * Tabbed pane showing Visible element settings.
+ * It is extended by all settings classes corresponding to elements
+ * which extend <code>VisibleElement</code>. 
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleElementSettings extends JTabbedPane implements Settings {
 
-	//vidljivi element na koji se primenjuju podesavanja
+	private static final long serialVersionUID = 1L;
+	
 	protected VisibleElement visibleElement;
 	protected SettingsCreator settingsCreator;
 	protected HashMap<String, JPanel> panelMap;
@@ -131,7 +130,7 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 	}
 
 	private void addActions() {
-		//promena labele
+		//change label
 		labelTf.getDocument().addDocumentListener(new DocumentListener() {
 
 			public void insertUpdate(DocumentEvent e) {
@@ -143,7 +142,7 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 			}
 
 			public void changedUpdate(DocumentEvent e) {
-				//nista se ne desava
+				//nothing
 			}
 
 			private void contentChanged(DocumentEvent e) {
@@ -197,7 +196,7 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 			}
 		});
 
-		//promena vidljivosti
+		//change visibility
 		visibleCb.addActionListener(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -208,7 +207,7 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 			}
 		});
 
-		//promena boje podzadine
+		//change background color
 		bgColorBtn.addActionListener(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -222,7 +221,7 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 			}
 		});
 
-		//promena boje predzadine :)
+		//change foreground color
 		fgColorBtn.addActionListener(new AbstractAction() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -254,9 +253,9 @@ public class VisibleElementSettings extends JTabbedPane implements Settings {
 		settingsCreator.settingsPreformedIncludeTree();
 	}
 
-	/*****************/
-	/*GETERI I SETERI*/
-	/*****************/
+	/**********************/
+	/*GETTERS AND SETTERS*/
+	/*********************/
 	public JButton getBgColorBtn() {
 		return bgColorBtn;
 	}

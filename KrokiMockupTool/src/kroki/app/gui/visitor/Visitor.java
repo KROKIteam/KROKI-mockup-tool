@@ -1,19 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Class used to implement the visitor pattern.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public abstract class Visitor {
 
-    List<Object> objectList = new ArrayList<Object>();
+    protected List<Object> objectList = new ArrayList<Object>();
 
     public abstract void visit(Object object);
 
@@ -21,11 +17,13 @@ public abstract class Visitor {
         return objectList;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void setObjectList(List objectList) {
         this.objectList = objectList;
     }
 
-    public void addAllObjects(List objectList) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public void addAllObjects(List objectList) {
         this.objectList.addAll(objectList);
     }
 

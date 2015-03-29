@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.event.ActionEvent;
@@ -21,22 +17,24 @@ import kroki.profil.operation.Transaction;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane showing transaction settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TransactionSettings extends BussinessOperationSettings {
 
-    JLabel refreshRowLb;
-    JLabel refreshAllLb;
-    JLabel askConfirmationLb;
-    JLabel confirmationMessageLb;
-    JLabel showErrorsLb;
-    JCheckBox refreshRowCb;
-    JCheckBox refreshAllCb;
-    JCheckBox askConfirmationCb;
-    JTextArea confirmationMessageTa;
-    JScrollPane confirmationMessageSp;
-    JCheckBox showErrorsCb;
+	private static final long serialVersionUID = 1L;
+	
+	protected JLabel refreshRowLb;
+	protected JLabel refreshAllLb;
+	protected JLabel askConfirmationLb;
+	protected JLabel confirmationMessageLb;
+	protected JLabel showErrorsLb;
+	protected JCheckBox refreshRowCb;
+	protected JCheckBox refreshAllCb;
+	protected JCheckBox askConfirmationCb;
+	protected JTextArea confirmationMessageTa;
+	protected JScrollPane confirmationMessageSp;
+	protected JCheckBox showErrorsCb;
 
     public TransactionSettings(SettingsCreator settingsCreator) {
         super(settingsCreator);
@@ -140,7 +138,7 @@ public class TransactionSettings extends BussinessOperationSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {

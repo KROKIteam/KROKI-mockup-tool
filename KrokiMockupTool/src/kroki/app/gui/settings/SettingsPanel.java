@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.lang.annotation.ElementType;
@@ -10,11 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Anotacija koja se dodaje svakom elementu ui profila da bi se znalo koji panel za podesavanja njemu odgovara
+ * Annotation which is added to each UI profile element in order to specify which settings panel
+ * should be associated with it
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SettingsPanel {
-    Class value();
+    Class<?> value();
 }

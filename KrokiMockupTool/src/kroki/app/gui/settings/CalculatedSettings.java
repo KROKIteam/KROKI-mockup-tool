@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import javax.swing.JLabel;
@@ -18,14 +14,16 @@ import kroki.profil.property.Calculated;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane with calculated property settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class CalculatedSettings extends VisiblePropertySettings {
 
-    JLabel expressionLb;
-    JTextArea expressionTa;
-    JScrollPane expressionSp;
+	private static final long serialVersionUID = 1L;
+	
+	protected JLabel expressionLb;
+	protected JTextArea expressionTa;
+	protected JScrollPane expressionSp;
 
     public CalculatedSettings(SettingsCreator settingsCreator) {
         super(settingsCreator);
@@ -40,7 +38,6 @@ public class CalculatedSettings extends VisiblePropertySettings {
         expressionTa.setFont(this.getFont());
         expressionSp = new JScrollPane(expressionTa);
         expressionSp.setMinimumSize(expressionTa.getPreferredScrollableViewportSize());
-        //moram onemoguciti da vrsi promenu ovog attrb.
         disabledCb.setEnabled(false);
     }
 
@@ -72,7 +69,7 @@ public class CalculatedSettings extends VisiblePropertySettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {

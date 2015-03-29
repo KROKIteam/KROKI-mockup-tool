@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Dimension;
@@ -22,18 +18,20 @@ import kroki.profil.operation.BussinessOperation;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane with business operation settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class BussinessOperationSettings extends VisibleElementSettings {
 
-    JLabel hasParamsFormLb;
-    JLabel filteredByKeyLb;
-    JLabel persistentOperationLb;
-    JCheckBox hasParamsFormCb;
-    JCheckBox filteredByKeyCb;
-    JTextField persistentOperationTf;
-    JButton persistentOperationBtn;
+	private static final long serialVersionUID = 1L;
+	
+	protected JLabel hasParamsFormLb;
+	protected JLabel filteredByKeyLb;
+	protected JLabel persistentOperationLb;
+	protected JCheckBox hasParamsFormCb;
+	protected JCheckBox filteredByKeyCb;
+	protected JTextField persistentOperationTf;
+	protected JButton persistentOperationBtn;
 
     public BussinessOperationSettings(SettingsCreator settingsCreator) {
         super(settingsCreator);

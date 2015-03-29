@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.command.CommandManager;
-import kroki.app.controller.TabbedPaneController;
 import kroki.app.view.Canvas;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;

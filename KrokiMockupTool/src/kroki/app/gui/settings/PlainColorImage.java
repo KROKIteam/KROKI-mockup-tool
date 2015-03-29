@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Color;
@@ -11,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
- *
+ * An image consisting of one chosen color
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class PlainColorImage {

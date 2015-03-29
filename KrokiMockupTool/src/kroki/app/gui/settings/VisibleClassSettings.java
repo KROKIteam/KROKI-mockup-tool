@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.event.ActionEvent;
@@ -18,13 +14,16 @@ import kroki.profil.panel.VisibleClass;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane showing visible class settings.
+ * It is extended by panel settings classes.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleClassSettings extends VisibleElementSettings {
 
-    JLabel modalLb;
-    JCheckBox modalCb;
+	private static final long serialVersionUID = 1L;
+	
+	protected  JLabel modalLb;
+	protected JCheckBox modalCb;
 
     public VisibleClassSettings(SettingsCreator settingsCreator) {
         super(settingsCreator);

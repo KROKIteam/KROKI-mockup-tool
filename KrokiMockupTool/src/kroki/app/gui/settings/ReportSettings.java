@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import javax.swing.JLabel;
@@ -19,18 +15,20 @@ import kroki.profil.operation.Report;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane showing report settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ReportSettings extends BussinessOperationSettings {
 
-    JLabel reportNameLb;
-    JLabel dataFilterLb;
-    JLabel sortByLb;
-    JTextField reportNameTf;
-    JTextField sortByTf;
-    JTextArea dataFilterTa;
-    JScrollPane dataFilterSp;
+	private static final long serialVersionUID = 1L;
+	
+	protected JLabel reportNameLb;
+	protected JLabel dataFilterLb;
+	protected JLabel sortByLb;
+	protected JTextField reportNameTf;
+	protected JTextField sortByTf;
+	protected JTextArea dataFilterTa;
+	protected JScrollPane dataFilterSp;
 
     public ReportSettings(SettingsCreator settingsCreator) {
         super(settingsCreator);
@@ -83,7 +81,7 @@ public class ReportSettings extends BussinessOperationSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {
@@ -110,7 +108,7 @@ public class ReportSettings extends BussinessOperationSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {
@@ -136,7 +134,7 @@ public class ReportSettings extends BussinessOperationSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {

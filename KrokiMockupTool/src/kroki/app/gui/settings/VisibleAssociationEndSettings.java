@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Dimension;
@@ -45,11 +41,14 @@ import kroki.profil.utils.VisibleClassUtil;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
+ * Tabbed pane showing visible association end settings.
+ * It is extended by next, zoom and hierarchy settings.
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleAssociationEndSettings extends VisibleElementSettings {
 
+	private static final long serialVersionUID = 1L;
+	
 	protected JLabel addLb;
 	protected JLabel updateLb;
 	protected JLabel copyLb;
@@ -417,7 +416,7 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 			}
 
 			public void changedUpdate(DocumentEvent e) {
-				//nista se ne desava
+				//nothing
 			}
 
 			private void contentChanged(DocumentEvent e) {
@@ -515,7 +514,7 @@ public class VisibleAssociationEndSettings extends VisibleElementSettings {
 						}
 						visibleAssociationEnd.setTargetPanel((VisibleClass) selected);
 						targetPanelTf.setText(selected.toString());
-						//ako je u pitanju kraj Hijerarhija onda prisili promenu komponente
+						//if the element is a hierarchy, force component update
 						if (visibleElement instanceof Hierarchy) {
 							HierarchyUtil.forceUpdateComponent(((Hierarchy) visibleElement));
 							updateComponents();

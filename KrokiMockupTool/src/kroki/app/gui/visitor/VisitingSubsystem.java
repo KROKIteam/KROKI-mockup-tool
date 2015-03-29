@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.visitor;
 
 /**
- * Element UI profila koji može da bude posećen od strane visitora
+ * Element of the UI profile which can be visited
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface VisitingSubsystem {

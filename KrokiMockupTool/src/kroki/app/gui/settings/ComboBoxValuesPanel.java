@@ -1,7 +1,6 @@
 package kroki.app.gui.settings;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -27,10 +26,11 @@ import kroki.profil.property.VisibleProperty;
 public class ComboBoxValuesPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	final JTable valuesTable;
-	final JScrollPane scrollPane;
-	private VisibleProperty visibleProperty;
-	private VisiblePropertySettings settingsPanel;
+	
+	protected final JTable valuesTable;
+	protected final JScrollPane scrollPane;
+	protected VisibleProperty visibleProperty;
+	protected VisiblePropertySettings settingsPanel;
 	
 	public ComboBoxValuesPanel(VisiblePropertySettings settingsPanel, VisibleProperty visibleProperty) {
 		setSize(200, 300);

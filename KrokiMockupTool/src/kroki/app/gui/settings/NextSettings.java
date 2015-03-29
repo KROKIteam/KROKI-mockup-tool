@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Dimension;
@@ -37,12 +33,14 @@ import kroki.uml_core_basic.UmlProperty;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane showing next association end settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  * @author Renata
  */
 public class NextSettings extends VisibleAssociationEndSettings {
 
+	private static final long serialVersionUID = 1L;
+	
 	protected JLabel autoActivateLb;
 	protected JLabel displayIdentifierLb;
 	protected JLabel displayRepresentativeLb;
@@ -209,7 +207,7 @@ public class NextSettings extends VisibleAssociationEndSettings {
 			}
 
 			public void changedUpdate(DocumentEvent e) {
-				//nista se ne desava
+				//nothing
 			}
 
 			private void contentChanged(DocumentEvent e) {
@@ -268,7 +266,7 @@ public class NextSettings extends VisibleAssociationEndSettings {
 	 * Checks if entered position of the next element is valid
 	 * @param position
 	 * @param visClass
-	 * @return
+	 * @return <true> if the position is valid, <false> otherwise
 	 */
 	private boolean positionValid(int position, VisibleClass visClass){
 		if (position < 0)
@@ -276,42 +274,6 @@ public class NextSettings extends VisibleAssociationEndSettings {
 		return position < VisibleClassUtil.containedNexts(visClass).size();
 	}
 
-	//TODO ovo kasnije ubaciti u commons
-	private void swapProperties(VisibleClass visibleClass, VisibleElement p1, VisibleElement p2, ElementsGroup gr){
-
-		int firstIndexGr = ElementsGroupUtil.indexOf(gr, p1);
-		int secondIndexGr = ElementsGroupUtil.indexOf(gr, p2);
-
-
-		ElementsGroupUtil.removeVisibleElement(gr, p1);
-		ElementsGroupUtil.removeVisibleElement(gr, p2);
-
-		if (firstIndexGr < secondIndexGr){
-			ElementsGroupUtil.addVisibleElement(gr, firstIndexGr, p2);
-			ElementsGroupUtil.addVisibleElement(gr, secondIndexGr, p1);
-		}
-		else{
-			ElementsGroupUtil.addVisibleElement(gr, secondIndexGr, p1);
-			ElementsGroupUtil.addVisibleElement(gr, firstIndexGr, p2);
-		}
-
-
-		int firstIndexCl = visibleClass.getVisibleElementList().indexOf(p1);
-		int secondIndexCl = visibleClass.getVisibleElementList().indexOf(p2);
-
-		UIPropertyUtil.removeVisibleElement(visibleClass, p1);
-		UIPropertyUtil.removeVisibleElement(visibleClass,p2);
-
-
-		if (firstIndexCl < secondIndexCl){
-			UIPropertyUtil.addVisibleElement(visibleClass, firstIndexCl, p2);
-			UIPropertyUtil.addVisibleElement(visibleClass, secondIndexCl, p1);
-		}
-		else{
-			UIPropertyUtil.addVisibleElement(visibleClass, secondIndexCl, p1);
-			UIPropertyUtil.addVisibleElement(visibleClass, firstIndexCl, p2);
-		}
-	}
 
 	private void insertOn(VisibleClass visibleClass, VisibleElement p1, VisibleElement p2, ElementsGroup gr){
 

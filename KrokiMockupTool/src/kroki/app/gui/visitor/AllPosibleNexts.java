@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.visitor;
 
 import java.util.Iterator;
@@ -14,7 +10,7 @@ import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- *
+ * Used to find all nexts which can be set as the given zoom's opposite
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  * @author Renata
  */

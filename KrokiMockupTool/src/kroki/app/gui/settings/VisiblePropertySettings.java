@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.event.ActionEvent;
@@ -31,10 +27,15 @@ import kroki.profil.property.VisibleProperty;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * @author Vladan Marsenic (vladan.marsenic@gmail.com)
+ * Tabbed pane showing visible property settings.
+ * It is extended by all settings classes corresponding to elements
+ * which extend <code>VisibleProperty</code>. 
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisiblePropertySettings extends VisibleElementSettings {
 
+	private static final long serialVersionUID = 1L;
+	
 	protected JLabel typelbl;
     protected JLabel columnLabelLb;
     protected JLabel labelToCodeLb;
@@ -182,7 +183,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {
@@ -209,7 +210,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {
@@ -254,7 +255,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {
@@ -361,7 +362,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         VisibleProperty visibleProperty = (VisibleProperty) visibleElement;
         columnLabelTf.setText(visibleProperty.getColumnLabel());
         valuesPanel.setVisibleProperty(visibleProperty);
-        //ako nije text field, ne treba podesavanje za tip
+        //only show type if the component is a text field
         if(visibleElement.getComponentType() != ComponentType.TEXT_FIELD) {
         	typelbl.setVisible(false);
         	typeCb.setVisible(false);
@@ -369,7 +370,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         	typelbl.setVisible(true);
         	typeCb.setVisible(true);
         }
-        //ako nije combobox, ne treba lista sa vrednostima
+        //only show values list if the component is a combo box
         if(visibleElement.getComponentType() != ComponentType.COMBO_BOX) {
         	valuesLb.setVisible(false);
         	valuesPanel.setVisible(false);

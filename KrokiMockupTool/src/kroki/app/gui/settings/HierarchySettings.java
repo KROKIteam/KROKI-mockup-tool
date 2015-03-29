@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Dimension;
@@ -35,24 +31,26 @@ import kroki.uml_core_basic.UmlProperty;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane showing hierarchy settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  * @author Renata
  */
 public class HierarchySettings extends VisibleAssociationEndSettings {
 
-	JTextField levelTf;
-	JLabel levelLb;
-	JLabel viaAssociationEndLb;
-	JLabel appliedToPanelLb;
-	JLabel hierarchyParentLb;
-	JTextField hierarchyParentTf;
-	JTextField viaAssociationEndTf;
-	JTextField appliedToPanelTf;
-	JButton hierarchyParentBtn;
-	JButton viaAssociationEndBtn;
-	JButton appliedToPanelBtn;
-	JComboBox<Integer> cbLevels;
+	private static final long serialVersionUID = 1L;
+	
+	protected JTextField levelTf;
+	protected JLabel levelLb;
+	protected JLabel viaAssociationEndLb;
+	protected JLabel appliedToPanelLb;
+	protected JLabel hierarchyParentLb;
+	protected JTextField hierarchyParentTf;
+	protected JTextField viaAssociationEndTf;
+	protected JTextField appliedToPanelTf;
+	protected JButton hierarchyParentBtn;
+	protected JButton viaAssociationEndBtn;
+	protected JButton appliedToPanelBtn;
+	protected JComboBox<Integer> cbLevels;
 
 
 	public HierarchySettings(SettingsCreator settingsCreator) {

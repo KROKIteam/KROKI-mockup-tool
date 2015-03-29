@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package kroki.app.gui.settings;
 
 /**
@@ -10,8 +5,10 @@ package kroki.app.gui.settings;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface SettingsCreator {
-    /**Označava da se podesavanje izvrsilo. Kontejner koji sadrzi panele za podesavanja bi trebao da osvezi potrebne komponente nakon ove akcije*/
+	/** Method which should be activated once the settings have been changed. Container which 
+	 * contains the settings panels should refresh its components*/
     public void settingsPreformed();
-    /**Označava da se podesavanje izvrsilo. Kontejner koji sadrzi panele za podesavanja bi trebao da osvezi potrebne komponente nakon ove akcije ukljucujuci i drvo*/
+	/** Method which should be activated once the settings have been changed. Container which 
+	 * contains the settings panels should refresh its components, including the tree*/
     public void settingsPreformedIncludeTree();
 }

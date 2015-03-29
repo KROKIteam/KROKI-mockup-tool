@@ -7,7 +7,7 @@ package kroki.app.gui.visitor;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
- *
+ * Finds a business subsystem's contained panels 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ContainingPanels extends Visitor {

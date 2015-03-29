@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Color;
@@ -23,11 +19,13 @@ import kroki.profil.group.GroupAlignment;
 import kroki.profil.group.GroupOrientation;
 
 /**
- *
+ * Tabbed pane showing elements group settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ElementsGroupSettings extends VisibleElementSettings {
 
+	private static final long serialVersionUID = 1L;
+	
     protected JLabel borderColorLb;
     protected JButton borderColorBtn;
     protected JLabel groupOrientationLb;

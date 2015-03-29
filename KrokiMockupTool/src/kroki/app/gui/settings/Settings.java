@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import kroki.profil.VisibleElement;
 
 /**
- *
+ * Settings interface. All settings classes implement it
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface Settings {

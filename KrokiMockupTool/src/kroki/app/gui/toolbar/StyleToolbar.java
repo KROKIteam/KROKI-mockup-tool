@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.toolbar;
 
 import java.awt.Dimension;
@@ -45,7 +41,7 @@ import kroki.profil.group.GroupOrientation;
 public class StyleToolbar extends JToolBar implements UpdateListener {
 
     /**************/
-    /**komponente**/
+    /**components**/
     /**************/
     private JComboBox fontCb;
     private JComboBox fontSizeCb;
@@ -69,14 +65,14 @@ public class StyleToolbar extends JToolBar implements UpdateListener {
     }
 
     private void initComponents() {
-        //kombo box sa fontovima
+        //combo box with fonts
         String[] fontList = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         fontCb = new JComboBox(fontList);
         fontCb.setAction(new FontChangeAction());
         fontCb.setPreferredSize(new Dimension(150, 20));
         fontCb.setMaximumSize(fontCb.getPreferredSize());
 
-        //kombo box sa velicinama fonta
+        //combobox with font sizes
         String[] sizes = {"8", "10", "12", "14", "16", "18", "24", "36", "48", "72"};
         fontSizeCb = new JComboBox(sizes);
         fontSizeCb.setEditable(false);

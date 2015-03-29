@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.BorderLayout;
@@ -18,19 +14,21 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 /**
- *
+ * Dialog enabling users to choose an item from a list 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ListDialog extends JDialog {
 
-    Object selectedValue = null;
-    JList jList = new JList();
-    JScrollPane jScrollPane = new JScrollPane();
-    JPanel infoPanel = new JPanel();
-    JLabel infoLable = new JLabel("Info");
-    JPanel actionPanel = new JPanel();
-    JButton okButton = new JButton();
-    JButton cancelButton = new JButton();
+	private static final long serialVersionUID = 1L;
+	
+	private Object selectedValue = null;
+	private JList jList = new JList();
+	private JScrollPane jScrollPane = new JScrollPane();
+	private JPanel infoPanel = new JPanel();
+	private JLabel infoLable = new JLabel("Info");
+	private JPanel actionPanel = new JPanel();
+    private JButton okButton = new JButton();
+    private JButton cancelButton = new JButton();
 
     public ListDialog(JFrame frame) {
         super(frame);

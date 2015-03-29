@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Dimension;
@@ -26,11 +22,13 @@ import kroki.profil.property.Aggregated;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane with aggregated property settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class AggregatedSettings extends VisiblePropertySettings {
 
+	private static final long serialVersionUID = 1L;
+	
     protected JLabel functionLb;
     protected JLabel selectionLb;
     protected JLabel aggregatingAttributeLb;
@@ -63,7 +61,7 @@ public class AggregatedSettings extends VisiblePropertySettings {
         aggregatingAttrbuteBtn.setPreferredSize(new Dimension(30, 20));
         aggregatingAttrbuteBtn.setMinimumSize(aggregatingAttrbuteBtn.getPreferredSize());
 
-        //moram onemoguciti da vrsi promenu ovog attrb.
+        
         disabledCb.setEnabled(false);
     }
 
@@ -110,7 +108,7 @@ public class AggregatedSettings extends VisiblePropertySettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {

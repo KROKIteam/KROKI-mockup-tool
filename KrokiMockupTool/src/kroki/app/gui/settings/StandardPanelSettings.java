@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Dimension;
@@ -38,12 +34,14 @@ import kroki.profil.utils.VisibleClassUtil;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Tabbed pane showing standard panel settings
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class StandardPanelSettings extends VisibleClassSettings {
 
-	NamingUtil cc = new NamingUtil();
+	private static final long serialVersionUID = 1L;
+	
+	protected NamingUtil cc = new NamingUtil();
 	
 	protected JTextField classTf;
 	protected JTextField tableTf;
@@ -278,7 +276,7 @@ public class StandardPanelSettings extends VisibleClassSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {
@@ -474,7 +472,7 @@ public class StandardPanelSettings extends VisibleClassSettings {
             }
 
             public void changedUpdate(DocumentEvent e) {
-                //nista se ne desava
+                //nothing
             }
 
             private void contentChanged(DocumentEvent e) {
