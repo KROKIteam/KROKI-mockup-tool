@@ -209,11 +209,15 @@ public class BaseResource extends Resource {
 		if(result != null) {
 			//go trough referenced columns and get their values
 			for (ColumnAttribute column : joinColumn.getColumns()) {
-				Field columnField = ejbClass.getDeclaredField(column.getFieldName());
-				columnField.setAccessible(true);
-				String columnValue = ConverterUtil.convertForViewing(columnField.get(result), column);
-				// FORMAT: "name": "State-id", "value": 1
-				values.add("\"name\": \"" + joinColumn.getFieldName() + "-" + column.getFieldName() + "\", \"value\": \"" + columnValue + "\"");
+				try {
+					Field columnField = ejbClass.getDeclaredField(column.getFieldName());
+					columnField.setAccessible(true);
+					String columnValue = ConverterUtil.convertForViewing(columnField.get(result), column);
+					// FORMAT: "name": "State-id", "value": 1
+					values.add("\"name\": \"" + joinColumn.getFieldName() + "-" + column.getFieldName() + "\", \"value\": \"" + columnValue + "\"");
+				} catch (Exception e) {
+					System.out.println("[getLookupValuesJSON] " + e.getClass().getSimpleName() + ": " + e.getMessage());
+				}
 			}
 		}
 		em.getTransaction().commit();
@@ -236,5 +240,13 @@ public class BaseResource extends Resource {
 				"Entity attribute not found with the field name '"
 						+ fieldName + "' in entity class '"
 						+ bean.getEntityClass().getName() + "'");
+	}
+
+	public Map<String, Object> getDataModel() {
+		return dataModel;
+	}
+
+	public void setDataModel(Map<String, Object> dataModel) {
+		this.dataModel = dataModel;
 	}
 }

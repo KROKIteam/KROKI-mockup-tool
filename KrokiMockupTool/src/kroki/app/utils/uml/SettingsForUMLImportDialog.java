@@ -39,7 +39,7 @@ import org.eclipse.uml2.uml.Operation;
  * suffixes in the names of package, class, property and operation elements
  * of the UML diagram and that will be removed from the names during import.
  *
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  */
 public class SettingsForUMLImportDialog extends JDialog implements ActionListener {
 

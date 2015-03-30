@@ -37,6 +37,7 @@ public class EntityReader {
 	 */
 	public static void loadMappings() {
 		AppCache.displayTextOnMainFrame(logPrefix + "Reading mapping file: " + mappingFileName, 0);
+		System.out.println(logPrefix + "Reading mapping file: " + mappingFileName);
 		Document doc = XMLParserUtils.parseXml(generatedRepoPath + File.separator + mappingFileName);
 		if(doc != null) {
 			NodeList propertyNodes = doc.getElementsByTagName(Tags.PROPERTY);
@@ -46,9 +47,11 @@ public class EntityReader {
 				String xmlFile = propertyElement.getAttribute(Tags.XML_FILE);
 				AppCache.getInstance().addToCache(className, xmlFile);
 				AppCache.displayTextOnMainFrame(logPrefix + "Mapping " + className + " --> " + xmlFile + ".xml", 0);
+				System.out.println(logPrefix + "Mapping " + className + " --> " + xmlFile + ".xml");
 			}
 		}else {
 			AppCache.displayTextOnMainFrame(logPrefix +  "Error parsing mapping file " + mappingFileName, 1);
+			System.out.println(logPrefix +  "Error parsing mapping file " + mappingFileName);
 		}
 	}
 	
@@ -58,8 +61,10 @@ public class EntityReader {
 	 * @return {@code EntityBean} object
 	 */
 	public static EntityBean load(String className) {
-		EntityBean bean = null;
-		if(AppCache.getInstance().findEJBByClassName(className) != null) {
+		System.out.println("LOAD: " + className);
+		EntityBean bean = AppCache.getInstance().findEJBByClassName(className);
+		if(bean != null) {
+			System.out.println("BEAN FROM CACHE: " + bean.getLabel());
 			return bean;
 		}
 		try {
@@ -70,6 +75,7 @@ public class EntityReader {
 			Document doc = XMLParserUtils.parseXml(generatedModelPath + File.separator +  xmlFileName + ".xml");
 			AppCache.displayTextOnMainFrame(logPrefix +  "Fetching EJB info from " + xmlFileName + ".xml", 0);
 			bean = getEntityBeanInfo(doc);
+			AppCache.getInstance().addToCache(bean);
 			return bean;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,6 +151,18 @@ public class EntityReader {
 			columnAttribute.setHidden(hidden);
 		}
 		
+		String lengthString = attributeElement.getAttribute(Tags.LENGTH);
+		if(lengthString != null && lengthString != "") {
+			int len = Integer.parseInt(lengthString);
+			columnAttribute.setLength(len);
+		}
+		
+		String precisionString = attributeElement.getAttribute(Tags.PRECISION);
+		if(precisionString != null && precisionString != "") {
+			int prec = Integer.parseInt(precisionString);
+			columnAttribute.setPrecision(prec);
+		}
+		
 		//TODO Parsiranje DERIVED i CALCULATED OBELEZJA
 		return columnAttribute;
 	}
@@ -175,7 +193,9 @@ public class EntityReader {
 			String attrName = colRefELement.getAttribute(Tags.NAME);
 			column = lookupColumnAttribute(attrName, jcAttribute.getLookupClass());
 			column.setLabel(colRefELement.getAttribute(Tags.LABEL));
-			jcAttribute.add(column);
+			if(column != null) {
+				jcAttribute.add(column);
+			}
 		}
 		return jcAttribute;
 	}

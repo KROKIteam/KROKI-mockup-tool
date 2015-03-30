@@ -106,7 +106,9 @@ public class SchemaGenerator {
 			}
 		}
 		else { // Deal with case where files are within a JAR
-			final String[] parts = directory.getPath().split(".jar!\\\\");
+			final String[] parts = directory.getPath().replaceAll("%20", " ").split(".jar!\\\\");
+			System.out.println("DIRECTORY PATH: " + directory.getPath());
+			System.out.println("DIRECTORY ABS PATH: " + directory.getAbsolutePath());
 			if (parts.length == 2) {
 				String jarFilename = parts[0].substring(6) + ".jar";
 				String relativePath = parts[1].replace(File.separatorChar, '/');

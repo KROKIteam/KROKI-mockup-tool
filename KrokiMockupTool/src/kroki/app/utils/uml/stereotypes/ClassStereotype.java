@@ -10,7 +10,7 @@ import kroki.profil.panel.StandardPanel;
  * Used to check if the stereotypes StandardPanel and ParentChild
  * are set for the UML Class element, and to retrieve values set for the corresponding stereotypes.
  * 
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class ClassStereotype {

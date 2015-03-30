@@ -12,6 +12,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import kroki.app.KrokiMockupToolApp;
+
 import org.w3c.dom.Document;
 
 public class XMLWriter {
@@ -21,11 +23,17 @@ public class XMLWriter {
 		try {
 			File f = new File(".");
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+			String appRepoPath = appPath.substring(0, appPath.length()-16) +  "ApplicationRepository";
+			if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
+				appRepoPath = appPath +  "ApplicationRepository";
+			}
 			
 			File fout = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "model" + File.separator +  fileName + ".xml");
+			if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
+				fout = new File(appPath + "SwingApp" + File.separator + "model" + File.separator +  fileName + ".xml");
+			}
 			if(!swing) {
-				//F:\workspace\github\KROKI-mockup-tool\ApplicationRepository\generated\model
-				fout = new File(appPath.substring(0, appPath.length()-16) +  "ApplicationRepository" + File.separator + "generated" + File.separator + 
+				fout = new File(appRepoPath + File.separator + "generated" + File.separator + 
 																		      File.separator + "model" + File.separator + fileName + ".xml");
 			}
 			if (!fout.getParentFile().exists()) 
@@ -42,7 +50,7 @@ public class XMLWriter {
 			StreamResult result = new StreamResult(fout);
  
 			transformer.transform(source, result);
-			System.out.println("[XML WRITER] " + fileName + ".xml datoteka generisana");
+			KrokiMockupToolApp.getInstance().displayTextOnConsole("[XML WRITER] " + fileName + ".xml file generated successfully.", 0);
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {

@@ -67,7 +67,7 @@ public class RunSwingAction extends AbstractAction {
 						
 						//run exported jar file
 						RunAnt runner = new RunAnt();
-						runner.runRun(proj, tempDir, true);
+						runner.runRun(proj, tempDir, true, null);
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					} catch (NullPointerException e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -82,8 +82,12 @@ public class RunSwingAction extends AbstractAction {
 
 			}
 		});
-		thread.setPriority(Thread.NORM_PRIORITY);
-		thread.start();
+		if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
+			thread.setPriority(Thread.NORM_PRIORITY);
+			thread.start();
+		}else {
+			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Not available in the current release.");
+		}
 	}
 
 	public boolean deleteFiles(File directory) {

@@ -712,6 +712,7 @@ is shown and to stop click propagation, making the dialog modal
 	font-size: 14px;
 	color: #415b76;
 	text-decoration: none;
+    text-align: left;
 }
 
 .panelLinks:hover {

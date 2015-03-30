@@ -91,10 +91,16 @@ public class ModifyResource extends BaseResource{
 						//Join column field returns the whole lookup object, so we need to extract just the referenced values
 						LinkedHashMap<String, String> lookupMap = new LinkedHashMap<String, String>();
 						for (ColumnAttribute column : jcAttribute.getColumns()) {
-							Field columnField = jcClass.getDeclaredField(column.getFieldName());
-							columnField.setAccessible(true);
-							String columnValue = ConverterUtil.convertForViewing(columnField.get(value), column);
-							lookupMap.put(column.getFieldName(), columnValue);
+							try {
+								Field columnField = jcClass.getDeclaredField(column.getFieldName());
+								columnField.setAccessible(true);
+								String columnValue = ConverterUtil.convertForViewing(columnField.get(value), column);
+								lookupMap.put(column.getFieldName(), columnValue);
+							} catch (NullPointerException e) {
+								// e.printStackTrace();
+							} catch (NoSuchFieldError nsfe) {
+								// nsfe.printStackTrace();
+							}
 						}
 						zoomEditMap.put(attribute.getFieldName(), lookupMap);
 					}

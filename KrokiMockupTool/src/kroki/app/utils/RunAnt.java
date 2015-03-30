@@ -28,16 +28,21 @@ public class RunAnt {
 		p.executeTarget(p.getDefaultTarget());
 	}
 
-	public void runRun(BussinesSubsystem proj, File jarDir, boolean swing) {
+	public void runRun(BussinesSubsystem proj, File jarDir, boolean swing, String jarName) {
 		SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmm");
 		Date today = new Date();
 		String dateSuffix = formatter.format(today);
-		String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+		if(jarName == null) {
+			jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+		}
 		
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+			appPath = appPath.substring(0, appPath.length()-16);
+		}
 		
-		File buildFile = new File(appPath.substring(0, appPath.length()-16) + "SwingApp" + File.separator + "run.xml");
+		File buildFile = new File(appPath + "SwingApp" + File.separator + "run.xml");
 		
 		// If the project has associated Eclipse project, run it's run.xml instead of the default
 		if(proj.getEclipseProjectPath() != null) {
@@ -46,7 +51,7 @@ public class RunAnt {
 			}
 		}else {
 			if(!swing) {
-				buildFile = new File(appPath.substring(0, appPath.length()-16) + "WebApp" + File.separator + "run.xml");
+				buildFile = new File(appPath + "WebApp" + File.separator + "run.xml");
 			}
 		}
 		

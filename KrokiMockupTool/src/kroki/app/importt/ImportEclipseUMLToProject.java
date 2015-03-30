@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ExportProjectToEclipseUML;
+import kroki.app.utils.uml.CSVSpliter;
 import kroki.app.utils.uml.OperationsTypeDialog;
 import kroki.app.utils.uml.ProgressWorker;
 import kroki.app.utils.uml.TextToRemove;
@@ -70,10 +71,43 @@ import org.eclipse.uml2.uml.internal.impl.ClassImpl;
 /**
  * Class that implements import functionality for importing files with Eclipse UML model to Kroki project. 
  * 
- *  @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ *  @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class ImportEclipseUMLToProject extends ProgressWorker{
+	
+	/**
+	 * Constant representing the key value in the HashMap that
+	 * contains the human readable name value of the 
+	 * class or property elements that are imported
+	 * from a UML class diagram.
+	 */
+	private final String VALUES_NAME="VN";
+	/**
+	 * Constant representing the key value in the HashMap that
+	 * contains the value defining if a value must be entered
+	 * for a property element that is imported from a UML class diagram 
+	 */
+	private final String VALUES_MANDATORY="VM";
+	/**
+	 * Constant representing the key value in the HashMap that
+	 * contains the database data type for the property element that
+	 * is imported from a UML class diagram 
+	 */
+	private final String VALUES_DATA_TYPE="VDT";
+	/**
+	 * Constant representing the key value in the HashMap that
+	 * contains the length value for the property element that
+	 * is imported from a UML class diagram 
+	 */
+	private final String VALUES_LENGTH="VL";
+	/**
+	 * Constant representing the key value in the HashMap that
+	 * contains the precision value for the property element that
+	 * is imported from a UML class diagram 
+	 */
+	private final String VALUES_PRECISION="VP";
+	
 	/**
 	 * File from which to load Eclipse UML model for importing to Kroki project.
 	 */
@@ -145,14 +179,14 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			return fileName.substring(0,pos);
 	}
 
-	private HashMap<String, String> labels;
-	private boolean extraLabelFile=false;
+	private HashMap<String, HashMap<String, Object>> extraValues;
+	private boolean extraValuesFile=false;
 	protected void extractLabelFile(File file){
 		if(!file.exists())
 		{
 			publishWarning("Label file "+file.getAbsolutePath()+" does not exist");
 			publishWarning("UML element names will be used for persistent name and labels");
-			extraLabelFile=false;
+			extraValuesFile=false;
 			return;
 		}
 		else
@@ -160,25 +194,89 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 			publishText("Loading labels from "+file.getAbsolutePath());
 			BufferedReader reader=null;
 			try {
-				labels=new HashMap<String, String>();
+				extraValues=new HashMap<String, HashMap<String, Object>>();
 				reader=new BufferedReader(new FileReader(file));
 				String line,key,value;
 				int commaPosition;
+				String[] listOfValues;
+				HashMap<String, Object> valuesMap;
+				String dataType;
 				while((line=reader.readLine())!=null)
 				{
-					commaPosition=line.indexOf(',');
-					key=line.substring(0, commaPosition);
+					//commaPosition=line.indexOf(',');
+					//key=line.substring(0, commaPosition);
 					
-					value=line.substring(++commaPosition);
+					//value=line.substring(++commaPosition);
 					//System.out.println(key+"|"+value);
-					labels.put(key, value);
+					//listOfValues=line.split(",",-1);
+					listOfValues=CSVSpliter.split(line);
+					valuesMap=new HashMap<String, Object>();
+					valuesMap.put(VALUES_NAME, listOfValues[1]);
+					if(listOfValues.length>2)
+					{
+						if(listOfValues[2]!=null)
+						{
+							if(listOfValues[2].isEmpty())
+								valuesMap.put(VALUES_MANDATORY, false);
+							else
+								valuesMap.put(VALUES_MANDATORY, true);
+						}
+						
+						//"Char", "Varchar", "Text", "Integer", "Number", "Float", "Decimal", "Boolean", "Date", "Time", "DateTime"
+						dataType=listOfValues[3].toLowerCase();
+						if(dataType.contains("date") && dataType.contains("time"))
+							valuesMap.put(VALUES_DATA_TYPE, "DateTime");
+						else if(dataType.contains("date"))
+							valuesMap.put(VALUES_DATA_TYPE, "Date");
+						else if(dataType.contains("time"))
+							valuesMap.put(VALUES_DATA_TYPE, "Time");
+						else if(dataType.contains("boolean"))
+							valuesMap.put(VALUES_DATA_TYPE, "Boolean");
+						else if(dataType.contains("decimal"))
+							valuesMap.put(VALUES_DATA_TYPE, "Decimal");
+						else if(dataType.contains("float"))
+							valuesMap.put(VALUES_DATA_TYPE, "Float");
+						else if(dataType.contains("number"))
+							valuesMap.put(VALUES_DATA_TYPE, "Number");
+						else if(dataType.contains("Integer"))
+							valuesMap.put(VALUES_DATA_TYPE, "Integer");
+						else if(dataType.contains("variable") && dataType.contains("characters"))
+							valuesMap.put(VALUES_DATA_TYPE, "Varchar");
+						else if(dataType.contains("varchar"))
+							valuesMap.put(VALUES_DATA_TYPE, "Varchar");
+						else if(dataType.contains("characters"))
+							valuesMap.put(VALUES_DATA_TYPE, "Char");
+						else if(dataType.contains("multibyte"))
+							valuesMap.put(VALUES_DATA_TYPE, "Char");
+						else 
+							valuesMap.put(VALUES_DATA_TYPE, "Text");
+						
+						if(listOfValues[4]!=null)
+						{
+							if(listOfValues[4].isEmpty())
+								valuesMap.put(VALUES_LENGTH, new Integer(0));
+							else
+								valuesMap.put(VALUES_LENGTH, Integer.parseInt(listOfValues[4]));
+						}
+						if(listOfValues[5]!=null)
+						{
+							if(listOfValues[5].isEmpty())
+								valuesMap.put(VALUES_PRECISION, new Integer(0));
+							else
+								valuesMap.put(VALUES_PRECISION, Integer.parseInt(listOfValues[5]));
+						}
+					}
+					extraValues.put(listOfValues[0], valuesMap);
 				}
-				extraLabelFile=true;
+				extraValuesFile=true;
 				publishText("Finished loading labels from "+file.getAbsolutePath());
 			} catch (FileNotFoundException e) {
 			
 			} catch (IOException e) {
-				publishWarning("Error while loading label file "+file.getAbsolutePath());
+				publishWarning("Error while loading file "+file.getAbsolutePath());
+				publishWarning("UML element names will be used for persistent name and labels");
+			}catch (Exception e) {
+				publishWarning("Error while loading values from file "+file.getAbsolutePath());
 				publishWarning("UML element names will be used for persistent name and labels");
 			}finally{
 				if(reader!=null)
@@ -282,7 +380,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		publishErrorText(exceptionMessage(e));
 		showError(exceptionMessage(e), "Error while importing");
 		
-		//e.printStackTrace();
+		e.printStackTrace();
 	}
 	/**
 	 * Creates an Eclipse UML model elements from a file that contains a Eclipse UML diagram.
@@ -318,7 +416,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		if(model!=null)
 		{
 			project=new BussinesSubsystem(createHumanReadableLabel(model.getName()), true, ComponentType.MENU, null);
-			project.setLabelToCode(!extraLabelFile);
+			project.setLabelToCode(!extraValuesFile);
 			addIndentation();
 			publishText("Project with name "+project.getLabel()+" created");
 			addIndentation();
@@ -431,17 +529,18 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		StandardPanel panel = new StandardPanel();
 		String newName=null;
 		boolean labelToCode=false;
-		if(extraLabelFile)
+		
+		if(extraValuesFile)
 		{
-			newName=labels.get(name);
+			newName=(String) extraValues.get(name).get(VALUES_NAME);
 		}
 		
-		if(!extraLabelFile||newName==null)
+		if(!extraValuesFile||newName==null)
 		{
 			newName=removePrefixSuffix(name, UMLElementsEnum.CLASS, true);
 			newName=createHumanReadableLabel(newName);
 			newName=removePrefixSuffix(newName, UMLElementsEnum.CLASS, false);
-			if(extraLabelFile)
+			if(extraValuesFile)
 				publishWarning("Label for class "+name+" not found in label file");
 			publishText("Label "+newName+" set for class "+name);
 			labelToCode=true;
@@ -453,7 +552,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		
 		//panel.getComponent().setName(newName);
 		PersistentClass persistent=panel.getPersistentClass();
-		persistent.setLabelToCode(!extraLabelFile);
+		persistent.setLabelToCode(!extraValuesFile);
 		/*
 		if(labelToCode)
 		{
@@ -503,7 +602,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		newName=createHumanReadableLabel(newName);
 		newName=removePrefixSuffix(newName, UMLElementsEnum.PACKAGE, false);
 		pack.setLabel(newName);
-		pack.setLabelToCode(!extraLabelFile);
+		pack.setLabelToCode(!extraValuesFile);
 		subsystemOwner.addNestedPackage(pack);
 		return pack;
 	}
@@ -815,17 +914,19 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		int group=1;
 		String humanReadable=null;
 		boolean labelToCode=false;
-		if(extraLabelFile)
+		HashMap<String, Object> valuesMap=extraValues.get(umlClassName+"."+label);
+		
+		if(extraValuesFile&&valuesMap!=null)
 		{
-			humanReadable=labels.get(umlClassName+"."+label);
+			humanReadable=(String) valuesMap.get(VALUES_NAME);
 		}
 		
-		if(!extraLabelFile||humanReadable==null)
+		if(!extraValuesFile||humanReadable==null)
 		{
 			humanReadable=removePrefixSuffix(label, UMLElementsEnum.CLASS, true);
 			humanReadable=createHumanReadableLabel(humanReadable);
 			humanReadable=removePrefixSuffix(humanReadable, UMLElementsEnum.CLASS, false);
-			if(extraLabelFile)
+			if(extraValuesFile)
 				publishWarning("Label for property "+umlClassName+"."+label+" not found in label file");
 			publishText("Label "+humanReadable+" set for property "+label);
 			labelToCode=true;
@@ -840,11 +941,22 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		*/
 		VisibleProperty property = new VisibleProperty(humanReadable, visible, type);
 		property.setLabel(humanReadable);
+		if(extraValuesFile&&valuesMap!=null)
+		{
+			property.setPersistentType((String) valuesMap.get(VALUES_DATA_TYPE));
+			property.setLength((int) valuesMap.get(VALUES_LENGTH));
+			property.setPrecision((int) valuesMap.get(VALUES_PRECISION));
+			//TODO: set mandatory value
+			if((boolean)(valuesMap.get(VALUES_MANDATORY))==true)
+				property.setLower(1);
+			else
+				property.setLower(0);
+		}
 		if(type == ComponentType.TEXT_FIELD) {
 			property.setDataType(dataType);
 		}
 		
-		property.setLabelToCode(!extraLabelFile);
+		property.setLabelToCode(!extraValuesFile);
 		/*
 		if(labelToCode)
 			property.setColumnLabel(namingUtil.toDatabaseFormat(panel.getLabel(), label));

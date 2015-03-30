@@ -11,7 +11,7 @@ import kroki.app.KrokiMockupToolApp;
 /**
  * Background worker thread for tasks that take a longer time
  * to finish like the import and export functionality. 
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public abstract class ProgressWorker extends SwingWorker<Void, WorkerPublishModel> {

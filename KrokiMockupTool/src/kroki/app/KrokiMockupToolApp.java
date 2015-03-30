@@ -47,12 +47,12 @@ public class KrokiMockupToolApp {
 	private ProjectHierarchyModel projectHierarchyModel;
 	private Workspace workspace;
 	private GuiManager guiManager;
-	private static KrokiMockupToolSplashScreen splash;
-
+	private static KrokiMockupToolSplashScreen splash = new KrokiMockupToolSplashScreen();;
+	private boolean binaryRun = false;
+	
 	public KrokiMockupToolApp() {
 		KrokiLookAndFeel.setLookAndFeel();
 		guiManager = new GuiManager();
-		splash  = new KrokiMockupToolSplashScreen();
 		krokiMockupToolFrame = new KrokiMockupToolFrame(guiManager);
 		tabbedPaneController = new TabbedPaneController(krokiMockupToolFrame.getCanvasTabbedPane());
 		workspace = new Workspace();
@@ -112,7 +112,6 @@ public class KrokiMockupToolApp {
 	}
 
 	public void launch() {
-		splash.showSplashAndExit();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				krokiMockupToolFrame.pack();
@@ -125,11 +124,6 @@ public class KrokiMockupToolApp {
 				krokiMockupToolFrame.toFront();
 				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				krokiMockupToolFrame.getStatusMessage().setText(StringResource.getStringResource("app.state.select"));
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
 				splash.turnOffSplash();
 				krokiMockupToolFrame.setVisible(true);
 			}
@@ -148,6 +142,10 @@ public class KrokiMockupToolApp {
 		tcm.getMappings();
 	}
 
+	public void displayTextOnConsole(String message, int type) {
+		getKrokiMockupToolFrame().getConsole().displayText(message, type);
+	}
+	
 	/*
 	 * Returns dimension that is 80% of the screen size
 	 */
@@ -288,6 +286,17 @@ public class KrokiMockupToolApp {
 		this.guiManager = guiManager;
 	}
 	
+	public boolean isBinaryRun() {
+		return binaryRun;
+	}
+
+	public void setBinaryRun(boolean binaryRun) {
+		if(!this.binaryRun) {
+			this.binaryRun = binaryRun;
+			System.out.println("[KROKI APP] Setting the binary run flag up.");
+		}
+	}
+
 	public ClipboardManager getClipboardManager() {
 		ClipboardManager.getInstance().setCanvas(getTabbedPaneController().getCurrentTabContent());
 		return ClipboardManager.getInstance();

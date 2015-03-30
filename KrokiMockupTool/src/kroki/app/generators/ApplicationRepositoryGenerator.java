@@ -3,6 +3,7 @@ package kroki.app.generators;
 import java.io.File;
 import java.util.ArrayList;
 
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.Menu;

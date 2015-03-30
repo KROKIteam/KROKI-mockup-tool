@@ -14,7 +14,7 @@ import javax.swing.JComponent;
  * set. 
  * on the MouseClicked event.
  * 
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class PropagateMouseClick extends MouseAdapter {
