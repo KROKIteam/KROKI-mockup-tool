@@ -14,6 +14,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.generators.utils.XMLWriter;
@@ -268,11 +269,13 @@ public class MenuGenerator {
 			StreamResult result = new StreamResult(fout);
 
 			transformer.transform(source, result);
-			System.out.println("[MENU GENERATOR] menu.html file generated");
+			KrokiMockupToolApp.getInstance().displayTextOnConsole("[MENU GENERATOR] menu.html file generated", 0);
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
+			KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
 		} catch (TransformerException e) {
 			e.printStackTrace();
+			KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
 		}
 	}
 

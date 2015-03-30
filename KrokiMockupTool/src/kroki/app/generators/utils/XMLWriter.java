@@ -50,7 +50,7 @@ public class XMLWriter {
 			StreamResult result = new StreamResult(fout);
  
 			transformer.transform(source, result);
-			System.out.println("[XML WRITER] " + fileName + ".xml datoteka generisana");
+			KrokiMockupToolApp.getInstance().displayTextOnConsole("[XML WRITER] " + fileName + ".xml file generated successfully.", 0);
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {

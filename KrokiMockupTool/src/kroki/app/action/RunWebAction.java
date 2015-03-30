@@ -44,7 +44,7 @@ public class RunWebAction extends AbstractAction {
 			@Override
 			public void run() {
 				//find selected project from workspace
-				BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
+				final BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
 				
 				if(proj != null) {
 					try {

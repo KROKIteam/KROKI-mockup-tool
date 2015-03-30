@@ -42,7 +42,7 @@ public class DatabaseConfigGenerator {
 	 /*        persistence.xml generation           */
 	/***********************************************/
 	public void generatePersistenceXMl(boolean web) {
-		System.out.println("[" + date + "]" + " generating persistence.xml file...");
+		KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] generating persistence.xml file...", 0);
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		
@@ -99,7 +99,7 @@ public class DatabaseConfigGenerator {
 	 /*       hibernate.cfg.xml generation          */
 	/***********************************************/
 	public void geneateHibernateConfigXML(String path) {
-		System.out.println("[" + date + "]" + " generating hibernate.cfg.xml file...");
+		KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] generating hibernate.cfg.xml file...", 0);
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		File fout = null;
@@ -116,9 +116,9 @@ public class DatabaseConfigGenerator {
 				writer = new OutputStreamWriter(new FileOutputStream(fout));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
+				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
 			}
 		}
-		
 		Template tpl = prepareTemplate("hibernate.cfg.ftl");
 		Map model = new TreeMap();
 		
@@ -144,6 +144,7 @@ public class DatabaseConfigGenerator {
 			tpl.process(model, writer);
 		} catch (TemplateException | IOException e) {
 			e.printStackTrace();
+			KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
 		}
 	}
 
@@ -160,18 +161,17 @@ public class DatabaseConfigGenerator {
 			template = cfg.getTemplate(templateFile);
 		} catch (IOException e) {
 			//e.printStackTrace();
-			System.out.println("[DB CONFIG GENERATOR] Templates directory not found. Trying the alternative one...");
+//			KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] Templates directory not found. Trying the alternative one...", 0);
 			KrokiMockupToolApp.getInstance().setBinaryRun(true);
 			try {
 				templateLoader = new FileTemplateLoader(new File(appPath + "templates"));
 				cfg.setTemplateLoader(templateLoader);
 				template = cfg.getTemplate(templateFile);
-				System.out.println("[DB CONFIG GENERATOR] Templates loaded ok.");
+				KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] Templates loaded ok.", 0);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		
 		return template;
 	}
 	

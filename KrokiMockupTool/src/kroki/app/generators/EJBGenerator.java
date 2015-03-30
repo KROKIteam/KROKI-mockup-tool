@@ -49,7 +49,7 @@ public class EJBGenerator {
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  H:mm:ss");
 		String d = formatter.format(now);
-		System.out.println("[" + d + "]" + " generating JPA Entity classes...");
+		KrokiMockupToolApp.getInstance().displayTextOnConsole("[EJB GENERATOR] generating JPA Entity classes...", 0);
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
@@ -111,18 +111,19 @@ public class EJBGenerator {
 				model.put("class", cl);
 				model.put("doc", doc);
 				
-				System.out.println("[" + d + "] JPA Class " + cl.getName() + " generated to: " + fout.getAbsolutePath());
-				
 				tpl.process(model, writer);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
+				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
 			} catch (IOException e) {
 				e.printStackTrace();
+				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
 			} catch (TemplateException e) {
 				e.printStackTrace();
+				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
 			}
 		}
-		System.out.println("[" + d + "] " + classes.size() + " JPA classes successfully generated.");
+		KrokiMockupToolApp.getInstance().displayTextOnConsole(classes.size() + " JPA classes successfully generated.", 0);
 	}
 
 
@@ -130,7 +131,6 @@ public class EJBGenerator {
 	/*        EJB XML FILES GENERATION             */
 	/***********************************************/
 	public void generateEJBXmlFiles(ArrayList<EJBClass> classes, String path) {
-
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 
@@ -357,9 +357,7 @@ public class EJBGenerator {
 				}else {
 					writer.write(doc, "ejb" + File.separator + clas.getName(), false);
 				}
-
 			}
-
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -428,7 +426,6 @@ public class EJBGenerator {
 		}else {
 			return "OneToMany";
 		}
-
 	}
 
 	public boolean deleteFiles(File directory) {

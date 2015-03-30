@@ -137,7 +137,6 @@ public class KrokiMockupToolApp {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		System.out.println("MAIN");
 		KrokiMockupToolApp.getInstance().launch();
 		TypeComponentMapper tcm = new TypeComponentMapper();
 		tcm.getMappings();

@@ -25,6 +25,7 @@ import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
+import kroki.app.gui.console.CommandPanel;
 import kroki.app.menu.MenuItem;
 import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
@@ -108,10 +109,8 @@ public class ProjectExporter {
 	 */
 	public void generateAppAndRepo(BussinesSubsystem proj, String message) {
 		this.project = proj;
-
 		//collecting the data from KROKI project
 		getData(proj);
-
 		//configuration files generation from collected data
 		//separate generator classes are called for swing and web application
 		if(swing) {
@@ -486,7 +485,7 @@ public class ProjectExporter {
 						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, 0, 0, true, false, false, null);
 						oppositeCLass.getAttributes().add(attr);
 
-						System.out.println("[PROJECT EXPORTER] Adding refference: " + attr.getName() + " --> " + oppositeCLass.getName());
+						KrokiMockupToolApp.getInstance().displayTextOnConsole("[PROJECT EXPORTER] Adding refference: " + attr.getName() + " --> " + oppositeCLass.getName(), 0);
 						
 						for(int k=0; k<oppositeCLass.getAttributes().size(); k++) {
 							EJBAttribute att = oppositeCLass.getAttributes().get(k);
@@ -633,7 +632,7 @@ public class ProjectExporter {
 		RunAnt runner = new RunAnt();
 		runner.runBuild(jarName + ".jar", buildFile, outputFile);
 		if(message != null) {
-			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, 0);
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, CommandPanel.KROKI_FINISHED);
 		}
 	}
 

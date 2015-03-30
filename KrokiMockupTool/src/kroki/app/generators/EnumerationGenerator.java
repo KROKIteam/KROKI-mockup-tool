@@ -24,6 +24,7 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
@@ -93,7 +94,7 @@ public class EnumerationGenerator {
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  H:mm:ss");
 		String d = formatter.format(now);
-		System.out.println("[" + d + "]" + " generating enumeration files...");
+		KrokiMockupToolApp.getInstance().displayTextOnConsole("[" + d + "]" + " generating enumeration files...", 0);
 		deleteFiles(getOutputFile());
 		
 		for (Enumeration enumeration : enumerations) {
@@ -107,12 +108,12 @@ public class EnumerationGenerator {
 				tpl = cfg.getTemplate("enumeration.ftl");
 				
 			} catch (IOException e) {
-				System.out.println("[ENUM GENERATOR] Templates directory not found. Trying the alternative one...");
+				KrokiMockupToolApp.getInstance().displayTextOnConsole("[ENUM GENERATOR] Templates directory not found. Trying the alternative one...", 0);
 				try {
 					templateLoader = new FileTemplateLoader(new File(appPath + "templates"));
 					cfg.setTemplateLoader(templateLoader);
 					tpl = cfg.getTemplate("EJBClass.ftl");
-					System.out.println("[ENUM GENERATOR] Templates loaded ok.");
+					KrokiMockupToolApp.getInstance().displayTextOnConsole("[ENUM GENERATOR] Templates loaded ok.", 0);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

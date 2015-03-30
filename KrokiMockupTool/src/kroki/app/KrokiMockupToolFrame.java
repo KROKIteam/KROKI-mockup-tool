@@ -580,5 +580,4 @@ public class KrokiMockupToolFrame extends JFrame {
 		public void setPasteAction(PasteAction pasteAction) {
 			this.pasteAction = pasteAction;
 		}
-
 	}
