@@ -33,8 +33,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.commons.io.FileDeleteStrategy;
-
 import kroki.app.action.AboutAction;
 import kroki.app.action.CopyAction;
 import kroki.app.action.CutAction;
@@ -69,6 +67,8 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
+
+import org.apache.commons.io.FileDeleteStrategy;
 
 /**
  *
@@ -160,7 +160,23 @@ public class KrokiMockupToolFrame extends JFrame {
 				File tempDir = new File(appPath);
 
 				deleteFiles(tempDir);
-			}
+				
+			
+				//save projects
+				if (KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount() == 0)
+		    		System.exit(1);
+		    	
+		    	int answer = JOptionPane.showConfirmDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(),
+		    			"Save changes before closing the application?", "?", JOptionPane.YES_NO_CANCEL_OPTION);
+
+		    	if (answer == JOptionPane.NO_OPTION)
+		    		System.exit(1);
+		    	else if (answer == JOptionPane.YES_OPTION){
+		    		KrokiMockupToolApp.getInstance().getWorkspace().saveAllProjects();
+		    		System.exit(1);
+		    	}
+		    	else {} //canceled
+ 			}
 		});
 	}
 

@@ -15,6 +15,7 @@ import kroki.app.action.OpenProjectAction;
 import kroki.app.action.RedoAction;
 import kroki.app.action.SaveAction;
 import kroki.app.action.SaveAllAction;
+import kroki.app.action.SaveAsAction;
 import kroki.app.action.UndoAction;
 
 /**
@@ -40,6 +41,7 @@ public class MainToolbar extends JToolBar {
         add(new NewProjectAction());
         add(new OpenProjectAction());
         add(new SaveAction());
+        add(new SaveAsAction());
         add(new SaveAllAction());
         addSeparator();
         add(new UndoAction());

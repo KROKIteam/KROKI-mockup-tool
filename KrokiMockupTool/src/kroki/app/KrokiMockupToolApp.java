@@ -123,7 +123,7 @@ public class KrokiMockupToolApp {
 				krokiMockupToolFrame.setExtendedState(krokiMockupToolFrame.getExtendedState() | JFrame.NORMAL);
 				krokiMockupToolFrame.setLocationRelativeTo(null);
 				krokiMockupToolFrame.toFront();
-				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				krokiMockupToolFrame.getStatusMessage().setText(StringResource.getStringResource("app.state.select"));
 				try {
 					Thread.sleep(1000);
