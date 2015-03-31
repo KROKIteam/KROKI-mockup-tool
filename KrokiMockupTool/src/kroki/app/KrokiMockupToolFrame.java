@@ -186,7 +186,7 @@ public class KrokiMockupToolFrame extends JFrame {
 	private void initMainPanel() {
 		//debljina i pozicija dividera
 		mainSplitPane.setDividerSize(2);
-		mainSplitPane.setResizeWeight(0.2f);
+		mainSplitPane.setResizeWeight(0.3f);
 
 		//tabbed pane sa tree
 		treeTabbedPane = new JTabbedPane();

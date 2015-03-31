@@ -6,6 +6,7 @@ package kroki.app.gui.toolbar;
 
 import javax.swing.JToolBar;
 
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.action.AdministrationSubsytemAction;
 import kroki.app.action.BusinessProcessModelingAction;
 import kroki.app.action.ClassDiagramAction;
@@ -48,7 +49,7 @@ public class MainToolbar extends JToolBar {
         add(new RedoAction());
         addSeparator();
         add(new ClassDiagramAction());
-        add(new BusinessProcessModelingAction());
+        //add(new BusinessProcessModelingAction());
         add(new AdministrationSubsytemAction());
         addSeparator();
     }

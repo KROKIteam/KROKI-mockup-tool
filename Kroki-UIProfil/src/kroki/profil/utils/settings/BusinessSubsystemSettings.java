@@ -115,7 +115,10 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 			remove(chLabelToCode);
 			remove(lblEclipsePath);
 			remove(tfEclipsePath);
+			remove(btnLink);
 			remove(btnUnlink);
+			remove(descriptionLabel);
+			remove(descriptionTextArea);
 		}
 		else{
 			remove(lblLabelToCode);
@@ -124,6 +127,7 @@ public class BusinessSubsystemSettings extends JPanel implements Settings{
 			remove(lblLabel);
 			remove(lblEclipsePath);
 			remove(tfEclipsePath);
+			remove(btnLink);
 			remove(btnUnlink);
 			remove(descriptionLabel);
 			remove(descriptionTextArea);
