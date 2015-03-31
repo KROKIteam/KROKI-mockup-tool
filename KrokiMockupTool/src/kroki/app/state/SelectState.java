@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 
@@ -30,7 +26,7 @@ import kroki.profil.utils.ElementsGroupUtil;
 import kroki.profil.utils.VisibleClassUtil;
 
 /**
- *
+ * Class represent selection state, which is the default state 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class SelectState extends State {

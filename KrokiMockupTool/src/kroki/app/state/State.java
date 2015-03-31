@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.event.KeyEvent;
@@ -10,9 +6,9 @@ import java.awt.event.MouseWheelEvent;
 import kroki.app.utils.StringResource;
 
 /**
- * Аbstraktna klasa koja predstavlja stanje aplikacije. Ona implementira interfejs {@link  IState} ali metode ostavlja nerealizovane (prazne).
- * Na taj način ostavlja mogućnost svakom konkretnom stanju da implementira operacije koje su mu potrebne za rad i time smanji broj linija koda
- * i poveća preglednost i razumljivost koda.
+ * Abstract class which represents application sate and implements interface {@link  IState}
+ * but leaves the methods unimplemented (empty)
+ * The non-abstract states only need to implement methods they need. 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public abstract class State implements IState {
@@ -20,7 +16,7 @@ public abstract class State implements IState {
     Context context;
     String name;
     String displayName;
-    /*Konstante*/
+    /*Constants*/
     public static String ADD_STATE = "ADD_STATE";
     public static String MOVE_STATE = "MOVE_STATE";
     public static String SELECT_STATE = "SELECT_STATE";

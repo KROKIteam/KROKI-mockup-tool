@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.Image;
@@ -22,13 +18,14 @@ import kroki.profil.utils.UIPropertyUtil;
 import kroki.profil.utils.VisibleClassUtil;
 
 /**
- *
+ * Class represents a state which allows transformation
+ * of fields into aggregated fields
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TransformToAggregatedState extends State {
 
-    Image addEnabledIcon = CursorResource.getCursorResource("action.transformToAggregated.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+    private Image addEnabledIcon = CursorResource.getCursorResource("action.transformToAggregated.smallImage");
+    private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public TransformToAggregatedState(Context context) {
         super(context, "app.state.aggregated");
@@ -87,7 +84,7 @@ public class TransformToAggregatedState extends State {
             }
         }
 
-        //OVO MORA BITI UNDOABLE I REDO-ABLE
+        //TODO OVO MORA BITI UNDOABLE I REDO-ABLE
         if (index != -1) {
             ElementsGroup elg = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
             if (elg != null) {

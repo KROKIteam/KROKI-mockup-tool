@@ -2,13 +2,8 @@ package kroki.app.utils;
 
 import java.io.File;
 
-import javax.swing.JOptionPane;
-
-import kroki.app.KrokiMockupToolApp;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class RunAnt {
 	

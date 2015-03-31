@@ -12,13 +12,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
+/**
+ * Class which is used to save projects.
+ * Currently contains methods which use XStream, but which are not used
+ * due to large file sizes, as well as methods which produce GZip files
+ * @author Kroki Team
+ *
+ */
 public class SaveUtil {
 
 	public static boolean saveXStream(Object toSave, File file){

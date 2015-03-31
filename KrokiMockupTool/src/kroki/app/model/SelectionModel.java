@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.model;
 
 import java.awt.geom.Point2D;
@@ -19,7 +15,9 @@ import kroki.profil.group.ElementsGroup;
 import kroki.profil.utils.ElementsGroupUtil;
 
 /**
- *
+ * Class contains list of selected visible elements
+ * and methods to add new elements to selection
+ * or remove previously selected ones
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class SelectionModel {
@@ -77,7 +75,7 @@ public class SelectionModel {
     }
 
     /**
-     * Vraća najmanji pravougaonik ( {@link Rectangle2D} ) koji sadrži sve selektovane elemente.
+     * VraÄ‡a najmanji pravougaonik ( {@link Rectangle2D} ) koji sadrÅ¾i sve selektovane elemente.
      * @return
      */
     public Rectangle2D getSelectionBounds() {
@@ -97,8 +95,8 @@ public class SelectionModel {
     /**
      * Metoda koja priprema grupu elemenata za pomeranje.
      * <i>
-     * Izvršava deselekciju svih elemenata unutar grupe (ukoliko je neki od njih selektovan). Deselektovane elemente stavlja u privremenu listu koja se nakon
-     * završetka pomeranja prazni a njen sadržaj opet prebacuje u listu selektovanih elemenata.
+     * IzvrÅ¡ava deselekciju svih elemenata unutar grupe (ukoliko je neki od njih selektovan). Deselektovane elemente stavlja u privremenu listu koja se nakon
+     * zavrÅ¡etka pomeranja prazni a njen sadrÅ¾aj opet prebacuje u listu selektovanih elemenata.
      * </i>
      * @param elGroup Grupa elemenata koju je potrebno 
      */

@@ -1,15 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-/**
- * Interfejs predstavlja stanje u kojem se aplikacija nalazi. Deo je implementacije IState dizajn sablona.
+/** Interface which represents a state in which the editor can be.
+ * It is a part of the implementation of State design patter.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface IState {

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.util.HashMap;
@@ -9,7 +5,8 @@ import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 
 /**
- *
+ * Class which contains a map of all possible states
+ * and saves current editor state
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Context {
@@ -18,7 +15,7 @@ public class Context {
     private HashMap<String, State> stateMap;
     private TabbedPaneController tabbedPaneController;
 
-    /*inicijalizacija hash mape*/
+    /*Initializing the hash map*/
     {
         stateMap = new HashMap<String, State>();
         stateMap.put(State.ADD_STATE, new AddState(this));

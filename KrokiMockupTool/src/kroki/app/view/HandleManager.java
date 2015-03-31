@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.view;
 
 import java.awt.Dimension;
@@ -20,10 +16,10 @@ public class HandleManager {
     public static int w = 10;
 
     /**
-     * 
-     * @param visibleElement
-     * @param point
-     * @return
+     * Returns handle for the given visible element and point
+     * @param visibleElement Visible element
+     * @param point Position
+     * @return Handle
      */
     public static Handle getHandleForPoint(VisibleElement visibleElement, Point point) {
         if (visibleElement != null && point != null) {
@@ -37,12 +33,11 @@ public class HandleManager {
     }
 
     /**
-     *
-     * 
-     * @param visibleElement
-     * @param handle
-     * @param point
-     * @return
+     * Checks if the given point is in handle
+     * @param visibleElement Visible element
+     * @param handle Handle
+     * @param point Position
+     * @return <code>true</code> if point is in handle, <code>false</code> otherwise
      */
     public static boolean isPointInHandle(VisibleElement visibleElement, Handle handle, Point point) {
         Point center = getHandlePosition(visibleElement, handle);
@@ -52,18 +47,18 @@ public class HandleManager {
         return rec.contains(point);
     }
 
-    /**
-     * 
-     * @param visibleElement
-     * @param handle
-     * @return
+    /** 
+     * Returns handle position for the given handle and element
+     * @param visibleElement Visible element
+     * @param handle Handle
+     * @return Handle position
      */
     public static Point getHandlePosition(VisibleElement visibleElement, Handle handle) {
         Point topLeft = visibleElement.getComponent().getAbsolutePosition();
         Dimension size = visibleElement.getComponent().getDimension();
         int x = 0, y = 0;
 
-        //za y
+        //for y
         if (handle == Handle.NorthWest || handle == Handle.North || handle == Handle.NorthEast) {
             y = topLeft.y;
         }
@@ -74,7 +69,7 @@ public class HandleManager {
             y = topLeft.y + size.height;
         }
 
-        //za x
+        //for x
         if (handle == Handle.NorthWest || handle == Handle.West || handle == Handle.SouthWest) {
             x = topLeft.x;
         }

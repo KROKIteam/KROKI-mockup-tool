@@ -14,6 +14,10 @@ import kroki.app.view.Canvas;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 
+/**
+ * Clipboard manager, used to implement cut/copy/paste features  
+ * @author Kroki Team
+ */
 public class ClipboardManager implements ClipboardOwner {
 
 	private Clipboard clipboard;

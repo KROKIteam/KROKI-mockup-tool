@@ -1,14 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.utils;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
- * Klasa koja je zaduzena za podesavanje look and feel-a aplikacije. Podrazumevani look and feel je windowsLookAndFeel
+ * Class which is used to set look and feel of the application.
+ * WindowsLookAndFeel is the default look and feel
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class KrokiLookAndFeel {
@@ -16,7 +13,7 @@ public class KrokiLookAndFeel {
     private static String lookAndFeelName = "windowslookandfeel";
 
     /**
-     * Podešava look and feel na podrazumevanu vrednost.
+     * Sets look and feel to the default value
      */
     public static void setLookAndFeel() {
         LookAndFeelInfo lfis[] = UIManager.getInstalledLookAndFeels();

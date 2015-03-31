@@ -16,7 +16,8 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 
 /**
- *
+ * Class represents a workspace, containing list of projects
+ * i.e. packages with no parent packages
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public final class Workspace implements Serializable{

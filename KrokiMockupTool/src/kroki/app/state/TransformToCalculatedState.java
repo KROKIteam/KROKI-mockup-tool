@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.Image;
@@ -22,13 +18,14 @@ import kroki.profil.utils.UIPropertyUtil;
 import kroki.profil.utils.VisibleClassUtil;
 
 /**
- *
+ * Class represents a state which allows transformation
+ * of fields into calculated fields
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TransformToCalculatedState extends State {
 
-    Image addEnabledIcon = CursorResource.getCursorResource("action.transformToCalculated.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+    private Image addEnabledIcon = CursorResource.getCursorResource("action.transformToCalculated.smallImage");
+    private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public TransformToCalculatedState(Context context) {
         super(context, "app.state.calculated");

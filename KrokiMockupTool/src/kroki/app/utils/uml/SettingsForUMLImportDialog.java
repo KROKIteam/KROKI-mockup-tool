@@ -11,16 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,10 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
-import kroki.app.KrokiMockupToolApp;
-
-import org.eclipse.uml2.uml.Operation;
-
 /**
  * Dialog that lets the user input text that can represent prefixes and 
  * suffixes in the names of package, class, property and operation elements
@@ -42,6 +34,11 @@ import org.eclipse.uml2.uml.Operation;
  * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
  */
 public class SettingsForUMLImportDialog extends JDialog implements ActionListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * List of components that shows the list of text values that the user has

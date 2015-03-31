@@ -8,7 +8,6 @@ import java.awt.Label;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -28,6 +27,11 @@ import org.eclipse.uml2.uml.internal.impl.ClassImpl;
  *
  */
 public class OperationTypeComponent extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Operation for which to choose which type of operation

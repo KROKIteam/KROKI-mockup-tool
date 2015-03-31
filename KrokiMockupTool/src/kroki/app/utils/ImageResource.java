@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.utils;
 
 import java.awt.Image;
@@ -13,7 +9,7 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 
 /**
- * Utils klasa koja na osnovu kljuca vraća resurs koji je slika.
+ * Util class which returns a resource based on the given key
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ImageResource {
@@ -30,7 +26,6 @@ public class ImageResource {
             if (url != null) {
                 try {
                     value = ImageIO.read(ImageResource.class.getResource(url));
-                    //dodam je u mapu
                     imageMap.put(key, value);
                 } catch (IOException e) {
                     e.printStackTrace();

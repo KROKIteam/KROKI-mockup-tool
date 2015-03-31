@@ -1,6 +1,5 @@
 package kroki.app.utils.uml;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTree;
@@ -12,7 +11,6 @@ import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.panel.container.ParentChild;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.BusinessSubsystemUtil;
 import kroki.profil.utils.HierarchyUtil;
@@ -39,7 +37,6 @@ public class OperationsUtil {
 			if (subsystem.nestingPackage() != null) {
 				subsystem.nestingPackage().removeNestedPackage(subsystem);
 			} else {
-				//izbrisi ga iz workspace-a
 				KrokiMockupToolApp.getInstance().getWorkspace().removePackage(subsystem);
 			}
 

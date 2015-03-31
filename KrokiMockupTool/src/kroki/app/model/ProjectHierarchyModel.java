@@ -10,13 +10,14 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
- *
+ * Tree model used to show workspace content within
+ * a JTree
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ProjectHierarchyModel implements TreeModel {
 
-    Workspace workspace;
-    JTree tree;
+    private Workspace workspace;
+    private JTree tree;
 
     public ProjectHierarchyModel(JTree tree, Workspace workspace) {
         this.tree = tree;

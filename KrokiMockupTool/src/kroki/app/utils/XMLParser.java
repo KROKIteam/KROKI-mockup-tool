@@ -32,7 +32,7 @@ public class XMLParser {
 	}
 	
 	/**
-	 * Vraca string vrednost elementa xml dokumenta
+	 * Returns string value of the xml document
 	 */
 	public static String getCharacterDataFromElement(org.w3c.dom.Element line) {
 		   Node child = ((Node) line).getFirstChild();

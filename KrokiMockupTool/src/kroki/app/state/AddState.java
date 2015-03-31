@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.Image;
@@ -18,7 +14,7 @@ import kroki.profil.utils.ElementsGroupUtil;
 import kroki.profil.utils.VisibleClassUtil;
 
 /**
- * Klasa koja predstavlja stanje dodavanja elementa.
+ * Class represents add state
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class AddState extends State {

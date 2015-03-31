@@ -8,6 +8,12 @@ import java.util.List;
 
 import kroki.profil.VisibleElement;
 
+/**
+ * Contains list of visible elements which represent the contents
+ * of the clipboard
+ * @author Kroki Team
+ *
+ */
 public class ClipboardContents implements Transferable {
 
 	private List<VisibleElement> visibleElements;

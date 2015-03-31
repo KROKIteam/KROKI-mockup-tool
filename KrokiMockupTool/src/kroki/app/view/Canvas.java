@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.view;
 
 import java.awt.BasicStroke;
@@ -26,15 +22,20 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.StandardPanelUtil;
 
 /**
- *
+ * Class represents a canvas
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Canvas extends JPanel {
 
-    private Rectangle2D resizeRec;
-    /**Pravougaonik selekcije*/
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Rectangle2D resizeRec;
+    /**Selection rectangle*/
     private Rectangle2D selectionRectangle;
-    /**Indikator koji govori da li je pravougaonik selekcije vidljiv ili ne*/
+    /**Indicates if the selection rectangle is visible or not*/
     private boolean showSelectionRectangle;
     private VisibleClass visibleClass;
     private SelectionModel selectionModel;
@@ -161,30 +162,30 @@ public class Canvas extends JPanel {
     }
 
     /**
-     * Podešava atribute pravouganika selekcije
-     * @param x x koordinata
-     * @param y y koordinata
-     * @param width širina
-     * @param height visina
+     * Set selection rectangle attributes
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param width Width
+     * @param height Height
      */
     public void setSelectionRectangleBounds(int x, int y, int width, int height) {
         selectionRectangle.setRect(x, y, width, height);
     }
 
     /**
-     * Podešava atribute pravouganika selekcije
-     * @param x x koordinata
-     * @param y y koordinata
-     * @param width širina
-     * @param height visina
+     * Set selection rectangle attributes
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param width Width
+     * @param height Height
      */
     public void setSelectionRectangleBounds(double x, double y, double width, double height) {
         selectionRectangle.setRect(x, y, width, height);
     }
 
-    /*****************/
-    /*GETERI I SETERI*/
-    /*****************/
+    /**********************/
+    /*GETTETS AND SETTERS*/
+    /********************/
     public VisibleClass getVisibleClass() {
         return visibleClass;
     }
