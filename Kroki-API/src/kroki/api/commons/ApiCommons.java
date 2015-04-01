@@ -31,7 +31,7 @@ public class ApiCommons {
 
 	/**
 	 * Creates a new visible operations and adds in to the given panel
-	 * @param label Label of visible operation
+	 * @param label Label of the visible operation
 	 * @param visible Is operation visible
 	 * @param componentType Component type (Button)
 	 * @param operationType Operation type (report or transaction)
@@ -40,7 +40,9 @@ public class ApiCommons {
 	 * @param indexGroup Group index of the operation (-1 if the visible property is being created for the first time, old index in case of undo operation)
 	 * @return Created visible operation
 	 */
-	public static VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType, VisibleClass panel, OperationType operationType, int indexClass, int indexGroup){
+	public static VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType,
+			VisibleClass panel, OperationType operationType, int indexClass, int indexGroup){
+		
 		VisibleOperation operation;
 		int operationsGroup = Util.getOperationGroupIndex(panel);
 		if (operationsGroup == -1)
@@ -64,14 +66,16 @@ public class ApiCommons {
 	
 	/**
 	 * 
-	 * @param label Label of visible operation
+	 * @param label Label of the visible operation
 	 * @param visible Is operation visible
 	 * @param type Component type (Button)
 	 * @param panel Visible panel to which the property is being added
 	 * @param operationType Operation type (report or transaction)
 	 * @return Created visible operation
 	 */
-	public static VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType, VisibleClass panel, OperationType operationType){
+	public static VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType, 
+			VisibleClass panel, OperationType operationType){
+		
 		return makeVisibleOperation(label, visible, componentType, panel, operationType, -1, -1);
 	}
 	
@@ -84,6 +88,23 @@ public class ApiCommons {
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getOperationGroupIndex(visibleClass));
 		ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, classIndex));
 		UIPropertyUtil.removeVisibleElement(visibleClass, classIndex);
+	}
+	
+	/**
+	 * Removes given visible element from the specified visible class
+	 * @param visibleClass Visible class
+	 * @param visibleElement Element to be removed
+	 */
+	public static void removeVisibleElement(VisibleClass visibleClass, VisibleElement visibleElement){
+		
+		ElementsGroup gr = null;
+		if (visibleElement instanceof VisibleOperation)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getOperationGroupIndex(visibleClass));
+		else if (visibleElement instanceof VisibleProperty)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getPropertiesGroupIndex(visibleClass));
+		
+		ElementsGroupUtil.removeVisibleElement(gr, visibleElement);
+		UIPropertyUtil.removeVisibleElement(visibleClass, visibleElement);
 	}
 	
 	/**
@@ -124,7 +145,7 @@ public class ApiCommons {
 
 	/**
 	 * Creates a new visible property and adds in to the given panel
-	 * @param label Label of visible property
+	 * @param label Label of the visible property
 	 * @param visible Is property visible
 	 * @param type Component type (text field, text area, check box etc.)
 	 * @param panel Visible panel to which the property is being added
@@ -158,7 +179,7 @@ public class ApiCommons {
 
 	/**
 	 * Creates visible property by calling {@link #makeVisiblePropertyAt()} and passing -1 as class and group index
-	 * @param label Label of visible property
+	 * @param label Label of the visible property
 	 * @param visible Is property visible
 	 * @param type Component type (text field, text area, check boc etc.)
 	 * @param panel Visible panel to which the property is being added
@@ -171,7 +192,7 @@ public class ApiCommons {
 	
 	/**
 	 * Removes property with given class index from visible class
-	 * @param visibleClass Visible class countaining the property
+	 * @param visibleClass Visible class containing the property
 	 * @param classIndex Class index of the property
 	 */
 	public static void removeProperty(VisibleClass visibleClass, int classIndex){
@@ -189,6 +210,7 @@ public class ApiCommons {
 	 */
 	public static void moveElementDown(VisibleClass visibleClass, int classIndex, int groupIndex, int type) {
 
+		
 		ElementsGroup gr;
 		if (type == 1)
 			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getPropertiesGroupIndex(visibleClass));
@@ -196,8 +218,11 @@ public class ApiCommons {
 			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getOperationGroupIndex(visibleClass));
 		else 
 			return;
+		
+		if (groupIndex == gr.getVisibleElementList().size() - 1)
+			return;
 
-		//izbaci oba i dodaj na suprotne pozicije
+		//remove and add again, to each other's position
 		VisibleElement thisProp = (VisibleElement) ElementsGroupUtil.getVisibleElementAt(gr, groupIndex);
 		VisibleElement otherProp = (VisibleElement) ElementsGroupUtil.getVisibleElementAt(gr, groupIndex + 1);
 
@@ -214,6 +239,9 @@ public class ApiCommons {
 	 */
 	public static void moveElementUp(VisibleClass visibleClass, int classIndex, int groupIndex, int type) {
 		
+		if (groupIndex == 0)
+			return;
+		
 		ElementsGroup gr;
 		if (type == 1)
 			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getPropertiesGroupIndex(visibleClass));
@@ -222,7 +250,7 @@ public class ApiCommons {
 		else 
 			return;
 
-		//izbaci oba i dodaj na suprotne pozicije
+		//remove and add again, to each other's position
 		VisibleElement thisProp = (VisibleElement) ElementsGroupUtil.getVisibleElementAt(gr, groupIndex);
 		VisibleElement otherProp = (VisibleElement) ElementsGroupUtil.getVisibleElementAt(gr, groupIndex - 1);
 
@@ -267,4 +295,6 @@ public class ApiCommons {
 			UIPropertyUtil.addVisibleElement(visibleClass, firstIndexCl, p1);
 		}
 	}
+	
+	//TODO add method which only accepts properties and calculates indexes
 }
