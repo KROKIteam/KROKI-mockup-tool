@@ -102,6 +102,12 @@ public class ApiCommons {
 			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getOperationGroupIndex(visibleClass));
 		else if (visibleElement instanceof VisibleProperty)
 			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getPropertiesGroupIndex(visibleClass));
+		else if (visibleElement instanceof Hierarchy)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getPropertiesGroupIndex(visibleClass));
+		else if (visibleElement instanceof VisibleAssociationEnd)
+			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(Util.getOperationGroupIndex(visibleClass));
+		else
+			return;
 		
 		ElementsGroupUtil.removeVisibleElement(gr, visibleElement);
 		UIPropertyUtil.removeVisibleElement(visibleClass, visibleElement);
@@ -296,5 +302,4 @@ public class ApiCommons {
 		}
 	}
 	
-	//TODO add method which only accepts properties and calculates indexes
 }

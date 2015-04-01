@@ -4,6 +4,7 @@ import kroki.api.enums.OperationType;
 import kroki.api.util.Util;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
+import kroki.profil.association.Hierarchy;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
@@ -166,6 +167,26 @@ public class TestCommons extends TestCase{
 	}
 	
 	@Test
+	public void testMakeHierarchyElement(){
+		
+		int propertiesGroupIndex = Util.getPropertiesGroupIndex(parentChildPanel);
+		ElementsGroup propertiesGroup = (ElementsGroup) parentChildPanel.getVisibleElementList().get(propertiesGroupIndex);
+		assertEquals(0, propertiesGroup.getVisibleElementList().size());
+		
+		Hierarchy h = new Hierarchy();
+		ApiCommons.addHierarchyElement(parentChildPanel, h, standardPanel);
+		
+		assertEquals(1, propertiesGroup.getVisibleElementList().size());
+		assertSame(standardPanel, h.getTargetPanel());
+		assertSame(h.getParentGroup(), propertiesGroup);
+		
+		ApiCommons.removeVisibleElement(parentChildPanel, h);
+		assertEquals(0, propertiesGroup.getVisibleElementList().size());
+		
+	}
+	
+	
+	@Test
 	public void testMoveElements(){
 		
 		int initialNumber = standardPanel.getVisibleElementList().size();
@@ -201,6 +222,13 @@ public class TestCommons extends TestCase{
 		ApiCommons.moveElementUp(standardPanel, initialNumber + 1, 1, 1);
 		assertSame(elements[0], standardPanel.getVisibleElementList().get(initialNumber + 2));
 		assertSame(elements[1], standardPanel.getVisibleElementList().get(initialNumber + 1));
+		
+		assertEquals(number, standardPanel.getVisibleElementList().size());
+		
+		for (VisibleElement ve : elements)
+			ApiCommons.removeVisibleElement(standardPanel, ve);
+		
+		assertEquals(initialNumber, standardPanel.getVisibleElementList().size());
 		
 	}
 	
