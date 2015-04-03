@@ -222,7 +222,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 								valuesMap.put(VALUES_MANDATORY, true);
 						}
 						
-						//"Char", "Varchar", "Text", "Integer", "Number", "Float", "Decimal", "Boolean", "Date", "Time", "DateTime"
+						//Persistent types:"Char", "Varchar", "Text", "Integer", "Number", "Float", "Decimal", "Boolean", "Date", "Time", "DateTime"
 						dataType=listOfValues[3].toLowerCase();
 						if(dataType.contains("date") && dataType.contains("time"))
 							valuesMap.put(VALUES_DATA_TYPE, "DateTime");
@@ -681,6 +681,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		EList<Property> properties=classObject.getAttributes();
 		boolean elementsGroup;
 		boolean visibleProperty;
+		VisibleProperty createdVisibleProperty;
 		objectsMap=new LinkedHashMap<Object, Object>();
 		publishText("Creating fields and groups:");
 		addIndentation();
@@ -741,6 +742,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 					createdObject=property;
 				}else
 				{
+					//Persistent types:"Char", "Varchar", "Text", "Integer", "Number", "Float", "Decimal", "Boolean", "Date", "Time", "DateTime"
 					if(dataType.getName()==null)
 					{
 						throw new Exception("Data type for property "+attribute.getName()+" can not be determined.\n"
@@ -749,16 +751,44 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 					if(dataType.getName().toLowerCase().contains(ExportProjectToEclipseUML.ENUMERATION_ELEMENT_TYPE.toLowerCase()))
 					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.COMBO_BOX,"", panel,true,classObject.getName());
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							createdVisibleProperty.setPersistentType("Varchar");
+						    createdVisibleProperty.setLength(50);
+						}
 					}else
 					if(dataType.getName().toLowerCase().contains("boolean"))
 					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.CHECK_BOX,"", panel ,true,classObject.getName());
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							createdVisibleProperty.setPersistentType("Boolean");
+						}
 					}
 					else if(dataType.getName().toLowerCase().contains("bigdecimal")||
 							dataType.getName().toLowerCase().contains("double")||
 							dataType.getName().toLowerCase().contains("float"))
 					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"BigDecimal", panel,true,classObject.getName());
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							if(dataType.getName().toLowerCase().contains("bigdecimal")||
+									dataType.getName().toLowerCase().contains("double"))
+							{
+								
+								createdVisibleProperty.setPersistentType("Decimal");
+								createdVisibleProperty.setLength(10);
+								createdVisibleProperty.setPrecision(2);
+							}
+							else
+							{
+								createdVisibleProperty.setPersistentType("Float");
+								createdVisibleProperty.setLength(10);
+							}	
+						}
 					}
 					else if(dataType.getName().toLowerCase().contains("string"))
 					{
@@ -766,16 +796,54 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 							createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_AREA,"", panel,true,classObject.getName());
 						else
 							createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true,classObject.getName());
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							createdVisibleProperty.setPersistentType("Varchar");
+							if(attribute.getUpper()>50)
+								createdVisibleProperty.setLength(200);
+							else
+								createdVisibleProperty.setLength(50);
+						}
 					}
 					else if(dataType.getName().toLowerCase().contains("int"))
+					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Integer", panel,true,classObject.getName());
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							createdVisibleProperty.setPersistentType("Integer");
+						}
+					}
 					else if(dataType.getName().toLowerCase().contains("long"))
+					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Long", panel,true,classObject.getName());
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							createdVisibleProperty.setPersistentType("Long");
+						}
+					}
 					else if(dataType.getName().toLowerCase().contains("date"))
+					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"Date", panel,true,classObject.getName());
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							createdVisibleProperty.setPersistentType("DateTime");
+						}
+					}
 					else
+					{
 						createdObject=createVisibleProperty(attribute.getName(), true, ComponentType.TEXT_FIELD,"String", panel,true,classObject.getName());
-					attribute.getLabel();
+						if(!extraValuesFile)
+						{
+							createdVisibleProperty=(VisibleProperty)createdObject;
+							createdVisibleProperty.setPersistentType("Varchar");
+							createdVisibleProperty.setLength(50);
+						}
+					}
+					//attribute.getLabel();
 				}
 				if(createdObject!=null)
 				{
@@ -914,7 +982,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		int group=1;
 		String humanReadable=null;
 		boolean labelToCode=false;
-		HashMap<String, Object> valuesMap=extraValues.get(umlClassName+"."+label);
+		HashMap<String, Object> valuesMap=null;
+		if(extraValuesFile)
+				valuesMap=extraValues.get(umlClassName+"."+label);
 		
 		if(extraValuesFile&&valuesMap!=null)
 		{
