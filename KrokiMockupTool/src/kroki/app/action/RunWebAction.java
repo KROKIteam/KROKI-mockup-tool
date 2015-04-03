@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
+import kroki.app.gui.console.CommandPanel;
+import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
@@ -53,27 +55,37 @@ public class RunWebAction extends AbstractAction {
 						Thread runThread = new Thread(new Runnable() {
 							@Override
 							public void run() {
-								KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-								SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmm");
-								Date today = new Date();
-								String dateSuffix = formatter.format(today);
-								String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+								boolean proceed = true;
+								if(proj.getEclipseProjectPath() != null) {
+									if(!FileChooserHelper.checkDirectory(proj)) {
+										proceed = false;
+										KrokiMockupToolApp.getInstance().displayTextOnConsole("The selected project has associated Eclipse project path, but is seems to be missing or corrupted. Please review these settings in the project properties panel.", CommandPanel.KROKI_WARNING);
+									}
+								}
 								
-								//get temporary location in KROKI directory
-								File f = new File(".");
-								String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
-								File tempDir = new File(appPath);
+								if(proceed) {
+									KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+									SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyHmm");
+									Date today = new Date();
+									String dateSuffix = formatter.format(today);
+									String jarName = proj.getLabel().replace(" ", "_") + "_WEB_" + formatter.format(today);
+									
+									//get temporary location in KROKI directory
+									File f = new File(".");
+									String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
+									File tempDir = new File(appPath);
 
 
-								//generate connection settings for embedded h2 database
-								DatabaseProps tempProps = new DatabaseProps();
-								//proj.setDBConnectionProps(tempProps);
-								ProjectExporter exporter = new ProjectExporter(false);
-								exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
+									//generate connection settings for embedded h2 database
+									DatabaseProps tempProps = new DatabaseProps();
+									//proj.setDBConnectionProps(tempProps);
+									ProjectExporter exporter = new ProjectExporter(false);
+									exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
 
-								//run exported jar file
-								RunAnt runner = new RunAnt();
-								runner.runRun(proj, tempDir, false, jarName);
+									//run exported jar file
+									RunAnt runner = new RunAnt();
+									runner.runRun(proj, tempDir, false, jarName);
+								}
 							}
 						});
 						runThread.setPriority(Thread.NORM_PRIORITY);
