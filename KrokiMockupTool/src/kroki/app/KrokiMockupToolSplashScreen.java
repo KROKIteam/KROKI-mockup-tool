@@ -3,14 +3,8 @@ package kroki.app;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,6 +12,10 @@ import javax.swing.JWindow;
 
 import kroki.app.utils.ImageResource;
 
+/**
+ * Splash screen
+ * @author Kroki Team
+ */
 public class KrokiMockupToolSplashScreen extends JWindow {
 
 	private static final long serialVersionUID = 7466160430401561548L;

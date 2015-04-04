@@ -1,21 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
 import kroki.profil.persistent.PersistentProperty;
-import kroki.profil.utils.settings.AggregatedSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
- * Klasa Aggregated označava agregirano obeležje,  tj. obeležje  čija
- * se vrednost računa primenom funkcije za agregaciju nad definisanim
- * skupom vrednosti izabranog obeležja. Izračunata vrednost se koristi samo
- * za prikaz u okviru panela i ne čuva se trajno u bazi.
+ * Class <Aggregated> represents an aggregated property i.e. property whose
+ * value is calculated by applying the aggregation function to a defined
+ * set of values of the chosen property. The calculated value is only shown
+ * inside the panel and is not permanently saved.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(AggregatedSettings.class)
 public class Aggregated extends VisibleProperty {
 	
 	private static final long serialVersionUID = 1L;

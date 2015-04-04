@@ -51,6 +51,7 @@ import javax.swing.SwingUtilities;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
+import kroki.profil.utils.ParentChildUtil;
 
 public class LinkState extends State {
 
@@ -275,9 +276,9 @@ public class LinkState extends State {
 			
 			if (sourceUml instanceof ParentChild){
 				//proveri da li moze destination da bude target za hijerarhiju
-				if (((ParentChild)sourceUml).getHierarchyCount() == 0)
+				if (ParentChildUtil.getHierarchyCount((ParentChild)sourceUml) == 0)
 					return sourceUml != destinationUml;
-				return ((ParentChild)sourceUml).getAllPosibleTargetPanels().contains(destinationUml);
+				return ParentChildUtil.getAllPosibleTargetPanels((ParentChild)sourceUml).contains(destinationUml);
 			}
 			
 		}

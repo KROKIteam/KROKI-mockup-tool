@@ -1,14 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.group;
 
 import java.io.Serializable;
 import kroki.intl.Intl;
 
 /**
- * NE KORISTI SE ZA SAD
+ * Enumerated type <code>GroupOrientation</code> defines a set of possible
+ * values for defining orientation of groups inside panels.
+ * CURRENTLY NOT USED
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public enum GroupOrientation implements Serializable{

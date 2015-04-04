@@ -3,14 +3,14 @@ package kroki.app.event;
 import java.util.EventObject;
 
 /**
- * Dogadjaj opisuje promenu nad modelom. Ovu klasu je moguce prosiriti tako
- * da nosi informacije o tome sta je tacno u modelu promenjeno u cilju optimizacije
- * iscrtavanje.
+ * An event which describes a model change. This class can be further extended 
+ * so that it would carry information regarding what exactly was changed.
  * @author igor
  *
  */
-@SuppressWarnings("serial")
 public class ModelUpdateEvent extends EventObject {
+
+	private static final long serialVersionUID = 1L;
 
 	public ModelUpdateEvent(Object source) {
 		super(source);

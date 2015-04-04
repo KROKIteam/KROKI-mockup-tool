@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.awt.Point;
@@ -15,10 +11,12 @@ import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.UIPropertyUtil;
 
 /**
- * Komanda dodavanja elementa
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * Command for adding element
+ * @author Vladan Marsenić(vladan.marsenic@gmail.com)
  * @author Renata
  */
 public class AddCommand implements Command {
@@ -39,8 +37,8 @@ public class AddCommand implements Command {
     }
 
     public void doCommand() {
-        visibleClass.addVisibleElement(classIndex, element);
-        elementsGroup.addVisibleElement(groupIndex, element);
+    	UIPropertyUtil.addVisibleElement(visibleClass,classIndex, element);
+    	ElementsGroupUtil.addVisibleElement(elementsGroup, groupIndex, element);
         element.getComponent().setAbsolutePosition(point);
         if(element instanceof VisibleProperty) {
         	VisibleProperty prop = (VisibleProperty) element;
@@ -59,8 +57,8 @@ public class AddCommand implements Command {
         if (selectionModel.isSelected(element)) {
             selectionModel.removeFromSelection(element);
         }
-        visibleClass.removeVisibleElement(element);
-        elementsGroup.removeVisibleElement(element);
+        UIPropertyUtil.removeVisibleElement(visibleClass, element);
+        ElementsGroupUtil.removeVisibleElement(elementsGroup, element);
         elementsGroup.update();
         visibleClass.update();
     }

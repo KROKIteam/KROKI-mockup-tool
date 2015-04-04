@@ -20,12 +20,14 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
 
+/**
+ * Shows class diagram
+ * @author Renata
+ */
 public class ClassDiagramAction extends AbstractAction{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	private NamingUtil namer = new NamingUtil();
 
 	public ClassDiagramAction(){

@@ -21,6 +21,8 @@ import kroki.profil.panel.container.ManyToMany;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 public class UMLDescriptionGenerator {
 	
@@ -160,8 +162,8 @@ public class UMLDescriptionGenerator {
 		}
 		String classDesc = "\nclass " + className + stereotype;
 		
-		List<VisibleProperty> props = clas.containedProperties();
-		List<VisibleOperation> ops = clas.containedOperations();
+		List<VisibleProperty> props = VisibleClassUtil.containedProperties(clas);
+		List<VisibleOperation> ops = VisibleClassUtil.containedOperations(clas);
 		if(!props.isEmpty()) {
 			classDesc += " {";
 			for (VisibleProperty prop : props) {
@@ -196,13 +198,13 @@ public class UMLDescriptionGenerator {
 			String elName = namer.toCamelCase(element.getLabel(), false);
 			if(element instanceof StandardPanel) {
 				VisibleClass vClass = (VisibleClass) element;
-				for (Zoom zoom : vClass.containedZooms()) {
+				for (Zoom zoom : VisibleClassUtil.containedZooms(vClass)) {
 					String zoomed = namer.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false);
 					connections += "\n" + elName + " \"*\" -- \"1 <<zoom>>\" " + zoomed;
 				}
 			}else if (element instanceof ParentChild) {
 				ParentChild pc = (ParentChild) element;
-				for (Hierarchy h : pc.allContainedHierarchies()) {
+				for (Hierarchy h : ParentChildUtil.allContainedHierarchies(pc)) {
 					String hName = namer.toCamelCase(h.getTargetPanel().getComponent().getName(), false);
 					connections += "\n" + elName + " \"1\" -- \"1\" " + hName + ":<<hierarchy>> {level =" + h.getLevel() +"}"; 
 				}
@@ -215,7 +217,7 @@ public class UMLDescriptionGenerator {
 			String elName = namer.toCamelCase(element.getLabel(), false);
 			if(element instanceof StandardPanel) {
 				VisibleClass vClass = (VisibleClass) element;
-				for (Zoom zoom : vClass.containedZooms()) {
+				for (Zoom zoom : VisibleClassUtil.containedZooms(vClass)) {
 					String zoomed = namer.toCamelCase(zoom.getTargetPanel().getComponent().getName(), false);
 					String zoomLabel = namer.toCamelCase(zoom.getLabel(), false);
 					connections += "\n" + elName + " \"*\" -- \"1\" " + zoomed + " : " + zoomLabel;
@@ -275,7 +277,7 @@ public class UMLDescriptionGenerator {
 				//if all child panels are in the same package, place parent panel in that package,
 				//else, place it in separate package called 'parent-child panels'
 				boolean samePackage = true;
-				for (Hierarchy hier : pc.allContainedHierarchies()) {
+				for (Hierarchy hier : ParentChildUtil.allContainedHierarchies(pc)) {
 					String targetPanel = namer.toCamelCase(hier.getTargetPanel().getComponent().getName(), false);
 					EJBClass panelClazz = getClassByName(targetPanel, exporter.getClasses());
 					if(!panelClazz.getSubsystem().equalsIgnoreCase(packageName)) {

@@ -1,13 +1,10 @@
 package kroki.app.action;
 
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.RootPaneContainer;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.importt.ImportEclipseUMLToProject;
@@ -21,6 +18,8 @@ import kroki.app.utils.uml.SettingsForUMLImportDialog;
  *
  */
 public class ImportEclipseUMLDiagramAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor for the action that starts the import functionality.

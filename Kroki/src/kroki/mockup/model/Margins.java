@@ -1,15 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model;
 
 import java.io.Serializable;
 
 /**
- *
+ * Class represent a compoenent's margins 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class Margins implements Serializable{
 
     public int top = 1;

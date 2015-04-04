@@ -1,18 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
+
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.layout.FlowLayoutManager;
 import kroki.mockup.view.painters.components.PanelPainter;
 
 /**
- *
+ * Component which represents a panel
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class Panel extends Composite {
 
     public Panel() {

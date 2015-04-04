@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
@@ -17,12 +13,14 @@ import kroki.app.utils.StringResource;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
- * 
+ * Shows new file dialog (for inputting date regarding a new panel)
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class NewFileAction extends AbstractAction {
 
-    BussinesSubsystem bussinesSubsystem;
+	private static final long serialVersionUID = 1L;
+	
+	private BussinesSubsystem bussinesSubsystem;
 
     public NewFileAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.newFile.smallIcon"));

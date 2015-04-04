@@ -1,32 +1,27 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
 import kroki.profil.persistent.PersistentProperty;
 
 /**
- * Klasa koja označava perzistentno obeležje
- * vidljivo u okviru korisničkog interfejsa aplikacije  čija pridružena
- * komponenta korisničkog interfejsa omogućava pregled, ažuriranje i/ili
- * pretragu njegove vrednosti.
+ * Class <code>Persistent</code> represents a persistent property
+ * connected to a user interface component which enables its value
+ * to be viewed, entered, edited or searched
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Persistent extends VisibleProperty {
 	
 	private static final long serialVersionUID = 1L;
 
-    /**Perzistentno polje*/
+    /**Persistent field*/
     protected PersistentProperty persistentProperty;
 
     public Persistent() {
         super();
     }
 
-    /*****************/
-    /*GETERI I SETERI*/
-    /*****************/
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /********************/
     public PersistentProperty getPersistentProperty() {
         return persistentProperty;
     }

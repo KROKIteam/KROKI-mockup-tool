@@ -1,21 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.layout;
 
 import java.awt.Dimension;
 import java.awt.Point;
-import kroki.mockup.model.Insets;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.Composite;
-import kroki.mockup.utils.KrokiGrid;
+import kroki.mockup.model.Insets;
 import kroki.mockup.utils.KrokiTextMeasurer;
 
 /**
- * Layout manager koji raspoređuje komponente vertikalno
+ * Layout manager which arranges the components vertically
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class VerticalLayoutManager extends LayoutManager {
 
     public VerticalLayoutManager(int hgap, int vgap, int aligment) {
@@ -61,7 +58,6 @@ public class VerticalLayoutManager extends LayoutManager {
     @Override
     public Dimension preferredLayoutSize(Component c) {
         if (c instanceof Composite) {
-            //TODO: ovo se moze izbaciti. Nije potrebno staviti ovo ograničenje...ukoliko je kompozit prazan da vrati podesenu vrednost.
             if (((Composite) c).getComponentCount() == 0) {
                 return c.getDimension();
             }
@@ -96,7 +92,6 @@ public class VerticalLayoutManager extends LayoutManager {
     public Dimension minimumLayoutSize(Component c) {
 
         if (c instanceof Composite) {
-            //TODO: ovo se moze izbaciti. Nije potrebno staviti ovo ograničenje...ukoliko je kompozit prazan da vrati podesenu vrednost.
             if (((Composite) c).getComponentCount() == 0) {
                 return new Dimension(10, 10);
             }

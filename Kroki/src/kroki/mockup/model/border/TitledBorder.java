@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.border;
 
 import java.awt.Font;
@@ -12,13 +8,16 @@ import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
 
+
 import kroki.mockup.model.Border;
 import kroki.mockup.model.Component;
 import kroki.mockup.model.Insets;
 
 /**
- * Klasa koja predstavlja okvir sa naslovom
+ * Class represents a titled border
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class TitledBorder extends Border {
 
     static public final int LEADING = 4;

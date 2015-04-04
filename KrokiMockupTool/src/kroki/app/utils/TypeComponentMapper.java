@@ -11,7 +11,7 @@ import org.w3c.dom.NodeList;
 
 public class TypeComponentMapper {
 	
-	HashMap<String, String> mapping;
+	private HashMap<String, String> mapping;
 	
 	public void getMappings() {
 		mapping = new HashMap<String, String>();

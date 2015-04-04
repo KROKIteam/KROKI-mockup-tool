@@ -1,20 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.utils.KrokiTextMeasurer;
 import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.mockup.view.painters.components.CheckBoxPainter;
 
 /**
- * Komponenta koja predstavlja check box.
+ * Component which represents a check box.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class CheckBox extends Component {
 
     private boolean checked;

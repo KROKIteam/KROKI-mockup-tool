@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel.std;
 
 import java.io.Serializable;
@@ -9,26 +5,28 @@ import kroki.profil.panel.mode.OperationMode;
 import kroki.profil.panel.mode.ViewMode;
 
 /**
- * <code>StdPanelSettings</code> definiše skup podešavanja standardnog panela koja specificiraju njegovo ponašanje.
+ * <code>StdPanelSettings</code> defines a set of standard panel settings
+ * which specify its behavior
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class StdPanelSettings implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-    /** Podrazumevani prikaz - prikaz u kome se panel nalazi prilikom prvog pojavljivanja. Moguće vrednosti su definisane nabrojanim tipom ViewMode*/
+	/**Default view mode - view mode in which the panel is first shown. Possible values
+	 * are defined with ViewMode enumerated type*/
     private ViewMode defaultViewMode = ViewMode.INPUT_PANEL_MODE;
-    /**Podrazumevani režim – režim u kome se panel nalazi prilikom prvog pojavljivanja. Moguće vrednosti su definisane nabrojanim tipom OperationMode*/
+    /**Default operation mode - operation mode in which the panel is first shown*/
     private OperationMode defaultOperationMode = OperationMode.VIEW_MODE;
-    /**Indikator da li je potrebno tražiti od korisnika da potvrdi brisanje reda */
+    /**Indicates if the user should confirm deletion of a row or not*/
     private boolean confirmDelete = false;
-    /**
-     * Indikator da li je posle unosa reda potrebno ostati u režimu za unos (u suprotnom se panel vraća u
-     * režim za pregled). Povratak u režim za pregled posle unosa jednog reda se obično primenjuje kod
-     * kreiranja dokumenata gde se posle unosa zaglavlja (jedan red) odmah prelazi na unos stavki.
-     */
+    /**Indicates if the panel stays in the add mode after one row has been entered or 
+     * returns to the view mode (which is common in cases when a document with header and 
+     * items is being modeled. Once a header is created (one row), one usually 
+     * continues by entering items.*/
     private boolean stayInAddMode = false;
-    /** Indikator da li je posle izlaska iz režima za unos potrebno označiti poslednji uneti red (u  suprotnom se označava  prvi red u tabeli) */
+    /**Indicates if the last entered row should be selected after leaving the add mode.
+     * Alternatively, the first row is selected*/
     private boolean goToLastAdded = true;
 
     public StdPanelSettings(ViewMode defaultViewMode, OperationMode defaultOperationMode, boolean confirmDelete, boolean stayInAddMode, boolean goToLastAdded) {

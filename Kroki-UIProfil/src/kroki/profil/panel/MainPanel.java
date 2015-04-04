@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel;
 
 /**
- * <code>MainPanel</code> se koristi za modelovanje glavne
- * forme aplikacije, referata ili podsistema.
+ * <code>MainPanel</code> is used to model the main form of
+ *  an application or subsystem 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class MainPanel extends VisibleClass{

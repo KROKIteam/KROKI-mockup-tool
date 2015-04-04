@@ -1,21 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.border;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
+
 import kroki.mockup.model.Border;
 import kroki.mockup.model.Component;
 import kroki.mockup.model.Insets;
 
 /**
- * Klasa koja predstavlja okvir koji se ne vidi (ne iscrtava se nista)
+ * Class represent an invisible border (it is not drawn)
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class LineBorder extends Border {
 
     @Override

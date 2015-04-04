@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.awt.Color;
@@ -16,12 +12,14 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 
 /**
- *
+ * Shows a color picker
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class OpenPaletteAction extends AbstractAction {
+	
+	private static final long serialVersionUID = 1L;
 
-    public OpenPaletteAction() {
+	public OpenPaletteAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.palette.smallIcon"));
         putValue(SMALL_ICON, smallIcon);
         putValue(NAME, enabled);

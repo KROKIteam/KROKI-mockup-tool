@@ -1,9 +1,10 @@
 package kroki.app.generators.utils;
 
 /**
- * Klasa koja sluzi za mapiranje OneToMany veze iz UI profila na OneToMany atribut u freemarker sablonu.
- * Ova klasa sluzi samo kao pomocna klasa za lakse generisanje perzistentnog sloja i nije deo UI profila.
- * @author mrd
+ * Class is used to define mapping of OneToMany associations from the UI profile to ManyToMany 
+ * attributes inside the freemarker template. 
+ * Helper class to make generation of persistent layer easier and is not a part of the UI profile.
+ * @author Milorad Filipović
  */
 public class OneToManyAttribute {
 

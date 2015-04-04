@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.utils;
 
 import java.awt.Image;
@@ -9,9 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
 /**
- *
+ * An image which can be serialized
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class SerializableBufferedImage implements Serializable {
 
 	transient Image image;

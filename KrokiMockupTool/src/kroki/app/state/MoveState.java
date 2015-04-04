@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.Point;
@@ -15,7 +11,7 @@ import kroki.app.view.Canvas;
 import kroki.profil.panel.VisibleClass;
 
 /**
- * Klasa koja predstavlja pomeranja elementa ili grupe elemenata.
+ * Class represent move state - which allows elements or groups of elements to be moved
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class MoveState extends State {

@@ -1,39 +1,33 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.association;
 
 import kroki.profil.ComponentType;
-import kroki.profil.utils.settings.NextSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
- * Stereotip Next označava da odredišni panel ima ulogu next forme za
- * potrebe aktivacionog panela, na način definisan HCI standardom
+ * Stereotype Next specifies that the target panel is the next form for
+ * the activation panel. Follows the HCI standard.
+ * Stereotip Next oznaÄ�ava da odrediÅ¡ni panel ima ulogu next forme za
+ * potrebe aktivacionog panela, na naÄ�in definisan HCI standardom
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(NextSettings.class)
 public class Next extends VisibleAssociationEnd {
 
 	private static final long serialVersionUID = 1L;
 	
-    /**
-     * Indikator da se  next forma automatski pokreće
-     * odmah posle unosa reda u okviru aktivacionog
-     * panela.
+    /**Indicates that the next form is automatically
+     * activated right after a new row is inserted
+     * in the activation panel 
      */
     private boolean autoActivate = false;
     /**
-     * Indikator da se u okviru  next forme u njenom
-     * zaglavlju prikazuje vrednost identifikatora (ključa)
-     * tekućeg reda aktivacionog panela
+     * Indicates that identificator's value (key)
+     * of the current row of the activation panel
+     * is shown in the header of the next form
      */
     private boolean displayIdentifier = true;
     /**
-     * indikator da se u okviru  next forme u njenom
-     * zaglavlju prikazuje reprezentativno obeležje iz
-     * tekućeg reda aktivacionog panela.
+     * Indicates that representative  value
+     * of the current row of the activation panel
+     * is shown in the header of the next form
      */
     private boolean displayRepresentative = true;
 

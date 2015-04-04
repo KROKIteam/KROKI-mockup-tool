@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Utils class containing a method for loading images
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class KrokiImagesLoader {

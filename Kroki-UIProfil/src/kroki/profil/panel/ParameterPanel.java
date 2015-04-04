@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel;
 
 /**
- * <code>ParameterPanel</code> označava klasu koja se preslikava na
- * panel za unos parametara neke “vidljive” metode (<code>VisibleOperation</code>)
- * koja ima pridruženo dugme ili stavku menija za pokretanje od strane korisnika).
+ * <code>ParameterPanel</code> represents a panel used to input parameters
+ * of some visible operation (<code>VisibleOperation</code>) which is connected to
+ * a button or a many item which the user can use to activate the operation
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ParameterPanel extends VisibleClass{

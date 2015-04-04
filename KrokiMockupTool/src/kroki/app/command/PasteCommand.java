@@ -14,16 +14,23 @@ import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.UIPropertyUtil;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 import kroki.uml_core_basic.UmlTypedElement;
 
+/**
+ * Command for pasting elements
+ * @author Kroki Team
+ */
 public class PasteCommand implements Command {
 
 	private List<VisibleElement> elements;
 	private VisibleClass visibleClass;
     private ElementsGroup elementsGroup;
-    private Point point;
+   // private Point point;
     private int classIndex, groupIndex;
     private boolean cutAction;
     private Map<UmlProperty, UmlProperty> oppositeMap = new HashMap<UmlProperty, UmlProperty>();
@@ -40,7 +47,7 @@ public class PasteCommand implements Command {
         	restoreAttributes(el, el);
         }
         	
-        this.point = point;
+       // this.point = point;
         this.cutAction = cutAction;
         classIndex = visibleClass.getVisibleElementList().size();
         groupIndex = elementsGroup.getVisibleElementList().size();
@@ -50,8 +57,8 @@ public class PasteCommand implements Command {
 	public void doCommand() {
 		for (VisibleElement element : copies.keySet()) {
 			restoreAttributes(copies.get(element), element);
-			visibleClass.addVisibleElement(classIndex, element);
-	        elementsGroup.addVisibleElement(groupIndex, element);
+			UIPropertyUtil.addVisibleElement(visibleClass,classIndex, element);
+	        ElementsGroupUtil.addVisibleElement(elementsGroup, groupIndex, element);
 	        
 	        if (!cutAction) {
 	        	element.changeUuid();
@@ -59,7 +66,7 @@ public class PasteCommand implements Command {
 	        
 	        if (element instanceof VisibleElement) {
 				element.setParentGroup(elementsGroup);
-				elementsGroup.addVisibleElement(element);
+				ElementsGroupUtil.addVisibleElement(elementsGroup, element);
 				element.update();
 			}
 	        
@@ -68,7 +75,7 @@ public class PasteCommand implements Command {
 	        KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent().repaint();
 	        
             if (element.getComponentType() != null){
-				visibleClass.incrementCount(element.getComponentType());
+            	VisibleClassUtil.incrementCount(visibleClass, element.getComponentType());
 			}
 		}
 	}
@@ -81,13 +88,13 @@ public class PasteCommand implements Command {
 	        if (selectionModel.isSelected(element)) {
 	            selectionModel.removeFromSelection(element);
 	        }
-	        visibleClass.removeVisibleElement(element);
-	        elementsGroup.removeVisibleElement(element);
+	        UIPropertyUtil.removeVisibleElement(visibleClass, element);
+	        ElementsGroupUtil.removeVisibleElement(elementsGroup, element);
 	        elementsGroup.update();
 	        visibleClass.update();
 	        
             if (element.getComponentType() != null){
-				visibleClass.decrementCount(element.getComponentType());
+				VisibleClassUtil.decrementCount(visibleClass, element.getComponentType());
 			}
 		}
 	}

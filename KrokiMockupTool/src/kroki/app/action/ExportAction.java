@@ -19,13 +19,16 @@ import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.panel.std.StdPanelSettings;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.VisibleClassUtil;
 
 
 /**
- * Akcija za eksport projekta u xml fajl
- * @author mrd
+ * Export the project to an XML file
+ * @author Kroki Team
  */
 public class ExportAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public ExportAction() {
 		putValue(NAME, "Export...");
@@ -50,7 +53,7 @@ public class ExportAction extends AbstractAction {
         	
         	VisibleElement el = project.getOwnedElementAt(i);
         	if(el instanceof BussinesSubsystem) {
-        		System.out.println("Eelement " + i + ": " + el.getLabel() + " je podsistem");
+        		System.out.println("Eelement " + i + ": " + el.getLabel() + " is a subsystem");
         	}else if(el instanceof VisibleClass) {
         		if(el instanceof StandardPanel) {
         			StandardPanel sp = (StandardPanel)el;
@@ -91,24 +94,24 @@ public class ExportAction extends AbstractAction {
         			}
         			
         			
-        			//-------------------------ATRIBUTI KLASE-----------------------------------------------------------------------------
-        			for(int j=0; j<vc.containedProperties().size(); j++) {
-        				VisibleProperty vp = vc.containedProperties().get(j);
+        			//-------------------------CLASS ATTRIBUTES-----------------------------------------------------------------------------
+        			for(int j=0; j < VisibleClassUtil.containedProperties(vc).size(); j++) {
+        				VisibleProperty vp = VisibleClassUtil.containedProperties(vc).get(j);
         			
         				ejbString += "	" + j + " " + cc.toCamelCase(vp.getLabel(), true) + "(" + vp.getColumnLabel()  +") : " + vp.getComponentType() + "\n";
         			}
         			
-        			for(int l=0; l<vc.containedZooms().size(); l++) {
-        				Zoom z = vc.containedZooms().get(l);
+        			for(int l=0; l < VisibleClassUtil.containedZooms(vc).size(); l++) {
+        				Zoom z = VisibleClassUtil.containedZooms(vc).get(l);
         				ejbString += "	" + l + " " + cc.toCamelCase(z.getLabel(), true) + " : " + z.getTargetPanel().getLabel() + "\n";
         			}
         			
-        			//--------------------------OPERACIJE------------------------------------------------
-        			for(int k=0; k<vc.containedOperations().size(); k++) {
-        				VisibleOperation vo = vc.containedOperations().get(k);
+        			//--------------------------OPERATIONS------------------------------------------------
+        			for(int k=0; k < VisibleClassUtil.containedOperations(vc).size(); k++) {
+        				VisibleOperation vo = VisibleClassUtil.containedOperations(vc).get(k);
         				if(vo instanceof BussinessOperation) {
         					if(vo instanceof Report) {
-        						Report r = (Report)vo;
+        						//Report r = (Report)vo;
         						
         						opsString += "	" + k + " " + cc.toCamelCase(vo.getLabel(), true) + " : REPORT\n";
         					}else if (vo instanceof Transaction) {

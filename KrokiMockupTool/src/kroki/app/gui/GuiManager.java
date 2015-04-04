@@ -1,14 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui;
 
 import kroki.app.gui.toolbar.MainToolbar;
 import kroki.app.gui.toolbar.StyleToolbar;
 
 /**
- *
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class GuiManager {

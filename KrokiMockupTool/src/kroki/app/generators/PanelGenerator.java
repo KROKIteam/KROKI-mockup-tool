@@ -27,8 +27,15 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.panel.mode.ViewMode;
 import kroki.profil.panel.std.StdPanelSettings;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlParameter;
 
+/**
+ * Generates panels, standard and parent-child
+ * @author Kroki Team
+ *
+ */
 public class PanelGenerator {
 	
 	public void generate(ArrayList<VisibleElement> elements, Object repo) {
@@ -44,15 +51,15 @@ public class PanelGenerator {
 			 /*           panel.xml             */
 			/***********************************/
 			Document doc = docBuilder.newDocument();
-			//korenski element <menus>
+			//root element <menus>
 			Element root = doc.createElement("panels");
 			doc.appendChild(root);
 			
-			//korenski element za standardne panele
+			//root element for standard panel
 			Element stdPanelsRoot = doc.createElement("standard-panels");
-			//korenski element za parent-child panele
+			//root element for parent-child panels
 			Element parentChildRoot = doc.createElement("parent-child-panels");
-			//korenski element za many-to-many panele
+			//root element for many-to-many panels
 			Element mtmPanelsRoot = doc.createElement("many-to-many-panels");
 			
 			root.appendChild(stdPanelsRoot);
@@ -64,7 +71,7 @@ public class PanelGenerator {
 			 /*         panel-map.xml            */
 			/************************************/
 			Document mapDoc = docBuilder.newDocument();
-			//korenski element <map>
+			//root element <map>
 			Element mapRoot = mapDoc.createElement("map");
 			mapDoc.appendChild(mapRoot);
 			
@@ -79,7 +86,7 @@ public class PanelGenerator {
 					StandardPanel panel = (StandardPanel)element;
 					StdPanelSettings settings = panel.getStdPanelSettings();
 					
-					//za svaki standardi panel ide tag <standard-panel>
+					//every standard panel should have tag <standard-panel>
 					Element stdPanel = doc.createElement("standard-panel");
 					
 					String id = panel.getPersistentClass().name().toLowerCase() + "_st";
@@ -89,28 +96,28 @@ public class PanelGenerator {
 					}
 						
 					
-					//atribut "id"
+					//attribute "id"
 					Attr idAttr = doc.createAttribute("id");
 					idAttr.setValue(id);
 					stdPanel.setAttributeNode(idAttr);
 					
-					//atribut "ejb-ref"
+					//attribute "ejb-ref"
 					Attr ejbRefAttr = doc.createAttribute("ejb-ref");
 					ejbRefAttr.setValue(ejbRef);
 					stdPanel.setAttributeNode(ejbRefAttr);
 					
-					//generisanje <settings> taga za standardni panel
+					//generisanje <settings> taga for standardni panel
 					Element eSettings = doc.createElement("settings");
 					
-					//atribut add
+					//attribute add
 					Attr addAttr = doc.createAttribute("add");
 					addAttr.setValue(String.valueOf(panel.isAdd()));
 					eSettings.setAttributeNode(addAttr);
-					//atribut delete
+					//attribute delete
 					Attr deleteAttr = doc.createAttribute("delete");
 					deleteAttr.setValue(String.valueOf(panel.isDelete()));
 					eSettings.setAttributeNode(deleteAttr);
-					//atribut view-mode
+					//attribute view-mode
 					Attr viewModeAttr = doc.createAttribute("view-mode");
 					if(settings.getDefaultViewMode() == ViewMode.INPUT_PANEL_MODE) {
 						viewModeAttr.setValue("panel");
@@ -119,23 +126,23 @@ public class PanelGenerator {
 					}
 					
 					eSettings.setAttributeNode(viewModeAttr);
-					//atribut change-mode
+					//attribute change-mode
 					Attr changeModeAttr = doc.createAttribute("change-mode");
 					changeModeAttr.setValue(String.valueOf(panel.isChangeMode()));
 					eSettings.setAttributeNode(changeModeAttr);
-					//atribut data-navigation
+					//attribute data-navigation
 					Attr dataNavAttr = doc.createAttribute("data-navigation");
 					dataNavAttr.setValue(String.valueOf(panel.isDataNavigation()));
 					eSettings.setAttributeNode(dataNavAttr);
 					
 					stdPanel.appendChild(eSettings);
 					
-					//linkovi
-					if(!vClass.containedNexts().isEmpty()) {
+					//links
+					if(!VisibleClassUtil.containedNexts(vClass).isEmpty()) {
 						Element linksTag = doc.createElement("nexts");
 						stdPanel.appendChild(linksTag);
 						
-						for (Next next : vClass.containedNexts()) {
+						for (Next next : VisibleClassUtil.containedNexts(vClass)) {
 							Element linkTag = doc.createElement("next");
 							
 							ElementsGroup elemGr = next.getParentGroup();
@@ -144,13 +151,13 @@ public class PanelGenerator {
 								groupName = elemGr.getLabel();
 							}
 							
-							//atribut label
+							//attribute label
 							String label = next.getLabel();
 							Attr linkLabelAttr = doc.createAttribute("label");
 							linkLabelAttr.setValue(label);
 							linkTag.setAttributeNode(linkLabelAttr);
 							
-							//atribut activate
+							//attribute activate
 							VisibleClass vclTarget = next.getTargetPanel();
 							if(vclTarget instanceof StandardPanel) {
 								StandardPanel stdPanelTarget = (StandardPanel)vclTarget;
@@ -168,7 +175,8 @@ public class PanelGenerator {
 								linkPanelAttr.setNodeValue(panelName);
 								linkTag.setAttributeNode(linkPanelAttr);
 
-								//atribut opposite NESTO NECE
+								//attribute opposite 
+								//TODO NESTO NECE
 								if(next.opposite() != null) {
 									Attr linkOppositeAttr = doc.createAttribute("opposite");
 									linkOppositeAttr.setValue(next.opposite().name());
@@ -176,7 +184,7 @@ public class PanelGenerator {
 								}
 							}
 							
-							//atribut "elementgroup"
+							//attribute "elementgroup"
 							if(!groupName.equals("operations")) {
 								Attr opGroupAttr = doc.createAttribute("operationgroup");
 								opGroupAttr.setValue(groupName);
@@ -188,12 +196,12 @@ public class PanelGenerator {
 					}
 					
 					//<operations> tag
-					if(!vClass.containedOperations().isEmpty()) {
+					if(!VisibleClassUtil.containedOperations(vClass).isEmpty()) {
 						Element operationsTag = doc.createElement("operations");
 						stdPanel.appendChild(operationsTag);
 						
-						for(int k=0; k<vClass.containedOperations().size(); k++) {
-							VisibleOperation vo = vClass.containedOperations().get(k);
+						for(int k=0; k < VisibleClassUtil.containedOperations(vClass).size(); k++) {
+							VisibleOperation vo = VisibleClassUtil.containedOperations(vClass).get(k);
 							if(vo instanceof BussinessOperation) {
 								Element opTag = doc.createElement("operation");
 								ElementsGroup elemGroup = vo.getParentGroup();
@@ -202,39 +210,39 @@ public class PanelGenerator {
 									groupName = elemGroup.getLabel();
 								}
 								
-								//atribut "name"
+								//attribute "name"
 								Attr opNameAttr = doc.createAttribute("name");
 								opNameAttr.setValue(vo.name());
 								opTag.setAttributeNode(opNameAttr);
 								
-								//atribut "label"
+								//attribute "label"
 								Attr opLabelAttr = doc.createAttribute("label");
 								opLabelAttr.setValue(vo.getLabel());
 								opTag.setAttributeNode(opLabelAttr);
 								
-								//atribut "elementgroup"
+								//attribute "elementgroup"
 								if(!groupName.equals("operations")) {
 									Attr opGroupAttr = doc.createAttribute("operationgroup");
 									opGroupAttr.setValue(groupName);
 									opTag.setAttributeNode(opGroupAttr);
 								}
 								
-								//atribut "type"
+								//attribute "type"
 								Attr opTypeAttr = doc.createAttribute("type");
 								
-								//ako je transakcija ide type="report"
+								//if the operation is a report put type="report"
 								if(vo instanceof Report) {
 									opTypeAttr.setValue("report");
-								//ako je transakcija ide type="transaction"
+								//if the operation is a transaction put type="transaction"
 								}else if (vo instanceof Transaction) {
 									opTypeAttr.setValue("transaction");
 								}
 								
 								opTag.setAttributeNode(opTypeAttr);
 								
-								//atribut "target"
+								//attribute "target"
 								Attr opTargetAttr = doc.createAttribute("target");
-								//nije implementirano u krokiju pa je null
+								//cuurently not implemented, so put null
 								if(((BussinessOperation) vo).getPersistentOperation() == null) {
 									opTargetAttr.setValue("null");
 								}else {
@@ -242,14 +250,14 @@ public class PanelGenerator {
 								}
 								opTag.setAttributeNode(opTargetAttr);
 								
-								//atribut "allowed"
-								//za sada samo true
+								//attribute "allowed"
+								//for now always set to true
 								Attr opAllowedAttr = doc.createAttribute("allowed");
 								opAllowedAttr.setValue("true");
 								opTag.setAttributeNode(opAllowedAttr);
 								
-								//za svaki paraterar ide 
-								//<parameter name="sifra" label="�ifra" type="java.lang.String" parameter-type="in" /> tag
+								//for every parameter: 
+								//<parameter name="name" label="label" type="java.lang.String" parameter-type="in" /> tag
 								if(vo.ownedParameter() != null) {
 									if(!vo.ownedParameter().isEmpty()) {
 										for(int l=0;l<vo.ownedParameter().size();l++) {
@@ -257,24 +265,25 @@ public class PanelGenerator {
 											
 											Element paramTag = doc.createElement("parameter");
 											
-											//atribut "name"
+											//attribute "name"
 											Attr paramNameAttr = doc.createAttribute("name");
 											paramNameAttr.setValue(param.name());
 											paramTag.setAttributeNode(paramNameAttr);
 											
-											//atribut "label"
-											//nema :(
+											//attribute "label"
+											//TODO
+											//not implemented yet  :(
 											Attr paramLabelAttr = doc.createAttribute("label");
 											paramLabelAttr.setValue(param.name());
 											paramTag.setAttributeNode(paramLabelAttr);
 											
-											//atribut "type"
+											//attribute "type"
 											Attr paramTypeAttr = doc.createAttribute("type");
 											paramTypeAttr.setValue(param.type().toString());
 											paramTag.setAttributeNode(paramTypeAttr);
 											
-											//atribut "parameter-type"
-											//za sada samo in 
+											//attribute "parameter-type"
+											//always set to in for now
 											Attr paramPTypeAttr = doc.createAttribute("parameter-type");
 											paramPTypeAttr.setValue("in");
 											paramTag.setAttributeNode(paramPTypeAttr);
@@ -297,18 +306,18 @@ public class PanelGenerator {
 					/************************************/
 					//tag <panel>
 					Element mapPanel = mapDoc.createElement("panel");
-					//atribut "id"
+					//attribute "id"
 					Attr mapIdAttr = mapDoc.createAttribute("id");
 					mapIdAttr.setValue(id);
 					mapPanel.setAttributeNode(mapIdAttr);
-					//atribut "ejb-ref"
+					//attribute "ejb-ref"
 					Attr mapEjbRefAttr = mapDoc.createAttribute("ejb-ref");
 					mapEjbRefAttr.setValue(ejbRef);
 					mapPanel.setAttributeNode(mapEjbRefAttr);
 					
 					mapRoot.appendChild(mapPanel);
 					
-					//ako je parent-child panel> tag
+					//if it is a parent-child panel put panel> tag
 				}else if (element instanceof ParentChild) {
 					ParentChild pcPanel = (ParentChild)element;
 					//System.out.println("[PARENT CHILD PANEL] id = " + cc.toCamelCase(pcPanel.name() + "_pc", false) + ", label = " + pcPanel.getLabel() );
@@ -316,36 +325,36 @@ public class PanelGenerator {
 					Element pcTag = doc.createElement("parent-child");
 					parentChildRoot.appendChild(pcTag);
 				
-					//atribut id
+					//attribute id
 					Attr pcIdAttr = doc.createAttribute("id");
 					pcIdAttr.setValue(cc.toCamelCase(pcPanel.name(), false) +  "_pc");
 					pcTag.setAttributeNode(pcIdAttr);
 					
-					//atribut label
+					//attribute label
 					Attr pcLabelAttr = doc.createAttribute("label");
 					pcLabelAttr.setValue(pcPanel.getLabel());
 					pcTag.setAttributeNode(pcLabelAttr);
 					
-					//za svaki panel u hijerarhiji ide <panel> tag
+					//for every panelin the hierarchy put  <panel> tag
 					//<panel id="dnmp_sk" level="4" panel-ref="sektor_st" />
-					for(int m=0; m<pcPanel.allContainedHierarchies().size(); m++) {
-						Hierarchy h = pcPanel.allContainedHierarchies().get(m);
+					for(int m=0; m < ParentChildUtil.allContainedHierarchies(pcPanel).size(); m++) {
+						Hierarchy h = ParentChildUtil.allContainedHierarchies(pcPanel).get(m);
 						StandardPanel hPanel = (StandardPanel) h.getTargetPanel();
 						System.out.println("Hierarhija: id = " + h.name() + ", panel-ref = " + hPanel.getPersistentClass().name().toLowerCase() + "_st, level = " + h.getLevel());
 						
 						Element hPanelTag = doc.createElement("panel");
 						
-						//atribut id
+						//attribute id
 						Attr hPanelIdAttr = doc.createAttribute("id");
 						hPanelIdAttr.setValue(hPanel.name());
 						hPanelTag.setAttributeNode(hPanelIdAttr);
 						
-						//atribut panel-ref
+						//attribute panel-ref
 						Attr hPanelRefAttr = doc.createAttribute("panel-ref");
 						hPanelRefAttr.setValue(hPanel.getPersistentClass().name().toLowerCase() + "_st");
 						hPanelTag.setAttributeNode(hPanelRefAttr);
 						
-						//atribut level
+						//attribute level
 						Attr hPanelLevel = doc.createAttribute("level");
 						hPanelLevel.setValue(String.valueOf(h.getLevel()));
 						hPanelTag.setAttributeNode(hPanelLevel);

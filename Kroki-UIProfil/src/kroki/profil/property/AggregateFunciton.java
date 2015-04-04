@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
 import java.io.Serializable;
 import kroki.intl.Intl;
 
 /**
- * Nabrojani tip  AggregateFunction definiše skup funkcija za agregaciju
+ * Defines a set of aggregation functions
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public enum AggregateFunciton implements Serializable{

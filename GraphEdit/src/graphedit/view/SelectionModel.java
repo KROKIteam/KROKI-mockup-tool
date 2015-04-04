@@ -119,13 +119,11 @@ public class SelectionModel extends Observable {
 		fireUpdates();
 	}
 
-
-
 	public void clearSelection(){
 		removeAllSelectedElements();
 		removeSelecredLink(selectedLink);
 	}
-
+	
 	public void removeAllSelectedElements() {
 		if (selectedElements != null)
 			selectedElements.clear();

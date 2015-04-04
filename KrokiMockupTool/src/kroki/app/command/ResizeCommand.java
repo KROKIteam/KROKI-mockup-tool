@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.awt.Dimension;
@@ -9,20 +5,20 @@ import java.awt.Point;
 import kroki.profil.VisibleElement;
 
 /**
- * Komanda promene veličine elementa.
+ * Command for changing the size of the elements
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ResizeCommand implements Command {
 
     /**Element*/
     private VisibleElement visibleElement;
-    /**Nova pozicija*/
+    /**New position*/
     private Point newPosition;
-    /**Nova dimenzija*/
+    /**New dimension*/
     private Dimension newDimension;
-    /**Stara pozicija*/
+    /**Old position*/
     private Point oldPosition;
-    /**Stara dimenzija*/
+    /**Old dimension*/
     private Dimension oldDimension;
 
     public ResizeCommand(VisibleElement visibleElement, Point newPosition, Dimension newDimension) {

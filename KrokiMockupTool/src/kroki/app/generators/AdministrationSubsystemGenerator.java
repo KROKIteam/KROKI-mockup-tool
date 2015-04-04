@@ -6,16 +6,19 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import kroki.app.generators.utils.XMLWriter;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import kroki.app.generators.utils.XMLWriter;
-import kroki.commons.camelcase.NamingUtil;
-
+/**
+ * Generates administration subsystem
+ * @author Kroki Team
+ *
+ */
 public class AdministrationSubsystemGenerator {
 	
 	public void generate() {
-		NamingUtil cc = new NamingUtil();
 		XMLWriter writer = new XMLWriter();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder;

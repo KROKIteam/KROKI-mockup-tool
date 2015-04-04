@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model;
 
 import java.awt.Color;
@@ -12,6 +8,7 @@ import java.io.Serializable;
  *
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public abstract class Border implements Serializable {
     protected Color color = Color.BLACK;
 

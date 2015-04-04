@@ -1,35 +1,31 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel.std;
 
 import java.io.Serializable;
 
 /**
- * <code>StdOperations</code> omogućava definisanje standardnih
- * operacija koje su dozvoljene/zabranjene u okviru panela.
+ * <code>StdOperations</code> enables users to define which operations
+ * are permitted or forbidden within a panel
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 
 public class StdOperations implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
-    /**Dozvoljen/zabranjen unos novih podataka */
-    private boolean add = true;
-    /**Dozvoljena/zabranjena izmena podataka */
-    private boolean update = true;
-    /**Dozvoljeno/zabranjeno kopiranje podataka */
-    private boolean copy = true;
-    /**Dozvoljeno/zabranjeno brisanje podataka */
-    private boolean delete = true;
-    /**Dozvoljena/zabranjena pretraga podataka */
-    private boolean search = true;
-    /**Dozvoljena/zabranjena promena prikaza (iz tabelarnog u “jedan ekran–jedan slog” i obrnuto */
-    private boolean changeMode = true;
-    /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeći, prethodni i poslednji) */
-    private boolean dataNavigation = true;
+	
+	/**Is it permitted or forbidden to enter new data*/  
+    protected boolean add = true;
+    /**Is it permitted or forbidden modify existing data*/
+    protected boolean update = true;
+    /**Is it permitted or forbidden to copy data*/
+    protected boolean copy = true;
+    /**Is it permitted or forbidden to delete data*/ 
+    protected boolean delete = true;
+    /**Is it permitted or forbidden to perform data search*/
+    protected boolean search = true;
+    /**Is it permitted or forbidden to change data view (from tabular to one record one screen and vice versa*/
+    protected boolean changeMode = true;
+    /**Is it permitted or forbidden to perform row navigation (first, previous, next, last)*/ 
+    protected boolean dataNavigation = true;
 
     public StdOperations() {
     }

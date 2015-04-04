@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.Image;
@@ -17,15 +13,19 @@ import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.UIPropertyUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 /**
- *
+ * Class represents a state which allows transformation
+ * of comboboxes into combozooms
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TransformToCombozoomState extends State {
 
-    Image addEnabledIcon = CursorResource.getCursorResource("action.transformToCombozoom.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+    private Image addEnabledIcon = CursorResource.getCursorResource("action.transformToCombozoom.smallImage");
+    private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public TransformToCombozoomState(Context context) {
         super(context, "app.state.combozoom");
@@ -37,7 +37,7 @@ public class TransformToCombozoomState extends State {
         Canvas c = tabbedPaneController.getCurrentTabContent();
         VisibleClass visibleClass = c.getVisibleClass();
 
-        List<VisibleProperty> visiblePropertyList = visibleClass.containedProperties();
+        List<VisibleProperty> visiblePropertyList = VisibleClassUtil.containedProperties(visibleClass);
         boolean flag = false;
         for (int i = 0; i < visiblePropertyList.size(); i++) {
             VisibleProperty visibleProperty = visiblePropertyList.get(i);
@@ -68,7 +68,7 @@ public class TransformToCombozoomState extends State {
             return;
         }
 
-        List<VisibleProperty> visiblePropertyList = visibleClass.containedProperties();
+        List<VisibleProperty> visiblePropertyList = VisibleClassUtil.containedProperties(visibleClass);
         boolean flag = false;
         VisibleProperty visibleProperty = null;
         for (int i = 0; i < visiblePropertyList.size(); i++) {
@@ -81,16 +81,16 @@ public class TransformToCombozoomState extends State {
             }
         }
         if (flag) {
-            ElementsGroup elg = visibleClass.getElementsGroupAtPoint(e.getPoint());
+            ElementsGroup elg = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
             if (elg != null) {
-                int position = elg.indexOf(visibleProperty);
-                elg.removeVisibleElement(visibleProperty);
-                visibleClass.removeVisibleElement(visibleProperty);
+                int position = ElementsGroupUtil.indexOf(elg, visibleProperty);
+                ElementsGroupUtil.removeVisibleElement(elg, visibleProperty);
+                UIPropertyUtil.removeVisibleElement(visibleClass,visibleProperty);
 
                 Zoom zoom = new Zoom(visibleProperty);
                 zoom.setActivationPanel(visibleClass);
-                elg.addVisibleElement(position, zoom);
-                visibleClass.addVisibleElement(zoom);
+                ElementsGroupUtil.addVisibleElement(elg, position, zoom);
+                UIPropertyUtil.addVisibleElement(visibleClass, zoom);
 
                 elg.update();
                 visibleClass.update();

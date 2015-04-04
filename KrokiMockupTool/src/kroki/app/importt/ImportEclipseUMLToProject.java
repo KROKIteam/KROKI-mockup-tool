@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -47,6 +46,9 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.persistent.PersistentClass;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.StandardPanelUtil;
+import kroki.profil.utils.UIPropertyUtil;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -527,6 +529,7 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 	 */
 	public VisibleClass createStandardPanel(String name,BussinesSubsystem classOwner){
 		StandardPanel panel = new StandardPanel();
+		StandardPanelUtil.defaultGuiSettings(panel);
 		String newName=null;
 		boolean labelToCode=false;
 		
@@ -922,9 +925,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		group=2;
 		
 		VisibleOperation visibleOperation = new Report(createHumanReadableLabel(name), true, ComponentType.BUTTON);
-		panel.addVisibleElement(visibleOperation);
+		UIPropertyUtil.addVisibleElement(panel, visibleOperation);
 		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(group);
-		gr.addVisibleElement(visibleOperation);
+		ElementsGroupUtil.addVisibleElement(gr, visibleOperation);
 		visibleOperation.setParentGroup(gr);
 		visibleOperation.setUmlClass(panel);
 		return visibleOperation;
@@ -1035,9 +1038,9 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 		
 		if(!visiblePropertyOnly)
 		{
-			panel.addVisibleElement(property);
+			UIPropertyUtil.addVisibleElement(panel, property);
 			ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(group);
-			gr.addVisibleElement(property);
+			ElementsGroupUtil.addVisibleElement(gr, property);
 			gr.update();
 			panel.update();
 			property.setParentGroup(gr);
@@ -1556,8 +1559,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 									rootValues.remove(visibleElement);
 									if(visibleElement instanceof ElementsGroup)
 										layout=((Composite)visibleElement.getComponent()).getLayoutManager();
-									standardPanel.addVisibleElement(visibleElement);
-									group.addVisibleElement(visibleElement);
+									UIPropertyUtil.addVisibleElement(standardPanel, visibleElement);
+									ElementsGroupUtil.addVisibleElement(group, visibleElement);
 									if(checkContainsElement(group.getVisibleElementList().toArray(), group))
 										throw new Exception("Property element "+mapProperty.getLabel()+" is in a loop after"
 												+ " adding the Property element "+property.getLabel()+" that is"
@@ -1598,8 +1601,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				visibleElement=(VisibleElement) object;
 				if(visibleElement instanceof ElementsGroup)
 					layout=((Composite)visibleElement.getComponent()).getLayoutManager();
-				standardPanel.addVisibleElement(visibleElement);
-				elg.addVisibleElement(visibleElement);
+				UIPropertyUtil.addVisibleElement(standardPanel, visibleElement);
+				ElementsGroupUtil.addVisibleElement(elg, visibleElement);
 				if(visibleElement instanceof ElementsGroup)
 				{
 					((Composite)visibleElement.getComponent()).setLayoutManager(layout);
@@ -1660,8 +1663,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 										if(visibleElement instanceof ElementsGroup)
 											layout=((Composite)visibleElement.getComponent()).getLayoutManager();
 										
-										standardPanel.addVisibleElement(visibleElement);
-										group.addVisibleElement(visibleElement);
+										UIPropertyUtil.addVisibleElement(standardPanel, visibleElement);
+										ElementsGroupUtil.addVisibleElement(group, visibleElement);
 										if(checkContainsElement(group.getVisibleElementList().toArray(), group))
 											throw new Exception("Operation element "+mapOpeartion.getLabel()+" is in a loop after"
 													+ " adding the Operation element "+operation.getLabel()+" that is"
@@ -1703,8 +1706,8 @@ public class ImportEclipseUMLToProject extends ProgressWorker{
 				visibleElement=(VisibleElement) object;
 				if(visibleElement instanceof ElementsGroup)
 					layout=((Composite)visibleElement.getComponent()).getLayoutManager();
-				standardPanel.addVisibleElement(visibleElement);
-				elg.addVisibleElement(visibleElement);
+				UIPropertyUtil.addVisibleElement(standardPanel, visibleElement);
+				ElementsGroupUtil.addVisibleElement(elg, visibleElement);
 				if(visibleElement instanceof ElementsGroup)
 				{
 					((Composite)visibleElement.getComponent()).setLayoutManager(layout);

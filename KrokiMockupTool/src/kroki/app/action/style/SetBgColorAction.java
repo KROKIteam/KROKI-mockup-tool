@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.style;
 
 import java.awt.Color;
@@ -19,6 +15,8 @@ import kroki.app.view.Canvas;
  */
 public class SetBgColorAction extends AbstractAction {
 
+	private static final long serialVersionUID = 1L;
+	
     private Color color;
 
     public void actionPerformed(ActionEvent e) {

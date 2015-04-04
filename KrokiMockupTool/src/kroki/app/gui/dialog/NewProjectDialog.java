@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -32,9 +28,11 @@ import kroki.profil.utils.DatabaseProps;
  */
 public class NewProjectDialog extends JDialog {
 
-    BussinesSubsystem newSubystem;
-    JPanel content;
-    JPanel action;
+	private static final long serialVersionUID = 1L;
+	
+	private BussinesSubsystem newSubystem;
+	private JPanel content;
+	private JPanel action;
     private JLabel projectNameLbl;
     private JTextField projectNameTf;
     private JButton okBtn;

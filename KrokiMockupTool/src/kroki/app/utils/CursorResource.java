@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.utils;
 
 import java.awt.Graphics2D;
@@ -15,7 +11,7 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Class used to get images representing different cursors
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class CursorResource {
@@ -38,7 +34,6 @@ public class CursorResource {
                     graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
                     graphics2D.drawImage(temp, 0, 0, temp.getWidth(), temp.getHeight(), null);
                     graphics2D.dispose();
-                    //na kraju dodam u mapu
                     cursorMap.put(key, value);
                 } catch (IOException e) {
                     e.printStackTrace();

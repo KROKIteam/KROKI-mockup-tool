@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view.painters.components;
 
 import java.awt.Color;
@@ -14,17 +10,18 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.components.ComboBox;
-import kroki.mockup.utils.KrokiImagesLoader;
 import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.mockup.view.GraphElement;
 import kroki.mockup.view.painters.ComponentPainter;
 
 /**
- *
+ * Represents combobox painter
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class ComboBoxPainter extends ComponentPainter {
 
     private SerializableBufferedImage downArrow;

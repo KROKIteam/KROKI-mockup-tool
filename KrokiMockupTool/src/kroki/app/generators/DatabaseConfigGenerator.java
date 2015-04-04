@@ -9,17 +9,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
-
-import javax.swing.JOptionPane;
-
+import kroki.app.KrokiMockupToolApp;
+import kroki.profil.utils.DatabaseProps;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import kroki.app.KrokiMockupToolApp;
-import kroki.profil.utils.DatabaseProps;
 
+
+/**
+ * Generates database configurations
+ * @author Kroki Team
+ *
+ */
 public class DatabaseConfigGenerator {
 	
 	private DatabaseProps  parameters;

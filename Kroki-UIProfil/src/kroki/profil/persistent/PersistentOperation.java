@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.persistent;
 
 import java.io.Serializable;
@@ -12,24 +8,24 @@ import kroki.uml_core_basic.UmlParameter;
 import kroki.uml_core_basic.UmlType;
 
 /**
- *
+ * Contains properties of an operation directly mapped to certain database concepts.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class PersistentOperation implements UmlOperation, Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-    //obelezja metaklase NamdedElement
-    /**Naziv elementa*/
+    //NamdedElement metaclass properties
+    /**Element's name*/
     protected String name;
-    /**Kvalitifikovano ime elementa.*/
+    /**Element's qualified name	*/
     protected String qualifiedName;
-    //atributi povuceni iz metaklase Operation
+    //Operation metaclass properties 
     protected UmlClass umlClass;
     protected UmlType umlType;
     protected List<UmlType> raisedException;
     protected List<UmlParameter> ownedParameter;
-    //atributi povuceni iz metaklase MultiplicityElement
+    //MultiplicityElement metaclass properties
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;

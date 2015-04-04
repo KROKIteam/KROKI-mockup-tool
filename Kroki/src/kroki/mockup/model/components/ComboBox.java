@@ -1,20 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.utils.KrokiTextMeasurer;
 import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.mockup.view.painters.components.ComboBoxPainter;
 
 /**
- *
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Component which represents a combo box
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class ComboBox extends Component {
 
     private SerializableBufferedImage image;
@@ -22,15 +20,15 @@ public class ComboBox extends Component {
     private int gap = 5;
     private int blank = 0;
     private boolean zoom = false;
-    /**Minimalan broj kolona*/
+    /**Minimal number of columns*/
     private static final int MIN_COLS = 5;
-    /**Minimalan broj redova*/
+    /**Minimal number of rows*/
     private static final int MIN_ROWS = 1;
-    /**Dimenzija koju zauzima labela*/
+    /**Label's dimension*/
     private Dimension labelDim = new Dimension();
-    /**Dimenzija koju zauzima polje za unos teksta*/
+    /**Text input field's dimension*/
     private Dimension fieldDim = new Dimension();
-    /**Dimenzija zoom dugmeta*/
+    /**Zoom button's dimension*/
     private Dimension zoomDim = new Dimension();
 
     public ComboBox(String name) {
@@ -64,7 +62,7 @@ public class ComboBox extends Component {
         elementPainter = new ComboBoxPainter(this);
     }
 
-    /**IzraÄ�unava dimenziju koju zauzima tekst uraÄ�unavajuÄ‡i i prazan prostor izmeÄ‘u teksta i polja za unos*/
+    /** Calculates dimension of space filled by label's text including empty space between the text and the input field*/
     private Dimension calculateLabelDim() {
         Dimension dim = new Dimension();
         if (name != null && !name.equals("")) {
@@ -83,6 +81,7 @@ public class ComboBox extends Component {
         return dim;
     }
 
+    /**Calculates dimension of space filled by the input field
     /**IzraÄ�unava dimenziju koju zauzima polje za unos teksta*/
     private Dimension calculateFieldDim() {
         Dimension dim = KrokiTextMeasurer.measureText("M", getFont());
@@ -94,7 +93,7 @@ public class ComboBox extends Component {
         return dim;
     }
 
-    /**IzraÄ�unava minimalnu dimenziju polja za unos teksta*/
+    /** Calculates the minimal dimension of the inout field*/
     private Dimension calculateMinFieldDim() {
         Dimension dim = KrokiTextMeasurer.measureText("M", getFont());
         dim.width *= MIN_COLS;
@@ -166,12 +165,12 @@ public class ComboBox extends Component {
         elementPainter.update();
     }
 
-    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima labela*/
+    /**Takes changes made to component into account and calculates the new dimension of the label*/
     private void updateLabel() {
         labelDim = calculateLabelDim();
     }
 
-    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima tekstualno polje*/
+    /**Takes changes made to component into account and calculates the new dimension of the input field*/
     private void updateField() {
         int fieldWidth = dimension.width - labelDim.width - insets.left - insets.right;
         int fieldHeight = dimension.height - insets.top - insets.bottom;
@@ -188,7 +187,7 @@ public class ComboBox extends Component {
         fieldDim.height = fieldHeight;
     }
 
-    /**Uzima u obzir promene nad komponentom i izraÄ�unava novu dimenziju koju zauzima cela komponenta*/
+    /**Takes changes made to component into account and calculates the new dimension of the whole component*/
     private void updateTextField() {
         updateLabel();
         updateField();

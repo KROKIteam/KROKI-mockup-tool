@@ -1,19 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
-import kroki.profil.utils.settings.CalculatedSettings;
-import kroki.profil.utils.settings.SettingsPanel;
-
 /**
- * Klasa Calculated označava kalkulisano obeležje,  tj. obeležje čija
- * se vrednost računa primenom zadate formule  nad izabranim obeležjima
- * date ili neke druge klase.
+ * Class <code>Calculated</code> represemmts a calculated property, whose 
+ * value is calculated by applying a specified function to chosen properties
+ * of the current or some other class
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(CalculatedSettings.class)
+
 public class Calculated extends VisibleProperty {
 	
 	private static final long serialVersionUID = 1L;

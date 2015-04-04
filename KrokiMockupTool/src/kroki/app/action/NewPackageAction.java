@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
@@ -13,12 +9,14 @@ import kroki.app.utils.StringResource;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
- *
+ * Shows dialog for inputting data regarding a new package
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class NewPackageAction extends AbstractAction {
 
-    BussinesSubsystem bussinesSubsystem;
+	private static final long serialVersionUID = 1L;
+	
+	private BussinesSubsystem bussinesSubsystem;
 
     public NewPackageAction(BussinesSubsystem bussinesSubsystem) {
         this.bussinesSubsystem = bussinesSubsystem;

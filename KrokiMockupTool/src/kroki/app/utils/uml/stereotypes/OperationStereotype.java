@@ -3,9 +3,7 @@ package kroki.app.utils.uml.stereotypes;
 import java.util.List;
 
 import kroki.app.utils.uml.ProgressWorker;
-import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
 

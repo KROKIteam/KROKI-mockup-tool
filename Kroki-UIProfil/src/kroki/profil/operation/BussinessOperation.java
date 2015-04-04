@@ -1,30 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.operation;
 
 import kroki.profil.ComponentType;
 import kroki.profil.persistent.PersistentOperation;
-import kroki.profil.utils.settings.BussinessOperationSettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
- * Apstraktni stereotip  BussinesOperation označava metodu koja
- * putem komponente korisničkog interfejsa omogućava aktiviranje
- * pridružene perzistentne metode
+ * Abstract stereotype BusinessOperation represents a method which,
+ * through a UI component, enables activation of the persistent operation
+ * connected with the business operation
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(BussinessOperationSettings.class)
 public class BussinessOperation extends VisibleOperation {
 
 	private static final long serialVersionUID = 1L;
 	
-    /**Indikator koji označava da li je za metodu potrebno generisati panel za unos parametara*/
+	/**Indicates if it is necessary to generate a parameters input dialog for the operation*/
     protected boolean hasParametersForm = true;
-    /**indikator da metoda ima i implicitno definisan parametar koji odgovara identifikatoru klase kojoj pripada. */
+    /**Indicates if the operation has an implicitly defined parameter which represents an id of the class it belongs to*/ 
     protected boolean filteredByKey = true;
-    /**Pridružena perzistentna metoda*/
+    /**Persistent operation connected to the business operation*/
     protected PersistentOperation persistentOperation;
 
     public BussinessOperation(String label) {
@@ -39,9 +32,9 @@ public class BussinessOperation extends VisibleOperation {
     public BussinessOperation() {
     }
 
-    /*****************/
-    /*GETERI I SETERI*/
-    /*****************/
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /*********************/
     public boolean isFilteredByKey() {
         return filteredByKey;
     }

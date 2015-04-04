@@ -1,16 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.style;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.ChangeLayoutCommand;
 import kroki.app.command.CommandManager;
-import kroki.app.gui.GuiManager;
 import kroki.app.gui.toolbar.StyleToolbar;
 import kroki.app.model.SelectionModel;
 import kroki.app.utils.ImageResource;
@@ -27,6 +24,8 @@ import kroki.profil.panel.VisibleClass;
  */
 public class LayoutVerticalAction extends AbstractAction {
 
+	private static final long serialVersionUID = 1L;
+	
     public LayoutVerticalAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.verticalLayout.smallImage"));
         putValue(SMALL_ICON, smallIcon);

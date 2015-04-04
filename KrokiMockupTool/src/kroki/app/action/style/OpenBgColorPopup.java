@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.style;
 
 import java.awt.Color;
@@ -20,6 +16,8 @@ import kroki.app.utils.StringResource;
  */
 public class OpenBgColorPopup extends AbstractAction {
 
+	private static final long serialVersionUID = 1L;
+	
     public OpenBgColorPopup() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.openColorFill.smallImage"));
         putValue(SMALL_ICON, smallIcon);

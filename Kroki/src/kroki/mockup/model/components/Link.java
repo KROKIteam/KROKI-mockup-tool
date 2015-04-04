@@ -1,19 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.utils.KrokiTextMeasurer;
 import kroki.mockup.view.painters.components.LinkPainter;
 
 /**
- * Klasa koja predstavlja Labelu kao komponentu korisničkog interfejsa.
- * Još uvek ne znam da li će se ova komponenta koristiti (tačnije kojem elementu UI profila će biti dodeljena)
+ * Component which represents a link
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class Link extends Component {
 
     public Link(String name) {

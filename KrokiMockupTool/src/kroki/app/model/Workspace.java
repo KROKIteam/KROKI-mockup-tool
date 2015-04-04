@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.model;
 
 import java.io.File;
@@ -20,28 +16,29 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 
 /**
- *
+ * Class represents a workspace, containing list of projects
+ * i.e. packages with no parent packages
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public final class Workspace implements Serializable{
 
 	private static final long serialVersionUID = 1206782231294485404L;
 	private String name;
-    private List<UmlPackage> packageList = new ArrayList<UmlPackage>();
-    //private List<BussinesSubsystem> bussinesSubsystemList;
+	private List<UmlPackage> packageList = new ArrayList<UmlPackage>();
+	//private List<BussinesSubsystem> bussinesSubsystemList;
 
-    public Workspace() {
-        name = StringResource.getStringResource("jTree.root.name");
+	public Workspace() {
+		name = StringResource.getStringResource("jTree.root.name");
 
-    }
+	}
 
-    public void addPackage(UmlPackage umlPackage) {
-        if (!packageList.contains(umlPackage)) {
-        	sortedInsert((BussinesSubsystem) umlPackage);
-        }
-    }
-    
-    private void sortedInsert(BussinesSubsystem element){
+	public void addPackage(UmlPackage umlPackage) {
+		if (!packageList.contains(umlPackage)) {
+			sortedInsert((BussinesSubsystem) umlPackage);
+		}
+	}
+
+	private void sortedInsert(BussinesSubsystem element){
 		for (int i = 0; i < packageList.size(); i++){
 			BussinesSubsystem el = (BussinesSubsystem) packageList.get(i);
 			if (el.getLabel().toLowerCase().compareTo(element.getLabel().toLowerCase()) > 0){
@@ -52,7 +49,9 @@ public final class Workspace implements Serializable{
 		packageList.add(element);
 	}
     
-    public void saveProjectAs(UmlPackage project){
+  
+
+	public void saveProjectAs(UmlPackage project){
 		if (!packageList.contains(project))
 			return;
 
@@ -133,35 +132,34 @@ public final class Workspace implements Serializable{
 		}
 	}
 
+	public void removePackage(UmlPackage umlPackage) {
+		if (packageList.contains(umlPackage)) {
+			packageList.remove(umlPackage);
+		}
+	}
 
-    public void removePackage(UmlPackage umlPackage) {
-        if (packageList.contains(umlPackage)) {
-            packageList.remove(umlPackage);
-        }
-    }
+	public int getIndexOf(UmlPackage umlPackage) {
+		return packageList.indexOf(umlPackage);
+	}
 
-    public int getIndexOf(UmlPackage umlPackage) {
-        return packageList.indexOf(umlPackage);
-    }
+	public int getPackageCount() {
+		return packageList.size();
+	}
 
-    public int getPackageCount() {
-        return packageList.size();
-    }
+	public UmlPackage getPackageAt(int index) {
+		return packageList.get(index);
+	}
 
-    public UmlPackage getPackageAt(int index) {
-        return packageList.get(index);
-    }
+	@Override
+	public String toString() {
+		return name;
+	}
 
-    @Override
-    public String toString() {
-        return name;
-    }
+	public List<UmlPackage> getPackageList() {
+		return packageList;
+	}
 
-    public List<UmlPackage> getPackageList() {
-        return packageList;
-    }
-
-    public void setPackageList(List<UmlPackage> packageList) {
-        this.packageList = packageList;
-    }
+	public void setPackageList(List<UmlPackage> packageList) {
+		this.packageList = packageList;
+	}
 }

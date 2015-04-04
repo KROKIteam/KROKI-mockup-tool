@@ -1,14 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.utils;
 
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
- * Utils klasa koja na osnovu ključa vraća resurs koji je tekst.
+ * Util class which resource a textual resource based on the given key
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class StringResource {

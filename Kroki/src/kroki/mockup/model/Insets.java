@@ -7,18 +7,19 @@ package kroki.mockup.model;
 import java.io.Serializable;
 
 /**
- * Klasa čiji atributi predstavljaju rastojanja okvira određene komponete u odnosu na njenu roditeljsku komponentu.
+ * Class whose attributes represent distance between a compoenent's border and it's parent component
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class Insets implements Serializable{
 
-    /** */
+    /**Top inset */
     public int top;
-    /** */
+    /**Bottom inset */
     public int bottom;
-    /** */
+    /**Left inset */
     public int left;
-    /** */
+    /**Right inset */
     public int right;
 
     public Insets(int top, int bottom, int left, int right) {

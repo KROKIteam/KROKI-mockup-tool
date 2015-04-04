@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.utils;
 
 import java.awt.Point;
 
 /**
- * Klasa koja predstavlja grid. Poseduje metodu za poravnavanje komponenti sa gridom.
+ * Represents a grid and contains a method which aligns the compoenents to the grid
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class KrokiGrid {

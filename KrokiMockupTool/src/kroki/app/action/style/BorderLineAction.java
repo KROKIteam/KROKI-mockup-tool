@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action.style;
 
 import java.awt.event.ActionEvent;
@@ -24,6 +20,8 @@ import kroki.profil.panel.VisibleClass;
  */
 public class BorderLineAction extends AbstractAction {
 
+	private static final long serialVersionUID = 1L;
+	
     public BorderLineAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.lineBorder.smallImage"));
         putValue(SMALL_ICON, smallIcon);

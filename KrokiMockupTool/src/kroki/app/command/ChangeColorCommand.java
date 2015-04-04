@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.awt.Color;
@@ -10,7 +6,7 @@ import java.util.List;
 import kroki.profil.VisibleElement;
 
 /**
- * Komanda promene boje grupi elemenata
+ * Command for changing element's color
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ChangeColorCommand implements Command {

@@ -1,26 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
+import kroki.profil.utils.ElementsGroupUtil;
 
 /**
- * Komanda pomeranja elemenata.
+ * Command for moving the elements
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class MoveCommand implements Command {
 
-    /**Lista elementata koja je pomerena*/
+    /**List of element which are to be moved*/
     private List<VisibleElement> visibleElementList;
-    /**Pomeraj po x osi*/
+    /**x axis distance*/
     private int dx;
-    /**Pomeraj po y osi*/
+    /**y axis distance*/
     private int dy;
 
     public MoveCommand(List<VisibleElement> visibleElementList, int dx, int dy) {
@@ -30,9 +28,6 @@ public class MoveCommand implements Command {
         this.dy = dy;
     }
 
-    /***********************/
-    /*IMPLEMENTIRANE METODE*/
-    /***********************/
     public void doCommand() {
         for (int i = 0; i < visibleElementList.size(); i++) {
             VisibleElement visibleElement = visibleElementList.get(i);
@@ -40,7 +35,7 @@ public class MoveCommand implements Command {
             Point newPos = new Point(elemAbsPos.x + dx, elemAbsPos.y + dy);
             visibleElement.getComponent().setAbsolutePosition(newPos);
             if (visibleElement instanceof ElementsGroup) {
-                if (((ElementsGroup) visibleElement).getVisibleElementsNum() > 0) {
+                if (ElementsGroupUtil.getVisibleElementsNum((ElementsGroup) visibleElement) > 0) {
                     dragElementsGroup((ElementsGroup) visibleElement, dx, dy);
                 }
             }
@@ -55,7 +50,7 @@ public class MoveCommand implements Command {
             Point newPos = new Point(elemAbsPos.x - dx, elemAbsPos.y - dy);
             visibleElement.getComponent().setAbsolutePosition(newPos);
             if (visibleElement instanceof ElementsGroup) {
-                if (((ElementsGroup) visibleElement).getVisibleElementsNum() > 0) {
+                if (ElementsGroupUtil.getVisibleElementsNum((ElementsGroup) visibleElement) > 0) {
                     dragElementsGroup((ElementsGroup) visibleElement, -dx, -dy);
                 }
             }
@@ -63,12 +58,9 @@ public class MoveCommand implements Command {
         }
     }
 
-    /*****************/
-    /*PRIVATNE METODE*/
-    /*****************/
     private void dragElementsGroup(ElementsGroup elementsGroup, int dx, int dy) {
-        for (int i = 0; i < elementsGroup.getVisibleElementsNum(); i++) {
-            VisibleElement visibleElement = elementsGroup.getVisibleElementAt(i);
+        for (int i = 0; i < ElementsGroupUtil.getVisibleElementsNum(elementsGroup); i++) {
+            VisibleElement visibleElement = ElementsGroupUtil.getVisibleElementAt(elementsGroup, i);
             Point elemAbsPos = (Point) visibleElement.getComponent().getAbsolutePosition().clone();
             Point newPos = new Point(elemAbsPos.x + dx, elemAbsPos.y + dy);
             visibleElement.getComponent().setAbsolutePosition(newPos);

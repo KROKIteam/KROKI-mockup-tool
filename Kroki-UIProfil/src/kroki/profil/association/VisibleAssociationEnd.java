@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.association;
 
 import kroki.profil.ComponentType;
@@ -9,60 +5,57 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.std.StdDataSettings;
 import kroki.profil.panel.std.StdPanelSettings;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.VisibleAssociationEndSettings;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 
 /**
- *
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Stereotype VisibleAssociationEnd represents an association end. It is extended
+ * by <code>Next</code>, <code>Zoom</code> and <code>Hierarchy</code>
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(VisibleAssociationEndSettings.class)
 public class VisibleAssociationEnd extends VisibleElement implements UmlProperty {
 
 	private static final long serialVersionUID = 1L;
 	
-    /**Dozvoljen/zabranjen unos novih podataka */
+	/**Indicates if new data can be added*/
     protected boolean add = true;
-    /**Dozvoljena/zabranjena izmena podataka */
+	/**Indicates if data can be updated*/
     protected boolean update = true;
-    /**Dozvoljeno/zabranjeno kopiranje podataka */
-    protected boolean copy = true;
-    /**Dozvoljeno/zabranjeno brisanje podataka */
+    /**Indicates if data can be copied*/
+    protected boolean copy = true
+    /**Indicates if data can be deleted*/;
     protected boolean delete = true;
-    /**Dozvoljena/zabranjena pretraga podataka */
+    /**Indicates if data can be searched*/
     protected boolean search = true;
-    /**Dozvoljena/zabranjena promena prikaza (iz tabelarnog u â€œjedan ekranâ€“jedan slogâ€� i obrnuto */
+    /**Indicates if view can be changed between tabular and one record per screen*/ 
     protected boolean changeMode = true;
-    /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeÄ‡i, prethodni i poslednji) */
+    /**Indicates if navigation is enabled (next, previous, first, last)*/
     protected boolean dataNavigation = true;
-    /**Standardna podesavanja panela*/
-    protected StdPanelSettings stdPanelSettings = new StdPanelSettings();
-    /**Standardna podesavanja podataka*/
-    protected StdDataSettings stdDataSettings = new StdDataSettings();
-    /**Panel sa kojeg se aktivira*/
+    /**Standard panel settings*/
+    protected transient StdPanelSettings stdPanelSettings = new StdPanelSettings();
+    /**Standard data settings*/
+    protected transient StdDataSettings stdDataSettings = new StdDataSettings();
+    /**Activation panel*/
     protected VisibleClass activationPanel;
-    /**Panel koji se aktivira*/
+    /**Target panel*/
     protected VisibleClass targetPanel;
 
-    /*OBELEÅ½JA METAKLASE PROPERTY*/
+    /*PROPERTY METACLASS PROPERTIES*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
     protected boolean isReadOnly = false;
     protected UmlProperty opposite = null;
     protected UmlClass umlClass;
-    /*OBELEÅ½JA METAKLASE TYPEDELEMENT*/
+    /*TYPEDELEMENT METACLASS PROPERTIES*/
     protected UmlType umlType;
-    /*OBELEÅ½JA METAKLASE MULTIPLICITYELEMENT*/
+    /*MULTIPLICITYELEMENT METACLASS PROPERTIES*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
     protected int upper;
 
     public VisibleAssociationEnd() {
-    	
     }
 
     public VisibleAssociationEnd(String label, boolean visible, ComponentType componentType) {
@@ -75,7 +68,7 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     }
 
     /**************************************/
-    /*IMPLEMENTIRANE METODE OD UmlProperty*/
+    /*UmlProperty METHODS*/
     /**************************************/
     public String getDefault() {
         return "";
@@ -166,9 +159,11 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     }
 
     /*****************/
-    /*GETERI I SETERI*/
+    /*GETTERS AND SETTERS*/
     /*****************/
     public StdDataSettings getStdDataSettings() {
+    	if (stdDataSettings == null)
+    		stdDataSettings = new StdDataSettings();
         return stdDataSettings;
     }
 
@@ -177,6 +172,8 @@ public class VisibleAssociationEnd extends VisibleElement implements UmlProperty
     }
 
     public StdPanelSettings getStdPanelSettings() {
+    	if (stdPanelSettings == null)
+    		stdPanelSettings = new StdPanelSettings();
         return stdPanelSettings;
     }
 

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.persistent;
 
 import java.io.Serializable;
@@ -13,7 +9,7 @@ import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- *
+ * Contains properties of a class directly mapped to certain database concepts.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class PersistentClass implements UmlClass, Serializable {
@@ -21,23 +17,23 @@ public class PersistentClass implements UmlClass, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
-	/**Naziv tabele u bazu*/
+	/**Name of the table in the database*/
 	protected String tableName;
-	/**Transformisanje labele u naziv tabele*/
+	/**Indicates if element's label should be transformed to code*/
 	protected boolean labelToCode;
-    /**Naziv elementa*/
+    /**Element's name*/
     protected String name;
-    /**Kvalitifikovano ime elementa.*/
+    /**Element's qualified name*/
     protected String qualifiedName;
-    /**Pokazatelj da li je klasa apstraktna*/
+    /**Indicates if the class is abstract*/
     protected boolean isAbstract;
-    /**Paket kojem klasa pripada*/
+    /**Package which contains the class*/
     protected UmlPackage umlPackage;
-    /**Obeležja klase*/
+    /**Class' contained properties*/
     protected List<UmlProperty> ownedAttribute;
-    /**Operacije*/
+    /**Class' contained operations*/
     protected List<UmlOperation> ownedOperation;
-    /**Generalizacije date klase*/
+    /**Class' super classes*/
     protected List<UmlClass> superClass;
     
     
@@ -53,7 +49,7 @@ public class PersistentClass implements UmlClass, Serializable {
     	this.tableName = tableName;
     }
 
-    /*IMPLEMENTIRANE METODE INTERFEJSA UmlClass*/
+    /*UmlClass interfae methods*/
     public boolean isAbstract() {
         return isAbstract;
     }

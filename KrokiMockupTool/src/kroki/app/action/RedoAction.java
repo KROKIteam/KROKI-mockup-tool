@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
@@ -17,12 +13,14 @@ import kroki.app.view.Canvas;
 import kroki.profil.panel.VisibleClass;
 
 /**
- *
+ * Redo action
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class RedoAction extends AbstractAction {
 
-    public RedoAction() {
+	private static final long serialVersionUID = 1L;
+
+	public RedoAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.redo.smallIcon"));
         ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.redo.largeIcon"));
         putValue(SMALL_ICON, smallIcon);

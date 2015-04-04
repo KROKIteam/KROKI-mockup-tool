@@ -4,14 +4,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.JOptionPane;
-
 import kroki.app.KrokiMockupToolApp;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 public class RunAnt {
 	

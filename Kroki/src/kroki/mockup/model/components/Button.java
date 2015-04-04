@@ -1,19 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.components;
 
 import java.awt.Dimension;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.utils.KrokiTextMeasurer;
 import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.mockup.view.painters.components.ButtonPainter;
 
-/**
- *
+/**Component which represents a button
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class Button extends Component {
 
     private SerializableBufferedImage image;

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.utils;
 
 import java.awt.Dimension;
@@ -12,17 +8,16 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-/**
- * Utils klasa koja poseduje metode za merenje širine i visine teksta.
+/**Utils class which contains methods for measuring the width and height of the text
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class KrokiTextMeasurer {
 
     /**
-     * Vraća dimenziju koju zauzima prosleđeni tekst ispisan prosleđenim fontom
-     * @param text tekst
-     * @param font font
-     * @return dimenzija
+     * Return size of a text if the selected font is used
+     * @param text 
+     * @param font 
+     * @return size of text
      */
     public static Dimension measureText(String text, Font font) {
         Graphics2D g = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB).createGraphics();

@@ -1,6 +1,5 @@
 package kroki.app.utils.uml;
 
-import java.util.List;
 
 /**
  * Saves the data necessary to determine

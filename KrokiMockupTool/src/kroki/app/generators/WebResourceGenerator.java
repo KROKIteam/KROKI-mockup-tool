@@ -6,28 +6,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
-import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Zoom;
 import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
 import kroki.profil.operation.Transaction;
 import kroki.profil.operation.VisibleOperation;
-import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlParameter;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class WebResourceGenerator {
 	
@@ -42,11 +38,11 @@ public class WebResourceGenerator {
 			docBuilder = docFactory.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
 		
-			//korenski tag <resources>
+			//root tag tag <resources>
 			Element resourcesRoot = doc.createElement("resources");
 			doc.appendChild(resourcesRoot);
 			
-			//za svaki panel u modelu generise se jedan <resource> tag
+			//z <resource> tag
 			for(int i=0; i<elements.size(); i++) {
 				VisibleElement element = elements.get(i);
 				VisibleClass vClass = (VisibleClass)element;
@@ -55,7 +51,7 @@ public class WebResourceGenerator {
 				Element resourceTag = doc.createElement("resource");
 				resourcesRoot.appendChild(resourceTag);
 				
-				//atributi za <resounce> tag
+				//attribute of the <resounce> tag
 				String name = cc.toCamelCase(vClass.getComponent().getName(), false);
 				String label = element.getLabel();
 				String link = "/resources/" + name;
@@ -93,16 +89,16 @@ public class WebResourceGenerator {
 				formsTag.setTextContent(forms);
 				resourceTag.appendChild(formsTag);
 				
-				//tagovi za atribute
-				if(!vClass.containedProperties().isEmpty()) {
+				//attribute tags
+				if(!VisibleClassUtil.containedProperties(vClass).isEmpty()) {
 					
-					//prvo korenski tag <Attributes>
+					//firstly, the root tag <Attributes>
 					Element attributesTag = doc.createElement("Attributes");
 					resourceTag.appendChild(attributesTag);
 					
-					//za svaki atribut klase ide <attribute> tag
-					for(int j=0; j<vClass.containedProperties().size();j++) {
-						VisibleProperty prop = vClass.containedProperties().get(j);
+					//for every class attribute put <attribute> tag
+					for(int j=0; j < VisibleClassUtil.containedProperties(vClass).size();j++) {
+						VisibleProperty prop = VisibleClassUtil.containedProperties(vClass).get(j);
 						
 						Element attributeTag = doc.createElement("attribute");
 						attributesTag.appendChild(attributeTag);
@@ -175,17 +171,17 @@ public class WebResourceGenerator {
 					}
 				}
 				
-				//many-to-one atributi (zoom)
-				if(!vClass.containedZooms().isEmpty()) {
+				//many-to-one attributes (zoom)
+				if(!VisibleClassUtil.containedZooms(vClass).isEmpty()) {
 					
-					//korenski tag <ManyToOneAttributes>
+					//root tag <ManyToOneAttributes>
 					Element zoomsTag = doc.createElement("ManyToOneAttributes");
 					resourceTag.appendChild(zoomsTag);
 					
-					//za svaki zoom atribut ide <manyToOne> tag
-					for(int k=0; k<vClass.containedZooms().size(); k++) {
-						Zoom zoom = vClass.containedZooms().get(k);
-						StandardPanel zoomPanel = (StandardPanel) zoom.getTargetPanel();
+					//for every attribute put <manyToOne> tag
+					for(int k=0; k < VisibleClassUtil.containedZooms(vClass).size(); k++) {
+						Zoom zoom = VisibleClassUtil.containedZooms(vClass).get(k);
+						//StandardPanel zoomPanel = (StandardPanel) zoom.getTargetPanel();
 						
 						Element zoomElement = doc.createElement("manyToOne");
 						zoomsTag.appendChild(zoomElement);
@@ -227,43 +223,43 @@ public class WebResourceGenerator {
 				}
 				
 				//<operations> tag
-				if(!vClass.containedOperations().isEmpty()) {
+				if(!VisibleClassUtil.containedOperations(vClass).isEmpty()) {
 					Element operationsTag = doc.createElement("Operations");
 					resourceTag.appendChild(operationsTag);
 					
-					for(int k=0; k<vClass.containedOperations().size(); k++) {
-						VisibleOperation vo = vClass.containedOperations().get(k);
+					for(int k=0; k < VisibleClassUtil.containedOperations(vClass).size(); k++) {
+						VisibleOperation vo = VisibleClassUtil.containedOperations(vClass).get(k);
 						System.out.println("[GENERISEM OPERACIJU] " + vo.getLabel());
 						if(vo instanceof BussinessOperation) {
 							
 							Element opTag = doc.createElement("operation");
 							
-							//atribut "name"
+							//attribute "name"
 							Attr opNameAttr = doc.createAttribute("name");
 							opNameAttr.setValue(vo.name());
 							opTag.setAttributeNode(opNameAttr);
 							
-							//atribut "label"
+							//attribute "label"
 							Attr opLabelAttr = doc.createAttribute("label");
 							opLabelAttr.setValue(vo.getLabel());
 							opTag.setAttributeNode(opLabelAttr);
 							
-							//atribut "type"
+							//attribute "type"
 							Attr opTypeAttr = doc.createAttribute("type");
 							
-							//ako je transakcija ide type="report"
+							//if the visible operation is a report, put type="report"
 							if(vo instanceof Report) {
 								opTypeAttr.setValue("report");
-							//ako je transakcija ide type="transaction"
+							//if the visible operation is a transaction, put type="transaction"
 							}else if (vo instanceof Transaction) {
 								opTypeAttr.setValue("transaction");
 							}
 							
 							opTag.setAttributeNode(opTypeAttr);
 							
-							//atribut "target"
+							//if the visible operation is a transaction, put type="report" "target"
 							Attr opTargetAttr = doc.createAttribute("target");
-							//nije implementirano u krokiju pa je null
+							//not yet implemented, so put null
 							if(((BussinessOperation) vo).getPersistentOperation() == null) {
 								opTargetAttr.setValue("null");
 							}else {
@@ -271,14 +267,14 @@ public class WebResourceGenerator {
 							}
 							opTag.setAttributeNode(opTargetAttr);
 							
-							//atribut "allowed"
-							//za sada samo true
+							//attribute "allowed"
+							//for now, always set to true
 							Attr opAllowedAttr = doc.createAttribute("allowed");
 							opAllowedAttr.setValue("true");
 							opTag.setAttributeNode(opAllowedAttr);
 							
-							//za svaki paraterar ide 
-							//<parameter name="sifra" label="Šifra" type="java.lang.String" parameter-type="in" /> tag
+							//for every parameter:
+							//<parameter name="name" label="label" type="java.lang.String" parameter-type="in" /> tag
 							if(vo.ownedParameter() != null) {
 								if(!vo.ownedParameter().isEmpty()) {
 									for(int l=0;l<vo.ownedParameter().size();l++) {
@@ -286,24 +282,24 @@ public class WebResourceGenerator {
 										
 										Element paramTag = doc.createElement("parameter");
 										
-										//atribut "name"
+										//attribute "name"
 										Attr paramNameAttr = doc.createAttribute("name");
 										paramNameAttr.setValue(param.name());
 										paramTag.setAttributeNode(paramNameAttr);
 										
-										//atribut "label"
-										//nema :(
+										//attribute "label"
+										//TODO currently not implemented in Kroki :(
 										Attr paramLabelAttr = doc.createAttribute("label");
 										paramLabelAttr.setValue(param.name());
 										paramTag.setAttributeNode(paramLabelAttr);
 										
-										//atribut "type"
+										//attribute "type"
 										Attr paramTypeAttr = doc.createAttribute("type");
 										paramTypeAttr.setValue(param.type().toString());
 										paramTag.setAttributeNode(paramTypeAttr);
 										
-										//atribut "parameter-type"
-										//za sada samo in 
+										//attribute "parameter-type"
+										//for now, always set to in
 										Attr paramPTypeAttr = doc.createAttribute("parameter-type");
 										paramPTypeAttr.setValue("in");
 										paramTag.setAttributeNode(paramPTypeAttr);

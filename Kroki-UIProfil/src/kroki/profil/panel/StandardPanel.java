@@ -1,64 +1,48 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.panel;
 
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.TitledContainer;
-import kroki.mockup.model.layout.BorderLayoutManager;
-import kroki.mockup.model.layout.FlowLayoutManager;
-import kroki.mockup.model.layout.LayoutManager;
-import kroki.mockup.model.layout.VerticalLayoutManager;
-import kroki.mockup.utils.SerializableBufferedImage;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.group.GroupAlignment;
-import kroki.profil.group.GroupLocation;
-import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.std.StdDataSettings;
 import kroki.profil.panel.std.StdPanelSettings;
 import kroki.profil.persistent.PersistentClass;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.StandardPanelSettings;
 import kroki.uml_core_basic.UmlPackage;
 
 /**
- * <code>StandardPanel</code> oznacava da se datoj perzistentnoj klasi (u
- * slucaju troslojnog resenja) ili odgovarajucoj tabeli nastaloj mapiranjem
- * objektnog na relacioni model (u slucaju dvoslojnog resenja) pridruzuje
- * standardni panel ciji su izgled i funkcionalnost definisani HCI standardom.
+ * <code>StandardPanel</code> represents a standard panel which is connected to
+ * a persistent class (in case of a three-layered application) or a table
+ * created when mapping an object model to a relational (in case of a two-layered application).
+ * The visual properties and functionalities of the standard panel respects the HCI standards.
  * @author Vladan Marsenic (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(StandardPanelSettings.class)
 public class StandardPanel extends VisibleClass {
 
 	private static final long serialVersionUID = 1L;
-	
-    /**Dozvoljen/zabranjen unos novih podataka */
+	/**Is it permitted or forbidden to enter new data*/  
     protected boolean add = true;
-    /**Dozvoljena/zabranjena izmena podataka */
+    /**Is it permitted or forbidden modify existing data*/
     protected boolean update = true;
-    /**Dozvoljeno/zabranjeno kopiranje podataka */
+    /**Is it permitted or forbidden to copy data*/
     protected boolean copy = true;
-    /**Dozvoljeno/zabranjeno brisanje podataka */
+    /**Is it permitted or forbidden to delete data*/ 
     protected boolean delete = true;
-    /**Dozvoljena/zabranjena pretraga podataka */
+    /**Is it permitted or forbidden to perform data search*/
     protected boolean search = true;
-    /**Dozvoljena/zabranjena promena prikaza (iz tabelarnog u â€œjedan ekranâ€“jedan slogâ€� i obrnuto */
+    /**Is it permitted or forbidden to change data view (from tabular to one record one screen and vice versa*/
     protected boolean changeMode = true;
-    /**Dozvoljeno/zabranjeno kretanje kroz redove (prelazak na prvi, sledeÄ‡i, prethodni i poslednji) */
+    /**Is it permitted or forbidden to perform row navigation (first, previous, next, last)*/ 
     protected boolean dataNavigation = true;
-    /**PodeÅ¡avanja standardnog panela*/
-    protected StdPanelSettings stdPanelSettings = new StdPanelSettings();
-    /**PodeÅ¡avanja vezana za podatke koje standardni panel prikazuje*/
-    protected StdDataSettings stdDataSettings = new StdDataSettings();
-    /**Perzistentna klasa koja je vezana za standardni panel*/
+    /**Standard panel setting*/
+    protected transient StdPanelSettings stdPanelSettings = new StdPanelSettings();
+    /**Setting connected to data which the panel shows*/
+    protected transient StdDataSettings stdDataSettings = new StdDataSettings();
+    /**Persistent class connected to the standard panel*/
     protected PersistentClass persistentClass;
 
-    /*mockup componente standardnih operacija*/
+    /*mockup components if the standard operations*/
     private Button addButton;
     private Button updateButton;
     private Button copyButton;
@@ -69,15 +53,15 @@ public class StandardPanel extends VisibleClass {
     private Button previuosButton;
     private Button nextButton;
     private Button lastButton;
-    /*paneli koji sacinjavaju standardnu formu*/
+    //panels which form the standard form
     private ElementsGroup toolbarPanel;
-    //panel sa komponentama
+    //panel with the components*/
     private ElementsGroup propertiesPanel;
-    //panel sa desne strane u koji se smestaju operacije (transakcije, izvestaji,...)
+    //panel on the right which contains the operations (transactions, reports...)
     private ElementsGroup operationsPanel;
     
     /*****************/
-    /*Konstruktori   */
+    /*Constructors   */
     /*****************/
     public StandardPanel() {
         super();
@@ -86,142 +70,20 @@ public class StandardPanel extends VisibleClass {
         component.getAbsolutePosition().setLocation(5, 5);
         component.getDimension().setSize(800, 500);
         component.getElementPainter().update();
-        defaultGuiSettings();
         persistentClass = new PersistentClass();
     }
 
     public StandardPanel(String tableName, String label, boolean visible, ComponentType componentType, boolean modal) {
         super(label, visible, componentType, modal);
-        defaultGuiSettings();
         persistentClass = new PersistentClass(tableName);
     }
 
     public StandardPanel(boolean modal) {
         super(modal);
-        defaultGuiSettings();
         persistentClass = new PersistentClass();
     }
 
-      /********************/
-     /*Private operations*/
-    /********************/
-    private void defaultGuiSettings() {
-        //root komponenta i njen layout manager
-        Composite root = ((Composite) component);
-        root.setLayoutManager(new BorderLayoutManager());
-        //OVO JE NOVO
-        toolbarPanel = new ElementsGroup("toolbar", ComponentType.PANEL);
-        toolbarPanel.setGroupOrientation(GroupOrientation.horizontal);
-        toolbarPanel.setGroupAlignment(GroupAlignment.left);
-        toolbarPanel.setGroupLocation(GroupLocation.toolbar);
-        LayoutManager toolbarLayout = new FlowLayoutManager();
-        toolbarLayout.setAlign(LayoutManager.LEFT);
-        ((Composite) toolbarPanel.getComponent()).setLayoutManager(toolbarLayout);
-        ((Composite) toolbarPanel.getComponent()).setLocked(true);
-
-        propertiesPanel = new ElementsGroup("properties", ComponentType.PANEL);
-        propertiesPanel.setGroupLocation(GroupLocation.componentPanel);
-        propertiesPanel.setGroupOrientation(GroupOrientation.vertical);
-        LayoutManager propertiesLayout = new VerticalLayoutManager(10, 10, VerticalLayoutManager.LEFT);
-        ((Composite) propertiesPanel.getComponent()).setLayoutManager(propertiesLayout);
-        ((Composite) propertiesPanel.getComponent()).setLocked(true);
-
-        operationsPanel = new ElementsGroup("operations", ComponentType.PANEL);
-        operationsPanel.setGroupLocation(GroupLocation.operationPanel);
-        operationsPanel.setGroupOrientation(GroupOrientation.vertical);
-        operationsPanel.setGroupAlignment(GroupAlignment.center);
-        LayoutManager operationsLayout = new VerticalLayoutManager();
-        operationsLayout.setAlign(LayoutManager.CENTER);
-        ((Composite) operationsPanel.getComponent()).setLayoutManager(operationsLayout);
-        ((Composite) operationsPanel.getComponent()).setLocked(true);
-
-        addVisibleElement(toolbarPanel);
-        addVisibleElement(propertiesPanel);
-        addVisibleElement(operationsPanel);
-
-        createMockupForStandardOperations();
-        initializeStandardToolbar();
-
-        root.addChild(toolbarPanel.getComponent(), BorderLayoutManager.NORTH);
-        root.addChild(propertiesPanel.getComponent(), BorderLayoutManager.CENTER);
-        root.addChild(operationsPanel.getComponent(), BorderLayoutManager.EAST);
-
-        update();
-
-    }
-
-    /**
-     * Kreira mockup komponente za operacije u standardnom toolbaru
-     */
-    private void createMockupForStandardOperations() {
-        addButton = new Button();
-        addButton.setImage(new SerializableBufferedImage("plus"));
-        addButton.updateComponent();
-
-        updateButton = new Button();
-        updateButton.setImage(new SerializableBufferedImage("pencil"));
-        updateButton.updateComponent();
-
-        copyButton = new Button();
-        copyButton.setImage(new SerializableBufferedImage("copy"));
-        copyButton.updateComponent();
-
-        deleteButton = new Button();
-        deleteButton.setImage(new SerializableBufferedImage("minus"));
-        deleteButton.updateComponent();
-
-        searchButton = new Button();
-        searchButton.setImage(new SerializableBufferedImage("zoom"));
-        searchButton.updateComponent();
-
-        changeModeButton = new Button();
-        changeModeButton.setImage(new SerializableBufferedImage("reload-1"));
-        changeModeButton.updateComponent();
-
-        firstButton = new Button();
-        firstButton.setImage(new SerializableBufferedImage("arrow-first"));
-        firstButton.updateComponent();
-
-        previuosButton = new Button();
-        previuosButton.setImage(new SerializableBufferedImage("arrow-left"));
-        previuosButton.updateComponent();
-
-        nextButton = new Button();
-        nextButton.setImage(new SerializableBufferedImage("arrow-right"));
-        nextButton.updateComponent();
-
-        lastButton = new Button();
-        lastButton.setImage(new SerializableBufferedImage("arrow-last"));
-        lastButton.updateComponent();
-    }
-
-    public void initializeStandardToolbar() {
-        Composite composite = (Composite) toolbarPanel.getComponent();
-        if (search) {
-            composite.addChild(searchButton);
-        }
-        if (dataNavigation) {
-            composite.addChild(firstButton);
-            composite.addChild(previuosButton);
-            composite.addChild(nextButton);
-            composite.addChild(lastButton);
-        }
-        if (add) {
-            composite.addChild(addButton);
-        }
-        if (update) {
-            composite.addChild(updateButton);
-        }
-        if (delete) {
-            composite.addChild(deleteButton);
-        }
-        if (copy) {
-            composite.addChild(copyButton);
-        }
-        if (changeMode) {
-            composite.addChild(changeModeButton);
-        }
-    }
+    
 
     @Override
     public void update() {
@@ -241,12 +103,14 @@ public class StandardPanel extends VisibleClass {
     	return (BussinesSubsystem) currentPack;
     }
 
-    /*****************/
-    /*Geteri i seteri*/
-    /*****************/
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /*********************/
     
     
     public StdDataSettings getStdDataSettings() {
+    	if (stdDataSettings == null)
+    		stdDataSettings = new StdDataSettings();
         return stdDataSettings;
     }
 
@@ -255,6 +119,8 @@ public class StandardPanel extends VisibleClass {
     }
 
     public StdPanelSettings getStdPanelSettings() {
+    	if (stdPanelSettings == null)
+    		stdPanelSettings = new StdPanelSettings();
         return stdPanelSettings;
     }
 

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.Dimension;
@@ -16,7 +12,7 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 
 /**
- * Klasa koja predstavlja stanje promene veličine elementa.
+ * Class represent resize state - which allows elements to be resized
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ResizeState extends State {

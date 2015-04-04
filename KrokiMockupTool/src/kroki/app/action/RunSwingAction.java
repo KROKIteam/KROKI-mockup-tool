@@ -7,23 +7,21 @@ import java.io.File;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
-import javax.swing.tree.TreePath;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
-import kroki.profil.utils.DatabaseProps;
 
 /**
  * Action that runs selected project as Java Swing application
  * @author Milorad Filipovic
  */
 public class RunSwingAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public RunSwingAction() {
 		putValue(NAME, "Run desktop version");
@@ -59,8 +57,9 @@ public class RunSwingAction extends AbstractAction {
 						//deleteFiles(tempDir);
 
 						//generate connection settings for embedded h2 database
-						DatabaseProps tempProps = new DatabaseProps();
+						//DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
+						
 						ProjectExporter exporter = new ProjectExporter(true);
 						exporter.export(tempDir, proj.getLabel().replace(" ", "_"), proj, "Project exported OK! Running project...");
 

@@ -7,13 +7,10 @@ import kroki.profil.association.Next;
 import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
-import kroki.profil.operation.Report;
-import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;

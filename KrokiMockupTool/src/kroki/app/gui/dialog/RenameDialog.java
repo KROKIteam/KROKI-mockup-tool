@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -29,14 +25,16 @@ import kroki.profil.panel.VisibleClass;
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class RenameDialog extends JDialog {
-
-    VisibleElement visibleElement;
-    JPanel content;
-    JPanel action;
-    JButton okBtn;
-    JButton cancelBtn;
-    JLabel nameLbl;
-    JTextField nameTf;
+	
+	private static final long serialVersionUID = 1L;
+	
+	private VisibleElement visibleElement;
+	private JPanel content;
+	private JPanel action;
+	private JButton okBtn;
+	private JButton cancelBtn;
+	private JLabel nameLbl;
+	private JTextField nameTf;
 
     public RenameDialog(JFrame frame, VisibleElement visibleElement) {
         super(frame);

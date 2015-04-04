@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.operation;
 
 import java.util.List;
@@ -14,23 +10,22 @@ import kroki.uml_core_basic.UmlParameter;
 import kroki.uml_core_basic.UmlType;
 
 /**
- * Stereotip  VisibleOperation (slika 3.2.11) oznaÄ�ava metodu klase
- * VisibleClass sa pridruÅ¾enom komponentom korisniÄ�kog interfejsa
- * (dugmetom ili stavkom menija) koja omoguÄ‡ava njeno aktiviranje od strane
- * korisnika.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Stereotype visible operation represents a method of the VisibleClass class
+ * which is connected with a UI component (a button or menu item) which enables
+ * the operation to be activated by the user
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class VisibleOperation extends BusinessProcessModelingSubject implements UmlOperation {
 
 	private static final long serialVersionUID = 1L;
 	
-    /*OBELEÅ½JA METAKLASE OPERATION*/
+	/*METACLASS OPERATION PROPERTIES*/
     protected UmlClass umlClass;
     protected List<UmlType> raisedException;
     protected List<UmlParameter> ownedParameter;
-    /*OBELEÅ½JA METAKLASE TYPEDELEMENT*/
+    /*METACLASS TYPEDELEMENT PROPERTIES*/
     protected UmlType umlType;
-    /*OBELEÅ½JA METAKLASE MULTIPLICITYELEMENT*/
+    /*METALASS MULTIPLICITYELEMENT PROPERTIES*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
@@ -49,7 +44,7 @@ public class VisibleOperation extends BusinessProcessModelingSubject implements 
     }
 
     /***********************************************/
-    /*IMPLEMENTIRANE METODE INTERFEJSA UmlOperation*/
+    /*UmlOperation interface methods*/
     /***********************************************/
     public List<UmlParameter> ownedParameter() {
         //throw new UnsupportedOperationException("Not supported yet.");

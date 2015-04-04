@@ -1,21 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view.painters.components;
 
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Shape;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.components.Panel;
 import kroki.mockup.view.GraphElement;
 import kroki.mockup.view.painters.CompositePainter;
 
 /**
- *
+ * Represents panel painter
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class PanelPainter extends CompositePainter {
 
     public PanelPainter(GraphElement graphElement) {

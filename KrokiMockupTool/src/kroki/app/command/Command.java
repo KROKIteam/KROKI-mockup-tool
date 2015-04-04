@@ -1,11 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 /**
- * Interfejs koji predstavlja komandu. Svaka konkretna implementacija implementira metode undo i redo.
+ * Interface which represents a command. Every implementation has to implement undo and redo methods
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface Command {

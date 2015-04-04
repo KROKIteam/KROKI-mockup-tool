@@ -7,7 +7,14 @@ import javax.swing.AbstractAction;
 import kroki.app.gui.dialog.KrokiMockupToolHelpDialog;
 import kroki.app.utils.StringResource;
 
+/**
+ * Shows help dialog
+ * @author Kroki Team
+ *
+ */
 public class HelpAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public HelpAction() {
 		putValue(NAME, StringResource.getStringResource("action.help.name"));

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.command;
 
 import java.util.ArrayList;
@@ -14,11 +10,15 @@ import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.HierarchyUtil;
+import kroki.profil.utils.UIPropertyUtil;
+import kroki.profil.utils.VisibleClassUtil;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- * Komanda brisanja elementa
+ * Command for removing elements
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  * @author Renata
  */
@@ -57,7 +57,7 @@ public class RemoveCommand implements Command {
 			if (panel == null)
 				panel = (ParentChild)hierarchy.umlClass();
 			currentSuccessors.clear();
-			currentSuccessors = hierarchy.allSuccessors();
+			currentSuccessors = HierarchyUtil.allSuccessors(hierarchy);
 			currentSuccessors.add(0,hierarchy);
 
 			for (Hierarchy h : currentSuccessors)
@@ -92,17 +92,17 @@ public class RemoveCommand implements Command {
 			}
 			elementsGroup = visibleElement.getParentGroup();
 			if (elementsGroup != null) {
-				elementsGroup.removeVisibleElement(visibleElement);
+				ElementsGroupUtil.removeVisibleElement(elementsGroup, visibleElement);
 				elementsGroup.update();
 			}
 			if (visibleClass != null) {
-				visibleClass.removeVisibleElement(visibleElement);
+				UIPropertyUtil.removeVisibleElement(visibleClass, visibleElement);
 				visibleClass.update();
 			}
 			
 			
             if (visibleElement.getComponentType() != null){
-				visibleClass.decrementCount(visibleElement.getComponentType());
+				VisibleClassUtil.decrementCount(visibleClass, visibleElement.getComponentType());
 			}
 		}
 	}
@@ -135,10 +135,10 @@ public class RemoveCommand implements Command {
 			if (visibleClass == null)
 				continue;
 			if (elementsGroup != null) 
-				elementsGroup.addVisibleElement(visibleElement);
+				ElementsGroupUtil.addVisibleElement(elementsGroup, visibleElement);
 
 			if (visibleClass != null) 
-				visibleClass.addVisibleElement(visibleElement);
+				UIPropertyUtil.addVisibleElement(visibleClass, visibleElement);
 		}
 
 
@@ -151,14 +151,14 @@ public class RemoveCommand implements Command {
 			int groupIndex = groupIndexes.get(index ++);
 
 			if (elementsGroup != null) {
-				elementsGroup.removeVisibleElement(visibleElement);
-				elementsGroup.addVisibleElement(groupIndex, visibleElement);
+				ElementsGroupUtil.removeVisibleElement(elementsGroup, visibleElement);
+				ElementsGroupUtil.addVisibleElement(elementsGroup, groupIndex, visibleElement);
 				elementsGroup.update();
 			}
 			
 
             if (visibleElement.getComponentType() != null){
-				visibleClass.incrementCount(visibleElement.getComponentType());
+				VisibleClassUtil.incrementCount(visibleClass, visibleElement.getComponentType());
 			}
 
 		}

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.action;
 
 import java.awt.event.ActionEvent;
@@ -19,12 +15,14 @@ import kroki.app.utils.uml.OperationsUtil;
 import kroki.profil.VisibleElement;
 
 /**
- *
+ * Deletes element
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class DeleteAction extends AbstractAction {
 
-	VisibleElement visibleElement;
+	private static final long serialVersionUID = 1L;
+	
+	private VisibleElement visibleElement;
 
 	public DeleteAction(VisibleElement visibleElement) {
 		this.visibleElement = visibleElement;

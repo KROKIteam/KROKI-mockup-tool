@@ -7,11 +7,16 @@ import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.dialog.DBConnectionPropsDialog;
-import kroki.app.gui.dialog.KrokiMockupToolAboutDialog;
 import kroki.app.utils.StringResource;
 import kroki.profil.subsystem.BussinesSubsystem;
 
+/**
+ * Shows database connection settings dialog 
+ * @author Kroki Team
+ */
 public class DBConneectionSettingsAction extends AbstractAction {
+
+	private static final long serialVersionUID = 1L;
 
 	public DBConneectionSettingsAction() {
 		putValue(NAME, StringResource.getStringResource("action.dbsetting.name"));

@@ -1,33 +1,32 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.io.Serializable;
+
 import kroki.mockup.view.painters.ElementPainter;
 
 /**
- *
+ * Graphical element of the mockup editor
+ * Contains the element painter and other visual properties, such a foreground and background color
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class GraphElement implements Serializable {
 
-    /**Painter grafičkog elementa*/
+    /**The elements painter*/
     protected ElementPainter elementPainter;
-    /**Boja podzadine*/
+    /**Background color*/
     protected Color bgColor = new Color(0, 0, 0, 0);
-    /**Boja teksta, okvira*/
+    /**Text and border color*/
     protected Color fgColor = Color.BLACK;
-    /**Font teksta*/
+    /**Font*/
     protected Font font = new Font("Arial", Font.PLAIN, 13);
-    /**Debljina linije*/
+    /**Stroke width*/
     protected float strokeWidth = 1;
 
     /**
-     * Podrazumevani konstruktor grafičkog elementa.
+     * Default constructor
      */
     public GraphElement() {
     }

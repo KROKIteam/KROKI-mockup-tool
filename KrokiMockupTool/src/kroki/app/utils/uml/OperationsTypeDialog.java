@@ -31,6 +31,10 @@ import org.eclipse.uml2.uml.Operation;
 public class OperationsTypeDialog extends JDialog implements ActionListener{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
 	 * List of components that show the available business operation types for
 	 * the user to choose from.
 	 */

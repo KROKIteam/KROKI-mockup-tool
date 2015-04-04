@@ -817,11 +817,12 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			return;
 		if (this.containedPackages == null)
 			this.containedPackages = new ArrayList<Package>();
-
+		
 		sortedInsertPackage(newGraphEditPackage);
-
+			
 		fireUpdates();
 	}
+	
 
 	public void sortedInsertPackage(Package newGraphEditPackage){
 		for (int i = 0; i < containedPackages.size(); i++){
@@ -832,28 +833,27 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 				break;
 			}
 		}
-
 		if (!this.containedPackages.contains(newGraphEditPackage))
 			this.containedPackages.add(newGraphEditPackage);
 	}
-
-
+	
+	
 	public void sortedInsert(GraphElement newGraphElement){
-
+		
 		for (int i = 0; i < diagramElements.size(); i++){
 			GraphElement el =  diagramElements.get(i);
-
+			
 			if (((String)el.getProperty(GraphElementProperties.NAME)).toLowerCase().compareTo(
 					((String)newGraphElement.getProperty(GraphElementProperties.NAME)).toLowerCase()) > 0){
 				diagramElements.add(i, newGraphElement);
 				break;
 			}
 		}
-
+		
 		if (!this.diagramElements.contains(newGraphElement))
 			this.diagramElements.add(newGraphElement);
 	}
-
+	
 
 	public void removeGraphEditPackage(Package oldGraphEditPackage) {
 		if (oldGraphEditPackage == null)
@@ -1035,14 +1035,14 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 	public void setLayout(boolean layout) {
 		this.layout = layout;
 	}
-
+	
 	public void setConnectorsLoaded(boolean b) {
 		for (Link link : links){
 			link.getSourceConnector().setLoaded(b);
 			link.getDestinationConnector().setLoaded(b);
 		}
 	}
-
+	
 	public void removeLinkNodes(){
 		for (Link link : links){
 			if (link.getNodes().size() > 2){
@@ -1051,5 +1051,6 @@ public class GraphEditModel extends Observable implements Serializable, GraphEdi
 			}
 		}
 	}
+
 
 }

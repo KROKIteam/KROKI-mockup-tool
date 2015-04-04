@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 
@@ -13,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.command.AddCommand;
 import kroki.app.command.Command;
 import kroki.app.command.CommandManager;
 import kroki.app.command.PasteCommand;
@@ -25,12 +20,13 @@ import kroki.app.view.Canvas;
 import kroki.app.view.Handle;
 import kroki.app.view.HandleManager;
 import kroki.profil.VisibleElement;
-import kroki.profil.association.Next;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 /**
- *
+ * Class represent selection state, which is the default state 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class SelectState extends State {
@@ -47,7 +43,7 @@ public class SelectState extends State {
         currentPosition = (Point) e.getPoint().clone();
         Canvas c = context.getTabbedPaneController().getCurrentTabContent();
         VisibleClass visibleClass = c.getVisibleClass();
-        VisibleElement visibleElement = visibleClass.getVisibleElementAtPoint(e.getPoint());
+        VisibleElement visibleElement = VisibleClassUtil.getVisibleElementAtPoint(visibleClass, e.getPoint());
         SelectionModel selectionModel = c.getSelectionModel();
         
         Handle h = null;
@@ -189,7 +185,7 @@ public class SelectState extends State {
 			ElementsGroup temp = (ElementsGroup) selected.get(0);
 			
 			for (VisibleElement el : clipboardElements) {
-				if (!temp.checkIfCanAdd(el)) {
+				if (!ElementsGroupUtil.checkIfCanAdd(temp, el)) {
 					return;
 				}
 			}

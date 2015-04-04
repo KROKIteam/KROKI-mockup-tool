@@ -22,6 +22,8 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.List;
 
+import kroki.api.commons.ApiCommons;
+import kroki.api.enums.OperationType;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
@@ -38,6 +40,10 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.StandardPanelUtil;
+import kroki.profil.utils.UIPropertyUtil;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlNamedElement;
 import kroki.uml_core_basic.UmlOperation;
@@ -78,12 +84,14 @@ public class UIClassElement extends ClassElement{
 
 		if (stereotype == ClassStereotypeUI.STANDARD_PANEL){
 			this.umlClass = new StandardPanel();
+			StandardPanelUtil.defaultGuiSettings((StandardPanel)umlClass);
 			visibleClass = (VisibleClass)umlClass;
 			((StandardPanel)visibleClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
 			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
 		}
 		else{
 			this.umlClass = new ParentChild();
+			ParentChildUtil.defaultGuiSettings((ParentChild)umlClass);
 			visibleClass = (VisibleClass)umlClass;
 			((ParentChild)visibleClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
 		}
@@ -103,10 +111,12 @@ public class UIClassElement extends ClassElement{
 
 		if (element.getProperty(GraphElementProperties.STEREOTYPE).equals("StandardPanel")){
 			umlClass = new StandardPanel();
+			StandardPanelUtil.defaultGuiSettings((StandardPanel)umlClass);
 			((StandardPanel)umlClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
 		}
 		else {
 			umlClass = new ParentChild();
+			ParentChildUtil.defaultGuiSettings((ParentChild)umlClass);
 			((ParentChild)umlClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
 		}
 		visibleClass = (VisibleClass) umlClass;
@@ -127,11 +137,15 @@ public class UIClassElement extends ClassElement{
 	public void formPanel(String name,String tableName, String label, List<VisibleElement> visibleElements, String stereotype){
 		if (stereotype.equals(ClassStereotypeUI.STANDARD_PANEL.toString())){
 			umlClass = new StandardPanel();
+			StandardPanelUtil.defaultGuiSettings((StandardPanel)umlClass);
 			((StandardPanel) umlClass).getPersistentClass().setName(namer.toCamelCase(name, false).trim());
 			((StandardPanel) visibleClass).getPersistentClass().setTableName(tableName);
 		}
-		else if (stereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString()))
+		else if (stereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString())){
 			umlClass = new ParentChild();
+			ParentChildUtil.defaultGuiSettings((ParentChild)umlClass);
+		}
+		
 		visibleClass = (VisibleClass)umlClass;
 		visibleClass.setLabel(label);
 		visibleClass.setName(name);
@@ -142,7 +156,7 @@ public class UIClassElement extends ClassElement{
 			if (element instanceof VisibleAssociationEnd)
 				continue;
 			if (element instanceof UmlProperty)
-				makeVisiblePropertyAt(element.getLabel(), element.isVisible(), element.getComponentType(), visibleClass, -1, -1);
+				ApiCommons.makeVisiblePropertyAt(element.getLabel(), element.isVisible(), element.getComponentType(), visibleClass, -1, -1);
 			else if (element instanceof UmlOperation){
 				String opStereotype;
 				if (element instanceof Transaction)
@@ -270,7 +284,7 @@ public class UIClassElement extends ClassElement{
 		String propLabel = attribute.getName();
 		String type = attribute.getType();
 		ComponentType componentType = getComponentType(type);
-		VisibleProperty prop = makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
+		VisibleProperty prop = ApiCommons.makeVisiblePropertyAt(propLabel, true, componentType, visibleClass, classIndex, groupIndex);
 		prop.setDataType(attribute.getDataType());
 		attribute.setUmlProperty(prop);
 		
@@ -291,52 +305,21 @@ public class UIClassElement extends ClassElement{
 
 
 	public void removeAttribute(int classIndex){
-		removeProperty(classIndex);
+		ApiCommons.removeProperty(visibleClass, classIndex);
 	}
 
 	public void removeMethod(int classIndex){
-		removeOperation(classIndex);
+		ApiCommons.removeOperation(visibleClass, classIndex);
 	}
 
 
 	public VisibleOperation makeVisibleOperation(String label, boolean visible, ComponentType componentType, VisibleClass panel, String operationType, int indexClass, int indexGroup){
-		VisibleOperation operation;
 		if (operationType.equals(MethodStereotypeUI.REPORT.toString()))
-			operation = new Report(label, visible, componentType);
-		else
-			operation = new Transaction(label, visible, componentType);
-		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(operationsGroup);
-		if (indexGroup != -1)
-			gr.addVisibleElement(indexGroup, operation);
-		else
-			gr.addVisibleElement(operation);
-		if (indexClass != -1)
-			panel.addVisibleElement(indexClass, operation);
-		else
-			panel.addVisibleElement(operation);
-		return operation;
+			return ApiCommons.makeVisibleOperation(label, visible, componentType, panel, OperationType.REPORT, indexClass, indexGroup);
+		return ApiCommons.makeVisibleOperation(label, visible, componentType, panel, OperationType.TRANSACTION, indexClass, indexGroup);
 
 	}
 
-	public VisibleProperty makeVisiblePropertyAt(String label, boolean visible, ComponentType type, VisibleClass panel, int indexClass, int indexGroup) {
-		NamingUtil namer = new NamingUtil();
-		ElementsGroup gr = (ElementsGroup) panel.getVisibleElementList().get(propertiesGroup);
-		VisibleProperty property = new VisibleProperty(label, visible, type);	
-		property.setName(label);
-		if(type == ComponentType.TEXT_FIELD) 
-			property.setDataType("String");
-		property.setColumnLabel(namer.toDatabaseFormat(panel.getLabel(), label));
-
-		if (indexGroup != -1)
-			gr.addVisibleElement(indexGroup, property);
-		else
-			gr.addVisibleElement(property);
-		if (indexClass != -1)
-			panel.addVisibleElement(indexClass, property);
-		else
-			panel.addVisibleElement(property);
-		return property;
-	}
 
 	private ComponentType getComponentType(String type){
 		if(type.equalsIgnoreCase("textfield")) {
@@ -355,17 +338,6 @@ public class UIClassElement extends ClassElement{
 		return ComponentType.TEXT_FIELD;
 	}
 
-	private void removeProperty(int classIndex){
-		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-		gr.removeVisibleElement(visibleClass.getVisibleElementAt(classIndex));
-		visibleClass.removeVisibleElement(classIndex);
-	}
-
-	private void removeOperation(int classIndex){
-		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-		gr.removeVisibleElement(visibleClass.getVisibleElementAt(classIndex));
-		visibleClass.removeVisibleElement(classIndex);
-	}
 
 
 	public void changeOperationStereotype(Method method, String newStereotype, int ...args){
@@ -374,7 +346,7 @@ public class UIClassElement extends ClassElement{
 
 		ComponentType componentType = getComponentType(newStereotype);
 		VisibleOperation operation = (VisibleOperation) method.getUmlOperation();
-		removeOperation(classIndex);
+		ApiCommons.removeOperation(visibleClass, classIndex);
 		operation = makeVisibleOperation(operation.getLabel(), true, componentType, visibleClass, newStereotype, classIndex, groupIndex);
 		method.setUmlOperation(operation);
 	}
@@ -386,8 +358,8 @@ public class UIClassElement extends ClassElement{
 
 		ComponentType componentType = getComponentType(newType);
 		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
-		removeProperty(classIndex);
-		VisibleProperty prop = makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
+		ApiCommons.removeProperty(visibleClass, classIndex);
+		VisibleProperty prop = ApiCommons.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 		attribute.setUmlProperty(prop);
 		attribute.setDataType(getDataTypeFor(newType));
 	}
@@ -400,8 +372,8 @@ public class UIClassElement extends ClassElement{
 		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
 		if (!component.equals(attribute.getType())){
 			ComponentType componentType = getComponentType(component);
-			removeProperty(classIndex);
-			VisibleProperty prop = makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
+			ApiCommons.removeProperty(visibleClass, classIndex);
+			VisibleProperty prop = ApiCommons.makeVisiblePropertyAt(property.getLabel(), true, componentType, visibleClass, classIndex, groupIndex);
 			attribute.setUmlProperty(prop);
 			attribute.setType(component);
 		}
@@ -418,11 +390,11 @@ public class UIClassElement extends ClassElement{
 		VisibleProperty property = (VisibleProperty) attribute.getUmlProperty();
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
 
-		gr.removeVisibleElement(property);
-		visibleClass.removeVisibleElement(property);
+		ElementsGroupUtil.removeVisibleElement(gr, property);
+		UIPropertyUtil.removeVisibleElement(visibleClass, property);
 
-		visibleClass.addVisibleElement(classIndex, (VisibleProperty)oldProperty);
-		gr.addVisibleElement(groupIndex, (VisibleProperty)oldProperty);
+		UIPropertyUtil.addVisibleElement(visibleClass, classIndex, (VisibleProperty)oldProperty);
+		ElementsGroupUtil.addVisibleElement(gr, groupIndex, (VisibleProperty)oldProperty);
 		attribute.setUmlProperty(oldProperty);
 	}
 
@@ -433,11 +405,11 @@ public class UIClassElement extends ClassElement{
 		VisibleOperation operation = (VisibleOperation) method.getUmlOperation();
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
 
-		gr.removeVisibleElement(operation);
-		visibleClass.removeVisibleElement(operation);
+		ElementsGroupUtil.removeVisibleElement(gr, operation);
+		UIPropertyUtil.removeVisibleElement(visibleClass, operation);
 
-		visibleClass.addVisibleElement(classIndex, (VisibleOperation)oldOperation);
-		gr.addVisibleElement(groupIndex, (VisibleOperation)oldOperation);
+		UIPropertyUtil.addVisibleElement(visibleClass, classIndex, (VisibleOperation)oldOperation); 
+		ElementsGroupUtil.addVisibleElement(gr, groupIndex, (VisibleOperation)oldOperation);
 		method.setUmlOperation(oldOperation);
 	}
 
@@ -464,7 +436,7 @@ public class UIClassElement extends ClassElement{
 	public int getSourceLinkIndex(Link link){
 		NextZoomElement next = nextMap.get(link.getSourceConnector());
 		if (next == null)
-			return visibleClass.getVisibleElementNum() - 1;
+			return UIPropertyUtil.getVisibleElementNum(visibleClass)  - 1;
 		else 
 			return next.getClassIndex();
 	}
@@ -472,7 +444,7 @@ public class UIClassElement extends ClassElement{
 	public int getDestinationLinkIndex(Link link){
 		NextZoomElement zoom = zoomMap.get(link.getSourceConnector());
 		if (zoom == null)
-			return visibleClass.getVisibleElementNum() - 1;
+			return UIPropertyUtil.getVisibleElementNum(visibleClass)  - 1;
 		else 
 			return zoom.getClassIndex();
 	}
@@ -521,17 +493,17 @@ public class UIClassElement extends ClassElement{
 	public Zoom addZoomElement(String label, UIClassElement targetElement, Connector connector, int classIndex, int groupIndex){
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
 		if (classIndex == -1)
-			classIndex = visibleClass.getVisibleElementNum();
+			classIndex = UIPropertyUtil.getVisibleElementNum(visibleClass);
 		if (groupIndex == -1)
-			groupIndex = gr.getVisibleElementsNum();
+			groupIndex = ElementsGroupUtil.getVisibleElementsNum(gr);
 
 		VisibleProperty property = new VisibleProperty(namer.transformClassName(label), true,  ComponentType.COMBO_BOX);
 		Zoom zoom = new Zoom(property);
 		zoom.setActivationPanel(visibleClass);
 		zoom.setTargetPanel((VisibleClass) targetElement.getUmlType());
 
-		gr.addVisibleElement(groupIndex, zoom);
-		visibleClass.addVisibleElement(classIndex, zoom);
+		ElementsGroupUtil.addVisibleElement(gr, groupIndex, zoom);
+		UIPropertyUtil.addVisibleElement(visibleClass, classIndex, zoom);
 
 		NextZoomElement nextElement = new NextZoomElement(targetElement, classIndex, groupIndex, label, "*", zoom);
 		zoomMap.put(connector, nextElement);
@@ -542,74 +514,49 @@ public class UIClassElement extends ClassElement{
 	public Next addNextElement(String label, UIClassElement targetElement, Connector connector, int classIndex, int groupIndex){
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
 		if (classIndex == -1)
-			classIndex = visibleClass.getVisibleElementNum();
+			classIndex = UIPropertyUtil.getVisibleElementNum(visibleClass);
 		if (groupIndex == -1)
-			groupIndex = gr.getVisibleElementsNum();
+			groupIndex = ElementsGroupUtil.getVisibleElementsNum(gr);
 
 		Next next = new Next(namer.transformClassName(label));
 		next.setTargetPanel((VisibleClass) targetElement.getUmlType());
 		next.setActivationPanel(visibleClass);
-		visibleClass.addVisibleElement(classIndex, next);
-		gr.addVisibleElement(groupIndex, next);
-		NextZoomElement nextElement = new NextZoomElement(targetElement, visibleClass.getVisibleElementNum()-1, gr.getVisibleElementsNum()-1, label, "1..1", next);
+		UIPropertyUtil.addVisibleElement(visibleClass, classIndex, next); 
+		ElementsGroupUtil.addVisibleElement(gr, groupIndex, next);
+		NextZoomElement nextElement = new NextZoomElement(targetElement, UIPropertyUtil.getVisibleElementNum(visibleClass) -1, ElementsGroupUtil.getVisibleElementsNum(gr)-1, label, "1..1", next);
 		nextMap.put(connector, nextElement);
 		return next;
 	}
 
 	public void addNextElement(NextZoomElement next, Connector connector){
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-		visibleClass.addVisibleElement(next.getClassIndex(), next.getVisibleElement());
-		gr.addVisibleElement(next.getGroupIndex(), next.getVisibleElement());
+		UIPropertyUtil.addVisibleElement(visibleClass, next.getClassIndex(), next.getVisibleElement());
+		ElementsGroupUtil.addVisibleElement(gr, next.getGroupIndex(), next.getVisibleElement());
 		nextMap.put(connector, next);
 	}
 
 	public void addZoomElement(NextZoomElement zoom, Connector connector){
 		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-		visibleClass.addVisibleElement(zoom.getClassIndex(), zoom.getVisibleElement());
-		gr.addVisibleElement(zoom.getGroupIndex(), zoom.getVisibleElement());
+		UIPropertyUtil.addVisibleElement(visibleClass, zoom.getClassIndex(), zoom.getVisibleElement());
+		ElementsGroupUtil.addVisibleElement(gr, zoom.getGroupIndex(), zoom.getVisibleElement());
 		zoomMap.put(connector, zoom);
 	}
 
 	public void addHierarchyElement(Connector connector, HierarchyElement hierarchyElement){
 		int level = hierarchyElement.getHierarchy().getLevel();
 		hierarchyMap.put(connector, hierarchyElement);
-		visibleClass.addVisibleElement(hierarchyElement.getHierarchy());
-		hierarchyElement.getHierarchy().getParentGroup().addVisibleElement(hierarchyElement.getHierarchy());
+		UIPropertyUtil.addVisibleElement(visibleClass, hierarchyElement.getHierarchy());
+		ElementsGroupUtil.addVisibleElement(hierarchyElement.getHierarchy().getParentGroup(), hierarchyElement.getHierarchy());
 		hierarchyElement.getHierarchy().setLevel(level);
 	}
 
 
 	public void addHierarchyElement(Hierarchy hierarchy, VisibleClass targetPanel, Connector connector){
-		hierarchy.setActivationPanel(visibleClass);
-		visibleClass.addVisibleElement(hierarchy);
-		hierarchy.setTargetPanel(targetPanel);
 
+		ApiCommons.addHierarchyElement(visibleClass, hierarchy, targetPanel);
+		ElementsGroup gr = hierarchy.getParentGroup();
+		hierarchyMap.put(connector, new HierarchyElement(hierarchy, UIPropertyUtil.getVisibleElementNum(visibleClass) -1, ElementsGroupUtil.getVisibleElementsNum(gr) -1));
 
-		if (!(targetPanel instanceof ParentChild)){
-			List<Hierarchy> possibleParents = ((ParentChild)visibleClass).possibleParents(hierarchy, hierarchy.getLevel() - 1);
-			if (possibleParents != null  && possibleParents.size() >= 1){ 
-				hierarchy.setHierarchyParent(possibleParents.get(0)); //set the first one by default, users can change it in mockup editor
-				hierarchy.setLevel(possibleParents.get(0).getLevel() + 1);
-				List<VisibleAssociationEnd> possibleEnds = ((ParentChild)visibleClass).possibleAssociationEnds(hierarchy);
-				if (possibleEnds != null  && possibleEnds.size() >= 1)
-					hierarchy.setViaAssociationEnd(possibleEnds.get(0));
-			}
-		}
-
-		ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-		gr.addVisibleElement(hierarchy);
-		hierarchyMap.put(connector, new HierarchyElement(hierarchy, visibleClass.getVisibleElementNum()-1, gr.getVisibleElementsNum() -1));
-
-		hierarchy.setParentGroup(gr);
-
-		
-	      //  element.getComponent().setAbsolutePosition(point);
-	        
-		
-
-		gr.update();
-		visibleClass.update();
-		hierarchy.forceUpdateComponent();
 	}
 
 
@@ -764,8 +711,8 @@ public class UIClassElement extends ClassElement{
 		if (!navigable){
 			//izbaci next
 			ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-			gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextEl.getClassIndex()));
-			visibleClass.removeVisibleElement(nextEl.getClassIndex());
+			ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextEl.getClassIndex()));
+			UIPropertyUtil.removeVisibleElement(visibleClass, nextEl.getClassIndex());
 
 			Next next = (Next) nextMap.get(connector).getVisibleElement();
 			if (next.opposite() != null)
@@ -846,8 +793,8 @@ public class UIClassElement extends ClassElement{
 			if (linkEnd == LinkEnd.NEXT){
 				//izbaci zoom
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-				gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
-				visibleClass.removeVisibleElement(nextZoom.getClassIndex());
+				ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
+				UIPropertyUtil.removeVisibleElement(visibleClass, nextZoom.getClassIndex());
 				zoomMap.remove(connector);
 
 				//				label = nextZoom.getLabel();
@@ -868,8 +815,8 @@ public class UIClassElement extends ClassElement{
 				//izbaci next
 				if (nextZoom != null){
 					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-					gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextZoom.getClassIndex()));
-					visibleClass.removeVisibleElement(nextZoom.getClassIndex());
+					ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
+					UIPropertyUtil.removeVisibleElement(visibleClass, nextZoom.getClassIndex());
 					nextMap.remove(connector);
 					//	label = nextZoom.getLabel();
 				}
@@ -947,8 +894,8 @@ public class UIClassElement extends ClassElement{
 				NextZoomElement zoomElement = zoomMap.get(connector);
 				if (visibleClass.getVisibleElementList().contains(zoomElement.getVisibleElement())){
 					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-					gr.removeVisibleElement(visibleClass.getVisibleElementAt(zoomElement.getClassIndex()));
-					visibleClass.removeVisibleElement(zoomElement .getClassIndex());
+					ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, zoomElement.getClassIndex()));
+					UIPropertyUtil.removeVisibleElement(visibleClass, zoomElement .getClassIndex());
 				}
 				zoomMap.remove(connector);
 			}
@@ -957,8 +904,8 @@ public class UIClassElement extends ClassElement{
 				NextZoomElement nextElement = nextMap.get(connector);
 				if (visibleClass.getVisibleElementList().contains(nextElement.getVisibleElement())){
 					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-					gr.removeVisibleElement(visibleClass.getVisibleElementAt(nextElement.getClassIndex()));
-					visibleClass.removeVisibleElement(nextElement.getClassIndex());
+					ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextElement.getClassIndex()));
+					UIPropertyUtil.removeVisibleElement(visibleClass, nextElement.getClassIndex());
 				}
 				nextMap.remove(connector);
 
@@ -1034,23 +981,23 @@ public class UIClassElement extends ClassElement{
 				if (h == null)
 					return;
 				hierarchyMap.remove(connector);
-				visibleClass.removeVisibleElement(h.getHierarchy());
-				h.getHierarchy().getParentGroup().removeVisibleElement(h.getHierarchy());
+				UIPropertyUtil.removeVisibleElement(visibleClass, h.getHierarchy());
+				ElementsGroupUtil.removeVisibleElement(h.getHierarchy().getParentGroup(), h.getHierarchy());
 			}
 		}
 		else{
 			if (source){
 				NextZoomElement next = nextMap.get(link.getSourceConnector());
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-				gr.removeVisibleElement(visibleClass.getVisibleElementAt(next.getClassIndex()));
-				visibleClass.removeVisibleElement(next.getClassIndex());
+				ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, next.getClassIndex()));
+				UIPropertyUtil.removeVisibleElement(visibleClass, next.getClassIndex());
 				nextMap.remove(link.getSourceConnector());
 			}
 			else{
 				NextZoomElement zoom = zoomMap.get(link.getDestinationConnector());
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-				gr.removeVisibleElement(visibleClass.getVisibleElementAt(zoom.getClassIndex()));
-				visibleClass.removeVisibleElement(zoom.getClassIndex());
+				ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, zoom.getClassIndex()));
+				UIPropertyUtil.removeVisibleElement(visibleClass, zoom.getClassIndex());
 			}
 		}
 	}
@@ -1147,6 +1094,36 @@ public class UIClassElement extends ClassElement{
 		return AttributeTypeUI.TEXT_FILED.toString();
 	}
 
+	/**
+	 * args[0] class index
+	 * args[1] group index
+	 * args[2] type - 1 for attributes, 2 for methods
+	 */
+	@Override
+	public void moveElementUp(int... args) {
+		int  classIndex = args[0];
+		int groupIndex = args[1];
+		int type = args[2];
+
+		ApiCommons.moveElementUp(visibleClass, classIndex, groupIndex, type);
+
+	}
+
+	/**
+	 * args[0] class index
+	 * args[1] group index
+	 * args[2] type - 1 for attributes, 2 for methods
+	 */
+	@Override
+	public void moveElementDown(int... args) {
+		int  classIndex = args[0];
+		int groupIndex = args[1];
+		int type = args[2];
+
+		ApiCommons.moveElementDown(visibleClass, classIndex, groupIndex, type);
+
+	}
+	
 
 	public HashMap<Connector, NextZoomElement> getZoomMap() {
 		return zoomMap;
@@ -1193,81 +1170,7 @@ public class UIClassElement extends ClassElement{
 		operation.setLabel(namer.transformClassName(newName));
 	}
 
-	/**
-	 * args[0] class index
-	 * args[1] group index
-	 * args[2] type - 1 for attributes, 2 for methods
-	 */
-	@Override
-	public void moveElementUp(int... args) {
-		int  classIndex = args[0];
-		int groupIndex = args[1];
-		int type = args[2];
 
-		ElementsGroup gr;
-		if (type == 1)
-			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-		else if (type == 2)
-			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-		else 
-			return;
-
-		//izbaci oba i dodaj na suprotne pozicije
-		VisibleElement thisProp = (VisibleElement) gr.getVisibleElementAt(groupIndex);
-		VisibleElement otherProp = (VisibleElement) gr.getVisibleElementAt(groupIndex - 1);
-
-		swapProperties(thisProp, otherProp, groupIndex - 1, groupIndex, classIndex - 1, classIndex, gr);
-
-	}
-
-	@Override
-	public void moveElementDown(int... args) {
-		int  classIndex = args[0];
-		int groupIndex = args[1];
-		int type = args[2];
-
-		ElementsGroup gr;
-		if (type == 1)
-			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-		else if (type == 2)
-			gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-		else 
-			return;
-
-		//izbaci oba i dodaj na suprotne pozicije
-		VisibleElement thisProp = (VisibleElement) gr.getVisibleElementAt(groupIndex);
-		VisibleElement otherProp = (VisibleElement) gr.getVisibleElementAt(groupIndex + 1);
-
-		swapProperties(thisProp, otherProp, groupIndex + 1, groupIndex, classIndex + 1, classIndex, gr);
-
-	}
-
-	private void swapProperties(VisibleElement p1, VisibleElement p2, int firstIndexGr, int secondIndexGr,
-			int firstIndexCl, int secondIndexCl, ElementsGroup gr){
-
-
-		gr.removeVisibleElement(p1);
-		gr.removeVisibleElement(p2);
-		if (firstIndexGr < secondIndexGr){
-			gr.addVisibleElement(firstIndexGr, p1);
-			gr.addVisibleElement(secondIndexGr, p2);
-		}
-		else{
-			gr.addVisibleElement(secondIndexGr, p2);
-			gr.addVisibleElement(firstIndexGr, p1);
-		}
-
-		visibleClass.removeVisibleElement(p1);
-		visibleClass.removeVisibleElement(p2);
-		if (firstIndexCl < secondIndexCl){
-			visibleClass.addVisibleElement(firstIndexCl, p1);
-			visibleClass.addVisibleElement(secondIndexCl, p2);
-		}
-		else{
-			visibleClass.addVisibleElement(secondIndexCl, p2);
-			visibleClass.addVisibleElement(firstIndexCl, p1);
-		}
-	}
 
 	public HashMap<UIClassElement, Integer> getRelationshipsCounterMap() {
 		return relationshipsCounterMap;

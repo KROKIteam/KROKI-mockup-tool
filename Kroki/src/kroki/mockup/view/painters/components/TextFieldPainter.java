@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view.painters.components;
 
 import java.awt.Color;
@@ -12,15 +8,17 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+
 import kroki.mockup.model.Component;
 import kroki.mockup.model.components.TextField;
 import kroki.mockup.view.GraphElement;
 import kroki.mockup.view.painters.ComponentPainter;
 
 /**
- *
+ * Represents text field painter
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class TextFieldPainter extends ComponentPainter {
 
     public TextFieldPainter(GraphElement graphElement) {

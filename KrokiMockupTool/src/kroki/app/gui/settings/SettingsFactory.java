@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.settings;
 
 import java.awt.Component;
@@ -10,17 +6,15 @@ import java.util.EventObject;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.event.UpdateListener;
 import kroki.app.model.SelectionModel;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.utils.settings.Settings;
-import kroki.profil.utils.settings.SettingsCreator;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
- *
+ * Contains methods for constructing settings classes
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class SettingsFactory implements UpdateListener, SettingsCreator {
@@ -51,7 +45,7 @@ public class SettingsFactory implements UpdateListener, SettingsCreator {
 
 		SettingsPanel annotation = visibleElment.getClass().getAnnotation(SettingsPanel.class);
 		if (annotation != null) {
-			Class clazz = annotation.value();
+			Class<?> clazz = annotation.value();
 			Settings settings = null;
 			if (settingsMap.containsKey(clazz.getName())) {
 				settings = settingsMap.get(clazz.getName());

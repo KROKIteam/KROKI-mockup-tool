@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui.dialog;
 
 import java.awt.BorderLayout;
@@ -22,18 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.command.ChangeLayoutCommand;
-import kroki.app.command.CommandManager;
 import kroki.app.utils.StringResource;
-import kroki.app.view.Canvas;
 import kroki.commons.camelcase.NamingUtil;
-import kroki.profil.VisibleElement;
-import kroki.profil.group.ElementsGroup;
-import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ParentChildUtil;
+import kroki.profil.utils.StandardPanelUtil;
 import kroki.uml_core_basic.UmlPackage;
 import net.miginfocom.swing.MigLayout;
 
@@ -43,18 +35,20 @@ import net.miginfocom.swing.MigLayout;
  */
 public class NewFileDialog extends JDialog {
 
-    BussinesSubsystem owner;
-    VisibleClass visibleClass;
-    JPanel content;
-    JPanel action;
-    JButton okBtn;
-    JButton cancelBtn;
-    JLabel nameLbl;
-    JTextField nameTf;
-    JComboBox projectCb;
-    JLabel projectLbl;
-    JLabel fileTypeLbl;
-    JComboBox fileTypeCb;
+	private static final long serialVersionUID = 1L;
+	
+	private BussinesSubsystem owner;
+	private VisibleClass visibleClass;
+	private JPanel content;
+	private JPanel action;
+	private JButton okBtn;
+	private JButton cancelBtn;
+	private JLabel nameLbl;
+	private JTextField nameTf;
+	private JComboBox projectCb;
+	private JLabel projectLbl;
+	private JLabel fileTypeLbl;
+	private JComboBox fileTypeCb;
 
     public enum FileType {
 
@@ -160,8 +154,10 @@ public class NewFileDialog extends JDialog {
         if(cc.checkName(nameTf.getText())) {
         	if (fileTypeCb.getSelectedItem() == FileType.STANDARD_PANEL) {
                 visibleClass = new StandardPanel();
+                StandardPanelUtil.defaultGuiSettings((StandardPanel)visibleClass);
             } else if (fileTypeCb.getSelectedItem() == FileType.PARENT_CHILD_PANEL) {
                 visibleClass = new ParentChild();
+                ParentChildUtil.defaultGuiSettings((ParentChild)visibleClass);
             }
             visibleClass.setLabel(nameTf.getText());
             visibleClass.getComponent().setName(nameTf.getText());

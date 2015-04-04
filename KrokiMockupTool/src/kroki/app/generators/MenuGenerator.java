@@ -24,6 +24,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Generates menu xml file for swing and web applications
+ * @author Kroki Team
+ */
 public class MenuGenerator {
 	
 	//generates menu xml file for swing application based on menu list
@@ -33,7 +37,7 @@ public class MenuGenerator {
 		try {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
-			//korenski element <menus>
+			//root element <menus>
 			Element root = doc.createElement("menus");
 			doc.appendChild(root);
 			
@@ -55,7 +59,7 @@ public class MenuGenerator {
 		try {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 			Document doc = docBuilder.newDocument();
-			//korenski element <menus>
+			//root element <menus>
 			Element root = doc.createElement("menus");
 			doc.appendChild(root);
 			
@@ -101,15 +105,15 @@ public class MenuGenerator {
 	
 	//prints menu tags in menu xml file for swing application
 	public void printSWINGMenu(Menu menu, Document doc, Element root) {
-		//za svaki meni ide <menu> tag
+		//every many contains <menu> tag
 		Element menuEl = doc.createElement("menu");
 		
-		//atribut "name"
+		//attribute "name"
 		Attr nameAttr = doc.createAttribute("name");
 		nameAttr.setValue(menu.getName());
 		menuEl.setAttributeNode(nameAttr);
 		
-		//atribut "label"
+		//attribute "label"
 		Attr labelAttr = doc.createAttribute("label");
 		labelAttr.setValue(menu.getLabel());
 		menuEl.setAttributeNode(labelAttr);
@@ -120,7 +124,7 @@ public class MenuGenerator {
 			for(int i=0; i<menu.getSubmenus().size(); i++) {
 				Submenu sub = menu.getSubmenus().get(i);
 			
-				//za svaki podmeni ide <submenu> tag
+				//every submenu contains <submenu> tag
 				Element subEl = doc.createElement("submenu");
 				
 				//atribut "activate"
@@ -294,7 +298,7 @@ public class MenuGenerator {
 
 			Document doc = docBuilder.newDocument();
 
-			// korenski tag <classes>
+			// root tag <classes>
 			Element resourcesRoot = doc.createElement("menus");
 			doc.appendChild(resourcesRoot);
 			

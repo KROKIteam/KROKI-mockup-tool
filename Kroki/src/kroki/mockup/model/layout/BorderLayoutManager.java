@@ -1,33 +1,32 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.model.layout;
 
 import java.awt.Dimension;
 import java.awt.Point;
+
 import kroki.mockup.model.Insets;
 import kroki.mockup.model.Component;
 import kroki.mockup.model.Composite;
 
 /**
- * Layout manager koji rasporedjuje komponente u gornji, donji, levi, desni i centralni deo kontejnera.
+ * Layout manager which places the contained components in its top, bottom, left, right and cetral part 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class BorderLayoutManager extends LayoutManager {
 
-    /*Konstante koje označavaju u kojem delu kontejnera se nalazi komponenta*/
+	
+    /*Constants which indicate in which part of the container a component will be placed*/
     public static final int NORTH = 1;
     public static final int WEST = 2;
     public static final int CENTER = 3;
     public static final int EAST = 4;
     public static final int SOUTH = 5;
-    /*Komponente*/
-    Component top;
-    Component left;
-    Component right;
-    Component bottom;
-    Component center;
+    /*Components*/
+    private Component top;
+    private Component left;
+    private Component right;
+    private Component bottom;
+    private Component center;
 
     public BorderLayoutManager() {
         super();
@@ -101,7 +100,6 @@ public class BorderLayoutManager extends LayoutManager {
     @Override
     public Dimension preferredLayoutSize(Component c) {
 
-        //TODO: ovo se moze izbaciti. Nije potrebno staviti ovo ograničenje...ukoliko je kompozit prazan da vrati podesenu vrednost.
         if (((Composite) c).getComponentCount() == 0) {
             return c.getDimension();
         }
@@ -151,7 +149,7 @@ public class BorderLayoutManager extends LayoutManager {
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    //GETERI I SETERI
+    //GETTERS AND SETTERS
     public Component getBottom() {
         return bottom;
     }

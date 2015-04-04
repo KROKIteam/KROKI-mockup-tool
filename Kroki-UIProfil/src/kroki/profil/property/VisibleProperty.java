@@ -1,29 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.property;
 
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
-import kroki.profil.utils.settings.SettingsPanel;
-import kroki.profil.utils.settings.VisiblePropertySettings;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;
 
 /**
- * <code>VisibleProperty</code> oznaÄ�ava obeleÅ¾je klase
- * VisibleClass vidljivo u okviru panela dodeljenog klasi
- * putem pridruÅ¾ene komponente korisniÄ�kog interfejsa.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * <code>VisibleProperty</code> represents a visible 
+ * property which is placed on a panel
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(VisiblePropertySettings.class)
 public class VisibleProperty extends VisibleElement implements UmlProperty {
 	
 	private static final long serialVersionUID = 1L;
 
-    /*Obelezja klase VisibleProperty*/
+    /*VisibleProperty metaclass properties*/
     protected String columnLabel;
     protected boolean labelToCode;
     protected String displayFormat;
@@ -35,15 +27,15 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     private int length;
     private int precision;
     private String persistentType;
-    /*Obelezja metaklase Property*/
+    /*Property metaclass properties*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
     protected boolean isReadOnly = false;
     protected UmlProperty opposite = null;
     protected UmlClass umlClass;
-    /*Obelezja metaklase TypedElement*/
+    /*TypedElement metaclass properties*/
     protected UmlType umlType;
-    /*Obelezja metaklase MultiplicityElement*/
+    /*MultiplicityElement metaclass properties*/
     protected boolean isOrdered;
     protected boolean isUnique;
     protected int lower;
@@ -52,7 +44,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     protected String enumeration;
     
     /*****************/
-    /*Konstruktori   */
+    /*Constructors   */
     /*****************/
     public VisibleProperty(String columnLabel, String displayFormat, boolean representative, boolean autoGo, boolean disabled, String defaultValue) {
         this.columnLabel = columnLabel;
@@ -94,7 +86,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     }
 
     /****************************************/
-    /*Operacije nasledjene od uml property-a*/
+    /*UmlProperty interface methods*/
     /****************************************/
     public String getDefault() {
         return defaultValue;
@@ -184,9 +176,9 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.upper = upper;
     }
 
-    /*****************/
-    /*Geteri i seteri*/
-    /*****************/
+    /**********************/
+    /*GETTERS AND SETTERS*/
+    /********************/
     public boolean isAutoGo() {
         return autoGo;
     }

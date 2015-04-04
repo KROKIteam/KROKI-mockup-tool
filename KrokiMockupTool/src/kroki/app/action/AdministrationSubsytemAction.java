@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.exceptions.NoZoomPanelException;
 import kroki.app.utils.ImageResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -22,6 +21,7 @@ import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.VisibleClassUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -29,12 +29,14 @@ import framework.MainFrame;
 import gui.menudesigner.model.Submenu;
 
 /**
- * 
- * @author Bane - Administration Subsystem
+ * Administration Subsystem
+ * @author Bane
  *
  */
 public class AdministrationSubsytemAction extends AbstractAction{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String,String> panelType = new HashMap<String,String>();
 	private NamingUtil cc;
 	
@@ -46,6 +48,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		putValue(SMALL_ICON, smallIcon);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Get selected project from the workspace
@@ -132,6 +135,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 		urDao.save(adminUserRole);	
 	}
 
+	@SuppressWarnings("rawtypes")
 	private boolean compareResources(List<String> sResources) {
 		dao.administration.ResourceHibernateDao rDao = new dao.administration.ResourceHibernateDao();
 		List<ejb.administration.Resource> resources = rDao.findAll();
@@ -209,7 +213,7 @@ public class AdministrationSubsytemAction extends AbstractAction{
 					
 					//add list to contained panels enclosed in square brackets
 					panel_type += "[";
-					for(Hierarchy hierarchy: pcPanel.containedHierarchies()) {
+					for(Hierarchy hierarchy: VisibleClassUtil.containedHierarchies(pcPanel)) {
 						panel_type += cc.toCamelCase(hierarchy.getTargetPanel().getComponent().getName(), false) + ":";
 					}
 					panel_type = panel_type.substring(0, panel_type.length()-1) + "]";

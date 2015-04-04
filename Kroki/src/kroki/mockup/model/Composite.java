@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.mockup.model.border.LineBorder;
 import kroki.mockup.model.layout.BorderLayoutManager;
 import kroki.mockup.model.layout.FlowLayoutManager;
@@ -15,16 +16,18 @@ import kroki.mockup.model.layout.LayoutManager;
 import kroki.mockup.view.painters.CompositePainter;
 
 /**
- * Klasa koja predstavlja kompozitnu komponentu korisniÄ�kog interfejsa. U ovom sluÄ�aju to bi bio Panel.
- * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
+ * Class represents a composite component of the user interface.
+ * In this case, that is a panel
+ * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class Composite extends Component {
 
-    /** Lista komponenti koje ova kompozitna komponenta u sebi sadrÅ¾i*/
+    /** List of component contained by the composite component*/
     private List<Component> childrenList;
-    /** MenadÅ¾er za rasporedjivanje komponenti*/
+    /**Layout manager responsible for arranging the components*/
     protected LayoutManager layoutManager;
-    /**Okvir komponente*/
+    /**Components border*/
     protected Border border;
 
     public Composite(String name) {
@@ -44,13 +47,13 @@ public class Composite extends Component {
     }
 
     /**************/
-    /*JAVNE METODE*/
+    /*PUBLIC METHODS*/
     /**************/
     /**
-     * Dodavanje komponente u kompozitnu strukturu u sluÄ�aju kada je layout manager roditeljske komponente <code>FlowLayoutManager</code> ili <code>FreeLayoutManager</code>
-     * <b>Napomena:</b>
-     * Komponenta {@code child} mora biti razliÄ�ita od roditeljske komponente. Isto tako komponete unutar nekog kompozita se ne smeju ponavljati.
-     * @param child komponenta
+     * Adds component to the composite structure in case when the layout  manager of the paren's component is <code>FlowLayoutManager</code> ili <code>FreeLayoutManager</code>
+     * <b>Additional remark:</b>
+     * Component {@code child} has to be different than the parent component. There can't be two identical component inside one composite pomponent.
+     * @param child component
      */
     public void addChild(Component child) {
         //TODO: Zabrana cirkularnog uvezivanja i ponavljanja.
@@ -67,9 +70,9 @@ public class Composite extends Component {
     }
 
     /**
-     * Dodavanje komponente u kompozitnu strukturu u sluÄ�aju kada je layout manager roditeljske komponente <code>BorderLayoutManager</code>
-     * @param child komponenta
-     * @param layout deo prostora koji komponenta zauzima. NORTH (1), WEST (2), CENTER (3), EAST (4) ili SOUTH (5)
+     * Adds component to the composite structure in case when the layout  manager of the paren's component is  <code>BorderLayoutManager</code>
+     * @param child component
+     * @param layout position. NORTH (1), WEST (2), CENTER (3), EAST (4) ili SOUTH (5)
      */
     public void addChild(Component child, int layout) {
         if (layoutManager instanceof BorderLayoutManager) {
@@ -104,16 +107,16 @@ public class Composite extends Component {
                 addChild(child);
                 ((BorderLayoutManager) layoutManager).setRight(child);
             } else {
-                System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato Å¡to je layout \"" + layout + "\" pogreÅ¡no naznaÄ�en.");
+                System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato Ã…Â¡to je layout \"" + layout + "\" pogreÃ…Â¡no naznaÃ„ï¿½en.");
             }
         } else {
-            System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato Å¡to layout manager komponente nije BorderLayoutManager.");
+            System.err.println("Opercija dodavanja komponente " + child.toString() + " nije uspela zato Ã…Â¡to layout manager komponente nije BorderLayoutManager.");
         }
     }
 
     /**
-     * Brisanje komponente iz liste komponenti.
-     * @param child komponenta koju je potrebno izbaciti iz liste.
+     * Removes a component from the list of components
+     * @param child component to be removed
      */
     public void removeChild(Component child) {
         if (childrenList.contains(child)) {
@@ -122,15 +125,15 @@ public class Composite extends Component {
     }
 
     /**
-     * VraÄ‡a child komponentu sa indexom <code>i</code>
-     * @param i
+     * Returns child component with index <code>i</code>
+     * @param i index
      */
     public Component getComponent(int i) {
         return childrenList.get(i);
     }
 
     /**
-     * VraÄ‡a broj direktno sadrÅ¾anih komponenti.
+     * Return number of directly contained components
      * @return
      */
     public int getComponentCount() {
@@ -138,15 +141,15 @@ public class Composite extends Component {
     }
 
     /**
-     * IzvrÅ¡ava rasporeÄ‘ivanje komponenti unutar kompozitne strukture na osnovu odabranog <code>LayoutManager</code>-a
+     * Lays out components inside the composite structure based on the chosen <code>LayoutManager</code>
      */
     public void layout() {
         layout(this);
     }
 
     /**
-     * IzvrÅ¡ava rasporeÄ‘ivanje komponenti unutar prosleÄ‘ene kompozitne komponente na osnovu odabranog <code>LayoutManager</code>-a
-     * @param c Kompozitna komponenta
+     * Lays out components inside the composite structure based on the chosen <code>LayoutManager</code>
+     * @param c composite component
      */
     public void layout(Composite c) {
         c.getLayoutManager().layoutComponent(c);
@@ -168,9 +171,9 @@ public class Composite extends Component {
     }
 
     /**
-     * Ukoliko se na prosleÄ‘enoj poziciji kursora nalazi odreÄ‘ena komponenta deo sadrÅ¾aja strukture vraÄ‡a tu komponentu u suprotnom vraÄ‡a sebe.
-     * @param point pozicija kursora.
-     * @return
+     * Returns a contained component if it is in cursor's position and the component itself otherwise
+     * @param point cursor's position
+     * @return component at the passed position
      */
     public Component getComponentAt(Point point) {
         for (Component child : childrenList) {
@@ -205,7 +208,7 @@ public class Composite extends Component {
     }
 
     /*****************/
-    /*GETERI I SETERI*/
+    /*GETTERS AND SETTERS/
     /*****************/
     public List<Component> getChildrenList() {
         return childrenList;

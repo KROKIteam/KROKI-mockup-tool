@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.gui;
 
 import java.awt.LayoutManager;
@@ -25,7 +21,7 @@ import kroki.app.action.mockup.TransformToCombozoomAction;
 import net.miginfocom.swing.MigLayout;
 
 /**
- * Klasa koja predstavlja paletu alatki
+ * Class represents a tool palette
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class Palette extends JPanel {

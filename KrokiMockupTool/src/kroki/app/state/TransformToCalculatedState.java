@@ -1,32 +1,31 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.state;
 
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.utils.CursorResource;
 import kroki.app.view.Canvas;
-import kroki.mockup.model.Component;
 import kroki.profil.ComponentType;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.Calculated;
 import kroki.profil.property.VisibleProperty;
+import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.UIPropertyUtil;
+import kroki.profil.utils.VisibleClassUtil;
 
 /**
- *
+ * Class represents a state which allows transformation
+ * of fields into calculated fields
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class TransformToCalculatedState extends State {
 
-    Image addEnabledIcon = CursorResource.getCursorResource("action.transformToCalculated.smallImage");
-    Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
+    private Image addEnabledIcon = CursorResource.getCursorResource("action.transformToCalculated.smallImage");
+    private Image addDisabledIcon = CursorResource.getCursorResource("action.denied.smallImage");
 
     public TransformToCalculatedState(Context context) {
         super(context, "app.state.calculated");
@@ -38,7 +37,7 @@ public class TransformToCalculatedState extends State {
         Canvas c = tabbedPaneController.getCurrentTabContent();
         VisibleClass visibleClass = c.getVisibleClass();
 
-        List<VisibleProperty> visiblePropertyList = visibleClass.containedProperties();
+        List<VisibleProperty> visiblePropertyList = VisibleClassUtil.containedProperties(visibleClass);
         boolean flag = false;
         for (int i = 0; i < visiblePropertyList.size(); i++) {
             VisibleProperty visibleProperty = visiblePropertyList.get(i);
@@ -74,7 +73,7 @@ public class TransformToCalculatedState extends State {
             return;
         }
 
-        List<VisibleProperty> visiblePropertyList = visibleClass.containedProperties();
+        List<VisibleProperty> visiblePropertyList = VisibleClassUtil.containedProperties(visibleClass);
         int index = -1;
         VisibleProperty visibleProperty = null;
         for (int i = 0; i < visiblePropertyList.size(); i++) {
@@ -94,15 +93,15 @@ public class TransformToCalculatedState extends State {
 
         //OVO MORA BITI UNDOABLE I REDO-ABLE
         if (index != -1) {
-            ElementsGroup elg = visibleClass.getElementsGroupAtPoint(e.getPoint());
+            ElementsGroup elg = VisibleClassUtil.getElementsGroupAtPoint(visibleClass, e.getPoint());
             if (elg != null) {
-                int position = elg.indexOf(visibleProperty);
-                elg.removeVisibleElement(visibleProperty);
-                visibleClass.removeVisibleElement(visibleProperty);
+                int position = ElementsGroupUtil.indexOf(elg, visibleProperty);
+                ElementsGroupUtil.removeVisibleElement(elg, visibleProperty);
+                UIPropertyUtil.removeVisibleElement(visibleClass, visibleProperty);
 
                 Calculated calculated = new Calculated(visibleProperty);
-                elg.addVisibleElement(position, calculated);
-                visibleClass.addVisibleElement(calculated);
+                ElementsGroupUtil.addVisibleElement(elg, position, calculated);
+                UIPropertyUtil.addVisibleElement(visibleClass, calculated);
 
                 elg.update();
                 visibleClass.update();

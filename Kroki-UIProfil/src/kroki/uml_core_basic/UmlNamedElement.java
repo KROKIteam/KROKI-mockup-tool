@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.uml_core_basic;
 
 /**
- *
+ * Interface represents UML named element.
+ * Extends UML element and adds name and qualified name.
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface UmlNamedElement extends UmlElement {

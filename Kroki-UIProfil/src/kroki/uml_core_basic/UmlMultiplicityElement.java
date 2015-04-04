@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.uml_core_basic;
 
 /**
- * Definiše kolekciju elemenata i specificira kardinalitet tj. broj elemenata kao i redosled i jedinstvenost elemenata.
+ * Interface represents UML multiplicity element. Defines a collection of elements and specifies
+ * the cardinality i.e. the number of elements, as well as their order and uniqueness 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public interface UmlMultiplicityElement extends UmlElement {

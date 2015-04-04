@@ -3,9 +3,10 @@ package kroki.app.generators.utils;
 import java.util.ArrayList;
 
 /**
- * Klasa koja sluzi za mapiranje perzistentih klasa iz UI profila na klase u freemarker sablonu.
- * Ova klasa sluzi samo kao pomocna klasa za lakse generisanje perzistentnog sloja i nije deo UI profila.
- * @author mrd
+ * Class is used to define mapping of persistent classes of UI profile to a class
+ * inside a freemarker template. Helper class to make generation of persistent layer easier and
+ * is not a part of the UI profile.
+ * @author Milorad Filipović
  */
 public class EJBClass {
 	

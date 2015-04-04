@@ -1,51 +1,37 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.profil.association;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import kroki.common.copy.DeepCopy;
 import kroki.mockup.model.Composite;
 import kroki.mockup.model.components.Button;
 import kroki.mockup.model.components.NullComponent;
 import kroki.profil.ComponentType;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
-import kroki.profil.panel.container.ParentChild;
-import kroki.profil.utils.settings.HierarchySettings;
-import kroki.profil.utils.settings.SettingsPanel;
 
 /**
- * Stereotip  Hierarchy  označava da odredišni panel ima ulogu
- * elementa hijerarhije u okviru “Parent-Child” aktivacionog panela
+ * Stereotype Hierarchy specifies that the target panel is
+ * an element of the hierarchy contained by the activation panel 
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
-@SettingsPanel(HierarchySettings.class)
 public class Hierarchy extends VisibleAssociationEnd {
 
 	private static final long serialVersionUID = 1L;
 	
-	/**Nivo panela u okviru hijerarhije.*/
+	/**Panel's level inside the hierarchy*/
 	private int level;
-	/**Kraj (obeležje) asocijacije preko koga se ostvaruje povezivanje panela*/
+	/**The association end through which panel is connected*/
 	private VisibleAssociationEnd viaAssociationEnd;
 	/**
-	 * Standardni panel na koji se primenjuju tagovi
-	 * dataFilter,  add,  update,  copy,  delete,  search,
-	 * changeMode, dataNavigation, defaultViewMode i
-	 * defaultOperationMode. Ako je definisan, može
-	 * biti ili odredišni panel ili panel koji je sadržan
-	 * (direktno ili indirektno) u okviru odredišnog
-	 * panela.
+	 * Standard panel which tags dataFilter,  add,  update,  copy,  delete,  search,
+	 * changeMode, dataNavigation, defaultViewMode and defaultOperationMode are applied to.
+	 * If it is defined, it can either be a target panel or a panel which is
+	 * directly or indirectly contained by the target panel
 	 */
 	private VisibleClass appliedToPanel;
-	/*POMOCNI ATRIBUTI - NISU DEO UI PROFILA*/
-	/**Roditelj hijerarhije. Na osnovu njega se vrsi odredjivanje viaAssociationEnd, level*/
-	Hierarchy hierarchyParent;
-	/**Ovaj atribut predstavlja klon targetPanela - potreban je za iscrtavanja i prikazivanja promena koje su nastale na njemu*/
+	
+	/*ADDITIONL ATTRIBUTES WHICH ARE NOT PART OF THE PROFILE*/
+	/**Hierarchy parent. Used to determine viaAssociationEnd and level attributes*/ 
+	private Hierarchy hierarchyParent;
+	/**Clone of the target panel - needed to show the panel and changes made to it*/
 	transient private VisibleClass targetPanelClone;
 
 	public Hierarchy(String label, boolean visible, ComponentType componentType) {
@@ -70,63 +56,9 @@ public class Hierarchy extends VisibleAssociationEnd {
 		return ret;
 	}
 
-	public void forceUpdateComponent() {
-
-		int relX = component.getRelativePosition().x;
-		int relY = component.getRelativePosition().y;
-		int absX = component.getAbsolutePosition().x;
-		int absY = component.getAbsolutePosition().y;
-		((Composite) this.getParentGroup().getComponent()).removeChild(component);
-
-		if (targetPanel != null) {
-			//kloniram ceo target panel zbog prikaza!!!
-			targetPanelClone = (VisibleClass) DeepCopy.copy(targetPanel);
-
-			//ukoliko su neke od akcija u targetPanelu zabranjene one se ne mogu ododbriti od strane kraja asocijacije!!!!
-			if (targetPanelClone instanceof StandardPanel) {
-				StandardPanel panel = (StandardPanel)targetPanel;
-				setAdd(panel.isAdd());
-				setChangeMode(panel.isChangeMode());
-				setCopy(panel.isCopy());
-				setDataNavigation(panel.isDataNavigation());
-				setDelete(panel.isDelete());
-				setSearch(panel.isSearch());
-				setUpdate(panel.isUpdate());
-			}
-			this.component = targetPanelClone.getComponent();
-			label = targetPanel.getLabel();
-		}
-		else{
-			label = "Hierarchy";
-			component = new NullComponent(label);
-			targetPanelClone = null;
-		}
-
-
-		this.component.getAbsolutePosition().setLocation(absX, absY);
-		this.component.getRelativePosition().setLocation(relX, relY);
-		((Composite) this.getParentGroup().getComponent()).addChild(component);
-
-
-	}
-
-
-	public List<Hierarchy> allSuccessors(){
-		List<Hierarchy> ret = new ArrayList<Hierarchy>();
-		allSuccessors(ret, this);
-		return ret;
-	}
-
-	public void allSuccessors(List<Hierarchy> ret, Hierarchy hierarchy){
-		List<Hierarchy> childHierarcies = hierarchy.childHierarchies();
-		ret.addAll(childHierarcies);
-		for (Hierarchy h : childHierarcies)
-			allSuccessors(ret, h);
-	}
-
 
 	/************************************************/
-	/*REDEFINISANE METODE OD VISIBLE ASSOCIATION END*/
+	/*VISIBLE ASSOCIATION END METHODS*/
 	/************************************************/
 	@Override
 	public void setAdd(boolean add) {
@@ -237,7 +169,7 @@ public class Hierarchy extends VisibleAssociationEnd {
 	}
 
 	/*****************/
-	/*GETERI I SETERI*/
+	/*GETTERS AND SETTERS*/
 	/*****************/
 	public int getLevel() {
 		return level;
@@ -271,144 +203,7 @@ public class Hierarchy extends VisibleAssociationEnd {
 		this.hierarchyParent = hierarchyParent;
 	}
 
-	public void updateParent(Hierarchy hierarchyParent) {
-		this.hierarchyParent = hierarchyParent;
-		if (hierarchyParent != null) {
-			this.level = this.hierarchyParent.getLevel() + 1;
-			ParentChild panel = (ParentChild) umlClass();
-			List<VisibleAssociationEnd> viaAssociationEnd = panel.possibleAssociationEnds(this);
-			if (viaAssociationEnd != null && viaAssociationEnd.size() == 1)
-				this.viaAssociationEnd = viaAssociationEnd.get(0);
-		}
-		else{
-			this.level = -1;
-			this.viaAssociationEnd = null;
-		}
-	}
-
-	public void updateAppliedTo (VisibleClass newAppliedTo){
-
-		appliedToPanel = newAppliedTo;
-
-		//check children, leave everything as is in cases when child's target panel is linked to neAppliedTo
-		//in other cases, reset hierarchies
-
-		VisibleClass panel;
-		for (Hierarchy h : childHierarchies()){
-			boolean reset = false;
-			if (newAppliedTo != null){
-				panel = h.getTargetPanel();
-				if (panel instanceof ParentChild)
-					panel = h.getAppliedToPanel();
-				Zoom associationEnd = null;
-				boolean contains = false;
-				for (Zoom zoom : panel.containedZooms())
-					if (zoom.getTargetPanel() == newAppliedTo){
-						contains = true;
-						if (associationEnd == null)
-							associationEnd = zoom;
-						else{
-							associationEnd = null;
-							break;
-						}
-					}
-				if (contains){
-					h.setViaAssociationEnd(associationEnd);
-				}
-				else
-					reset = true;
-			}
-			else reset = true;
-
-			if (reset){
-				h.reset();
-				for (Hierarchy child : h.allSuccessors())
-					child.reset();
-			}
-		}
-	}
-
-
-	public void updateTargetPanel(VisibleClass newTarget){
-
-		targetPanel = newTarget;
-
-		//check children, leave everything as is in cases when child's target panel is linked to newTarget
-		//in other cases, reset hierarchies
-
-		VisibleClass panel;
-		for (Hierarchy h : childHierarchies()){
-			boolean reset = false;
-
-			if (newTarget != null && newTarget instanceof StandardPanel){
-				panel = h.getTargetPanel();
-				if (panel instanceof ParentChild)
-					panel = h.getAppliedToPanel();
-				Zoom associationEnd = null;
-				boolean contains = false;
-				for (Zoom zoom : panel.containedZooms())
-					if (zoom.getTargetPanel() == newTarget){
-						contains = true;
-						if (associationEnd == null)
-							associationEnd = zoom;
-						else{
-							associationEnd = null;
-							break;
-						}
-					}
-				if (contains){
-					h.setViaAssociationEnd(associationEnd);
-				}
-				else{
-					reset = true;
-				}
-			}
-			else{
-				reset = true;
-			}
-			if (reset){
-				h.reset();
-				for (Hierarchy child : h.allSuccessors())
-					child.reset();
-			}
-		}
-		if (newTarget == null)
-			reset();
-	}
-
-
-	public void reset(){
-		hierarchyParent = null;
-		level = -1;
-		viaAssociationEnd = null;
-		targetPanel = null;
-		appliedToPanel = null;
-		forceUpdateComponent();
-	}
 	
-	public void changeLevel ( int newLevel){
-		int oldLevel = getLevel();
-		int diff = oldLevel - newLevel;
-
-		level = newLevel;
-		List<Hierarchy> successors = allSuccessors();
-
-		for (Hierarchy h : successors)
-			h.setLevel(h.getLevel() - diff);
-	} 	
-	
-	
-
-	public List<Hierarchy> childHierarchies(){
-		List<Hierarchy> ret = new ArrayList<Hierarchy>();
-		ParentChild panel = (ParentChild)umlClass;
-		for (Hierarchy h : panel.containedHierarchies())
-			if (h.getHierarchyParent() == this)
-				ret.add(h);
-		return ret;
-	}
-
-
 	public VisibleClass getTargetPanelClone() {
 		return targetPanelClone;
 	}

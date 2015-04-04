@@ -1,22 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.mockup.view.painters.components;
 
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+
 import kroki.mockup.model.Insets;
 import kroki.mockup.model.components.TitledContainer;
 import kroki.mockup.view.GraphElement;
 import kroki.mockup.view.painters.CompositePainter;
 
 /**
- *
+ * Represents titled container painter
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
+@SuppressWarnings("serial")
 public class TitledContainerPainter extends CompositePainter {
 
     public TitledContainerPainter(GraphElement graphElement, Shape shape) {

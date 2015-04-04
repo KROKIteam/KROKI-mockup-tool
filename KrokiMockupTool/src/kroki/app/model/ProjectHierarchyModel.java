@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package kroki.app.model;
 
 import javax.swing.JTree;
@@ -14,13 +10,14 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
- *
+ * Tree model used to show workspace content within
+ * a JTree
  * @author Vladan Marsenić (vladan.marsenic@gmail.com)
  */
 public class ProjectHierarchyModel implements TreeModel {
 
-    Workspace workspace;
-    JTree tree;
+    private Workspace workspace;
+    private JTree tree;
 
     public ProjectHierarchyModel(JTree tree, Workspace workspace) {
         this.tree = tree;
