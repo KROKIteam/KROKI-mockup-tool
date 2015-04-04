@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<menus/>
+<menus>
+<menu label="ffff" name="menu0_ffff">
+<submenu activate="fffff_st" label="fffff" panel-type="standard-panel"/>
+</menu>
+</menus>

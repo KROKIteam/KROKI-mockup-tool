@@ -2,5 +2,15 @@
 <menus>
 <menu>
 <roles/>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>ffff</submenu_name>
+<menu_item>
+<menu_name>fffff</menu_name>
+<form_name>fffff</form_name>
+<activate>fffff_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
 </menu>
 </menus>

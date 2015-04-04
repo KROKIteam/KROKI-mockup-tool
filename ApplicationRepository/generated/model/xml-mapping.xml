@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map/>
+<map>
+<property class-name="ejb_generated.Fffff" xml-file="ejb/Fffff"/>
+</map>
