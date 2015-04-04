@@ -1,0 +1,64 @@
+﻿Merge branch 'master' of https://github.com/KROKIteam/KROKI-mockup-tool
+
+Conflicts:
+	Kroki-UIProfil/src/kroki/profil/subsystem/BussinesSubsystem.java
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 14 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   ApplicationRepository/static/gui/web/templates/pages/homepage.html
+#	modified:   ApplicationRepository/static/gui/web/themes/DefaultTheme/css/style.css
+#	modified:   ApplicationRepository/static/gui/web/themes/DefaultTheme/js/page.js
+#	modified:   ApplicationRepository/static/props/main.properties
+#	modified:   GraphEdit/.classpath
+#	modified:   GraphEdit/src/graphedit/layout/AbstractLayouter.java
+#	modified:   GraphEdit/src/graphedit/layout/adding/AddingLayouter.java
+#	modified:   GraphEdit/src/graphedit/model/elements/GraphEditPackage.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/MenuDesignerPanel.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/MenuDialog.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/MenuItemDialog.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/MenuNameDialog.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/MenuSketchDialog.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/model/Menu.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/model/MenuItem.java
+#	modified:   Kroki-Administration/src/gui/menudesigner/model/Submenu.java
+#	new file:   Kroki-Administration/src/gui/menudesigner/tree/MenuHierarchyModel.java
+#	new file:   Kroki-Administration/src/gui/menudesigner/tree/MenuTreeController.java
+#	new file:   Kroki-Administration/src/gui/menudesigner/tree/MenuWorkspace.java
+#	new file:   Kroki-Administration/src/gui/menudesigner/tree/MenusHierarchyModel.java
+#	new file:   Kroki-Administration/src/gui/menudesigner/tree/MenusTreeController.java
+#	new file:   Kroki-Administration/src/gui/menudesigner/tree/MenusWorkspace.java
+#	modified:   Kroki-Administration/src/kroki/generators/MenuGenerator.java
+#	modified:   Kroki-UIProfil/src/kroki/profil/property/VisibleProperty.java
+#	modified:   Kroki-UIProfil/src/kroki/profil/subsystem/BussinesSubsystem.java
+#	modified:   Kroki-UIProfil/src/kroki/profil/utils/settings/VisiblePropertySettings.java
+#	modified:   KrokiMockupTool/src/kroki/app/action/AdministrationSubsytemAction.java
+#	modified:   WebApp/.classpath
+#	modified:   WebApp/lib/freemarker.jar
+#	deleted:    WebApp/src/adapt/core/AdaptApplication.java
+#	modified:   WebApp/src/adapt/core/AdaptMainFrame.java
+#	new file:   WebApp/src/adapt/core/AdaptMainFrameDevelop.java
+#	modified:   WebApp/src/adapt/util/ejb/SchemaGenerator.java
+#	deleted:    WebApp/src/adapt/util/staticnames/PropertiesReader.java
+#	modified:   WebApp/src/adapt/util/xml_readers/MenuReader.java
+#	deleted:    WebApp/src/adapt/util/xml_utils/XMLParserUtils.java
+#	modified:   WebApp/src_gen/adapt/aspects/AdministrationAspect.aj
+#	modified:   WebApp/src_gen/adapt/core/Application.java
+#	modified:   WebApp/src_gen/adapt/resources/ViewResource.java
+#	modified:   WebApp/src_gen/adapt/util/staticnames/Settings.java
+#	modified:   kroki-intl/src/kroki/intl/resources/Intl.properties
+#
+

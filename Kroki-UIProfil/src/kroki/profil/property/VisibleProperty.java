@@ -24,6 +24,9 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     protected boolean disabled;
     protected String defaultValue;
     protected String dataType;
+    private int length;
+    private int precision;
+    private String persistentType;
     /*Property metaclass properties*/
     protected boolean isComposite = false;
     protected boolean isDerived = false;
@@ -248,4 +251,32 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
 	public void setLabelToCode(boolean labelToCode) {
 		this.labelToCode = labelToCode;
 	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public int getPrecision() {
+		return precision;
+	}
+
+	public void setPrecision(int precision) {
+		this.precision = precision;
+	}
+	
+	
+	public String getPersistentType() {
+		return persistentType;
+	}
+
+	public void setPersistentType(String persistentType) {
+		this.persistentType = persistentType;
+	}
+
+	
+	
 }

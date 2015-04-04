@@ -1,12 +1,12 @@
 package kroki.app.model;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import kroki.app.KrokiMockupToolApp;
@@ -48,7 +48,8 @@ public final class Workspace implements Serializable{
 		}
 		packageList.add(element);
 	}
-
+    
+  
 
 	public void saveProjectAs(UmlPackage project){
 		if (!packageList.contains(project))
@@ -59,7 +60,7 @@ public final class Workspace implements Serializable{
 
 			JFileChooser jfc = new JFileChooser();
 			jfc.setSelectedFile(new File(proj.getLabel().replace(" ", "_")));
-			FileFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
 			jfc.setAcceptAllFileFilterUsed(false);
 			jfc.setFileFilter(filter);
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
@@ -101,7 +102,7 @@ public final class Workspace implements Serializable{
 			}else {
 				JFileChooser jfc = new JFileChooser();
 				jfc.setSelectedFile(new File(proj.getLabel().replace(" ", "_")));
-				FileFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("KROKI files", "kroki");
 				jfc.setAcceptAllFileFilterUsed(false);
 				jfc.setFileFilter(filter);
 				int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());

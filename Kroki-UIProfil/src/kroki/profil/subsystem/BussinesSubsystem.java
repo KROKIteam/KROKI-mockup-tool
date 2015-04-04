@@ -32,10 +32,13 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	private File file;
 	/**Graph edit project connected to the project (if the project is at the top of the hierarchy*/
 	private Object graphPackage;
+	/**Path to the exported Eclipse project*/
+	private File eclipseProjectPath; 	
 	/**Menu connected to the project*/
 	private Object menu;
 	/**Indicates if the label is used to set the code*/
 	private boolean labelToCode = true;
+	private String projectDescription;
 
 	public BussinesSubsystem(BussinesSubsystem owner) {
 		super();
@@ -45,6 +48,7 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	public BussinesSubsystem(String label, boolean visible, ComponentType componentType, BussinesSubsystem owner) {
 		super(label, visible, componentType);
 		this.nestingPackage = owner;
+		this.projectDescription = "This application is a prototype generated from KROKI specification. Please log in to continue.";
 	}
 
 	/**************/
@@ -131,7 +135,6 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		 }
 	 }
 
-
 	public List<UmlPackage> nestedPackage() {
 		return nestedPackage;
 	}
@@ -164,8 +167,15 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 		this.file = file;
 	}
 
+	public File getEclipseProjectPath() {
+		return eclipseProjectPath;
+	}
 
+	public void setEclipseProjectPath(File eclipseProjectPath) {
+		this.eclipseProjectPath = eclipseProjectPath;
+	}
 
+	
 
 	@Override
 	public String toString() {
@@ -196,6 +206,13 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	public void setLabelToCode(boolean labelToCode) {
 		this.labelToCode = labelToCode;
 	}
+	
 
+	public String getProjectDescription() {
+		return projectDescription;
+	}
 
+	public void setProjectDescription(String projectDescription) {
+		this.projectDescription = projectDescription;
+	}
 }

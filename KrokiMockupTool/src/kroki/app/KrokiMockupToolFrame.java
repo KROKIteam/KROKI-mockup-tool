@@ -29,13 +29,12 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.commons.io.FileDeleteStrategy;
-
 import kroki.app.action.AboutAction;
 import kroki.app.action.CopyAction;
 import kroki.app.action.CutAction;
 import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
+import kroki.app.action.ExportEclipseProjectAction;
 import kroki.app.action.ExportEclipseUMLDiagramAction;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
@@ -64,6 +63,8 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
+
+import org.apache.commons.io.FileDeleteStrategy;
 
 /**
  * Kroki mockup tool main frame
@@ -160,12 +161,14 @@ public class KrokiMockupToolFrame extends JFrame {
 
 				deleteFiles(tempDir);
 				
+
 				//save projects
 				if (KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount() == 0)
 		    		System.exit(1);
 		    	
 		    	int answer = JOptionPane.showConfirmDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(),
 		    			"Save changes before closing the application?", "?", JOptionPane.YES_NO_CANCEL_OPTION);
+
 		    	if (answer == JOptionPane.NO_OPTION)
 		    		System.exit(1);
 		    	else if (answer == JOptionPane.YES_OPTION){
@@ -182,7 +185,7 @@ public class KrokiMockupToolFrame extends JFrame {
 	 */
 	private void initMainPanel() {
 		mainSplitPane.setDividerSize(2);
-		mainSplitPane.setResizeWeight(0.2f);
+		mainSplitPane.setResizeWeight(0.3f);
 
 		treeTabbedPane = new JTabbedPane();
 		treeTabbedPane.setName("hierarchyTabbedPane");
@@ -328,6 +331,8 @@ public class KrokiMockupToolFrame extends JFrame {
 			export.setText("Export...");
 			export.add(new ExportSwingAction());
 			export.add(new ExportWebAction());
+			export.addSeparator();
+			export.add(new ExportEclipseProjectAction());
 
 			JMenu run = new JMenu();
 			run.setName("run");
@@ -472,7 +477,8 @@ public class KrokiMockupToolFrame extends JFrame {
 				FileDeleteStrategy.FORCE.delete(file);
 				success =  !file.delete();
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
+				//e.printStackTrace();
 			} 
 		}
 		return success;
@@ -585,5 +591,4 @@ public class KrokiMockupToolFrame extends JFrame {
 		public void setPasteAction(PasteAction pasteAction) {
 			this.pasteAction = pasteAction;
 		}
-
 	}

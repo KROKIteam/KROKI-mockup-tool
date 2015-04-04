@@ -6,7 +6,7 @@ import kroki.app.utils.uml.ProgressWorker;
  * Contains a constant used while retrieving stereotypes from a UML profile and a method
  * to output current progress messages of the property name for which the value has been set.  
  * 
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class StereotypeUtil {

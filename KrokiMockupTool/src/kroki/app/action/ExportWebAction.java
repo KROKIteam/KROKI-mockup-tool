@@ -1,5 +1,6 @@
 package kroki.app.action;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
@@ -35,19 +36,28 @@ public class ExportWebAction extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 
 		//find selected project from workspace
-		BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
+		final BussinesSubsystem proj = KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getCurrentProject();
 		
 		if(proj != null) {
 			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
-			JFileChooser jfc = new JFileChooser();
+			final JFileChooser jfc = new JFileChooser();
 			jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
 			if (retValue == JFileChooser.APPROVE_OPTION) {
-				File file = jfc.getSelectedFile();
-				//pass selected project and directory to exporter class
-				ProjectExporter exporter = new ProjectExporter(false);
-				
-				exporter.export(file, proj.getLabel().replace(" ", "_") ,proj, "Project exported successfuly to " + file.getAbsolutePath());
+				Thread exportThread = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+						File file = jfc.getSelectedFile();
+						//pass selected project and directory to exporter class
+						ProjectExporter exporter = new ProjectExporter(false);
+						
+						exporter.export(file, proj.getLabel().replace(" ", "_") ,proj, "Project exported successfuly to " + file.getAbsolutePath());
+					}
+				});
+				exportThread.setPriority(Thread.NORM_PRIORITY);
+				exportThread.start();
+				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			} else {
 				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Export canceled by user.", 0);
 			}

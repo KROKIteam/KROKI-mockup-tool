@@ -19,7 +19,7 @@ import org.eclipse.uml2.uml.Stereotype;
  * Used to check if the stereotypes VisibleAssociationEnd, Zoom, Next, Hierarchy, ElementsGroupProperty and
  * VisibleProperty are set for the UML Property element, and to retrieve values set for the corresponding stereotypes.
  * 
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class PropertyStereotype {

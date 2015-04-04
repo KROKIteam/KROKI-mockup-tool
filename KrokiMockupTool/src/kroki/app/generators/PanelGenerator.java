@@ -365,7 +365,6 @@ public class PanelGenerator {
 							hPanelAssociationEnd.setValue(h.getViaAssociationEnd().name());
 							hPanelTag.setAttributeNode(hPanelAssociationEnd);
 						}
-						
 						pcTag.appendChild(hPanelTag);
 						
 					}

@@ -7,7 +7,7 @@ package kroki.app.utils.uml;
  * the names of UML elements during 
  * import of UML diagram.
  *  
- * @author Zeljko Ivkovic (zekljo89ps@gmail.com)
+ * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *
  */
 public class TextToRemove {

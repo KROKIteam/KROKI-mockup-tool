@@ -250,8 +250,9 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 			if (el.getVisibleElement().equals(testZoom)){
 				//nadji konektor 
 				for (Connector c : loadedClass.getZoomMap().keySet()){
-					if (loadedClass.getZoomMap().get(c) == el)
+					if (loadedClass.getZoomMap().get(c) == el){
 						return c.getLink();
+					}
 				}
 			}
 
@@ -285,8 +286,9 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap,
 			GraphEditPackage loadedElement){
 
-		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
 
+
+		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
 			UIClassElement loadedClass = savedClass(visibleClass, loadedElement);
 
 			for (Zoom zoom : VisibleClassUtil.containedZooms(visibleClass)){
@@ -304,6 +306,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				Link loadedLink = savedLink(zoom, loadedClass);
 				LinkableElement sourceElement = null;
 				LinkableElement destinationElement = null;
+
 
 				//proveri da li je source ili destination shortcut
 
@@ -340,19 +343,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 
-				Point  p1 = new Point(0,0);
-				Point p2 = new Point(200,200);
-				Connector c1 = new Connector(p1, sourceElement);
-				Connector c2 = new Connector(p2, destinationElement);
-				c2.setRepresentedElement(thisElement);
-				c1.setRepresentedElement(targetElement);
+				Connector c1 = null;
+				Connector c2 = null;
 
 				String zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
 				int classIndex = visibleClass.getVisibleElementList().indexOf(zoom);
 				int groupIndex = ((ElementsGroup) visibleClass.getVisibleElementList().get(UIClassElement.STANDARD_PANEL_PROPERTIES)).getVisibleElementList().indexOf(zoom);
 				NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex, zoomLabel,"1..1",zoom);
-				thisElement.getZoomMap().put(c2, zoomElement);
 
 				Integer count = thisElement.getRelationshipsCounterMap().get(targetElement);
 				if (count == null)
@@ -376,8 +374,6 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				}
 
 				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
-				nodes.add(c1);
-				nodes.add(c2);
 				Link link = null;
 
 
@@ -395,19 +391,35 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 				}
 
+				String name = zoomLabel;
+				if (nextLabel != null && !nextLabel.equals(""))
+					name += "_" + nextLabel;
+
 				if (loadedLink == null){
-					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					Point  p1 = new Point(0,0);
+					Point p2 = new Point(200,200);
+					c1 = new Connector(p1, sourceElement);
+					c2 = new Connector(p2, destinationElement);
+					nodes.add(c1);
+					nodes.add(c2);
+
+					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 				}
 				else{
 
+
+					c1 = loadedLink.getSourceConnector();
+					c2 = loadedLink.getDestinationConnector();
+
+
+					Point2D loadedSourcePosition = (Point2D) loadedLink.getSourceConnector().getProperty(LinkNodeProperties.POSITION);
+					Point2D sourcePosition = new Point2D.Double(loadedSourcePosition.getX(), loadedSourcePosition.getY());
+					Point2D loadedDestinationPosition = (Point2D) loadedLink.getDestinationConnector().getProperty(LinkNodeProperties.POSITION);
+					Point2D destinationPosition = new Point2D.Double(loadedDestinationPosition.getX(), loadedDestinationPosition.getY());
+
 					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
 					loadedNodes.addAll(loadedLink.getNodes());
-					Point2D sourcePosition = (Point2D) loadedLink.getNodes().get(0).getProperty(LinkNodeProperties.POSITION);
-					Point2D destinationPosition = (Point2D) loadedLink.getNodes().get(loadedNodes.size() - 1).getProperty(LinkNodeProperties.POSITION);
-					loadedNodes.remove(0);
-					loadedNodes.remove(loadedNodes.size() - 1);
-					loadedNodes.add(0, c1);
-					loadedNodes.add(loadedNodes.size(), c2);
+
 
 					if (diagram.isLayout()){
 						c1.setLoadedPosition(sourcePosition);
@@ -420,15 +432,16 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 						c2.setLoadedPosition(destinationPosition);
 					}
 
+
 					zoomLabel = namer.transformLabelToJavaName(zoom.getLabel());
 
 
 					if (loadedLink instanceof CompositionLink)
-						link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 					else if (loadedLink instanceof AggregationLink)
-						link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name ,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 					else
-						link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel,"",true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
 
 					if (!switchSourceAndDestination){
 						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
@@ -442,9 +455,16 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				}
 
 
+
 				link.setProperty(LinkProperties.STEREOTYPE, "zoom");
+
+				c2.setRepresentedElement(thisElement);
+				c1.setRepresentedElement(targetElement);
+				link.setSourceConnector(c1);
+				link.setDestinationConnector(c2);
 				c1.setLink(link);
 				c2.setLink(link);
+				thisElement.getZoomMap().put(c2, zoomElement);
 
 				sourceElement.addConnectors(link.getSourceConnector());
 				destinationElement.addConnectors(link.getDestinationConnector());
@@ -457,6 +477,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 			}
+
 
 			for (Hierarchy hierarchy : VisibleClassUtil.containedHierarchies(visibleClass)){
 
@@ -505,40 +526,42 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 
-				Point  p1 = new Point(0,0);
-				Point p2 = new Point(200,200);
-				Connector c1 = new Connector(p1, sourceElement);
-				Connector c2 = new Connector(p2, destinationElement);
-				c2.setRepresentedElement(thisElement);
-				c1.setRepresentedElement(targetElement);
+				Connector c1 = null;
+				Connector c2 = null;
 
 
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(1);
 				int classIndex = visibleClass.getVisibleElementList().indexOf(hierarchy);
 				int groupIndex = gr.getVisibleElementList().indexOf(hierarchy);
-				thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
+
 
 
 				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
-				nodes.add(c1);
-				nodes.add(c2);
+
 
 				Link link;
 
-				if (loadedLink == null)
+				if (loadedLink == null){
 					link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, MainFrame.getInstance().incrementLinkCounter());
+					Point  p1 = new Point(0,0);
+					Point p2 = new Point(200,200);
+					c1 = new Connector(p1, sourceElement);
+					c2 = new Connector(p2, destinationElement);
+					nodes.add(c1);
+					nodes.add(c2);
+				}
 				else{
+
+					c1 = loadedLink.getSourceConnector();
+					c2 = loadedLink.getDestinationConnector();
+
+					Point2D loadedSourcePosition = (Point2D) loadedLink.getSourceConnector().getProperty(LinkNodeProperties.POSITION);
+					Point2D sourcePosition = new Point2D.Double(loadedSourcePosition.getX(), loadedSourcePosition.getY());
+					Point2D loadedDestinationPosition = (Point2D) loadedLink.getDestinationConnector().getProperty(LinkNodeProperties.POSITION);
+					Point2D destinationPosition = new Point2D.Double(loadedDestinationPosition.getX(), loadedDestinationPosition.getY());
 
 					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
 					loadedNodes.addAll(loadedLink.getNodes());
-					Point2D sourcePosition = (Point2D) loadedLink.getNodes().get(0).getProperty(LinkNodeProperties.POSITION);
-					Point2D destinationPosition = (Point2D) loadedLink.getNodes().get(loadedNodes.size() - 1).getProperty(LinkNodeProperties.POSITION);
-					loadedNodes.remove(0);
-					loadedNodes.remove(loadedNodes.size() - 1);
-					loadedNodes.add(0, c1);
-					loadedNodes.add(loadedNodes.size(), c2);
-
-					
 
 					if (diagram.isLayout()){
 						c1.setLoadedPosition(sourcePosition);
@@ -572,8 +595,16 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				}
 
 				link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
+
+				c2.setRepresentedElement(thisElement);
+				c1.setRepresentedElement(targetElement);
+				link.setSourceConnector(c1);
+				link.setDestinationConnector(c2);
 				c1.setLink(link);
 				c2.setLink(link);
+				thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
+
+
 
 				sourceElement.addConnectors(link.getSourceConnector());
 				destinationElement.addConnectors(link.getDestinationConnector());
@@ -643,12 +674,12 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		return LayoutUtil.getBestLayoutingStrategy(diagram);
 
 	}
-	
+
 	public GraphEditModel findDiagramContainingElement(GraphElement element){
 		//check if current diagram contains element
 		if (diagram.getAllElements().contains(element))
 			return diagram;
-		
+
 		//check any of subpackages contains diagram with the given element
 		GraphEditModel diag = null;
 		for (GraphEditPackage subPack : subPackages){
@@ -656,7 +687,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 			if (diag != null)
 				break;
 		}
-		
+
 		return diag;
 	}
 

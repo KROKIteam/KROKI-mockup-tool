@@ -4,7 +4,7 @@
 "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <!-- File generated using KROKI DatabaseConfigGenerator class -->
-<!-- Creation time and date: 14.11.2014  11:28 -->
+<!-- Creation time and date: 04.04.2015  19:20 -->
 
 <hibernate-configuration>
   <session-factory>

@@ -20,13 +20,13 @@ public class XMLParser {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			return db.parse(fileName);
 		}catch(ParserConfigurationException pce) {
-			pce.printStackTrace();
+			//pce.printStackTrace();
 			return null;
 		}catch(SAXException se) {
-			se.printStackTrace();
+			//se.printStackTrace();
 			return null;
 		}catch(IOException ioe) {
-			ioe.printStackTrace();
+			//ioe.printStackTrace();
 			return null;
 		}
 	}

@@ -50,6 +50,13 @@ import kroki.profil.utils.UIPropertyUtil;
 public class CommandPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
+	public static int KROKI_RESPONSE = 0;
+	public static int KROKI_USER_ECHO = 1;
+	public static int KROKI_WARNING = 2;
+	public static int KROKI_ERROR = 3;
+	public static int KROKI_FINISHED = 4;
+
 	/**
 	 * TextArea that contains previously entered user commands
 	 * and application output text (not editable)
@@ -227,7 +234,7 @@ public class CommandPanel extends JPanel {
 
 				BussinesSubsystem owner = getOwnerPackage(project);
 				BussinesSubsystem pr = KrokiMockupToolApp.getInstance().findPackage(pack, owner);
-				
+
 				if(pr != null) {
 					return "Package with specified name already exists";
 				}else {
@@ -524,7 +531,7 @@ public class CommandPanel extends JPanel {
 	/**
 	 * Display text in cammand panel text pane
 	 * @param text text that needs to be displayed
-	 * @param type indicates message type (0 - KROKI response, 1 - user echo, 2 - KROKI warning, 3 - KROKI error)
+	 * @param type indicates message type 
 	 */
 	public void displayText(String text, int type) {
 		Date now = new Date();
@@ -536,22 +543,26 @@ public class CommandPanel extends JPanel {
 		previousLines.setCharacterAttributes(set, true);
 		String prefix = "[KROKI] ";
 		switch (type) {
-		case 0:
-			StyleConstants.setForeground(set, Color.blue);
-			prefix = "[" + d + "] ";
-			break;
-		case 1:
-			StyleConstants.setForeground(set, Color.black);
-			prefix = ">> ";
-			break;
-		case 2:
-			StyleConstants.setForeground(set, Color.blue);
-			prefix = "[" + d + "] " + "WARNING: ";
-			break;
-		case 3:
-			StyleConstants.setForeground(set, Color.red);
-			prefix =  "[" + d + "] " + "ERROR: ";
-			break;
+			case 0:
+				StyleConstants.setForeground(set, Color.blue);
+				prefix = "[" + d + "] ";
+				break;
+			case 1:
+				StyleConstants.setForeground(set, Color.black);
+				prefix = ">> ";
+				break;
+			case 2:
+				StyleConstants.setForeground(set, Color.blue);
+				prefix = "[" + d + "] " + "WARNING: ";
+				break;
+			case 3:
+				StyleConstants.setForeground(set, Color.red);
+				prefix =  "[" + d + "] " + "ERROR: ";
+				break;
+			case 4:
+				StyleConstants.setForeground(set, new Color(44,99,49));
+				prefix = "[" + d + "] ";
+				break;
 		}
 		try {
 			document.insertString(document.getLength(), prefix + text + "\n", set);
