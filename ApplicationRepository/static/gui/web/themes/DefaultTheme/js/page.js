@@ -288,7 +288,7 @@
 		//if the form that needs to ne displayed is parent-child form
 		//get containing panels with ajax call to /getInfo/panelName
 		//and get data for each form by envoking standard panel ajax call to server
-		if(panelType == "parent-child") {
+		if(panelType == "PARENTCHILDPANEL") {
 			//get JSON data from server
 			$.getJSON("/getInfo/" + resourceId, function(data) {
 				//Create <div> element for each contained panel
@@ -306,6 +306,13 @@
                     newWindowBody.append(newStandardForm);
                     loadDataToForm(newStandardForm, true, false);
                     updateBounds(newWindowBody);
+
+                    $(".datepicker").datepicker({
+                        changeMonth: true,
+                        changeYear:  true,
+                        dateFormat:  "dd.mm.yy.",
+                        yearRange:   "1900:2100"
+                    });
 
 					var newHeight = (data.panels.length) * 200;
 					if(newHeight < $("#container").height()) {
