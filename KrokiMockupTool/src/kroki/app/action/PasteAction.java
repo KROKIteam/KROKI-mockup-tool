@@ -50,6 +50,7 @@ public class PasteAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		TabbedPaneController tabbedPaneController = KrokiMockupToolApp.getInstance().getTabbedPaneController();
+		
     	if (tabbedPaneController == null)
     		return;
     	
