@@ -60,8 +60,8 @@ public class PasteCommand implements Command {
 
 		for (VisibleElement element : copies.keySet()) {
 			restoreAttributes(copies.get(element), element);
-			UIPropertyUtil.addVisibleElement(visibleClass,classIndex, element);
-			//ElementsGroupUtil.addVisibleElement(elementsGroup, groupIndex, element);
+			element.changeUuid();
+			UIPropertyUtil.addVisibleElement(visibleClass, element);
 
 			if (!cutAction) {
 				element.changeUuid();
@@ -144,13 +144,18 @@ public class PasteCommand implements Command {
 			VisibleAssociationEnd end = (VisibleAssociationEnd) targetEl;
 			end.setTargetPanel(targetPanelsMap.get(keyEl));
 			end.setActivationPanel(visibleClass);
+			end.setUmlClass(visibleClass);
 		}
 
+		
 		if (targetEl instanceof VisibleProperty){
 			VisibleProperty prop = (VisibleProperty) targetEl;
-			if (prop.umlClass() == null)
+			if (prop.umlClass() == null){
 				prop.setUmlClass(visibleClass);
+			}
+			
 		}
+		
 	}
 
 }
