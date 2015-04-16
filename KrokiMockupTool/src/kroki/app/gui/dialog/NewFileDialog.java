@@ -151,6 +151,8 @@ public class NewFileDialog extends JDialog {
         if (nameTf.getText().equals("")) {
             return;
         }
+        if (!(owner instanceof BussinesSubsystem))
+        	owner = (BussinesSubsystem) projectCb.getSelectedItem();
         if(cc.checkName(nameTf.getText())) {
         	if (fileTypeCb.getSelectedItem() == FileType.STANDARD_PANEL) {
                 visibleClass = new StandardPanel();
@@ -171,7 +173,7 @@ public class NewFileDialog extends JDialog {
             }
             visibleClass.update();
             //Dodavanje fajla u paket
-            ((BussinesSubsystem) projectCb.getSelectedItem()).addOwnedType(visibleClass);
+            owner.addOwnedType(visibleClass);
             
             this.dispose();
         }else {
