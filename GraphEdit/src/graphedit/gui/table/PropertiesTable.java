@@ -32,10 +32,10 @@ public class PropertiesTable extends JTable{
 		if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE || 
 				MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED ){
 			if (elementSelected && row==5 && column==1){
-				System.out.println(cbEditor);
 				return cbEditor;
 			}
-			else if (((row == 6 && column == 1) || (row == 7 && column == 1))){
+			else if (((row == 6 && column == 1) || (row == 7 && column == 1) 
+					|| (row == 8 && column == 1) || (row == 9 && column == 1))){
 				return cbCheckEditor;
 			}
 			else

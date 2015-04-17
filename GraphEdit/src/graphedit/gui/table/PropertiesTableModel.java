@@ -146,7 +146,7 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 				}
 			}
 		}
-		
+
 		//Ignore parent-child
 		if (value.equals("Stereotype") && selectionModel.getSelectedLink() == null){
 			return MainFrame.getInstance().getAppMode() != ApplicationMode.USER_INTERFACE_PERSISTENT;
@@ -221,7 +221,9 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 				Command command;
 				Link link = selectionModel.getSelectedLink();
 				if (!otherCardinality.equals(""))
-					command = new ChangeAssociationPropertiesCommand(MainFrame.getInstance().getCurrentView(), (String)value, otherCardinality, (String) link.getProperty(LinkProperties.SOURCE_ROLE),(String) link.getProperty(LinkProperties.DESTINATION_ROLE),true,true, (AssociationLink) link);
+					command = new ChangeAssociationPropertiesCommand(MainFrame.getInstance().getCurrentView(), (String)value, otherCardinality,
+								(String) link.getProperty(LinkProperties.SOURCE_ROLE),(String) link.getProperty(LinkProperties.DESTINATION_ROLE),
+								true,true, (Boolean) link.getProperty(LinkProperties.SHOW_SOURCE_ROLE), (Boolean) link.getProperty(LinkProperties.SHOW_DESTINATION_ROLE), (AssociationLink) link);
 				else
 					command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.SOURCE_CARDINALITY);
 				MainFrame.getInstance().getCommandManager().executeCommand(command);
@@ -241,7 +243,9 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 				Command command;
 				Link link = selectionModel.getSelectedLink();
 				if (!otherCardinality.equals("")){
-					command = new ChangeAssociationPropertiesCommand(MainFrame.getInstance().getCurrentView(), otherCardinality, (String)value,(String) link.getProperty(LinkProperties.SOURCE_ROLE),(String) link.getProperty(LinkProperties.DESTINATION_ROLE),true,true, (AssociationLink) link);
+					command = new ChangeAssociationPropertiesCommand(MainFrame.getInstance().getCurrentView(), otherCardinality, (String)value,(String) link.getProperty(LinkProperties.SOURCE_ROLE),
+								(String) link.getProperty(LinkProperties.DESTINATION_ROLE),true,true, (Boolean) link.getProperty(LinkProperties.SHOW_SOURCE_ROLE), 
+								(Boolean) link.getProperty(LinkProperties.SHOW_DESTINATION_ROLE), (AssociationLink) link);
 				}
 				else
 					command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.DESTINATION_CARDINALITY);
@@ -253,7 +257,15 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 		} else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.DESTINATION_ROLE.toString()))) {
 			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.DESTINATION_ROLE);
 			MainFrame.getInstance().getCommandManager().executeCommand(command);
-		}		
+		}	
+		else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.SHOW_DESTINATION_ROLE.toString()))) {
+			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.SHOW_DESTINATION_ROLE);
+			MainFrame.getInstance().getCommandManager().executeCommand(command);
+		}	
+		else if (getValueAt(rowIndex, 0).equals(NameTransformUtil.transformUppercase(LinkProperties.SHOW_SOURCE_ROLE.toString()))) {
+			ChangeLinkCommand command = new ChangeLinkCommand(MainFrame.getInstance().getCurrentView(), selectionModel.getSelectedLink(), (String)value, LinkProperties.SHOW_SOURCE_ROLE);
+			MainFrame.getInstance().getCommandManager().executeCommand(command);
+		}	
 		fireTableDataChanged();
 	}
 
@@ -280,10 +292,14 @@ public class PropertiesTableModel extends AbstractTableModel implements Observer
 			return 6;
 		else if (key.equals("DESTINATION_NAVIGABLE"))
 			return 7;
+		else if (key.equals("SHOW_SOURCE_ROLE"))
+			return 8;
+		else if (key.equals("SHOW_DESTINATION_ROLE"))
+			return 9;
 		return -1;
 
 	}
-	
+
 
 	/**
 	 * Checks if the cardinality is valid (user interface classes cannot be linked randomly)

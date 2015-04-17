@@ -786,6 +786,9 @@ public class UIClassElement extends ClassElement{
 			nextZoom = nextMap.get(connector);
 			currenLinkEnd = LinkEnd.NEXT;
 		}
+		
+		if (nextZoom == null)
+			return;
 
 		LinkEnd linkEnd = zoomOrNext(newCardinality);
 		if (linkEnd != currenLinkEnd){
@@ -851,6 +854,8 @@ public class UIClassElement extends ClassElement{
 		if (nextZoom == null){
 			nextZoom = nextMap.get(connector);
 		}
+		if (nextZoom == null)
+			return;
 
 		nextZoom.setLabel(newRole);
 		newRole = namer.transformClassName(newRole);

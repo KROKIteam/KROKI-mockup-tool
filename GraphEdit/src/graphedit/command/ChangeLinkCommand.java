@@ -60,6 +60,14 @@ public class ChangeLinkCommand extends Command {
 		case STEREOTYPE : 
 			this.oldName = (String)link.getProperty(LinkProperties.STEREOTYPE);
 			break;
+		case SHOW_DESTINATION_ROLE:
+			this.oldName = (Boolean)link.getProperty(LinkProperties.SHOW_DESTINATION_ROLE);
+			this.newName = 	Boolean.valueOf(newName);
+			break;
+		case SHOW_SOURCE_ROLE:
+			this.oldName = (Boolean)link.getProperty(LinkProperties.SHOW_SOURCE_ROLE);
+			this.newName = 	Boolean.valueOf(newName);
+			break;
 		default : 
 			this.oldName = (String)link.getProperty(LinkProperties.NAME);
 			break;

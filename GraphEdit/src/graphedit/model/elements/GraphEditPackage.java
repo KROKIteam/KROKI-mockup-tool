@@ -360,17 +360,15 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 				Next next = null;
+				NextZoomElement nextElement = null;
 				if (zoom.opposite() != null && zoom.opposite() instanceof Next){
 
 					next = (Next) zoom.opposite();
 					String nextLabel = namer.transformLabelToJavaName(next.getLabel());
 					UIClassElement targetElement2 = allElementsMap.get(visibleClass);
-					UIClassElement thisElement2 = allElementsMap.get(zoom.getTargetPanel());
 					classIndex = zoom.getTargetPanel().getVisibleElementList().indexOf(next);
 					groupIndex = ((ElementsGroup) zoom.getTargetPanel().getVisibleElementList().get(UIClassElement.STANDARD_PANEL_OPERATIONS)).getVisibleElementList().indexOf(next);
-					NextZoomElement nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex, nextLabel,"*",next);
-					thisElement2.getNextMap().put(c1, nextElement);
-
+					nextElement = new NextZoomElement(targetElement2, classIndex, groupIndex, nextLabel,"*",next);
 				}
 
 				ArrayList<LinkNode> nodes = new ArrayList<LinkNode>();
@@ -403,14 +401,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					nodes.add(c1);
 					nodes.add(c2);
 
-					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+					link = new AssociationLink(nodes, "1..1", "*", zoomLabel, nextLabel,name,true,destinationNavigable, true, true, MainFrame.getInstance().incrementLinkCounter());
 				}
 				else{
 
 
 					c1 = loadedLink.getSourceConnector();
 					c2 = loadedLink.getDestinationConnector();
-
+					
 
 					Point2D loadedSourcePosition = (Point2D) loadedLink.getSourceConnector().getProperty(LinkNodeProperties.POSITION);
 					Point2D sourcePosition = new Point2D.Double(loadedSourcePosition.getX(), loadedSourcePosition.getY());
@@ -419,6 +417,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
 					loadedNodes.addAll(loadedLink.getNodes());
+					
+					boolean showSourceRole = true;
+					if (loadedLink.getProperty(LinkProperties.SHOW_SOURCE_ROLE) != null)
+						showSourceRole = (Boolean) loadedLink.getProperty(LinkProperties.SHOW_SOURCE_ROLE);
+					
+					boolean showDestinationRole = true;
+					if (loadedLink.getProperty(LinkProperties.SHOW_DESTINATION_ROLE) != null)
+						showDestinationRole = (Boolean) loadedLink.getProperty(LinkProperties.SHOW_DESTINATION_ROLE);
 
 
 					if (diagram.isLayout()){
@@ -437,11 +443,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 					if (loadedLink instanceof CompositionLink)
-						link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new CompositionLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, showSourceRole, showDestinationRole, MainFrame.getInstance().incrementLinkCounter());
 					else if (loadedLink instanceof AggregationLink)
-						link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name ,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new AggregationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name ,true,destinationNavigable, showSourceRole, showDestinationRole, MainFrame.getInstance().incrementLinkCounter());
 					else
-						link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+						link = new AssociationLink(loadedNodes, "1..1", "*", zoomLabel, nextLabel, name,true,destinationNavigable, showSourceRole, showDestinationRole, MainFrame.getInstance().incrementLinkCounter());
 
 					if (!switchSourceAndDestination){
 						link.setProperty(LinkProperties.DESTINATION_CARDINALITY, loadedLink.getProperty(LinkProperties.DESTINATION_CARDINALITY));
@@ -465,6 +471,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				c1.setLink(link);
 				c2.setLink(link);
 				thisElement.getZoomMap().put(c2, zoomElement);
+				if (nextElement != null)
+					targetElement.getNextMap().put(c1, nextElement);
 
 				sourceElement.addConnectors(link.getSourceConnector());
 				destinationElement.addConnectors(link.getDestinationConnector());
@@ -473,7 +481,6 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
 				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
 				diagram.addLink(link);
-
 
 
 			}
@@ -542,7 +549,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				Link link;
 
 				if (loadedLink == null){
-					link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, MainFrame.getInstance().incrementLinkCounter());
+					link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, true, true, MainFrame.getInstance().incrementLinkCounter());
 					Point  p1 = new Point(0,0);
 					Point p2 = new Point(200,200);
 					c1 = new Connector(p1, sourceElement);
@@ -576,11 +583,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 
 					if (loadedLink instanceof CompositionLink)
-						link = new CompositionLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
+						link = new CompositionLink(loadedNodes, "1..1", "1..1", "", "","",false, true, true, true, MainFrame.getInstance().incrementLinkCounter());
 					else if (loadedLink instanceof AggregationLink)
-						link = new AggregationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
+						link = new AggregationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, true, true, MainFrame.getInstance().incrementLinkCounter());
 					else
-						link = new AssociationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, MainFrame.getInstance().incrementLinkCounter());
+						link = new AssociationLink(loadedNodes, "1..1", "1..1", "", "","",false, true, true, true, MainFrame.getInstance().incrementLinkCounter());
 
 
 					if (!switchSourceAndDestination){

@@ -16,7 +16,8 @@ public class AssociationLink extends Link{
 
 	
 	public AssociationLink(ArrayList<LinkNode> list ,String sourceCardinality, String destinationCardinality, String sourceRole,
-			String destinationRole, String name, boolean sourceNavigable, boolean destinationNavigable, int counter) {
+			String destinationRole, String name, boolean sourceNavigable, boolean destinationNavigable,
+			boolean showSourceRole, boolean showDestinationRole, int counter) {
 		super(list);
 		linkType=LinkType.ASSOCIATION;
 		associationType = AssociationType.REGULAR;
@@ -26,6 +27,8 @@ public class AssociationLink extends Link{
 		properties.set(LinkProperties.DESTINATION_ROLE, destinationRole);
 		properties.set(LinkProperties.SOURCE_NAVIGABLE, sourceNavigable);
 		properties.set(LinkProperties.DESTINATION_NAVIGABLE, destinationNavigable);
+		properties.set(LinkProperties.SHOW_SOURCE_ROLE, showSourceRole);
+		properties.set(LinkProperties.SHOW_DESTINATION_ROLE, showDestinationRole);
 		
 		if (name.equals("")) {
 			properties.set(LinkProperties.NAME, NAME + counter);

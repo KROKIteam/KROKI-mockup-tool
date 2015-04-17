@@ -158,20 +158,22 @@ public class LinkState extends State {
 							}
 							if (associationType==AssociationType.REGULAR){  	
 								link = new AssociationLink(nodes, sourceCardinality, destinationCardinality, "", "", 
-										stereotype,sourceNavigable, destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+										stereotype,sourceNavigable, destinationNavigable, true, true, MainFrame.getInstance().incrementLinkCounter());
 								linkPainter = new AssociationLinkPainter(link);
 							}
 							else if (associationType==AssociationType.AGGREGATION) {
 								link=new AggregationLink(nodes, sourceCardinality, destinationCardinality, "", "",
-										stereotype,sourceNavigable, destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+										stereotype,sourceNavigable, destinationNavigable, true, true, MainFrame.getInstance().incrementLinkCounter());
 								linkPainter = new AggregationLinkPainter(link);	
 							}
 							else if(associationType==AssociationType.COMPOSITION) {
 								link=new CompositionLink(nodes, sourceCardinality, destinationCardinality, "", "", 
-										stereotype,sourceNavigable, destinationNavigable, MainFrame.getInstance().incrementLinkCounter());
+										stereotype,sourceNavigable, destinationNavigable, true, true, MainFrame.getInstance().incrementLinkCounter());
 								linkPainter = new CompositionLinkPainter(link);	
 							}
 							link.setProperty(LinkProperties.STEREOTYPE, stereotype);
+							link.setProperty(LinkProperties.SHOW_DESTINATION_ROLE, true);
+							link.setProperty(LinkProperties.SHOW_SOURCE_ROLE, true);
 						}
 						else if (view.getSelectedTool() == ToolSelected.DEPENDENCY) {
 							link=new DependencyLink(nodes, MainFrame.getInstance().incrementLinkCounter());

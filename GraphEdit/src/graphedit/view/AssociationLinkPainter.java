@@ -44,24 +44,26 @@ public class AssociationLinkPainter extends LinkPainter {
 		String destinationCardinality=(String) ((AssociationLink)link).getProperty(LinkProperties.DESTINATION_CARDINALITY);
 		String sourceRole=(String) ((AssociationLink)link).getProperty(LinkProperties.SOURCE_ROLE);
 		String destinationRole=(String) ((AssociationLink)link).getProperty(LinkProperties.DESTINATION_ROLE);
+		boolean showSourceRole = (Boolean) link.getProperty(LinkProperties.SHOW_SOURCE_ROLE);
+		boolean showDestinationRole = (Boolean) link.getProperty(LinkProperties.SHOW_DESTINATION_ROLE);
 		g.setFont(font);
 		FontMetrics fm=g.getFontMetrics();
 		int mulFactor;
 
 		int width=0;
 		int height=fm.getHeight();
-		int sourceRoleWidth=0;
-		int destinationRoleWidth=0;
-		if (sourceRole!=null )
+		int sourceRoleWidth = 0;
+		int destinationRoleWidth = 0;
+		if (sourceRole != null && showSourceRole)
 			sourceRoleWidth=fm.stringWidth(sourceRole);
-		if (destinationRole!=null)
+		if (destinationRole != null && showDestinationRole)
 			destinationRoleWidth=fm.stringWidth(destinationRole);
 
 		Point2D position;
 
 		if (drawSourceCardinality){
 			width=fm.stringWidth(sourceCardinality);
-			if (sourceRole==null || sourceRole.equals(""))
+			if (sourceRole == null || sourceRole.equals("") || !showSourceRole)
 				mulFactor=0;
 			else 
 				mulFactor=1;
@@ -69,7 +71,7 @@ public class AssociationLinkPainter extends LinkPainter {
 					firstSourceElementPoint,secondSourceElementPoint);
 			if (position!=null)				
 				g.drawString(sourceCardinality,(int) position.getX(), (int)position.getY());
-			if (sourceRole!=null){
+			if (sourceRole!=null && showSourceRole){
 				position=Calculate.getCardinalityPosition(sourceRoleWidth, 2*height,Calculate.SOURCE, link, xDistance,yDistance  , sourceFirstPoint, sourceSecondPoint,
 						firstSourceElementPoint,secondSourceElementPoint);
 				if (position!=null)
@@ -79,7 +81,7 @@ public class AssociationLinkPainter extends LinkPainter {
 
 		if (drawDestinationCardinality){
 			width=fm.stringWidth(destinationCardinality);
-			if (destinationRole==null || destinationRole.equals(""))
+			if (destinationRole==null || destinationRole.equals("") || !showDestinationRole)
 				mulFactor=0;
 			else 
 				mulFactor=1;
@@ -87,7 +89,7 @@ public class AssociationLinkPainter extends LinkPainter {
 					firstDestinationElementPoint,secondDestinationElementPoint);
 			if (position!=null)
 				g.drawString(destinationCardinality,(int) position.getX(), (int)position.getY());
-			if (destinationRole!=null){
+			if (destinationRole!=null && showDestinationRole){
 				position=Calculate.getCardinalityPosition(destinationRoleWidth, 2*height,Calculate.DESTINATION, link, xDistance,yDistance , destinationFirstPoint, destinationSecondPoint,
 						firstDestinationElementPoint,secondDestinationElementPoint);
 				if (position!=null)

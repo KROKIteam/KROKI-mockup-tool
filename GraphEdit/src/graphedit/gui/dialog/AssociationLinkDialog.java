@@ -38,11 +38,11 @@ public class AssociationLinkDialog extends JDialog{
 	private JTextField destinationRoleNameTextField;
 	private JComboBox<String> sourceCardinalityComboBox;
 	private JComboBox<String> destinationCardinalityComboBox;
-	private Dimension labelSize=new Dimension(90,20);
+	private Dimension labelSize=new Dimension(120,20);
 	private String[] possibleCardinality={"0..1","1..1","0..*","1..*","*"};
 	private String sourceCardinality,destinationCardinality,sourceRole,destinationRole;
 	private JRadioButton rbAssociation, rbAggregation,rbComposition;
-	private JCheckBox sourceNavigable, destinationNavigable;
+	private JCheckBox sourceNavigable, destinationNavigable, showSourceRole, showDestinationRole;
 	private AssociationLink.AssociationType associationType;
 	private boolean somethingChanged=false;
 	private boolean createNewLink=false;
@@ -59,49 +59,65 @@ public class AssociationLinkDialog extends JDialog{
 		associationLink=link;
 		JPanel upperPanel = new JPanel();
 		upperPanel.setLayout(new BoxLayout(upperPanel, BoxLayout.Y_AXIS));
-		JPanel sourceDestinationPanel=new JPanel(new GridLayout(1,2));
-		JLabel lblSourceRole=new JLabel("Role name:");
-		JLabel lblDestinationRole=new JLabel("Role name:");
-		JLabel lblType=new JLabel("Type:");
+		JPanel sourceDestinationPanel = new JPanel(new GridLayout(1,2));
+		JLabel lblSourceRole = new JLabel("Role name:");
+		JLabel lblDestinationRole = new JLabel("Role name:");
+		
+		JLabel lblType = new JLabel("Type:");
 		lblType.setPreferredSize(labelSize);
 		lblSourceRole.setPreferredSize(labelSize);
 		lblDestinationRole.setPreferredSize(labelSize);
-		JLabel lblSourceCarinality=new JLabel("Cardinality:");
+		JLabel lblSourceCarinality = new JLabel("Cardinality:");
 		lblSourceCarinality.setPreferredSize(labelSize);
-		JLabel lblDestinationCarinality=new JLabel("Cardinality:");
+		JLabel lblDestinationCarinality = new JLabel("Cardinality:");
 		lblDestinationCarinality.setPreferredSize(labelSize);
-		rbAggregation=new JRadioButton();
-		rbAssociation=new JRadioButton();
-		rbComposition=new JRadioButton();
-		JLabel lblSourceNavigable=new JLabel("Navigable:");
-		JLabel lblDestinationNavigable=new JLabel("Navigable:");
+		rbAggregation = new JRadioButton();
+		rbAssociation = new JRadioButton();
+		rbComposition = new JRadioButton();
+		
+		JLabel lblSourceNavigable = new JLabel("Navigable:");
+		JLabel lblDestinationNavigable = new JLabel("Navigable:");
 		lblSourceNavigable.setPreferredSize(labelSize);
 		lblDestinationNavigable.setPreferredSize(labelSize);
-		sourceNavigable=new JCheckBox();
-		destinationNavigable=new JCheckBox();
+		sourceNavigable = new JCheckBox();
+		destinationNavigable = new JCheckBox();
 		sourceNavigable.setSelected((Boolean) link.getProperty(LinkProperties.SOURCE_NAVIGABLE));
 		destinationNavigable.setSelected ((Boolean) link.getProperty(LinkProperties.DESTINATION_NAVIGABLE));
+		
+		JLabel lblShowSourceRole = new JLabel("Show source role:");
+		lblShowSourceRole.setPreferredSize(labelSize);
+		showSourceRole = new JCheckBox();
+		showSourceRole.setSelected((Boolean) link.getProperty(LinkProperties.SHOW_SOURCE_ROLE));
+		
+		JLabel lblShowDestinationRole = new JLabel("Show destination role:");
+		lblShowDestinationRole.setPreferredSize(labelSize);
+		showDestinationRole = new JCheckBox();
+		showDestinationRole.setSelected((Boolean) link.getProperty(LinkProperties.SHOW_DESTINATION_ROLE));
 
 		//source panel
 
-		JPanel sourcePanel=new JPanel(new GridLayout(3,1));
-		JPanel panel1=new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel sourcePanel = new JPanel(new GridLayout(4,1));
+		JPanel panel1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel1.add(lblSourceRole);
-		sourceRoleNameTextField=new JTextField(10);
+		sourceRoleNameTextField = new JTextField(10);
 		sourceRoleNameTextField.setText((String)link.getProperty(LinkProperties.SOURCE_ROLE));
 		panel1.add(sourceRoleNameTextField);
 		sourcePanel.add(panel1);	
-		JPanel panel2=new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel2.add(lblSourceCarinality);
-		sourceCardinalityComboBox=new JComboBox<String>(possibleCardinality);
+		sourceCardinalityComboBox = new JComboBox<String>(possibleCardinality);
 		sourceCardinalityComboBox.setSelectedItem(link.getProperty(LinkProperties.SOURCE_CARDINALITY));
 		panel2.add(sourceCardinalityComboBox);
 		sourcePanel.add(panel2);
-		JPanel panel5=new  JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel5 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel5.add(lblSourceNavigable);
 		panel5.add(sourceNavigable);
 		sourcePanel.add(panel5);
-
+		JPanel panel7 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panel7.add(lblShowSourceRole);
+		panel7.add(showSourceRole);
+		sourcePanel.add(panel7);
+		
 		TitledBorder sourceBorder=(new TitledBorder(new EtchedBorder(),"Source"));
 		sourceBorder.setTitleColor(Color.BLUE);
 		sourcePanel.setBorder(sourceBorder);
@@ -110,7 +126,7 @@ public class AssociationLinkDialog extends JDialog{
 
 		//destination panel 
 
-		JPanel destinationPanel =new JPanel(new GridLayout(3,1));
+		JPanel destinationPanel =new JPanel(new GridLayout(4,1));
 		JPanel panel3=new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panel3.add(lblDestinationRole);
 		destinationRoleNameTextField=new JTextField(10);
@@ -127,6 +143,10 @@ public class AssociationLinkDialog extends JDialog{
 		panel6.add(lblDestinationNavigable);
 		panel6.add(destinationNavigable);
 		destinationPanel.add(panel6);
+		JPanel panel8 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panel8.add(lblShowDestinationRole);
+		panel8.add(showDestinationRole);
+		destinationPanel.add(panel8);
 
 
 		TitledBorder destinationBorder=(new TitledBorder(new EtchedBorder(),"Destination"));
@@ -211,8 +231,11 @@ public class AssociationLinkDialog extends JDialog{
 						|| !destinationRole.equals((String)associationLink.getProperty(LinkProperties.DESTINATION_ROLE))
 						||!sourceRole.equals((String)associationLink.getProperty(LinkProperties.SOURCE_ROLE)))
 					somethingChanged=true;
-				else if (((Boolean) associationLink.getProperty(LinkProperties.DESTINATION_NAVIGABLE))!=isDestinationNavigable()
-						||((Boolean) associationLink.getProperty(LinkProperties.SOURCE_NAVIGABLE))!=isSourceNavigable())
+				else if (((Boolean) associationLink.getProperty(LinkProperties.DESTINATION_NAVIGABLE)) != isDestinationNavigable()
+						||((Boolean) associationLink.getProperty(LinkProperties.SOURCE_NAVIGABLE)) != isSourceNavigable())
+					somethingChanged=true;
+				else if (((Boolean) associationLink.getProperty(LinkProperties.SHOW_DESTINATION_ROLE)) != isShowDestinationRole()
+						||((Boolean) associationLink.getProperty(LinkProperties.SHOW_SOURCE_ROLE)) != isShowSourceRole())
 					somethingChanged=true;
 				setVisible(false);	
 			}		
@@ -268,6 +291,14 @@ public class AssociationLinkDialog extends JDialog{
 	}
 	public boolean isDestinationNavigable(){
 		return destinationNavigable.isSelected();
+	}
+	
+	public boolean isShowSourceRole(){
+		return showSourceRole.isSelected();
+	}
+	
+	public boolean isShowDestinationRole(){
+		return showDestinationRole.isSelected();
 	}
 
 }
