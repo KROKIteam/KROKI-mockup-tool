@@ -1,71 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
-	<classpathentry kind="src" path="/Kroki-UIProfil">
-		<attributes>
-			<attribute name="org.eclipse.ajdt.inpath" value="org.eclipse.ajdt.inpath"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
-	<classpathentry kind="lib" path="lib/ant.jar"/>
-	<classpathentry kind="lib" path="lib/batik-anim.jar"/>
-	<classpathentry kind="lib" path="lib/batik-awt-util.jar"/>
-	<classpathentry kind="lib" path="lib/batik-bridge.jar"/>
-	<classpathentry kind="lib" path="lib/batik-codec.jar"/>
-	<classpathentry kind="lib" path="lib/batik-css.jar"/>
-	<classpathentry kind="lib" path="lib/batik-dom.jar"/>
-	<classpathentry kind="lib" path="lib/batik-ext.jar"/>
-	<classpathentry kind="lib" path="lib/batik-gvt.jar"/>
-	<classpathentry kind="lib" path="lib/batik-parser.jar"/>
-	<classpathentry kind="lib" path="lib/batik-rasterizer.jar"/>
-	<classpathentry kind="lib" path="lib/batik-script.jar"/>
-	<classpathentry kind="lib" path="lib/batik-slideshow.jar"/>
-	<classpathentry kind="lib" path="lib/batik-squiggle.jar"/>
-	<classpathentry kind="lib" path="lib/batik-svg-dom.jar"/>
-	<classpathentry kind="lib" path="lib/batik-svgpp.jar"/>
-	<classpathentry kind="lib" path="lib/batik-swing.jar"/>
-	<classpathentry kind="lib" path="lib/batik-transcoder.jar"/>
-	<classpathentry kind="lib" path="lib/batik-ttf2svg.jar"/>
-	<classpathentry kind="lib" path="lib/batik-util.jar"/>
-	<classpathentry kind="lib" path="lib/batik-xml.jar"/>
-	<classpathentry kind="lib" path="lib/batik.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.6-javadoc.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.6-sources.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="lib/commons.io-1.4.0.jar"/>
-	<classpathentry kind="lib" path="lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
-	<classpathentry kind="lib" path="lib/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/JTattoo.jar"/>
-	<classpathentry kind="lib" path="lib/jtds-1.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/miglayout-4.0.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.7-bin.jar"/>
-	<classpathentry kind="lib" path="lib/plantuml.jar"/>
-	<classpathentry kind="lib" path="lib/postgresql-9.2-1002.jdbc4.jar"/>
-	<classpathentry kind="lib" path="lib/xml-apis-ext.jar"/>
-	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="lib/xstream-1.3.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/GraphEdit"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.emf.common_2.9.0.v20130528-0742.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.emf.ecore_2.9.0.v20130528-0742.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.emf.ecore.xmi_2.9.0.v20130528-0742.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.emf.mapping.ecore2xml_2.7.0.v20130610-0406.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.common_1.8.0.v20130610-0712.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.types_1.1.0.v20130610-0712.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml_4.1.0.v20130610-0712.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.profile.l2_1.1.0.v20130610-0712.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.profile.l3_1.1.0.v20130610-0712.jar"/>
-	<classpathentry kind="lib" path="libECore/org.eclipse.uml2.uml.resources_4.1.0.v20130610-0712.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BusinessProcessModelingTool"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-Administration"/>
-	<classpathentry kind="lib" path="lib/h2-1.3.175.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-core-4.2.8.Final.jar"/>
+	<classpathentry exported="true" kind="src" path="/Kroki-UIProfil"/>
+	<classpathentry exported="true" kind="src" path="/Kroki-API"/>
+	<classpathentry exported="true" kind="src" path="/kroki-commons"/>
+	<classpathentry exported="true" kind="src" path="/BusinessProcessModelingTool"/>
+	<classpathentry exported="true" kind="src" path="/Kroki"/>
+	<classpathentry exported="true" kind="src" path="/Kroki-Administration"/>
+	<classpathentry exported="true" kind="src" path="/kroki-intl"/>
+	<classpathentry exported="true" kind="src" path="/GraphEdit"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-launcher/1.8.4/22f1e0c32a2bfc8edd45520db176bac98cebbbfe/ant-launcher-1.8.4.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant-launcher/1.8.4/8b60137ab0e210cf12b27f8e006362761cea3122/ant-launcher-1.8.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant/1.8.4/8acff3fb57e74bc062d4675d9dcfaffa0d524972/ant-1.8.4.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.ant/ant/1.8.4/537740c84824c3bf2fd4ed752d2a33a1051fde71/ant-1.8.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.7/a45dd2ff8e4ecd56a4fc64dc668b53bee90bf601/batik-anim-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-anim/1.7/6e9a3bb5941cdbbf80fa6a66d9b20f30851525cd/batik-anim-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-awt-util/1.6/590750cc8d6a1ba0189b437172b6444578d79c99/batik-awt-util-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-bridge/1.6/d03af50f4387453b9f89f4acfe45314bb200a3fe/batik-bridge-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-codec/1.7/1046222352e6060063aa5bf6d3cdf0094d504b73/batik-codec-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-codec/1.7/7eae1858bcbbee75555238f48a873bcce55a7f70/batik-codec-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-css/1.6/9433ba160f0b7ca6640f750decebd99fe98dacd3/batik-css-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-dom/1.6/27983405f0871f28d3b9ab35b44e62610a60564a/batik-dom-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-ext/1.6/7f6ad5c298de4f24b9a104b721e86798f5e2216c/batik-ext-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-gvt/1.6/c70cd8ffb8f88862e5d7dc39692b6f65f5258956/batik-gvt-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-parser/1.6/c1c2441c96f28f95f920173f13b547e0fd745810/batik-parser-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-rasterizer/1.6/1ac6b05f8b7b92a26f3ca6430cba646fc522f625/batik-rasterizer-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-script/1.6/9d33b244d93374ed0fce7fb53fe44aae13f8676f/batik-script-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-slideshow/1.6/a91f9cdeee0791ff8204893a8be663aeb599ad43/batik-slideshow-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-squiggle/1.6/41f1ecb064607e43bd6eb481f8d013700bd97047/batik-squiggle-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-svg-dom/1.6/99c4c49c1852b62396fc0c9777d48c0e03f1dc74/batik-svg-dom-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-svgpp/1.6/1be49d404fa8bd13fa799128d64bc198dc1eb6f6/batik-svgpp-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-swing/1.6/44a94adf33af331cf8d8988fcea5eb2df583d389/batik-swing-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-transcoder/1.6/81b243ba7091c186c4454728d356493ddf69ad96/batik-transcoder-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-ttf2svg/1.6/4acd0271b3427ca84fe4a90f9a08c98750f3852f/batik-ttf2svg-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-util/1.6/7bea0185bb630bca235ffa904b1a03e8a4786a45/batik-util-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-xml/1.6/4f2c18a0d41b8804e6fd24f183a567b41c928ed0/batik-xml-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/1.4/a8762d07e76cfde2395257a5da47ba7c1dbd3dce/commons-io-1.4.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/1.4/48753e43ff29409fbbeadfb36186cbe27e41b179/commons-io-1.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-entitymanager/3.4.0.GA/99bed0ac69346305e30652f57e30c62a5874c41b/hibernate-entitymanager-3.4.0.GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-entitymanager/3.4.0.GA/b84e37c407e19e38d8f0e602fc5468528f54ad8f/hibernate-entitymanager-3.4.0.GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-tools/3.2.4.GA/5167885c43c522f9850c60d0209e9341dd48feb6/hibernate-tools-3.2.4.GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.geronimo.specs/geronimo-jta_1.1_spec/1.1/fe8d9046737540d728e4b82cf26dcdd8bf4b0eb1/geronimo-jta_1.1_spec-1.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.geronimo.specs/geronimo-jta_1.1_spec/1.1/1068f7bb97afc27b92be277a8c1a2c25e9a1196d/geronimo-jta_1.1_spec-1.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.jtattoo/JTattoo/1.6.8/6dac3e4f739e05e1ad2beb0fa9128a7828fdaef8/JTattoo-1.6.8.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.jtattoo/JTattoo/1.6.8/7471ecc9cec54853ccefdd23635b9781c782e179/JTattoo-1.6.8-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sourceforge.jtds/jtds/1.3.0/15fd02c22684ed5ccb56ab6d413b14a1dc34a439/jtds-1.3.0.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sourceforge.jtds/jtds/1.3.0/626f3357741fbece370170ef25e9fd5bf955aea7/jtds-1.3.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/mysql/mysql-connector-java/5.0.7/54b41d552efb594143cca6129863f606a1e907f9/mysql-connector-java-5.0.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sourceforge.plantuml/plantuml/6085/4037925e003919f6f99264520e7bae02c2b5a796/plantuml-6085.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sourceforge.plantuml/plantuml/6085/c545a584ab0b43cb4b6604c9838f1c95a3c9d36f/plantuml-6085-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jumpmind.symmetric.jdbc/postgresql/9.2-1002-jdbc4/65b528162f7cf20b4d44bc31a446724e217ba35b/postgresql-9.2-1002-jdbc4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis-ext/1.3.04/41a8b86b358e87f3f13cf46069721719105aff66/xml-apis-ext-1.3.04.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-swing/4.2/ca85067488e79a2078ba4eb8e2617653e9172388/miglayout-swing-4.2.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-swing/4.2/3d0273d83f46f87a2b0adc76ff13cd550da6e463/miglayout-swing-4.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/ce1edb914c94ebc388f086c6827e8bdeec71ac2/commons-lang-2.6.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/67313d715fbf0ea4fd0bdb69217fb77f807a8ce5/commons-lang-2.6-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.freemarker/freemarker/2.3.20/5ad6bea46b5af666d88c260c8acc6a03408723c8/freemarker-2.3.20.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.freemarker/freemarker/2.3.20/ed2c6f2a00062d3ddf8d86870a047e50a5355e65/freemarker-2.3.20-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/4.2.8.Final/74cda028acebed94d08d095b66f37f8e978d8402/hibernate-core-4.2.8.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/4.2.8.Final/861c98130b1bcbfa6a7023b8365c7847d68e028a/hibernate-core-4.2.8.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.h2database/h2/1.3.175/408ed316edddbce6db031c6bdceee73a09647d9e/h2-1.3.175.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.h2database/h2/1.3.175/fc4555925945f7fb3153a4ca3d94d34d3f33b713/h2-1.3.175-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.emf.common_2.9.0.v20130528-0742.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.emf.ecore_2.9.0.v20130528-0742.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.emf.ecore.xmi_2.9.0.v20130528-0742.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.emf.mapping.ecore2xml_2.7.0.v20130610-0406.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.uml2.common_1.8.0.v20130610-0712.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.uml2.types_1.1.0.v20130610-0712.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.uml2.uml_4.1.0.v20130610-0712.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.uml2.uml.profile.l2_1.1.0.v20130610-0712.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.uml2.uml.profile.l3_1.1.0.v20130610-0712.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/KrokiMockupTool/libECore/org.eclipse.uml2.uml.resources_4.1.0.v20130610-0712.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/1.0.1.Final/3306a165afa81938fc3d8a0948e891de9f6b192b/hibernate-jpa-2.0-api-1.0.1.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/1.0.1.Final/574f65373b46a038332eb1a14acc3142bd9e9810/hibernate-jpa-2.0-api-1.0.1.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.7/67605a29d49bf33f3c1d7832f490b0a007e7a6e2/batik-awt-util-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-awt-util/1.7/2751d8094c99ebea4d50ff1212e3c1a969419686/batik-awt-util-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.7/710d559bd1df52581b57b75a99ed5fd2e2918bb7/batik-dom-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-dom/1.7/f66c990758819bba3a4ea49c2743f5c75048c375/batik-dom-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.7/4784302b44a0336166fef6153a5e3d73e861aecc/batik-ext-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-ext/1.7/bded7f9534af5c38942cf121dbe8eb94e057dff8/batik-ext-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.7/5d756cc4f6bf891793e6c7590773859c33a8609f/batik-parser-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-parser/1.7/d2c06365410f5a4753177b20534dff8c8eddd765/batik-parser-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.7/5b3b1fea480fabbd3e0c44540af25b9fda0587ae/batik-svg-dom-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svg-dom/1.7/df8eb3213cbaadc2b3e83f4895d25ffa8d506559/batik-svg-dom-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.7/5c4dd0dd9a86a2fba2c6ea26fb62b32b21b2a61e/batik-util-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-util/1.7/28ac07bbaa13129054ec351a2884fb24fc2d8ce5/batik-util-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.7/8e0cde3830e0f17704cd392b0a09b13944987a51/batik-bridge-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-bridge/1.7/ef9bc1e707edf51ba2f073444b16028698aff618/batik-bridge-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.7/aa2eb6300cb50bbb9dbf52daf7d625aa0df1d930/batik-transcoder-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-transcoder/1.7/244ca20448a1b1df34a9bd3e496fe1cbca1122c2/batik-transcoder-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xerces/xercesImpl/2.5.0/c0468bac6d11a07ffc69506003cfedc0ce54e172/xercesImpl-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xml-apis/xmlParserAPIs/2.0.2/d745687ae17671f6709c050e491b16530767d997/xmlParserAPIs-2.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-gui-util/1.6/4891720f542bac354d72f259ec930cab7329d1f8/batik-gui-util-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/rhino/js/1.5R4.1/34ff484c95379a96bff6cc57989239748a1efbf2/js-1.5R4.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/rhino/js/1.5R4.1/81f4ecd9b59077dbdb9828f062476b624384e154/js-1.5R4.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/batik/batik-svggen/1.6/983914d5e27957145e34b55ad7f48df96eb6d280/batik-svggen-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/ejb3-persistence/1.0.2.GA/be6483b6ed60a15588f54f91c25a09c745df0760/ejb3-persistence-1.0.2.GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/ejb3-persistence/1.0.2.GA/653e73df771a0c38dbed3e6081c0fce7900a0a72/ejb3-persistence-1.0.2.GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-commons-annotations/3.1.0.GA/d4cada41969292a73f98eaa676e0695cef2f8ca9/hibernate-commons-annotations-3.1.0.GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-commons-annotations/3.1.0.GA/faaebce0943425b8c57f08988b682c47fafefab7/hibernate-commons-annotations-3.1.0.GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-annotations/3.4.0.GA/c4975772be5d9ec713bf475cf3315aad83b9046/hibernate-annotations-3.4.0.GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-annotations/3.4.0.GA/7fc93a468b912e2f70fb34ee4943de2f8b0709e1/hibernate-annotations-3.4.0.GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.4.2/61fce919969d134a4fa2ba4fd5bf151ea63fce13/slf4j-api-1.4.2.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.4.2/f47b9e7a737ec8f94a55807f06ad61befae61f0d/slf4j-api-1.4.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/dom4j/dom4j/1.6.1/5d3ccc056b6f056dbf0dddfdf43894b9065a8f94/dom4j-1.6.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/dom4j/dom4j/1.6.1/a8e7149359255f43e0e5e3b1837948f9ed5861fb/dom4j-1.6.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/javax.transaction/jta/1.1/2ca09f0b36ca7d71b762e14ea2ff09d5eac57558/jta-1.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/javax.transaction/jta/1.1/d5dad66d06246bd2e1e369cebff27faa9beb065a/jta-1.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/javassist/javassist/3.4.GA/4dff02ca7696982700b8db25433289364cc028ff/javassist-3.4.GA.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.beanshell/bsh/2.0b4/a05f0a0feefa8d8467ac80e16e7de071489f0d9c/bsh-2.0b4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/freemarker/freemarker/2.3.8/bd85907738405c8f89e1fe19f62b7a0246717d6b/freemarker-2.3.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/jtidy/r8-20060801/788e89775eeaa0f4e77742ec8336c75b7cff6146/jtidy-r8-20060801.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-core/4.2/70f2bfa2a077ee1632cc8229deffa1d942825c78/miglayout-core-4.2.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-core/4.2/4e5b8b17d6c2921d400faa89d33b769adeb222a4/miglayout-core-4.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/5043bfebc3db072ed80fbd362e7caf00e885d8ae/commons-logging-1.1.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/f3f156cbff0e0fb0d64bfce31a352cce4a33bc19/commons-logging-1.1.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.7/e6bb5c85753331534593f33fb9236acb41a0ab79/batik-css-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-css/1.7/ce2824ad096d54e5153f780a92fa7b3c6766d698/batik-css-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.7/17e3da8bd9d4a131350a7835f5cc0d93ba199c89/batik-xml-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-xml/1.7/4bb75c2ad0c12923f3dc6ba770ded49c39a9c62f/batik-xml-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xalan/xalan/2.6.0/5b010b70e16d540dcb737caa09da1034ea721704/xalan-2.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.7/3d315e60d72c761c52946b4acaa4b86239ef938/batik-gvt-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-gvt/1.7/5c185c51f72e89298155a09306abbeda852ab750/batik-gvt-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.7/4ea7906724bfefc1fca3e5b28229a458523e1fbf/batik-script-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-script/1.7/3c9b3488562172ec9a2c4634e61733cb0ef8fc4c/batik-script-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/fop/0.94/d37ddd876ae66910f73235c71d3ab3f0c85a2b87/fop-0.94.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.7/baa58d0f5bfd2a28142e222cee126eb71bd0a938/batik-svggen-1.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-svggen/1.7/8c2e94ed78f03b7fe773dddb500fbf8df0b12193/batik-svggen-1.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/batik-js/1.7/688eb1bf13b7a54491fcb3405068fc5092589884/batik-js-1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.xmlgraphics/xmlgraphics-commons/1.2/95b325b99d52725661da9db187e6e9a2b0764a27/xmlgraphics-commons-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.avalon.framework/avalon-framework-api/4.3.1/2dacadeb49bc14420990b1f28897d46f96e2181d/avalon-framework-api-4.3.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.avalon.framework/avalon-framework-api/4.3.1/5c04230666be057c5a3ad1558575fc9a886fc1b6/avalon-framework-api-4.3.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.avalon.framework/avalon-framework-impl/4.3.1/2d5f5a07fd14513ce6d7a7bfaff69419c26dbd0b/avalon-framework-impl-4.3.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.avalon.framework/avalon-framework-impl/4.3.1/9f779f9b35461a7767a54bc835d21bd2a97ad6e/avalon-framework-impl-4.3.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/bce3282142b63068260f021fcbe48b72e8d71a1a/xstream-1.4.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/5db922f39e8bd8af65d4c4a9471fd94771e273d7/xstream-1.4.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xmlpull/xmlpull/1.1.3.1/2b8e230d2ab644e4ecaa94db7cdedbc40c805dfa/xmlpull-1.1.3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/19d4e90b43059058f6e056f794f0ea4030d60b86/xpp3_min-1.1.4c.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/fffe25ec1f20ec1cfdc0edd41c6e0d55bc0dbaf5/xpp3_min-1.1.4c-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/2.0.2/3136ca936f64c9d68529f048c2618bd356bf85c9/xml-apis-2.0.2.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/2.0.2/281e2df846eaa47a60cd74e0513195b1d140bf1c/xml-apis-2.0.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/antlr/antlr/2.7.7/83cd2cd674a217ade95a4bb83a8a14f351f48bd0/antlr-2.7.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.1.0.GA/c71f2856e7b60efe485db39b37a31811e6c84365/jboss-logging-3.1.0.GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.1.0.GA/119d7007b7459ddfd016fc0977b9a07f53d24b3d/jboss-logging-3.1.0.GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.18.1-GA/d9a09f7732226af26bf99f19e2cffe0ae219db5b/javassist-3.18.1-GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.18.1-GA/d8d089f3a8845cce22d3006e02ab1403dd73b5b6/javassist-3.18.1-GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.spec.javax.transaction/jboss-transaction-api_1.1_spec/1.0.1.Final/18f0e1d42f010a8b53aa447bf274a706d5148852/jboss-transaction-api_1.1_spec-1.0.1.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.spec.javax.transaction/jboss-transaction-api_1.1_spec/1.0.1.Final/1cb80abf6f58f6091944060d50b1dbad050d1962/jboss-transaction-api_1.1_spec-1.0.1.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.common/hibernate-commons-annotations/4.0.2.Final/94edcc5572efb02e123cc9ef7ad7d0fa5f76cf/hibernate-commons-annotations-4.0.2.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.common/hibernate-commons-annotations/4.0.2.Final/7ff871e9a45b6b271237cf236c76e5f50b1dc815/hibernate-commons-annotations-4.0.2.Final-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-API"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="libs/xstream-1.3.1.jar"/>
-	<classpathentry kind="lib" path="libs/org.abego.treelayout.core.jar"/>
-	<classpathentry kind="lib" path="libs/miglayout-3.7.3.1-swing.jar"/>
-	<classpathentry kind="lib" path="libs/xpp3-1.1.3_8.jar"/>
-	<classpathentry kind="lib" path="libs/JungLayouting/jung-algorithms-2.0.1.jar"/>
-	<classpathentry kind="lib" path="libs/JungLayouting/jung-api-2.0.1.jar"/>
-	<classpathentry kind="lib" path="libs/JungLayouting/jung-graph-impl-2.0.1.jar"/>
-	<classpathentry kind="lib" path="libs/JungLayouting/jung-visualization-2.0.1.jar"/>
-	<classpathentry kind="lib" path="libs/JungLayouting/collections-generic-4.01.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-UIProfil"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-API"/>
+	<classpathentry exported="true" kind="src" path="/Kroki-UIProfil"/>
+	<classpathentry exported="true" kind="src" path="/Kroki-API"/>
+	<classpathentry exported="true" kind="src" path="/kroki-commons"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout/3.7.3.1/fdaed39500802908c0d8aabd235f1e98d8a262b3/miglayout-3.7.3.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout/3.7.3.1/720babbf1f1a5d97b5e45379708aca16e9fe5ad1/miglayout-3.7.3.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3/1.1.4c/9b988ea84b9e4e9f1874e390ce099b8ac12cfff5/xpp3-1.1.4c.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3/1.1.4c/8dd0ddee19fe6ed0182b18e0e621d1c8b4d8d56/xpp3-1.1.4c-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.abego.treelayout/org.abego.treelayout.core/1.0.2/1e69c68a550233b24eac80a93f796e1a62116071/org.abego.treelayout.core-1.0.2.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.abego.treelayout/org.abego.treelayout.core/1.0.2/b101ecd715049aac6d4d3710571f3539a03aad34/org.abego.treelayout.core-1.0.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-graph-impl/2.0.1/37e4cbe198ca7ffd2238ebfee8c5d84d6d79e1c2/jung-graph-impl-2.0.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-graph-impl/2.0.1/6eaa5925da4cd168e963a6457f2cb6d506a71f17/jung-graph-impl-2.0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-algorithms/2.0.1/bc6983fcf65c451eedd5080795ef481fcf84b509/jung-algorithms-2.0.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-algorithms/2.0.1/3679645e0461f6d6c12b8d5fcf3675c734cc4869/jung-algorithms-2.0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-api/2.0.1/843d5ccb44dd310ed0e36cb9b776baa0391515a2/jung-api-2.0.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-api/2.0.1/1f78ba8327cca424da56a4439253b8ceccf873ff/jung-api-2.0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-visualization/2.0.1/128430bd695571135c038c86541fc21129416584/jung-visualization-2.0.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sf.jung/jung-visualization/2.0.1/f46d3ddf0fa1a24d5e2174de8a52bd0497964702/jung-visualization-2.0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sourceforge.collections/collections-generic/4.01/12dddecd8e8c24f5c9453a6d3ecb13b38e59db52/collections-generic-4.01.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/net.sourceforge.collections/collections-generic/4.01/55fb1e0d2f4ab06573df4df6d9ecf5e7a10aa2d6/collections-generic-4.01-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/19d4e90b43059058f6e056f794f0ea4030d60b86/xpp3_min-1.1.4c.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/fffe25ec1f20ec1cfdc0edd41c6e0d55bc0dbaf5/xpp3_min-1.1.4c-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/colt/colt/1.2.0/abc984f3adc760684d49e0f11ddf167ba516d4f/colt-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/concurrent/concurrent/1.3.4/1cf394c2a388199db550cda311174a4c6a7d117c/concurrent-1.3.4.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/concurrent/concurrent/1.3.4/7d346fa001db7f4dfec2d97a2e17091dc4d77a1d/concurrent-1.3.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/bce3282142b63068260f021fcbe48b72e8d71a1a/xstream-1.4.7.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/5db922f39e8bd8af65d4c4a9471fd94771e273d7/xstream-1.4.7-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xmlpull/xmlpull/1.1.3.1/2b8e230d2ab644e4ecaa94db7cdedbc40c805dfa/xmlpull-1.1.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

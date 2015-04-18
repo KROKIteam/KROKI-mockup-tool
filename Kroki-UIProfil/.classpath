@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/beans-binding/beansbinding-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.6-javadoc.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.6-sources.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
-	<classpathentry kind="lib" path="lib/junit_4/junit-4.5-src.jar"/>
-	<classpathentry kind="lib" path="lib/junit_4/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/junit/junit-3.8.2.jar"/>
-	<classpathentry kind="lib" path="lib/miglayout-4.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kroki"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BusinessProcessModelingTool"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="/Kroki" exported="true"/>
+	<classpathentry kind="src" path="/kroki-commons" exported="true"/>
+	<classpathentry kind="src" path="/kroki-intl" exported="true"/>
+	<classpathentry kind="src" path="/BusinessProcessModelingTool" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-swing/4.2/3d0273d83f46f87a2b0adc76ff13cd550da6e463/miglayout-swing-4.2-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-swing/4.2/ca85067488e79a2078ba4eb8e2617653e9172388/miglayout-swing-4.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/junit/junit/4.5/72176579bfb4b1dc795cd2bd2d6943b8285729d8/junit-4.5-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/junit/junit/4.5/7059d3d3bedc1fca9b33cde8503095b3576a0bba/junit-4.5.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/67313d715fbf0ea4fd0bdb69217fb77f807a8ce5/commons-lang-2.6-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-lang/commons-lang/2.6/ce1edb914c94ebc388f086c6827e8bdeec71ac2/commons-lang-2.6.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jdesktop/beansbinding/1.2.1/5a34143743fc23e24b27e7cb7042ff0fb710a69b/beansbinding-1.2.1.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-core/4.2/4e5b8b17d6c2921d400faa89d33b769adeb222a4/miglayout-core-4.2-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-core/4.2/70f2bfa2a077ee1632cc8229deffa1d942825c78/miglayout-core-4.2.jar" exported="true"/>
 </classpath>

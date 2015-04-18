@@ -2,11 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src-test"/>
-	<classpathentry kind="lib" path="lib/miglayout-4.0.jar"/>
-	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/xpp3_min-1.1.4c.jar"/>
-	<classpathentry kind="lib" path="lib/xstream-1.4.7.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-swing/4.2/3d0273d83f46f87a2b0adc76ff13cd550da6e463/miglayout-swing-4.2-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-swing/4.2/ca85067488e79a2078ba4eb8e2617653e9172388/miglayout-swing-4.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/junit/junit/4.5/72176579bfb4b1dc795cd2bd2d6943b8285729d8/junit-4.5-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/junit/junit/4.5/7059d3d3bedc1fca9b33cde8503095b3576a0bba/junit-4.5.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3/1.1.4c/8dd0ddee19fe6ed0182b18e0e621d1c8b4d8d56/xpp3-1.1.4c-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3/1.1.4c/9b988ea84b9e4e9f1874e390ce099b8ac12cfff5/xpp3-1.1.4c.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/5db922f39e8bd8af65d4c4a9471fd94771e273d7/xstream-1.4.7-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/bce3282142b63068260f021fcbe48b72e8d71a1a/xstream-1.4.7.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-core/4.2/4e5b8b17d6c2921d400faa89d33b769adeb222a4/miglayout-core-4.2-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.miglayout/miglayout-core/4.2/70f2bfa2a077ee1632cc8229deffa1d942825c78/miglayout-core-4.2.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xmlpull/xmlpull/1.1.3.1/2b8e230d2ab644e4ecaa94db7cdedbc40c805dfa/xmlpull-1.1.3.1.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/fffe25ec1f20ec1cfdc0edd41c6e0d55bc0dbaf5/xpp3_min-1.1.4c-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/xpp3/xpp3_min/1.1.4c/19d4e90b43059058f6e056f794f0ea4030d60b86/xpp3_min-1.1.4c.jar" exported="true"/>
 </classpath>

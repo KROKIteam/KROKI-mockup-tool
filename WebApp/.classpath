@@ -4,22 +4,21 @@
 	<classpathentry kind="src" path="src_manual"/>
 	<classpathentry kind="src" path="etc"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.5/39a8ff2d1f79267907f5573c090b342b040b9682/aspectjrt-1.8.5.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.aspectj/aspectjrt/1.8.5/7500c952e086db06028c248cf0de0a0f5fe55275/aspectjrt-1.8.5-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.h2database/h2/1.3.170/7200aeef0a3c6889d049f4d8f6f26266721ccc48/h2-1.3.170.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/com.h2database/h2/1.3.170/a8fecbe1d6903b28ae5dc7ced26de327ba5bb7fb/h2-1.3.170-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/1.0.1.Final/3306a165afa81938fc3d8a0948e891de9f6b192b/hibernate-jpa-2.0-api-1.0.1.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/1.0.1.Final/574f65373b46a038332eb1a14acc3142bd9e9810/hibernate-jpa-2.0-api-1.0.1.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.1/761ea405b9b37ced573d2df0d1e3a4e0f9edc668/commons-collections-3.2.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/commons-collections/commons-collections/3.2.1/fa095ef874374e5b2a11f8b06c26a5d68c7cb3a4/commons-collections-3.2.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.freemarker/freemarker/2.3.20/5ad6bea46b5af666d88c260c8acc6a03408723c8/freemarker-2.3.20.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.freemarker/freemarker/2.3.20/ed2c6f2a00062d3ddf8d86870a047e50a5355e65/freemarker-2.3.20-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/4.2.8.Final/74cda028acebed94d08d095b66f37f8e978d8402/hibernate-core-4.2.8.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-core/4.2.8.Final/861c98130b1bcbfa6a7023b8365c7847d68e028a/hibernate-core-4.2.8.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.servicemix.bundles/org.apache.servicemix.bundles.restlet/1.1.10_3/2e080ef08c82bf98256947bfd2ae9c2eea769beb/org.apache.servicemix.bundles.restlet-1.1.10_3.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.apache.servicemix.bundles/org.apache.servicemix.bundles.restlet/1.1.10_3/6b5ea1dd03e94096faba8ac835b3f6f35bcbf503/org.apache.servicemix.bundles.restlet-1.1.10_3-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.1.0.GA/c71f2856e7b60efe485db39b37a31811e6c84365/jboss-logging-3.1.0.GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.logging/jboss-logging/3.1.0.GA/119d7007b7459ddfd016fc0977b9a07f53d24b3d/jboss-logging-3.1.0.GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/dom4j/dom4j/1.6.1/5d3ccc056b6f056dbf0dddfdf43894b9065a8f94/dom4j-1.6.1.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/dom4j/dom4j/1.6.1/a8e7149359255f43e0e5e3b1837948f9ed5861fb/dom4j-1.6.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.spec.javax.transaction/jboss-transaction-api_1.1_spec/1.0.1.Final/18f0e1d42f010a8b53aa447bf274a706d5148852/jboss-transaction-api_1.1_spec-1.0.1.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jboss.spec.javax.transaction/jboss-transaction-api_1.1_spec/1.0.1.Final/1cb80abf6f58f6091944060d50b1dbad050d1962/jboss-transaction-api_1.1_spec-1.0.1.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.common/hibernate-commons-annotations/4.0.2.Final/94edcc5572efb02e123cc9ef7ad7d0fa5f76cf/hibernate-commons-annotations-4.0.2.Final.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.hibernate.common/hibernate-commons-annotations/4.0.2.Final/7ff871e9a45b6b271237cf236c76e5f50b1dc815/hibernate-commons-annotations-4.0.2.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/antlr/antlr/2.7.7/83cd2cd674a217ade95a4bb83a8a14f351f48bd0/antlr-2.7.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.18.1-GA/d9a09f7732226af26bf99f19e2cffe0ae219db5b/javassist-3.18.1-GA.jar" sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.javassist/javassist/3.18.1-GA/d8d089f3a8845cce22d3006e02ab1403dd73b5b6/javassist-3.18.1-GA-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="G:/repositories/KROKI-mockup-tool/WebApp/lib/org.restlet.ext.freemarker_2.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/com.noelios.restlet.jar"/>
-	<classpathentry kind="lib" path="lib/org.restlet.jar"/>
-	<classpathentry kind="lib" path="lib/org.restlet.ext.freemarker_2.3.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-entitymanager.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate-tools.jar"/>
-	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="lib/h2-1.3.170.jar"/>
-	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.7.2.jar"/>
-	<classpathentry kind="lib" path="lib/javassist.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="lib/aspectjtools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

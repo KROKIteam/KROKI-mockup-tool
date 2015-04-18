@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
-	<classpathentry kind="lib" path="lib/junit_4/junit-4.5-src.jar"/>
-	<classpathentry kind="lib" path="lib/junit_4/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/junit/junit-3.8.2.jar"/>
-	<classpathentry kind="lib" path="lib/swing-app-framework/appframework-1.0.3.jar"/>
-	<classpathentry kind="lib" path="lib/swing-app-framework/swing-worker-1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry kind="output" path="bin"/>
+	<classpathentry sourcepath="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/junit/junit/4.5/72176579bfb4b1dc795cd2bd2d6943b8285729d8/junit-4.5-sources.jar" kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/junit/junit/4.5/7059d3d3bedc1fca9b33cde8503095b3576a0bba/junit-4.5.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jdesktop/appframework/1.0.3/338045feff6e61df237aafd11b6f3fe1a3b4e60e/appframework-1.0.3.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/Dell/.gradle/caches/modules-2/files-2.1/org.jdesktop/swing-worker/1.1/dc9f8d6f7236087924aad28fbec794a087dd1b3d/swing-worker-1.1.jar" exported="true"/>
 </classpath>
-
