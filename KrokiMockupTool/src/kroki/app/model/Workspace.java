@@ -72,10 +72,10 @@ public final class Workspace implements Serializable{
 				System.out.println("saving to file: " + file.getAbsolutePath());
 				proj.setFile(file);
 				if (SaveUtil.saveGZipObject(proj, proj.getFile())){
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved to " + file.getAbsolutePath() + "!", 0);
+					KrokiMockupToolApp.getInstance().displayTextOutput("Project '" + (String)proj.getLabel() +  "' successfully saved to " + file.getAbsolutePath() + "!", 0);
 				}
 				else{
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Error saving the project!", 3);
+					KrokiMockupToolApp.getInstance().displayTextOutput("Error saving the project!", 3);
 				}
 			} else {
 				System.out.println("saving canceled: ");
@@ -94,10 +94,10 @@ public final class Workspace implements Serializable{
 			if(proj.getFile() != null) {
 				System.out.println("saving to file: " + proj.getFile().getAbsolutePath());
 				if (SaveUtil.saveGZipObject(proj, proj.getFile())){
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved!", 0);
+					KrokiMockupToolApp.getInstance().displayTextOutput("Project '" + (String)proj.getLabel() +  "' successfully saved!", 0);
 				}
 				else{
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Error saving the project!", 3);
+					KrokiMockupToolApp.getInstance().displayTextOutput("Error saving the project!", 3);
 				}
 			}else {
 				JFileChooser jfc = new JFileChooser();
@@ -114,10 +114,10 @@ public final class Workspace implements Serializable{
 					System.out.println("saving to file: " + file.getAbsolutePath());
 					proj.setFile(file);
 					if (SaveUtil.saveGZipObject(proj, proj.getFile())){
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Project '" + (String)proj.getLabel() +  "' successfully saved to " + file.getAbsolutePath() + "!", 0);
+						KrokiMockupToolApp.getInstance().displayTextOutput("Project '" + (String)proj.getLabel() +  "' successfully saved to " + file.getAbsolutePath() + "!", 0);
 					}
 					else{
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Error saving the project!", 3);
+						KrokiMockupToolApp.getInstance().displayTextOutput("Error saving the project!", 3);
 					}
 				} else {
 					System.out.println("saving canceled: ");

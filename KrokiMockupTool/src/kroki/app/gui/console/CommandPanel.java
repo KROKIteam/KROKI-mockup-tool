@@ -51,12 +51,6 @@ public class CommandPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public static int KROKI_RESPONSE = 0;
-	public static int KROKI_USER_ECHO = 1;
-	public static int KROKI_WARNING = 2;
-	public static int KROKI_ERROR = 3;
-	public static int KROKI_FINISHED = 4;
-
 	/**
 	 * TextArea that contains previously entered user commands
 	 * and application output text (not editable)
@@ -91,6 +85,8 @@ public class CommandPanel extends JPanel {
 		previousLines.setFont(new Font("Monospaced",Font.PLAIN,12));
 		previousLines.setEditable(false);
 
+		displayText("Type a command or 'help' to begin.", OutputPanel.KROKI_RESPONSE);
+		
 		consoleScroll = new JScrollPane(previousLines);
 
 		currentLine = new JTextField();
@@ -134,8 +130,12 @@ public class CommandPanel extends JPanel {
 				//if ENTER key is pressed inside text box, command is read and parsed
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					if(!currentLine.getText().equals("")) {
-						displayText(currentLine.getText(), 1);
-						displayText(parseCommand(currentLine.getText()), 0);
+						displayText(currentLine.getText(), OutputPanel.KROKI_USER_ECHO);
+						String response = parseCommand(currentLine.getText());
+						if(response == null) {
+							response = "Type a command or 'help' to begin.";
+						}
+						displayText(response, OutputPanel.KROKI_RESPONSE);
 						listory.add(currentLine.getText());
 						commandInex = listory.size();
 						currentLine.setText("");
@@ -192,7 +192,7 @@ public class CommandPanel extends JPanel {
 			ret = makeStdPanelCommand(command);
 		}else if(command.equalsIgnoreCase("clear")) {
 			previousLines.setText("");
-			ret = "";
+			ret = null;
 		}
 		return ret;
 	}

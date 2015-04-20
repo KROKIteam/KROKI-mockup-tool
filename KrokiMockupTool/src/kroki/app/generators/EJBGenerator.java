@@ -49,7 +49,7 @@ public class EJBGenerator {
 		Date now = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  H:mm:ss");
 		String d = formatter.format(now);
-		KrokiMockupToolApp.getInstance().displayTextOnConsole("[EJB GENERATOR] generating JPA Entity classes...", 0);
+		KrokiMockupToolApp.getInstance().displayTextOutput("[EJB GENERATOR] generating JPA Entity classes...", 0);
 		File f = new File(".");
 		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
@@ -114,16 +114,16 @@ public class EJBGenerator {
 				tpl.process(model, writer);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
+				KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 			} catch (IOException e) {
 				e.printStackTrace();
-				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
+				KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 			} catch (TemplateException e) {
 				e.printStackTrace();
-				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
+				KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 			}
 		}
-		KrokiMockupToolApp.getInstance().displayTextOnConsole(classes.size() + " JPA classes successfully generated.", 0);
+		KrokiMockupToolApp.getInstance().displayTextOutput(classes.size() + " JPA classes successfully generated.", 0);
 	}
 
 

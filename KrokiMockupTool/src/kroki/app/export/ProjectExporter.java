@@ -26,6 +26,7 @@ import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.gui.console.CommandPanel;
+import kroki.app.gui.console.OutputPanel;
 import kroki.app.menu.MenuItem;
 import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
@@ -146,7 +147,7 @@ public class ProjectExporter {
 				try {
 					getClassData(el, "", null, null);
 				} catch (NoZoomPanelException e) {
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(e.getMessage(), 2);
+					KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 2);
 				}
 			}
 		}
@@ -210,7 +211,7 @@ public class ProjectExporter {
 				if(attribute != null) {
 					attributes.add(attribute);
 				}else {
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 3);
+					KrokiMockupToolApp.getInstance().displayTextOutput("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.", 3);
 					throw new NoZoomPanelException("Target panel not set for combozoom '" + z.getLabel() + "' in '" + vc.getLabel() + "'. Skipping that file.");
 				}
 			}
@@ -374,7 +375,7 @@ public class ProjectExporter {
 		if(length > 0) {
 			lenPrecAnnotation += ", length = " + length + ", precision = " + precision;
 		}
-		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false " + lenPrecAnnotation + ")");
+		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false " + lenPrecAnnotation +  ",columnDefinition = \"" + vp.getPersistentType().toUpperCase() + "\")");
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true, false, vp.isRepresentative(), enumeration);
 		return attribute;
 	}
@@ -485,7 +486,7 @@ public class ProjectExporter {
 						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, 0, 0, true, false, false, null);
 						oppositeCLass.getAttributes().add(attr);
 
-						KrokiMockupToolApp.getInstance().displayTextOnConsole("[PROJECT EXPORTER] Adding refference: " + attr.getName() + " --> " + oppositeCLass.getName(), 0);
+						KrokiMockupToolApp.getInstance().displayTextOutput("[PROJECT EXPORTER] Adding refference: " + attr.getName() + " --> " + oppositeCLass.getName(), 0);
 						
 						for(int k=0; k<oppositeCLass.getAttributes().size(); k++) {
 							EJBAttribute att = oppositeCLass.getAttributes().get(k);
@@ -495,7 +496,7 @@ public class ProjectExporter {
 						}
 
 					}else {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Class '" + ejbClass.getLabel() + "' references non-exsisting class '" + attribute.getType()  + "'", 3);
+						KrokiMockupToolApp.getInstance().displayTextOutput("Class '" + ejbClass.getLabel() + "' references non-exsisting class '" + attribute.getType()  + "'", 3);
 						throw new NullPointerException("Refferenced file " + attribute.getType() + " not found!");
 					}
 				}
@@ -632,7 +633,7 @@ public class ProjectExporter {
 		RunAnt runner = new RunAnt();
 		runner.runBuild(jarName + ".jar", buildFile, outputFile);
 		if(message != null) {
-			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(message, CommandPanel.KROKI_FINISHED);
+			KrokiMockupToolApp.getInstance().displayTextOutput(message, OutputPanel.KROKI_FINISHED);
 		}
 	}
 

@@ -9,6 +9,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.gui.console.CommandPanel;
+import kroki.app.gui.console.OutputPanel;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 public class FileChooserHelper {
@@ -80,7 +81,7 @@ public class FileChooserHelper {
 					System.out.println("[ECLIPSE PROJECT EXPORT] Checking the .project file in: " + projFile.getAbsolutePath());
 					if(projFile.exists()) {
 						System.out.println("[ECLIPSE PROJECT EXPORT] .project file found!");
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Export directory Ok. Exporting project...", CommandPanel.KROKI_RESPONSE);
+						KrokiMockupToolApp.getInstance().displayTextOutput("Export directory Ok. Exporting project...", OutputPanel.KROKI_RESPONSE);
 						project.setEclipseProjectPath(dir);
 						return true;
 					}else {
@@ -96,7 +97,7 @@ public class FileChooserHelper {
 				ok =false;
 			}
 		}
-		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Existing export directory could not be found. Please select a new one.", CommandPanel.KROKI_WARNING);
+		KrokiMockupToolApp.getInstance().displayTextOutput("Existing export directory could not be found. Please select a new one.", OutputPanel.KROKI_WARNING);
 		// If the function has not returned yet, choose another folder and check it
 		System.out.println("[ECLIPSE PROJECT EXPORT] Directory check failed! Specifying a new one...");
 		JFileChooser jfc = new JFileChooser();

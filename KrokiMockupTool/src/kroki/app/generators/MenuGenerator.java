@@ -273,13 +273,13 @@ public class MenuGenerator {
 			StreamResult result = new StreamResult(fout);
 
 			transformer.transform(source, result);
-			KrokiMockupToolApp.getInstance().displayTextOnConsole("[MENU GENERATOR] menu.html file generated", 0);
+			KrokiMockupToolApp.getInstance().displayTextOutput("[MENU GENERATOR] menu.html file generated", 0);
 		} catch (TransformerConfigurationException e) {
 			e.printStackTrace();
-			KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
+			KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 		} catch (TransformerException e) {
 			e.printStackTrace();
-			KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
+			KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 		}
 	}
 

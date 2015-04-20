@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.gui.console.CommandPanel;
+import kroki.app.gui.console.OutputPanel;
 import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
@@ -50,7 +51,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 		if(proj != null) {
 			// If the Kroki project is exported for the first time, both the Application repository and Web app need to be exported
 			// Else, only the Application repository and src_gen from the web app are exported, so the manually added files are kept in WebApp
-			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", CommandPanel.KROKI_RESPONSE);
+			KrokiMockupToolApp.getInstance().displayTextOutput("Exporting project '" + proj.getLabel() + "'. Please wait...", OutputPanel.KROKI_RESPONSE);
 
 			// If the project doesn't have asoiciated Eclipse directory with it, chose one
 			if(proj.getEclipseProjectPath() == null) {
@@ -109,7 +110,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 										e.printStackTrace();
 									}
 								}else {
-									KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated web application!", CommandPanel.KROKI_ERROR);
+									KrokiMockupToolApp.getInstance().displayTextOutput("Unable to locate generated web application!", OutputPanel.KROKI_ERROR);
 								}
 							}
 
@@ -123,7 +124,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 									e.printStackTrace();
 								}
 							}else {
-								KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Unable to locate generated application repository!", CommandPanel.KROKI_ERROR);
+								KrokiMockupToolApp.getInstance().displayTextOutput("Unable to locate generated application repository!", OutputPanel.KROKI_ERROR);
 							}
 							// Copy generated src folder
 							boolean exportOK = true;
@@ -141,25 +142,25 @@ public class ExportEclipseProjectAction extends AbstractAction {
 												e.printStackTrace();
 											}
 										}else {
-											KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate src_gen location in associated folder!", CommandPanel.KROKI_ERROR);
+											KrokiMockupToolApp.getInstance().displayTextOutput("Unable to locate src_gen location in associated folder!", OutputPanel.KROKI_ERROR);
 											exportOK = false;
 										}
 									}else {
-										KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate WebApp location in associated folder!", CommandPanel.KROKI_ERROR);
+										KrokiMockupToolApp.getInstance().displayTextOutput("Unable to locate WebApp location in associated folder!", OutputPanel.KROKI_ERROR);
 										exportOK = false;
 									}
 								}else {
-									KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate generated src_gen location!", CommandPanel.KROKI_ERROR);
+									KrokiMockupToolApp.getInstance().displayTextOutput("Unable to locate generated src_gen location!", OutputPanel.KROKI_ERROR);
 									exportOK = false;
 								}
 							}else {
-								KrokiMockupToolApp.getInstance().displayTextOnConsole("Unable to locate generated WebApp location!", CommandPanel.KROKI_ERROR);
+								KrokiMockupToolApp.getInstance().displayTextOutput("Unable to locate generated WebApp location!", OutputPanel.KROKI_ERROR);
 								exportOK = false;
 							}
 							if(exportOK) {
-								KrokiMockupToolApp.getInstance().displayTextOnConsole("Project exported successfuly to " + proj.getEclipseProjectPath().getAbsolutePath() + ". It can now be imported to Eclipse IDE", CommandPanel.KROKI_FINISHED);
+								KrokiMockupToolApp.getInstance().displayTextOutput("Project exported successfuly to " + proj.getEclipseProjectPath().getAbsolutePath() + ". It can now be imported to Eclipse IDE", OutputPanel.KROKI_FINISHED);
 							}else {
-								KrokiMockupToolApp.getInstance().displayTextOnConsole("Project export failed.", 3);
+								KrokiMockupToolApp.getInstance().displayTextOutput("Project export failed.", 3);
 							}
 							KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 						}

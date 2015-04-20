@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.gui.console.CommandPanel;
+import kroki.app.gui.console.OutputPanel;
 import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
@@ -51,7 +52,7 @@ public class RunWebAction extends AbstractAction {
 				
 				if(proj != null) {
 					try {
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
+						KrokiMockupToolApp.getInstance().displayTextOutput("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 
 						Thread runThread = new Thread(new Runnable() {
 							@Override
@@ -60,7 +61,7 @@ public class RunWebAction extends AbstractAction {
 								if(proj.getEclipseProjectPath() != null) {
 									if(!FileChooserHelper.checkDirectory(proj)) {
 										proceed = false;
-										KrokiMockupToolApp.getInstance().displayTextOnConsole("The selected project has associated Eclipse project path, but is seems to be missing or corrupted. Please review these settings in the project properties panel.", CommandPanel.KROKI_WARNING);
+										KrokiMockupToolApp.getInstance().displayTextOutput("The selected project has associated Eclipse project path, but is seems to be missing or corrupted. Please review these settings in the project properties panel.", OutputPanel.KROKI_WARNING);
 									}
 								}
 								
@@ -94,7 +95,7 @@ public class RunWebAction extends AbstractAction {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					} catch (Exception e) {
 						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-						KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("An error occured. Running aborted", 3);
+						KrokiMockupToolApp.getInstance().displayTextOutput("An error occured. Running aborted", 3);
 						e.printStackTrace();
 					}
 				}else {

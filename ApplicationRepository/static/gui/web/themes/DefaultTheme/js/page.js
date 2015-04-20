@@ -300,7 +300,7 @@
                     newStandardForm.addClass("standardForms");
                     newStandardForm.attr("data-activate", "/show/" + activate);
                     newStandardForm.attr("data-assocend", associationEnd);
-                    newStandardForm.css({"height": (90/data.panels.length) + "%"});
+                    newStandardForm.css({"height": (100/data.panels.length) + "%"});
                     newStandardForm.attr("data-resourceId", activate);
 
                     newWindowBody.append(newStandardForm);

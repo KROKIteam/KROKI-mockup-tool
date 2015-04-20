@@ -68,8 +68,7 @@ public abstract class ProgressWorker extends SwingWorker<Void, WorkerPublishMode
 	@Override
     protected void process(List<WorkerPublishModel> chunks) {
         for (WorkerPublishModel chunk : chunks) {
-        	KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText(
-    				chunk.getText(), chunk.getTypeOfMessage());
+        	KrokiMockupToolApp.getInstance().displayTextOutput(chunk.getText(), chunk.getTypeOfMessage());
         }
     }
 	

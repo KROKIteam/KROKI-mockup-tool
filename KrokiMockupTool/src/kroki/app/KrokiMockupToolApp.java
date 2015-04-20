@@ -140,8 +140,9 @@ public class KrokiMockupToolApp {
 	/**
 	 * @return Dimension that is 80% of the screen size
 	 */
-	public void displayTextOnConsole(String message, int type) {
-		getKrokiMockupToolFrame().getConsole().displayText(message, type);
+	public void displayTextOutput(String message, int type) {
+		getKrokiMockupToolFrame().getOutputPanel().displayText(message, type);
+		getKrokiMockupToolFrame().getConsoleTabbedPane().setSelectedIndex(1);
 	}
 	
 	/**

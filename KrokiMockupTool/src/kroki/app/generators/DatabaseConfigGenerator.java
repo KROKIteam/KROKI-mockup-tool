@@ -45,7 +45,7 @@ public class DatabaseConfigGenerator {
 	 /*        persistence.xml generation           */
 	/***********************************************/
 	public void generatePersistenceXMl(boolean web) {
-		KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] generating persistence.xml file...", 0);
+		KrokiMockupToolApp.getInstance().displayTextOutput("[DB CONFIG GENERATOR] generating persistence.xml file...", 0);
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		
@@ -102,7 +102,7 @@ public class DatabaseConfigGenerator {
 	 /*       hibernate.cfg.xml generation          */
 	/***********************************************/
 	public void geneateHibernateConfigXML(String path) {
-		KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] generating hibernate.cfg.xml file...", 0);
+		KrokiMockupToolApp.getInstance().displayTextOutput("[DB CONFIG GENERATOR] generating hibernate.cfg.xml file...", 0);
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		File fout = null;
@@ -119,7 +119,7 @@ public class DatabaseConfigGenerator {
 				writer = new OutputStreamWriter(new FileOutputStream(fout));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
+				KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 			}
 		}
 		Template tpl = prepareTemplate("hibernate.cfg.ftl");
@@ -147,7 +147,7 @@ public class DatabaseConfigGenerator {
 			tpl.process(model, writer);
 		} catch (TemplateException | IOException e) {
 			e.printStackTrace();
-			KrokiMockupToolApp.getInstance().displayTextOnConsole(e.getMessage(), 3);
+			KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 		}
 	}
 
@@ -170,7 +170,7 @@ public class DatabaseConfigGenerator {
 				templateLoader = new FileTemplateLoader(new File(appPath + "templates"));
 				cfg.setTemplateLoader(templateLoader);
 				template = cfg.getTemplate(templateFile);
-				KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] Templates loaded ok.", 0);
+				KrokiMockupToolApp.getInstance().displayTextOutput("[DB CONFIG GENERATOR] Templates loaded ok.", 0);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

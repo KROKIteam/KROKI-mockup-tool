@@ -58,7 +58,7 @@ public class ExportSwingAction extends AbstractAction {
 						}
 					}
 				}
-				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
+				KrokiMockupToolApp.getInstance().displayTextOutput("Exporting project '" + proj.getLabel() + "'. Please wait...", 0);
 				JFileChooser jfc = new JFileChooser();
 				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				int retValue = jfc.showSaveDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame());
@@ -68,7 +68,7 @@ public class ExportSwingAction extends AbstractAction {
 					ProjectExporter exporter = new ProjectExporter(true);
 					exporter.export(file, proj.getLabel().replace(" ", "_"), proj, "Project exported successfuly to " + file.getAbsolutePath());
 				} else {
-					KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Export canceled by user.", 0);
+					KrokiMockupToolApp.getInstance().displayTextOutput("Export canceled by user.", 0);
 				}
 
 			} else {

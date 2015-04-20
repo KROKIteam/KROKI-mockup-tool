@@ -393,7 +393,7 @@ ul.L2SubMenu {
 
 .operationsDiv {
 	width: 20%;
-	max-height: 500px;
+	max-height: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;  
 	text-align: center;

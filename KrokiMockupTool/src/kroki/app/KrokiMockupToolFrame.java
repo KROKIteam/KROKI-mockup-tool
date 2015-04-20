@@ -54,6 +54,7 @@ import kroki.app.action.SaveAsAction;
 import kroki.app.action.UndoAction;
 import kroki.app.gui.GuiManager;
 import kroki.app.gui.console.CommandPanel;
+import kroki.app.gui.console.OutputPanel;
 import kroki.app.gui.settings.SettingsFactory;
 import kroki.app.model.Workspace;
 import kroki.app.utils.ImageResource;
@@ -102,8 +103,10 @@ public class KrokiMockupToolFrame extends JFrame {
 	private JTabbedPane canvasTabbedPane;
 	/**Tree which shows the hierarchical structured of the opened projects*/
 	private JTree tree;
-	/**Command console*/
+	/**Command console and output window*/
+	private JTabbedPane consoleTabbedPane;
 	private CommandPanel console;
+	private OutputPanel outputPanel;
 	/**Components which splits the left part of the {@link mainSplitPane} into two parts*/
 	private JSplitPane leftSplitPane;
 	/***********************************/
@@ -238,9 +241,13 @@ public class KrokiMockupToolFrame extends JFrame {
 		
 		treeTabbedPane.addTab(StringResource.getStringResource("app.tab.hierarchy.label"), new ImageIcon(ImageResource.getImageResource("app.tab.hierarchy.icon")), new JScrollPane(tree));
 
+		consoleTabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
+		
 		console = new CommandPanel();
-		JLabel consoleLbl = new JLabel("Command Window");
-
+		outputPanel = new OutputPanel();
+		consoleTabbedPane.addTab("Command window", new ImageIcon(ImageResource.getImageResource("app.tab.console.icon")), console);
+		consoleTabbedPane.addTab("Output", new ImageIcon(ImageResource.getImageResource("app.tab.output.icon")), outputPanel);
+		
 		canvasSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		canvasSplitPane.setDividerSize(2);
 		canvasSplitPane.setResizeWeight(0.8d);
@@ -253,13 +260,8 @@ public class KrokiMockupToolFrame extends JFrame {
 		leftSplitPane.setDividerSize(5);
 		leftSplitPane.setLeftComponent(treeTabbedPane);
 
-		JPanel consolePanel = new JPanel();
-		consolePanel.setLayout(new BorderLayout());
-		consolePanel.add(consoleLbl, BorderLayout.NORTH);
-		consolePanel.add(console, BorderLayout.CENTER);
-
 		canvasSplitPane.setTopComponent(canvasTabbedPane);
-		canvasSplitPane.setBottomComponent(consolePanel);
+		canvasSplitPane.setBottomComponent(consoleTabbedPane);
 
 		mainSplitPane.setLeftComponent(leftSplitPane);
 		mainSplitPane.setRightComponent(canvasSplitPane);
@@ -568,10 +570,6 @@ public class KrokiMockupToolFrame extends JFrame {
 			this.leftSplitPane = leftSplitPane;
 		}
 
-		public CommandPanel getConsole() {
-			return console;
-		}
-
 		public void setConsole(CommandPanel console) {
 			this.console = console;
 		}
@@ -590,5 +588,13 @@ public class KrokiMockupToolFrame extends JFrame {
 
 		public void setPasteAction(PasteAction pasteAction) {
 			this.pasteAction = pasteAction;
+		}
+
+		public OutputPanel getOutputPanel() {
+			return outputPanel;
+		}
+
+		public JTabbedPane getConsoleTabbedPane() {
+			return consoleTabbedPane;
 		}
 	}
