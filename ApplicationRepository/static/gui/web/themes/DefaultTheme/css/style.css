@@ -371,7 +371,7 @@ ul.L2SubMenu {
     float: left;
     clear: both;
 	width: 100%;
-	height: 100%;
+	max-height: 500px;
 	clear: both;
 }
 
@@ -393,7 +393,7 @@ ul.L2SubMenu {
 
 .operationsDiv {
 	width: 20%;
-	max-height: 100%;
+	max-height: 500px;
 	overflow-y: auto;
 	overflow-x: hidden;  
 	text-align: center;

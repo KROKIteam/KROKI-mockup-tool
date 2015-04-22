@@ -92,4 +92,8 @@ public class TableModel {
 		
 		return model;
 	}
+
+	public EntityBean getBean() {
+		return bean;
+	}
 }

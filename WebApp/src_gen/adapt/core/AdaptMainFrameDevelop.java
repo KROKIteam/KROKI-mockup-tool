@@ -46,8 +46,8 @@ public class AdaptMainFrameDevelop extends JFrame {
 		this.component = component;
 		init();
 		setTitle(Settings.APP_TITLE + " [Server log]");
-		setMaximumSize(new Dimension(850, 400));
-		setMinimumSize(new Dimension(850, 400));
+		setMaximumSize(new Dimension(1000, 400));
+		setMinimumSize(new Dimension(1000, 400));
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		loadIcon();

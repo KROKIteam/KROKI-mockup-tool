@@ -240,13 +240,12 @@ public class KrokiMockupToolFrame extends JFrame {
 			});
 		
 		treeTabbedPane.addTab(StringResource.getStringResource("app.tab.hierarchy.label"), new ImageIcon(ImageResource.getImageResource("app.tab.hierarchy.icon")), new JScrollPane(tree));
-
 		consoleTabbedPane = new JTabbedPane(JTabbedPane.BOTTOM);
 		
 		console = new CommandPanel();
 		outputPanel = new OutputPanel();
 		consoleTabbedPane.addTab("Command window", new ImageIcon(ImageResource.getImageResource("app.tab.console.icon")), console);
-		consoleTabbedPane.addTab("Output", new ImageIcon(ImageResource.getImageResource("app.tab.output.icon")), outputPanel);
+		consoleTabbedPane.addTab("Message log", new ImageIcon(ImageResource.getImageResource("app.tab.output.icon")), outputPanel);
 		
 		canvasSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		canvasSplitPane.setDividerSize(2);

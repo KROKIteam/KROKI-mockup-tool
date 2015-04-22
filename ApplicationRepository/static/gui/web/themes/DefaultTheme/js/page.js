@@ -339,6 +339,7 @@
         }
 
         forms = newWindow.find("div.standardForms").length;
+
         if(forms > 2) {
             var newHeight = forms*200;
             if(newHeight < $("#container").height()) {
@@ -751,7 +752,8 @@
 				 */
 				newWindow = form.closest(".windows");
 		        var columns = newWindow.find("th").length;
-		        if(columns > 6) {
+		        var siblings = newWindow.find(".standardForms").length;
+                if(columns > 6) {
 		            var newWidth = columns*200;
 		            if(newWidth<$("#container").width()) {
 		                newWindow.width(newWidth);
@@ -765,6 +767,11 @@
 		               });
 		            }
 		        }
+
+                if(siblings > 1) {
+                    form.find(".operationsDiv").css("max-height", "100%");
+                }
+
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
         	   window.remove();
