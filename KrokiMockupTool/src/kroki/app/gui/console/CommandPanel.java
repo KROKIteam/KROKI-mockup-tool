@@ -41,6 +41,9 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.ElementsGroupUtil;
 import kroki.profil.utils.StandardPanelUtil;
 import kroki.profil.utils.UIPropertyUtil;
+import kroki.app.gui.dialog.KrokiMockupToolAboutDialog;//poziv za about prikaz, prikaz o applikaciji
+import kroki.app.action.UndoAction;//poziv za undo akciju
+import kroki.app.action.RedoAction;//poziv za redo akciju
 
 /**
  * GUI component that simulates console behavior
@@ -183,16 +186,29 @@ public class CommandPanel extends JPanel {
 
 		if(command.startsWith("help")) {
 			ret = displayHelp(command);
-		}else if(command.startsWith("make project")) {
+		}else if(command.startsWith("make project")) {//pravljenje projekta
 			ret = makeProjectCommand(command);
-		}else if (command.startsWith("make package")) {
+		}else if (command.startsWith("make package")) {//pravljenje paketa u projektu
 			ret = makePackageCommand(command);
 		}
-		else if(command.startsWith("make std-panel")) {
+		else if(command.startsWith("make std-panel")) {//pravljenje std panela u projktu
 			ret = makeStdPanelCommand(command);
+			
+		//}else if(){//pravljenje 
+		} else if(command.equalsIgnoreCase("redo")){ //redo akcija
+			redoKrokiMockupToolAction();
+			ret = "";
+		} else if(command.equalsIgnoreCase("undo")){ // undo akcija
+			undoKrokiMockupToolAction();
+			ret = "";
 		}else if(command.equalsIgnoreCase("clear")) {
 			previousLines.setText("");
-			ret = null;
+			ret = "";
+		} else if(command.equalsIgnoreCase("about")) {
+			aboutKrokiMockupTool(command);
+			
+		} else if(command.equalsIgnoreCase("exit")){
+			System.exit(0);
 		}
 		return ret;
 	}
@@ -272,15 +288,52 @@ public class CommandPanel extends JPanel {
 		}
 		return "Error parsing command. Check your syntax!";
 	}
+	
+	private void redoKrokiMockupToolAction() {
+		RedoAction redo = new RedoAction();
+		redo.actionPerformed(null);
+	}
 
-	public String displayHelp(String command) {
+	private void undoKrokiMockupToolAction() {
+		UndoAction undo = new UndoAction();
+		undo.actionPerformed(null);
+	}
+
+	public void aboutKrokiMockupTool(String command) {
+		KrokiMockupToolAboutDialog about = new KrokiMockupToolAboutDialog();
+		about.setVisible(true);
+	}
+
+	public String displayHelp(String command) { //exit aplication
 		String help = "";
 		if(command.equals("help")) {
 			help = "Available commands:" +
 					"\n\t\t1. make project" +
 					"\n\t\t2. make package" +
 					"\n\t\t3. make std-panel"+
-					"\n\t\t4. clear" +
+					"\n\t\t4. open project"+
+					"\n\t\t5. save project"+
+					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+//Layouts
+//					"\n\t\t6. rename project"+
+//					"\n\t\t6. rename project"+
+					"\n\t\t15. undo"+
+					"\n\t\t16. redo"+
+					"\n\t\t17. about"+
+					"\n\t\t18. clear"+
+					"\n\t\t19. exit" +
 					"\nFor help on specific command, type \"help command name\" (i.e. help make project)";
 		}else if(command.equals("help make project")) {
 			help = "\n[KROKI] make project command" +
