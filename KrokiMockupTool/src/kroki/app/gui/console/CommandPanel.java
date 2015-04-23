@@ -3,6 +3,7 @@ package kroki.app.gui.console;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -72,10 +73,39 @@ public class CommandPanel extends JPanel {
 	 * Current command index in history list
 	 */
 	private int commandInex;
+	
+	private int commandOptionInex;
+	
+	/**
+	 * Commnad opetions
+	 */
+	private ArrayList<String> tabOption;
+	
+	private String option;
+	
+	
+	
 
 	public CommandPanel() {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		
+		tabOption = new ArrayList<String>();
+		tabOption.add("make project");
+		tabOption.add("make package");
+		tabOption.add("make std-panel");
+		tabOption.add("open project");
+		tabOption.add("save project");
+		tabOption.add("rename project");
+		tabOption.add("undo");
+		tabOption.add("redo");
+		tabOption.add("about");
+		tabOption.add("clear");
+		tabOption.add("exit");
+		
+		//commandOptionInex = tabOption.size();
+		commandOptionInex = 0;
+		
 
 		listory = new ArrayList<String>();
 
@@ -122,7 +152,9 @@ public class CommandPanel extends JPanel {
 				currentLine.requestFocusInWindow();
 			}
 		});
-
+		
+		currentLine.setFocusTraversalKeysEnabled(false); //enable tab, see if 
+		
 		currentLine.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -165,7 +197,31 @@ public class CommandPanel extends JPanel {
 							currentLine.setText("");
 						}
 					}
+				} else if(arg0.getKeyCode() == KeyEvent.VK_TAB) { // akcija gde cemo da proveravamo sa tabom kuda da ide sve
+					//System.out.println("rerere");
+					//
+					System.out.println(commandOptionInex);
+					option = tabOption.get(commandOptionInex);
+					
+					if(currentLine.getText().equalsIgnoreCase("help") || currentLine.getText().equalsIgnoreCase("help " + option)) {
+						commandOptionInex++;
+
+						if(commandOptionInex >= tabOption.size()){
+							commandOptionInex = 0;
+						}
+						
+						currentLine.setText("help " + tabOption.get(commandOptionInex));
+						//System.out.println("sdds");
+						//if(commandOptionInex < tabOption.size()){
+							
+							//commandOptionInex++;
+//						} else {
+//							currentLine.setText("nemere");
+//							commandOptionInex = 0;
+						//}
+					}
 				}
+				
 			}
 
 			@Override
@@ -303,8 +359,10 @@ public class CommandPanel extends JPanel {
 		KrokiMockupToolAboutDialog about = new KrokiMockupToolAboutDialog();
 		about.setVisible(true);
 	}
-
+	
 	public String displayHelp(String command) { //exit aplication
+		commandOptionInex = 0;
+		System.out.println(commandOptionInex);
 		String help = "";
 		if(command.equals("help")) {
 			help = "Available commands:" +
@@ -336,6 +394,7 @@ public class CommandPanel extends JPanel {
 					"\n\t\t19. exit" +
 					"\nFor help on specific command, type \"help command name\" (i.e. help make project)";
 		}else if(command.equals("help make project")) {
+			commandOptionInex = 0;
 			help = "\n[KROKI] make project command" +
 					"\n\tSyntax: make project \"Project name\"" +
 					"\n\tDescription: Creates new project with specified name in workspace." +
@@ -344,6 +403,7 @@ public class CommandPanel extends JPanel {
 					"\n\t\tCreates new project named \"Resources\" in workspace" +
 					"\n\t\tNOTE: The project name can be written in sigle or double quotes.\n";
 		}else if(command.equals("help make package")) {
+			commandOptionInex = 0;
 			help = "\n[KROKI] make package command" +
 					"\n\tSyntax: make package \"Package name\" in \"Path\"" +
 					"\n\tDescription: Creates new package with specified name in specified path." +
@@ -355,6 +415,7 @@ public class CommandPanel extends JPanel {
 					"\n\t\tNOTE: If any project or package in path is not found, it will be created." +
 					"\n\t\t      The package name and path can be written in sigle or double quotes.\n";
 		}else if(command.equals("help make std-panel")) {
+			commandOptionInex = 0;
 			help = "\n[KROKI] make std-panel command" +
 					"\n\tSyntax: make std-panel \"Panel name\" in \"Path\" {components}" +
 					"\n\tDescription: Creates standard panel with specified name in specified path with enlisted GUI components." +
@@ -622,6 +683,19 @@ public class CommandPanel extends JPanel {
 			previousLines.setCaretPosition(previousLines.getDocument().getLength());
 		} catch (BadLocationException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	class MyTextField extends JTextField {
+		MyTextField(int len) {
+			super(len);
+			addKeyListener(new KeyAdapter() {
+				public void keyPressed(KeyEvent evt) {
+					int key = evt.getKeyCode();
+					if (key == KeyEvent.VK_SPACE)
+						transferFocus();
+				}
+			});
 		}
 	}
 
