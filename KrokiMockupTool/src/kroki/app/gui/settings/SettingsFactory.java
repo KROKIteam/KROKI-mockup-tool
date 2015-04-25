@@ -43,42 +43,38 @@ public class SettingsFactory implements UpdateListener, SettingsCreator {
 
 	private void performUpdate(VisibleElement visibleElment){
 
-		SettingsPanel annotation = visibleElment.getClass().getAnnotation(SettingsPanel.class);
-		if (annotation != null) {
-			Class<?> clazz = annotation.value();
-			Settings settings = null;
-			if (settingsMap.containsKey(clazz.getName())) {
-				settings = settingsMap.get(clazz.getName());
-			} else {
-				try {
-					settings = (Settings) clazz.getDeclaredConstructor(SettingsCreator.class).newInstance(this);
-					settingsMap.put(clazz.getName(), settings);
-				} catch (NoSuchMethodException ex) {
-					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (SecurityException ex) {
-					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (InstantiationException ex) {
-					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (IllegalAccessException ex) {
-					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (IllegalArgumentException ex) {
-					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-				} catch (InvocationTargetException ex) {
-					Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
-				}
+		Class<?> clazz = ElementSettingsPanelMappings.getSettingsClass(visibleElment);
+		Settings settings = null;
+		if (settingsMap.containsKey(clazz.getName())) {
+			settings = settingsMap.get(clazz.getName());
+		} else {
+			try {
+				settings = (Settings) clazz.getDeclaredConstructor(SettingsCreator.class).newInstance(this);
+				settingsMap.put(clazz.getName(), settings);
+			} catch (NoSuchMethodException ex) {
+				Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+			} catch (SecurityException ex) {
+				Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+			} catch (InstantiationException ex) {
+				Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+			} catch (IllegalAccessException ex) {
+				Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+			} catch (IllegalArgumentException ex) {
+				Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
+			} catch (InvocationTargetException ex) {
+				Logger.getLogger(SettingsFactory.class.getName()).log(Level.SEVERE, null, ex);
 			}
-
-			if (settings != null) {
-				settings.updateSettings(visibleElment);
-				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().setRightComponent((Component) settings);
-				KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().resetToPreferredSizes();
-			}
-
 		}
 
-
+		if (settings != null) {
+			settings.updateSettings(visibleElment);
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().setRightComponent((Component) settings);
+			KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getLeftSplitPane().resetToPreferredSizes();
+		}
 
 	}
+
+
 
 	public void settingsPreformed() {
 		if (KrokiMockupToolApp.getInstance().getTabbedPaneController().getCurrentTabContent() != null){
