@@ -41,6 +41,8 @@ public class SaveAction extends AbstractAction {
 
 		//get selected item from jtree and find its project
 		TreePath path =  KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().getSelectionPath();
+		
+		System.out.println(path);
 		if (path != null){
 			Object node = path.getLastPathComponent();
 			if(node != null) {
