@@ -45,6 +45,7 @@ import kroki.profil.utils.UIPropertyUtil;
 import kroki.app.gui.dialog.KrokiMockupToolAboutDialog;//poziv za about prikaz, prikaz o applikaciji
 import kroki.app.action.UndoAction;//poziv za undo akciju
 import kroki.app.action.RedoAction;//poziv za redo akciju
+import kroki.app.action.OpenProjectAction;
 
 /**
  * GUI component that simulates console behavior
@@ -74,37 +75,57 @@ public class CommandPanel extends JPanel {
 	 */
 	private int commandInex;
 	
-	private int commandOptionInex;
-	
 	/**
-	 * Commnad opetions
+	 * Command tab opetions
 	 */
-	private ArrayList<String> tabOption;
+	private ArrayList<String> tabHelpOption;
+	private ArrayList<String> tabMakeOption;
+
 	
-	private String option;
-	
-	
-	
+	/*
+	 *  index for tab options
+	 * */
+	private int commandTabHelpOptionIndex;	
+	private int commandMakeOptionIndex;	
 
 	public CommandPanel() {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		
-		tabOption = new ArrayList<String>();
-		tabOption.add("make project");
-		tabOption.add("make package");
-		tabOption.add("make std-panel");
-		tabOption.add("open project");
-		tabOption.add("save project");
-		tabOption.add("rename project");
-		tabOption.add("undo");
-		tabOption.add("redo");
-		tabOption.add("about");
-		tabOption.add("clear");
-		tabOption.add("exit");
+		tabHelpOption = new ArrayList<String>();
+		tabMakeOption = new ArrayList<String>();
+		
+		tabHelpOption.add("");
+		tabHelpOption.add("make project");
+		tabHelpOption.add("make package");
+		tabHelpOption.add("make std-panel");
+		tabHelpOption.add("open project");
+		tabHelpOption.add("save project");
+		tabHelpOption.add("rename project");// Project
+		tabHelpOption.add("undo");
+		tabHelpOption.add("redo");
+		tabHelpOption.add("about");
+		tabHelpOption.add("clear");
+		tabHelpOption.add("exit");
+		
+		tabMakeOption.add("");
+		tabMakeOption.add("project");
+		tabMakeOption.add("package");
+		tabMakeOption.add("std-panel");
+		tabMakeOption.add("parent-child");
+		tabMakeOption.add("textfield");
+		tabMakeOption.add("textarea");
+		tabMakeOption.add("combobox");
+		tabMakeOption.add("checkbox");
+		tabMakeOption.add("report");// videti jos
+		tabMakeOption.add("transaction");
+		tabMakeOption.add("link");
+		tabMakeOption.add("hierarchy");
+		
 		
 		//commandOptionInex = tabOption.size();
-		commandOptionInex = 0;
+		commandTabHelpOptionIndex = 0;
+		commandMakeOptionIndex = 0;
 		
 
 		listory = new ArrayList<String>();
@@ -197,28 +218,35 @@ public class CommandPanel extends JPanel {
 							currentLine.setText("");
 						}
 					}
-				} else if(arg0.getKeyCode() == KeyEvent.VK_TAB) { // akcija gde cemo da proveravamo sa tabom kuda da ide sve
-					//System.out.println("rerere");
-					//
-					System.out.println(commandOptionInex);
-					option = tabOption.get(commandOptionInex);
-					
-					if(currentLine.getText().equalsIgnoreCase("help") || currentLine.getText().equalsIgnoreCase("help " + option)) {
-						commandOptionInex++;
+				} else if(arg0.getKeyCode() == KeyEvent.VK_TAB) { // akcija gde cemo da proveravamo sa tabom kuda da ide sve					
 
-						if(commandOptionInex >= tabOption.size()){
-							commandOptionInex = 0;
+					//help actions
+					if(currentLine.getText().equalsIgnoreCase("help") || currentLine.getText().equalsIgnoreCase("help"+ " " + tabHelpOption.get(commandTabHelpOptionIndex))) {
+						commandTabHelpOptionIndex++;
+						if (commandTabHelpOptionIndex >= tabHelpOption.size()){
+							commandTabHelpOptionIndex = 0;
 						}
 						
-						currentLine.setText("help " + tabOption.get(commandOptionInex));
-						//System.out.println("sdds");
-						//if(commandOptionInex < tabOption.size()){
-							
-							//commandOptionInex++;
-//						} else {
-//							currentLine.setText("nemere");
-//							commandOptionInex = 0;
-						//}
+						if (commandTabHelpOptionIndex == 0){
+							currentLine.setText("help");
+						} else {
+							currentLine.setText("help" + " " + tabHelpOption.get(commandTabHelpOptionIndex));
+						}
+					}
+					
+					//make actions
+					if(currentLine.getText().equalsIgnoreCase("make") || currentLine.getText().equalsIgnoreCase("make" + " " + tabMakeOption.get(commandMakeOptionIndex))){
+						commandMakeOptionIndex++;
+						if (commandMakeOptionIndex >= tabMakeOption.size()) {
+							commandMakeOptionIndex = 0;
+						}
+						
+						if (commandMakeOptionIndex == 0) {
+							currentLine.setText("make");
+						} else {
+							currentLine.setText("make" + " " + tabMakeOption.get(commandMakeOptionIndex));
+						}
+						
 					}
 				}
 				
@@ -238,19 +266,25 @@ public class CommandPanel extends JPanel {
 	//               									        COMMAND PARSING METHODS
 	//*********************************************************************************
 	public String parseCommand(String command) {
+		commandMakeOptionIndex = 0;
 		String ret = "KROKI does not understand '" + command +"'";
 
-		if(command.startsWith("help")) {
+		if (command.startsWith("help")) {
 			ret = displayHelp(command);
-		}else if(command.startsWith("make project")) {//pravljenje projekta
+		} else if (command.startsWith("open project")){
+			openProjectCommand(command);
+			ret = "";
+		} else if (command.startsWith("save project")) {
+			
+		} else if(command.startsWith("make project")) {//pravljenje projekta
 			ret = makeProjectCommand(command);
-		}else if (command.startsWith("make package")) {//pravljenje paketa u projektu
+		} else if (command.startsWith("make package")) {//pravljenje paketa u projektu
 			ret = makePackageCommand(command);
-		}
-		else if(command.startsWith("make std-panel")) {//pravljenje std panela u projktu
+		} else if(command.startsWith("make std-panel")) {//pravljenje std panela u projktu
 			ret = makeStdPanelCommand(command);
 			
-		//}else if(){//pravljenje 
+		} else if(command.startsWith("make parent-chiled panel")) {
+			
 		} else if(command.equalsIgnoreCase("redo")){ //redo akcija
 			redoKrokiMockupToolAction();
 			ret = "";
@@ -262,6 +296,7 @@ public class CommandPanel extends JPanel {
 			ret = "";
 		} else if(command.equalsIgnoreCase("about")) {
 			aboutKrokiMockupTool(command);
+			ret ="";
 			
 		} else if(command.equalsIgnoreCase("exit")){
 			System.exit(0);
@@ -273,6 +308,11 @@ public class CommandPanel extends JPanel {
 	// 	 												  METHODS THAT EXECUTE COMMANDS
 	//*********************************************************************************	
 
+	public void openProjectCommand(String command){
+		OpenProjectAction open = new OpenProjectAction();
+		
+		open.actionPerformed(null);
+	}
 	public String makeProjectCommand(String command) {
 		Scanner sc = new Scanner(command);
 		Pattern pattern = Pattern.compile("[\"']([^\"']+)[\"']");
@@ -361,8 +401,7 @@ public class CommandPanel extends JPanel {
 	}
 	
 	public String displayHelp(String command) { //exit aplication
-		commandOptionInex = 0;
-		System.out.println(commandOptionInex);
+		commandTabHelpOptionIndex = 0;
 		String help = "";
 		if(command.equals("help")) {
 			help = "Available commands:" +
@@ -394,7 +433,6 @@ public class CommandPanel extends JPanel {
 					"\n\t\t19. exit" +
 					"\nFor help on specific command, type \"help command name\" (i.e. help make project)";
 		}else if(command.equals("help make project")) {
-			commandOptionInex = 0;
 			help = "\n[KROKI] make project command" +
 					"\n\tSyntax: make project \"Project name\"" +
 					"\n\tDescription: Creates new project with specified name in workspace." +
@@ -403,7 +441,6 @@ public class CommandPanel extends JPanel {
 					"\n\t\tCreates new project named \"Resources\" in workspace" +
 					"\n\t\tNOTE: The project name can be written in sigle or double quotes.\n";
 		}else if(command.equals("help make package")) {
-			commandOptionInex = 0;
 			help = "\n[KROKI] make package command" +
 					"\n\tSyntax: make package \"Package name\" in \"Path\"" +
 					"\n\tDescription: Creates new package with specified name in specified path." +
@@ -415,7 +452,6 @@ public class CommandPanel extends JPanel {
 					"\n\t\tNOTE: If any project or package in path is not found, it will be created." +
 					"\n\t\t      The package name and path can be written in sigle or double quotes.\n";
 		}else if(command.equals("help make std-panel")) {
-			commandOptionInex = 0;
 			help = "\n[KROKI] make std-panel command" +
 					"\n\tSyntax: make std-panel \"Panel name\" in \"Path\" {components}" +
 					"\n\tDescription: Creates standard panel with specified name in specified path with enlisted GUI components." +
