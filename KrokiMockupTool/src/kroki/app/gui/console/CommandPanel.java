@@ -114,7 +114,6 @@ public class CommandPanel extends JPanel {
 		tabMakeOption.add("project");
 		tabMakeOption.add("package");
 		tabMakeOption.add("std-panel");
-		tabMakeOption.add("parent-child panel");
 		tabMakeOption.add("textfield");
 		tabMakeOption.add("textarea");
 		tabMakeOption.add("combobox");
@@ -235,9 +234,9 @@ public class CommandPanel extends JPanel {
 							currentLine.setText("help" + " " + tabHelpOption.get(commandTabHelpOptionIndex));
 						}
 					}
-					
-					//make actions
+
 					if(currentLine.getText().equalsIgnoreCase("make") || currentLine.getText().equalsIgnoreCase("make hel") || currentLine.getText().equalsIgnoreCase("make" + " " + tabMakeOption.get(commandMakeOptionIndex))){
+
 						commandMakeOptionIndex++;
 						if (commandMakeOptionIndex >= tabMakeOption.size()) {
 							commandMakeOptionIndex = 0;
@@ -284,28 +283,13 @@ public class CommandPanel extends JPanel {
 			ret = makePackageCommand(command);
 		} else if(command.startsWith("make std-panel")) {//pravljenje std panela u projktu
 			ret = makeStdPanelCommand(command);
-			
-		} else if(command.startsWith("make parent-child panel")) {			
-			ret = makeParentChildPanelCommand(command);
-			
-		} else if(command.equalsIgnoreCase("redo")){ //redo akcija
-			redoKrokiMockupToolAction();
-			ret = "";
-		} else if(command.equalsIgnoreCase("undo")){ // undo akcija
-			undoKrokiMockupToolAction();
-			ret = "";
 		}else if(command.equalsIgnoreCase("clear")) {
 			previousLines.setText("");
 			ret = "";
 		} else if(command.equalsIgnoreCase("about")) {
-			aboutKrokiMockupTool(command);
 			ret ="";
 			
-		} else if(command.equalsIgnoreCase("exit")){
-			if (exitKroki()) {
-				System.exit(0);
-			}
-		}
+		} 
 		return ret;
 	}
 
@@ -388,50 +372,6 @@ public class CommandPanel extends JPanel {
 			}
 		}
 		return "Error parsing command. Check your syntax!";
-	}
-	
-	public String makeParentChildPanelCommand(String command){
-		Pattern patt = Pattern.compile("[\"']([^\"']+)[\"'] in [\"']([^\"']+)[\"'](?: \\{(.+?)\\})?");
-		String panel;
-		String pack;
-		String components;
-		Matcher matcher = patt.matcher(command);
-		if (matcher.find()) {
-			if (matcher.groupCount() > 0) {
-				panel = matcher.group(1);
-				pack = matcher.group(2);
-				components = matcher.group(3);
-				
-				if (components != null) {
-					String[] comps = components.split(",");
-					BussinesSubsystem owner = getOwnerPackage(pack);
-					makeParentChildPanel(owner, panel, comps);
-				} else {
-					BussinesSubsystem owner = getOwnerPackage(pack);
-					makeParentChildPanel(owner, panel, null);
-				}
-				
-				return "Parent child panel \"" + panel + "\" created successfully in \"" + pack +  "\"";
-			}
-		}
-		
-		return "Error parsing command. Check your syntax!";
-		
-	}
-	
-	private void redoKrokiMockupToolAction() {
-		RedoAction redo = new RedoAction();
-		redo.actionPerformed(null);
-	}
-
-	private void undoKrokiMockupToolAction() {
-		UndoAction undo = new UndoAction();
-		undo.actionPerformed(null);
-	}
-
-	public void aboutKrokiMockupTool(String command) {
-		KrokiMockupToolAboutDialog about = new KrokiMockupToolAboutDialog();
-		about.setVisible(true);
 	}
 	
 	public String displayHelp(String command) { //exit aplication
