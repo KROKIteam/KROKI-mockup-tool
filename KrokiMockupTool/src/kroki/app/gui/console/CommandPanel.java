@@ -37,9 +37,11 @@ import kroki.profil.association.Next;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.ElementsGroupUtil;
+import kroki.profil.utils.ParentChildUtil;
 import kroki.profil.utils.StandardPanelUtil;
 import kroki.profil.utils.UIPropertyUtil;
 import kroki.app.gui.dialog.KrokiMockupToolAboutDialog;//poziv za about prikaz, prikaz o applikaciji
@@ -112,7 +114,7 @@ public class CommandPanel extends JPanel {
 		tabMakeOption.add("project");
 		tabMakeOption.add("package");
 		tabMakeOption.add("std-panel");
-		tabMakeOption.add("parent-child");
+		tabMakeOption.add("parent-child panel");
 		tabMakeOption.add("textfield");
 		tabMakeOption.add("textarea");
 		tabMakeOption.add("combobox");
@@ -235,7 +237,7 @@ public class CommandPanel extends JPanel {
 					}
 					
 					//make actions
-					if(currentLine.getText().equalsIgnoreCase("make") || currentLine.getText().equalsIgnoreCase("make" + " " + tabMakeOption.get(commandMakeOptionIndex))){
+					if(currentLine.getText().equalsIgnoreCase("make") || currentLine.getText().equalsIgnoreCase("make hel") || currentLine.getText().equalsIgnoreCase("make" + " " + tabMakeOption.get(commandMakeOptionIndex))){
 						commandMakeOptionIndex++;
 						if (commandMakeOptionIndex >= tabMakeOption.size()) {
 							commandMakeOptionIndex = 0;
@@ -283,7 +285,8 @@ public class CommandPanel extends JPanel {
 		} else if(command.startsWith("make std-panel")) {//pravljenje std panela u projktu
 			ret = makeStdPanelCommand(command);
 			
-		} else if(command.startsWith("make parent-chiled panel")) {
+		} else if(command.startsWith("make parent-child panel")) {			
+			ret = makeParentChildPanelCommand(command);
 			
 		} else if(command.equalsIgnoreCase("redo")){ //redo akcija
 			redoKrokiMockupToolAction();
@@ -299,7 +302,9 @@ public class CommandPanel extends JPanel {
 			ret ="";
 			
 		} else if(command.equalsIgnoreCase("exit")){
-			System.exit(0);
+			if (exitKroki()) {
+				System.exit(0);
+			}
 		}
 		return ret;
 	}
@@ -385,6 +390,35 @@ public class CommandPanel extends JPanel {
 		return "Error parsing command. Check your syntax!";
 	}
 	
+	public String makeParentChildPanelCommand(String command){
+		Pattern patt = Pattern.compile("[\"']([^\"']+)[\"'] in [\"']([^\"']+)[\"'](?: \\{(.+?)\\})?");
+		String panel;
+		String pack;
+		String components;
+		Matcher matcher = patt.matcher(command);
+		if (matcher.find()) {
+			if (matcher.groupCount() > 0) {
+				panel = matcher.group(1);
+				pack = matcher.group(2);
+				components = matcher.group(3);
+				
+				if (components != null) {
+					String[] comps = components.split(",");
+					BussinesSubsystem owner = getOwnerPackage(pack);
+					makeParentChildPanel(owner, panel, comps);
+				} else {
+					BussinesSubsystem owner = getOwnerPackage(pack);
+					makeParentChildPanel(owner, panel, null);
+				}
+				
+				return "Parent child panel \"" + panel + "\" created successfully in \"" + pack +  "\"";
+			}
+		}
+		
+		return "Error parsing command. Check your syntax!";
+		
+	}
+	
 	private void redoKrokiMockupToolAction() {
 		RedoAction redo = new RedoAction();
 		redo.actionPerformed(null);
@@ -411,21 +445,6 @@ public class CommandPanel extends JPanel {
 					"\n\t\t4. open project"+
 					"\n\t\t5. save project"+
 					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+//Layouts
-//					"\n\t\t6. rename project"+
-//					"\n\t\t6. rename project"+
 					"\n\t\t15. undo"+
 					"\n\t\t16. redo"+
 					"\n\t\t17. about"+
@@ -612,6 +631,44 @@ public class CommandPanel extends JPanel {
 
 		return panel;
 	}
+	
+	public VisibleClass makeParentChildPanel(BussinesSubsystem owner, String label, String[] componets){
+		VisibleClass panel = new ParentChild();
+		ParentChildUtil.defaultGuiSettings((ParentChild) panel);
+		//NamingUtil cc = new NamingUtil();
+		panel.setLabel(label);
+		panel.getComponent().setName(label);		
+		ElementsGroup eg = (ElementsGroup) panel.getVisibleElementList().get(1);
+		((Composite) eg.getComponent()).setLayoutManager(new VerticalLayoutManager());
+		((Composite) eg.getComponent()).layout();
+		eg.update();
+		panel.update();
+		owner.addOwnedType(panel);
+		
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getTree().updateUI();
+		KrokiMockupToolApp.getInstance().getTabbedPaneController().openTab(panel);
+		
+		
+		if (componets != null){
+			for (int i=0; i < componets.length; i++) {
+				String c = componets[i];
+				String[] data = c.trim().split("-");
+				
+				String probLabel = data[1];
+				String type = data[0];
+				
+				if (type.equalsIgnoreCase("textfield")) {
+					makeVisibleProperty(probLabel, true, ComponentType.TEXT_FIELD, panel, 0);
+				} else if (type.equalsIgnoreCase("textarea")) {
+					makeVisibleProperty(probLabel, true, ComponentType.TEXT_AREA, panel, 0);
+				}			
+			}
+		}
+		
+		
+		return panel;
+		
+	}
 
 	/**
 	 * creates GUI element
@@ -619,7 +676,8 @@ public class CommandPanel extends JPanel {
 	 * @param visible specifies element visibility on panel
 	 * @param type component type
 	 * @param panel panel on which component is to be created
-	 * @param group group inside panel in which created component is to be put (0-toolbar, 1-Properties, 2-Operations)
+	 * @param group group inside std panel in which created component is to be put (0-toolbar, 1-Properties, 2-Operations)
+	 * @param group group inside parent child panel in which created component is to be put (0-Properties, 1-Operations)
 	 */
 	public void makeVisibleProperty(String label, boolean visible, ComponentType type, VisibleClass panel, int group) {
 		NamingUtil namer = new NamingUtil();
@@ -720,6 +778,13 @@ public class CommandPanel extends JPanel {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	//moram da ubacim proveru da li ima nekih komponenti koje nisu snimljene	
+	public boolean exitKroki() {
+		
+		return false;
 	}
 	
 	class MyTextField extends JTextField {
