@@ -93,7 +93,9 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         
         String[] peristentTypes = { "Char", "Varchar", "Text", "Integer", "Number", "Float", "Decimal", "Boolean", "Date", "Time", "DateTime"};
         persistentTypeCb = new JComboBox<String>(peristentTypes);
-        persistentTypeCb.setSelectedIndex(0);        
+        persistentTypeCb.setSelectedItem("Varchar");
+        persistentTypeCb.setSelectedIndex(0);
+        System.out.println(persistentTypeCb.getSelectedItem());
         
         columnLabelTf = new JTextField(30);
         labelToCodeCb = new JCheckBox();
@@ -527,7 +529,13 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         	labelToCodeCb.setSelected(false);
         }
        persistentTypeCb.setEnabled(true);
-       persistentTypeCb.setSelectedItem(visibleProperty.getPersistentType());
+       if(visibleProperty.getPersistentType() == null) {
+    	   persistentTypeCb.setSelectedIndex(1);
+    	   visibleProperty.setPersistentType("Varchar");
+       }else {
+    	   System.out.println(visibleProperty.getPersistentType());
+    	   persistentTypeCb.setSelectedItem(visibleProperty.getPersistentType());
+       }
        updateLengthAndPrecision(visibleProperty);      
        lengthTf.setText(visibleProperty.getLength() + "");
        precisionTf.setText(visibleProperty.getPrecision() + "");
