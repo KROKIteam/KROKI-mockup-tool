@@ -16,9 +16,11 @@ import kroki.app.KrokiMockupToolApp;
 
 import org.w3c.dom.Document;
 
+import devHub.AppType;
+
 public class XMLWriter {
 	
-	public void write(Document doc, String fileName, Boolean swing) {
+	public void write(Document doc, String fileName, AppType appType) {
 		
 		try {
 			File f = new File(".");
@@ -32,7 +34,7 @@ public class XMLWriter {
 			if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
 				fout = new File(appPath + "SwingApp" + File.separator + "model" + File.separator +  fileName + ".xml");
 			}
-			if(!swing) {
+			if(appType==AppType.WEB) {
 				fout = new File(appRepoPath + File.separator + "generated" + File.separator + 
 																		      File.separator + "model" + File.separator + fileName + ".xml");
 			}

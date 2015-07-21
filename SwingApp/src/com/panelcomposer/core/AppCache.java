@@ -14,8 +14,6 @@ import com.panelcomposer.model.enumeration.Enumeration;
 import com.panelcomposer.model.menu.MyMenu;
 import com.panelcomposer.model.panel.MPanel;
 
-import ejb.User;
-
 
 public class AppCache {
 

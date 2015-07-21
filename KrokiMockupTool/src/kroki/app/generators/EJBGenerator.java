@@ -29,6 +29,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import devHub.AppType;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -353,9 +354,9 @@ public class EJBGenerator {
 				}
 
 				if(path == null) {
-					writer.write(doc, "ejb" + File.separator + clas.getName(), true);
+					writer.write(doc, "ejb" + File.separator + clas.getName(), AppType.SWING);
 				}else {
-					writer.write(doc, "ejb" + File.separator + clas.getName(), false);
+					writer.write(doc, "ejb" + File.separator + clas.getName(), AppType.WEB);
 				}
 			}
 		} catch (ParserConfigurationException e) {
@@ -401,9 +402,9 @@ public class EJBGenerator {
 			}
 
 			if(repo == null) {
-				writer.write(doc, "xml-mapping", true);
+				writer.write(doc, "xml-mapping", AppType.SWING);
 			}else {
-				writer.write(doc, "xml-mapping", false);
+				writer.write(doc, "xml-mapping", AppType.WEB);
 			}
 
 		} catch (ParserConfigurationException e) {

@@ -16,6 +16,7 @@ import javax.swing.tree.TreePath;
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 
+import devHub.AppType;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.gui.console.CommandPanel;
@@ -84,7 +85,7 @@ public class ExportEclipseProjectAction extends AbstractAction {
 						public void run() {
 							KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 							// Generate application repository and web app contents
-							ProjectExporter exporter = new ProjectExporter(false);
+							ProjectExporter exporter = new ProjectExporter(AppType.WEB);
 							exporter.generateAppAndRepo(proj, null);
 							exporter.writeProjectName(proj.getLabel(), proj.getProjectDescription());
 

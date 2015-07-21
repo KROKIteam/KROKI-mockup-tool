@@ -25,6 +25,8 @@ import kroki.profil.utils.DatabaseProps;
 
 import org.apache.commons.io.FileDeleteStrategy;
 
+import devHub.AppType;
+
 /**
  * Action that runs selected project as web application
  * @author Milorad Filipovic
@@ -81,7 +83,7 @@ public class RunWebAction extends AbstractAction {
 									//generate connection settings for embedded h2 database
 									DatabaseProps tempProps = new DatabaseProps();
 									//proj.setDBConnectionProps(tempProps);
-									ProjectExporter exporter = new ProjectExporter(false);
+									ProjectExporter exporter = new ProjectExporter(AppType.WEB);
 									exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
 
 									//run exported jar file

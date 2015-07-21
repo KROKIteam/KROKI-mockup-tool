@@ -3,13 +3,13 @@ package kroki.app.generators;
 import java.io.File;
 import java.util.ArrayList;
 
-import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.Menu;
 import kroki.app.menu.Submenu;
 import kroki.profil.VisibleElement;
 import kroki.profil.utils.DatabaseProps;
+import devHub.AppType;
 
 /**
  * Generates contents of application repository using other generator classes
@@ -27,7 +27,7 @@ public class ApplicationRepositoryGenerator {
 		EJBGenerator = new EJBGenerator();
 		panelGenerator = new PanelGenerator();
 		menuGenerator = new MenuGenerator();
-		enumGenerator = new EnumerationGenerator(false);
+		enumGenerator = new EnumerationGenerator(AppType.WEB);
 		DBConfigGenerator = new DatabaseConfigGenerator(new DatabaseProps());
 	}
 	

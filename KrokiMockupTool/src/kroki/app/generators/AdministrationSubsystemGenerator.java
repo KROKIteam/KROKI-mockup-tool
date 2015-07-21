@@ -11,6 +11,8 @@ import kroki.app.generators.utils.XMLWriter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import devHub.AppType;
+
 /**
  * Generates administration subsystem
  * @author Kroki Team
@@ -41,7 +43,7 @@ public class AdministrationSubsystemGenerator {
 			generateRolePermissions(resourcesRoot, doc);
 			
 			
-			writer.write(doc, "administration-generated", false);
+			writer.write(doc, "administration-generated", AppType.WEB);
 
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

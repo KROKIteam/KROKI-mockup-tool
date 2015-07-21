@@ -15,6 +15,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+/**
+ * Generates enumerations
+ * @author Kroki Team
+ */
+import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.XMLWriter;
 
@@ -22,29 +27,26 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import devHub.AppType;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-/**
- * Generates enumerations
- * @author Kroki Team
- */
-import kroki.app.KrokiMockupToolApp;
 
 public class EnumerationGenerator {
 
 	private XMLWriter writer;
 	private DocumentBuilderFactory factory;
-	private Boolean swing;
+	//Enum SWING, WEB, MEAN
+	private AppType appType;
 	private File outputFile;
 	private String appPath;
 
-	public EnumerationGenerator(Boolean swing) {
+	public EnumerationGenerator(AppType type) {
 		this.writer = new XMLWriter();
 		this.factory = DocumentBuilderFactory.newInstance();
-		this.swing = swing;
+		this.appType = type;
 		File f = new File(".");
 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		this.outputFile = getOutputFile();
@@ -85,7 +87,7 @@ public class EnumerationGenerator {
 
 			}
 
-			writer.write(document, "enumerations-generated", swing);
+			writer.write(document, "enumerations-generated", appType);
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -147,9 +149,9 @@ public class EnumerationGenerator {
 
 	public File getOutputFile() {
 		File out = null;
-		if(swing) {
+		if(appType==AppType.SWING) {
 			out = new File(appPath.substring(0, appPath.length()-16) +  "SwingApp" + File.separator + "src" + File.separator + "com" + File.separator + "panelcomposer" + File.separator + "enumerations");
-		}else {
+		}else if (appType==AppType.WEB) {
 			out = new File(appPath.substring(0, appPath.length()-16) +  "ApplicationRepository" + File.separator + "generated" + File.separator +  "model" + File.separator + "enumerations_generated");
 		}
 		return out;

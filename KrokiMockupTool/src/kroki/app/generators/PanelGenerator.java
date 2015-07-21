@@ -12,6 +12,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import devHub.AppType;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
@@ -372,11 +373,11 @@ public class PanelGenerator {
 			}
 			
 			if(repo == null) {
-				writer.write(doc, "panel" + File.separator + "panel", true);
-				writer.write(mapDoc, "panel" + File.separator + "panel-map", true);
+				writer.write(doc, "panel" + File.separator + "panel", AppType.SWING);
+				writer.write(mapDoc, "panel" + File.separator + "panel-map", AppType.SWING);
 			}else {
-				writer.write(doc, "panel" + File.separator + "panel", false);
-				writer.write(mapDoc, "panel" + File.separator + "panel-map", false);
+				writer.write(doc, "panel" + File.separator + "panel", AppType.WEB);
+				writer.write(mapDoc, "panel" + File.separator + "panel-map", AppType.WEB);
 			}
 		} catch (DOMException e) {
 			e.printStackTrace();

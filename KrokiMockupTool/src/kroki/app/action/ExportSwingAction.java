@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.tree.TreePath;
 
+import devHub.AppType;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
@@ -65,7 +66,7 @@ public class ExportSwingAction extends AbstractAction {
 				if (retValue == JFileChooser.APPROVE_OPTION) {
 					File file = jfc.getSelectedFile();
 					//pass selected project and directory to exporter class
-					ProjectExporter exporter = new ProjectExporter(true);
+					ProjectExporter exporter = new ProjectExporter(AppType.SWING);
 					exporter.export(file, proj.getLabel().replace(" ", "_"), proj, "Project exported successfuly to " + file.getAbsolutePath());
 				} else {
 					KrokiMockupToolApp.getInstance().displayTextOutput("Export canceled by user.", 0);

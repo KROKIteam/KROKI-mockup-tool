@@ -24,6 +24,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import devHub.AppType;
+
 /**
  * Generates menu xml file for swing and web applications
  * @author Kroki Team
@@ -46,7 +48,7 @@ public class MenuGenerator {
 				printSWINGMenu(menu, doc, root);
 			}
 			
-			writer.write(doc, "menu", true);
+			writer.write(doc, "menu", AppType.SWING);
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -68,7 +70,7 @@ public class MenuGenerator {
 				printSWINGMenu(menu, doc, root);
 			}
 			
-			writer.write(doc, "menu", false);
+			writer.write(doc, "menu", AppType.WEB);
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -304,7 +306,7 @@ public class MenuGenerator {
 			
 			generateMenu(resourcesRoot, doc);
 			
-			writer.write(doc, "menu-generated-default", false);
+			writer.write(doc, "menu-generated-default", AppType.WEB);
 
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

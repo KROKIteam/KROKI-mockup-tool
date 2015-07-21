@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import devHub.AppType;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.exceptions.NoZoomPanelException;
 import kroki.app.generators.AdministrationSubsystemGenerator;
@@ -46,10 +47,9 @@ import kroki.profil.subsystem.BussinesSubsystem;
  *
  */
 public class ProjectExporter {
-
-	//true = swing export
-	//false = web export
-	private boolean swing;
+	
+	//Enum SWING, WEB, MEAN
+	private AppType appType;
 
 	//project that is exported
 	private BussinesSubsystem project;
@@ -74,7 +74,7 @@ public class ProjectExporter {
 	private kroki.app.menu.Submenu rootMenu;
 
 
-	public ProjectExporter(boolean swing) {
+	public ProjectExporter(AppType type) {
 		classes = new ArrayList<EJBClass>();
 		menus = new ArrayList<Menu>();
 		elements = new ArrayList<VisibleElement>();
@@ -82,13 +82,13 @@ public class ProjectExporter {
 		ejbGenerator = new EJBGenerator();
 		menuGenerator = new MenuGenerator();
 		panelGenerator = new PanelGenerator();
-		enumGenerator = new EnumerationGenerator(swing);
+		enumGenerator = new EnumerationGenerator(type);
 		webGenerator = new WebResourceGenerator();
 		adminGenerator = new AdministrationSubsystemGenerator();
 		appRepoGenerator = new ApplicationRepositoryGenerator();
 		rootMenu = new kroki.app.menu.Submenu("Menu");
 		cc = new NamingUtil();
-		this.swing = swing;
+		appType = type;
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class ProjectExporter {
 		getData(proj);
 		//configuration files generation from collected data
 		//separate generator classes are called for swing and web application
-		if(swing) {
+		if(appType==AppType.SWING) {
 			menuGenerator.generateSWINGMenu(menus);
 			panelGenerator.generate(elements, null);
 			ejbGenerator.generateEJBXmlFiles(classes, null);
@@ -155,7 +155,7 @@ public class ProjectExporter {
 		//Add one-to-many attributes to classes
 		addReferences();
 		//add default data
-		if(swing) {
+		if(appType==AppType.SWING) {
 			addDefaultSwingData(proj);
 		}
 	}
@@ -230,7 +230,7 @@ public class ProjectExporter {
 
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
-		if(!swing) {
+		if(appType==AppType.WEB) {
 			pack = "ejb_generated";
 		}
 		EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes);
@@ -560,7 +560,7 @@ public class ProjectExporter {
 		String toAppendName = "main.form.name";
 		String toAppendDescription = "app.description";
 
-		if(!swing) {
+		if(appType==AppType.WEB) {
 			propertiesFile = new File(appPath + "ApplicationRepository" + File.separator + "generated" + 
 					File.separator + "props" + File.separator + "main.properties");
 			toAppendName = "app.title";
@@ -571,7 +571,7 @@ public class ProjectExporter {
 		Scanner scan;
 		ArrayList<String> lines = new ArrayList<String>();
 		lines.add(toAppendName + " = " + name);
-		if(!swing) {
+		if(appType==AppType.WEB) {
 			lines.add(toAppendDescription + " = " + description);
 		}
 		try {
@@ -615,18 +615,18 @@ public class ProjectExporter {
 			appPath = appPath.substring(0, appPath.length()-16);
 		}
 		String appFolderName = "SwingApp";
-		if(!swing) {
+		if(appType==AppType.WEB) {
 			appFolderName = "WebApp";
 		}
 
 		File buildFile = new File(appPath + appFolderName + File.separator + "build.xml");
 		
 		if(proj.getEclipseProjectPath() != null) {
-			if(!swing) {
+			if(appType==AppType.WEB) {
 				buildFile = new File(proj.getEclipseProjectPath().getAbsolutePath() + File.separator + appFolderName + File.separator + "kroki-build.xml");
 			}
 		}else {
-			if(!swing) {
+			if(appType==AppType.WEB) {
 				buildFile = new File(appPath + appFolderName + File.separator + "kroki-build.xml");
 			}
 		}

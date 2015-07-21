@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import devHub.AppType;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.gui.console.CommandPanel;
@@ -66,8 +67,7 @@ public class ExportWebAction extends AbstractAction {
 											Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 							File file = jfc.getSelectedFile();
 							//pass selected project and directory to exporter class
-							ProjectExporter exporter = new ProjectExporter(
-									false);
+							ProjectExporter exporter = new ProjectExporter(AppType.WEB);
 
 							exporter.export(
 									file,

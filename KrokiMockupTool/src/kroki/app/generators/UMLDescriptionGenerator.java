@@ -3,6 +3,7 @@ package kroki.app.generators;
 import java.util.ArrayList;
 import java.util.List;
 
+import devHub.AppType;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.generators.utils.EJBAttribute;
@@ -39,7 +40,7 @@ public class UMLDescriptionGenerator {
 	 */
 	public String generateDescription(BussinesSubsystem project, DiagramProfile profile) {
 		namer = new NamingUtil();
-		exporter = new ProjectExporter(true);
+		exporter = new ProjectExporter(AppType.SWING);
 		String desc = "@startuml \n";
 		connections = "\n";
 		parentChildDescriptions = "";

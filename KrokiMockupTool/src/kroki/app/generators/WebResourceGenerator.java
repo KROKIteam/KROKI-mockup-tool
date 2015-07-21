@@ -25,6 +25,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import devHub.AppType;
+
 public class WebResourceGenerator {
 	
 	public void generate(ArrayList<VisibleElement> elements) {
@@ -319,7 +321,7 @@ public class WebResourceGenerator {
 				
 			}
 			
-			writer.write(doc, "resources-generated", false);
+			writer.write(doc, "resources-generated", AppType.WEB);
 			
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

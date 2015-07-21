@@ -8,6 +8,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import devHub.AppType;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
 import kroki.app.utils.ImageResource;
@@ -60,7 +61,7 @@ public class RunSwingAction extends AbstractAction {
 						//DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
 						
-						ProjectExporter exporter = new ProjectExporter(true);
+						ProjectExporter exporter = new ProjectExporter(AppType.SWING);
 						exporter.export(tempDir, proj.getLabel().replace(" ", "_"), proj, "Project exported OK! Running project...");
 
 						
