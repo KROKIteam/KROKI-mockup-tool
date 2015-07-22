@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menus>
+<menu>
+<roles/>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>drzava</submenu_name>
+<menu_item>
+<menu_name>drzava</menu_name>
+<form_name>drzava</form_name>
+<activate>drzava_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+<submenu>
+<submenu_parent>Menu</submenu_parent>
+<submenu_name>nm</submenu_name>
+<menu_item>
+<menu_name>nm</menu_name>
+<form_name>nm</form_name>
+<activate>nm_st</activate>
+<panel_type>standard-panel</panel_type>
+</menu_item>
+</submenu>
+</menu>
+</menus>
