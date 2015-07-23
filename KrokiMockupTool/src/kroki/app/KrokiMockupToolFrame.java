@@ -36,6 +36,7 @@ import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
 import kroki.app.action.ExportEclipseProjectAction;
 import kroki.app.action.ExportEclipseUMLDiagramAction;
+import kroki.app.action.ExportMeanAction;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
 import kroki.app.action.HelpAction;
@@ -46,6 +47,7 @@ import kroki.app.action.OpenFileAction;
 import kroki.app.action.OpenProjectAction;
 import kroki.app.action.PasteAction;
 import kroki.app.action.RedoAction;
+import kroki.app.action.RunMeanAction;
 import kroki.app.action.RunSwingAction;
 import kroki.app.action.RunWebAction;
 import kroki.app.action.SaveAction;
@@ -331,6 +333,7 @@ public class KrokiMockupToolFrame extends JFrame {
 			export.setName("export");
 			export.setText("Export...");
 			export.add(new ExportSwingAction());
+			export.add(new ExportMeanAction());
 			export.add(new ExportWebAction());
 			export.addSeparator();
 			export.add(new ExportEclipseProjectAction());
@@ -339,6 +342,7 @@ public class KrokiMockupToolFrame extends JFrame {
 			run.setName("run");
 			run.setText("Run...");
 			run.add(new RunSwingAction());
+			run.add(new RunMeanAction());
 			run.add(new RunWebAction());
 
 			JMenu project = new JMenu();
@@ -375,6 +379,7 @@ public class KrokiMockupToolFrame extends JFrame {
 
 			JToolBar runToolbar = new JToolBar(JToolBar.HORIZONTAL);
 			runToolbar.add(new RunSwingAction());
+			runToolbar.add(new RunMeanAction());
 			runToolbar.add(new RunWebAction());
 
 			mainToolbar.add(guiManager.getMainToolbar());

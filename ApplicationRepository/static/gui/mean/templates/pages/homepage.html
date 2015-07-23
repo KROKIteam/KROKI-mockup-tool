@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> ${title}::Home page </title>
+	<link rel="stylesheet" type="text/css" href="/files/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/files/css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/files/css/jquery-ui.theme.css">
+	<link rel="icon" type="image/png" href="/files/images/logo32x32.png">
+	<script src="/files/js/jquery-2.0.3.min.js"> </script>
+    <script src="/files/js/jquery-ui.min.js"></script>
+	<script src="/files/js/page.js"></script>
+</head>
+<body>
+	<#if user??>
+		<nav>
+			<#-- Windows -->
+			<#include "pages/menu.html" parse=true ignore_missing=true>
+			<#-- Linux -->
+			<#include "menu.html" parse=true ignore_missing=true>
+			<!--ul.mainMenu-->
+			<div id="logoutDiv">
+				<a id="logoutLink" href="/">${user.username}</a>
+			</div>
+			<!--logoutDiv-->
+		</nav>
+    	<!--mainNavigation-->
+    	<div id="container">
+    	</div>
+    	<div id="messagePopup">
+		</div>
+    	<!--container-->
+    	<div id="overlay">
+		<div id="confirmDialog">
+			<div class="windowHeaders">
+				<div class="windowName"></div>
+				<div id="closeConfirm" class="headerButtons" title="Close form">
+					<img src="/files/images/icons-white/close.png">
+				</div>
+			</div>
+			<div class="windowBody">
+				<p></p>
+				<button class="buttons-blue" id="cconfirmBtn">Confirm</button>
+				<button class="buttons-blue" id="cancelConfirm">Cancel</button>
+			</div>
+		</div>
+	</div>
+	<!-- overlay -->
+	<#else>
+			<p style="color:red"> You are not logged in! </p>
+		</#if>
+</body>
+</html>

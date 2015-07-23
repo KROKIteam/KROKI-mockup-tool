@@ -1,0 +1,726 @@
+@charset "utf-8";
+/*****************************************************************
+	KROKI Web Application Flat UI - CSS Stylesheet
+	
+	Author: Milorad Filipovic [mfili@uns.ac.rs]
+	Copyrigth (c) 2014 KROKI Team, 
+					   Chair of Informatics
+					   Faculty of Technical Sciences
+					   Novi Sad, Serbia
+	
+	https://github.com/KROKIteam
+******************************************************************
+Theme colors:
+		BLUE:	#346789	-- dark
+				#415b76	-- light
+		GREEN:	#16a085	-- dark
+				#48c9b0	-- light
+		RED:	#e74c3c
+		GREY:	#f3f4f5
+		
+Z-indexes:
+		Forms unfocused:	1;
+		Forms focused:		100;
+		Next popup menu:	100;		
+		Main navigation:	1000;
+		Message popup:		1001;
+******************************************************************/
+/*****************************************************************
+												INITAL FORMATTING
+*****************************************************************/
+* {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	font-family: "Lato",Helvetica,Arial,sans-serif;
+}
+
+*:focus {
+    outline: none;
+}
+
+html {
+	height: 100%;
+	width: 100%;	
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	background: url(../images/back.png) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+/*****************************************************************
+												   MENU FORMATTING
+*****************************************************************/
+nav {
+	width: 100%;
+	height: 38px;
+	background-color: #f3f4f5;
+	height: 0;
+	z-index: 1000;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+#mainMenu {
+	width: 88%;
+	height: 30px;
+	padding: 3px;
+	position: absolute;
+	visibility: hidden;
+}
+
+#mainMenu > li.mainMenuItems {
+	height: 60%;
+	background-color: #346789;
+	font-size: 100%;
+	color: #fff;
+	display: inline-block;
+	border-radius: 5px;
+	padding: 7px 10px;
+	cursor: pointer;
+	float: left;
+	margin: 2px;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.menu {
+	width: 100%;
+	text-align: center;
+	z-index: 1;
+	position: relative;
+}
+
+.mainMenuText {
+	float: left;
+}
+
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 7px solid #16a085;
+	float: right;
+	margin-left: 10px;
+	margin-top: 7px;
+}
+
+#mainMenu > li.hover {
+	background-color: #48c9b0;
+}
+
+.arrow-down-hover {
+	width: 0; 
+	height: 0; 
+	border-left: 7px solid transparent;
+	border-right: 7px solid transparent;
+	border-top: 7px solid #16a085;
+	float: right;
+	margin-left: 10px;
+	margin-top: 8px;	
+}
+
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 7px solid #346789;
+	float: right;
+	margin-top: 4px
+}
+
+.arrow-right-hover {
+	width: 0; 
+	height: 0; 
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-left: 7px solid #16a085;
+	float: right;
+	margin-top: 4px
+}
+
+ul.L1SubMenu{
+	width: 120%;
+	background-color: #f3f4f5;
+	color: #346789;
+	list-style: none;
+	margin-top: 35px;
+	margin-left: -10px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	visibility: hidden;
+	z-index: 999;
+	position: relative;
+}
+
+ul.L1SubMenu li {
+	border-bottom: 1px solid #346789;
+	width: 89%;
+	padding: 5px 10px;
+}
+
+ul.L1SubMenu li:last-child {
+	border: none;	
+}
+
+ul.L1SubMenu li.hover-li {
+	color: #16a085;
+}
+
+.subMenuLink {
+	position: relative;	
+}
+
+ul.L2SubMenu {
+	width: 100%;
+	background-color: #f3f4f5;
+	color: #346789;
+	list-style: none;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	/*
+		Offset for submenus of level 2 and higher.
+		These are shown on the right of their parent menu
+		by setting absolute position with left = 110%
+		(100% is width of parent menu + 10% gap) 
+	*/
+	position: absolute;
+	top: 0;
+	left: 110%;
+	display: none;
+}
+
+
+#logoutDiv {
+	width: 12%;
+	height: 35px;
+	padding-top: 4px;
+	float: right;
+	display: none;
+}
+
+#logoutDiv a#logoutLink {
+	height: 45%;
+	background-color: #16a085;
+	color: #fff;
+	display: inline-block;
+	border-radius: 5px;
+	padding: 7px 20px;
+	float: right;
+	border: none;
+	margin-right: 10px;
+	text-decoration: none;
+	text-align: center;
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#logoutDiv a#logoutLink:hover {
+	background-color: #e74c3c;
+}
+
+#messagePopup {
+	position: fixed;
+	bottom: 0;
+	color: #fff;
+	padding: 5px 5px 5px 15px;
+	width: 100%;
+	-webkit-box-shadow: 0px -2px 5px 0px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    0px -2px 5px 0px rgba(50, 50, 50, 0.75);
+	box-shadow:         0px -2px 5px 0px rgba(50, 50, 50, 0.75);
+	font-size: 16px;
+	display: none;
+	z-index: 1001;
+}
+
+#messagePopup.messageOk {
+	background-color: #16a085;
+}
+
+#messagePopup.messageError {
+	background-color: #e74c3c;
+}
+
+#messagePopup p {
+	font-size: 16px;
+	padding-top: 10px;	
+}
+
+#messagePopup div {
+	width: 35px;
+	height: 35px;
+	float: left;
+	margin-right: 10px;
+}
+
+#messagePopup.messageOk div {
+	background: url("/files/images/icons/success.png") no-repeat center center;
+}
+
+#messagePopup.messageError div {
+	background: url("/files/images/icons/warning.png") no-repeat center center;
+}
+
+/*common formatting for forms and other windows
+*/
+.windowHeaders  {
+	background-color: #346789;
+	color: #ECF0F1;
+	border-radius: 5px 5px 0 0;
+	width: 100%;
+	height: 32px;
+	cursor: move;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.windowName {
+	width: 80%;
+	height: 100%;
+	float: left;
+	margin-left: 10px;
+	font-size: 110%;
+	padding-top: 5px;
+}
+
+.headerButtons {
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+	margin-top: 4px;
+	float: right;
+	text-align: center;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.headerButtons img {
+	width: 100%;
+	height: 100%;
+}
+
+.windowBody {
+    float: left;
+	width: 97%;
+	height: 88%;
+	clear: both;
+	text-align: center;
+	padding: 10px;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+/*****************************************************************
+												 FORMS FORMATTING
+*****************************************************************/
+.windows {
+	margin: 0 auto;
+	width: 950px;
+	min-height: 500px;
+	position: absolute;
+	top: 50px;
+	left: 200px;
+	background-color: #ECF0F1;
+	border-radius: 5px;
+	z-index: 1;
+	display: none;
+	-webkit-user-select: none;        
+	-moz-user-select: none;
+	-ms-user-select: none;
+	padding-bottom: 20px;
+}
+
+.focused {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	z-index: 100;
+}
+
+.unfocused {
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	z-index: 1;
+}
+
+.standardForms {
+    float: left;
+    clear: both;
+	width: 100%;
+	max-height: 500px;
+	clear: both;
+}
+
+.formTitle {
+	color: #346789;
+	text-align: left;
+	margin-bottom: 5px;
+	margin-left: 20px;
+	font-size: 16px;
+}
+
+.tableDiv {
+	height: 96%;
+	width: 97%;
+	padding-left: 2%;
+	padding-right: 2%;
+	float: left;
+}
+
+.operationsDiv {
+	width: 20%;
+	max-height: 500px;
+	overflow-y: auto;
+	overflow-x: hidden;  
+	text-align: center;
+	float: right;
+}
+
+.operationButton {
+	margin: 5px auto;
+	width: 80%;
+}
+
+.formToolbar {
+	width: 100%;
+	height: 32px;
+	border-top: 1px solid #346789;
+	border-bottom: 1px solid #346789;
+}
+
+.controlsPanel {
+	height: 100%;
+	margin-right: 20px;
+	float: left;
+}
+
+.formToolbar button {
+	background: none;
+	border: none;
+	text-decoration: none;
+	cursor: pointer;
+	height: 100%;
+	width: 28px;
+}
+
+.formToolbar button[disabled] {
+	opacity: 0.3;
+}
+
+.hidden {
+    display: none;
+}
+
+#tableControls {
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.toolbarButton {
+	height: 100%;
+}
+
+.tablePanel {
+	width: 100%;
+	margin-top: 20px;
+	height: 65%;
+	overflow: auto;
+}
+
+.mainTable {
+	width: 100%;
+	border-left: 1px solid #000;
+	border-bottom: 1px solid #000;
+}
+
+.theadFixator {
+	position: absolute;
+	background-color: #346789;
+	border-right: 1px solid #000;
+	border-top: 1px solid #000;
+}
+
+.mainTable thead {
+	background-color: #346789;
+	color: #ECF0F1;
+	text-align: center;
+	height: 30px;
+	font-weight: normal;
+}
+
+.mainTable thead tr th{
+	height: 10%;
+}
+
+.mainTable th span {
+	visibility: hidden;
+}
+
+.mainTable th div.innerTHDiv {
+	position: absolute;
+	top: 101px;
+	background-color: #346789;
+	padding-top: 4px;
+	padding-left: 10px;
+}
+
+.mainTable tbody {
+	cursor: pointer;
+	
+}
+
+.mainTable tbody tr.selectedTr {
+	background-color: #16a085;
+	color: #fff;
+}
+
+.mainTable tbody tr:hover {
+	background-color: #16a085;
+	color: #fff;
+}
+
+.mainTable td,th {
+	border-right: 1px solid #000;
+	border-top: 1px solid #000;
+}
+
+.mainTable td {
+	padding: 2px;	
+}
+
+.buttons-blue {
+	width: 90%;
+	border: medium none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1.4;
+    transition: border 0.25s linear 0s, color 0.25s linear 0s, background-color 0.25s linear 0s;
+	background-color: #346789;
+	color: #fff;
+	cursor: pointer;
+}
+
+.buttons-blue:hover {
+	background-color: #16a085;
+}
+
+#button-cancel:hover {
+	background-color: #e74c3c;
+}
+/*****************************************************************
+											INPUT PANEL FORMATTING
+*****************************************************************/
+.inputForm {
+	width: 100%;
+	height: 100%;
+	display: none;
+	color: #346789;
+}
+
+.formTableContainer {
+	height: 98%;
+	width: 79%;
+	border-right: 1px solid black;
+	float: left;
+	overflow: auto;
+}
+
+.inputFormFields { /* table containing form labels and fields */
+	padding-left: 2%;
+	padding-right: 2%;
+	width: 100%;
+	border-collapse: separate; 
+	border-spacing: 1em;
+}
+
+.inputFormButtons {
+	width: 20%;
+	text-align: center;
+	float: right;
+}
+
+.inputColumn {
+	text-align: right;
+}
+
+textarea {
+	resize: vertical;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.stdFormInputs {
+	font-size: 1.1em;
+	color: #415b76;
+	width: 100%;
+	font-weight: normal;
+}
+
+.zoomInputs {
+	font-size: 1.1em;
+	color: gray;
+	width: 20%;
+	font-weight: normal;
+	display: inline;
+}
+
+.labelColumn {
+	font-weight: bold;
+	text-align: right;
+	padding-right: 20px;
+	vertical-align: top;
+}
+
+.nextPopup {
+	background-color: #f3f4f5;
+	color: #346789;
+	border-radius: 4px;
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(0, 0, 0, 1);
+	box-shadow:         0px 0px 10px 0px rgba(0, 0, 0, 1);
+	z-index: 100;
+	width: 15%;
+	text-align: center;
+	display: none;
+}
+
+.nextList {
+	list-style: none;
+	cursor: pointer;
+}
+
+.nextList li {
+	border-bottom: 1px solid #346789;
+	padding: 2px 0;
+}
+
+.nextList li:hover {
+	background-color: #16a085;
+	color: #f3f4f5;
+}
+
+/*****************************************************************
+										OVERLAY AND CONFIRM DIALOG
+******************************************************************
+Overlay is used to dim background components when confirm dialog 
+is shown and to stop click propagation, making the dialog modal
+*/
+
+#overlay {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.6);
+	z-index: 1003;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	display: none;
+}
+
+#confirmDialog {
+	width: 300px;
+	height: 160px;
+	margin: 15% auto;
+	background-color: #ECF0F1;
+	color: #346789;
+	border-radius: 5px 5px 0 0;
+}
+
+#confirmDialog .windowHeaders {
+	cursor: default;
+}
+
+#confirmDialog .windowBody {
+	padding: 5px;
+	text-align: center;
+}
+
+#confirmDialog .windowBody button.buttons-blue {
+	width: 40%;
+	margin: 5px;
+}
+
+#confirmDialog #cancelConfirm:hover {
+	background-color: #e74c3c;
+}
+
+#confirmDialog .windowBody p {
+	margin-top: 10px;
+	height: 48%;
+}
+
+.operationIcon  {
+	float: left;
+	margin: 0 auto;
+}
+
+.operationButton span {
+	display: inline-block;
+	margin-top: 2px;
+	text-align: right;
+}
+
+.elementsGroup {
+	margin-bottom: 10px;
+}
+
+.groupName {
+	border-bottom: 1px solid #415b76;
+	display: block;
+	width: 100%;
+	text-align: left;
+	color: #415b76;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.panelLinks {
+	display: block;
+	width: 100%;
+	margin: 2px 0;
+	font-size: 14px;
+	color: #415b76;
+	text-decoration: none;
+    text-align: left;
+}
+
+.panelLinks:hover {
+	color: #16a085;
+}
+
+a.disabled {
+	pointer-events: none;
+  	cursor: default;
+  	color: grey;
+}

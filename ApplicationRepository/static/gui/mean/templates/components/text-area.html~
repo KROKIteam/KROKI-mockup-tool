@@ -1,0 +1,1 @@
+<textarea class="stdFormInputs" rows="4" name="${attribute.fieldName}" <#if attribute.length gt 0>maxlength="${attribute.length}"</#if>><#if editMap??>${editMap[attribute.fieldName]}</#if></textarea>

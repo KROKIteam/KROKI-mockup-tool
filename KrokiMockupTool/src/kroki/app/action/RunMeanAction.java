@@ -86,7 +86,7 @@ public class RunMeanAction extends AbstractAction {
 			thread.setPriority(Thread.NORM_PRIORITY);
 			thread.start();
 		}else {
-			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Not available in the current release.");
+			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Not available in the current mean release.");
 		}
 	}
 

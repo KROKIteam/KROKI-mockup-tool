@@ -1,0 +1,31 @@
+<!-- ...........................................|| ${panel.name} Edit form ||.......................................... -->
+<form class="inputForm" action="/edited/${panel.entityBean.entityClass.name}/${modid}" name="editForm" method="post">
+    <!-- FORM TABLE CONTAINER & INPUT FORM FIELDS -->
+    <div class="formTableContainer">
+        <table class="inputFormFields">
+            <#if inputForm?keys?has_content>
+            <#list panel.entityBean.attributes as attribute>
+            <#if attribute.hidden == false>
+            <#if inputForm[attribute.fieldName]??>
+            <tr>
+                <td class="labelColumn">${attribute.label}</td>
+                <td class="inputColumn" style"float:left">
+                    <#include "${inputForm[attribute.fieldName]}" parse=true encoding="UTF-8">
+                </td>
+            </tr>
+            </#if>
+            </#if>
+            </#list>
+            </#if>
+        </table>
+    </div>
+    <!-- INPUT FORM BUTTONS -->
+    <div class="inputFormButtons">
+        <div class="operationButton">
+            <button class="buttons-blue" id="button-ok" type="submit">Ok</button>
+        </div>
+        <div class="operationButton">
+            <button class="buttons-blue" id="button-cancel">Cancel</button>
+        </div>
+    </div>
+</form>

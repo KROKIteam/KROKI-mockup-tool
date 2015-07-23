@@ -1,0 +1,2 @@
+<input class="stdFormInputs" type="checkbox" name="${attribute.fieldName}" value="true" <#if editMap??><#if editMap[attribute.fieldName] == "Yes">checked</#if></#if>>
+<input type="hidden" name="${attribute.fieldName}" value="false">
