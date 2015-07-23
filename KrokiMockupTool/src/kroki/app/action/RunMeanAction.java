@@ -26,11 +26,11 @@ public class RunMeanAction extends AbstractAction {
 
 	public RunMeanAction() {
 		putValue(NAME, "Run mean version");
-		ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.runswing.smallicon"));
-		ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.runswing.largeicon"));
+		ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.runmean.smallicon"));
+		ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.runmean.largeicon"));
 		putValue(SMALL_ICON, smallIcon);
 		putValue(LARGE_ICON_KEY, largeIcon);
-		putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.runswing.description"));
+		putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.runmean.description"));
 	}
 
 	/**

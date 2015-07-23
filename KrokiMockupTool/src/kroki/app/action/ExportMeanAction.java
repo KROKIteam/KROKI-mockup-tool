@@ -28,11 +28,11 @@ public class ExportMeanAction extends AbstractAction {
 
 	public ExportMeanAction() {
 		putValue(NAME, "Export desktop application");
-		ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.exportswing.smallicon"));
-		ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.exportswing.largeicon"));
+		ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.exportmean.smallicon"));
+		ImageIcon largeIcon = new ImageIcon(ImageResource.getImageResource("action.exportmean.largeicon"));
 		putValue(SMALL_ICON, smallIcon);
 		putValue(LARGE_ICON_KEY, largeIcon);
-		putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.exportswing.description"));
+		putValue(SHORT_DESCRIPTION, StringResource.getStringResource("action.exportmean.description"));
 	}
 
 	@Override

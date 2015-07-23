@@ -1,7 +1,5 @@
 package kroki.app.export;
 
-import framework.MainFrame;
-
 import java.awt.Cursor;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +8,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import devHub.AppType;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.exceptions.NoZoomPanelException;
 import kroki.app.generators.AdministrationSubsystemGenerator;
@@ -26,7 +23,6 @@ import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
-import kroki.app.gui.console.CommandPanel;
 import kroki.app.gui.console.OutputPanel;
 import kroki.app.menu.MenuItem;
 import kroki.app.utils.RunAnt;
@@ -39,6 +35,8 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import devHub.AppType;
+import framework.MainFrame;
 
 /**
  * Class that provides methods for exporting KROKI projects
