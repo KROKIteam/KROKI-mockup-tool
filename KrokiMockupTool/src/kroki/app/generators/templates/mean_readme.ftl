@@ -1,0 +1,1 @@
+README: ${class.label}
