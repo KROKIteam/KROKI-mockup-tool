@@ -61,7 +61,7 @@ public class RunMeanAction extends AbstractAction {
 						//DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
 						
-						ProjectExporter exporter = new ProjectExporter(AppType.MEAN);
+						ProjectExporter exporter = new ProjectExporter(AppType.WEB);
 						exporter.export(tempDir, proj.getLabel().replace(" ", "_"), proj, "Project exported OK! Running project...");
 
 						
@@ -82,12 +82,12 @@ public class RunMeanAction extends AbstractAction {
 
 			}
 		});
-		if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
+		//if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
 			thread.setPriority(Thread.NORM_PRIORITY);
 			thread.start();
-		}else {
+		/*}else {
 			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), "Not available in the current mean release.");
-		}
+		}*/
 	}
 
 	public boolean deleteFiles(File directory) {

@@ -112,6 +112,7 @@ public class ProjectExporter {
 		getData(proj);
 		//configuration files generation from collected data
 		//separate generator classes are called for swing and web application
+		System.out.println("usao");
 		if(appType==AppType.SWING) {
 			menuGenerator.generateSWINGMenu(menus);
 			panelGenerator.generate(elements, null);
@@ -121,7 +122,7 @@ public class ProjectExporter {
 			dbConfigGenerator.generateFilesForDesktopApp();
 			enumGenerator.generateXMLFiles(enumerations);
 			enumGenerator.generateEnumFiles(enumerations);
-		}else {
+		} else {
 			appRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
 			MainFrame.getInstance(); // If admin subsystem isn't started
 			adminGenerator.generate();
