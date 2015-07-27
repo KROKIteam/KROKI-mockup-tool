@@ -28,7 +28,7 @@ public class MeanApplicationGenerator {
 	private DatabaseProps  parameters;
 	private String date;
 	private static String appPath = "/home/student2014/kroki/meanApp";
-	private static String resourcePath="/home/student2014/kroki/KROKI-mockup-tool/KrokiMockupTool/src/kroki/app/generators/templates/";
+	private static String resourcePath="/home/student2014/kroki/KROKI-mockup-tool/KrokiMockupTool/src/kroki/app/generators/templates";
 	private static Map<String,EJBClass> model = new HashMap<String,EJBClass>();
 	public MeanApplicationGenerator() {
 		
@@ -67,13 +67,13 @@ public class MeanApplicationGenerator {
 		OutputStreamWriter writer = null;
 		String filePath = parseName(fileName);
 		try {
-			fout = new File(resourcePath + File.separator + filePath);
+			fout = new File(appPath + File.separator + filePath);
 			writer = new OutputStreamWriter(new FileOutputStream(fout));
 		}catch (IOException ioe) {
 			try {
-				fout = new File(resourcePath + filePath);
+				fout = new File(appPath + filePath);
 				writer = new OutputStreamWriter(new FileOutputStream(fout));
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 			}

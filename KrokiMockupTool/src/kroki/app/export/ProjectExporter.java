@@ -101,8 +101,10 @@ public class ProjectExporter {
 	 */
 	public void export(File file, String jarName, BussinesSubsystem proj, String message) {
 		generateAppAndRepo(proj, message);
-		writeProjectName(proj.getLabel(), proj.getProjectDescription());
-		runAnt(file, proj, jarName, message);
+		if (appType != AppType.MEAN) {
+			writeProjectName(proj.getLabel(), proj.getProjectDescription());
+			runAnt(file, proj, jarName, message);
+		}
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 

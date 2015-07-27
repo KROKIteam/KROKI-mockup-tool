@@ -104,7 +104,7 @@ public class DatabaseConfigGenerator {
 	public void geneateHibernateConfigXML(String path) {
 		KrokiMockupToolApp.getInstance().displayTextOutput("[DB CONFIG GENERATOR] generating hibernate.cfg.xml file...", 0);
 		File f = new File(".");
-		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+ 		appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 		File fout = null;
 		OutputStreamWriter writer = null;
 		if(path == null) {
