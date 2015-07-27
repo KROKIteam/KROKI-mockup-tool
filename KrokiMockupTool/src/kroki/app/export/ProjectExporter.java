@@ -15,6 +15,7 @@ import kroki.app.generators.ApplicationRepositoryGenerator;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.EnumerationGenerator;
+import kroki.app.generators.MeanApplicationGenerator;
 import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.PanelGenerator;
 import kroki.app.generators.WebResourceGenerator;
@@ -70,6 +71,8 @@ public class ProjectExporter {
 	private ApplicationRepositoryGenerator appRepoGenerator;
 	private NamingUtil cc;
 	private kroki.app.menu.Submenu rootMenu;
+	
+	private MeanApplicationGenerator meanRepoGenerator;
 
 
 	public ProjectExporter(AppType type) {
@@ -122,10 +125,14 @@ public class ProjectExporter {
 			dbConfigGenerator.generateFilesForDesktopApp();
 			enumGenerator.generateXMLFiles(enumerations);
 			enumGenerator.generateEnumFiles(enumerations);
-		} else {
+		} else if(appType==AppType.WEB) {
 			appRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
 			MainFrame.getInstance(); // If admin subsystem isn't started
 			adminGenerator.generate();
+		} else if(appType==AppType.MEAN) {
+			meanRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
+			MainFrame.getInstance(); // If admin subsystem isn't started
+		
 		}
 	}
 	

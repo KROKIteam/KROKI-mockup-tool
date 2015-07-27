@@ -61,7 +61,7 @@ public class RunMeanAction extends AbstractAction {
 						//DatabaseProps tempProps = new DatabaseProps();
 						//proj.setDBConnectionProps(tempProps);
 						
-						ProjectExporter exporter = new ProjectExporter(AppType.WEB);
+						ProjectExporter exporter = new ProjectExporter(AppType.MEAN);
 						exporter.export(tempDir, proj.getLabel().replace(" ", "_"), proj, "Project exported OK! Running project...");
 
 						
