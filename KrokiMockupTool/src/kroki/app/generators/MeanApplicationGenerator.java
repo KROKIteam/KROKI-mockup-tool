@@ -3,6 +3,7 @@ package kroki.app.generators;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -25,21 +26,79 @@ import freemarker.template.TemplateException;
 
 public class MeanApplicationGenerator {
 
-	private DatabaseProps  parameters;
+	//docs/models generisati kao fajl
+	
 	private String date;
-	private static String appPath = "/home/student2014/kroki/meanApp";
-	private static String resourcePath="/home/student2014/kroki/KROKI-mockup-tool/KrokiMockupTool/src/kroki/app/generators/templates";
+	private static String appPath = null;
+	private static String currPackagePath = null;
+	private static String currFilePath = null;
+	private static String resourcePath="src" + File.separator + "kroki" + File.separator + "app" + File.separator + "generators" + File.separator + "templates";
 	private static Map<String,EJBClass> model = new HashMap<String,EJBClass>();
 	public MeanApplicationGenerator() {
 		
 	}
 	
 	public static void generate(ArrayList<EJBClass> classes, ArrayList<Menu> menus, ArrayList<VisibleElement> elements, ArrayList<Enumeration> enumerations, Submenu rootMenu) {
-		model.put("klasa",classes.get(0));
-		resolveTemplate("mean_public_controllers_js.ftl");
+		model.put("class",classes.get(0));
+		File f1 = new File(".");
+		File f = new File(f1.getAbsolutePath().substring(0,f1.getAbsolutePath().length()-1)+resourcePath);
+		
+	    FilenameFilter viewFilter = new FilenameFilter() {
+	        public boolean accept(File dir, String name) {
+	            return (name.toLowerCase().startsWith("mean") && name.toLowerCase().endsWith("html.ftl"));
+	        }
+	    };
+	    
+	    FilenameFilter configFilter = new FilenameFilter() {
+	        public boolean accept(File dir, String name) {
+	            return (name.toLowerCase().startsWith("mean") && name.toLowerCase().split("_").length<=3);
+	        }
+	    };
+	    
+	    FilenameFilter classFilter = new FilenameFilter() {
+	        public boolean accept(File dir, String name) {
+	            return (name.toLowerCase().startsWith("mean") && name.toLowerCase().split("_").length>3 && !name.toLowerCase().endsWith("html.ftl"));
+	        }
+	    };
+	    
+		appPath = f1.getAbsolutePath().substring(0,f1.getAbsolutePath().length()-1);
+		appPath = appPath.substring(0, appPath.length()-16) + "MeanApp" + File.separator + "packages" + File.separator + "custom" + File.separator;
+		
+		
+		for (EJBClass klasa : classes) {
+
+			model.put("class",klasa);
+			File currPackageDir = new File(appPath+klasa.getLabel() + File.separator);
+			currPackageDir.mkdir();
+			currPackagePath = currPackageDir.getAbsolutePath()+ File.separator;
+
+		    File[] classFiles = f.listFiles(classFilter);
+		    for (File file : classFiles) {
+		        if (!file.isDirectory()) {
+					currFilePath = parseNameWithClass(file.getName());
+		        	resolveTemplate(file.getName());
+		        } 
+		    }
+		    
+		    File[] viewFiles = f.listFiles(viewFilter);
+		    for (File file : viewFiles) {
+		        if (!file.isDirectory()) {
+					currFilePath = parseNameWithoutClass(file.getName());
+		        	resolveTemplate(file.getName());
+		        } 
+		    }
+		    
+		    File[] configFiles = f.listFiles(configFilter);
+		    for (File file : configFiles) {
+		        if (!file.isDirectory()) {
+					currFilePath = parseNameWithoutClass(file.getName());
+		        	resolveTemplate(file.getName());
+		        } 
+		    }
+		}
 	}
 	
-	public static String parseName(String name) {
+	public static String parseNameWithClass(String name) {
 		String[] splits = name.split("_");
 		StringBuilder ret = new StringBuilder();
 		if (splits==null || splits.length<2 || !splits[0].equals("mean")) {
@@ -48,11 +107,36 @@ public class MeanApplicationGenerator {
 		for (int i=1; i<splits.length; i++) {
 			if (i<=splits.length-2) {
 				ret.append(splits[i]);
+				File dir = new File(currPackagePath + ret.toString());
+				dir.mkdir();
 				ret.append(File.separator);
 			} else {
 				String exten = splits[splits.length-1];
 				exten = exten.substring(0, exten.length()-4);
-				ret.append(model.get("klasa").getLabel());
+				ret.append(model.get("class").getLabel());
+				ret.append("." + exten);
+				break;
+			}
+		}
+		return ret.toString();
+	}
+	
+	public static String parseNameWithoutClass(String name) {
+		String[] splits = name.split("_");
+		StringBuilder ret = new StringBuilder();
+		if (splits==null || splits.length<2 || !splits[0].equals("mean")) {
+			return null;
+		}
+		for (int i=1; i<splits.length; i++) {
+			if (i<=splits.length-3) {
+				ret.append(splits[i]);
+				File dir = new File(currPackagePath + ret.toString());
+				dir.mkdir();
+				ret.append(File.separator);
+			} else {
+				String exten = splits[splits.length-1];
+				exten = exten.substring(0, exten.length()-4);
+				ret.append(splits[i]);
 				ret.append("." + exten);
 				break;
 			}
@@ -62,21 +146,15 @@ public class MeanApplicationGenerator {
 	
 	public static void resolveTemplate(String fileName) {
 		KrokiMockupToolApp.getInstance().displayTextOutput("[MEAN APP GENERATOR] generating view package...", 0);
-		File f = new File(resourcePath);
 		File fout = null;
 		OutputStreamWriter writer = null;
-		String filePath = parseName(fileName);
+
 		try {
-			fout = new File(appPath + File.separator + filePath);
+			fout = new File(currPackagePath + currFilePath);
 			writer = new OutputStreamWriter(new FileOutputStream(fout));
-		}catch (IOException ioe) {
-			try {
-				fout = new File(appPath + filePath);
-				writer = new OutputStreamWriter(new FileOutputStream(fout));
-			} catch (Exception e) {
-				e.printStackTrace();
-				KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
-			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			KrokiMockupToolApp.getInstance().displayTextOutput(e.getMessage(), 3);
 		}
 		Template tpl = prepareTemplate(fileName);
 
@@ -90,13 +168,13 @@ public class MeanApplicationGenerator {
 	
 	public static Template prepareTemplate(String templateFile) {
 		Template template = null;
-		
+		File f = new File(".");
 		Configuration cfg = new Configuration();
 		cfg.setObjectWrapper(new DefaultObjectWrapper());
 		FileTemplateLoader templateLoader;
 		
 		try {
-			templateLoader = new FileTemplateLoader(new File(resourcePath));
+			templateLoader = new FileTemplateLoader(new File(f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1)+resourcePath));
 			cfg.setTemplateLoader(templateLoader);
 			template = cfg.getTemplate(templateFile);
 		} catch (IOException e) {

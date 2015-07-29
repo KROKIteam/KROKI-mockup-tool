@@ -26,7 +26,7 @@ module.exports = function(${class.name}s, app, auth) {
   var ${class.label}s = require('../controllers/${class.label}s')(${class.name}s);
 
   app.route('/api/${class.label}s')
-    .get(${class}s.all)
+    .get(${class.label}s.all)
     .post(auth.requiresLogin, hasPermissions, ${class.label}s.create);
   app.route('/api/${class.label}s/:${class.label}Id')
     .get(auth.isMongoId, ${class.label}s.show)

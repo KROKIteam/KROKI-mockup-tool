@@ -12,14 +12,12 @@ var ${class.name}s = new Module('${class.label}');
  * All MEAN packages require registration
  * Dependency injection is used to define required modules
  */
-Articles.register(function(app, auth, database, circles, swagger) {
+${class.name}s.register(function(app, auth, database, circles, swagger) {
 
   //We enable routing. By default the Package Object is passed to the routes
-  Articles.routes(app, auth, database);
-
-  Articles.aggregateAsset('css', '${class.label}.css');
+  ${class.name}s.routes(app, auth, database);
   
-Articles.menus.add({
+${class.name}s.menus.add({
     'roles': ['authenticated'],
     'title': '${class.name}s',
     'link': 'all ${class.label}s'

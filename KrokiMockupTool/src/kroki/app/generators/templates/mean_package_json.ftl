@@ -1,5 +1,5 @@
 {
-  "name": "${class.label}",
+  "name": "${class.label}s",
   "version": "0.0.1",
   "description": "${class.name} example package",
   "author": {
