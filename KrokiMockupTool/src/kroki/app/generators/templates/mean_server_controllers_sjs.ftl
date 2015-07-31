@@ -14,7 +14,7 @@ module.exports = function(${class.name}) {
          * Find ${class.label} by id
          */
         ${class.label}: function(req, res, next, id) {
-            ${class.name}.load(id, function(err, ${class.label}) {
+            mongoose.model('${class.name}').load(id, function(err, ${class.label}) {
                 if (err) return next(err);
                 if (!${class.label}) return next(new Error('Failed to load ${class.label}' + id));
                 req.${class.label}= ${class.label};
@@ -25,8 +25,7 @@ module.exports = function(${class.name}) {
          * Create an ${class.label}
          */
         create: function(req, res) {
-            var ${class.label} = new ${class.name}(req.body);
-            ${class.label}.user = req.user;
+            var ${class.label} = mongoose.model('${class.name}')(req.body);
 
             ${class.label}.save(function(err) {
                 if (err) {
@@ -35,7 +34,7 @@ module.exports = function(${class.name}) {
                     });
                 }
 
-                ${class.name}s.events.publish('create', {
+                ${class.name}.events.publish('create', {
                     description: req.user.name + ' created ' + req.body.title + ' ${class.label}.'
                 });
 
@@ -58,11 +57,11 @@ module.exports = function(${class.name}) {
                     });
                 }
 
-                ${class.name}s.events.publish('update', {
+                ${class.name}.events.publish('update', {
                     description: req.user.name + ' updated ' + req.body.title + ' ${class.label}.'
                 });
 
-                res.json(article);
+                res.json(${class.label});
             });
         },
         /**
@@ -79,7 +78,7 @@ module.exports = function(${class.name}) {
                     });
                 }
 
-                ${class.name}s.events.publish('remove', {
+                ${class.name}.events.publish('remove', {
                     description: req.user.name + ' deleted ' + ${class.label}.title + ' ${class.label}.'
                 });
 
@@ -91,8 +90,8 @@ module.exports = function(${class.name}) {
          */
         show: function(req, res) {
 
-            ${class.name}s.events.publish('view', {
-                description: req.user.name + ' read ' + req.${class.label}.title + ' ${class.label}.'
+            ${class.name}.events.publish('view', {
+                description: req.user.name + ' read ${class.label}.'
             });
 
             res.json(req.${class.label});
@@ -101,16 +100,14 @@ module.exports = function(${class.name}) {
          * List of ${class.name}s
          */
         all: function(req, res) {
-            var query = req.acl.query('${class.name}');
-
-            query.find({}).sort('-created').populate('user', 'name username').exec(function(err, ${class.label}s) {
+            mongoose.model('${class.name}').find({}, function(err, data) {
                 if (err) {
                     return res.status(500).json({
                         error: 'Cannot list the ${class.label}s'
                     });
                 }
 
-                res.json(${class.label}s)
+                res.json(data)
             });
 
         }

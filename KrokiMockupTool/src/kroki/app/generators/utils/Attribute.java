@@ -12,6 +12,7 @@ public class Attribute {
 	private String databaseName;
 	private String label;
 	private String type;
+	private String jsType;
 	private Boolean unique;
 	private Boolean mandatory;
 	private Boolean representative;
@@ -24,6 +25,8 @@ public class Attribute {
 		this.databaseName = databaseName;
 		this.label = label;
 		this.type = type;
+		String[] splits = type.split(".");
+		this.jsType = splits[splits.length-1].toLowerCase();
 		this.unique = unique;
 		this.mandatory = mandatory;
 		this.representative = representative;
@@ -57,7 +60,15 @@ public class Attribute {
 	public String getType() {
 		return type;
 	}
+	
+	public String getJsType() {
+		return jsType;
+	}
 
+	public void setJsType(String jsType) {
+		this.jsType = jsType;
+	}
+	
 	public void setType(String type) {
 		this.type = type;
 	}

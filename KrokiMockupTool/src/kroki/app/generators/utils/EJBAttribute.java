@@ -6,6 +6,7 @@ public class EJBAttribute {
 
 	private ArrayList<String> annotations;
 	private String 	type;
+	private String 	jsType;
 	private String 	name;
 	private String 	label;
 	private String 	databaseName;
@@ -24,6 +25,7 @@ public class EJBAttribute {
 		super();
 		this.annotations = annotations;
 		this.type = type;
+		this.jsType = parseType(type);
 		this.name = name;
 		this.label = label;
 		this.databaseName = databaseName;
@@ -130,5 +132,20 @@ public class EJBAttribute {
 
 	public void setPrecision(int precision) {
 		this.precision = precision;
+	}
+
+	public String getJsType() {
+		return jsType;
+	}
+
+	public void setJsType(String jsType) {
+		this.jsType = jsType;
+	}
+	
+	public String parseType(String type) {
+		if (type.equals("java.lang.String")) {
+			return "String";
+		} 
+		return null;
 	}
 }

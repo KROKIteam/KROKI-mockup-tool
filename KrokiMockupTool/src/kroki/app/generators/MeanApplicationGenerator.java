@@ -51,13 +51,19 @@ public class MeanApplicationGenerator {
 	    
 	    FilenameFilter configFilter = new FilenameFilter() {
 	        public boolean accept(File dir, String name) {
-	            return (name.toLowerCase().startsWith("mean") && name.toLowerCase().split("_").length<=3);
+	            return ((name.toLowerCase().startsWith("mean") && (name.toLowerCase().split("_").length<=3)) || name.toLowerCase().startsWith("mean_docs"));
 	        }
 	    };
 	    
 	    FilenameFilter classFilter = new FilenameFilter() {
 	        public boolean accept(File dir, String name) {
-	            return (name.toLowerCase().startsWith("mean") && name.toLowerCase().split("_").length>3 && !name.toLowerCase().endsWith("html.ftl"));
+	            return (name.toLowerCase().startsWith("mean") && name.toLowerCase().split("_").length>3  && !name.toLowerCase().endsWith("sjs.ftl") && !name.toLowerCase().endsWith("html.ftl") && !name.toLowerCase().startsWith("mean_docs"));
+	        }
+	    };
+	    
+	    FilenameFilter pluralClassFilter = new FilenameFilter() {
+	        public boolean accept(File dir, String name) {
+	            return (name.toLowerCase().startsWith("mean") && name.toLowerCase().split("_").length>3 && !name.toLowerCase().endsWith("html.ftl") && name.toLowerCase().endsWith("sjs.ftl") && !name.toLowerCase().startsWith("mean_docs"));
 	        }
 	    };
 	    
@@ -68,7 +74,7 @@ public class MeanApplicationGenerator {
 		for (EJBClass klasa : classes) {
 
 			model.put("class",klasa);
-			File currPackageDir = new File(appPath+klasa.getLabel() + File.separator);
+			File currPackageDir = new File(appPath+klasa.getLabel()+ "s" + File.separator);
 			currPackageDir.mkdir();
 			currPackagePath = currPackageDir.getAbsolutePath()+ File.separator;
 
@@ -76,6 +82,14 @@ public class MeanApplicationGenerator {
 		    for (File file : classFiles) {
 		        if (!file.isDirectory()) {
 					currFilePath = parseNameWithClass(file.getName());
+		        	resolveTemplate(file.getName());
+		        } 
+		    }
+		    
+		    File[] pluralClassFiles = f.listFiles(pluralClassFilter);
+		    for (File file : pluralClassFiles) {
+		        if (!file.isDirectory()) {
+					currFilePath = parseNameWithPluralClass(file.getName());
 		        	resolveTemplate(file.getName());
 		        } 
 		    }
@@ -115,6 +129,27 @@ public class MeanApplicationGenerator {
 				exten = exten.substring(0, exten.length()-4);
 				ret.append(model.get("class").getLabel());
 				ret.append("." + exten);
+				break;
+			}
+		}
+		return ret.toString();
+	}
+	
+	public static String parseNameWithPluralClass(String name) {
+		String[] splits = name.split("_");
+		StringBuilder ret = new StringBuilder();
+		if (splits==null || splits.length<2 || !splits[0].equals("mean")) {
+			return null;
+		}
+		for (int i=1; i<splits.length; i++) {
+			if (i<=splits.length-2) {
+				ret.append(splits[i]);
+				File dir = new File(currPackagePath + ret.toString());
+				dir.mkdir();
+				ret.append(File.separator);
+			} else {
+				ret.append(model.get("class").getLabel());
+				ret.append("s.js");
 				break;
 			}
 		}

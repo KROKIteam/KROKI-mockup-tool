@@ -1,27 +1,15 @@
 exports.models = {
 
-  User: {
-    id: 'User',
-    required: ['name', 'email', 'username'],
-    properties: {
-      name: {
-        type: 'string',
-        description: 'Name of the user'
-      },
-      email: {
-        type: 'string',
-        description: 'Email used for authentication and notifications'
-      },
-      phone: {
-        type: 'string',
-        description: 'Phone number of the user'
-      }
-
-    }
-  },
   ${class.name}: {
     id: '${class.name}',
-    required: ['content'],
+    required: [<#if class.attributes?has_content>
+					<#list class.attributes as attr>
+					<#if attr.mandatory>
+						'${attr.name}'
+					</#if>
+					<#if attr?has_next>, </#if>
+					</#list>
+				</#if>],
     properties: {
       id: {
         type: 'number',
@@ -30,7 +18,7 @@ exports.models = {
 	<#if class.attributes?has_content>
 	<#list class.attributes as attr>
 	,${attr.name}: {
-	 type: ${attr.type},
+	 type: ${attr.jsType},
 	 description: '${attr.name} of ${class.name}'
 	}
 	</#list>

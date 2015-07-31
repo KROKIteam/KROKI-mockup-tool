@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('mean.${class.label}').controller('${class.name + "Controller"}', ['$scope', '$stateParams', '$location', 'Global', '${class.name}', 'MeanUser', 'Circles',function($scope, $stateParams, $location, Global, ${class.name}, MeanUser, Circles) {
+angular.module('mean.${class.label}s').controller('${class.name + "Controller"}', ['$scope', '$stateParams', '$location', 'Global', '${class.name}', 'MeanUser', 'Circles',function($scope, $stateParams, $location, Global, ${class.name}, MeanUser, Circles) {
    $scope.global = Global;
 
-    $scope.hasAuthorization = function(article) {
-      if (!article || !article.user) return false;
-      return MeanUser.isAdmin || article.user._id === MeanUser.user._id;
+    $scope.hasAuthorization = function(${class.label}) {
+      if (!${class.label} || !${class.label}.user) return false;
+      return MeanUser.isAdmin || ${class.label}.user._id === MeanUser.user._id;
     };
 
     $scope.availableCircles = [];
@@ -28,11 +28,10 @@ angular.module('mean.${class.label}').controller('${class.name + "Controller"}',
 
     $scope.create = function(isValid) {
       if (isValid) {
-        // $scope.article.permissions.push('test test');
         var ${class.label} = new ${class.name}($scope.${class.label});
-
+		${class.label}.user = MeanUser.user._id;
         ${class.label}.$save(function(response) {
-          $location.path('${class.label}s/'  response._id);
+          $location.path('${class.label}s/' + response._id);
         });
 
         $scope.${class.label} = {};
@@ -46,7 +45,7 @@ angular.module('mean.${class.label}').controller('${class.name + "Controller"}',
       if (${class.label}) {
         ${class.label}.$remove(function(response) {
           for (var i in $scope.${class.label}s) {
-            if ($scope.${class.label}s[i] === article) {
+            if ($scope.${class.label}s[i] === ${class.label}) {
               $scope.${class.label}s.splice(i, 1);
             }
           }
@@ -68,7 +67,7 @@ angular.module('mean.${class.label}').controller('${class.name + "Controller"}',
         ${class.label}.updated.push(new Date().getTime());
 
         ${class.label}.$update(function() {
-          $location.path('${class.label}s/'  ${class.label}._id);
+          $location.path('${class.label}s/' + ${class.label}._id);
         });
       } else {
         $scope.submitted = true;

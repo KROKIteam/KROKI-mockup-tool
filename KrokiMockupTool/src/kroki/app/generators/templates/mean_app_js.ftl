@@ -5,7 +5,7 @@
  */
 var Module = require('meanio').Module;
 
-var ${class.name}s = new Module('${class.label}');
+var ${class.name}s = new Module('${class.label}s');
 
 
 /* attr
