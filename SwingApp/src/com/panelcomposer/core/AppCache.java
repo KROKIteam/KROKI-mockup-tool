@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.apache.commons.digester.SetRootRule;
+
 import util.PersistenceHelper;
 
 import com.panelcomposer.model.Model;

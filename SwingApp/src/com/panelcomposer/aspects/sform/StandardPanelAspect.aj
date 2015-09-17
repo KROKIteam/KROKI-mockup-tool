@@ -23,5 +23,7 @@ public aspect StandardPanelAspect {
 		form.addToPane(sp);
 		form.setTitle(((MStandardPanel) form.getMpanel()).getEntityBean()
 				.getLabel());
+		form.pack();
+		form.setLocationRelativeTo(null);
 	}
 }

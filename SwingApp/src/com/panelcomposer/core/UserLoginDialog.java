@@ -1,7 +1,12 @@
 package com.panelcomposer.core;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -15,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import net.miginfocom.swing.MigLayout;
 import util.staticnames.Messages;
 import util.staticnames.Settings;
 
@@ -32,19 +36,42 @@ public class UserLoginDialog extends JDialog {
 	public UserLoginDialog(SMainForm mainForm) {
 		super(mainForm, true);
 		setSize(new Dimension(300, 150));
-		setLayout(new MigLayout("", "[0:0,grow 100,fill]", ""));
+		//setLayout(new MigLayout("", "[0:0,grow 100,fill]", ""));
 		setLocationRelativeTo(mainForm);
-		JPanel dialogPanel = new JPanel();
+		JPanel topPanel = new JPanel(new GridBagLayout());
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		setTitle(Settings.LOGIN);
+		setResizable(false);
 		
 		jtfUsername.setText("admin");
 		jpfPassword.setText("admin");
 		
-		dialogPanel.setLayout(new GridLayout(3, 2));
-		dialogPanel.add(new JLabel(Settings.USERNAME + ":"));
-		dialogPanel.add(jtfUsername);
-		dialogPanel.add(new JLabel(Settings.PASSWORD + ":"));
-		dialogPanel.add(jpfPassword);
+		GridBagConstraints gbc = new GridBagConstraints();
+		 
+		gbc.insets = new Insets(4, 4, 4, 4);
+ 
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 0;
+		topPanel.add(new JLabel(Settings.USERNAME + ":"), gbc);
+ 
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 1;
+		topPanel.add(jtfUsername, gbc);
+ 
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.weightx = 0;
+		topPanel.add(new JLabel(Settings.PASSWORD + ":"), gbc);
+ 
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.weightx = 1;
+		topPanel.add(jpfPassword, gbc);
 		
 		getRootPane().setDefaultButton(btnOk);
 		btnOk.addActionListener(new ActionListener() {
@@ -78,9 +105,13 @@ public class UserLoginDialog extends JDialog {
 			}
 		});
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setAlwaysOnTop(true);
+		setModal(true);
 		
-		dialogPanel.add(btnOk);
-		dialogPanel.add(btnCancel);
-		add(dialogPanel);
+		buttonPanel.add(btnOk);
+		buttonPanel.add(btnCancel);
+		
+		add(topPanel);
+		add(buttonPanel, BorderLayout.SOUTH);
 	}
 }

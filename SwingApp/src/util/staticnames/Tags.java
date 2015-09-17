@@ -91,6 +91,9 @@ public class Tags {
 	public static final String NEXT_PANEL = read("next_panel");
 	public static final String ZOOM = read("zoom");
 	
+	public static final String LAYOUT = read("layout");
+	public static final String ALIGN = read("align");
+	
 
 	public static String read(String name) {
 		return ResourceBundle.getBundle("props.tagutil").getString(name);

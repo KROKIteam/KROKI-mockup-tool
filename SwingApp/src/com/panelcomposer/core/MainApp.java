@@ -49,6 +49,7 @@ public class MainApp {
 		em.getTransaction().commit();
 
 		SMainForm sm = new SMainForm();
+		sm.setLocationRelativeTo(null);
 		sm.setVisible(true);
 	}
 }

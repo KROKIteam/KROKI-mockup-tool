@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,6 +19,7 @@ import util.staticnames.Tags;
 
 import com.panelcomposer.converters.ConverterUtil;
 import com.panelcomposer.core.AppCache;
+import com.panelcomposer.enumerations.Layout;
 import com.panelcomposer.enumerations.OpenedAs;
 import com.panelcomposer.enumerations.OperationType;
 import com.panelcomposer.enumerations.PanelType;
@@ -409,6 +411,8 @@ public class PanelReader {
 		settings = setOneSetting(Tags.COPY, "Copy" , el, settings);
 		settings = setOneSetting(Tags.CHANGE_MODE, "ChangeMode" , el, settings);
 		settings = setOneSetting(Tags.NAVIGATION, "DataNavigation" , el, settings);
+
+
 		
 		String val = el.getAttribute(Tags.ADD);
 		val = el.getAttribute(Tags.VIEW_MODE);
@@ -419,16 +423,35 @@ public class PanelReader {
 				settings.setViewMode(ViewMode.INPUTPANELVIEW);
 			}
 		}
+		
+		
+		val = el.getAttribute(Tags.LAYOUT);
+		if (val != null && !val.trim().equals("")) {
+			if (val.equals("HORIZONTAL")) {
+				settings.setLayout(Layout.HORIZONTAL);
+			} else if (val.equals("VERTICAL")) {
+				settings.setLayout(Layout.VERTICAL);
+			} else if (val.equals("FREE")) {
+				settings.setLayout(Layout.FREE);
+			}
+		}
+		
+		
+		settings = setOneSetting(Tags.ALIGN, "Align", el, settings);
+		
 		return settings;
 	}
 	
 	private static PanelSettings setOneSetting(String tag, String methodName, 
 			Element elem, PanelSettings settings) {
 		String val = elem.getAttribute(tag);
+		
+		
 		Method method = null;
 		if (val != null && !val.trim().equals("")) {
 			try {
 				method = PanelSettings.class.getMethod("get" + methodName);
+				
 				if ((Boolean) method.invoke(settings) != false) {
 					method = PanelSettings.class.getMethod("set" + methodName, Boolean.class);
 					method.invoke(settings, new Boolean(val));

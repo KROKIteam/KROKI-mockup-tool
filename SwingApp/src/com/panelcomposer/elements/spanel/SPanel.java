@@ -79,10 +79,9 @@ public class SPanel extends JPanel implements ObserverPanel {
 
 	public void init() {
 		getModelPanel().getPanelSettings().setStateMode(StateMode.ADD);
-		setLayout(new MigLayout("", "[0:0,grow 100,fill][pref!]", "[]0[]"));
-
+		setLayout(new MigLayout("fill"));//, "[0:0,grow 100,fill][pref!]", "[]0[]"));
 		JPanel panelContainer = new JPanel();
-		panelContainer.setLayout(new MigLayout());
+		panelContainer.setLayout(new MigLayout("fill"));
 
 		cardPanel = new JPanel(cardLayout);
 		addToolBar();

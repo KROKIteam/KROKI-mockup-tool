@@ -568,12 +568,18 @@ public class ProjectExporter {
 		Enumeration stateModeEnum = new Enumeration("StateMode", "State mode", null, null, new String[]{"UPDATE", "ADD", "SEARCH"});
 		//ViewMode
 		Enumeration viewModeEnum = new Enumeration("ViewMode", "View mode", null, null, new String[]{"TABLEVIEW", "INPUTPANELVIEW"});
+		//Layout
+		Enumeration layoutEnum = new Enumeration("Layout", "Layout", null, null, new String[]{"VERTICAL", "HORIZONTAL", "FREE"});
+		//Align
+		Enumeration alignEnum = new Enumeration("Align", "Align", null, null, new String[]{"LEFT", "CENTER", "RIGHT"});
 
 		enumerations.add(openedAsEnum);
 		enumerations.add(operationTypeEnum);
 		enumerations.add(panelTypeEnum);
 		enumerations.add(stateModeEnum);
 		enumerations.add(viewModeEnum);
+		enumerations.add(layoutEnum);
+		enumerations.add(alignEnum);
 	}
 
 	/**

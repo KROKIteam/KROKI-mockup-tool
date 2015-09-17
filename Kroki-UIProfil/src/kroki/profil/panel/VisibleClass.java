@@ -31,21 +31,52 @@ import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlProperty;
 
 /**
- * Označava klasu koja se preslikava na panel (obični ili tabulatorski) u okviru korisničkog interfejsa aplikacije.
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * OznaÄ�ava klasu koja se preslikava na panel (obiÄ�ni ili tabulatorski) u okviru korisniÄ�kog interfejsa aplikacije.
+ * @author Vladan MarseniÄ‡ (vladan.marsenic@gmail.com)
  */
 @SettingsPanel(VisibleClassSettings.class)
 public class VisibleClass extends BusinessProcessModelingSubject implements UmlClass {
 
+	public enum ComponentOrientation {
+		ORIENTATION_HORIZONTAL("HORIZONTAL"), ORIENTATION_VERTICAL("VERTICAL"), ORIENTATION_FREE("FREE");
+		
+		private final String name;
+		
+		private ComponentOrientation(String name) {
+			this.name = name;
+		}
+		
+		public String toString() {
+			return name;
+		}
+	}
+	
+	public enum ComponentAlign {
+		ALIGN_LEFT("LEFT"), ALIGN_CENTER("CENTER"), ALIGN_RIGHT("RIGHT");
+		
+		private final String name;
+		
+		private ComponentAlign(String name) {
+			this.name = name;
+		}
+		
+		public String toString() {
+			return name;
+		}
+	}
+	
     /**Indikator modalnosti klase*/
     protected boolean modal = true;
     /**Lista svih elemenata koje poseduje klasa*/
     protected List<VisibleElement> visibleElementList = new ArrayList<VisibleElement>();
-    /*OBELEÅ½JA METAKLASE CLASS*/
+    /*OBELEÃ…Â½JA METAKLASE CLASS*/
     protected boolean isAbstract;
     protected UmlPackage umlPackage;
     //Component counter map used for incremental component naming
     HashMap<ComponentType, Integer> componentCounts;
+    
+    private ComponentOrientation orientation;
+    private ComponentAlign align;
     
     /*****************/
     /*Konstruktori   */
@@ -54,18 +85,24 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         super();
         this.modal = modal;
         componentCounts = new HashMap<ComponentType, Integer>();
+        orientation = ComponentOrientation.ORIENTATION_VERTICAL;
+        align = ComponentAlign.ALIGN_LEFT;
     }
 
     public VisibleClass(String label, boolean visible, ComponentType componentType, boolean modal) {
         super(label, visible, componentType);
         this.modal = modal;
         componentCounts = new HashMap<ComponentType, Integer>();
+        orientation = ComponentOrientation.ORIENTATION_VERTICAL;
+        align = ComponentAlign.ALIGN_LEFT;
     }
 
     public VisibleClass() {
         super();
         this.modal = true;
         componentCounts = new HashMap<ComponentType, Integer>();
+        orientation = ComponentOrientation.ORIENTATION_VERTICAL;
+        align = ComponentAlign.ALIGN_LEFT;
     }
 
     /**************/
@@ -103,7 +140,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * BriÅ¡e vidljivi element iz liste svih vidljivih elemenata koje poseduje klasa.
+     * BriÃ…Â¡e vidljivi element iz liste svih vidljivih elemenata koje poseduje klasa.
      * @param visibleElement vidljivi element
      */
     public void removeVisibleElement(VisibleElement visibleElement) {
@@ -114,9 +151,9 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * BriÅ¡e vidljivi element sa odreÄ‘ene pozicije u listi svih vidljivih elemenata klase.
+     * BriÃ…Â¡e vidljivi element sa odreÃ„â€˜ene pozicije u listi svih vidljivih elemenata klase.
      * @param index pozicija vidljivog elementa u listi
-     * @return vidljivi element koji je obrisan. U sluÄ�aju da je <code>index</code> van opsega povratna vrednost ove metode je <code>null</code>
+     * @return vidljivi element koji je obrisan. U sluÃ„ï¿½aju da je <code>index</code> van opsega povratna vrednost ove metode je <code>null</code>
      */
     public VisibleElement removeVisibleElement(int index) {
         VisibleElement removed = null;
@@ -128,7 +165,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * VraÄ‡a vidljivi element iz liste svih vidljivih elemenata sa pozicije odreÄ‘ene prosleÄ‘enim indeksom.
+     * VraÃ„â€¡a vidljivi element iz liste svih vidljivih elemenata sa pozicije odreÃ„â€˜ene prosleÃ„â€˜enim indeksom.
      * @param index indeks
      * @return vidljivi element
      */
@@ -137,7 +174,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * VraÄ‡a broj vidljivih elemenata
+     * VraÃ„â€¡a broj vidljivih elemenata
      * @return broj vidljivih elemenata
      */
     public int getVisibleElementNum() {
@@ -145,7 +182,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * Pronalazi vidljiv element Ä�ija se grafiÄ�ka komponenta nalazi na prosleÄ‘enoj lokaciji
+     * Pronalazi vidljiv element Ã„ï¿½ija se grafiÃ„ï¿½ka komponenta nalazi na prosleÃ„â€˜enoj lokaciji
      * @param point lokacija
      * @return vidljivi element
      */
@@ -194,7 +231,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * VraÄ‡a sve vidljiva polja
+     * VraÃ„â€¡a sve vidljiva polja
      * @return
      */
     public List<VisibleProperty> containedProperties() {
@@ -207,7 +244,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         return visiblePropertyList;
     }
 
-    /**VraÄ‡a listu svih perzistentnih obelezja klase*/
+    /**VraÃ„â€¡a listu svih perzistentnih obelezja klase*/
     public List<Persistent> containedPersistents() {
         List<Persistent> persistentList = new ArrayList<Persistent>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -219,7 +256,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * VraÄ‡a sve operacije
+     * VraÃ„â€¡a sve operacije
      * @return
      */
     public List<VisibleOperation> containedOperations() {
@@ -232,7 +269,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         return visibleOperationList;
     }
 
-    /**VraÄ‡a listu svih izvesstaja*/
+    /**VraÃ„â€¡a listu svih izvesstaja*/
     public List<Report> containedReports() {
         List<Report> reportList = new ArrayList<Report>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -243,7 +280,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         return reportList;
     }
 
-    /**VraÄ‡a listu svih transakcija*/
+    /**VraÃ„â€¡a listu svih transakcija*/
     public List<Transaction> containedTransactions() {
         List<Transaction> transactionList = new ArrayList<Transaction>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -255,7 +292,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     }
 
     /**
-     * VraÄ‡a sve krajeve asocijacije
+     * VraÃ„â€¡a sve krajeve asocijacije
      * @return
      */
     public List<VisibleAssociationEnd> containedAssociationEnds() {
@@ -268,7 +305,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         return visibleAssociationEndList;
     }
 
-    /**VraÄ‡a listu svih zumova*/
+    /**VraÃ„â€¡a listu svih zumova*/
     public List<Zoom> containedZooms() {
         List<Zoom> zoomList = new ArrayList<Zoom>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -279,7 +316,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         return zoomList;
     }
 
-    /**VraÄ‡a listu sih nekstova*/
+    /**VraÃ„â€¡a listu sih nekstova*/
     public List<Next> containedNexts() {
         List<Next> nextList = new ArrayList<Next>();
         for (VisibleElement visibleElement : visibleElementList) {
@@ -303,7 +340,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 
 
     /**
-     * OsveÅ¾ava stanje svojih grafiÄ�kih komponenti.
+     * OsveÃ…Â¾ava stanje svojih grafiÃ„ï¿½kih komponenti.
      */
     @Override
     public void update() {
@@ -351,7 +388,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         return isAbstract;
     }
 
-    /**VraÄ‡a listu svih atrubuta klase koji implmentiraju interfejs UmlProperty*/
+    /**VraÃ„â€¡a listu svih atrubuta klase koji implmentiraju interfejs UmlProperty*/
     public List<UmlProperty> ownedAttribute() {
         List<UmlProperty> umlPropertyList = new ArrayList<UmlProperty>();
         for (int i = 0; i < visibleElementList.size(); i++) {
@@ -363,7 +400,7 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
         return umlPropertyList;
     }
 
-    /**VraÄ‡a listu svih operacija klase koji implmentiraju interfejs UmlOperation*/
+    /**VraÃ„â€¡a listu svih operacija klase koji implmentiraju interfejs UmlOperation*/
     public List<UmlOperation> ownedOperation() {
         List<UmlOperation> umlOperationList = new ArrayList<UmlOperation>();
         for (int i = 0; i < visibleElementList.size(); i++) {
@@ -414,4 +451,20 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
     public String toString() {
         return label;
     }
+
+	public ComponentOrientation getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(ComponentOrientation orientation) {
+		this.orientation = orientation;
+	}
+
+	public ComponentAlign getAlign() {
+		return align;
+	}
+
+	public void setAlign(ComponentAlign align) {
+		this.align = align;
+	}
 }

@@ -82,6 +82,8 @@ public class PanelGenerator {
 					
 					String id = panel.getPersistentClass().name().toLowerCase() + "_st";
 					String ejbRef = "ejb." + panel.getPersistentClass().name();
+					String layoutValue = panel.getOrientation().toString();
+					String alignValue = panel.getAlign().toString();
 					
 					//atribut "id"
 					Attr idAttr = doc.createAttribute("id");
@@ -92,6 +94,8 @@ public class PanelGenerator {
 					Attr ejbRefAttr = doc.createAttribute("ejb-ref");
 					ejbRefAttr.setValue(ejbRef);
 					stdPanel.setAttributeNode(ejbRefAttr);
+					
+				
 					
 					//generisanje <settings> taga za standardni panel
 					Element eSettings = doc.createElement("settings");
@@ -121,6 +125,16 @@ public class PanelGenerator {
 					Attr dataNavAttr = doc.createAttribute("data-navigation");
 					dataNavAttr.setValue(String.valueOf(panel.isDataNavigation()));
 					eSettings.setAttributeNode(dataNavAttr);
+					
+					
+					Attr layoutAttr = doc.createAttribute("layout");
+					layoutAttr.setValue(layoutValue);
+					eSettings.setAttributeNode(layoutAttr);
+					
+					Attr alignAttr = doc.createAttribute("align");
+					alignAttr.setValue(alignValue);
+					eSettings.setAttributeNode(alignAttr);
+					
 					
 					stdPanel.appendChild(eSettings);
 					

@@ -21,6 +21,7 @@ import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.VisibleClass.ComponentOrientation;
 
 /**
  *
@@ -43,6 +44,7 @@ public class LayoutHorizontalAction extends AbstractAction {
         CommandManager commandManager = c.getCommandManager();
 
         VisibleClass visibleClass = c.getVisibleClass();
+        visibleClass.setOrientation(ComponentOrientation.ORIENTATION_HORIZONTAL);
         SelectionModel selectionModel = c.getSelectionModel();
 
         //mora biti samo jedan selektovan

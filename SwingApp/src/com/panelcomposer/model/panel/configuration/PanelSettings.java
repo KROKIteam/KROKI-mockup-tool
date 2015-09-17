@@ -1,5 +1,7 @@
 package com.panelcomposer.model.panel.configuration;
 
+import com.panelcomposer.enumerations.Align;
+import com.panelcomposer.enumerations.Layout;
 import com.panelcomposer.enumerations.OpenedAs;
 import com.panelcomposer.enumerations.StateMode;
 import com.panelcomposer.enumerations.ViewMode;
@@ -16,6 +18,8 @@ public class PanelSettings {
 	protected Boolean hideToolbar = false;
 	protected StateMode stateMode = StateMode.UPDATE;
 	protected OpenedAs openedAs = OpenedAs.DEFAULT;
+	protected Layout layout = Layout.VERTICAL;
+	protected Align align = Align.LEFT;
 
 	public PanelSettings() {
 		
@@ -99,6 +103,22 @@ public class PanelSettings {
 
 	public void setOpenedAs(OpenedAs openedAs) {
 		this.openedAs = openedAs;
+	}
+
+	public Layout getLayout() {
+		return layout;
+	}
+
+	public void setLayout(Layout layout) {
+		this.layout = layout;
+	}
+
+	public Align getAlign() {
+		return align;
+	}
+
+	public void setAlign(Align align) {
+		this.align = align;
 	}
 
 }

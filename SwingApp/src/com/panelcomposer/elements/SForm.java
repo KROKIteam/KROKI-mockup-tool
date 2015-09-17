@@ -1,5 +1,6 @@
 package com.panelcomposer.elements;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -108,41 +109,47 @@ public class SForm extends JDialog {
 			JOptionPane.showMessageDialog(this, Messages.LOOK_AND_FEEL,
 					Messages.ERROR, JOptionPane.INFORMATION_MESSAGE);
 		}
-		MigLayout layout = new MigLayout("", "[0:0,grow 100,fill][pref!]",
-				"[]0[]");
-		pane = new JPanel(layout);
+		
+		MigLayout layout = new MigLayout("fill"); //("", "[0:0,grow 100,fill][pref!]", "[]0[]");
+		//MigLayout layout = new MigLayout();//po komponentama stavlja panel
+		pane = new JPanel();
+		pane.setBackground(Color.green);
 		setLayout(layout);
-		JScrollPane scrollPane = new JScrollPane(pane);
-		scrollPane
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		add(scrollPane, "span, wrap");
-		pseudoMaximize();
-		pack();
+		//JScrollPane scrollPane = new JScrollPane(pane);
+		//scrollPane/		
+		//		.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//scrollPane
+		//		.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		add(pane, "grow");//, span, wrap");
+		//pseudoMaximize();
+		this.setLocationRelativeTo(null);
+		//setResizable(false);
+		//pack();
 	}
 
 	/**
 	 * Maximizes the form
 	 */
-	public void pseudoMaximize() {
+	/*public void pseudoMaximize() {//Ovde menjati za MigLayout
+        
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		
 		Dimension ownerSize = getOwner().getPreferredSize();
 		Point ownerLocation = getOwner().getLocation();
 		if (getOwner().getName().equals("MainForm")) {
-			ownerSize.setSize(0.95d * ownerSize.getWidth(),
+			size.setSize(0.95d * ownerSize.getWidth(),
 					0.95d * ownerSize.getHeight());
 		}
 		this.setBounds((int) ownerLocation.getX(), (int) ownerLocation.getY(),
 				(int) ownerSize.getWidth(), (int) ownerSize.getHeight());
-		this.setPreferredSize(ownerSize);
-		//this.setPreferredSize(size);
-		this.setPreferredSize(new Dimension(1200, 700));
-		//this.setLocationRelativeTo(null);
-	}
+		this.setMinimumSize(ownerSize);
+		this.setPreferredSize(ownerSize);//skupi na cosak ekrana
+		//this.setPreferredSize(size);//razvuce preko celog ekrana
+		//this.setPreferredSize(new Dimension(700, 500));//postavi dimenziju u zagradama
+	}*/
 
 	public void addToPane(JComponent component) {
-		pane.add(component, "span, wrap");
+		pane.add(component, "grow, span, wrap");
 	}
 
 	public MPanel getMpanel() {

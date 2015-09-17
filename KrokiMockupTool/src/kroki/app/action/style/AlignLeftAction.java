@@ -20,6 +20,7 @@ import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupAlignment;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.panel.VisibleClass.ComponentAlign;
 
 /**
  *
@@ -40,6 +41,7 @@ public class AlignLeftAction extends AbstractAction {
             return;
         }
         VisibleClass visibleClass = c.getVisibleClass();
+        visibleClass.setAlign(ComponentAlign.ALIGN_LEFT);
         SelectionModel selectionModel = c.getSelectionModel();
 
         for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {

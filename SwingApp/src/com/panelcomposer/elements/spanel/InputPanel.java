@@ -20,14 +20,15 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
 import util.resolvers.ComponentResolver;
 import util.staticnames.Settings;
 
+import com.panelcomposer.enumerations.Layout;
 import com.panelcomposer.exceptions.ComponentCreationException;
 import com.panelcomposer.listeners.ZoomActionListener;
 import com.panelcomposer.listeners.ZoomFocusListener;
@@ -79,9 +80,13 @@ public class InputPanel extends JPanel {
 		setLayout(new MigLayout("", "[0:0, grow 100, fill]", ""));
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		panelOne = new JPanel(panelLayout);
+		panelOne.setBackground(Color.RED);
+		setBackground(Color.BLACK);
 		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
 		for (int i = 0; i < attributes.size(); i++) {
-			panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			//panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			panelTwo = new JPanel(new MigLayout());
+			panelTwo.setBackground(Color.BLUE);
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
 				createComponent((ColumnAttribute) attributes.get(i));
@@ -100,18 +105,47 @@ public class InputPanel extends JPanel {
 	 * 
 	 * @param colAttr
 	 */
-	private void createComponent(ColumnAttribute colAttr) {
-		try {
-			panelOne = new JPanel(panelLayout);
-			addComponentToPanelTwo(colAttr, null, counter);
-			panelOne.add(panelTwo);
-			add(panelOne, "wrap, span");
-			panelOne = new JPanel(panelLayout);
-			setCurrentComponentsLength();
-			counter++;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	private void createComponent(ColumnAttribute colAttr) {//ovde radim raspored elemenata...
+		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
+		
+		if (layout == Layout.VERTICAL)
+//		if(layout="VERTICAL"){
+			try {
+				panelOne = new JPanel(panelLayout);
+				addComponentToPanelTwo(colAttr, null, counter);
+				panelOne.add(panelTwo);
+				add(panelOne, "wrap, span");
+				//panelOne = new JPanel(panelLayout);
+				setCurrentComponentsLength();
+				counter++;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+//		} else if(layout="HORIZONTAL"){
+//			try {
+//				panelOne = new JPanel(panelLayout);
+//				addComponentToPanelTwo(colAttr, null, counter);
+//				panelOne.add(panelTwo);
+//				add(panelOne, "wrap, span");
+//				panelOne = new JPanel(panelLayout);
+//				setCurrentComponentsLength();
+//				counter++;
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		} else {
+//			try {
+//				panelOne = new JPanel(panelLayout);
+//				addComponentToPanelTwo(colAttr, null, counter);
+//				panelOne.add(panelTwo);
+//				add(panelOne, "wrap, span");
+//				panelOne = new JPanel(panelLayout);
+//				setCurrentComponentsLength();
+//				counter++;
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 	/***
@@ -147,7 +181,8 @@ public class InputPanel extends JPanel {
 			}
 		}
 		panelOne.add(panelTwo);
-		panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		//panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		panelTwo = new JPanel(new MigLayout());
 		add(panelOne, "wrap");
 		rowNumber++;
 	}

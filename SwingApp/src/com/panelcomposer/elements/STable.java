@@ -57,12 +57,24 @@ public class STable extends JTable {
 		this.panel = panel;
 		init();
 	}
+	
+	public boolean getScrollableTracksViewportWidth()
+	{
+		return getPreferredSize().width < getParent().getWidth();
+	}
 
 	/***
 	 * Initializes table
 	 */
 	protected void init() {
-		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		/*if(col < 3){
+			setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		} 
+		else 
+			setAutoResizeMode(JTable.AUTO_RESIZE_OFF);*/
+		
+		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);//ovde se radi duzina
 		setRowSelectionAllowed(true);
 		setSelectionMode(0);
 		setColumnSelectionAllowed(false);
@@ -72,7 +84,7 @@ public class STable extends JTable {
 		setIntercellSpacing(new java.awt.Dimension(3, 3));
 		setRowHeight(getRowHeight() + 3);
 		getTableHeader().setReorderingAllowed(false);
-		getTableHeader().setResizingAllowed(true);
+		getTableHeader().setResizingAllowed(false);//Ako se stavi na "true" onda se moze pomerati kolone
 		scrollPane.getViewport().setView(this);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
