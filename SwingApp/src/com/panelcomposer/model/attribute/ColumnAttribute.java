@@ -1,5 +1,7 @@
 package com.panelcomposer.model.attribute;
 
+import java.awt.Color;
+
 import javax.swing.JComponent;
 
 import com.panelcomposer.model.enumeration.Enumeration;
@@ -17,7 +19,10 @@ public class ColumnAttribute extends AbsAttribute {
 	protected Object defaultValue;
 	protected Enumeration enumeration;
 	protected JComponent component;
-
+	protected Color backgroundColor;
+	protected Color foregraundColor;
+	protected Boolean visible;
+	
 	public Boolean getKey() {
 		return key;
 	}
@@ -104,6 +109,30 @@ public class ColumnAttribute extends AbsAttribute {
 
 	public void setEnumeration(Enumeration enumeration) {
 		this.enumeration = enumeration;
+	}
+
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
+	public Color getForegraundColor() {
+		return foregraundColor;
+	}
+
+	public void setForegraundColor(Color foregraundColor) {
+		this.foregraundColor = foregraundColor;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 
 }

@@ -180,6 +180,9 @@ public class EJBGenerator {
 				Attr idKeyAttr = doc.createAttribute("key");
 				idKeyAttr.setValue("true");
 				idColumn.setAttributeNode(idKeyAttr);
+				
+				//TODO
+				//visivle, foreground, background color
 
 				attributes.appendChild(idColumn);
 

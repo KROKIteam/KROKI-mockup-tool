@@ -39,10 +39,6 @@ public class SForm extends JDialog {
 	 */
 	protected MPanel mpanel;
 	/***
-	 * Panel for layouting and containing other panels on form.
-	 */
-	protected JPanel pane;
-	/***
 	 * Panels that are on added to the form.
 	 */
 	protected List<SPanel> panels = new ArrayList<SPanel>();;
@@ -110,17 +106,13 @@ public class SForm extends JDialog {
 					Messages.ERROR, JOptionPane.INFORMATION_MESSAGE);
 		}
 		
-		MigLayout layout = new MigLayout("fill"); //("", "[0:0,grow 100,fill][pref!]", "[]0[]");
-		//MigLayout layout = new MigLayout();//po komponentama stavlja panel
-		pane = new JPanel();
-		pane.setBackground(Color.green);
+		MigLayout layout = new MigLayout("fill");
 		setLayout(layout);
 		//JScrollPane scrollPane = new JScrollPane(pane);
 		//scrollPane/		
 		//		.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		//scrollPane
 		//		.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		add(pane, "grow");//, span, wrap");
 		//pseudoMaximize();
 		this.setLocationRelativeTo(null);
 		//setResizable(false);
@@ -130,7 +122,7 @@ public class SForm extends JDialog {
 	/**
 	 * Maximizes the form
 	 */
-	/*public void pseudoMaximize() {//Ovde menjati za MigLayout
+	/*public void pseudoMaximize() {
         
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		
@@ -149,7 +141,7 @@ public class SForm extends JDialog {
 	}*/
 
 	public void addToPane(JComponent component) {
-		pane.add(component, "grow, span, wrap");
+		add(component, "grow");
 	}
 
 	public MPanel getMpanel() {

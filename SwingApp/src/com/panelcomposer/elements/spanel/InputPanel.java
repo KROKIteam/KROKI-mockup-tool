@@ -2,7 +2,6 @@ package com.panelcomposer.elements.spanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.LayoutManager;
 import java.awt.Toolkit;
@@ -20,7 +19,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -28,6 +26,7 @@ import net.miginfocom.swing.MigLayout;
 import util.resolvers.ComponentResolver;
 import util.staticnames.Settings;
 
+import com.panelcomposer.enumerations.Align;
 import com.panelcomposer.enumerations.Layout;
 import com.panelcomposer.exceptions.ComponentCreationException;
 import com.panelcomposer.listeners.ZoomActionListener;
@@ -47,7 +46,7 @@ public class InputPanel extends JPanel {
 	private double componentsLength;
 	private int rowNumber;
 	private int zoomCounter;
-	private JPanel panelOne;
+	//private JPanel panelOne;
 	private JPanel panelTwo;
 	private int counter;
 	private LayoutManager panelLayout;
@@ -75,18 +74,35 @@ public class InputPanel extends JPanel {
 		counter = 0;
 		panelComponents = new ArrayList<JComponent>();
 		labelText = "";
+		Align align = panel.getModelPanel().getPanelSettings().getAlign();
 		
-		panelLayout = new FlowLayout(FlowLayout.LEFT);
-		setLayout(new MigLayout("", "[0:0, grow 100, fill]", ""));
+		//panelLayout = new FlowLayout(FlowLayout.LEFT);
+		panelLayout = new MigLayout();
+		if(align == Align.LEFT) {
+			setLayout(new MigLayout("", "[0:0, grow 100, left]", ""));
+		} else if(align == Align.CENTER) {
+			setLayout(new MigLayout("", "[0:0, grow 100, center]", ""));
+		} else if(align == Align.RIGHT) {
+			setLayout(new MigLayout("", "[0:0, grow 100, right]", ""));
+		} else
+			setLayout(new MigLayout("", "[0:0, grow 100]", ""));
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		panelOne = new JPanel(panelLayout);
-		panelOne.setBackground(Color.RED);
+		//panelOne = new JPanel(panelLayout);
+		//panelOne.setBackground(Color.RED);
 		setBackground(Color.BLACK);
+		
+		
+		int width = (int) getSize().getWidth();
+		int cuuretRowWidth = 0;
+		//TODO
+		
 		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
 		for (int i = 0; i < attributes.size(); i++) {
 			//panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			panelTwo = new JPanel(new MigLayout());
 			panelTwo.setBackground(Color.BLUE);
+			int panelWidth = (int) panelTwo.getSize().getWidth();
+			
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
 				createComponent((ColumnAttribute) attributes.get(i));
@@ -95,7 +111,7 @@ public class InputPanel extends JPanel {
 				createComponent((JoinColumnAttribute) attributes.get(i));
 			}
 		}
-		panelOne.setMinimumSize(new Dimension((int) panelOne.getSize().getWidth(), 20 + 40 * rowNumber));
+		//panelOne.setMinimumSize(new Dimension((int) panelOne.getSize().getWidth(), 20 + 40 * rowNumber));
 		addCommitPanel();
 		setDerivedFormulas();
 	}
@@ -107,45 +123,60 @@ public class InputPanel extends JPanel {
 	 */
 	private void createComponent(ColumnAttribute colAttr) {//ovde radim raspored elemenata...
 		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
+//		Align align = panel.getModelPanel().getPanelSettings().getAlign();
 		
-		if (layout == Layout.VERTICAL)
-//		if(layout="VERTICAL"){
+		if (layout == Layout.VERTICAL) {
+			//if(align == Align.LEFT) {
+				try {
+					//panelOne = new JPanel(panelLayout);
+					addComponentToPanelTwo(colAttr, null, counter);
+					//panelOne.add(panelTwo);
+					add(panelTwo, "wrap, span");
+					//panelOne = new JPanel(panelLayout);
+					setCurrentComponentsLength();
+					counter++;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+/*			} else if(align == Align.CENTER) {
+				try {
+					addComponentToPanelTwo(colAttr, null, counter);
+					add(panelTwo, "wrap, span");
+					setCurrentComponentsLength();
+					counter++;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else if (align == Align.RIGHT) {
+				try {
+					addComponentToPanelTwo(colAttr, null, counter);
+					add(panelTwo, "wrap, span");
+					setCurrentComponentsLength();
+					counter++;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}*/
+		} else if(layout == Layout.HORIZONTAL) {
 			try {
-				panelOne = new JPanel(panelLayout);
+				setLayout(new MigLayout());
 				addComponentToPanelTwo(colAttr, null, counter);
-				panelOne.add(panelTwo);
-				add(panelOne, "wrap, span");
-				//panelOne = new JPanel(panelLayout);
+				add(panelTwo, "span");
 				setCurrentComponentsLength();
 				counter++;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-//		} else if(layout="HORIZONTAL"){
-//			try {
-//				panelOne = new JPanel(panelLayout);
+		} else {
+			try {
 //				addComponentToPanelTwo(colAttr, null, counter);
-//				panelOne.add(panelTwo);
-//				add(panelOne, "wrap, span");
-//				panelOne = new JPanel(panelLayout);
+//				add(panelTwo, "wrap, span");
 //				setCurrentComponentsLength();
 //				counter++;
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		} else {
-//			try {
-//				panelOne = new JPanel(panelLayout);
-//				addComponentToPanelTwo(colAttr, null, counter);
-//				panelOne.add(panelTwo);
-//				add(panelOne, "wrap, span");
-//				panelOne = new JPanel(panelLayout);
-//				setCurrentComponentsLength();
-//				counter++;
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/***
@@ -154,7 +185,7 @@ public class InputPanel extends JPanel {
 	 * @param joinColAttr
 	 */
 	private void createComponent(JoinColumnAttribute joinColAttr) {
-		panelOne = new JPanel(panelLayout);
+		//panelOne = new JPanel(panelLayout);
 		panelTwo.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY),
 				joinColAttr.getLabel(), 1, 1, null, Color.BLUE));
@@ -180,10 +211,11 @@ public class InputPanel extends JPanel {
 				e.printStackTrace();
 			}
 		}
-		panelOne.add(panelTwo);
+		//panelOne.add(panelTwo);
 		//panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		panelTwo = new JPanel(new MigLayout());
-		add(panelOne, "wrap");
+		//add(panelOne, "wrap");
+		add(panelTwo, "wrap");
 		rowNumber++;
 	}
 

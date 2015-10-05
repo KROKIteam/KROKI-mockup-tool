@@ -95,8 +95,6 @@ public class PanelGenerator {
 					ejbRefAttr.setValue(ejbRef);
 					stdPanel.setAttributeNode(ejbRefAttr);
 					
-				
-					
 					//generisanje <settings> taga za standardni panel
 					Element eSettings = doc.createElement("settings");
 					

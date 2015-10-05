@@ -19,6 +19,7 @@ import util.staticnames.Tags;
 
 import com.panelcomposer.converters.ConverterUtil;
 import com.panelcomposer.core.AppCache;
+import com.panelcomposer.enumerations.Align;
 import com.panelcomposer.enumerations.Layout;
 import com.panelcomposer.enumerations.OpenedAs;
 import com.panelcomposer.enumerations.OperationType;
@@ -411,8 +412,6 @@ public class PanelReader {
 		settings = setOneSetting(Tags.COPY, "Copy" , el, settings);
 		settings = setOneSetting(Tags.CHANGE_MODE, "ChangeMode" , el, settings);
 		settings = setOneSetting(Tags.NAVIGATION, "DataNavigation" , el, settings);
-
-
 		
 		String val = el.getAttribute(Tags.ADD);
 		val = el.getAttribute(Tags.VIEW_MODE);
@@ -437,7 +436,16 @@ public class PanelReader {
 		}
 		
 		
-		settings = setOneSetting(Tags.ALIGN, "Align", el, settings);
+		val = el.getAttribute(Tags.ALIGN);
+		if (val != null && !val.trim().equals("")) {
+			if (val.equals("LEFT")) {
+				settings.setAlign(Align.LEFT);
+			} else if (val.equals("CENTER")) {
+				settings.setAlign(Align.CENTER);
+			} else if (val.equals("RIGHT")) {
+				settings.setAlign(Align.RIGHT);
+			}
+		}
 		
 		return settings;
 	}
