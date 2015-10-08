@@ -25,7 +25,6 @@ public class AdministrationSubsystemGenerator {
 		
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
-
 			Document doc = docBuilder.newDocument();
 
 			// korenski tag <classes>
@@ -40,9 +39,7 @@ public class AdministrationSubsystemGenerator {
 			generatePermissions(resourcesRoot, doc);
 			generateRolePermissions(resourcesRoot, doc);
 			
-			
 			writer.write(doc, "administration-generated", false);
-
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.h2.constant.SysProperties;
 import org.restlet.Context;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
