@@ -125,8 +125,8 @@ public class ProjectExporter {
 			enumGenerator.generateEnumFiles(enumerations);
 		}else {
 			appRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
-			MainFrame.getInstance(); // If admin subsystem isn't started
-			adminGenerator.generate();
+			//MainFrame.getInstance(); // If admin subsystem isn't started
+			//adminGenerator.generate();
 		}
 	}
 	

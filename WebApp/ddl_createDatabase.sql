@@ -6,10 +6,10 @@
         drop constraint FK57F7A1EF6BA6965D;
 
     alter table ResourceHierarchy 
-        drop constraint FK7B9DDDA751846883;
+        drop constraint FK7B9DDDA7B3636EAD;
 
     alter table ResourceHierarchy 
-        drop constraint FK7B9DDDA7B3636EAD;
+        drop constraint FK7B9DDDA751846883;
 
     alter table RolePermission 
         drop constraint FK18FE53058D4AD7FD;
@@ -119,13 +119,13 @@
         references Operation;
 
     alter table ResourceHierarchy 
-        add constraint FK7B9DDDA751846883 
-        foreign key (resource2) 
+        add constraint FK7B9DDDA7B3636EAD 
+        foreign key (resource) 
         references Resource;
 
     alter table ResourceHierarchy 
-        add constraint FK7B9DDDA7B3636EAD 
-        foreign key (resource) 
+        add constraint FK7B9DDDA751846883 
+        foreign key (resource2) 
         references Resource;
 
     alter table RolePermission 

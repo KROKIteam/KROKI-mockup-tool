@@ -1,6 +1,7 @@
 package adapt.util.ejb;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -106,13 +107,24 @@ public class SchemaGenerator {
 			}
 		}
 		else { // Deal with case where files are within a JAR
-			final String[] parts = directory.getPath().replaceAll("%20", " ").split(".jar!\\\\");
+			final String[] parts = directory.getPath().replaceAll("%20", " ").split(".jar!");
 			System.out.println("DIRECTORY PATH: " + directory.getPath());
 			System.out.println("DIRECTORY ABS PATH: " + directory.getAbsolutePath());
+			
 			if (parts.length == 2) {
 				String jarFilename = parts[0].substring(6) + ".jar";
 				String relativePath = parts[1].replace(File.separatorChar, '/');
-				JarFile jarFile = new JarFile(jarFilename);
+				if(relativePath.startsWith("/")) {
+					relativePath = relativePath.substring(1);
+				}
+				System.out.println("JAR: " + jarFilename);
+				System.out.println("PATH: " + relativePath);
+				JarFile jarFile;
+				try {
+					jarFile = new JarFile(jarFilename);
+				}catch(FileNotFoundException fnfex) {
+					jarFile = new JarFile("/" + jarFilename);
+				}
 				final Enumeration entries = jarFile.entries();
 				while (entries.hasMoreElements()) {
 					final JarEntry entry = (JarEntry) entries.nextElement();
@@ -121,13 +133,13 @@ public class SchemaGenerator {
 						classNames.add(entryName.replace('/', File.separatorChar));
 					}
 				}
+				jarFile.close();
 			}
 			else {
 				throw new ClassNotFoundException(packageName
 						+ " is not a valid package");
 			}
 		}
-
 		return classNames;
 	}
 }
