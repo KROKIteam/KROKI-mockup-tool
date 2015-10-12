@@ -360,10 +360,12 @@ public class PanelGenerator {
 						hPanelTag.setAttributeNode(hPanelLevel);
 						
 						//association end
-						if(h.getLevel() > 1) {
+						if(h.getLevel() > 0) {
+							System.out.println(h.getLabel() +  " [LEVEL = "  + h.getLevel() + "]");
 							Attr hPanelAssociationEnd = doc.createAttribute("association-end");
 							hPanelAssociationEnd.setValue(h.getViaAssociationEnd().name());
 							hPanelTag.setAttributeNode(hPanelAssociationEnd);
+							System.out.println("ASSOCIATION END: " + h.getViaAssociationEnd().name());
 						}
 						pcTag.appendChild(hPanelTag);
 						
