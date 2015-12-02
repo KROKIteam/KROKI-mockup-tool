@@ -286,8 +286,12 @@ public class ProjectExporter {
 		if(subMenuNew != null) {
 			sys = cc.toCamelCase(subMenuNew.getName(), true);
 		}
-		ConstraintAnalyzer ca = new ConstraintAnalyzer(consDres.get(0), importedPackages);
-	    constraints.add(ca.process());
+		ConstraintAnalyzer ca = null;
+		if(consDres != null && !consDres.isEmpty()){
+			new ConstraintAnalyzer(consDres.get(0), importedPackages);
+		    constraints.add(ca.process());
+		}
+
 
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
