@@ -8,18 +8,28 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import tudresden.ocl20.pivot.language.ocl.resource.ocl.Ocl22Parser;
+import tudresden.ocl20.pivot.model.IModel;
+import tudresden.ocl20.pivot.model.ModelAccessException;
+import tudresden.ocl20.pivot.standalone.facade.StandaloneFacade;
+import tudresden.ocl20.pivot.tools.template.exception.TemplateException;
+
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.analyzer.ConstraintAnalyzer;
 import kroki.app.exceptions.NoZoomPanelException;
 import kroki.app.generators.AdministrationSubsystemGenerator;
 import kroki.app.generators.ApplicationRepositoryGenerator;
+import kroki.app.generators.ConstraintGenerator;
 import kroki.app.generators.DatabaseConfigGenerator;
 import kroki.app.generators.EJBGenerator;
 import kroki.app.generators.EnumerationGenerator;
 import kroki.app.generators.MenuGenerator;
 import kroki.app.generators.PanelGenerator;
 import kroki.app.generators.WebResourceGenerator;
+import kroki.app.generators.utils.Constraint;
 import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
@@ -36,6 +46,7 @@ import kroki.profil.association.Zoom;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
+import kroki.profil.property.Calculated;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
 
@@ -72,7 +83,9 @@ public class ProjectExporter {
 	private ApplicationRepositoryGenerator appRepoGenerator;
 	private NamingUtil cc;
 	private kroki.app.menu.Submenu rootMenu;
-
+	private ConstraintGenerator constraintGenerator;
+	private ArrayList<Constraint> constraints;
+	private IModel model = null;
 
 	public ProjectExporter(boolean swing) {
 		classes = new ArrayList<EJBClass>();
@@ -87,6 +100,7 @@ public class ProjectExporter {
 		adminGenerator = new AdministrationSubsystemGenerator();
 		appRepoGenerator = new ApplicationRepositoryGenerator();
 		rootMenu = new kroki.app.menu.Submenu("Menu");
+		constraintGenerator = new ConstraintGenerator();
 		cc = new NamingUtil();
 		this.swing = swing;
 	}
@@ -99,10 +113,39 @@ public class ProjectExporter {
 	 * @param message
 	 */
 	public void export(File file, String jarName, BussinesSubsystem proj, String message) {
+		File f = new File(".");
+		String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+		if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+			appPath = appPath.substring(0, appPath.length()-16);
+		}
+		File fileModel = new File(appPath + "KrokiMockupTool/Temp/model1.uml");/********* putanja do modela *****/
+		StandaloneFacade facade=StandaloneFacade.INSTANCE;
+
+				try {
+					facade.initialize(null);
+				} catch (TemplateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		
+		try {
+			//model = (EcoreModel) facade.loadEcoreModel(fileModel);
+			 model = facade.loadUMLModel(fileModel,
+					getUMLResources());
+		} catch (ModelAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		generateAppAndRepo(proj, message);
 		writeProjectName(proj.getLabel(), proj.getProjectDescription());
 		runAnt(file, proj, jarName, message);
 		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+	
+	private File getUMLResources() {
+		return new File(
+				"lib/org.eclipse.uml2.uml.resources_3.1.0.v201005031530.jar");
 	}
 
 	/**
@@ -120,6 +163,7 @@ public class ProjectExporter {
 			ejbGenerator.generateEJBXmlFiles(classes, null);
 			ejbGenerator.generateEJBClasses(classes, true);
 			ejbGenerator.generateXMLMappingFile(classes, null);
+			constraintGenerator.generateConstraints(classes, true);
 			dbConfigGenerator.generateFilesForDesktopApp();
 			enumGenerator.generateXMLFiles(enumerations);
 			enumGenerator.generateEnumFiles(enumerations);
@@ -197,6 +241,11 @@ public class ProjectExporter {
 
 		//EJB CLASS ATTRIBUTE LISTS
 		ArrayList<EJBAttribute> attributes = new ArrayList<EJBAttribute>();
+		
+		//CONSTRAINTS
+		ArrayList<Constraint> constraints = new ArrayList<Constraint>();
+		List<tudresden.ocl20.pivot.pivotmodel.Constraint> consDres = new ArrayList<tudresden.ocl20.pivot.pivotmodel.Constraint>();
+		List<String> importedPackages = new ArrayList<String>();
 
 		//DATA USED FOR EJB CLASS GENERATION
 		//for each panel element, one EJB attribute object is created and added to attributes list for that panel
@@ -205,6 +254,16 @@ public class ProjectExporter {
 				VisibleProperty vp = (VisibleProperty) element;
 				EJBAttribute attribute = getVisiblePropertyData(vp);
 				attributes.add(attribute);
+				if(element instanceof Calculated){
+					String expression = ((Calculated) element).getExpression();
+				
+						try {
+							consDres = Ocl22Parser.INSTANCE.parseOclString(expression, model);
+						} catch (tudresden.ocl20.pivot.parser.ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				}
 			}else if(element instanceof Zoom) {
 				Zoom z = (Zoom)element;
 				EJBAttribute attribute = getZoomData(z, sp.getPersistentClass().name());
@@ -227,13 +286,15 @@ public class ProjectExporter {
 		if(subMenuNew != null) {
 			sys = cc.toCamelCase(subMenuNew.getName(), true);
 		}
+		ConstraintAnalyzer ca = new ConstraintAnalyzer(consDres.get(0), importedPackages);
+	    constraints.add(ca.process());
 
 		//EJB class instance for panel is created and passed to generator
 		String pack = "ejb";
 		if(!swing) {
 			pack = "ejb_generated";
 		}
-		EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes);
+		EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, constraints);
 		System.out.println("DODAJEM KLASU: " + ejb.getName());
 		classes.add(ejb);
 
@@ -854,6 +915,15 @@ public class ProjectExporter {
 
 	public void setEnumerations(ArrayList<Enumeration> enumerations) {
 		this.enumerations = enumerations;
+	}
+	
+
+	public ArrayList<Constraint> getConstraints() {
+		return constraints;
+	}
+
+	public void setConstraints(ArrayList<Constraint> constraints) {
+		this.constraints = constraints;
 	}
 
 }
