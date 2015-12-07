@@ -180,9 +180,6 @@ public class EJBGenerator {
 				Attr idKeyAttr = doc.createAttribute("key");
 				idKeyAttr.setValue("true");
 				idColumn.setAttributeNode(idKeyAttr);
-				
-				//TODO
-				//visivle, foreground, background color
 
 				attributes.appendChild(idColumn);
 
@@ -212,6 +209,31 @@ public class EJBGenerator {
 							//atribut "type"
 							Attr colType = doc.createAttribute("type");
 							colType.setValue(attribute.getType());
+							
+							//TODO - Ispraviti da se ne pravi za id, nego za sve kolone
+							//za id generisati da je visible = false
+							//visible, foreground, background color
+							Attr colVisibleAttr = doc.createAttribute("visible");
+							colVisibleAttr.setValue(attribute.getVisible().toString());
+							columnAttr.setAttributeNode(colVisibleAttr);
+							
+							Attr colReadOnlyAttr = doc.createAttribute("readOnly");
+							colReadOnlyAttr.setValue(attribute.getReadOnly().toString());
+							columnAttr.setAttributeNode(colReadOnlyAttr);
+							
+							Attr colAutoGoAttr = doc.createAttribute("autoGo");
+							colAutoGoAttr.setValue(attribute.getAutoGo().toString());
+							columnAttr.setAttributeNode(colAutoGoAttr);
+							
+							//atribut "foregroundColor"
+							Attr colForegroundColorAttr = doc.createAttribute("foreground");
+							colForegroundColorAttr.setValue(attribute.getForegraundRGB().toString());
+							columnAttr.setAttributeNode(colForegroundColorAttr);
+							
+							//atribut "backgroundColor"
+							Attr colBackgroundColorAttr = doc.createAttribute("background");
+							colBackgroundColorAttr.setValue(attribute.getBackgroundRGB().toString());
+							columnAttr.setAttributeNode(colBackgroundColorAttr);
 
 							Enumeration enumeration = attribute.getEnumeration();
 							if(enumeration != null) {

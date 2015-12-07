@@ -19,9 +19,11 @@ public class ColumnAttribute extends AbsAttribute {
 	protected Object defaultValue;
 	protected Enumeration enumeration;
 	protected JComponent component;
-	protected Color backgroundColor;
-	protected Color foregraundColor;
-	protected Boolean visible;
+	protected Boolean visible = true;
+	protected Boolean readOnly = false;
+	protected Boolean autoGo = false;
+	protected Color foreground;
+	protected Color background;
 	
 	public Boolean getKey() {
 		return key;
@@ -111,28 +113,44 @@ public class ColumnAttribute extends AbsAttribute {
 		this.enumeration = enumeration;
 	}
 
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-
-	public Color getForegraundColor() {
-		return foregraundColor;
-	}
-
-	public void setForegraundColor(Color foregraundColor) {
-		this.foregraundColor = foregraundColor;
-	}
-
 	public Boolean getVisible() {
 		return visible;
 	}
 
 	public void setVisible(Boolean visible) {
 		this.visible = visible;
+	}
+
+	public Boolean getReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(Boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
+	public Boolean getAutoGo() {
+		return autoGo;
+	}
+
+	public void setAutoGo(Boolean autoGo) {
+		this.autoGo = autoGo;
+	}
+
+	public Color getForeground() {
+		return foreground;
+	}
+
+	public void setForeground(Color foreground) {
+		this.foreground = foreground;
+	}
+
+	public Color getBackground() {
+		return background;
+	}
+
+	public void setBackground(Color background) {
+		this.background = background;
 	}
 
 }

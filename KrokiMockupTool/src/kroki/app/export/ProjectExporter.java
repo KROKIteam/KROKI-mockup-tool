@@ -1,5 +1,6 @@
 package kroki.app.export;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -306,9 +307,21 @@ public class ProjectExporter {
 		////////////////////////////////////////////////////////////////////////
 		String label = vp.getLabel();
 		String columnLabel = vp.getColumnLabel();
+		
+		//getting visible, foreground and background color
+		boolean visible = vp.isVisible();
+		boolean readOnly = vp.isReadOnly();
+		Color foregroundColor = vp.getComponent().getFgColor();
+		int foregroundRGB = foregroundColor.getRGB();
+		Color backgroundColor = vp.getComponent().getBgColor();
+		int backgroundRGB = backgroundColor.getRGB();
+		boolean autoGo = vp.isAutoGo();
+		
+		//new Color(foregroundColor.getRGB());
 
 		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false)");
-		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(), enumeration);
+		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(),
+				enumeration, visible, readOnly,autoGo, backgroundRGB, foregroundRGB);
 		return attribute;
 	}
 

@@ -114,6 +114,8 @@ public class EntityReader {
 	}
 
 	private static ColumnAttribute getColumnAttributeValues(Element elem) {
+		JOptionPane.showMessageDialog(null, "Column att");
+		
 		ColumnAttribute ca = new ColumnAttribute();
 		ca.setName(elem.getAttribute(Tags.NAME));
 		ca.setLabel(elem.getAttribute(Tags.LABEL));
@@ -136,6 +138,20 @@ public class EntityReader {
 			if (key != null)
 				ca.setKey(key);
 		}
+
+//		try{
+//			String visibleStr = elem.getAttribute(Tags.VISIBLE);
+//			if (visibleStr != null && (visibleStr.equals("true") || visibleStr.equals("false"))) {
+//				Boolean visible = new Boolean(visibleStr);
+//				if (visible != null)
+//					ca.setVisible(visible);
+//			}
+//		}catch(Exception ex){
+//			JOptionPane.showMessageDialog(null, ex.getMessage());
+//		}
+		
+		JOptionPane.showMessageDialog(null, "OK");
+
 		String derivedStr = elem.getAttribute(Tags.DERIVED);
 		if (derivedStr != null
 				&& (derivedStr.equals("true") || derivedStr.equals("false"))) {
@@ -152,7 +168,7 @@ public class EntityReader {
 		if (defaultValue != null && !defaultValue.equals("")) {
 			ca.setDefaultValue(ConverterUtil.convert(defaultValue, ca));
 		}
-		
+
 		JComponent component = ComponentResolver.getComponent(ca);
 		ca.setComponent(component);
 		return ca;

@@ -1,5 +1,6 @@
 package kroki.app.generators.utils;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class EJBAttribute {
@@ -14,6 +15,35 @@ public class EJBAttribute {
 	private Boolean representative;
 	private Enumeration enumeration;
 	private ArrayList<EJBAttribute> columnRefs;
+	private Integer backgroundRGB;
+	private Integer foregraundRGB;
+	private Boolean visible;
+	private Boolean readOnly;
+	private Boolean autoGo;
+	
+	public EJBAttribute(ArrayList<String> annotations, String type, String name,
+			String label, String databaseName, Boolean mandatory,
+			Boolean unique, Boolean representative, Enumeration enumeration, Boolean visible,
+			Boolean readOnly, Boolean autoGo,
+			Integer backgroundRGB, Integer foregraundRGB) {
+		super();
+		this.annotations = annotations;
+		this.type = type;
+		this.name = name;
+		this.label = label;
+		this.databaseName = databaseName;
+		this.mandatory = mandatory;
+		this.unique = unique;
+		this.representative = representative;
+		this.enumeration = enumeration;
+		this.visible = visible;
+        this.backgroundRGB = backgroundRGB;
+		this.foregraundRGB = foregraundRGB;
+		this.readOnly = readOnly;
+		this.autoGo = autoGo;
+		columnRefs = new ArrayList<EJBAttribute>();
+	}
+	
 	
 	public EJBAttribute(ArrayList<String> annotations, String type, String name,
 			String label, String databaseName, Boolean mandatory,
@@ -28,6 +58,11 @@ public class EJBAttribute {
 		this.unique = unique;
 		this.representative = representative;
 		this.enumeration = enumeration;
+		this.visible = true;
+		this.autoGo = false;
+		this.readOnly = false;
+        this.backgroundRGB = Color.WHITE.getRGB();
+		this.foregraundRGB = Color.BLACK.getRGB();
 		columnRefs = new ArrayList<EJBAttribute>();
 	}
 
@@ -110,4 +145,54 @@ public class EJBAttribute {
 	public void setColumnRefs(ArrayList<EJBAttribute> columnRefs) {
 		this.columnRefs = columnRefs;
 	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
+	}
+
+	public Integer getBackgroundRGB() {
+		return backgroundRGB;
+	}
+
+
+	public void setBackgroundRGB(Integer backgroundRGB) {
+		this.backgroundRGB = backgroundRGB;
+	}
+
+
+	public Integer getForegraundRGB() {
+		return foregraundRGB;
+	}
+
+
+	public void setForegraundRGB(Integer foregraundRGB) {
+		this.foregraundRGB = foregraundRGB;
+	}
+
+
+	public Boolean getReadOnly() {
+		return readOnly;
+	}
+
+
+	public void setReadOnly(Boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
+
+	public Boolean getAutoGo() {
+		return autoGo;
+	}
+
+
+	public void setAutoGo(Boolean autoGo) {
+		this.autoGo = autoGo;
+	}
+
+
+	
 }
