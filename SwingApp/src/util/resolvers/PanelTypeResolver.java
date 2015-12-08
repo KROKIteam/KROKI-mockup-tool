@@ -11,11 +11,11 @@ public class PanelTypeResolver {
 		if (pType == null || pType.equals("")) {
 			throw new PanelTypeParsingException("No parsing type found.");
 		}
-		if (pType.equals("standard_panel")) {
+		if (pType.equals("standard-panel")) {
 			return PanelType.STANDARDPANEL;
-		} else if (pType.equals("parent_child")) {
+		} else if (pType.equals("parent-child")) {
 			return PanelType.PARENTCHILDPANEL;
-		}  else if (pType.equals("many_to_many")) {
+		}  else if (pType.equals("many-to-many")) {
 			return PanelType.MANYTOMANYPANEL;
 		}
 		throw new PanelTypeParsingException("No parsing type for: " + pType);

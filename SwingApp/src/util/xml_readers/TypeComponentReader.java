@@ -33,8 +33,8 @@ public class TypeComponentReader {
 			NodeList nodeList = doc.getElementsByTagName("property");
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Element elementType = (Element) nodeList.item(i);
-				String langType = elementType.getAttribute("language_type");
-				String compType = elementType.getAttribute("component_type");
+				String langType = elementType.getAttribute("language-type");
+				String compType = elementType.getAttribute("component-type");
 				AppCache.getInstance().addToCacheTypes(langType, compType);
 			}
 		} catch (Exception e) {

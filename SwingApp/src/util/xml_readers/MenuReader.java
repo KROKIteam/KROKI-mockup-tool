@@ -33,7 +33,7 @@ public class MenuReader {
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 			System.out.println("MENU READER FILE: " + appPath + modelDir + File.separator + menuFile);
 			Document doc = XMLUtil.getDocumentFromXML(appPath + modelDir + File.separator + menuFile, null);
-			Element elementMenuMap = (Element) doc.getElementsByTagName("menu_map").item(0);
+			Element elementMenuMap = (Element) doc.getElementsByTagName("menus").item(0);
 
 			NodeList list = elementMenuMap.getChildNodes();
 			for(int i=0;i<list.getLength(); i++) {
@@ -84,7 +84,7 @@ public class MenuReader {
 		MySubMenu submenu = new MySubMenu();
 		submenu.setActivate(elementSubmenu.getAttribute("activate"));
 		submenu.setLabel(elementSubmenu.getAttribute("label"));
-		String pType = elementSubmenu.getAttribute("panel_type");
+		String pType = elementSubmenu.getAttribute("panel-type");
 		submenu.setPanelType(PanelTypeResolver.getType(pType));
 		return submenu;
 	}

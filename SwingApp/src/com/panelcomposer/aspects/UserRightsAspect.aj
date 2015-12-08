@@ -64,7 +64,6 @@ public aspect UserRightsAspect {
 				String panelId = zoom.getName();
 				Element elem = getElementByPanelId(doc, panelId, OpenedAs.ZOOM);
 				if(elem != null) {
-//					String value = elem.getAttribute(Tags.DISABLED);
 					String value = elem.getAttribute("disabled");
 					Boolean hide = (Boolean) ConverterUtil.convert(value, Boolean.class);
 					if(hide != null && hide == true) {
@@ -90,7 +89,6 @@ public aspect UserRightsAspect {
 				String panelId = next.getName();
 				Element elem = getElementByPanelId(doc, panelId, OpenedAs.NEXT);
 				if(elem != null) {
-//					String value = elem.getAttribute(Tags.DISABLED);
 					String value = elem.getAttribute("disabled");
 					Boolean hide = (Boolean) ConverterUtil.convert(value, Boolean.class);
 					if(hide != null && hide == true) {
@@ -114,7 +112,6 @@ public aspect UserRightsAspect {
 			String panelId = msm.getActivate();
 			Element elem = getElementByPanelId(doc, panelId, OpenedAs.DEFAULT);
 			if(elem != null) {
-//				String value = elem.getAttribute(Tags.DISABLED);
 				String value = elem.getAttribute("disabled");
 				Boolean hide = (Boolean) ConverterUtil.convert(value, Boolean.class);
 				if(hide != null && hide == true) {
@@ -152,19 +149,9 @@ public aspect UserRightsAspect {
 			OpenedAs openedAs) {
 		String tag = null;
 		String attr = null;
-//		if (openedAs.equals(OpenedAs.DEFAULT)) {
-//			tag = Tags.PANEL;
-//			attr = Tags.PANEL_REF;
-//		} else if (openedAs.equals(OpenedAs.NEXT)) {
-//			tag = Tags.NEXT;
-//			attr = Tags.NAME;
-//		} else if (openedAs.equals(OpenedAs.ZOOM)) {
-//			tag = Tags.ZOOM;
-//			attr = Tags.NAME;
-//		}
 		if (openedAs.equals(OpenedAs.DEFAULT)) {
 			tag = "panel";
-			attr = "panel_reference";
+			attr = "panel-ref";
 		} else if (openedAs.equals(OpenedAs.NEXT)) {
 			tag = "next";
 			attr = "name";
