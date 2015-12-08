@@ -158,41 +158,31 @@ public class EJBAttribute {
 		return backgroundRGB;
 	}
 
-
 	public void setBackgroundRGB(Integer backgroundRGB) {
 		this.backgroundRGB = backgroundRGB;
 	}
-
 
 	public Integer getForegraundRGB() {
 		return foregraundRGB;
 	}
 
-
 	public void setForegraundRGB(Integer foregraundRGB) {
 		this.foregraundRGB = foregraundRGB;
 	}
-
 
 	public Boolean getReadOnly() {
 		return readOnly;
 	}
 
-
 	public void setReadOnly(Boolean readOnly) {
 		this.readOnly = readOnly;
 	}
-
 
 	public Boolean getAutoGo() {
 		return autoGo;
 	}
 
-
 	public void setAutoGo(Boolean autoGo) {
 		this.autoGo = autoGo;
 	}
-
-
-	
 }

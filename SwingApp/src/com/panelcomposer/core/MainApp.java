@@ -26,36 +26,35 @@ public class MainApp {
 		
 		
 		TypeComponentReader.loadMappings();
-		JOptionPane.showMessageDialog(null, "Pokrecem");
-		//EnumerationReader.loadMappings();
+		//JOptionPane.showMessageDialog(null, "Pokrecem");
+		EnumerationReader.loadMappings();
 		//TypeMapping.loadMappings();
-	
-//		EntityReader.loadMappings();
-//		PanelReader.loadMappings();
-//
-//		//SCHEMA EXPORT
-//		//AnnotationConfigurationWithWildcard cfg = new AnnotationConfigurationWithWildcard();
-//		//cfg.configure();
-//		//new SchemaExport(cfg).create(true, true);
-//		try {
-//			SchemaGenerator gen = new SchemaGenerator("ejb");
-//			gen.generate();
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		User u = new User();
-//		u.setUsername("admin");
-//		u.setPassword("admin");
-//
-//		EntityManager em = PersistenceHelper.createEntityManager();
-//		em.getTransaction().begin();
-//		em.persist(u);
-//		em.getTransaction().commit();
-//
-//		SMainForm sm = new SMainForm();
-//		sm.setLocationRelativeTo(null);
-//		sm.setVisible(true);
+		EntityReader.loadMappings();
+		PanelReader.loadMappings();
+
+		//SCHEMA EXPORT
+		//AnnotationConfigurationWithWildcard cfg = new AnnotationConfigurationWithWildcard();
+		//cfg.configure();
+		//new SchemaExport(cfg).create(true, true);
+		try {
+			SchemaGenerator gen = new SchemaGenerator("ejb");
+			gen.generate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		User u = new User();
+		u.setUsername("admin");
+		u.setPassword("admin");
+
+		EntityManager em = PersistenceHelper.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(u);
+		em.getTransaction().commit();
+
+		SMainForm sm = new SMainForm();
+		sm.setLocationRelativeTo(null);
+		sm.setVisible(true);
 	}
 }

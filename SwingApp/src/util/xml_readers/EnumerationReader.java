@@ -10,7 +10,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import util.staticnames.ReadersPathConst;
-import util.staticnames.Tags;
 
 import com.panelcomposer.core.AppCache;
 import com.panelcomposer.model.enumeration.Enumeration;
@@ -26,15 +25,15 @@ public class EnumerationReader {
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 			System.out.println("ENUM READER 1: " + appPath + modelDir  + File.separator + fileName);
 			Document doc = XMLUtil.getDocumentFromXML(appPath + modelDir  + File.separator + fileName, null);
-			NodeList nodeLst = doc.getElementsByTagName(Tags.ENUM);
+			NodeList nodeLst = doc.getElementsByTagName("enum");
 			System.out.println("ENUM READER 2: " + fileName + " DOC: " + doc.getDocumentURI());
 			for (int i = 0; i < nodeLst.getLength(); i++) {
 				Node nodeEnum = nodeLst.item(i);
 				Element elemEnum = (Element) nodeEnum; 
-				String name = elemEnum.getAttribute(Tags.NAME);
-				String label = elemEnum.getAttribute(Tags.LABEL);
+				String name = elemEnum.getAttribute("name");
+				String label = elemEnum.getAttribute("label");
 				Enumeration enumeration = new Enumeration(name, label);
-				NodeList nodeListValues = elemEnum.getElementsByTagName(Tags.VALUE);
+				NodeList nodeListValues = elemEnum.getElementsByTagName("value");
 				for (int j = 0; j < nodeListValues.getLength(); j++) {
 					String value = nodeListValues.item(j).getTextContent();
 					if(value != null) {

@@ -11,7 +11,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import util.staticnames.ReadersPathConst;
-import util.staticnames.Tags;
 
 import com.panelcomposer.core.AppCache;
 
@@ -29,17 +28,17 @@ public class TypeComponentReader {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(appPath + modelDir + File.separator + xmlFile);
 			System.out.println("TC READER: " + doc.getDocumentURI());
+			
 			doc.getDocumentElement().normalize();
-			NodeList nodeList = doc.getElementsByTagName(Tags.PROPERTY);
+			NodeList nodeList = doc.getElementsByTagName("property");
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Element elementType = (Element) nodeList.item(i);
-				String langType = elementType.getAttribute(Tags.LANGUAGE_TYPE);
-				String compType = elementType.getAttribute(Tags.COMPONENT_TYPE);
+				String langType = elementType.getAttribute("language_type");
+				String compType = elementType.getAttribute("component_type");
 				AppCache.getInstance().addToCacheTypes(langType, compType);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
