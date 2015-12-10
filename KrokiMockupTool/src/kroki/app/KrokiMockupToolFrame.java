@@ -161,9 +161,7 @@ public class KrokiMockupToolFrame extends JFrame {
 				File f = new File(".");
 				String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
 				File tempDir = new File(appPath);
-
 				deleteFiles(tempDir);
-				
 
 				//save projects
 				if (KrokiMockupToolApp.getInstance().getWorkspace().getPackageCount() == 0)

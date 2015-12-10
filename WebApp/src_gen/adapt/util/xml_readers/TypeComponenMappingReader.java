@@ -93,7 +93,8 @@ public class TypeComponenMappingReader {
 				components.put(componentId, templateFile);
 			}
 		} catch (Exception e) {
-			AppCache.displayTextOnMainFrame("Error reading mapping file", 1);
+			AppCache.displayTextOnMainFrame("Error reading components file", 1);
+			AppCache.displayStackTraceOnMainFrame(e);
 		}
 	}
 }

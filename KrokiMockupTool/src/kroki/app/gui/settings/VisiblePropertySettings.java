@@ -86,7 +86,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
         lengthLb = new JLabel(Intl.getValue("visibleProperty.length"));
         precisionLb = new JLabel(Intl.getValue("visibleProperty.precision"));
         peristentTypeLb = new JLabel(Intl.getValue("visibleProperty.persistentType"));
-        String[] types = { "String", "Integer", "Long", "BigDecimal", "Date" };
+        String[] types = { "String", "Integer", "Long", "BigDecimal", "Date", "e-mail"};
         typeCb = new JComboBox<String>(types);
         typeCb.setSelectedIndex(0);
         typeCb.setEnabled(false);

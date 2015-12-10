@@ -10,7 +10,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
  */
 public class KrokiLookAndFeel {
 
-    private static String lookAndFeelName = "windowslookandfeel";
+    private static String lookAndFeelName = "Synth";
 
     /**
      * Sets look and feel to the default value

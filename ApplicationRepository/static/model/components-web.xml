@@ -15,4 +15,6 @@
 	<component id="comboBox"    template-file="combo-box.html"/>
 	<component id="datePicker"  template-file="date-picker.html"/>
     <component id="zoomFiled"   template-file="zoom-field.html"/>
+    <component id="numberField" template-file="number-field.html"/>
+    <component id="emailField"  template-file="email-field.html"/>
 </components>

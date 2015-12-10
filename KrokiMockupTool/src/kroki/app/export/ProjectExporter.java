@@ -333,6 +333,12 @@ public class ProjectExporter {
 	public EJBAttribute getVisiblePropertyData(VisibleProperty vp) {
 		String type = "java.lang.String";
 		Enumeration enumeration = null;
+		System.out.println("DATA TYPE: " + vp.getDataType());
+		if(vp.getDataType().equals("Integer")) {
+			type = "java.lang.Integer";
+		}else if(vp.getDataType().equals("e-mail")) {
+			type = "java.lang.String:Email";
+		}
 		if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
 			if(vp.getDataType().equals("BigDecimal")) {
 				type = "java.math.BigDecimal";

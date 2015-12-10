@@ -10,4 +10,6 @@
 	<component id="textArea"  class="javax.swing.JTextArea"/>
 	<component id="checkBox"  class="javax.swing.JCheckBox"/>
 	<component id="comboBox"  class="javax.swing.JComboBox"/>
+	<component id="numberField" class="javax.swing.JTextField"/>
+	<component id="emailField"  template-file="javax.swing.JTextField"/>
 </components>

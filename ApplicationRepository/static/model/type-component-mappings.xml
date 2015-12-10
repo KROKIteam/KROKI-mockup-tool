@@ -13,9 +13,10 @@
 	<property language-type="java.lang.String:TextArea" component-id="textArea" />
     <property language-type="java.lang.String:ComboBox" component-id="comboBox" />
 	<property language-type="java.lang.Long" component-id="textField" />
-	<property language-type="java.lang.Integer" component-id="textField" />
+	<property language-type="java.lang.Integer" component-id="numberField" />
 	<property language-type="java.math.BigDecimal" component-id="textField" />
 	<property language-type="java.util.Date" component-id="datePicker" />
 	<property language-type="java.lang.Boolean" component-id="checkBox" />
     <property language-type="kroki.joinColumn" component-id="zoomFiled" />
+    <property language-type="java.lang.String:Email" component-id="emailField" />
 </map>

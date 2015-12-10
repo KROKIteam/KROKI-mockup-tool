@@ -73,7 +73,7 @@ public class EJBGenerator {
 				cfg.setTemplateLoader(templateLoader);
 				tpl = cfg.getTemplate("EJBClass.ftl");
 			}catch (IOException ioe) {
-				//				JOptionPane.showMessageDialog(null, "EJB GENERATOR: IOException");
+//				JOptionPane.showMessageDialog(null, "EJB GENERATOR: IOException");
 				//e.printStackTrace();
 				System.out.println("[EJB GENERATOR] " + ioe.getMessage());
 				System.out.println("[EJB GENERATOR] Templates directory not found. Trying the alternative one...");
@@ -217,7 +217,6 @@ public class EJBGenerator {
 				attributes.appendChild(idColumn);
 
 				//-----------------------------------------------------------
-				
 				// Generate <column-attribute> element for every EJB attribute
 				if(!clas.getAttributes().isEmpty()) {
 					for (EJBAttribute attribute : clas.getAttributes()) {

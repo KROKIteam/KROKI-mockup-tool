@@ -105,7 +105,7 @@ public class NamingUtil {
 						prazno=false;
 					}
 				}
-				return builder.toString();
+				return builder.toString().replaceAll("[-#;*/\\|<>.,~`]", "");
 			}
 		return "";
 		/**/
