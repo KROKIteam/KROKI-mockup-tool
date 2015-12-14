@@ -128,8 +128,4 @@ public class Model {
 	public void setDefaultMenu(AdaptSubMenu defaultMenu) {
 		this.defaultMenu = defaultMenu;
 	}
-	
-
-
-
 }

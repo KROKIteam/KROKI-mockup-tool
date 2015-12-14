@@ -21,5 +21,7 @@
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
 	<classpathentry kind="lib" path="lib/aspectjtools.jar"/>
 	<classpathentry kind="lib" path="lib/h2-1.4.189.jar"/>
+	<classpathentry kind="lib" path="lib/aspectjtools-old.jar"/>
+	<classpathentry kind="lib" path="lib/itextpdf-5.5.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

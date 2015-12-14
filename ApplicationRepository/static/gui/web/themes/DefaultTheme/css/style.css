@@ -385,7 +385,7 @@ ul.L2SubMenu {
 
 .tableDiv {
 	height: 96%;
-	width: 97%;
+	width: 76%;
 	padding-left: 2%;
 	padding-right: 2%;
 	float: left;
@@ -650,7 +650,7 @@ is shown and to stop click propagation, making the dialog modal
 
 #confirmDialog {
 	width: 300px;
-	height: 160px;
+	height: 170px;
 	margin: 15% auto;
 	background-color: #ECF0F1;
 	color: #346789;
@@ -669,6 +669,7 @@ is shown and to stop click propagation, making the dialog modal
 #confirmDialog .windowBody button.buttons-blue {
 	width: 40%;
 	margin: 5px;
+	position: relative;
 }
 
 #confirmDialog #cancelConfirm:hover {
@@ -678,6 +679,24 @@ is shown and to stop click propagation, making the dialog modal
 #confirmDialog .windowBody p {
 	margin-top: 10px;
 	height: 48%;
+}
+
+#confirmDialog .windowBody p div{
+	width: 80%;
+	height: 100%;
+	margin: 10px auto;
+}
+
+#confirmDialog .printCheckBox {
+	width: 20%;
+	float: left;
+}
+
+#confirmDialog .printLabel {
+	width: 80%;
+	float: left;
+	clear: right;
+	text-align: left
 }
 
 .operationIcon  {

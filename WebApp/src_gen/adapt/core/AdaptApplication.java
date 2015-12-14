@@ -18,6 +18,7 @@ import adapt.resources.HomeResource;
 import adapt.resources.IndexResource;
 import adapt.resources.ModifyResource;
 import adapt.resources.ParentChildInfoResource;
+import adapt.resources.PrintResource;
 import adapt.resources.ViewResource;
 import adapt.util.repository_utils.RepositoryPathsUtil;
 import adapt.util.staticnames.Settings;
@@ -111,10 +112,13 @@ public class AdaptApplication extends Application {
 					theme);
 		}
 		
-		LocalReference lf = LocalReference.createFileReference(templatesFile);
-		Directory themeDirectory = new Directory(getContext(), lf);
+		LocalReference filesRef = LocalReference.createFileReference(templatesFile);
+		LocalReference staticRef = LocalReference.createFileReference(repositoryPath + File.separator + "static_files");
+		Directory themeDirectory = new Directory(getContext(), filesRef);
+		Directory staticFilesDir = new Directory(getContext(), staticRef);
 
 		router.attach("/files", themeDirectory);
+		router.attach("/static", staticFilesDir);
 		router.attach("/", IndexResource.class);
 		router.attach("/homepage", HomeResource.class);
 		router.attach("/show/{activate}", ViewResource.class);
@@ -125,7 +129,8 @@ public class AdaptApplication extends Application {
 		router.attach("/edited/{entityName}/{modid}", AddResource.class); // AddResource does the actual modifications
 		router.attach("/getInfo/{pcPanel}", ParentChildInfoResource.class);
 		router.attach("/getZooms/{panelName}/{zoomName}/{zid}", GetZoomsResource.class);
-
+		router.attach("/printForm", PrintResource.class);
+		
 		return router;
 	}
 

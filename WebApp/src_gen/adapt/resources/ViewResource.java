@@ -92,7 +92,6 @@ public class ViewResource extends BaseResource {
 					ea.printStackTrace();
 				}
 			}
-			
 			addToDataModel("panels", panels);
 		} catch (Exception e) {
 			e.printStackTrace();

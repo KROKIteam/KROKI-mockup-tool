@@ -594,34 +594,107 @@
 	$("#cconfirmBtn").click(function(e) {
 		$("#overlay").hide();
 		var link = $(this).closest("#confirmDialog").attr("data-confirmLink");
-		if(link != "justClose") {
-			$.ajax({
-				url: link,
-				type: 'GET',
-				encoding:"UTF-8",
-				contentType: "text/html; charset=UTF-8",
-				success: function(data) {
-					$("#messagePopup").html(data);
-					var clas = $("#messagePopup").find("p").attr("data-cssClass");
-					$("#messagePopup").attr("class", clas);
-					$("#messagePopup").prepend("<div></div>");
-					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-					refreshFormData(formToRefresh);
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) { 
-					$("#messagePopup").html("<p>" + errorThrown + "</p>");
-					$("#messagePopup").attr("class", "messageError");
-					$("#messagePopup").prepend("<div></div>");
-					$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-				}
-			});
+		var params = "?names="
+		if(link == "printForm") {
+			var confirmDialog = $(this).closest("#confirmDialog");
+			var resourceid = $("#confirmDialog").attr("data-resourceid");
+			if($('#confirmDialog input:checkbox:checked').length > 0) {
+				$('#confirmDialog input:checkbox:checked').each(function() {
+					params += $(this).attr("name") + ";"
+				});
+				link += params + "&resource=" + resourceid;
+				$.ajax({
+					url: link,
+					type: 'GET',
+					encoding:"UTF-8",
+					contentType: "text/html; charset=UTF-8",
+					success: function(data) {
+						console.log("RESPONSE: " + data)
+						$("#messagePopup").html(data);
+						var clas = $("#messagePopup").find("p").attr("data-cssClass");
+						$("#messagePopup").attr("class", clas);
+						$("#messagePopup").prepend("<div></div>");
+						$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+						var pdfURI = ""
+						window.open('/static/' + resourceid + '.pdf', '_blank');
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { 
+						$("#messagePopup").html("<p>" + errorThrown + "</p>");
+						$("#messagePopup").attr("class", "messageError");
+						$("#messagePopup").prepend("<div></div>");
+						$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+					}
+				});
+			}else {
+				alert("Please select at least one column to print.")
+			}
+		}else {
+			if(link != "justClose") {
+				$.ajax({
+					url: link,
+					type: 'GET',
+					encoding:"UTF-8",
+					contentType: "text/html; charset=UTF-8",
+					success: function(data) {
+						$("#messagePopup").html(data);
+						var clas = $("#messagePopup").find("p").attr("data-cssClass");
+						$("#messagePopup").attr("class", clas);
+						$("#messagePopup").prepend("<div></div>");
+						$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+						refreshFormData(formToRefresh);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { 
+						$("#messagePopup").html("<p>" + errorThrown + "</p>");
+						$("#messagePopup").attr("class", "messageError");
+						$("#messagePopup").prepend("<div></div>");
+						$("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+					}
+				});
+			}
 		}
 	});
 
-	function showConfirmDialog(name, confirmLink, text) {
+	function showConfirmDialog(name, confirmLink, text, form) {
 		$("#confirmDialog .windowName").text(name);
 		$("#confirmDialog").attr("data-confirmLink", confirmLink);
+		$("#confirmDialog p").empty();
 		$("#confirmDialog p").text(text);
+		// DEFAULT PRINT FORM
+		// Show check boxes for columns that need to be printed
+		if (typeof form !== "undefined" && confirmLink == "printForm") {
+		    var printContainer = $(document.createElement("div"));
+		    $("#confirmDialog").attr("data-resourceid", form.attr("data-resourceid"));
+
+		    form.find(".inputFormFields tr").each(function() {
+		    	var label = $(this).find('td.labelColumn').text();
+		    	var name = $(this).find('*[name]:first').attr('name');
+
+		    	var checkboxLabel = $(document.createElement("label"));
+		    	var printCheckBox = $(document.createElement("input"));
+		    	printCheckBox.addClass("printCheckBox");
+		    	printCheckBox.attr("type", "checkbox");
+		    	printCheckBox.attr("name", name);
+		    	printCheckBox.attr("id", name);
+		    	printCheckBox.attr("value", name);
+		    	printCheckBox.attr("checked", "checked");
+
+		    	var checkboxLabel = $(document.createElement("label"));
+		    	checkboxLabel.addClass("printLabel");
+		    	checkboxLabel.attr("for", name);
+		    	checkboxLabel.text(label);
+		    	printContainer.append(printCheckBox);
+		    	printContainer.append(checkboxLabel);
+		    });
+		    var count = printContainer.find("input").length;
+		    if(count > 3) {
+		    	$("#confirmDialog").css({height: 42*count + "px"});
+		    }else {
+		    	$("#confirmDialog").css({height: "170px"});
+		    }
+		    $("#confirmDialog p").append(printContainer);
+		}else {
+			$("#confirmDialog").css({height: "170px"});
+		}
 		$("#overlay").show();
 	}
 
@@ -659,7 +732,8 @@
 		var name = $(this).text();
 		var link = $(this).attr("data-confirmLink");
 		var text = $(this).attr("data-confirmText");
-		showConfirmDialog(name, link, text);
+		var form = $(this.closest(".standardForms"));
+		showConfirmDialog(name, link, text, form);
 	});
 
 	/**************************************************************************************************************************
@@ -800,23 +874,25 @@
      * Refresh form data from database
      */
     function refreshFormData(form) {
-        var win = form.closest("div.windows");
-        form.fadeOut("fast", function() {
-            var showTitle = false;
-            var showback = false;
-            if((win.find(".standardForms").length) > 1) {
-               showTitle =  true;
-            }
-            if((form.find("button#btnZoomBack").length) > 0) {
-               showback =  true;
-            }
-            loadDataToForm(form, showTitle, showback);
-            $(this).fadeIn("fast", function(e) {
-               if(form.next().length > 0) {
-                    refreshFormData(form.next());
-                }
-            });
-        });
+        if(typeof form !== "undefined") {
+        	var win = form.closest("div.windows");
+	        form.fadeOut("fast", function() {
+	            var showTitle = false;
+	            var showback = false;
+	            if((win.find(".standardForms").length) > 1) {
+	               showTitle =  true;
+	            }
+	            if((form.find("button#btnZoomBack").length) > 0) {
+	               showback =  true;
+	            }
+	            loadDataToForm(form, showTitle, showback);
+	            $(this).fadeIn("fast", function(e) {
+	               if(form.next().length > 0) {
+	                    refreshFormData(form.next());
+	                }
+	            });
+	        });
+        }
     }
 
     //Updates the bounds of fixed table headers and main navigation dimensions on resize and scroll events

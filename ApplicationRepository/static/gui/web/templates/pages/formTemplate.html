@@ -88,10 +88,15 @@
     </div>
     <!-- /TABLE PANEL -->
 </div>
-<!-- /TABLE DIV -->
-<!-- OPERATIONS DIV -->
-<#if hasOperationPanel>
+<#-- /TABLE DIV -->
+<#-- OPERATIONS DIV -->
+<#-- <#if hasOperationPanel> -->
 <div class="operationsDiv">
+    <button class="buttons-blue operationButton" data-operation="default_print" data-confirmLink="printForm" data-confirmText="Select columns no print.">
+        <img class="operationIcon" src="/files/images/icons-white/print.png">
+        <span>Print</span>
+    </button>
+<!-- Ovo sam izbacio jer vise ne treba provera posto sada u svakom slucaju treba operationsDiv na svakoj formi zbog printa -->
 <#if panelOperationGroups??>
 <#if panelOperationGroups[panel.name]?has_content>
 <#list panelOperationGroups[panel.name] as group>
@@ -116,7 +121,7 @@
 </#if>
 </#if>
 </div>
-</#if>
+<#-- </#if> -->
 <!-- /OPERATIONS DIV -->
 <!--  INPUT FORM -->
 <form class="inputForm" action="/add/${panel.entityBean.entityClass.name}" name="addForm" method="post">
