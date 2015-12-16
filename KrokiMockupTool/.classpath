@@ -68,5 +68,43 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-API"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/xstream-1.4.8.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.essentialocl_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.essentialocl.standardlibrary_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.pivotmodel_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.model_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.standalone.facade_3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.tools.template_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.tools.transformation_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.language.ocl.resource.ocl_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/org.dresdenocl.metrics_3.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.modelinstance_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.tools.codegen_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.interpreter_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.modelinstancetype_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.logging_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.runtime.jar"/>
+	<classpathentry kind="lib" path="lib/org.osgi.core-4.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/eclipse-equinox-common-3.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/osgi-service.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.log_1.0.100.v20070226.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.osgi-3.7.1.R37x_v20110808-1106.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.tools.template.sql_3.1.0.201101171054 (1).jar"/>
+	<classpathentry kind="lib" path="lib/stringtemplate-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.tools.transformation.pivot2sql_3.0.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.tools.codegen.declarativ_3.0.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/dentaku-metadata-service-20050109.073826.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.tools.CWM_3.0.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.language.ocl.staticsemantics_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.uml2.uml.resources_3.1.0.v201005031530.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.metamodels.uml2_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.parser_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/org.emftext.access_1.2.0.201009131109.jar"/>
+	<classpathentry kind="lib" path="lib/org.emftext.commons.antlr3_2_0_1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.language.ocl_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/scala-library.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.language.ocl.semantics_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/org.kiama.attribution_3.1.0.201101171054.jar"/>
+	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.pivotmodel.semantics_3.1.0.201101171054.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

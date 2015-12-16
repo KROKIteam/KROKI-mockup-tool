@@ -1,6 +1,7 @@
 package kroki.app.generators.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class is used to define mapping of persistent classes of UI profile to a class
@@ -16,6 +17,9 @@ public class EJBClass {
 	private String tableName;
 	private String label;
 	private ArrayList<EJBAttribute> attributes;
+	private ArrayList<Constraint> constraints = new ArrayList<Constraint>();
+	private List<String> importedPackages = new ArrayList<String>();
+	private ArrayList<Operation> operations = new ArrayList<Operation>();
 //	private ArrayList<Attribute> attributes;
 //	private ArrayList<ManyToOneAttribute> manyToOneAttributes;
 //	private ArrayList<OneToManyAttribute> oneToManyAttributes;
@@ -34,7 +38,6 @@ public class EJBClass {
 //		this.manyToOneAttributes = manyToOneAttributes;
 //		this.oneToManyAttributes = oneToManyAttributes;
 //	}
-
 	
 	public EJBClass(String classPackage, String subsystem, String name, String tableName, String label, ArrayList<EJBAttribute> attributes) {
 		this.classPackage = classPackage;
@@ -43,6 +46,17 @@ public class EJBClass {
 		this.tableName = tableName;
 		this.label = label;
 		this.attributes = attributes;
+	}
+
+	
+	public EJBClass(String classPackage, String subsystem, String name, String tableName, String label, ArrayList<EJBAttribute> attributes, ArrayList<Constraint> constraints) {
+		this.classPackage = classPackage;
+		this.subsystem = subsystem;
+		this.name = name;
+		this.tableName = tableName;
+		this.label = label;
+		this.attributes = attributes;
+		this.constraints = constraints;
 	}
 
 	
@@ -95,5 +109,17 @@ public class EJBClass {
 	public void setAttributes(ArrayList<EJBAttribute> attributes) {
 		this.attributes = attributes;
 	}
+
+
+	public ArrayList<Constraint> getConstraints() {
+		return constraints;
+	}
+
+
+	public void setConstraints(ArrayList<Constraint> constraints) {
+		this.constraints = constraints;
+	}
+	
+	
 
 }
