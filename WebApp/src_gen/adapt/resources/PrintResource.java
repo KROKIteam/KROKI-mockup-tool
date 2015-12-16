@@ -7,6 +7,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.restlet.Context;
 import org.restlet.data.MediaType;
@@ -36,6 +42,8 @@ import adapt.enumerations.PanelType;
 import adapt.model.ejb.AbstractAttribute;
 import adapt.model.ejb.EntityBean;
 import adapt.model.panel.AdaptStandardPanel;
+import adapt.util.ejb.PersisenceHelper;
+import adapt.util.html.TableModel;
 import adapt.util.pdf.AdaptPDFEvent;
 import adapt.util.repository_utils.RepositoryPathsUtil;
 import adapt.util.xml_readers.PanelReader;
@@ -43,7 +51,6 @@ import adapt.util.xml_readers.PanelReader;
 public class PrintResource extends BaseResource {
 
 	String pdfLocation = RepositoryPathsUtil.getRepositoryRootPath() + File.separator + "static_files";
-	String resourceName;
 	
 	public PrintResource(Context context, Request request, Response response) {
 		super(context, request, response);
@@ -55,10 +62,7 @@ public class PrintResource extends BaseResource {
 		String columnNames = getQuery().getValues("names");
 		String resourceId = getQuery().getValues("resource");
 		
-		AppCache.displayTextOnMainFrame("[PRINT RESOURCE] resource: " + resourceId, 0);
-		AppCache.displayTextOnMainFrame("[PRINT RESOURCE] columns: "  + columnNames, 0);
 		if(columnNames != null && resourceId != null) {
-			resourceName = resourceId;
 			buildReport(resourceId, columnNames);
 		}
 		addToDataModel("css", "messageOk");
@@ -115,13 +119,41 @@ public class PrintResource extends BaseResource {
 			}
 		}
 		
-		for (String columnName : selectedColumns) {
-			PdfPCell c1 = new PdfPCell(new Phrase("TEST"));
-		    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-		    table.addCell(c1);
+		ArrayList<LinkedHashMap<String, String>> tableRows = getTableData(panel, selectedColumns);
+		if(tableRows.size() > 0) {
+			for (LinkedHashMap<String, String> rowMap : tableRows) {
+				for(int i=0; i<selectedColumns.length; i++) {
+					PdfPCell cell = new PdfPCell(new Phrase(rowMap.get(selectedColumns[i])));
+					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+					table.addCell(cell);
+				}
+			}
+		}else {
+			Paragraph message = new Paragraph("No data");
+			message.setAlignment(Element.ALIGN_CENTER);
+			tableParagraph.add(message);
 		}
+		
 		table.setHeaderRows(1);
 		tableParagraph.add(table);
+	}
+	
+	private ArrayList<LinkedHashMap<String, String>> getTableData(AdaptStandardPanel panel, String[] selectedColumns) {
+		EntityBean bean = panel.getEntityBean();
+		String query = "FROM " + bean.getEntityClass().getName();
+		
+		EntityManager em = PersisenceHelper.createEntityManager();
+
+		em.getTransaction().begin();
+		Query q = em.createQuery(query);
+		List<Object> results = q.getResultList();
+		
+		TableModel model = new TableModel(panel.getEntityBean());
+
+		em.getTransaction().commit();
+		em.close();
+		
+		return model.getModel(results);
 	}
 	
 	@Override

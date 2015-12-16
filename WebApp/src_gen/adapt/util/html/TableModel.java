@@ -36,7 +36,7 @@ public class TableModel {
 	/**
 	 * Stores database query result list into table model
 	 * @param objects list of objects obtained from database
-	 * @return list ov values suitable for HTML representation 
+	 * @return list of values suitable for HTML representation 
 	 */
 	public ArrayList<LinkedHashMap<String, String>> getModel(List<Object> resultSet) {
 		ArrayList<LinkedHashMap<String, String>> model = new ArrayList<LinkedHashMap<String,String>>();
