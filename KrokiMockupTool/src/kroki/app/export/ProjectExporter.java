@@ -321,7 +321,7 @@ public class ProjectExporter {
 
 		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false)");
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(),
-				enumeration, visible, readOnly,autoGo, backgroundRGB, foregroundRGB);
+				enumeration, visible, readOnly,autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), false);
 		return attribute;
 	}
 

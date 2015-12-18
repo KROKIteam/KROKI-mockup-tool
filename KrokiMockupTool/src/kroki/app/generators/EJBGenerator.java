@@ -180,6 +180,10 @@ public class EJBGenerator {
 				Attr idKeyAttr = doc.createAttribute("key");
 				idKeyAttr.setValue("true");
 				idColumn.setAttributeNode(idKeyAttr);
+				
+				Attr idVisibleAttr = doc.createAttribute("visible");
+				idVisibleAttr.setValue("false");
+				idColumn.setAttributeNode(idVisibleAttr);
 
 				attributes.appendChild(idColumn);
 
@@ -210,17 +214,17 @@ public class EJBGenerator {
 							Attr colType = doc.createAttribute("type");
 							colType.setValue(attribute.getType());
 							
-							//TODO - Ispraviti da se ne pravi za id, nego za sve kolone
-							//za id generisati da je visible = false
-							//visible, foreground, background color
+							//atribut "visible"
 							Attr colVisibleAttr = doc.createAttribute("visible");
 							colVisibleAttr.setValue(attribute.getVisible().toString());
 							columnAttr.setAttributeNode(colVisibleAttr);
 							
+							//atribut "readOnly"
 							Attr colReadOnlyAttr = doc.createAttribute("readOnly");
 							colReadOnlyAttr.setValue(attribute.getReadOnly().toString());
 							columnAttr.setAttributeNode(colReadOnlyAttr);
 							
+							//atribut "autoGo"
 							Attr colAutoGoAttr = doc.createAttribute("autoGo");
 							colAutoGoAttr.setValue(attribute.getAutoGo().toString());
 							columnAttr.setAttributeNode(colAutoGoAttr);
@@ -245,10 +249,25 @@ public class EJBGenerator {
 
 							columnAttr.setAttributeNode(colType);
 
+							//TODO ovde naci pravu duzine, ne da se postavi 50
+							//staviti wrap atribut - da li da se predje u novi red nakon
+							//ove komponente (pod uslovom da je horizontalni layout)
+							//Pogledati pozicije komponente - imamo metode getRelativePosition
+							//i getAbsolutePosition
+							//snimiti te apsolutne pozicije za free layout
+							//za horizontalni pogledati da li se menja y koordinata nakon
+							//tekuce komponente - da li je sledeca u novom redu
+							//i tako postaviti wrap
+							
 							//atribut "length"
 							Attr colLength = doc.createAttribute("length");
-							colLength.setValue("50");
+							colLength.setValue(attribute.getLenght().toString());
 							columnAttr.setAttributeNode(colLength);
+							
+							//atribut "wrap"
+//							Attr colWrap = doc.createAttribute("wrap");
+//							colWrap.setValue(attribute.getWrap().toString());
+//							columnAttr.setAttributeNode(colWrap);
 
 							//atribut "key"
 							Attr colKeyAttr = doc.createAttribute("key");

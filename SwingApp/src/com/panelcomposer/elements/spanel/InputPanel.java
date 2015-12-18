@@ -19,6 +19,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -94,9 +95,7 @@ public class InputPanel extends JPanel {
 		for (int i = 0; i < attributes.size(); i++) {
 
 			panelTwo = new JPanel(new MigLayout());
-			
-			//TODO
-			//postaviti foreground i background color
+			panelTwo.setBackground(new Color(attributes.get(i).getBackgroundRGB(), true));
 			
 			int panelWidth = (int) panelTwo.getSize().getWidth();
 			
@@ -232,13 +231,23 @@ public class InputPanel extends JPanel {
 			}
 			labelText = colAttr.getLabel() + ":";
 			label = new JLabel(labelText);
+			label.setForeground(new Color(colAttr.getForegroundRGB(), true));
 			panelTwo.add(label);
 			component = setUpComponent(colAttr, joinColAttr);
 			panelTwo.add(component);
 			panelComponents.add(component);
-			if (colAttr.getHidden()) {
+			if (colAttr.getHidden() || !colAttr.getVisible()) {
 				label.setVisible(false);
 				component.setVisible(false);
+				label.setSize(0, 0);
+				component.setSize(0, 0);
+				panelTwo.setSize(0, 0);
+				label.setPreferredSize(new Dimension(0, 0));
+				component.setPreferredSize(new Dimension(0, 0));
+				panelTwo.setPreferredSize(new Dimension(0, 0));
+				label.setMaximumSize(new Dimension(0, 0));
+				component.setMaximumSize(new Dimension(0, 0));
+				panelTwo.setMaximumSize(new Dimension(0, 0));
 			}
 			setCurrentComponentsLength();
 			return component;

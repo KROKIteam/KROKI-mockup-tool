@@ -3,7 +3,6 @@ package util.xml_readers;
 import java.io.File;
 
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -95,7 +94,7 @@ public class EntityReader {
 			if (nodeAttribute.getNodeType() == Node.ELEMENT_NODE) {
 				Element elem = (Element) nodeAttribute;
 				String attributeType = nodeAttribute.getNodeName();
-				if (attributeType.equals("collumn-attribute")) {
+				if (attributeType.equals("column-attribute")) {
 					ColumnAttribute ca = null;
 					ca = getColumnAttributeValues(elem);
 					if(ca.getFieldName().equals("id")) {
@@ -113,13 +112,12 @@ public class EntityReader {
 	}
 
 	private static ColumnAttribute getColumnAttributeValues(Element elem) {
-		JOptionPane.showMessageDialog(null, "Column att");
 		
 		ColumnAttribute ca = new ColumnAttribute();
 		ca.setName(elem.getAttribute("name"));
 		ca.setLabel(elem.getAttribute("label"));
 		ca.setFieldName(elem.getAttribute("field-name"));
-		String dataType = elem.getAttribute("data");
+		String dataType = elem.getAttribute("type");
 		ca.setDataType(dataType);
 		Attr enumAttr = elem.getAttributeNode("enum");
 		if(enumAttr != null) {
@@ -138,16 +136,32 @@ public class EntityReader {
 				ca.setKey(key);
 		}
 
-		//try{
-			String visibleStr = elem.getAttribute("vidible");
-			if (visibleStr != null && (visibleStr.equals("true") || visibleStr.equals("false"))) {
-				Boolean visible = new Boolean(visibleStr);
-				if (visible != null)
-					ca.setVisible(visible);
-			}
-		//}catch(Exception ex){
-		//	JOptionPane.showMessageDialog(null, ex.getMessage());
-		//}
+		String visibleStr = elem.getAttribute("visible");
+		if (visibleStr != null && (visibleStr.equals("true") || visibleStr.equals("false"))) {
+			Boolean visible = new Boolean(visibleStr);
+			if (visible != null)
+				ca.setVisible(visible);
+		}
+		
+		String readOnlyStr = elem.getAttribute("readOnly");
+		if (readOnlyStr != null && (readOnlyStr.equals("true") || readOnlyStr.equals("false"))) {
+			Boolean readOnly = new Boolean(readOnlyStr);
+			if (readOnly != null)
+				ca.setReadOnly(readOnly);
+		}
+		
+		String autoGoStr = elem.getAttribute("autoGo");
+		if (autoGoStr != null && (autoGoStr.equals("true") || autoGoStr.equals("false"))) {
+			Boolean autoGo = new Boolean(autoGoStr);
+			if (autoGo != null)
+				ca.setAutoGo(autoGo);
+		}
+		
+		ca.setBackgroundRGB(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("background"))));
+		
+		ca.setForegroundRGB(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("foreground"))));
 
 		String derivedStr = elem.getAttribute("derived");
 		if (derivedStr != null
@@ -165,6 +179,19 @@ public class EntityReader {
 		if (defaultValue != null && !defaultValue.equals("")) {
 			ca.setDefaultValue(ConverterUtil.convert(defaultValue, ca));
 		}
+		
+		//TODO ucitati length i wrap
+		//prosiriti column attribute (i join collumn)
+		//iskoristiti u input panelu za postavljanje velicine paneluTwo
+		
+		//length vac imamo gore...
+		
+		String wrapStr = elem.getAttribute("wrap");
+		if (wrapStr != null && (wrapStr.equals("true") || wrapStr.equals("false"))) {
+			Boolean wrapCa = new Boolean(wrapStr);
+			if (wrapCa != null)
+				ca.setVisible(wrapCa);
+		}
 
 		JComponent component = ComponentResolver.getComponent(ca);
 		ca.setComponent(component);
@@ -178,6 +205,23 @@ public class EntityReader {
 		jca.setLabel(elem.getAttribute("label"));
 		String lookupName = elem.getAttribute("class-name");
 		jca.setFieldName(elem.getAttribute("field-name"));
+		
+		jca.setLength(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("length"))));
+		
+		String wrapStr = elem.getAttribute("wrap");
+		if (wrapStr != null && (wrapStr.equals("true") || wrapStr.equals("false"))) {
+			Boolean wrapJca = new Boolean(wrapStr);
+			if (wrapJca != null)
+				jca.setVisible(wrapJca);
+		}
+		
+		jca.setBackgroundRGB(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("background"))));
+		
+		jca.setForegroundRGB(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("foreground"))));
+		
 		if (lookupName != null) {
 			try {
 				jca.setLookupClass(Class.forName(lookupName));
@@ -218,7 +262,7 @@ public class EntityReader {
 			Document doc = XMLUtil.getDocumentFromXML(dirName+ File.separator + xmlFileName, null);
 			ejb = getEntityBeanInfo(doc);
 			// TODO: izvuci samo potreban columnAttribute
-			NodeList nodeList = doc.getElementsByTagName("collumn-attribute");
+			NodeList nodeList = doc.getElementsByTagName("column-attribute");
 			Node node = null;
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				node = nodeList.item(i);

@@ -20,12 +20,14 @@ public class EJBAttribute {
 	private Boolean visible;
 	private Boolean readOnly;
 	private Boolean autoGo;
+	private Integer lenght;
+	private Boolean wrap;
 	
 	public EJBAttribute(ArrayList<String> annotations, String type, String name,
 			String label, String databaseName, Boolean mandatory,
 			Boolean unique, Boolean representative, Enumeration enumeration, Boolean visible,
 			Boolean readOnly, Boolean autoGo,
-			Integer backgroundRGB, Integer foregraundRGB) {
+			Integer backgroundRGB, Integer foregraundRGB, Integer lenght, Boolean wrap) {
 		super();
 		this.annotations = annotations;
 		this.type = type;
@@ -41,6 +43,8 @@ public class EJBAttribute {
 		this.foregraundRGB = foregraundRGB;
 		this.readOnly = readOnly;
 		this.autoGo = autoGo;
+		this.lenght = lenght;
+		this.wrap = wrap;
 		columnRefs = new ArrayList<EJBAttribute>();
 	}
 	
@@ -63,6 +67,8 @@ public class EJBAttribute {
 		this.readOnly = false;
         this.backgroundRGB = Color.WHITE.getRGB();
 		this.foregraundRGB = Color.BLACK.getRGB();
+		this.lenght = 50;
+		this.wrap = false;
 		columnRefs = new ArrayList<EJBAttribute>();
 	}
 
@@ -184,5 +190,24 @@ public class EJBAttribute {
 
 	public void setAutoGo(Boolean autoGo) {
 		this.autoGo = autoGo;
+	}
+
+	public Boolean getWrap() {
+		return wrap;
+	}
+
+
+	public void setWrap(Boolean wrap) {
+		this.wrap = wrap;
+	}
+
+
+	public Integer getLenght() {
+		return lenght;
+	}
+
+
+	public void setLenght(Integer lenght) {
+		this.lenght = lenght;
 	}
 }

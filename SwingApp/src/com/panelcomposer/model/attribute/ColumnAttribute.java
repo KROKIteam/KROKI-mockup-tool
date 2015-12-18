@@ -1,7 +1,5 @@
 package com.panelcomposer.model.attribute;
 
-import java.awt.Color;
-
 import javax.swing.JComponent;
 
 import com.panelcomposer.model.enumeration.Enumeration;
@@ -22,8 +20,7 @@ public class ColumnAttribute extends AbsAttribute {
 	protected Boolean visible = true;
 	protected Boolean readOnly = false;
 	protected Boolean autoGo = false;
-	protected Color foreground;
-	protected Color background;
+	protected Boolean wrap = false;
 	
 	public Boolean getKey() {
 		return key;
@@ -137,20 +134,12 @@ public class ColumnAttribute extends AbsAttribute {
 		this.autoGo = autoGo;
 	}
 
-	public Color getForeground() {
-		return foreground;
+	public Boolean getWrap() {
+		return wrap;
 	}
 
-	public void setForeground(Color foreground) {
-		this.foreground = foreground;
-	}
-
-	public Color getBackground() {
-		return background;
-	}
-
-	public void setBackground(Color background) {
-		this.background = background;
+	public void setWrap(Boolean wrap) {
+		this.wrap = wrap;
 	}
 
 }

@@ -11,10 +11,9 @@ public abstract class AbsAttribute extends AbstractElement {
 	protected Boolean disabled = false;
 	protected String migConstant;
 	protected Point position;
+	protected Integer foregroundRGB;
+	protected Integer backgroundRGB;
 	
-	
-	
-
 	public String getFieldName() {
 		return fieldName;
 	}
@@ -37,6 +36,22 @@ public abstract class AbsAttribute extends AbstractElement {
 
 	public void setDisabled(Boolean disabled) {
 		this.disabled = disabled;
+	}
+	
+	public Integer getForegroundRGB() {
+		return foregroundRGB;
+	}
+
+	public void setForegroundRGB(Integer foregroundRGB) {
+		this.foregroundRGB = foregroundRGB;
+	}
+
+	public Integer getBackgroundRGB() {
+		return backgroundRGB;
+	}
+
+	public void setBackgroundRGB(Integer backgroundRGB) {
+		this.backgroundRGB = backgroundRGB;
 	}
 
 }
