@@ -32,14 +32,14 @@ public class ${class.name} implements java.io.Serializable {
 	@Id 
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	private java.lang.Long id;
+	protected java.lang.Long id;
 
 	<#if class.attributes?has_content>
 	<#list class.attributes as attr>
 	<#list attr.annotations as annotation>
 	${annotation}
 	</#list>
-	private ${attr.type?split(":")[0]} ${attr.name};
+	protected ${attr.type?split(":")[0]} ${attr.name};
 	</#list>
 	</#if>
 	

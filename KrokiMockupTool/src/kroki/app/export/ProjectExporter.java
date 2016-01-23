@@ -119,22 +119,20 @@ public class ProjectExporter {
             appPath = appPath.substring(0, appPath.length()-16);
         }
         File fileModel = new File(appPath + "KrokiMockupTool/Temp/model1.uml");/********* putanja do modela *****/
-        StandaloneFacade facade=StandaloneFacade.INSTANCE;
-
-                try {
-                    facade.initialize(null);
-                } catch (TemplateException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            
         
+        // Kada proradi automatsko generisanje UML modela, ovo gore moze da se zameni sa ovom linijom:
+        //File fileModel = new File(file.getAbsolutePath() + File.separator + jarName + ".uml");
+        StandaloneFacade facade=StandaloneFacade.INSTANCE;
+        try {
+            facade.initialize(null);
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
         try {
             //model = (EcoreModel) facade.loadEcoreModel(fileModel);
              model = facade.loadUMLModel(fileModel,
                     getUMLResources());
         } catch (ModelAccessException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         generateAppAndRepo(proj, message);
@@ -246,6 +244,7 @@ public class ProjectExporter {
         ArrayList<Constraint> constraints = new ArrayList<Constraint>();
         List<tudresden.ocl20.pivot.pivotmodel.Constraint> consDres = new ArrayList<tudresden.ocl20.pivot.pivotmodel.Constraint>();
         List<String> importedPackages = new ArrayList<String>();
+        importedPackages.add("import adapt.exceptions.InvariantException;");
 
         //DATA USED FOR EJB CLASS GENERATION
         //for each panel element, one EJB attribute object is created and added to attributes list for that panel
@@ -260,7 +259,6 @@ public class ProjectExporter {
                         try {
                             consDres = Ocl22Parser.INSTANCE.parseOclString(expression, model);
                         } catch (tudresden.ocl20.pivot.parser.ParseException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                 }
@@ -288,10 +286,9 @@ public class ProjectExporter {
         }
         ConstraintAnalyzer ca = null;
         if(consDres != null && !consDres.isEmpty()){
-            new ConstraintAnalyzer(consDres.get(0), importedPackages);
+            ca = new ConstraintAnalyzer(consDres.get(0), importedPackages);
             constraints.add(ca.process());
         }
-
 
         //EJB class instance for panel is created and passed to generator
         String pack = "ejb";
@@ -299,6 +296,7 @@ public class ProjectExporter {
             pack = "ejb_generated";
         }
         EJBClass ejb = new EJBClass(pack, sys, sp.getPersistentClass().name(), tableName, sp.getLabel(), attributes, constraints);
+        ejb.setImportedPackages(importedPackages);
         System.out.println("DODAJEM KLASU: " + ejb.getName());
         classes.add(ejb);
 
@@ -399,7 +397,9 @@ public class ProjectExporter {
         String type = "java.lang.String";
         Enumeration enumeration = null;
         if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
-            if(vp.getDataType().equals("BigDecimal")) {
+        	if(vp.getDataType().equals("Integer")) {
+        		type = "java.lang.Integer";
+        	}else if(vp.getDataType().equals("BigDecimal")) {
                 type = "java.math.BigDecimal";
             }else if(vp.getDataType().equals("Date")) {
                 type = "java.util.Date";

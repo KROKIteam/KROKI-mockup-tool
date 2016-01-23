@@ -135,10 +135,6 @@ public class ConstraintBodyAnalyzer {
 		System.out.println("");
 	}
 	
-	
-
-	
-
 	private BodyElement getCollectionLiteralData(CollectionLiteralExpImpl o){
 		String value=o.getType().getName();
 		value=correctPropertyType(value);
@@ -301,7 +297,8 @@ public class ConstraintBodyAnalyzer {
 
 	private BodyElement getPropertyCallData(PropertyCallExpImpl o) {
 		String value=o.getReferredProperty().getName();
-		BodyElement b=new BodyElement(value, "PropertyCallExpImpl");
+		// Za sada je ovo zakucano, dok ne vidimo kako treba
+		BodyElement b=new BodyElement("a_" + value, "PropertyCallExpImpl");
 		String type=o.getType().getName();
 		type=correctPropertyType(type);
 		b.setValueType(type);

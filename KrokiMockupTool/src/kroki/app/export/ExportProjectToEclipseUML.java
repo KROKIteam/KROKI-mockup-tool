@@ -173,7 +173,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 	 * @throws Exception  if the file can not be created and if the Eclipse UML model can not be saved to a file
 	 */
 	@Override
-	protected Void doInBackground() throws Exception{
+	protected Void doInBackground() throws Exception {
 		publishText("Exporting project to file "+file.getAbsolutePath());
 		model = UMLFactory.eINSTANCE.createModel();
         model.setName(project.getLabel());
@@ -190,9 +190,15 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
         primitiveTypesUML=this.<Model>loadPackage(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI),false);
         if(withStereotypes)
         {
-        	String currentPath=(new File(".")).getPath();
-        	//String currentPath=System.getProperty("user.dir");
-	        String stereotypeFilePath=currentPath+"\\libECore\\EUISDSLProfile\\EUISDSLProfile.profile.uml";
+        	File f = new File(".");
+            String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+            if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+                appPath = appPath.substring(0, appPath.length()-16);
+            }
+	        String stereotypeFilePath=  appPath + "KrokiMockupTool" + File.separator + "libECore" + File.separator + "EUISDSLProfile" + 
+	        		File.separator + "EUISDSLProfile.profile.uml";
+	        System.out.println("EUISDSL MODEL: " + stereotypeFilePath);
+	        //currentPath+"\\libECore\\EUISDSLProfile\\EUISDSLProfile.profile.uml";
 	        File euisDSLprofile=new File(stereotypeFilePath);
 	        Path euisDSLTargetPath=file.toPath().getParent().resolve(euisDSLprofile.toPath().getFileName());
 

@@ -126,10 +126,6 @@ public class ConstraintGenerator {
 		KrokiMockupToolApp.getInstance().displayTextOutput(classes.size() + " cCnstraint classes successfully generated.", 0);
 	}
 
-
-
-
-
 	public boolean deleteFiles(File directory) {
 		boolean success = false;
 

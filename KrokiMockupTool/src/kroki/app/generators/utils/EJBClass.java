@@ -119,7 +119,25 @@ public class EJBClass {
 	public void setConstraints(ArrayList<Constraint> constraints) {
 		this.constraints = constraints;
 	}
-	
-	
 
+
+	public List<String> getImportedPackages() {
+		return importedPackages;
+	}
+
+
+	public void setImportedPackages(List<String> importedPackages) {
+		this.importedPackages = importedPackages;
+	}
+
+
+	public ArrayList<Operation> getOperations() {
+		return operations;
+	}
+
+
+	public void setOperations(ArrayList<Operation> operations) {
+		this.operations = operations;
+	}
+	
 }
