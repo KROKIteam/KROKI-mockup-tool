@@ -22,12 +22,15 @@ public class EJBAttribute {
 	private Boolean autoGo;
 	private Integer lenght;
 	private Boolean wrap;
+	private Integer positionX;
+	private Integer positionY;
 	
 	public EJBAttribute(ArrayList<String> annotations, String type, String name,
 			String label, String databaseName, Boolean mandatory,
 			Boolean unique, Boolean representative, Enumeration enumeration, Boolean visible,
 			Boolean readOnly, Boolean autoGo,
-			Integer backgroundRGB, Integer foregraundRGB, Integer lenght, Boolean wrap) {
+			Integer backgroundRGB, Integer foregraundRGB, Integer lenght, Boolean wrap,
+			Integer positionX, Integer positionY) {
 		super();
 		this.annotations = annotations;
 		this.type = type;
@@ -45,6 +48,8 @@ public class EJBAttribute {
 		this.autoGo = autoGo;
 		this.lenght = lenght;
 		this.wrap = wrap;
+		this.positionX = positionX;
+		this.positionY = positionY;
 		columnRefs = new ArrayList<EJBAttribute>();
 	}
 	
@@ -70,6 +75,8 @@ public class EJBAttribute {
 		this.lenght = 50;
 		this.wrap = false;
 		columnRefs = new ArrayList<EJBAttribute>();
+		this.positionX = 0;
+		this.positionY = 0;
 	}
 
 	public ArrayList<String> getAnnotations() {
@@ -196,18 +203,31 @@ public class EJBAttribute {
 		return wrap;
 	}
 
-
 	public void setWrap(Boolean wrap) {
 		this.wrap = wrap;
 	}
-
 
 	public Integer getLenght() {
 		return lenght;
 	}
 
-
 	public void setLenght(Integer lenght) {
 		this.lenght = lenght;
+	}
+
+	public Integer getPositionX() {
+		return positionX;
+	}
+
+	public void setPositionX(Integer positionX) {
+		this.positionX = positionX;
+	}
+
+	public Integer getPositionY() {
+		return positionY;
+	}
+
+	public void setPositionY(Integer positionY) {
+		this.positionY = positionY;
 	}
 }

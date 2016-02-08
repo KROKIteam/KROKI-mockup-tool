@@ -129,7 +129,9 @@ public class PanelReader {
 				msp = new MStandardPanel();
 				msp.setName(id);
 				msp.setEntityBean(ejb);
-				msp.setPanelSettings(getSettings(elem, new PanelSettings()));
+				PanelSettings panelSettings = new PanelSettings();
+				
+				msp.setPanelSettings(getSettings(elem, panelSettings));
 				msp.setDataSettings(new DataSettings());
 				msp.setStandardOperations(getStandardOperations(elem,
 						new SpecificOperations()));

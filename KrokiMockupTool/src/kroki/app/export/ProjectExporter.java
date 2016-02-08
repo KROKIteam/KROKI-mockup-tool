@@ -23,6 +23,7 @@ import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
+import kroki.mockup.model.Component;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
@@ -184,14 +185,32 @@ public class ProjectExporter {
 
 		//DATA USED FOR EJB CLASS GENERATION
 		//for each panel element, one EJB attribute object is created and added to attributes list for that panel
-		for (VisibleElement element : sp.getVisibleElementList()) {
+		
+		//TODO
+		//staviti wrap atribut - da li da se predje u novi red nakon
+		//ove komponente (pod uslovom da je horizontalni layout)
+		//Pogledati pozicije komponente - imamo metode getRelativePosition
+		//i getAbsolutePosition
+		//snimiti te apsolutne pozicije za free layout
+		//za horizontalni pogledati da li se menja y koordinata nakon
+		//tekuce komponente - da li je sledeca u novom redu
+		//i tako postaviti wrap
+		
+		
+		for (int i = 0; i < sp.getVisibleElementNum(); i++){
+			VisibleElement element = sp.getVisibleElementList().get(i); 
+			VisibleElement next = null;
+			if (i < sp.getVisibleElementNum() - 1)
+				next = sp.getVisibleElementList().get(i + 1); 
+			
 			if(element instanceof VisibleProperty) {
 				VisibleProperty vp = (VisibleProperty) element;
-				EJBAttribute attribute = getVisiblePropertyData(vp);
+				
+				EJBAttribute attribute = getVisiblePropertyData(vp, next);//dodao sam null
 				attributes.add(attribute);
 			}else if(element instanceof Zoom) {
 				Zoom z = (Zoom)element;
-				EJBAttribute attribute = getZoomData(z, sp.getPersistentClass().name());
+				EJBAttribute attribute = getZoomData(z, sp.getPersistentClass().name(), next);//dodao sam null
 				if(attribute != null) {
 					attributes.add(attribute);
 				}else {
@@ -270,7 +289,7 @@ public class ProjectExporter {
 	 * @param vp
 	 * @return
 	 */
-	public EJBAttribute getVisiblePropertyData(VisibleProperty vp) {
+	public EJBAttribute getVisiblePropertyData(VisibleProperty vp, VisibleElement next) {
 		String type = "java.lang.String";
 		Enumeration enumeration = null;
 		if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
@@ -317,11 +336,20 @@ public class ProjectExporter {
 		int backgroundRGB = backgroundColor.getRGB();
 		boolean autoGo = vp.isAutoGo();
 		
-		//new Color(foregroundColor.getRGB());
-
+		Component component = vp.getComponent();
+		int positionX = (int) component.getRelativePosition().getX();
+		int positionY = (int) component.getRelativePosition().getY();
+		
+		Boolean wrap = false;
+		if (next != null){
+			Component nextComponent = next.getComponent();
+			wrap = nextComponent.getRelativePosition().getY() != positionY;
+		}
+		
 		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false)");
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(),
-				enumeration, visible, readOnly,autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), false);
+				enumeration, visible, readOnly,autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), wrap, positionX, positionY);
+//Dodao sam dva null na kraju
 		return attribute;
 	}
 
@@ -330,7 +358,7 @@ public class ProjectExporter {
 	 * @param z
 	 * @return
 	 */
-	public EJBAttribute getZoomData(Zoom z, String className) {
+	public EJBAttribute getZoomData(Zoom z, String className, VisibleElement next) {
 		if(z.getTargetPanel() != null) {
 			
 			String type = cc.toCamelCase(z.getTargetPanel().getComponent().getName(), false);

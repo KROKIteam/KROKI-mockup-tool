@@ -142,7 +142,7 @@ public class EJBGenerator {
 				Attr clasNameAttr = doc.createAttribute("class-name");
 				clasNameAttr.setValue("ejb." + clas.getName());
 				entityRoot.setAttributeNode(clasNameAttr);
-
+				
 				//tag <attributes>
 				Element attributes = doc.createElement("attributes");
 				entityRoot.appendChild(attributes);
@@ -249,15 +249,6 @@ public class EJBGenerator {
 
 							columnAttr.setAttributeNode(colType);
 
-							//TODO ovde naci pravu duzine, ne da se postavi 50
-							//staviti wrap atribut - da li da se predje u novi red nakon
-							//ove komponente (pod uslovom da je horizontalni layout)
-							//Pogledati pozicije komponente - imamo metode getRelativePosition
-							//i getAbsolutePosition
-							//snimiti te apsolutne pozicije za free layout
-							//za horizontalni pogledati da li se menja y koordinata nakon
-							//tekuce komponente - da li je sledeca u novom redu
-							//i tako postaviti wrap
 							
 							//atribut "length"
 							Attr colLength = doc.createAttribute("length");
@@ -265,9 +256,20 @@ public class EJBGenerator {
 							columnAttr.setAttributeNode(colLength);
 							
 							//atribut "wrap"
-//							Attr colWrap = doc.createAttribute("wrap");
-//							colWrap.setValue(attribute.getWrap().toString());
-//							columnAttr.setAttributeNode(colWrap);
+							Attr colWrap = doc.createAttribute("wrap");
+							colWrap.setValue(attribute.getWrap().toString());
+							columnAttr.setAttributeNode(colWrap);
+							
+							
+							//atribut "posotionX"
+							Attr colPositionXAttr = doc.createAttribute("positionX");
+							colPositionXAttr.setValue(attribute.getPositionX().toString());
+							columnAttr.setAttributeNode(colPositionXAttr);
+							
+							//atribut "posotionY"
+							Attr colPosotionYAttr = doc.createAttribute("positionY");
+							colPosotionYAttr.setValue(attribute.getPositionY().toString());
+							columnAttr.setAttributeNode(colPosotionYAttr);
 
 							//atribut "key"
 							Attr colKeyAttr = doc.createAttribute("key");

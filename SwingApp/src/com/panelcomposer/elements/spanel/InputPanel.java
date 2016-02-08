@@ -56,6 +56,9 @@ public class InputPanel extends JPanel {
 	private JButton btnCommit;
 	private JButton btnCancel;
 	private JButton btnStartSearch;
+	int maxRowLength = 0;
+	int currentRowLength;
+	int numOfRows = 0;
 
 	public InputPanel(SPanel panel) {
 		if (panel == null)
@@ -92,6 +95,15 @@ public class InputPanel extends JPanel {
 		//TODO
 		
 		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
+		
+		AbsAttribute lastVisible = null;
+		for(int i = attributes.size() -1; i >= 0; i--){
+			if(attributes.get(i).getVisible()){
+				lastVisible = attributes.get(i);
+				break;
+			} 	
+		}
+		
 		for (int i = 0; i < attributes.size(); i++) {
 
 			panelTwo = new JPanel(new MigLayout());
@@ -101,10 +113,10 @@ public class InputPanel extends JPanel {
 			
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
-				createComponent((ColumnAttribute) attributes.get(i));
+				createComponent((ColumnAttribute) attributes.get(i), lastVisible == attributes.get(i));
 			} else if (attributes.get(i) instanceof JoinColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA JOIN] " + attributes.get(i).getFieldName());
-				createComponent((JoinColumnAttribute) attributes.get(i));
+				createComponent((JoinColumnAttribute) attributes.get(i),  lastVisible == attributes.get(i));
 			}
 		}
 		addCommitPanel();
@@ -116,17 +128,10 @@ public class InputPanel extends JPanel {
 	 * 
 	 * @param colAttr
 	 */
-	private void createComponent(ColumnAttribute colAttr) {
+	private void createComponent(ColumnAttribute colAttr, Boolean lastVisible) {
 		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
 		
-		//TODO
-		/*Kod horizontalnog layoutiranja pogledati koliko komponenti 
-		 * u jedan red dodato u MovkupTool-u
-		 * Posle tog broja, samo uraditi wrap
-		 * Izracunati sirinu najsireg reda - za svaki red
-		 * racunati zbir sirina komponenti tj. panela koji sadrzi labelu i komponentu
-		 * Podesiti sirinu panela koji direktno sadrzi te komponente na tu max sirinu + margine 
-		 */
+		panelTwo.setPreferredSize(new Dimension(colAttr.getLength(), 20));
 		
 		if (layout == Layout.VERTICAL) {
 			try {
@@ -139,9 +144,13 @@ public class InputPanel extends JPanel {
 			}
 		} else if(layout == Layout.HORIZONTAL) {
 			try {
-				setLayout(new MigLayout());
+				//setLayout(new MigLayout());
+				String migConstant = "";
+				if(colAttr.getWrap() || lastVisible)
+					migConstant = "wrap";
+				
 				addComponentToPanelTwo(colAttr, null, counter);
-				add(panelTwo, "span");
+				add(panelTwo, migConstant);
 				setCurrentComponentsLength();
 				counter++;
 			} catch (Exception e) {
@@ -164,7 +173,7 @@ public class InputPanel extends JPanel {
 	 * 
 	 * @param joinColAttr
 	 */
-	private void createComponent(JoinColumnAttribute joinColAttr) {
+	private void createComponent(JoinColumnAttribute joinColAttr, Boolean lastVisible) {
 		panelTwo.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY),
 				joinColAttr.getLabel(), 1, 1, null, Color.BLUE));
@@ -191,7 +200,12 @@ public class InputPanel extends JPanel {
 			}
 		}
 		panelTwo = new JPanel(new MigLayout());
-		add(panelTwo, "wrap");
+		String migConstant = "";
+		if(joinColAttr.getWrap() || lastVisible)
+			migConstant = "wrap";
+		
+		
+		add(panelTwo, migConstant);
 		rowNumber++;
 	}
 
@@ -378,7 +392,7 @@ public class InputPanel extends JPanel {
 		jp.add(btnCommit);
 		jp.add(btnCancel);
 		jp.add(btnStartSearch);
-		add(jp);
+		add(jp, "span");
 	}
 
 	public List<JComponent> getPanelComponents() {

@@ -3,6 +3,7 @@ package util.xml_readers;
 import java.io.File;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -184,15 +185,19 @@ public class EntityReader {
 		//prosiriti column attribute (i join collumn)
 		//iskoristiti u input panelu za postavljanje velicine paneluTwo
 		
-		//length vac imamo gore...
-		
 		String wrapStr = elem.getAttribute("wrap");
 		if (wrapStr != null && (wrapStr.equals("true") || wrapStr.equals("false"))) {
 			Boolean wrapCa = new Boolean(wrapStr);
 			if (wrapCa != null)
-				ca.setVisible(wrapCa);
+				ca.setWrap(wrapCa);
 		}
-
+		
+		ca.setPositionX(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("positionX"))));
+		
+		ca.setPositionY(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("positionY"))));
+		
 		JComponent component = ComponentResolver.getComponent(ca);
 		ca.setComponent(component);
 		return ca;
@@ -213,7 +218,14 @@ public class EntityReader {
 		if (wrapStr != null && (wrapStr.equals("true") || wrapStr.equals("false"))) {
 			Boolean wrapJca = new Boolean(wrapStr);
 			if (wrapJca != null)
-				jca.setVisible(wrapJca);
+				jca.setWrap(wrapJca);
+		}
+		
+		String visibleStr = elem.getAttribute("visible");
+		if (visibleStr != null && (visibleStr.equals("true") || visibleStr.equals("false"))) {
+			Boolean visible = new Boolean(visibleStr);
+			if (visible != null)
+				jca.setVisible(visible);
 		}
 		
 		jca.setBackgroundRGB(new Integer(TypesConverterFromXML.resolveInteger(elem
@@ -221,6 +233,12 @@ public class EntityReader {
 		
 		jca.setForegroundRGB(new Integer(TypesConverterFromXML.resolveInteger(elem
 				.getAttribute("foreground"))));
+		
+		jca.setPositionX(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("positionX"))));
+		
+		jca.setPositionY(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("positionY"))));
 		
 		if (lookupName != null) {
 			try {

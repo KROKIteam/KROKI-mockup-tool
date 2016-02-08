@@ -14,8 +14,6 @@ public class JoinColumnAttribute extends AbsAttribute {
 	protected Class<?> lookupClass;
 	protected String zoomedBy;
 	protected List<ColumnAttribute> columns;
-	protected Integer length;
-	protected Boolean wrap = false;
 	
 	public JoinColumnAttribute() {
 		columns = new ArrayList<ColumnAttribute>();
@@ -66,22 +64,6 @@ public class JoinColumnAttribute extends AbsAttribute {
 
 	public void setZoomedBy(String zoomedBy) {
 		this.zoomedBy = zoomedBy;
-	}
-
-	public Integer getLength() {
-		return length;
-	}
-
-	public void setLength(Integer length) {
-		this.length = length;
-	}
-
-	public Boolean getWrap() {
-		return wrap;
-	}
-
-	public void setWrap(Boolean wrap) {
-		this.wrap = wrap;
 	}
 	
 }
