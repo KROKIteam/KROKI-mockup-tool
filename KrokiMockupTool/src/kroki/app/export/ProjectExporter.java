@@ -118,10 +118,10 @@ public class ProjectExporter {
         if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
             appPath = appPath.substring(0, appPath.length()-16);
         }
-        File fileModel = new File(appPath + "KrokiMockupTool/Temp/model1.uml");/********* putanja do modela *****/
+//        File fileModel = new File(appPath + "KrokiMockupTool/Temp/model1.uml");/********* putanja do modela *****/
         
         // Kada proradi automatsko generisanje UML modela, ovo gore moze da se zameni sa ovom linijom:
-        //File fileModel = new File(file.getAbsolutePath() + File.separator + jarName + ".uml");
+        File fileModel = new File(file.getAbsolutePath() + File.separator + jarName + ".uml");
         StandaloneFacade facade=StandaloneFacade.INSTANCE;
         try {
             facade.initialize(null);
@@ -427,8 +427,11 @@ public class ProjectExporter {
         }
 
         ArrayList<String> anotations = new ArrayList<String>();
-        //String name = cc.toCamelCase(vp.name(), true);//OVO JE BILO ORIGINALNO
-        String name = "a_"+cc.toCamelCase(vp.name(), true);
+        String name = cc.toCamelCase(vp.name(), true); 
+        /*	TODO
+         * 		Ovo smo za sada izbacili, cini se da nema nikave svrhe dodavati isti prefiks na imena.
+         */
+//        String name = "a_" + cc.toCamelCase(vp.name(), true);
         ////////////////////////////////////////////////////////////////////////
         String label = vp.getLabel();
         String columnLabel = vp.getColumnLabel();

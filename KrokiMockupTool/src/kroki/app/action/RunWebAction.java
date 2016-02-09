@@ -84,29 +84,20 @@ public class RunWebAction extends AbstractAction {
 									//proj.setDBConnectionProps(tempProps);
 									ProjectExporter exporter = new ProjectExporter(false);
 									
-									/*
-									 * 	Ovde bi trebalo ovako izgenerisati UML model kako bi OCL parsiranje moglo da radi.
-									 * 	Problem je sto ExportProjectToEclipseUML poziva export metodu u posebnom threadu,
-									 * 	pa model jos uvek ne bude kreiran kada se dole dodje do exporter.export metode.
-									 */
-//									KrokiMockupToolApp.getInstance().displayTextOutput("Generating UML model", 0);
-//									File tempUMLFile = new File(tempDir.getAbsolutePath() + File.separator + jarName + ".uml");
-//									new ExportProjectToEclipseUML(tempUMLFile, proj, true, true);
+									KrokiMockupToolApp.getInstance().displayTextOutput("Generating UML model...", 0);
 									File tempUMLFile = new File(tempDir.getAbsolutePath() + File.separator + jarName + ".uml");
 									try{
 										new ExportProjectToEclipseUML(tempUMLFile, proj, true, true).exportToUMLDiagram(new KrokiComponentOutputMessage(), ExportProjectToEclipseUML.MESSAGES_FOR_CLASS, false);
+										exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
+										//run exported jar file
+										RunAnt runner = new RunAnt();
+										runner.runRun(proj, tempDir, false, jarName);
 									}catch(Exception e){
 										/*
 										 * Ovde bi trebalo ispisati gresku kada exort nije uspeo i verovatno zaustaviti dalje pokretanje
 										 */
 										e.printStackTrace();
 									}
-									
-									exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
-
-									//run exported jar file
-									RunAnt runner = new RunAnt();
-									runner.runRun(proj, tempDir, false, jarName);
 								}
 							}
 						});

@@ -115,7 +115,7 @@ public class ExportEclipseUMLDiagramAction extends AbstractAction {
 					if(file!=null)
 					{
 						//KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame().getConsole().displayText("Exporting project to file "+file.getAbsolutePath()+". Please wait...", 0);
-						new ExportProjectToEclipseUML(file, proj, withStereotypes, version4);
+						new ExportProjectToEclipseUML(file, proj, withStereotypes, version4).execute();;
 					}
 					else
 					{

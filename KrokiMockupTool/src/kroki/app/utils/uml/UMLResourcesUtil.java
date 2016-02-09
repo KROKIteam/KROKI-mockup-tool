@@ -191,6 +191,8 @@ public class UMLResourcesUtil
 		
 		String path=(new File(".")).getAbsolutePath();
 		
+		System.out.println("PATH: " + path);
+		
 		URI uri = URI.createURI("file:/"+path+"/libECore/org.eclipse.uml2.uml/");
 		uriMap.put(URI.createURI("platform:/plugin/org.eclipse.uml2.uml/"), uri.appendSegment(""));
 		

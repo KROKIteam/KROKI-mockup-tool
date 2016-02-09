@@ -191,7 +191,6 @@ public class ExportProjectToEclipseUML extends ProgressWorker implements IOutput
 		this.file=file;
 		this.project=project;
 		this.withStereotypes=withStereotypes;
-		execute();
 	}
 	
 	/**

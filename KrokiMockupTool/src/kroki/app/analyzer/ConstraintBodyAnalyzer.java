@@ -297,8 +297,11 @@ public class ConstraintBodyAnalyzer {
 
 	private BodyElement getPropertyCallData(PropertyCallExpImpl o) {
 		String value=o.getReferredProperty().getName();
-		// Za sada je ovo zakucano, dok ne vidimo kako treba
-		BodyElement b=new BodyElement("a_" + value, "PropertyCallExpImpl");
+		/*
+		 * TODO
+		 * 	Ovde se formira ime atributa u generisanim OCL klasama, pa ako treba prefiks, ovde ga treba vratiti.
+		 */
+		BodyElement b=new BodyElement(value, "PropertyCallExpImpl");
 		String type=o.getType().getName();
 		type=correctPropertyType(type);
 		b.setValueType(type);
