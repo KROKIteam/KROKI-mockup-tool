@@ -11,8 +11,7 @@ import javax.swing.JComponent;
  * from the components on the lowest level of
  * hierarchy to the first component on the
  * hire level of hierarchy that has mouse listener
- * set. 
- * on the MouseClicked event.
+ * set on the MouseClicked event.
  * 
  * @author Zeljko Ivkovic (ivkovicszeljko@gmail.com)
  *

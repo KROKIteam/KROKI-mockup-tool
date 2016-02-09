@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.utils.uml.IOutputMessage;
 import kroki.app.utils.uml.ProgressWorker;
 import kroki.app.utils.uml.UMLResourcesUtil;
 import kroki.app.utils.uml.stereotypes.ClassStereotype;
@@ -69,8 +70,8 @@ import org.eclipse.uml2.uml.resource.UMLResource;
  * @author Zeljko Ivkovic
  *
  */
-public class ExportProjectToEclipseUML extends ProgressWorker{
-
+public class ExportProjectToEclipseUML extends ProgressWorker implements IOutputMessage{
+ 
 	/**
 	 * Name of the PrimitiveType element that is created as a type
 	 * to be set for a UML Property element that corresponds to a 
@@ -146,6 +147,31 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 	 * version 3.0
 	 */
 	private boolean version4;
+	
+	/**
+	 * Implementation that determines where the messages of the progress of the
+	 * export are to be shown.
+	 */
+	private IOutputMessage outputMessage;
+	
+	public final static int MESSAGES_FOR_CLASS=1;
+	public final static int MESSAGES_FOR_PROPERTY=2;
+	public final static int MESSAGES_FOR_OPERATION=4;
+	public final static int MESSAGES_FOR_ASSOCIATION=8;
+	public final static int MESSAGES_FOR_ALL=MESSAGES_FOR_ASSOCIATION|MESSAGES_FOR_OPERATION|MESSAGES_FOR_PROPERTY|MESSAGES_FOR_CLASS;
+	
+	/**
+	 * Which messages to show to the user about the progress
+	 * of the export. Will be compared to the static attributes
+	 * that start with MESSAGES_FOR.
+	 */
+	private int showMessagesFor;
+	
+	/**
+	 * If true shows the dialogs with a corresponding message of the success of the export.
+	 */
+	private boolean showDialogs;
+	
 	/**
 	 * Constructor that creates an object for exporting
 	 * Kroki project to a file with an Eclipse UML model.
@@ -169,11 +195,30 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 	}
 	
 	/**
-	 * Called to export Kroki project to a file that was received in the constructor.
-	 * @throws Exception  if the file can not be created and if the Eclipse UML model can not be saved to a file
+	 * Executes the {@link #exportToUMLDiagram} method.
+	 * @throws Exception throws the same Exception of the {@link #exportToUMLDiagram} method.   
 	 */
 	@Override
 	protected Void doInBackground() throws Exception {
+		exportToUMLDiagram(this,MESSAGES_FOR_ALL,true);
+		return null;
+	}	
+
+	/**
+	 * Called to export Kroki project to a file that was received in the constructor.
+	 *  
+	 * @param outputMessages implementation that determines where the messages of the current progress
+	 * will be shown.
+	 * @param showMessagesFor which of the messages should be shown. Use the static attributes MESSAGES_FOR to
+	 * determine which messages to show.
+	 * @param showDialogs determine if a dialog should be shown with a corresponding message of the export success  
+	 * 
+	 * @throws Exception  if the file can not be created and if the Eclipse UML model can not be saved to a file
+	 */
+	public void exportToUMLDiagram(IOutputMessage outputMessages,int showMessagesFor,boolean showDialogs) throws Exception{
+		this.showMessagesFor=showMessagesFor;
+		this.outputMessage=outputMessages;
+		this.showDialogs=showDialogs;
 		publishText("Exporting project to file "+file.getAbsolutePath());
 		model = UMLFactory.eINSTANCE.createModel();
         model.setName(project.getLabel());
@@ -234,14 +279,15 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			if(!version4)
 				changeVersion(file);
 			publishText("Exporting Eclipse UML diagram finished successfully.");
-			JOptionPane.showMessageDialog(getFrame(), "Exporting Eclipse UML diagram finished successfully.");
+			if(showDialogs)
+				JOptionPane.showMessageDialog(getFrame(), "Exporting Eclipse UML diagram finished successfully.");
 		}catch(Exception e)
 	    {
 	    	throw e;
 	    }
-	    return null;
-	}	
-
+	}
+	
+	
 	/**
 	 * If the background process was interrupted or there was an error while
 	 * exporting a Kroki project, a corresponding message will be displayed
@@ -256,7 +302,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		} catch (CancellationException e) {
 			//When cancel method is called
 			//e.printStackTrace();
-			JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
+			if(showDialogs)
+				JOptionPane.showMessageDialog(KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame(), 
 					"Exporting Kroki project has been canceled");
 			publishErrorText("Export has been canceled");
 		} catch (IllegalArgumentException e) {
@@ -280,8 +327,43 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		//Correct the error then try again
 		publishErrorText("Error happened while exporting");
 		publishErrorText(exceptionMessage(e));
-		showError(exceptionMessage(e), "Error while exporting");
+		if(showDialogs)
+			showError(exceptionMessage(e), "Error while exporting");
 		e.printStackTrace();
+	}
+	
+	@Override
+	public void publishText(String text) {
+		if(outputMessage!=null)
+			outputMessage.publishInfoMessage(text);
+	}
+	
+	@Override
+	public void publishErrorText(String text) {
+		if(outputMessage!=null)
+			outputMessage.publishErrorMessage(text);
+	}
+	
+	@Override
+	public void publishWarning(String text) {
+		if(outputMessage!=null)
+			outputMessage.publishWarningMessage(text);
+	}
+	
+	@Override
+	public void publishInfoMessage(String text) {
+		super.publishText(text);
+	}
+
+	
+	@Override
+	public void publishErrorMessage(String text) {
+		super.publishErrorText(text);
+	}
+
+	@Override
+	public void publishWarningMessage(String text) {
+		super.publishWarning(text);
 	}
 	
 	/**
@@ -358,7 +440,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			{				
 				addIndentation();
 				nestedClass=packageObject.createOwnedClass(cc.toCamelCaseIE(((StandardPanel) nestedType).getLabel(),true), isAbstract);
-				publishText("Created UML Class "+nestedClass.getName());
+				if((showMessagesFor&MESSAGES_FOR_CLASS)>0)
+					publishText("Created UML Class "+nestedClass.getName());
 				if(withStereotypes)
 				{					
 					ClassStereotype.stereotypeStandardPanelExport(stereotypeProfile, nestedClass, (StandardPanel) nestedType, this);
@@ -462,7 +545,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		{
 			
 			createdOperation=classObject.createOwnedOperation(cc.toCamelCaseIE(group.getLabel(),false), null, null);
-			publishText("Created UML Operation for group "+group.getLabel());
+			if((showMessagesFor&MESSAGES_FOR_OPERATION)>0)
+				publishText("Created UML Operation for group "+group.getLabel());
 			
 			OperationStereotype.stereotypeElementsGroupOperationExport(stereotypeProfile, createdOperation, group, this);
 			
@@ -491,7 +575,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		else
 			operationName=(prefix.isEmpty())?krokiObject.getLabel():prefix+" "+krokiObject.getLabel();
 		Operation object=classObject.createOwnedOperation(cc.toCamelCaseIE(operationName,false), null, null);
-		publishText("Created UML Operation for "+krokiObject.getLabel());
+		if((showMessagesFor&MESSAGES_FOR_OPERATION)>0)
+			publishText("Created UML Operation for "+krokiObject.getLabel());
 		addIndentation();
 		if(withStereotypes)
 			if(krokiObject instanceof Report)
@@ -551,7 +636,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		if(withStereotypes)
 		{
 			createdProperty=classObject.createOwnedAttribute(cc.toCamelCaseIE(group.getLabel(),false), null);
-			publishText("Created UML Property for group "+group.getLabel());
+			if((showMessagesFor&MESSAGES_FOR_PROPERTY)>0)
+				publishText("Created UML Property for group "+group.getLabel());
 			PropertyStereotype.stereotypeElementsGroupOperationExport(stereotypeProfile, createdProperty, group, this);
 			
 			propertiesOperations.get(classObject).get(PROPERTY).put(group,createdProperty);			
@@ -626,7 +712,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			PrimitiveType primitiveType=getPrimitiveType("String");
 			propertyUML = createAttribute(classObject, propertyName, primitiveType, null, null);
 		}
-		publishText("Created UML Property for "+property.getLabel());
+		if((showMessagesFor&MESSAGES_FOR_PROPERTY)>0)
+			publishText("Created UML Property for "+property.getLabel());
 		addIndentation();
 		if(withStereotypes)
 		{
@@ -728,11 +815,13 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		Class activationClass;
 		Class targetClass;
 		String zoomFieldName;
-		publishText("Generating associations:");
+		if((showMessagesFor&MESSAGES_FOR_ASSOCIATION)>0)
+			publishText("Generating associations:");
 		addIndentation();
 		for(Zoom zoom:zooms)
 		{
-			publishText("Zoom "+zoom.getLabel());
+			if((showMessagesFor&MESSAGES_FOR_ASSOCIATION)>0)
+				publishText("Zoom "+zoom.getLabel());
 			if(withStereotypes)
 				zoomFieldName=zoom.getLabel();
 			else
@@ -786,7 +875,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 			}
 		}
 		removeIndentation(1);
-		publishText("Finished generating associations");
+		if((showMessagesFor&MESSAGES_FOR_ASSOCIATION)>0)
+			publishText("Finished generating associations");
 	}
 	
 	/**
@@ -848,7 +938,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 	 * map.
 	 */
 	private void createElementGroupRefrences() {
-		publishText("Setting element group references");
+		if((showMessagesFor&(MESSAGES_FOR_PROPERTY|MESSAGES_FOR_OPERATION))>0)
+			publishText("Setting element group references");
 		
 		Map<Object,Object> propertiesMap;
 		List<Property> refrencedProperties;
@@ -865,7 +956,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 		{
 			
 			propertiesMap=propertiesOperationsEntry.getValue().get(PROPERTY);
-			publishText("Setting group references for Property and Operation elements in the "+((Class)propertiesOperationsEntry.getKey()).getName()+" Class element");
+			if((showMessagesFor&(MESSAGES_FOR_PROPERTY|MESSAGES_FOR_OPERATION))>0)
+				publishText("Setting group references for Property and Operation elements in the "+((Class)propertiesOperationsEntry.getKey()).getName()+" Class element");
 			addIndentation();
 			propertyRefrences=false;
 			for(Entry<Object,Object> entry:propertiesMap.entrySet())
@@ -874,7 +966,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 				mapProperty=(Property)entry.getValue();
 				if(visibleElement instanceof ElementsGroup)
 				{
-					publishText("Setting group references for "+mapProperty.getName()+" Property");
+					if((showMessagesFor&MESSAGES_FOR_PROPERTY)>0)
+						publishText("Setting group references for "+mapProperty.getName()+" Property");
 					addIndentation();
 					refrencedProperties=new ArrayList<Property>();
 					groupElements=((ElementsGroup)visibleElement).getVisibleElementList();
@@ -888,7 +981,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 				}
 			}		
 			if(!propertyRefrences)
-				publishText("There where no Property elements that represent groups");
+				if((showMessagesFor&MESSAGES_FOR_PROPERTY)>0)
+					publishText("There where no Property elements that represent groups");
 			propertiesMap=propertiesOperationsEntry.getValue().get(OPERATION);
 			
 			operationRefrences=false;
@@ -899,7 +993,8 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 				mapOperation=(Operation)entry.getValue();
 				if(visibleElement instanceof ElementsGroup)
 				{
-					publishText("Setting group references for "+mapOperation.getName()+" Operation");
+					if((showMessagesFor&MESSAGES_FOR_OPERATION)>0)
+						publishText("Setting group references for "+mapOperation.getName()+" Operation");
 					addIndentation();
 					refrencedOperations=new ArrayList<Operation>();
 					groupElements=((ElementsGroup)visibleElement).getVisibleElementList();
@@ -913,11 +1008,13 @@ public class ExportProjectToEclipseUML extends ProgressWorker{
 				}
 			}
 			if(!operationRefrences)
-				publishText("There where no Operation elements that represent groups");
+				if((showMessagesFor&MESSAGES_FOR_OPERATION)>0)
+					publishText("There where no Operation elements that represent groups");
 			removeIndentation(1);
 		}
 		removeIndentation(1);
-		publishText("Element group references are set");
+		if((showMessagesFor&(MESSAGES_FOR_PROPERTY|MESSAGES_FOR_OPERATION))>0)
+			publishText("Element group references are set");
 	}
 	
 	/**

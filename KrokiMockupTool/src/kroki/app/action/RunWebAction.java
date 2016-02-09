@@ -21,6 +21,7 @@ import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.RunAnt;
 import kroki.app.utils.StringResource;
+import kroki.app.utils.uml.KrokiComponentOutputMessage;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.DatabaseProps;
 
@@ -91,6 +92,15 @@ public class RunWebAction extends AbstractAction {
 //									KrokiMockupToolApp.getInstance().displayTextOutput("Generating UML model", 0);
 //									File tempUMLFile = new File(tempDir.getAbsolutePath() + File.separator + jarName + ".uml");
 //									new ExportProjectToEclipseUML(tempUMLFile, proj, true, true);
+									File tempUMLFile = new File(tempDir.getAbsolutePath() + File.separator + jarName + ".uml");
+									try{
+										new ExportProjectToEclipseUML(tempUMLFile, proj, true, true).exportToUMLDiagram(new KrokiComponentOutputMessage(), ExportProjectToEclipseUML.MESSAGES_FOR_CLASS, false);
+									}catch(Exception e){
+										/*
+										 * Ovde bi trebalo ispisati gresku kada exort nije uspeo i verovatno zaustaviti dalje pokretanje
+										 */
+										e.printStackTrace();
+									}
 									
 									exporter.export(tempDir, jarName, proj, "Project exported OK! Running project...");
 
