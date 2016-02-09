@@ -1,13 +1,12 @@
 package kroki.app;
 
-
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;

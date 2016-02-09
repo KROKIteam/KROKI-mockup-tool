@@ -102,10 +102,8 @@ public class ConstraintBodyAnalyzer {
 	}
 	
 	public void processBody() {
-		System.out.println("preeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 		for(int n=0;n<elementList.size();n++)
 			System.out.println(elementList.get(n).getValue()+"\t"+elementList.get(n).getType()+"\t"+elementList.get(n).getValueType());
-		System.out.println("preeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 		
 		if(supported()){
 			prepareLet();
@@ -297,11 +295,7 @@ public class ConstraintBodyAnalyzer {
 
 	private BodyElement getPropertyCallData(PropertyCallExpImpl o) {
 		String value=o.getReferredProperty().getName();
-		/*
-		 * TODO
-		 * 	Ovde se formira ime atributa u generisanim OCL klasama, pa ako treba prefiks, ovde ga treba vratiti.
-		 */
-		BodyElement b=new BodyElement(value, "PropertyCallExpImpl");
+		BodyElement b=new BodyElement("ka_" + value, "PropertyCallExpImpl");
 		String type=o.getType().getName();
 		type=correctPropertyType(type);
 		b.setValueType(type);

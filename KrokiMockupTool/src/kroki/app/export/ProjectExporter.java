@@ -427,12 +427,12 @@ public class ProjectExporter {
         }
 
         ArrayList<String> anotations = new ArrayList<String>();
-        String name = cc.toCamelCase(vp.name(), true); 
-        /*	TODO
-         * 		Ovo smo za sada izbacili, cini se da nema nikave svrhe dodavati isti prefiks na imena.
+//        String name = cc.toCamelCase(vp.name(), true); 
+        /*
+         * TODO
+         * 	Prefiks se za sada koristi jer puca ako je ime nekog polja rezervisana rec u programskom jeziku.
          */
-//        String name = "a_" + cc.toCamelCase(vp.name(), true);
-        ////////////////////////////////////////////////////////////////////////
+        String name = "ka_" + cc.toCamelCase(vp.name(), true);
         String label = vp.getLabel();
         String columnLabel = vp.getColumnLabel();
         int length = vp.getLength();
