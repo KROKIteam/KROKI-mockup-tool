@@ -108,37 +108,9 @@ public class SForm extends JDialog {
 		
 		MigLayout layout = new MigLayout("fill");
 		setLayout(layout);
-		//JScrollPane scrollPane = new JScrollPane(pane);
-		//scrollPane/		
-		//		.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		//scrollPane
-		//		.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		//pseudoMaximize();
 		this.setLocationRelativeTo(null);
 		//setResizable(false);
-		//pack();
 	}
-
-	/**
-	 * Maximizes the form
-	 */
-	/*public void pseudoMaximize() {
-        
-		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		
-		Dimension ownerSize = getOwner().getPreferredSize();
-		Point ownerLocation = getOwner().getLocation();
-		if (getOwner().getName().equals("MainForm")) {
-			size.setSize(0.95d * ownerSize.getWidth(),
-					0.95d * ownerSize.getHeight());
-		}
-		this.setBounds((int) ownerLocation.getX(), (int) ownerLocation.getY(),
-				(int) ownerSize.getWidth(), (int) ownerSize.getHeight());
-		this.setMinimumSize(ownerSize);
-		this.setPreferredSize(ownerSize);//skupi na cosak ekrana
-		//this.setPreferredSize(size);//razvuce preko celog ekrana
-		//this.setPreferredSize(new Dimension(700, 500));//postavi dimenziju u zagradama
-	}*/
 
 	public void addToPane(JComponent component) {
 		add(component, "grow");

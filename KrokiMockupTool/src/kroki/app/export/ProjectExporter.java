@@ -295,8 +295,15 @@ public class ProjectExporter {
 		if(vp.getComponentType() == ComponentType.TEXT_FIELD) {
 			if(vp.getDataType().equals("BigDecimal")) {
 				type = "java.math.BigDecimal";
-			}else if(vp.getDataType().equals("Date")) {
+			}
+			else if(vp.getDataType().equals("Date")) {
 				type = "java.util.Date";
+			}
+			else if(vp.getDataType().equals("Integer")) {
+				type = "java.lang.Integer";
+			}
+			else if(vp.getDataType().equals("Long")) {
+				type = "java.lang.Long";
 			}
 		}else if(vp.getComponentType() == ComponentType.CHECK_BOX) {
 			type =  "java.lang.Boolean";

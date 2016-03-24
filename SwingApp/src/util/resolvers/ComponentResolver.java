@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -62,8 +63,9 @@ public class ComponentResolver {
 			return new JComboBox(ca.getEnumeration().getLabels().toArray());
 		}
 		try {
-			return (JComponent) Class.forName(compType).getConstructor()
+			JComponent c = (JComponent) Class.forName(compType).getConstructor()
 					.newInstance();
+			return c;
 		} catch (Exception e) {
 			System.out.println("COMPONENT RESOLVER ERROR: " + e.getMessage());
 			return null;

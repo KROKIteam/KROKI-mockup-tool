@@ -48,6 +48,7 @@ public class InputPanel extends JPanel {
 	private int rowNumber;
 	private int zoomCounter;
 	private JPanel panelTwo;
+	private JPanel panelHorizontal;
 	private int counter;
 	private LayoutManager panelLayout;
 	private String labelText;
@@ -78,7 +79,8 @@ public class InputPanel extends JPanel {
 		panelComponents = new ArrayList<JComponent>();
 		labelText = "";
 		Align align = panel.getModelPanel().getPanelSettings().getAlign();
-		
+		panelHorizontal = new JPanel();
+
 		panelLayout = new MigLayout();
 		if(align == Align.LEFT) {
 			setLayout(new MigLayout("", "[0:0, grow 100, left]", ""));
@@ -89,13 +91,13 @@ public class InputPanel extends JPanel {
 		} else
 			setLayout(new MigLayout("", "[0:0, grow 100]", ""));
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		
+
 		int width = (int) getSize().getWidth();
 		int cuuretRowWidth = 0;
 		//TODO
-		
+
 		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
-		
+
 		AbsAttribute lastVisible = null;
 		for(int i = attributes.size() -1; i >= 0; i--){
 			if(attributes.get(i).getVisible()){
@@ -103,14 +105,14 @@ public class InputPanel extends JPanel {
 				break;
 			} 	
 		}
-		
+
 		for (int i = 0; i < attributes.size(); i++) {
 
 			panelTwo = new JPanel(new MigLayout());
 			panelTwo.setBackground(new Color(attributes.get(i).getBackgroundRGB(), true));
-			
+
 			int panelWidth = (int) panelTwo.getSize().getWidth();
-			
+
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
 				createComponent((ColumnAttribute) attributes.get(i), lastVisible == attributes.get(i));
@@ -119,6 +121,7 @@ public class InputPanel extends JPanel {
 				createComponent((JoinColumnAttribute) attributes.get(i),  lastVisible == attributes.get(i));
 			}
 		}
+		add(panelHorizontal);
 		addCommitPanel();
 		setDerivedFormulas();
 	}
@@ -130,9 +133,9 @@ public class InputPanel extends JPanel {
 	 */
 	private void createComponent(ColumnAttribute colAttr, Boolean lastVisible) {
 		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
-		
+
 		panelTwo.setPreferredSize(new Dimension(colAttr.getLength(), 20));
-		
+
 		if (layout == Layout.VERTICAL) {
 			try {
 				addComponentToPanelTwo(colAttr, null, counter);
@@ -144,24 +147,25 @@ public class InputPanel extends JPanel {
 			}
 		} else if(layout == Layout.HORIZONTAL) {
 			try {
-				//setLayout(new MigLayout());
 				String migConstant = "";
 				if(colAttr.getWrap() || lastVisible)
 					migConstant = "wrap";
-				
+
 				addComponentToPanelTwo(colAttr, null, counter);
-				add(panelTwo, migConstant);
-				setCurrentComponentsLength();
-				counter++;
+
+				if (!colAttr.getVisible())
+					panelHorizontal.add(panelTwo);
+				else{
+					add(panelTwo, migConstant);
+					setCurrentComponentsLength();
+					counter++;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
 			try {
-//				addComponentToPanelTwo(colAttr, null, counter);
-//				add(panelTwo, "wrap, span");
-//				setCurrentComponentsLength();
-//				counter++;
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -203,8 +207,8 @@ public class InputPanel extends JPanel {
 		String migConstant = "";
 		if(joinColAttr.getWrap() || lastVisible)
 			migConstant = "wrap";
-		
-		
+
+
 		add(panelTwo, migConstant);
 		rowNumber++;
 	}
@@ -236,7 +240,7 @@ public class InputPanel extends JPanel {
 	 */
 	private JComponent addComponentToPanelTwo(ColumnAttribute colAttr,
 			JoinColumnAttribute joinColAttr, int position)
-			throws ComponentCreationException {
+					throws ComponentCreationException {
 		JComponent component = null;
 		JLabel label = null;
 		try {
