@@ -76,6 +76,7 @@ public class EntityReader {
 			AppCache.displayTextOnMainFrame(logPrefix +  "Fetching EJB info from " + xmlFileName + ".xml", 0);
 			bean = getEntityBeanInfo(doc);
 			AppCache.getInstance().addToCache(bean);
+			System.out.println("BEAN ADDED TO CACHE: " + bean.getEntityClass().getName());
 			return bean;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,6 +116,8 @@ public class EntityReader {
 				}
 			}
 		}
+		AppCache.getInstance().addToCache(bean);
+		System.out.println("DODANO U CACHE: " + bean.getEntityClass().getName());
 		return bean;
 	}
 	
@@ -201,14 +204,13 @@ public class EntityReader {
 	}
 	
 	private static ColumnAttribute lookupColumnAttribute(String attrName, Class<?> lookupClass) {
-		System.out.println("[lookupColumnAttribute] " + attrName + ", " + lookupClass.getSimpleName());
+		System.out.println("[lookupColumnAttribute] " + attrName + ", " + lookupClass.getName());
 		ColumnAttribute ca = null;
 		AppCache appCache = AppCache.getInstance();
-		EntityBean ejb = null;
-		if ((ejb = appCache.findEJBByClassName(lookupClass.getName())) != null) {
+		EntityBean ejb = appCache.findEJBByClassName(lookupClass.getName());
+		if (ejb != null ) {
 			try {
-				return (ColumnAttribute) EntityHelper.getAttribute(ejb,
-						attrName);
+				return (ColumnAttribute) EntityHelper.getAttribute(ejb, attrName);
 			} catch (EntityAttributeNotFoundException e) {
 				return null;
 			}
@@ -222,9 +224,13 @@ public class EntityReader {
 			//If class has join column onto itself, there is no need to parse XML and go trough EJB loading process again
 			if(lookupClass.getName().equals(currentBean.getEntityClass().getName())) {
 				ejb = currentBean;
-			}else {
-				ejb = getEntityBeanInfo(doc);
 			}
+			// TODO: Izbaceno za sada, jer je uzrokovalo overflow za kruzne reference
+//			else {
+//				ejb = getEntityBeanInfo(doc);
+//				AppCache.getInstance().addToCache(ejb);
+//				System.out.println("BEAN DODAN U CACHE: " + ejb.getEntityClass().getName());
+//			}
 			// TODO: izvuci samo potreban columnAttribute
 			NodeList nodeList = doc.getElementsByTagName(Tags.COLUMN_ATTRIBUTE);
 			Node node = null;

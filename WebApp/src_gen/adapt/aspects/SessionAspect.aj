@@ -12,7 +12,7 @@ import adapt.core.AppCache;
 import adapt.resources.HomeResource;
 import adapt.resources.IndexResource;
 import adapt.util.ejb.PersisenceHelper;
-import ejb.User;
+import ejb.AdaptUser;
 
 /**
  * Aspect that intercepts login and logout links and stores info about currently logged user
@@ -20,7 +20,7 @@ import ejb.User;
  */
 public aspect SessionAspect {
 
-	private static User currentUser;
+	private static AdaptUser currentUser;
 	/**
 	 * Map used to store user data during login time
 	 */
@@ -53,7 +53,7 @@ public aspect SessionAspect {
 				tx.begin();
 				try {
 					// Find the user with specified credentials in database
-					User u = (User)em.createQuery("FROM User u WHERE u.username =:uname and u.password =:pword").
+					AdaptUser u = (AdaptUser)em.createQuery("FROM AdaptUser u WHERE u.username =:uname and u.password =:pword").
 							setParameter("uname", username).
 							setParameter("pword", password).
 							getSingleResult();
@@ -80,7 +80,7 @@ public aspect SessionAspect {
 		currentUser = null;
 	}
 	//---------------------------------------------------------------------------|| UTIL METHODS
-	public static User getCurrentUser() {
+	public static AdaptUser getCurrentUser() {
 		return currentUser;
 	}
 	

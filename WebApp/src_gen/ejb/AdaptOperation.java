@@ -17,8 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Operation")
-public class Operation implements Serializable {
+@Table(name = "Adapt_Operation")
+public class AdaptOperation implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,15 +26,15 @@ public class Operation implements Serializable {
 	private Integer id;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "operation")
-	private Set<Permission> userGroup = new HashSet<Permission>();
+	private Set<AdaptPermission> userGroup = new HashSet<AdaptPermission>();
 
 	@Column(name = "name", unique = false, nullable = false)
 	private String name;
 
-	public Operation() {
+	public AdaptOperation() {
 	}
 
-	public void addUserGroup(Permission entity) {
+	public void addUserGroup(AdaptPermission entity) {
 		if (entity != null) {
 			if (!userGroup.contains(entity)) {
 				entity.setOperation(this);
@@ -43,7 +43,7 @@ public class Operation implements Serializable {
 		}
 	}
 
-	public void removeUserGroup(Permission entity) {
+	public void removeUserGroup(AdaptPermission entity) {
 		if (entity != null) {
 			if (userGroup.contains(entity)) {
 				entity.setOperation(null);
@@ -52,11 +52,11 @@ public class Operation implements Serializable {
 		}
 	}
 
-	public Set<Permission> getUserGroup() {
+	public Set<AdaptPermission> getUserGroup() {
 		return userGroup;
 	}
 
-	public void setUserGroup(Set<Permission> userGroup) {
+	public void setUserGroup(Set<AdaptPermission> userGroup) {
 		this.userGroup = userGroup;
 	}
 

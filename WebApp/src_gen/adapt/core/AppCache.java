@@ -80,11 +80,14 @@ public class AppCache {
 	}
 	//---------------------------------------------------------------------| UTIL METHODS
 	public EntityBean findEJBByClassName(String className) {
+		System.out.println("TRAZIM ZA IME: " + className);
 		Iterator<EntityBean> it = model.getEntityBeans().iterator();
 		EntityBean ejb = null;
 		while (it.hasNext()) {
 			ejb = it.next();
-			if (ejb.getEntityClass().getName().equals(className)) {
+			System.out.println("\t" + ejb.getEntityClass().getName());
+			if (ejb.getEntityClass().getName().equalsIgnoreCase(className) || ejb.getEntityClass().getSimpleName().equalsIgnoreCase(className)) {
+				System.out.println("NASAO");
 				return ejb;
 			}
 		}

@@ -34,10 +34,10 @@ import adapt.util.html.HTMLToolbarAction;
 import adapt.util.html.OperationGroup;
 import adapt.util.html.TableModel;
 import adapt.util.xml_readers.PanelReader;
-import ejb.Permission;
-import ejb.Role;
-import ejb.User;
-import ejb.UserRoles;
+import ejb.AdaptPermission;
+import ejb.AdaptRole;
+import ejb.AdaptUser;
+import ejb.AdaptUserRoles;
 
 public class ViewResource extends BaseResource {
 
@@ -140,8 +140,8 @@ public class ViewResource extends BaseResource {
 		EntityManager e = PersisenceHelper.createEntityManager();
 		e.getTransaction().begin();
 		
-		User user = SessionAspect.getCurrentUser();
-		List<UserRoles> roles = e.createQuery("SELECT r FROM UserRoles r").getResultList();
+		AdaptUser user = SessionAspect.getCurrentUser();
+		List<AdaptUserRoles> roles = e.createQuery("SELECT r FROM AdaptUserRoles r").getResultList();
 		ArrayList<String> perms = new ArrayList<String>();
 		
 		if (roles == null || roles.size() == 0) {
@@ -149,14 +149,14 @@ public class ViewResource extends BaseResource {
 			perms.add("modify");
 			perms.add("remove");
 		} else {
-			Role userGroup = (Role)e.createQuery("SELECT ur.role FROM UserRoles ur WHERE ur.user.id =:uid").setParameter("uid", user.getId()).getSingleResult();
-			ArrayList<Permission> permissions = (ArrayList<Permission>)e.createQuery("SELECT rp.permission FROM RolePermission rp WHERE rp.role.id =:rid").setParameter("rid", userGroup.getId()).getResultList();
+			AdaptRole userGroup = (AdaptRole)e.createQuery("SELECT ur.role FROM AdaptUserRoles ur WHERE ur.user.id =:uid").setParameter("uid", user.getId()).getSingleResult();
+			ArrayList<AdaptPermission> permissions = (ArrayList<AdaptPermission>)e.createQuery("SELECT rp.permission FROM AdaptRolePermission rp WHERE rp.role.id =:rid").setParameter("rid", userGroup.getId()).getResultList();
 			if(userGroup.getName().equals("admins")){
 				perms.add("add");
 				perms.add("modify");
 				perms.add("remove");
 			}else
-				for (Permission p : permissions) {
+				for (AdaptPermission p : permissions) {
 					if (p.getResource().getName().trim().equals(panel.getLabel())) {
 						perms.add(p.getOperation().getName().trim());
 					}

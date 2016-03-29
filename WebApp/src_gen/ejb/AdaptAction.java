@@ -29,7 +29,7 @@ import javax.persistence.JoinTable;
 
 @Entity
 @Table(name = "ADAPT_ACTION")
-public class Action implements java.io.Serializable {
+public class AdaptAction implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class Action implements java.io.Serializable {
 	@Column(name = "ACT_BTN_ID", unique = false, nullable = false)
 	private java.lang.String btnID;
 	
-	public Action(){
+	public AdaptAction(){
 	}
 	
 	public Long getId() {

@@ -14,8 +14,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "UserRoles")
-public class UserRoles implements Serializable {  
+@Table(name = "Adapt_ResourceHierarchy")
+public class AdaptResourceHierarchy implements Serializable {  
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,45 +23,32 @@ public class UserRoles implements Serializable {
 	private Integer id;
 	
 		@ManyToOne
-		@JoinColumn(name="user", referencedColumnName="id", nullable = false)
-		private User user;
+		@JoinColumn(name="resource", referencedColumnName="id", nullable = false)
+		private AdaptResource resource;
          
 		@ManyToOne
-		@JoinColumn(name="role", referencedColumnName="id", nullable = false)
-		private Role role;
-         
-		//izbaciti
-		@Deprecated 
-		@Column(name="valid", unique = false, nullable = true)
-		private Boolean valid;
+		@JoinColumn(name="resource2", referencedColumnName="id", nullable = false)
+		private AdaptResource resource2;
          
 
-	public UserRoles(){
+	public AdaptResourceHierarchy(){
 	}
 
 
-      public User getUser(){
-           return user;
+      public AdaptResource getResource(){
+           return resource;
       }
       
-      public void setUser(User user){
-           this.user = user;
+      public void setResource(AdaptResource resource){
+           this.resource = resource;
       }
       
-      public Role getRole(){
-           return role;
+      public AdaptResource getResource2(){
+           return resource2;
       }
       
-      public void setRole(Role role){
-           this.role = role;
-      }
-      
-      public Boolean getValid(){
-           return valid;
-      }
-      
-      public void setValid(Boolean valid){
-           this.valid = valid;
+      public void setResource2(AdaptResource resource2){
+           this.resource2 = resource2;
       }
       
 
@@ -73,21 +60,21 @@ public class UserRoles implements Serializable {
 		this.id = id;
 	}
 	
+
 	public Object[] getValues() {	
 		List<Object> list = new ArrayList<Object>();
 		
 		list.add(id);		
-		if(user != null){
-			list.add(user.toString());
+		if(resource != null){
+			list.add(resource.toString());
 		}else{
 			list.add("");
 		}
-		if(role != null){
-			list.add(role.toString());
+		if(resource2 != null){
+			list.add(resource2.toString());
 		}else{
 			list.add("");
 		}
-		list.add(valid.toString());
 		 
 		 return list.toArray();
 	}
@@ -96,7 +83,6 @@ public class UserRoles implements Serializable {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		
-		result.append(valid + " ");
 		
 		return result.toString();
 	}

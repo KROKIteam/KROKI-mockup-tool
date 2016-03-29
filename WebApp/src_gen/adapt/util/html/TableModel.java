@@ -70,6 +70,7 @@ public class TableModel {
 								Field field = zoomClass.getDeclaredField(columnAttribute.getFieldName());
 								field.setAccessible(true);
 								zoomVals += field.get(o) + ", ";
+								
 							} catch (Exception e) {
 								AppCache.displayTextOnMainFrame("Error getting zoom values for " + jcAttribute.getLabel(), 1);
 								e.printStackTrace();
@@ -82,6 +83,9 @@ public class TableModel {
 					if(zoomVals.equals("")) {
 						zoomVals = NULL;
 					}else {
+						if(columnRefs.size() > 1) {
+							zoomVals = zoomVals.substring(zoomVals.indexOf(',') + 1);
+						}
 						zoomVals = zoomVals.substring(0, zoomVals.length() -2);
 					}
 					row.put(jcAttribute.getFieldName(), zoomVals);

@@ -16,7 +16,7 @@ import adapt.util.xml_readers.EnumerationReader;
 import adapt.util.xml_readers.MenuReader;
 import adapt.util.xml_readers.PanelReader;
 import adapt.util.xml_readers.TypeComponenMappingReader;
-import ejb.User;
+import ejb.AdaptUser;
 
 
 public class AdaptMainFrame {
@@ -61,11 +61,11 @@ public class AdaptMainFrame {
 
 			loadAdministrationSubsytem(em);
 
-			List<User> users = em.createQuery("SELECT u FROM User u").getResultList();
+			List<AdaptUser> users = em.createQuery("SELECT u FROM AdaptUser u").getResultList();
 			if (users == null || users.isEmpty()) {
 				//If no users defined
 				//persist test user
-				User u = new User();
+				AdaptUser u = new AdaptUser();
 				u.setUsername("admin");
 				u.setPassword("12345");
 

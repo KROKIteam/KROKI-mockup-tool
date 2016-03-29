@@ -10,9 +10,9 @@ import adapt.model.menu.AdaptMenu;
 import adapt.model.menu.AdaptSubMenu;
 import adapt.resources.HomeResource;
 import adapt.util.ejb.PersisenceHelper;
-import ejb.Role;
-import ejb.User;
-import ejb.UserRoles;
+import ejb.AdaptRole;
+import ejb.AdaptUser;
+import ejb.AdaptUserRoles;
 
 /**
  * Aspect that takes care of user rights in the application
@@ -29,7 +29,7 @@ public aspect AdministrationAspect {
 	 */
 	after (HomeResource homeResource) : setMenu(homeResource) {
 		// 1. Get the current user from session ascpect:
-		User user = SessionAspect.getCurrentUser();
+		AdaptUser user = SessionAspect.getCurrentUser();
 		
 		// 2. Filter menu list according to current user
 		if (user == null)
@@ -40,14 +40,14 @@ public aspect AdministrationAspect {
 		//DB data		
 		EntityManager em = PersisenceHelper.createEntityManager();
 
-		List<UserRoles> roles = em.createQuery("SELECT r FROM UserRoles r").getResultList();
+		List<AdaptUserRoles> roles = em.createQuery("SELECT r FROM AdaptUserRoles r").getResultList();
 		if (roles == null || roles.size() == 0) {
 			//If there are no UserRoles defined, use default menu 
 			AdaptSubMenu adapt = AppCache.getInstance().getDefaultMenu();
 			homeResource.addToDataModel("menu", AppCache.getInstance().getDefaultMenu());
 		} else {
 			AdaptSubMenu rootMenu = null;
-			Role userRole = (Role)em.createQuery("SELECT ur.role FROM UserRoles ur WHERE ur.user.id =:uid").setParameter("uid", user.getId()).getSingleResult();
+			AdaptRole userRole = (AdaptRole)em.createQuery("SELECT ur.role FROM AdaptUserRoles ur WHERE ur.user.id =:uid").setParameter("uid", user.getId()).getSingleResult();
 			for (AdaptMenu menu : menus) {
 				AdaptSubMenu subMenu = (AdaptSubMenu)menu;
 				for (String s : subMenu.getRoles()) {

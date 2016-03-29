@@ -17,8 +17,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "User")
-public class User implements Serializable {  
+@Table(name = "Adapt_User")
+public class AdaptUser implements Serializable {  
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +32,13 @@ public class User implements Serializable {
 		private String password;
          
     	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-  		private Set<UserRoles> useringroup = new HashSet<UserRoles>();
+  		private Set<AdaptUserRoles> useringroup = new HashSet<AdaptUserRoles>();
          
 
-	public User(){
+	public AdaptUser(){
 	}
 
-    	public void addUseringroup(UserRoles entity) {
+    	public void addUseringroup(AdaptUserRoles entity) {
     		if(entity != null) {
     			if(!useringroup.contains(entity)) {
     				entity.setUser(this);
@@ -47,7 +47,7 @@ public class User implements Serializable {
     		}
     	}
     	
-    	public void removeUseringroup(UserRoles entity) {
+    	public void removeUseringroup(AdaptUserRoles entity) {
     		if(entity != null) {
     			if(useringroup.contains(entity)) {
 					entity.setUser(null);
@@ -72,11 +72,11 @@ public class User implements Serializable {
            this.password = password;
       }
       
-      public Set<UserRoles> getUseringroup(){
+      public Set<AdaptUserRoles> getUseringroup(){
            return useringroup;
       }
       
-      public void setUseringroup( Set<UserRoles> useringroup){
+      public void setUseringroup( Set<AdaptUserRoles> useringroup){
            this.useringroup = useringroup;
       }
       

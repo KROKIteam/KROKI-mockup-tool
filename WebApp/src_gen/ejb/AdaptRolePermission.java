@@ -14,8 +14,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "ResourceHierarchy")
-public class ResourceHierarchy implements Serializable {  
+@Table(name = "Adapt_RolePermission")
+public class AdaptRolePermission implements Serializable {  
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,32 +23,32 @@ public class ResourceHierarchy implements Serializable {
 	private Integer id;
 	
 		@ManyToOne
-		@JoinColumn(name="resource", referencedColumnName="id", nullable = false)
-		private Resource resource;
+		@JoinColumn(name="role", referencedColumnName="id", nullable = false)
+		private AdaptRole role;
          
 		@ManyToOne
-		@JoinColumn(name="resource2", referencedColumnName="id", nullable = false)
-		private Resource resource2;
+		@JoinColumn(name="permission", referencedColumnName="id", nullable = false)
+		private AdaptPermission permission;
          
 
-	public ResourceHierarchy(){
+	public AdaptRolePermission(){
 	}
 
 
-      public Resource getResource(){
-           return resource;
+      public AdaptRole getRole(){
+           return role;
       }
       
-      public void setResource(Resource resource){
-           this.resource = resource;
+      public void setRole(AdaptRole role){
+           this.role = role;
       }
       
-      public Resource getResource2(){
-           return resource2;
+      public AdaptPermission getPermission(){
+           return permission;
       }
       
-      public void setResource2(Resource resource2){
-           this.resource2 = resource2;
+      public void setPermission(AdaptPermission permission){
+           this.permission = permission;
       }
       
 
@@ -60,18 +60,17 @@ public class ResourceHierarchy implements Serializable {
 		this.id = id;
 	}
 	
-
 	public Object[] getValues() {	
 		List<Object> list = new ArrayList<Object>();
 		
 		list.add(id);		
-		if(resource != null){
-			list.add(resource.toString());
+		if(role != null){
+			list.add(role.toString());
 		}else{
 			list.add("");
 		}
-		if(resource2 != null){
-			list.add(resource2.toString());
+		if(permission != null){
+			list.add(permission.toString());
 		}else{
 			list.add("");
 		}

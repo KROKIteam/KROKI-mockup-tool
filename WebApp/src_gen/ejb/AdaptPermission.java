@@ -12,13 +12,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Role")
-public class Role implements Serializable {  
+@Table(name = "Adapt_Permission")
+public class AdaptPermission implements Serializable {  
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,46 +30,34 @@ public class Role implements Serializable {
 		@Column(name="name", unique = false, nullable = false)
 		private String name;
          
-    	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "role")
-  		private Set<UserRoles> userRoles = new HashSet<UserRoles>();
+		@ManyToOne
+		@JoinColumn(name="operation", referencedColumnName="id", nullable = true)
+		private AdaptOperation operation;
          
-    	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "role")
-  		private Set<RolePermission> rolePermission = new HashSet<RolePermission>();
+    	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "permission")
+  		private Set<AdaptRolePermission> rolePermission = new HashSet<AdaptRolePermission>();
+         
+		@ManyToOne
+		@JoinColumn(name="resource", referencedColumnName="id", nullable = false)
+		private AdaptResource resource;
          
 
-	public Role(){
+	public AdaptPermission(){
 	}
 
-    	public void addUserRoles(UserRoles entity) {
-    		if(entity != null) {
-    			if(!userRoles.contains(entity)) {
-    				entity.setRole(this);
-    				userRoles.add(entity);
-    			}
-    		}
-    	}
-    	
-    	public void removeUserRoles(UserRoles entity) {
-    		if(entity != null) {
-    			if(userRoles.contains(entity)) {
-					entity.setRole(null);
-    				userRoles.remove(entity);
-    			}
-    		}
-    	}
-    	public void addRolePermission(RolePermission entity) {
+    	public void addRolePermission(AdaptRolePermission entity) {
     		if(entity != null) {
     			if(!rolePermission.contains(entity)) {
-    				entity.setRole(this);
+    				entity.setPermission(this);
     				rolePermission.add(entity);
     			}
     		}
     	}
     	
-    	public void removeRolePermission(RolePermission entity) {
+    	public void removeRolePermission(AdaptRolePermission entity) {
     		if(entity != null) {
     			if(rolePermission.contains(entity)) {
-					entity.setRole(null);
+					entity.setPermission(null);
     				rolePermission.remove(entity);
     			}
     		}
@@ -81,20 +71,28 @@ public class Role implements Serializable {
            this.name = name;
       }
       
-      public Set<UserRoles> getUserRoles(){
-           return userRoles;
+      public AdaptOperation getOperation(){
+           return operation;
       }
       
-      public void setUserRoles( Set<UserRoles> userRoles){
-           this.userRoles = userRoles;
+      public void setOperation(AdaptOperation operation){
+           this.operation = operation;
       }
       
-      public Set<RolePermission> getRolePermission(){
+      public Set<AdaptRolePermission> getRolePermission(){
            return rolePermission;
       }
       
-      public void setRolePermission( Set<RolePermission> rolePermission){
+      public void setRolePermission( Set<AdaptRolePermission> rolePermission){
            this.rolePermission = rolePermission;
+      }
+      
+      public AdaptResource getResource(){
+           return resource;
+      }
+      
+      public void setResource(AdaptResource resource){
+           this.resource = resource;
       }
       
 
@@ -112,6 +110,16 @@ public class Role implements Serializable {
 		
 		list.add(id);		
 		list.add(name.toString());
+		if(operation != null){
+			list.add(operation.toString());
+		}else{
+			list.add("");
+		}
+		if(resource != null){
+			list.add(resource.toString());
+		}else{
+			list.add("");
+		}
 		 
 		 return list.toArray();
 	}
@@ -126,4 +134,3 @@ public class Role implements Serializable {
 	}
 
 }
-

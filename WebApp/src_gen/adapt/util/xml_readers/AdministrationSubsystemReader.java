@@ -15,13 +15,13 @@ import adapt.util.ejb.PersisenceHelper;
 import adapt.util.repository_utils.RepositoryPathsUtil;
 import adapt.util.staticnames.Tags;
 import adapt.util.xml_utils.XMLParserUtils;
-import ejb.Operation;
-import ejb.Permission;
-import ejb.Resource;
-import ejb.Role;
-import ejb.RolePermission;
-import ejb.User;
-import ejb.UserRoles;
+import ejb.AdaptOperation;
+import ejb.AdaptPermission;
+import ejb.AdaptResource;
+import ejb.AdaptRole;
+import ejb.AdaptRolePermission;
+import ejb.AdaptUser;
+import ejb.AdaptUserRoles;
 
 public class AdministrationSubsystemReader {
 	
@@ -55,16 +55,16 @@ public class AdministrationSubsystemReader {
 		EntityManager em = PersisenceHelper.createEntityManager();
 		em.getTransaction().begin();
 		
-		ArrayList<User> users = new ArrayList<User>();
-		ArrayList<Role> roles = new ArrayList<Role>();
-		ArrayList<Operation> userOperations = new ArrayList<Operation>();
-		ArrayList<Resource> resources = new ArrayList<Resource>();
-		ArrayList<Permission> permissions = new ArrayList<Permission>();
-		ArrayList<RolePermission> rolePermissions = new ArrayList<RolePermission>();
+		ArrayList<AdaptUser> users = new ArrayList<AdaptUser>();
+		ArrayList<AdaptRole> roles = new ArrayList<AdaptRole>();
+		ArrayList<AdaptOperation> userOperations = new ArrayList<AdaptOperation>();
+		ArrayList<AdaptResource> resources = new ArrayList<AdaptResource>();
+		ArrayList<AdaptPermission> permissions = new ArrayList<AdaptPermission>();
+		ArrayList<AdaptRolePermission> rolePermissions = new ArrayList<AdaptRolePermission>();
 		
 		//Ekstrakcija resursa
 //		mainFrame.displayText("Resursi", 0);
-		Resource tResource = null;
+		AdaptResource tResource = null;
 		NodeList resNodes = resDoc.getElementsByTagName("resource");
 		for(int i=0; i<resNodes.getLength(); i++) {
 			Element element = (Element)resNodes.item(i);
@@ -73,7 +73,7 @@ public class AdministrationSubsystemReader {
 			
 			String name = XMLParserUtils.getCharacterDataFromElement((Element)nname.item(0));
 			String link = XMLParserUtils.getCharacterDataFromElement((Element)nlink.item(0));
-			tResource = new Resource();
+			tResource = new AdaptResource();
 			tResource.setName(name);
 			tResource.setLink(link);
 			em.persist(tResource);
@@ -84,7 +84,7 @@ public class AdministrationSubsystemReader {
 		
 //		mainFrame.displayText("Korisnici", 0);
 		//Ekstrakcija korisnika
-		User u = null;
+		AdaptUser u = null;
 		NodeList userNodes = resDoc.getElementsByTagName("user");
 		for (int i = 0; i < userNodes.getLength(); i++) {
 			Element element = (Element)userNodes.item(i);
@@ -93,7 +93,7 @@ public class AdministrationSubsystemReader {
 			
 			String username = XMLParserUtils.getCharacterDataFromElement((Element)nusername.item(0));
 			String password = XMLParserUtils.getCharacterDataFromElement((Element)npassword.item(0));
-			u = new User();
+			u = new AdaptUser();
 			u.setUsername(username);
 			u.setPassword(password);
 			em.persist(u);
@@ -105,14 +105,14 @@ public class AdministrationSubsystemReader {
 		
 //		mainFrame.displayText("Grupe", 0);
 		//Ekstrakcija korisnickih grupa
-		Role userGroup = null;
+		AdaptRole userGroup = null;
 		NodeList userGroupNodes = resDoc.getElementsByTagName("group");
 		for (int i = 0; i < userGroupNodes.getLength(); i++) {
 			Element element = (Element)userGroupNodes.item(i);
 			NodeList nname = element.getElementsByTagName("name");
 			
 			String name = XMLParserUtils.getCharacterDataFromElement((Element)nname.item(0));
-			userGroup = new Role();
+			userGroup = new AdaptRole();
 			userGroup.setName(name);
 			em.persist(userGroup);
 			roles.add(userGroup);
@@ -122,7 +122,7 @@ public class AdministrationSubsystemReader {
 		
 //		mainFrame.displayText("Korisnici u grupama", 0);
 		//Ekstrakcija korisnika u grupama
-		UserRoles userInGroup = null;
+		AdaptUserRoles userInGroup = null;
 		NodeList userInGroupNodes = resDoc.getElementsByTagName("user_in_group");
 		for (int i = 0; i < userInGroupNodes.getLength(); i++) {
 			Element element = (Element)userInGroupNodes.item(i);
@@ -139,14 +139,14 @@ public class AdministrationSubsystemReader {
 			String userId = XMLParserUtils.getCharacterDataFromElement((Element)nuserInUserId.item(0));
 			String userName = XMLParserUtils.getCharacterDataFromElement((Element)nuserInUserName.item(0));
 			
-			userInGroup = new UserRoles();
-			for (User tempUser : users) {
+			userInGroup = new AdaptUserRoles();
+			for (AdaptUser tempUser : users) {
 				if(tempUser.getUsername().equals(userName)) {
 					userInGroup.setUser(tempUser);
 				}
 			}
 			
-			for (Role tempUserGroup : roles) {
+			for (AdaptRole tempUserGroup : roles) {
 				if (tempUserGroup.getName().equals(groupName)) {
 					userInGroup.setRole(tempUserGroup);
 				}
@@ -158,7 +158,7 @@ public class AdministrationSubsystemReader {
 		}
 		
 		//Ekstrakcija korisnickih operacija
-		Operation userOperation = null;
+		AdaptOperation userOperation = null;
 		NodeList userOperationNodes = resDoc.getElementsByTagName("user_operation");
 		for (int i = 0; i < userOperationNodes.getLength(); i++) {
 			Element element = (Element)userOperationNodes.item(i);
@@ -170,7 +170,7 @@ public class AdministrationSubsystemReader {
 			String operationname = XMLParserUtils.getCharacterDataFromElement((Element)noperationname.item(0));
 
 			
-			userOperation = new Operation();
+			userOperation = new AdaptOperation();
 			userOperation.setName(operationname);
 
 			
@@ -182,7 +182,7 @@ public class AdministrationSubsystemReader {
 		
 		//Ekstrakcija Permissions
 //		mainFrame.displayText("Permissions: " , 0);
-		Permission permission = null;
+		AdaptPermission permission = null;
 		NodeList permissionNodes = resDoc.getElementsByTagName("permission");
 		for (int i = 0; i < permissionNodes.getLength(); i++) {
 			Element element = (Element)permissionNodes.item(i);
@@ -194,16 +194,16 @@ public class AdministrationSubsystemReader {
 			String operationName = XMLParserUtils.getCharacterDataFromElement((Element)noperationname.item(0));
 			String resourceName = XMLParserUtils.getCharacterDataFromElement((Element)nresourcename.item(0));
 			
-			permission = new Permission();
+			permission = new AdaptPermission();
 			permission.setName(name);
 			
-			for (Operation o : userOperations) {
+			for (AdaptOperation o : userOperations) {
 				if (o.getName().equals(operationName)) {
 					permission.setOperation(o);
 				}
 			}
 			
-			for (Resource r : resources) {
+			for (AdaptResource r : resources) {
 				if (r.getName().equals(resourceName)) {
 					permission.setResource(r);
 				}
@@ -218,7 +218,7 @@ public class AdministrationSubsystemReader {
 		
 		//Ekstrakcija RolePermissions
 //		mainFrame.displayText("RolePermissions: " , 0);
-		RolePermission rolePermission = null;
+		AdaptRolePermission rolePermission = null;
 		NodeList rolePermissionNodes = resDoc.getElementsByTagName("role_permission");
 		for (int i = 0; i < rolePermissionNodes.getLength(); i++) {
 			Element element = (Element)rolePermissionNodes.item(i);
@@ -229,15 +229,15 @@ public class AdministrationSubsystemReader {
 			String permissionName = XMLParserUtils.getCharacterDataFromElement((Element)npermissionname.item(0));
 
 			
-			rolePermission = new RolePermission();
+			rolePermission = new AdaptRolePermission();
 			
-			for (Permission p : permissions) {
+			for (AdaptPermission p : permissions) {
 				if (p.getName().equals(permissionName)) {
 					rolePermission.setPermission(p);
 				}
 			}
 			
-			for (Role r : roles) {
+			for (AdaptRole r : roles) {
 				if (r.getName().equals(roleName)) {
 					rolePermission.setRole(r);
 				}

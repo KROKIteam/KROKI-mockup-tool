@@ -1,1 +1,1 @@
-<input class="stdFormInputs" type="text" name="${attribute.fieldName}" <#if attribute.length gt 0>maxlength="${attribute.length}"</#if> <#if editMap??>value="${editMap[attribute.fieldName]}"</#if>>
+<input class="stdFormInputs" type="text" name="${attribute.fieldName}" <#if attribute.length gt 0>maxlength="${attribute.length?c}"</#if> <#if editMap??>value="${editMap[attribute.fieldName]}"</#if>>

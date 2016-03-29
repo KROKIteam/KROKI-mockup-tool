@@ -76,35 +76,40 @@ public class PanelReader {
 	 */
 	public static AdaptPanel loadPanel(String panelId, PanelType type, String openedId, OpenedAs openedAs) {
 		System.out.println(logPrefix + " Loading data for: " + panelId);
-		try {
-			Document document = XMLParserUtils.parseXml(panelsDirectoryPath + panelsFileName);
-			AdaptPanel panel = null;
-			switch (type) {
-			case STANDARDPANEL:
-				AppCache.displayTextOnMainFrame(logPrefix + " Fetching standard panel data for: " + panelId, 0);
-				if(openedAs.equals(OpenedAs.NEXT)) {
-					panel = findNextPanel(document, panelId, type, openedId);
-				}else if(openedAs.equals(OpenedAs.ZOOM)) {
-					panel = findZoomPanel(document, panelId, type, openedId);
-				}else {
-					panel = findStandardPanel(document, panelId);
-				}
-				break;
-			case PARENTCHILDPANEL:
-				AppCache.displayTextOnMainFrame(logPrefix + " Fetching parent-child panel data for: " + panelId, 0);
-				panel = findParentChildPanel(document, panelId);
-				break;
-			case MANYTOMANYPANEL:
-				AppCache.displayTextOnMainFrame(logPrefix + " Fetching many to many panel data for: " + panelId, 0);
-				panel = findManyToManyPanel(document, panelId);
-				break;
-			}
+		AdaptPanel panel = AppCache.getInstance().getPanelByName(panelId);
+		if(panel != null) {
+			System.out.println("NASAO PANEL");
 			return panel;
-		} catch (Exception e) {
-			AppCache.displayTextOnMainFrame("Error reading panel data for name: " + panelId, 1);
-			AppCache.displayStackTraceOnMainFrame(e);
+		}else {
+			try {
+				Document document = XMLParserUtils.parseXml(panelsDirectoryPath + panelsFileName);
+				
+				switch (type) {
+				case STANDARDPANEL:
+					AppCache.displayTextOnMainFrame(logPrefix + " Fetching standard panel data for: " + panelId, 0);
+					if(openedAs.equals(OpenedAs.NEXT)) {
+						panel = findNextPanel(document, panelId, type, openedId);
+					}else if(openedAs.equals(OpenedAs.ZOOM)) {
+						panel = findZoomPanel(document, panelId, type, openedId);
+					}else {
+						panel = findStandardPanel(document, panelId);
+					}
+					break;
+				case PARENTCHILDPANEL:
+					AppCache.displayTextOnMainFrame(logPrefix + " Fetching parent-child panel data for: " + panelId, 0);
+					panel = findParentChildPanel(document, panelId);
+					break;
+				case MANYTOMANYPANEL:
+					AppCache.displayTextOnMainFrame(logPrefix + " Fetching many to many panel data for: " + panelId, 0);
+					panel = findManyToManyPanel(document, panelId);
+					break;
+				}
+			} catch (Exception e) {
+				AppCache.displayTextOnMainFrame("Error reading panel data for name: " + panelId, 1);
+				AppCache.displayStackTraceOnMainFrame(e);
+			}
 		}
-		return null;
+		return panel;
 	}
 
 	private static AdaptStandardPanel findStandardPanel(Document document, String panelId) {

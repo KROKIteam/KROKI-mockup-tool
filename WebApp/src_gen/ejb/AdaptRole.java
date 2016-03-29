@@ -12,15 +12,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Permission")
-public class Permission implements Serializable {  
+@Table(name = "Adapt_Role")
+public class AdaptRole implements Serializable {  
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,34 +28,46 @@ public class Permission implements Serializable {
 		@Column(name="name", unique = false, nullable = false)
 		private String name;
          
-		@ManyToOne
-		@JoinColumn(name="operation", referencedColumnName="id", nullable = true)
-		private Operation operation;
+    	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "role")
+  		private Set<AdaptUserRoles> userRoles = new HashSet<AdaptUserRoles>();
          
-    	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "permission")
-  		private Set<RolePermission> rolePermission = new HashSet<RolePermission>();
-         
-		@ManyToOne
-		@JoinColumn(name="resource", referencedColumnName="id", nullable = false)
-		private Resource resource;
+    	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "role")
+  		private Set<AdaptRolePermission> rolePermission = new HashSet<AdaptRolePermission>();
          
 
-	public Permission(){
+	public AdaptRole(){
 	}
 
-    	public void addRolePermission(RolePermission entity) {
+    	public void addUserRoles(AdaptUserRoles entity) {
+    		if(entity != null) {
+    			if(!userRoles.contains(entity)) {
+    				entity.setRole(this);
+    				userRoles.add(entity);
+    			}
+    		}
+    	}
+    	
+    	public void removeUserRoles(AdaptUserRoles entity) {
+    		if(entity != null) {
+    			if(userRoles.contains(entity)) {
+					entity.setRole(null);
+    				userRoles.remove(entity);
+    			}
+    		}
+    	}
+    	public void addRolePermission(AdaptRolePermission entity) {
     		if(entity != null) {
     			if(!rolePermission.contains(entity)) {
-    				entity.setPermission(this);
+    				entity.setRole(this);
     				rolePermission.add(entity);
     			}
     		}
     	}
     	
-    	public void removeRolePermission(RolePermission entity) {
+    	public void removeRolePermission(AdaptRolePermission entity) {
     		if(entity != null) {
     			if(rolePermission.contains(entity)) {
-					entity.setPermission(null);
+					entity.setRole(null);
     				rolePermission.remove(entity);
     			}
     		}
@@ -71,28 +81,20 @@ public class Permission implements Serializable {
            this.name = name;
       }
       
-      public Operation getOperation(){
-           return operation;
+      public Set<AdaptUserRoles> getUserRoles(){
+           return userRoles;
       }
       
-      public void setOperation(Operation operation){
-           this.operation = operation;
+      public void setUserRoles( Set<AdaptUserRoles> userRoles){
+           this.userRoles = userRoles;
       }
       
-      public Set<RolePermission> getRolePermission(){
+      public Set<AdaptRolePermission> getRolePermission(){
            return rolePermission;
       }
       
-      public void setRolePermission( Set<RolePermission> rolePermission){
+      public void setRolePermission( Set<AdaptRolePermission> rolePermission){
            this.rolePermission = rolePermission;
-      }
-      
-      public Resource getResource(){
-           return resource;
-      }
-      
-      public void setResource(Resource resource){
-           this.resource = resource;
       }
       
 
@@ -110,16 +112,6 @@ public class Permission implements Serializable {
 		
 		list.add(id);		
 		list.add(name.toString());
-		if(operation != null){
-			list.add(operation.toString());
-		}else{
-			list.add("");
-		}
-		if(resource != null){
-			list.add(resource.toString());
-		}else{
-			list.add("");
-		}
 		 
 		 return list.toArray();
 	}
@@ -134,3 +126,4 @@ public class Permission implements Serializable {
 	}
 
 }
+

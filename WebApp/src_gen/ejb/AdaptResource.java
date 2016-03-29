@@ -17,8 +17,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "Resource")
-public class Resource implements Serializable {  
+@Table(name = "Adapt_Resource")
+public class AdaptResource implements Serializable {  
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +32,13 @@ public class Resource implements Serializable {
 		private String link;
          
     	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "resource")
-  		private Set<Permission> permission = new HashSet<Permission>();
+  		private Set<AdaptPermission> permission = new HashSet<AdaptPermission>();
          
 
-	public Resource(){
+	public AdaptResource(){
 	}
 
-    	public void addPermission(Permission entity) {
+    	public void addPermission(AdaptPermission entity) {
     		if(entity != null) {
     			if(!permission.contains(entity)) {
     				entity.setResource(this);
@@ -47,7 +47,7 @@ public class Resource implements Serializable {
     		}
     	}
     	
-    	public void removePermission(Permission entity) {
+    	public void removePermission(AdaptPermission entity) {
     		if(entity != null) {
     			if(permission.contains(entity)) {
 					entity.setResource(null);
@@ -72,11 +72,11 @@ public class Resource implements Serializable {
            this.link = link;
       }
       
-      public Set<Permission> getPermission(){
+      public Set<AdaptPermission> getPermission(){
            return permission;
       }
       
-      public void setPermission( Set<Permission> permission){
+      public void setPermission( Set<AdaptPermission> permission){
            this.permission = permission;
       }
       
