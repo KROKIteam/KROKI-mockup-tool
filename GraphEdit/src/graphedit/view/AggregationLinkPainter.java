@@ -79,9 +79,11 @@ public class AggregationLinkPainter extends AssociationLinkPainter{
 			drawSourceCardinality=true;
 		}
 		else{
+			
 			path.moveTo(((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getX(),
 					((Point2D)link.getSourceConnector().getProperty(LinkNodeProperties.POSITION)).getY());
 			Point2D[] sourcePoints=Calculate.firstIntersectionSegment(Calculate.SOURCE, link);
+			shape =new GeneralPath();
 			if (sourcePoints!=null){
 				sourceFirstPoint=sourcePoints[0];
 				sourceSecondPoint=sourcePoints[1];
