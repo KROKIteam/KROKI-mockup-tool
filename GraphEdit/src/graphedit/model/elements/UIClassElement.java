@@ -137,9 +137,11 @@ public class UIClassElement extends ClassElement{
 	public void formPanel(String name,String tableName, String label, List<VisibleElement> visibleElements, String stereotype){
 		if (stereotype.equals(ClassStereotypeUI.STANDARD_PANEL.toString())){
 			umlClass = new StandardPanel();
+			this.umlClass = new StandardPanel();
 			StandardPanelUtil.defaultGuiSettings((StandardPanel)umlClass);
-			((StandardPanel) umlClass).getPersistentClass().setName(namer.toCamelCase(name, false).trim());
-			((StandardPanel) visibleClass).getPersistentClass().setTableName(tableName);
+			visibleClass = (VisibleClass)umlClass;
+			((StandardPanel)visibleClass).setLabel((String) element.getProperty(GraphElementProperties.NAME));
+			((StandardPanel) visibleClass).getPersistentClass().setName(namer.toCamelCase((String) element.getProperty(GraphElementProperties.NAME), false).trim());
 		}
 		else if (stereotype.equals(ClassStereotypeUI.PARENT_CHILD.toString())){
 			umlClass = new ParentChild();
@@ -1030,7 +1032,11 @@ public class UIClassElement extends ClassElement{
 
 		String label = visibleClass.getLabel();
 		String name = visibleClass.name();
-		String tableName = ((StandardPanel)visibleClass).getPersistentClass().getTableName();
+		String tableName = null;
+		if (visibleClass instanceof StandardPanel)
+			tableName = ((StandardPanel)visibleClass).getPersistentClass().getTableName();
+		else
+			tableName = null;
 
 		UmlPackage umlPackage = MainFrame.getInstance().getCurrentView().getModel().getParentPackage().getUmlPackage();
 		umlPackage.removeOwnedType(visibleClass);
@@ -1043,6 +1049,8 @@ public class UIClassElement extends ClassElement{
 			propertiesGroup = PARENTCHILD_PANEL_PROPERTIES;
 			operationsGroup = PARENTCHILD_PANEL_OPERATIONS;
 		}
+		
+		
 		formPanel(name, tableName, label, visibleElements, stereotype);
 		umlPackage.addOwnedType(umlClass);
 	}
