@@ -125,8 +125,10 @@ public class ChangeElementCommand extends Command {
 			if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE 
 					|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
 				view.getModel().addLinks(links);
-				view.getModel().addToElementByConnectorStructure(removedMappings);
-				view.addLinkPainters(linkPainters);
+				if (removedMappings != null && removedMappings.size() > 0)
+					view.getModel().addToElementByConnectorStructure(removedMappings);
+				if (linkPainters != null && linkPainters.size() > 0)
+					view.addLinkPainters(linkPainters);
 				Link link;
 				for (int i=0; i<links.size();i++){
 					link = links.get(i);
@@ -134,8 +136,8 @@ public class ChangeElementCommand extends Command {
 					GraphEditElement destinationElement = link.getDestinationConnector().getRepresentedElement();
 					if (MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE 
 							|| MainFrame.getInstance().getAppMode() == ApplicationMode.USER_INTERFACE_MIXED){
-						sourceElement.setOldLink(link, sourceList.get(i));
-						destinationElement.setOldLink(link, destinationList.get(i));
+						sourceElement.setOldLink(link, sourceList.get(i), true);
+						destinationElement.setOldLink(link, destinationList.get(i), false);
 					}
 				}
 			}

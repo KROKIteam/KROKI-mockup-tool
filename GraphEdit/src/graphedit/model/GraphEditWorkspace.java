@@ -71,7 +71,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 	public void setProject(UmlPackage project){
 		packageList.clear();
 		prepareProject(project);
-		
+
 		this.setChanged();
 		this.notifyObservers();
 		MainFrame.getInstance().showDiagram(packageList.get(0).getDiagram());
@@ -86,29 +86,29 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 			loadedElement = (GraphEditPackage) ((BussinesSubsystem) project).getGraphPackage();
 		}
 
-			
-			projectElement = new GraphEditPackage(project, null, loadedElement);
-			if (loadedElement != null)
-				projectElement.setFile(loadedElement.getFile());
 
-			for (GraphEditPackage pack : projectElement.getSubPackages()){
-				pack.generateShortcuts(loadedElement);
-				pack.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
-			}
+		projectElement = new GraphEditPackage(project, null, loadedElement);
+		if (loadedElement != null)
+			projectElement.setFile(loadedElement.getFile());
 
-			projectElement.generateShortcuts(loadedElement);
-			
-			projectElement.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
+		for (GraphEditPackage pack : projectElement.getSubPackages()){
+			pack.generateShortcuts(loadedElement);
+			pack.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
+		}
+
+		projectElement.generateShortcuts(loadedElement);
+
+		projectElement.generateRelationships(projectElement.getSubClassesMap(), loadedElement);
 
 		packageList.add(projectElement);
-		
+
 		//TODO pogledati kada ne treba uopste
 		LayoutStrategy layoutStrategy = LayoutStrategy.TREE;
 		if (loadedElement != null)
 			layoutStrategy = LayoutStrategy.ADDING;
-		
+
 		layoutMap.put(projectElement, layoutStrategy);
-		
+
 	}
 
 	public GraphEditModel getDiagramContainingElement(GraphElement element){
@@ -193,18 +193,18 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
-	  private void sortedInsert(GraphEditPackage newGraphEditPackage){
-			for (int i = 0; i < packageList.size(); i++){
-				GraphEditPackage el =  packageList.get(i);
-				if (((String)el.getProperty(PackageProperties.NAME)).toLowerCase().compareTo(
-						((String)newGraphEditPackage.getProperty(PackageProperties.NAME)).toLowerCase()) > 0){
-					packageList.add(i, newGraphEditPackage);
-					return;
-				}
+
+	private void sortedInsert(GraphEditPackage newGraphEditPackage){
+		for (int i = 0; i < packageList.size(); i++){
+			GraphEditPackage el =  packageList.get(i);
+			if (((String)el.getProperty(PackageProperties.NAME)).toLowerCase().compareTo(
+					((String)newGraphEditPackage.getProperty(PackageProperties.NAME)).toLowerCase()) > 0){
+				packageList.add(i, newGraphEditPackage);
+				return;
 			}
-			packageList.add(newGraphEditPackage);
 		}
+		packageList.add(newGraphEditPackage);
+	}
 
 	public void removeProject(GraphEditPackage oldGraphEditPackage) {
 		if (oldGraphEditPackage == null)
@@ -228,7 +228,7 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
+
 	public GraphEditModel findModelContainingElement(GraphElement element){
 		GraphEditModel diag = null;
 		for (GraphEditPackage graphPackage : packageList){
@@ -245,12 +245,12 @@ public class GraphEditWorkspace extends Observable implements GraphEditTreeNode 
 		LayoutStrategy topStrategy = layoutMap.get(topPackage);
 		if (topStrategy != LayoutStrategy.ADDING)
 			return topStrategy;
-		
+
 		if (pack.isLoaded())
 			return LayoutStrategy.ADDING;
 		return LayoutStrategy.TREE;
 	}
-	
+
 	public Object getProperty(WorkspaceProperties key) {
 		return properties.get(key);
 	}
