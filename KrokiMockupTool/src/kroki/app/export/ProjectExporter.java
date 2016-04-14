@@ -206,11 +206,11 @@ public class ProjectExporter {
 			if(element instanceof VisibleProperty) {
 				VisibleProperty vp = (VisibleProperty) element;
 				
-				EJBAttribute attribute = getVisiblePropertyData(vp, next);//dodao sam null
+				EJBAttribute attribute = getVisiblePropertyData(vp, next);
 				attributes.add(attribute);
 			}else if(element instanceof Zoom) {
 				Zoom z = (Zoom)element;
-				EJBAttribute attribute = getZoomData(z, sp.getPersistentClass().name(), next);//dodao sam null
+				EJBAttribute attribute = getZoomData(z, sp.getPersistentClass().name(), next);
 				if(attribute != null) {
 					attributes.add(attribute);
 				}else {
@@ -356,7 +356,6 @@ public class ProjectExporter {
 		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false)");
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(),
 				enumeration, visible, readOnly,autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), wrap, positionX, positionY);
-//Dodao sam dva null na kraju
 		return attribute;
 	}
 

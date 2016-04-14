@@ -165,7 +165,10 @@ public class InputPanel extends JPanel {
 			}
 		} else {
 			try {
-				
+				addComponentToPanelTwo(colAttr, null, counter);
+				add(panelTwo);
+				setCurrentComponentsLength();
+				counter++;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
