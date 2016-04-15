@@ -57,10 +57,11 @@ public class InputPanel extends JPanel {
 	private JButton btnCommit;
 	private JButton btnCancel;
 	private JButton btnStartSearch;
-	int maxRowLength = 0;
-	int currentRowLength;
-	int numOfRows = 0;
-
+	private int maxX = 0, maxY = 0;
+	private JPanel freeLayoutPanel;
+	private int longestRow = 0;
+	private int currentRow = 0;
+	private int numberOfRows = 0;
 	public InputPanel(SPanel panel) {
 		if (panel == null)
 			return;
@@ -92,9 +93,6 @@ public class InputPanel extends JPanel {
 			setLayout(new MigLayout("", "[0:0, grow 100]", ""));
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-		int width = (int) getSize().getWidth();
-		int cuuretRowWidth = 0;
-		//TODO
 
 		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
 
@@ -106,12 +104,18 @@ public class InputPanel extends JPanel {
 			} 	
 		}
 
+
+		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
+		if (layout == Layout.FREE){
+			freeLayoutPanel = new JPanel();
+			freeLayoutPanel.setLayout(null);
+		}
+
 		for (int i = 0; i < attributes.size(); i++) {
 
 			panelTwo = new JPanel(new MigLayout());
 			panelTwo.setBackground(new Color(attributes.get(i).getBackgroundRGB(), true));
 
-			int panelWidth = (int) panelTwo.getSize().getWidth();
 
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
@@ -121,7 +125,17 @@ public class InputPanel extends JPanel {
 				createComponent((JoinColumnAttribute) attributes.get(i),  lastVisible == attributes.get(i));
 			}
 		}
-		add(panelHorizontal);
+
+
+		if (layout == Layout.FREE){
+			freeLayoutPanel.setMinimumSize(new Dimension(maxX + 40, maxY));
+			setMinimumSize(new Dimension(maxX + 50, maxY + 60));
+			add(freeLayoutPanel, "grow, wrap");
+		}
+		else if (layout == Layout.HORIZONTAL){
+			setMinimumSize(new Dimension(longestRow + 60, numberOfRows * 40 + 80));
+		}
+		add(panelHorizontal, "wrap");
 		addCommitPanel();
 		setDerivedFormulas();
 	}
@@ -140,16 +154,19 @@ public class InputPanel extends JPanel {
 			try {
 				addComponentToPanelTwo(colAttr, null, counter);
 				add(panelTwo, "wrap, span");
-				setCurrentComponentsLength();
-				counter++;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else if(layout == Layout.HORIZONTAL) {
 			try {
 				String migConstant = "";
-				if(colAttr.getWrap() || lastVisible)
+				if(colAttr.getWrap() || lastVisible){
 					migConstant = "wrap";
+					if (currentRow > longestRow)
+						longestRow = currentRow;
+					currentRow = 0;
+					numberOfRows++;
+				}
 
 				addComponentToPanelTwo(colAttr, null, counter);
 
@@ -157,8 +174,7 @@ public class InputPanel extends JPanel {
 					panelHorizontal.add(panelTwo);
 				else{
 					add(panelTwo, migConstant);
-					setCurrentComponentsLength();
-					counter++;
+					currentRow += panelTwo.getPreferredSize().getWidth();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -166,9 +182,20 @@ public class InputPanel extends JPanel {
 		} else {
 			try {
 				addComponentToPanelTwo(colAttr, null, counter);
-				add(panelTwo);
-				setCurrentComponentsLength();
-				counter++;
+				if (colAttr.getVisible()){
+					int xPosition = colAttr.getPositionX();
+					int yPosition = colAttr.getPositionY();
+					int length = colAttr.getLength();
+					int height = 30;
+					if (xPosition + length > maxX)
+						maxX = xPosition + length;
+					if (yPosition + height > maxY)
+						maxY = yPosition + height;
+
+					panelTwo.setLocation(xPosition, yPosition);
+					panelTwo.setSize(length,height);
+					freeLayoutPanel.add(panelTwo);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -200,7 +227,6 @@ public class InputPanel extends JPanel {
 									panelComponents.get(counter - 1), comp));
 					comp.setEnabled(false);
 				}
-				setCurrentComponentsLength();
 				counter++;
 			} catch (ComponentCreationException e) {
 				e.printStackTrace();
@@ -270,22 +296,12 @@ public class InputPanel extends JPanel {
 				component.setMaximumSize(new Dimension(0, 0));
 				panelTwo.setMaximumSize(new Dimension(0, 0));
 			}
-			setCurrentComponentsLength();
 			return component;
 		} catch (Exception e) {
 			throw new ComponentCreationException("Couldn't create component");
 		}
 	}
 
-	private void setCurrentComponentsLength() {
-		componentsLength += panelLayout.preferredLayoutSize(panelTwo)
-				.getWidth();
-		if (componentsLength > width) {
-			rowNumber++;
-			componentsLength = panelLayout.preferredLayoutSize(panelTwo)
-					.getWidth();
-		}
-	}
 
 	public JComponent setUpComponent(ColumnAttribute colAttr,
 			JoinColumnAttribute joinColAttr) {
@@ -399,7 +415,7 @@ public class InputPanel extends JPanel {
 		jp.add(btnCommit);
 		jp.add(btnCancel);
 		jp.add(btnStartSearch);
-		add(jp, "span");
+		add(jp, "gapx 20px");
 	}
 
 	public List<JComponent> getPanelComponents() {
