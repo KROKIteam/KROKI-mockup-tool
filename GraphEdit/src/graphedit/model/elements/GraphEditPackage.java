@@ -187,7 +187,6 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		return null;
 	}
 
-
 	private void generateClasses(GraphEditPackage loadedElement){
 
 		if (umlPackage.ownedType().size()>0){
@@ -283,6 +282,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		return null;
 	}
 
+
 	public void generateRelationships(Map<VisibleClass, UIClassElement> allElementsMap,
 			GraphEditPackage loadedElement){
 
@@ -290,7 +290,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 		for (VisibleClass visibleClass :  classElementsByVisibleClassesMap.keySet()){
 			UIClassElement loadedClass = savedClass(visibleClass, loadedElement);
-
+			
 			for (Zoom zoom : VisibleClassUtil.containedZooms(visibleClass)){
 
 
@@ -302,7 +302,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				if (targetElement == null)
 					continue;
 				UIClassElement thisElement = allElementsMap.get(visibleClass);
-
+				
+				
 				Link loadedLink = savedLink(zoom, loadedClass);
 				LinkableElement sourceElement = null;
 				LinkableElement destinationElement = null;
@@ -408,7 +409,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 					c1 = loadedLink.getSourceConnector();
 					c2 = loadedLink.getDestinationConnector();
-					
+
 
 					Point2D loadedSourcePosition = (Point2D) loadedLink.getSourceConnector().getProperty(LinkNodeProperties.POSITION);
 					Point2D sourcePosition = new Point2D.Double(loadedSourcePosition.getX(), loadedSourcePosition.getY());
@@ -417,11 +418,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 					ArrayList<LinkNode> loadedNodes = new ArrayList<LinkNode>();
 					loadedNodes.addAll(loadedLink.getNodes());
-					
+
 					boolean showSourceRole = true;
 					if (loadedLink.getProperty(LinkProperties.SHOW_SOURCE_ROLE) != null)
 						showSourceRole = (Boolean) loadedLink.getProperty(LinkProperties.SHOW_SOURCE_ROLE);
-					
+
 					boolean showDestinationRole = true;
 					if (loadedLink.getProperty(LinkProperties.SHOW_DESTINATION_ROLE) != null)
 						showDestinationRole = (Boolean) loadedLink.getProperty(LinkProperties.SHOW_DESTINATION_ROLE);
@@ -460,8 +461,6 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 					link.setProperty(LinkProperties.STEREOTYPE, loadedLink.getProperty(LinkProperties.STEREOTYPE));
 				}
 
-
-
 				link.setProperty(LinkProperties.STEREOTYPE, "zoom");
 
 				c2.setRepresentedElement(thisElement);
@@ -477,10 +476,11 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				sourceElement.addConnectors(link.getSourceConnector());
 				destinationElement.addConnectors(link.getDestinationConnector());
 
-
 				diagram.insertIntoElementByConnectorStructure(link.getSourceConnector(), sourceElement);
 				diagram.insertIntoElementByConnectorStructure(link.getDestinationConnector(), destinationElement);
 				diagram.addLink(link);
+
+				//check connectors, are they inside the element (bugfix)
 
 
 			}
@@ -611,8 +611,6 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				c2.setLink(link);
 				thisElement.getHierarchyMap().put(c1, new HierarchyElement(hierarchy, classIndex, groupIndex));
 
-
-
 				sourceElement.addConnectors(link.getSourceConnector());
 				destinationElement.addConnectors(link.getDestinationConnector());
 
@@ -697,6 +695,7 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 		return diag;
 	}
+
 
 	//**********************************************************************
 	/*

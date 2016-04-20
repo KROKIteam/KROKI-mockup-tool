@@ -48,10 +48,11 @@ public class AddingLayouter extends AbstractLayouter{
 				Dimension loadedDim = element.getLoadedDimension();
 				if (loadedDim != null){
 					Dimension setDim = (Dimension) element.getProperty(GraphElementProperties.SIZE);
-					if (loadedDim.getHeight() >= setDim.getHeight() && loadedDim.getWidth() >= setDim.getWidth()){
-						element.setProperty(GraphElementProperties.SIZE, loadedDim);
-						view.getElementPainter(element).formShape();
-					}
+					int width = (int) (setDim.getWidth() > loadedDim.getWidth() ? setDim.getWidth() : loadedDim.getWidth());
+					int height = (int) (setDim.getHeight() > loadedDim.getHeight() ? setDim.getHeight() : loadedDim.getHeight());
+					setDim.setSize(width, height);
+						//element.setProperty(GraphElementProperties.SIZE, loadedDim);
+					view.getElementPainter(element).formShape();
 				}
 				
 				for (Connector conn : ((LinkableElement)element).getConnectors()){
