@@ -17,14 +17,14 @@ public class NamingUtil {
 		if(!s.equals("")) {
 			s = s.replace('ž', 'z');
 			s = s.replace('Ž', 'z');
-			s = s.replace('ć', 'c');
-			s = s.replace('Ć', 'c');
-			s = s.replace('č', 'c');
 			s = s.replace('Č', 'c');
-			s = s.replace('š', 's');
+			s = s.replace('č', 'c');
+			s = s.replace('Ć', 'c');
+			s = s.replace('ć', 'c');
 			s = s.replace('Š', 's');
-			s = s.replaceAll("đ", "dj");
+			s = s.replace('š', 's');
 			s = s.replaceAll("Đ", "dj");
+			s = s.replaceAll("đ", "dj");
 		    
 			String sb = toCamelCaseIE(s, cap);
 		    if(cap) {
@@ -68,7 +68,7 @@ public class NamingUtil {
 	}
 	
 	/**
-	 * Converts given string to camel case while preserving Serbian unique letters (Ž,Č,Ć,Đ,Š).
+	 * Converts given string to camel case while preserving Serbian unique letters (Å½,ÄŒ,Ä†,Ä�,Å ).
 	 * Used to generate camel case names for elements of UML diagrams during import and export functions.
 	 * @param s    String to be converted
 	 * @param cap  Indicates if converted string should be capitalized (methods and properties names) or not (class names).

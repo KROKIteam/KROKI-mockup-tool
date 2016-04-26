@@ -126,6 +126,7 @@ public class ClassElementDialog extends JDialog{
 		lowerPanel.add(btnOk);
 		lowerPanel.add(btnCancel);
 		add(lowerPanel, "span 2, right");
+		pack();
 	}
 
 	public String getName(){

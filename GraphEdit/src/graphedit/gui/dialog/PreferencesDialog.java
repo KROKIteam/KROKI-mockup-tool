@@ -38,6 +38,7 @@ public class PreferencesDialog extends JDialog {
 		setResizable(false);
 		guiInit();
 		actionInit();
+		pack();
 	}
 	
 	private void guiInit() {

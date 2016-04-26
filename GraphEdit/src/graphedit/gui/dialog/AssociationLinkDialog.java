@@ -245,7 +245,7 @@ public class AssociationLinkDialog extends JDialog{
 		lowerPanel.add(btnCancel);
 
 		add(lowerPanel,BorderLayout.SOUTH);
-
+		pack();
 	}
 
 	public String getSourceCardinality() {

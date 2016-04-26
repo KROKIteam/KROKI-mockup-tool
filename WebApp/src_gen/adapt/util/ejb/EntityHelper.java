@@ -37,8 +37,11 @@ public class EntityHelper {
 		while (it.hasNext()) {
 			attr = it.next();
 			if (attr instanceof JoinColumnAttribute) {
+				System.out.println("ATTR: " + attr.getLabel() + " | " + attr.getName() + " | " + attr.getFieldName() + "[" + fieldName + "]");
 				//TODO compare actual field name, not label
-				if (((JoinColumnAttribute) attr).getLabel().equals(fieldName)) {
+				String label = attr.getLabel();
+				String labelNoSpace = attr.getLabel().replace(" ", "_");
+				if (label.equals(fieldName) || labelNoSpace.equals(fieldName)) {
 					return (JoinColumnAttribute) attr;
 				}
 			}

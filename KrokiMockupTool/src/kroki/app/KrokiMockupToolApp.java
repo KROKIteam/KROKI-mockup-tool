@@ -6,14 +6,11 @@ import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
-
-import com.alee.laf.WebLookAndFeel;
 
 import kroki.app.controller.TabbedPaneController;
 import kroki.app.controller.TreeController;

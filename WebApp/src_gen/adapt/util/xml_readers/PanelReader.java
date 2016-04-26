@@ -75,10 +75,9 @@ public class PanelReader {
 	 * Load panel data from XML file based on panel ID
 	 */
 	public static AdaptPanel loadPanel(String panelId, PanelType type, String openedId, OpenedAs openedAs) {
-		System.out.println(logPrefix + " Loading data for: " + panelId);
+//		System.out.println(logPrefix + " Loading data for: " + panelId);
 		AdaptPanel panel = AppCache.getInstance().getPanelByName(panelId);
 		if(panel != null) {
-			System.out.println("NASAO PANEL");
 			return panel;
 		}else {
 			try {
