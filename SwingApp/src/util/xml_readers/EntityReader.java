@@ -181,10 +181,6 @@ public class EntityReader {
 			ca.setDefaultValue(ConverterUtil.convert(defaultValue, ca));
 		}
 		
-		//TODO ucitati length i wrap
-		//prosiriti column attribute (i join collumn)
-		//iskoristiti u input panelu za postavljanje velicine paneluTwo
-		
 		String wrapStr = elem.getAttribute("wrap");
 		if (wrapStr != null && (wrapStr.equals("true") || wrapStr.equals("false"))) {
 			Boolean wrapCa = new Boolean(wrapStr);

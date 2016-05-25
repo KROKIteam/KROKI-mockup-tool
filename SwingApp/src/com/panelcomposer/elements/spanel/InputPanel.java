@@ -93,7 +93,6 @@ public class InputPanel extends JPanel {
 			setLayout(new MigLayout("", "[0:0, grow 100]", ""));
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-
 		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
 
 		AbsAttribute lastVisible = null;
@@ -103,7 +102,6 @@ public class InputPanel extends JPanel {
 				break;
 			} 	
 		}
-
 
 		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
 		if (layout == Layout.FREE){
@@ -116,7 +114,6 @@ public class InputPanel extends JPanel {
 			panelTwo = new JPanel(new MigLayout());
 			panelTwo.setBackground(new Color(attributes.get(i).getBackgroundRGB(), true));
 
-
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
 				createComponent((ColumnAttribute) attributes.get(i), lastVisible == attributes.get(i));
@@ -125,7 +122,6 @@ public class InputPanel extends JPanel {
 				createComponent((JoinColumnAttribute) attributes.get(i),  lastVisible == attributes.get(i));
 			}
 		}
-
 
 		if (layout == Layout.FREE){
 			freeLayoutPanel.setMinimumSize(new Dimension(maxX + 40, maxY));
@@ -236,7 +232,6 @@ public class InputPanel extends JPanel {
 		String migConstant = "";
 		if(joinColAttr.getWrap() || lastVisible)
 			migConstant = "wrap";
-
 
 		add(panelTwo, migConstant);
 		rowNumber++;

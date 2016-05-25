@@ -186,17 +186,6 @@ public class ProjectExporter {
 		//DATA USED FOR EJB CLASS GENERATION
 		//for each panel element, one EJB attribute object is created and added to attributes list for that panel
 		
-		//TODO
-		//staviti wrap atribut - da li da se predje u novi red nakon
-		//ove komponente (pod uslovom da je horizontalni layout)
-		//Pogledati pozicije komponente - imamo metode getRelativePosition
-		//i getAbsolutePosition
-		//snimiti te apsolutne pozicije za free layout
-		//za horizontalni pogledati da li se menja y koordinata nakon
-		//tekuce komponente - da li je sledeca u novom redu
-		//i tako postaviti wrap
-		
-		
 		for (int i = 0; i < sp.getVisibleElementNum(); i++){
 			VisibleElement element = sp.getVisibleElementList().get(i); 
 			VisibleElement next = null;
@@ -355,7 +344,7 @@ public class ProjectExporter {
 		
 		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false)");
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, true, false, vp.isRepresentative(),
-				enumeration, visible, readOnly,autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), wrap, positionX, positionY);
+				enumeration, visible, readOnly, autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), wrap, positionX, positionY);
 		return attribute;
 	}
 
