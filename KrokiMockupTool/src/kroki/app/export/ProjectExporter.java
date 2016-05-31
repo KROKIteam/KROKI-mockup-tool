@@ -1,5 +1,6 @@
 package kroki.app.export;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +32,7 @@ import kroki.app.gui.console.OutputPanel;
 import kroki.app.menu.MenuItem;
 import kroki.app.utils.RunAnt;
 import kroki.commons.camelcase.NamingUtil;
+import kroki.mockup.model.Component;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;
@@ -103,8 +105,8 @@ public class ProjectExporter {
 	}
 
 	/**
-	 * Generates code and applicaion repository from the Kroki project and
-	 * builds the exported application All other exprot methods are called from
+	 * Generates code and application repository from the Kroki project and
+	 * builds the exported application All other export methods are called from
 	 * this point
 	 * 
 	 * @param file
@@ -261,10 +263,17 @@ public class ProjectExporter {
 		// DATA USED FOR EJB CLASS GENERATION
 		// for each panel element, one EJB attribute object is created and added
 		// to attributes list for that panel
-		for (VisibleElement element : sp.getVisibleElementList()) {
+		for (int i = 0; i < sp.getVisibleElementNum(); i++){
+			VisibleElement element = sp.getVisibleElementList().get(i); 
+			VisibleElement next = null;
+			if (i < sp.getVisibleElementNum() - 1)
+				next = sp.getVisibleElementList().get(i + 1); 
+			
 			if (element instanceof VisibleProperty) {
+		
 				VisibleProperty vp = (VisibleProperty) element;
-				EJBAttribute attribute = getVisiblePropertyData(vp);
+				
+				EJBAttribute attribute = getVisiblePropertyData(vp, next);
 				attributes.add(attribute);
 				if (element instanceof Calculated) {
 					String expression = ((Calculated) element).getExpression();
@@ -274,10 +283,10 @@ public class ProjectExporter {
 						e.printStackTrace();
 					}
 				}
-			} else if (element instanceof Zoom) {
-				Zoom z = (Zoom) element;
+			}else if(element instanceof Zoom) {
+				Zoom z = (Zoom)element;
 				EJBAttribute attribute = getZoomData(z, sp.getPersistentClass().name());
-				if (attribute != null) {
+				if(attribute != null) {
 					attributes.add(attribute);
 				} else {
 					KrokiMockupToolApp.getInstance().displayTextOutput("Target panel not set for combozoom '"
@@ -412,7 +421,7 @@ public class ProjectExporter {
 	 * @param vp
 	 * @return
 	 */
-	public EJBAttribute getVisiblePropertyData(VisibleProperty vp) {
+	public EJBAttribute getVisiblePropertyData(VisibleProperty vp, VisibleElement next) {
 		String type = "java.lang.String";
 		Enumeration enumeration = null;
 		if (vp.getComponentType() == ComponentType.TEXT_FIELD) {
@@ -426,7 +435,9 @@ public class ProjectExporter {
 		} else if (vp.getComponentType() == ComponentType.CHECK_BOX) {
 			type = "java.lang.Boolean";
 		} else if (vp.getComponentType() == ComponentType.COMBO_BOX) {
-			// DATA USED FOR ENUMERATION GENERATION
+;
+		}else if (vp.getComponentType() == ComponentType.COMBO_BOX) {
+			//   DATA USED FOR ENUMERATION GENERATION    
 			String enumName = cc.toCamelCase(vp.getLabel(), false);
 			enumName += cc.toCamelCase(vp.umlClass().name(), false) + "Enum";
 			String enumClass = vp.umlClass().name();
@@ -466,8 +477,28 @@ public class ProjectExporter {
 		}
 		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false " + lenPrecAnnotation
 				+ ",columnDefinition = \"" + vp.getPersistentType().toUpperCase() + "\")");
-		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true,
-				false, vp.isRepresentative(), enumeration);
+		
+		//getting visible, foreground and background color
+		boolean visible = vp.isVisible();
+		boolean readOnly = vp.isReadOnly();
+		Color foregroundColor = vp.getComponent().getFgColor();
+		int foregroundRGB = foregroundColor.getRGB();
+		Color backgroundColor = vp.getComponent().getBgColor();
+		int backgroundRGB = backgroundColor.getRGB();
+		boolean autoGo = vp.isAutoGo();
+		
+		Component component = vp.getComponent();
+		int positionX = (int) component.getRelativePosition().getX();
+		int positionY = (int) component.getRelativePosition().getY();
+		
+		Boolean wrap = false;
+		if (next != null){
+			Component nextComponent = next.getComponent();
+			wrap = nextComponent.getRelativePosition().getY() != positionY;
+		}
+		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true, false, vp.isRepresentative(),
+				enumeration, visible, readOnly, autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), wrap, positionX, positionY);
+		
 		return attribute;
 	}
 
@@ -503,9 +534,9 @@ public class ProjectExporter {
 
 				// Length and precision for zoom fields are left 0, which
 				// indicates they are ignored on the template
-				EJBAttribute attribute = new EJBAttribute(anotations, type, propName, label, databaseName, 0, 0,
-						mandatory, false, false, null);
+				EJBAttribute attribute = new EJBAttribute(anotations, type, propName, label, databaseName, 0, 0, mandatory, false, false, null);
 				return attribute;
+
 			} else {
 				return null;
 			}
@@ -584,8 +615,7 @@ public class ProjectExporter {
 						annotations.add("@OneToMany(cascade = { ALL }, fetch = FetchType.LAZY, mappedBy = \"" + mappedBy
 								+ "\")");
 
-						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, 0, 0, true, false,
-								false, null);
+						EJBAttribute attr = new EJBAttribute(annotations, type, name, label, name, 0, 0, true, false, false, null);
 						oppositeCLass.getAttributes().add(attr);
 
 						KrokiMockupToolApp.getInstance().displayTextOutput("[PROJECT EXPORTER] Adding refference: "
@@ -749,20 +779,17 @@ public class ProjectExporter {
 
 	/**
 	 * Adds default data for SWING application
-	 * 
 	 * @param proj
 	 */
 	public void addDefaultSwingData(BussinesSubsystem proj) {
-		// Add User class to classes list
+		//Add User class to classes list
 		ArrayList<String> usernameAnnotations = new ArrayList<String>();
 		usernameAnnotations.add("@Column(name = \"username\", unique = false, nullable = false)");
-		EJBAttribute usernameAttribute = new EJBAttribute(usernameAnnotations, "java.lang.String", "username",
-				"User name", "username", 20, 0, true, false, true, null);
+		EJBAttribute usernameAttribute = new EJBAttribute(usernameAnnotations, "java.lang.String", "username", "User name", "username", 20, 0, true, false, true, null);
 
 		ArrayList<String> passwordAnnotations = new ArrayList<String>();
 		passwordAnnotations.add("@Column(name = \"password\", unique = false, nullable = false)");
-		EJBAttribute passwordAttribute = new EJBAttribute(passwordAnnotations, "java.lang.String", "password",
-				"Password", "password", 20, 0, true, false, false, null);
+		EJBAttribute passwordAttribute = new EJBAttribute(passwordAnnotations, "java.lang.String", "password", "Password", "password", 20, 0, true, false, false, null);
 
 		String userTableName = cc.toDatabaseFormat(proj.getLabel(), "User");
 		ArrayList<EJBAttribute> userAttributes = new ArrayList<EJBAttribute>();
@@ -772,28 +799,29 @@ public class ProjectExporter {
 		EJBClass user = new EJBClass("ejb", "default", "User", userTableName, "User", userAttributes);
 		classes.add(user);
 
-		// add default enumerations
-		// OpenedAs
-		Enumeration openedAsEnum = new Enumeration("OpenedAs", "Opened as", null, null,
-				new String[] { "DEFAULT", "ZOOM", "NEXT" });
-		// OperationType
-		Enumeration operationTypeEnum = new Enumeration("OperationType", "Operation type", null, null,
-				new String[] { "BussinesTransaction", "ViewReport", "JavaOperation" });
-		// PanelType
-		Enumeration panelTypeEnum = new Enumeration("PanelType", "Panel type", null, null,
-				new String[] { "StandardPanel", "ParentChildPanel", "ManyToManyPanel" });
-		// StateMode
-		Enumeration stateModeEnum = new Enumeration("StateMode", "State mode", null, null,
-				new String[] { "UPDATE", "ADD", "SEARCH" });
-		// ViewMode
-		Enumeration viewModeEnum = new Enumeration("ViewMode", "View mode", null, null,
-				new String[] { "TABLEVIEW", "INPUTPANELVIEW" });
+		//add default enumerations
+		//OpenedAs
+		Enumeration openedAsEnum = new Enumeration("OpenedAs", "Opened as", null, null, new String[]{"DEFAULT", "ZOOM", "NEXT"});
+		//OperationType
+		Enumeration operationTypeEnum = new Enumeration("OperationType", "Operation type", null, null, new String[]{"BussinesTransaction", "ViewReport", "JavaOperation"});
+		//PanelType
+		Enumeration panelTypeEnum = new Enumeration("PanelType", "Panel type", null, null, new String[]{"StandardPanel", "ParentChildPanel", "ManyToManyPanel"});
+		//StateMode
+		Enumeration stateModeEnum = new Enumeration("StateMode", "State mode", null, null, new String[]{"UPDATE", "ADD", "SEARCH"});
+		//ViewMode
+		Enumeration viewModeEnum = new Enumeration("ViewMode", "View mode", null, null, new String[]{"TABLEVIEW", "INPUTPANELVIEW"});
+		//Layout
+		Enumeration layoutEnum = new Enumeration("Layout", "Layout", null, null, new String[]{"VERTICAL", "HORIZONTAL", "FREE"});
+		//Align
+		Enumeration alignEnum = new Enumeration("Align", "Align", null, null, new String[]{"LEFT", "CENTER", "RIGHT"});
 
 		enumerations.add(openedAsEnum);
 		enumerations.add(operationTypeEnum);
 		enumerations.add(panelTypeEnum);
 		enumerations.add(stateModeEnum);
 		enumerations.add(viewModeEnum);
+		enumerations.add(layoutEnum);
+		enumerations.add(alignEnum);
 	}
 
 	/**

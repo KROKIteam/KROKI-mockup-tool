@@ -39,7 +39,7 @@ public class KrokiMockupToolApp {
 	private GuiManager guiManager;
 
 	private static KrokiMockupToolSplashScreen splash = new KrokiMockupToolSplashScreen();;
-	private boolean binaryRun = false;
+	private boolean binaryRun = true;
 
 	@SuppressWarnings("serial")
 	public KrokiMockupToolApp() {

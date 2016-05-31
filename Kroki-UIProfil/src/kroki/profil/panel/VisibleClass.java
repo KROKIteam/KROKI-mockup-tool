@@ -8,6 +8,8 @@ import kroki.profil.BusinessProcessModelingSubject;
 import kroki.profil.ComponentType;
 import kroki.profil.VisibleElement;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.ComponentAlign;
+import kroki.profil.utils.ComponentOrientation;
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlPackage;
@@ -30,6 +32,9 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 	protected UmlPackage umlPackage;
 	//Component counter map used for incremental component naming
 	protected HashMap<ComponentType, Integer> componentCounts;
+	
+	protected ComponentOrientation orientation;
+    protected ComponentAlign align;
 
 	/*****************/
 	/*Constructors   */
@@ -38,18 +43,24 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 		super();
 		this.modal = modal;
 		componentCounts = new HashMap<ComponentType, Integer>();
+		orientation = ComponentOrientation.ORIENTATION_VERTICAL;
+        align = ComponentAlign.ALIGN_LEFT;
 	}
 
 	public VisibleClass(String label, boolean visible, ComponentType componentType, boolean modal) {
 		super(label, visible, componentType);
 		this.modal = modal;
 		componentCounts = new HashMap<ComponentType, Integer>();
+		orientation = ComponentOrientation.ORIENTATION_VERTICAL;
+        align = ComponentAlign.ALIGN_LEFT;
 	}
 
 	public VisibleClass() {
 		super();
 		this.modal = true;
 		componentCounts = new HashMap<ComponentType, Integer>();
+		orientation = ComponentOrientation.ORIENTATION_VERTICAL;
+        align = ComponentAlign.ALIGN_LEFT;
 	}
 
 
@@ -148,5 +159,21 @@ public class VisibleClass extends BusinessProcessModelingSubject implements UmlC
 
 	public HashMap<ComponentType, Integer> getComponentCounts() {
 		return componentCounts;
+	}
+
+	public ComponentOrientation getOrientation() {
+		return orientation;
+	}
+
+	public void setOrientation(ComponentOrientation orientation) {
+		this.orientation = orientation;
+	}
+
+	public ComponentAlign getAlign() {
+		return align;
+	}
+
+	public void setAlign(ComponentAlign align) {
+		this.align = align;
 	}
 }

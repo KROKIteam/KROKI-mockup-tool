@@ -1,16 +1,11 @@
 package com.panelcomposer.elements;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
 import net.miginfocom.swing.MigLayout;
@@ -37,10 +32,6 @@ public class SForm extends JDialog {
 	 * Model describing the panel
 	 */
 	protected MPanel mpanel;
-	/***
-	 * Panel for layouting and containing other panels on form.
-	 */
-	protected JPanel pane;
 	/***
 	 * Panels that are on added to the form.
 	 */
@@ -108,41 +99,15 @@ public class SForm extends JDialog {
 			JOptionPane.showMessageDialog(this, Messages.LOOK_AND_FEEL,
 					Messages.ERROR, JOptionPane.INFORMATION_MESSAGE);
 		}
-		MigLayout layout = new MigLayout("", "[0:0,grow 100,fill][pref!]",
-				"[]0[]");
-		pane = new JPanel(layout);
+		
+		MigLayout layout = new MigLayout("fill");
 		setLayout(layout);
-		JScrollPane scrollPane = new JScrollPane(pane);
-		scrollPane
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		add(scrollPane, "span, wrap");
-		pseudoMaximize();
-		pack();
-	}
-
-	/**
-	 * Maximizes the form
-	 */
-	public void pseudoMaximize() {
-		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension ownerSize = getOwner().getPreferredSize();
-		Point ownerLocation = getOwner().getLocation();
-		if (getOwner().getName().equals("MainForm")) {
-			ownerSize.setSize(0.95d * ownerSize.getWidth(),
-					0.95d * ownerSize.getHeight());
-		}
-		this.setBounds((int) ownerLocation.getX(), (int) ownerLocation.getY(),
-				(int) ownerSize.getWidth(), (int) ownerSize.getHeight());
-		this.setPreferredSize(ownerSize);
-		//this.setPreferredSize(size);
-		this.setPreferredSize(new Dimension(1200, 700));
-		//this.setLocationRelativeTo(null);
+		this.setLocationRelativeTo(null);
+		//setResizable(false);
 	}
 
 	public void addToPane(JComponent component) {
-		pane.add(component, "span, wrap");
+		add(component, "grow");
 	}
 
 	public MPanel getMpanel() {

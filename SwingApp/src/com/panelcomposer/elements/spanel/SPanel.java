@@ -50,6 +50,7 @@ public class SPanel extends JPanel implements ObserverPanel {
 	private JPanel cardPanel = new JPanel();
 	private CardLayout cardLayout = new CardLayout();
 	private LockableUI lockableUI = new LockableUI();
+	private MigLayout migLayout = new MigLayout();
 
 	/***
 	 * Model for standard panel
@@ -80,16 +81,16 @@ public class SPanel extends JPanel implements ObserverPanel {
 	public void init() {
 		getModelPanel().getPanelSettings().setStateMode(StateMode.ADD);
 		setLayout(new MigLayout("", "[0:0,grow 100,fill][pref!]", "[]0[]"));
-
+		
 		JPanel panelContainer = new JPanel();
 		panelContainer.setLayout(new MigLayout());
 
 		cardPanel = new JPanel(cardLayout);
+		//cardPanel = new JPanel(new MigLayout("", "[0:0,grow 100,fill][pref!]", "[]0[]"));
 		addToolBar();
 		addPanelAndTable();
-		cardPanel.setPreferredSize(getTable().getScrollPane()
-				.getPreferredSize());
-
+		cardPanel.setPreferredSize(getTable().getScrollPane().getPreferredSize());
+		
 		OperationsPanel op = new OperationsPanel(this);
 		if (modelPanel.getStandardOperations().hasAllowedOperations()) {
 			panelContainer.add(cardPanel, "id cardPanel, pos 0 0 80% 100%");
@@ -101,8 +102,7 @@ public class SPanel extends JPanel implements ObserverPanel {
 		ColorConvertOp grayScale = new ColorConvertOp(
 				ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
 		BufferedImageOpEffect effect = new BufferedImageOpEffect(grayScale);
-		JXLayer<JComponent> layer = new JXLayer<JComponent>(panelContainer,
-				lockableUI);
+		JXLayer<JComponent> layer = new JXLayer<JComponent>(panelContainer, lockableUI);
 		lockableUI.setLockedEffects(effect);
 		lockableUI.setLocked(false);
 		add(layer, "span, wrap");
@@ -336,6 +336,14 @@ public class SPanel extends JPanel implements ObserverPanel {
 
 	public void setOwnerPanel(SPanel ownerPanel) {
 		this.ownerPanel = ownerPanel;
+	}
+
+	public MigLayout getMigLayout() {
+		return migLayout;
+	}
+
+	public void setMigLayout(MigLayout migLayout) {
+		this.migLayout = migLayout;
 	}
 
 }

@@ -106,5 +106,6 @@
 	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.language.ocl.semantics_3.1.0.201101171054.jar"/>
 	<classpathentry kind="lib" path="lib/org.kiama.attribution_3.1.0.201101171054.jar"/>
 	<classpathentry kind="lib" path="lib/tudresden.ocl20.pivot.pivotmodel.semantics_3.1.0.201101171054.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

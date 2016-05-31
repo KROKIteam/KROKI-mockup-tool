@@ -14,10 +14,11 @@ import util.EntityHelper;
 import util.TypesConverterFromXML;
 import util.resolvers.PanelTypeResolver;
 import util.staticnames.ReadersPathConst;
-import util.staticnames.Tags;
 
 import com.panelcomposer.converters.ConverterUtil;
 import com.panelcomposer.core.AppCache;
+import com.panelcomposer.enumerations.Align;
+import com.panelcomposer.enumerations.Layout;
 import com.panelcomposer.enumerations.OpenedAs;
 import com.panelcomposer.enumerations.OperationType;
 import com.panelcomposer.enumerations.PanelType;
@@ -54,12 +55,12 @@ public class PanelReader {
 			String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
 			System.out.println("PANEL READER PANEL MAP: " + appPath + modelDir + File.separator + panelDir + File.separator + panelsMapFile);
 			Document doc = XMLUtil.getDocumentFromXML(appPath + modelDir + File.separator + panelDir + File.separator + panelsMapFile, null);
-			NodeList nodeLst = doc.getElementsByTagName(Tags.PANEL);
+			NodeList nodeLst = doc.getElementsByTagName("panel");
 			System.out.println("PANELS: " + doc.getDocumentURI());
 			for (int i = 0; i < nodeLst.getLength(); i++) {
 				Element elem = (Element) nodeLst.item(i);
-				String id = elem.getAttribute(Tags.ID);
-				String className = elem.getAttribute(Tags.EJB_REF);
+				String id = elem.getAttribute("id");
+				String className = elem.getAttribute("ejb-ref");
 				AppCache.getInstance().addToCachePanelClassMap(className, id);
 			}
 		} catch (Exception e) {
@@ -111,13 +112,13 @@ public class PanelReader {
 	}
 
 	private static MStandardPanel findStandardPanel(Document doc, String panelId) {
-		NodeList nodeLst = doc.getElementsByTagName(Tags.STANDARD_PANEL);
+		NodeList nodeLst = doc.getElementsByTagName("standard-panel");
 		String id = null;
 		for (int i = 0; i < nodeLst.getLength(); i++) {
 			Element elem = (Element) nodeLst.item(i);
-			id = elem.getAttribute(Tags.ID);
+			id = elem.getAttribute("id");
 			if (id.equals(panelId)) {
-				String ejbRef = elem.getAttribute(Tags.EJB_REF);
+				String ejbRef = elem.getAttribute("ejb-ref");
 				// Loading ejb either from cache or xml
 				EntityBean ejb = EntityReader.load(ejbRef);
 				if (ejb == null) {
@@ -128,7 +129,9 @@ public class PanelReader {
 				msp = new MStandardPanel();
 				msp.setName(id);
 				msp.setEntityBean(ejb);
-				msp.setPanelSettings(getSettings(elem, new PanelSettings()));
+				PanelSettings panelSettings = new PanelSettings();
+				
+				msp.setPanelSettings(getSettings(elem, panelSettings));
 				msp.setDataSettings(new DataSettings());
 				msp.setStandardOperations(getStandardOperations(elem,
 						new SpecificOperations()));
@@ -143,16 +146,16 @@ public class PanelReader {
 	private static MPanel findNextPanel(Document doc, String panelId,
 			PanelType panelType, String openedId) {
 		MPanel mpanel = null;
-		NodeList nodeList = doc.getElementsByTagName(Tags.NEXT);
+		NodeList nodeList = doc.getElementsByTagName("next");
 		String id = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element elem = (Element) nodeList.item(i);
-			id = elem.getAttribute(Tags.NAME);
+			id = elem.getAttribute("name");
 			if (id.equals(openedId)) {
 				mpanel = loadPanel(panelId, panelType, openedId,
 						OpenedAs.DEFAULT);
-				String label = elem.getAttribute(Tags.LABEL);
-				String name = elem.getAttribute(Tags.NAME);
+				String label = elem.getAttribute("label");
+				String name = elem.getAttribute("name");
 				mpanel.setName(name);
 				mpanel.setLabel(label);
 				if (mpanel instanceof MStandardPanel) {
@@ -171,12 +174,12 @@ public class PanelReader {
 	private static MPanel findZoomPanel(Document doc, String panelId,
 			PanelType panelType, String openedId) {
 		MPanel mpanel = null;
-		NodeList nodeList = doc.getElementsByTagName(Tags.ZOOM);
+		NodeList nodeList = doc.getElementsByTagName("zoom");
 		String id = null;
 		mpanel = loadPanel(panelId, panelType, openedId, OpenedAs.DEFAULT);
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element elem = (Element) nodeList.item(i);
-			id = elem.getAttribute(Tags.NAME);
+			id = elem.getAttribute("name");
 			if (id.equals(openedId)) {
 				// load with basic panel
 				if (mpanel instanceof MStandardPanel) {
@@ -193,18 +196,18 @@ public class PanelReader {
 	}
 
 	private static MPanel findManyToManyPanel(Document doc, String panelId) {
-		NodeList nodeList = doc.getElementsByTagName(Tags.MANY_TO_MANY);
+		NodeList nodeList = doc.getElementsByTagName("many-to-many");
 		String id = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element elem = (Element) nodeList.item(i);
-			id = elem.getAttribute(Tags.ID);
+			id = elem.getAttribute("id");
 			if (id.equals(panelId)) {
 				MManyToManyPanel mtmp = new MManyToManyPanel();
 				mtmp.setName(id);
-				String label = elem.getAttribute(Tags.LABEL);
+				String label = elem.getAttribute("label");
 				mtmp.setLabel(label);
 				NodeList nodeListChildren = elem
-						.getElementsByTagName(Tags.PANEL);
+						.getElementsByTagName("panel");
 				Element elemSub = null;
 				for (int j = 0; j < nodeListChildren.getLength(); j++) {
 					elemSub = (Element) nodeListChildren.item(j);
@@ -218,18 +221,18 @@ public class PanelReader {
 
 	private static MParentChildPanel findParentChildPanel(Document doc,
 			String panelId) {
-		NodeList nodeList = doc.getElementsByTagName(Tags.PARENT_CHILD);
+		NodeList nodeList = doc.getElementsByTagName("parent-child");
 		String id = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element elem = (Element) nodeList.item(i);
-			id = elem.getAttribute(Tags.ID);
+			id = elem.getAttribute("id");
 			if (id.equals(panelId)) {
 				MParentChildPanel mcpc = new MParentChildPanel();
 				mcpc.setName(id);
-				String label = elem.getAttribute(Tags.LABEL);
+				String label = elem.getAttribute("label");
 				mcpc.setLabel(label);
 				NodeList nodeListChildren = elem
-						.getElementsByTagName(Tags.PANEL);
+						.getElementsByTagName("panel");
 				Element elemSub = null;
 				for (int j = 0; j < nodeListChildren.getLength(); j++) {
 					elemSub = (Element) nodeListChildren.item(j);
@@ -252,10 +255,10 @@ public class PanelReader {
 	 */
 	private static MStandardPanel getSubPanel(Element elem) {
 		MStandardPanel mpanel = null;
-		String panelRef = elem.getAttribute(Tags.PANEL_REF);
+		String panelRef = elem.getAttribute("panel-ref");
 		mpanel = (MStandardPanel) loadPanel(panelRef, PanelType.STANDARDPANEL, null, OpenedAs.DEFAULT);
-		String id = elem.getAttribute(Tags.ID);
-		String level = elem.getAttribute(Tags.LEVEL);
+		String id = elem.getAttribute("id");
+		String level = elem.getAttribute("level");
 		mpanel.setName(id);
 		mpanel.setLevel(TypesConverterFromXML.resolveInteger(level));
 		mpanel.setPanelSettings(getSettings(elem, mpanel.getPanelSettings()));
@@ -276,18 +279,18 @@ public class PanelReader {
 			SpecificOperations operations) {
 
 		// Adding new operations for panel
-		NodeList nodeListOperations = elem.getElementsByTagName(Tags.OPERATION);
+		NodeList nodeListOperations = elem.getElementsByTagName("operation");
 		for (int i = 0; i < nodeListOperations.getLength(); i++) {
 			Element elemOperation = (Element) nodeListOperations.item(i);
 			Operation oper = new Operation();
-			oper.setName(elemOperation.getAttribute(Tags.NAME));
-			oper.setLabel(elemOperation.getAttribute(Tags.LABEL));
-			oper.setTarget(elemOperation.getAttribute(Tags.TARGET));
-			String allowedStr = elemOperation.getAttribute(Tags.ALLOWED);
+			oper.setName(elemOperation.getAttribute("name"));
+			oper.setLabel(elemOperation.getAttribute("label"));
+			oper.setTarget(elemOperation.getAttribute("target"));
+			String allowedStr = elemOperation.getAttribute("allowed");
 			boolean allowed = new Boolean(allowedStr);
 			oper.setAllowed(allowed);
 
-			String type = elemOperation.getAttribute(Tags.DATA_TYPE);
+			String type = elemOperation.getAttribute("type");
 			if (type.equals("report"))
 				oper.setType(OperationType.VIEWREPORT);
 			else if (type.equals("transaction")) {
@@ -295,20 +298,20 @@ public class PanelReader {
 			}
 
 			NodeList nodeListParameters = elemOperation
-					.getElementsByTagName(Tags.PARAMETER);
+					.getElementsByTagName("parameter");
 			for (int j = 0; j < nodeListParameters.getLength(); j++) {
 				Element elemParam = (Element) nodeListParameters.item(j);
 				Parameter param = new Parameter();
-				param.setName(elemParam.getAttribute(Tags.NAME));
-				param.setLabel(elemParam.getAttribute(Tags.LABEL));
-				String typeClass = elemParam.getAttribute(Tags.DATA_TYPE);
+				param.setName(elemParam.getAttribute("name"));
+				param.setLabel(elemParam.getAttribute("label"));
+				String typeClass = elemParam.getAttribute(type);
 				try {
 					param.setType(Class.forName(typeClass));
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 				String parameterType = elemParam
-						.getAttribute(Tags.PARAMETER_TYPE);
+						.getAttribute("parameter-type");
 				if (parameterType.equals("in")) {
 					param.setParameterType(ParameterType.IN);
 				} else if (parameterType.equals("inout")) {
@@ -317,7 +320,7 @@ public class PanelReader {
 					param.setParameterType(ParameterType.OUT);
 				}
 				oper.add(param);
-				String defaultValue = elemParam.getAttribute(Tags.DEFAULT);
+				String defaultValue = elemParam.getAttribute("default");
 				if (defaultValue != null && !defaultValue.trim().equals("")) {
 					Object obj = ConverterUtil.convert(defaultValue,
 							param.getType());
@@ -329,13 +332,13 @@ public class PanelReader {
 
 		// operation references
 		nodeListOperations = elem
-				.getElementsByTagName(Tags.OPERATION_REFERENCE);
+				.getElementsByTagName("operation-ref");
 		for (int i = 0; i < nodeListOperations.getLength(); i++) {
 			Element elemOperationRef = (Element) nodeListOperations.item(i);
-			String name = elemOperationRef.getAttribute(Tags.NAME);
+			String name = elemOperationRef.getAttribute("name");
 			try {
 				Operation operation = operations.findByName(name);
-				String allowedStr = elemOperationRef.getAttribute(Tags.ALLOWED);
+				String allowedStr = elemOperationRef.getAttribute("allowed");
 				boolean allowed = new Boolean(allowedStr);
 				// restrictive rights only
 				if (operation.getAllowed() != false) {
@@ -350,11 +353,11 @@ public class PanelReader {
 	}
 
 	public static EntityBean getEntityRestrictions(EntityBean ejb, Element elem) {
-		ejb = setRestrictionOnColumn(ejb, elem, Tags.HIDDEN, 
+		ejb = setRestrictionOnColumn(ejb, elem, "hidden", 
 				"setHidden", true);
-		ejb = setRestrictionOnColumn(ejb, elem, Tags.DISABLED, 
+		ejb = setRestrictionOnColumn(ejb, elem, "disabled", 
 				"setDisabled",true);
-		ejb = setRestrictionOnColumn(ejb, elem, Tags.EDITABLE,
+		ejb = setRestrictionOnColumn(ejb, elem, "editable",
 				"setEditableInTable", true);
 		return ejb;
 	}
@@ -368,7 +371,7 @@ public class PanelReader {
 		Method method = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			el = (Element) nodeList.item(i);
-			value = el.getAttribute(Tags.VALUE);
+			value = el.getAttribute("value");
 			try {
 				attr = (AbsAttribute) EntityHelper.getAttribute(ejb, value);
 				if(attr instanceof JoinColumnAttribute) {
@@ -398,20 +401,20 @@ public class PanelReader {
 	 */
 	public static PanelSettings getSettings(Element elem,
 			PanelSettings settings) {
-		Node nodeSettings = elem.getElementsByTagName(Tags.SETTINGS).item(0);
+		Node nodeSettings = elem.getElementsByTagName("settings").item(0);
 		Element el = (Element) nodeSettings;
 		if (el == null) {
 			return settings;
 		}
-		settings = setOneSetting(Tags.ADD, "Add" , el, settings);
-		settings = setOneSetting(Tags.DELETE, "Delete" , el, settings);
-		settings = setOneSetting(Tags.UPDATE, "Update" , el, settings);
-		settings = setOneSetting(Tags.COPY, "Copy" , el, settings);
-		settings = setOneSetting(Tags.CHANGE_MODE, "ChangeMode" , el, settings);
-		settings = setOneSetting(Tags.NAVIGATION, "DataNavigation" , el, settings);
+		settings = setOneSetting("add", "Add" , el, settings);
+		settings = setOneSetting("delete", "Delete" , el, settings);
+		settings = setOneSetting("update", "Update" , el, settings);
+		settings = setOneSetting("copy", "Copy" , el, settings);
+		settings = setOneSetting("change-mode", "ChangeMode" , el, settings);
+		settings = setOneSetting("navigation", "DataNavigation" , el, settings);
 		
-		String val = el.getAttribute(Tags.ADD);
-		val = el.getAttribute(Tags.VIEW_MODE);
+		String val = el.getAttribute("add");
+		val = el.getAttribute("view-mode");
 		if (val != null && !val.trim().equals("")) {
 			if (val.equals("table")) {
 				settings.setViewMode(ViewMode.TABLEVIEW);
@@ -419,16 +422,44 @@ public class PanelReader {
 				settings.setViewMode(ViewMode.INPUTPANELVIEW);
 			}
 		}
+		
+		
+		val = el.getAttribute("layout");
+		if (val != null && !val.trim().equals("")) {
+			if (val.equals("HORIZONTAL")) {
+				settings.setLayout(Layout.HORIZONTAL);
+			} else if (val.equals("VERTICAL")) {
+				settings.setLayout(Layout.VERTICAL);
+			} else if (val.equals("FREE")) {
+				settings.setLayout(Layout.FREE);
+			}
+		}
+		
+		
+		val = el.getAttribute("align");
+		if (val != null && !val.trim().equals("")) {
+			if (val.equals("LEFT")) {
+				settings.setAlign(Align.LEFT);
+			} else if (val.equals("CENTER")) {
+				settings.setAlign(Align.CENTER);
+			} else if (val.equals("RIGHT")) {
+				settings.setAlign(Align.RIGHT);
+			}
+		}
+		
 		return settings;
 	}
 	
 	private static PanelSettings setOneSetting(String tag, String methodName, 
 			Element elem, PanelSettings settings) {
 		String val = elem.getAttribute(tag);
+		
+		
 		Method method = null;
 		if (val != null && !val.trim().equals("")) {
 			try {
 				method = PanelSettings.class.getMethod("get" + methodName);
+				
 				if ((Boolean) method.invoke(settings) != false) {
 					method = PanelSettings.class.getMethod("set" + methodName, Boolean.class);
 					method.invoke(settings, new Boolean(val));
@@ -444,15 +475,15 @@ public class PanelReader {
 	private static List<Next> getNexts(Document doc, Element elem) {
 		List<Next> nexts = new ArrayList<Next>();
 		Next next = null;
-		NodeList nodeNexts = elem.getElementsByTagName(Tags.NEXT);
+		NodeList nodeNexts = elem.getElementsByTagName("next");
 		for (int i = 0; i < nodeNexts.getLength(); i++) {
 			Element elNext = (Element) nodeNexts.item(i);
 			try {
 				next = new Next();
-				next.setLabel(elNext.getAttribute(Tags.LABEL));
-				next.setName(elNext.getAttribute(Tags.NAME));
-				next.setPanelId(elNext.getAttribute(Tags.PANEL_REF));
-				String panelType = elNext.getAttribute(Tags.PANEL_TYPE);
+				next.setLabel(elNext.getAttribute("label"));
+				next.setName(elNext.getAttribute("name"));
+				next.setPanelId(elNext.getAttribute("panel-ref"));
+				String panelType = elNext.getAttribute("panel-type");
 				next.setPanelType(PanelTypeResolver.getType(panelType));
 				nexts.add(next);
 			} catch (PanelTypeParsingException e) {
@@ -466,12 +497,12 @@ public class PanelReader {
 	private static List<Zoom> getZooms(Document doc, Element elem) {
 		List<Zoom> zooms = new ArrayList<Zoom>();
 		Zoom zoom = null;
-		NodeList nodeZooms = elem.getElementsByTagName(Tags.ZOOM);
+		NodeList nodeZooms = elem.getElementsByTagName("zoom");
 		for (int i = 0; i < nodeZooms.getLength(); i++) {
 			Element elZoom = (Element) nodeZooms.item(i);
 			zoom = new Zoom();
-			zoom.setName(elZoom.getAttribute(Tags.NAME));
-			zoom.setPanelId(elZoom.getAttribute(Tags.PANEL_REF));
+			zoom.setName(elZoom.getAttribute("name"));
+			zoom.setPanelId(elZoom.getAttribute("panel-ref"));
 			zooms.add(zoom);
 		}
 		return zooms;

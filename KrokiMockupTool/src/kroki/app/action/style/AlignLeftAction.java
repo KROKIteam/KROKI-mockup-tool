@@ -16,16 +16,20 @@ import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupAlignment;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ComponentAlign;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Kroki team
  */
 public class AlignLeftAction extends AbstractAction {
 
+    /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
-    public AlignLeftAction() {
+
+	public AlignLeftAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.alignLeft.smallImage"));
         putValue(SMALL_ICON, smallIcon);
         //putValue(NAME, StringResource.getStringResource("action.alignLeft.name"));
@@ -38,6 +42,7 @@ public class AlignLeftAction extends AbstractAction {
             return;
         }
         VisibleClass visibleClass = c.getVisibleClass();
+        visibleClass.setAlign(ComponentAlign.ALIGN_LEFT);
         SelectionModel selectionModel = c.getSelectionModel();
 
         for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {

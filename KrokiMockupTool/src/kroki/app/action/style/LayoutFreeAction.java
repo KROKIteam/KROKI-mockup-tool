@@ -1,5 +1,4 @@
 package kroki.app.action.style;
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -17,16 +16,20 @@ import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ComponentOrientation;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Kroki team
  */
 public class LayoutFreeAction extends AbstractAction {
 
+    /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
-    public LayoutFreeAction() {
+
+	public LayoutFreeAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.freeLayout.smallImage"));
         putValue(SMALL_ICON, smallIcon);
         //putValue(NAME, StringResource.getStringResource("action.freeLayout.name"));
@@ -41,12 +44,13 @@ public class LayoutFreeAction extends AbstractAction {
         CommandManager commandManager = c.getCommandManager();
 
         VisibleClass visibleClass = c.getVisibleClass();
+        visibleClass.setOrientation(ComponentOrientation.ORIENTATION_FREE);
         SelectionModel selectionModel = c.getSelectionModel();
-        //mora biti samo jedan selektovan
+        //only one must be selected
         if (selectionModel.getSelectionNum() != 1) {
             return;
         }
-        //taj jedan selektovani mora biti elements group
+        //that selected element must be an instance of ElementsGroup
         if (!(selectionModel.getVisibleElementAt(0) instanceof ElementsGroup)) {
             return;
         }

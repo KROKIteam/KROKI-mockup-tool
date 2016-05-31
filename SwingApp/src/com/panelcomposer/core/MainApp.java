@@ -2,9 +2,6 @@ package com.panelcomposer.core;
 
 import javax.persistence.EntityManager;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
 import util.PersistenceHelper;
 import util.SchemaGenerator;
 import util.xml_readers.EntityReader;
@@ -52,3 +49,4 @@ public class MainApp {
 		sm.setVisible(true);
 	}
 }
+

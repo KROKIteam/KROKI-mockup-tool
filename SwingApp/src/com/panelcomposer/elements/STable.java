@@ -57,6 +57,10 @@ public class STable extends JTable {
 		this.panel = panel;
 		init();
 	}
+	
+	public boolean getScrollableTracksViewportWidth() {
+		return getPreferredSize().width < getParent().getWidth();
+	}
 
 	/***
 	 * Initializes table
@@ -72,7 +76,7 @@ public class STable extends JTable {
 		setIntercellSpacing(new java.awt.Dimension(3, 3));
 		setRowHeight(getRowHeight() + 3);
 		getTableHeader().setReorderingAllowed(false);
-		getTableHeader().setResizingAllowed(true);
+		getTableHeader().setResizingAllowed(false);
 		scrollPane.getViewport().setView(this);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);

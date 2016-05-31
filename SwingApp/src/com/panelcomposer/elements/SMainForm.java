@@ -1,8 +1,6 @@
 package com.panelcomposer.elements;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -12,14 +10,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import org.h2.constant.SysProperties;
-
 import util.staticnames.Settings;
 import util.xml_readers.MenuReader;
 
 import com.panelcomposer.core.AppCache;
 import com.panelcomposer.core.UserLoginDialog;
-import com.panelcomposer.enumerations.PanelType;
 import com.panelcomposer.listeners.MySubMenuActionListener;
 import com.panelcomposer.model.menu.MyMenu;
 import com.panelcomposer.model.menu.MySubMenu;
@@ -30,7 +25,7 @@ public class SMainForm extends JFrame {
 
 	public SMainForm() {
 		setTitle(Settings.MAIN_FORM);
-		setSize(new Dimension(800, 600));
+		setSize(new Dimension(600, 400));
 		setExtendedState(JFrame.NORMAL);
 		setName("MainForm");
 		UserLoginDialog userLogin = new UserLoginDialog(this);

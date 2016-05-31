@@ -2,9 +2,7 @@ package com.panelcomposer.elements.spanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +20,13 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
 import util.resolvers.ComponentResolver;
 import util.staticnames.Settings;
 
+import com.panelcomposer.enumerations.Align;
+import com.panelcomposer.enumerations.Layout;
 import com.panelcomposer.exceptions.ComponentCreationException;
 import com.panelcomposer.listeners.ZoomActionListener;
 import com.panelcomposer.listeners.ZoomFocusListener;
@@ -43,20 +42,21 @@ public class InputPanel extends JPanel {
 	private Dimension dimension;
 	private double width;
 	private double ratio;
-	private double componentsLength;
-	private int rowNumber;
 	private int zoomCounter;
-	private JPanel panelOne;
 	private JPanel panelTwo;
+	private JPanel panelHorizontal;
 	private int counter;
-	private LayoutManager panelLayout;
 	private String labelText;
 	private List<JComponent> panelComponents;
 	private SPanel panel;
 	private JButton btnCommit;
 	private JButton btnCancel;
 	private JButton btnStartSearch;
-
+	private int maxX = 0, maxY = 0;
+	private JPanel freeLayoutPanel;
+	private int longestRow = 0;
+	private int currentRow = 0;
+	private int numberOfRows = 0;
 	public InputPanel(SPanel panel) {
 		if (panel == null)
 			return;
@@ -68,29 +68,62 @@ public class InputPanel extends JPanel {
 		dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		width = dimension.getWidth() - 150;
 		ratio = width / 1024.0;
-		componentsLength = 0;
-		rowNumber = 1;
 		zoomCounter = 0;
 		counter = 0;
 		panelComponents = new ArrayList<JComponent>();
 		labelText = "";
-		
-		panelLayout = new FlowLayout(FlowLayout.LEFT);
-		setLayout(new MigLayout("", "[0:0, grow 100, fill]", ""));
+		Align align = panel.getModelPanel().getPanelSettings().getAlign();
+		panelHorizontal = new JPanel();
+
+		if(align == Align.LEFT) {
+			setLayout(new MigLayout("", "[0:0, grow 100, left]", ""));
+		} else if(align == Align.CENTER) {
+			setLayout(new MigLayout("", "[0:0, grow 100, center]", ""));
+		} else if(align == Align.RIGHT) {
+			setLayout(new MigLayout("", "[0:0, grow 100, right]", ""));
+		} else
+			setLayout(new MigLayout("", "[0:0, grow 100]", ""));
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		panelOne = new JPanel(panelLayout);
+
 		List<AbsAttribute> attributes = panel.getTable().getTableModel().getEntityBean().getAttributes();
+
+		AbsAttribute lastVisible = null;
+		for(int i = attributes.size() -1; i >= 0; i--){
+			if(attributes.get(i).getVisible()){
+				lastVisible = attributes.get(i);
+				break;
+			} 	
+		}
+
+		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
+		if (layout == Layout.FREE){
+			freeLayoutPanel = new JPanel();
+			freeLayoutPanel.setLayout(null);
+		}
+
 		for (int i = 0; i < attributes.size(); i++) {
-			panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+			panelTwo = new JPanel(new MigLayout());
+			panelTwo.setBackground(new Color(attributes.get(i).getBackgroundRGB(), true));
+
 			if (attributes.get(i) instanceof ColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA COLUMN] " + attributes.get(i).getFieldName());
-				createComponent((ColumnAttribute) attributes.get(i));
+				createComponent((ColumnAttribute) attributes.get(i), lastVisible == attributes.get(i));
 			} else if (attributes.get(i) instanceof JoinColumnAttribute) {
 				System.out.println("[CREATE COMPONENT ZA JOIN] " + attributes.get(i).getFieldName());
-				createComponent((JoinColumnAttribute) attributes.get(i));
+				createComponent((JoinColumnAttribute) attributes.get(i),  lastVisible == attributes.get(i));
 			}
 		}
-		panelOne.setMinimumSize(new Dimension((int) panelOne.getSize().getWidth(), 20 + 40 * rowNumber));
+
+		if (layout == Layout.FREE){
+			freeLayoutPanel.setMinimumSize(new Dimension(maxX + 40, maxY));
+			setMinimumSize(new Dimension(maxX + 50, maxY + 60));
+			add(freeLayoutPanel, "grow, wrap");
+		}
+		else if (layout == Layout.HORIZONTAL){
+			setMinimumSize(new Dimension(longestRow + 60, numberOfRows * 40 + 80));
+		}
+		add(panelHorizontal, "wrap");
 		addCommitPanel();
 		setDerivedFormulas();
 	}
@@ -100,17 +133,60 @@ public class InputPanel extends JPanel {
 	 * 
 	 * @param colAttr
 	 */
-	private void createComponent(ColumnAttribute colAttr) {
-		try {
-			panelOne = new JPanel(panelLayout);
-			addComponentToPanelTwo(colAttr, null, counter);
-			panelOne.add(panelTwo);
-			add(panelOne, "wrap, span");
-			panelOne = new JPanel(panelLayout);
-			setCurrentComponentsLength();
-			counter++;
-		} catch (Exception e) {
-			e.printStackTrace();
+	private void createComponent(ColumnAttribute colAttr, Boolean lastVisible) {
+		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
+
+		panelTwo.setPreferredSize(new Dimension(colAttr.getLength(), 20));
+
+		if (layout == Layout.VERTICAL) {
+			try {
+				addComponentToPanelTwo(colAttr, null, counter);
+				add(panelTwo, "wrap, span");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if(layout == Layout.HORIZONTAL) {
+			try {
+				String migConstant = "";
+				if(colAttr.getWrap() || lastVisible){
+					migConstant = "wrap";
+					if (currentRow > longestRow)
+						longestRow = currentRow;
+					currentRow = 0;
+					numberOfRows++;
+				}
+
+				addComponentToPanelTwo(colAttr, null, counter);
+
+				if (!colAttr.getVisible())
+					panelHorizontal.add(panelTwo);
+				else{
+					add(panelTwo, migConstant);
+					currentRow += panelTwo.getPreferredSize().getWidth();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				addComponentToPanelTwo(colAttr, null, counter);
+				if (colAttr.getVisible()){
+					int xPosition = colAttr.getPositionX();
+					int yPosition = colAttr.getPositionY();
+					int length = colAttr.getLength();
+					int height = 30;
+					if (xPosition + length > maxX)
+						maxX = xPosition + length;
+					if (yPosition + height > maxY)
+						maxY = yPosition + height;
+
+					panelTwo.setLocation(xPosition, yPosition);
+					panelTwo.setSize(length,height);
+					freeLayoutPanel.add(panelTwo);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -119,8 +195,7 @@ public class InputPanel extends JPanel {
 	 * 
 	 * @param joinColAttr
 	 */
-	private void createComponent(JoinColumnAttribute joinColAttr) {
-		panelOne = new JPanel(panelLayout);
+	private void createComponent(JoinColumnAttribute joinColAttr, Boolean lastVisible) {
 		panelTwo.setBorder(BorderFactory.createTitledBorder(
 				BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY),
 				joinColAttr.getLabel(), 1, 1, null, Color.BLUE));
@@ -140,16 +215,17 @@ public class InputPanel extends JPanel {
 									panelComponents.get(counter - 1), comp));
 					comp.setEnabled(false);
 				}
-				setCurrentComponentsLength();
 				counter++;
 			} catch (ComponentCreationException e) {
 				e.printStackTrace();
 			}
 		}
-		panelOne.add(panelTwo);
-		panelTwo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		add(panelOne, "wrap");
-		rowNumber++;
+		panelTwo = new JPanel(new MigLayout());
+		String migConstant = "";
+		if(joinColAttr.getWrap() || lastVisible)
+			migConstant = "wrap";
+
+		add(panelTwo, migConstant);
 	}
 
 	/***
@@ -179,7 +255,7 @@ public class InputPanel extends JPanel {
 	 */
 	private JComponent addComponentToPanelTwo(ColumnAttribute colAttr,
 			JoinColumnAttribute joinColAttr, int position)
-			throws ComponentCreationException {
+					throws ComponentCreationException {
 		JComponent component = null;
 		JLabel label = null;
 		try {
@@ -188,30 +264,30 @@ public class InputPanel extends JPanel {
 			}
 			labelText = colAttr.getLabel() + ":";
 			label = new JLabel(labelText);
+			label.setForeground(new Color(colAttr.getForegroundRGB(), true));
 			panelTwo.add(label);
 			component = setUpComponent(colAttr, joinColAttr);
 			panelTwo.add(component);
 			panelComponents.add(component);
-			if (colAttr.getHidden()) {
+			if (colAttr.getHidden() || !colAttr.getVisible()) {
 				label.setVisible(false);
 				component.setVisible(false);
+				label.setSize(0, 0);
+				component.setSize(0, 0);
+				panelTwo.setSize(0, 0);
+				label.setPreferredSize(new Dimension(0, 0));
+				component.setPreferredSize(new Dimension(0, 0));
+				panelTwo.setPreferredSize(new Dimension(0, 0));
+				label.setMaximumSize(new Dimension(0, 0));
+				component.setMaximumSize(new Dimension(0, 0));
+				panelTwo.setMaximumSize(new Dimension(0, 0));
 			}
-			setCurrentComponentsLength();
 			return component;
 		} catch (Exception e) {
 			throw new ComponentCreationException("Couldn't create component");
 		}
 	}
 
-	private void setCurrentComponentsLength() {
-		componentsLength += panelLayout.preferredLayoutSize(panelTwo)
-				.getWidth();
-		if (componentsLength > width) {
-			rowNumber++;
-			componentsLength = panelLayout.preferredLayoutSize(panelTwo)
-					.getWidth();
-		}
-	}
 
 	public JComponent setUpComponent(ColumnAttribute colAttr,
 			JoinColumnAttribute joinColAttr) {
@@ -269,7 +345,7 @@ public class InputPanel extends JPanel {
 			} else if (component instanceof JCheckBox) {
 				((JCheckBox) component).setSelected(false);
 			} else if (component instanceof JComboBox) {
-				((JComboBox) component).setSelectedIndex(-1);
+				((JComboBox<?>) component).setSelectedIndex(-1);
 			}
 		} else {
 			if (component instanceof JTextField) {
@@ -277,7 +353,7 @@ public class InputPanel extends JPanel {
 			} else if (component instanceof JCheckBox) {
 				((JCheckBox) component).setSelected((Boolean) colAttr.getDefaultValue());
 			} else if (component instanceof JComboBox) {
-				((JComboBox) component).setSelectedIndex((Integer) colAttr.getDefaultValue());
+				((JComboBox<?>) component).setSelectedIndex((Integer) colAttr.getDefaultValue());
 			}
 		}
 	}
@@ -325,7 +401,7 @@ public class InputPanel extends JPanel {
 		jp.add(btnCommit);
 		jp.add(btnCancel);
 		jp.add(btnStartSearch);
-		add(jp);
+		add(jp, "gapx 20px");
 	}
 
 	public List<JComponent> getPanelComponents() {

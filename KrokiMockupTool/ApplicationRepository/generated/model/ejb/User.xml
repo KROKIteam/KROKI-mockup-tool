@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<entity class-name="ejb_generated.User" label="User" name="USER">
+<attributes>
+<column-attribute field-name="id" hidden="true" key="true" label="ID" length="50" name="id" type="java.lang.Long" visible="false"/>
+<column-attribute autoGo="false" background="-1" field-name="username" foreground="-16777216" hidden="false" key="false" label="User name" length="null" name="username" positionX="0" positionY="0" precision="null" readOnly="false" type="java.lang.String" visible="true" wrap="false"/>
+<column-attribute autoGo="false" background="-1" field-name="password" foreground="-16777216" hidden="false" key="false" label="Password" length="null" name="password" positionX="0" positionY="0" precision="null" readOnly="false" type="java.lang.String" visible="true" wrap="false"/>
+</attributes>
+</entity>

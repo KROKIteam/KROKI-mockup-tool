@@ -94,7 +94,9 @@ public class PanelGenerator {
 					if(repo != null) {
 						ejbRef = "ejb_generated." + panel.getPersistentClass().name();
 					}
-						
+					
+					String layoutValue = panel.getOrientation().toString();
+					String alignValue = panel.getAlign().toString();	
 					
 					//attribute "id"
 					Attr idAttr = doc.createAttribute("id");
@@ -134,6 +136,14 @@ public class PanelGenerator {
 					Attr dataNavAttr = doc.createAttribute("data-navigation");
 					dataNavAttr.setValue(String.valueOf(panel.isDataNavigation()));
 					eSettings.setAttributeNode(dataNavAttr);
+					//attribute layout
+					Attr layoutAttr = doc.createAttribute("layout");
+					layoutAttr.setValue(layoutValue);
+					eSettings.setAttributeNode(layoutAttr);
+					//attribute align
+					Attr alignAttr = doc.createAttribute("align");
+					alignAttr.setValue(alignValue);
+					eSettings.setAttributeNode(alignAttr);
 					
 					stdPanel.appendChild(eSettings);
 					
@@ -387,4 +397,5 @@ public class PanelGenerator {
 		}
 	}
 
-};
+}
+

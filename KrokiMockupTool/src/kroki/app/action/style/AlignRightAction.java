@@ -1,8 +1,10 @@
 package kroki.app.action.style;
 
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.model.SelectionModel;
 import kroki.app.utils.ImageResource;
@@ -14,16 +16,20 @@ import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupAlignment;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ComponentAlign;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Kroki team
  */
 public class AlignRightAction extends AbstractAction {
 
+    /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
-    public AlignRightAction() {
+
+	public AlignRightAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.alignRight.smallImage"));
         putValue(SMALL_ICON, smallIcon);
         //putValue(NAME, StringResource.getStringResource("action.alignRight.name"));
@@ -36,6 +42,7 @@ public class AlignRightAction extends AbstractAction {
             return;
         }
         VisibleClass visibleClass = c.getVisibleClass();
+        visibleClass.setAlign(ComponentAlign.ALIGN_RIGHT);
         SelectionModel selectionModel = c.getSelectionModel();
 
         for (VisibleElement visibleElement : selectionModel.getVisibleElementList()) {

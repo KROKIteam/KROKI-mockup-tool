@@ -9,7 +9,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import util.staticnames.ReadersPathConst;
-import util.staticnames.Tags;
 import util.xml_readers.MenuReader;
 import util.xml_readers.PanelReader;
 import util.xml_readers.XMLUtil;
@@ -65,7 +64,7 @@ public aspect UserRightsAspect {
 				String panelId = zoom.getName();
 				Element elem = getElementByPanelId(doc, panelId, OpenedAs.ZOOM);
 				if(elem != null) {
-					String value = elem.getAttribute(Tags.DISABLED);
+					String value = elem.getAttribute("disabled");
 					Boolean hide = (Boolean) ConverterUtil.convert(value, Boolean.class);
 					if(hide != null && hide == true) {
 						it.remove();
@@ -90,7 +89,7 @@ public aspect UserRightsAspect {
 				String panelId = next.getName();
 				Element elem = getElementByPanelId(doc, panelId, OpenedAs.NEXT);
 				if(elem != null) {
-					String value = elem.getAttribute(Tags.DISABLED);
+					String value = elem.getAttribute("disabled");
 					Boolean hide = (Boolean) ConverterUtil.convert(value, Boolean.class);
 					if(hide != null && hide == true) {
 						it.remove();
@@ -113,7 +112,7 @@ public aspect UserRightsAspect {
 			String panelId = msm.getActivate();
 			Element elem = getElementByPanelId(doc, panelId, OpenedAs.DEFAULT);
 			if(elem != null) {
-				String value = elem.getAttribute(Tags.DISABLED);
+				String value = elem.getAttribute("disabled");
 				Boolean hide = (Boolean) ConverterUtil.convert(value, Boolean.class);
 				if(hide != null && hide == true) {
 					msm = null;
@@ -151,14 +150,14 @@ public aspect UserRightsAspect {
 		String tag = null;
 		String attr = null;
 		if (openedAs.equals(OpenedAs.DEFAULT)) {
-			tag = Tags.PANEL;
-			attr = Tags.PANEL_REF;
+			tag = "panel";
+			attr = "panel-ref";
 		} else if (openedAs.equals(OpenedAs.NEXT)) {
-			tag = Tags.NEXT;
-			attr = Tags.NAME;
+			tag = "next";
+			attr = "name";
 		} else if (openedAs.equals(OpenedAs.ZOOM)) {
-			tag = Tags.ZOOM;
-			attr = Tags.NAME;
+			tag = "zoom";
+			attr = "name";
 		}
 		NodeList nodeList = doc.getElementsByTagName(tag);
 		String panelRefId = null;

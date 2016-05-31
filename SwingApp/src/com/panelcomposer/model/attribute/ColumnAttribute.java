@@ -7,7 +7,6 @@ import com.panelcomposer.model.enumeration.Enumeration;
 public class ColumnAttribute extends AbsAttribute {
 
 	protected Boolean key = false;
-	protected Integer length;
 	protected Integer scale;
 	protected String dataType;
 	protected Boolean disabled = false;
@@ -17,7 +16,9 @@ public class ColumnAttribute extends AbsAttribute {
 	protected Object defaultValue;
 	protected Enumeration enumeration;
 	protected JComponent component;
-
+	protected Boolean readOnly = false;
+	protected Boolean autoGo = false;
+	
 	public Boolean getKey() {
 		return key;
 	}
@@ -104,6 +105,30 @@ public class ColumnAttribute extends AbsAttribute {
 
 	public void setEnumeration(Enumeration enumeration) {
 		this.enumeration = enumeration;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
+	}
+
+	public Boolean getReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(Boolean readOnly) {
+		this.readOnly = readOnly;
+	}
+
+	public Boolean getAutoGo() {
+		return autoGo;
+	}
+
+	public void setAutoGo(Boolean autoGo) {
+		this.autoGo = autoGo;
 	}
 
 }

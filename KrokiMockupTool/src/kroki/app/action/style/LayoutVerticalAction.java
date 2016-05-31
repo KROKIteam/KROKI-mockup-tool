@@ -17,16 +17,20 @@ import kroki.profil.VisibleElement;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.group.GroupOrientation;
 import kroki.profil.panel.VisibleClass;
+import kroki.profil.utils.ComponentOrientation;
 
 /**
  *
- * @author Vladan Marsenić (vladan.marsenic@gmail.com)
+ * @author Kroki team
  */
 public class LayoutVerticalAction extends AbstractAction {
 
+    /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-	
-    public LayoutVerticalAction() {
+
+	public LayoutVerticalAction() {
         ImageIcon smallIcon = new ImageIcon(ImageResource.getImageResource("action.verticalLayout.smallImage"));
         putValue(SMALL_ICON, smallIcon);
         //putValue(NAME, StringResource.getStringResource("action.verticalLayout.name"));
@@ -41,12 +45,13 @@ public class LayoutVerticalAction extends AbstractAction {
         CommandManager commandManager = c.getCommandManager();
 
         VisibleClass visibleClass = c.getVisibleClass();
+        visibleClass.setOrientation(ComponentOrientation.ORIENTATION_VERTICAL);
         SelectionModel selectionModel = c.getSelectionModel();
-        //mora biti samo jedan selektovan
+        //only one must be selected
         if (selectionModel.getSelectionNum() != 1) {
             return;
         }
-        //taj jedan selektovani mora biti elements group
+        //that selected element must be and instance of ElementsGroup
         if (!(selectionModel.getVisibleElementAt(0) instanceof ElementsGroup)) {
             return;
         }

@@ -337,4 +337,8 @@ public class StandardPanel extends VisibleClass {
     public void setPersistentClass(PersistentClass persistentClass) {
         this.persistentClass = persistentClass;
     }
+
+	public int getVisibleElementNum() {
+		return visibleElementList.size();
+	}
 }

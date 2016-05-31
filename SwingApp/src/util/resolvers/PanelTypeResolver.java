@@ -1,7 +1,5 @@
 package util.resolvers;
 
-import util.staticnames.Tags;
-
 import com.panelcomposer.enumerations.PanelType;
 import com.panelcomposer.exceptions.PanelTypeParsingException;
 
@@ -13,11 +11,11 @@ public class PanelTypeResolver {
 		if (pType == null || pType.equals("")) {
 			throw new PanelTypeParsingException("No parsing type found.");
 		}
-		if (pType.equals(Tags.STANDARD_PANEL)) {
+		if (pType.equals("standard-panel")) {
 			return PanelType.STANDARDPANEL;
-		} else if (pType.equals(Tags.PARENT_CHILD)) {
+		} else if (pType.equals("parent-child")) {
 			return PanelType.PARENTCHILDPANEL;
-		}  else if (pType.equals(Tags.MANY_TO_MANY)) {
+		}  else if (pType.equals("many-to-many")) {
 			return PanelType.MANYTOMANYPANEL;
 		}
 		throw new PanelTypeParsingException("No parsing type for: " + pType);

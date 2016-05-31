@@ -16,11 +16,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.generators.utils.Attribute;
 import kroki.app.generators.utils.EJBAttribute;
 import kroki.app.generators.utils.EJBClass;
 import kroki.app.generators.utils.Enumeration;
-import kroki.app.generators.utils.ManyToOneAttribute;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.commons.camelcase.NamingUtil;
 
@@ -214,6 +212,10 @@ public class EJBGenerator {
 				hiddenAttr.setValue("true");
 				idColumn.setAttributeNode(hiddenAttr);
 				
+				Attr idVisibleAttr = doc.createAttribute("visible");
+				idVisibleAttr.setValue("false");
+				idColumn.setAttributeNode(idVisibleAttr);
+				
 				attributes.appendChild(idColumn);
 
 				//-----------------------------------------------------------
@@ -242,6 +244,33 @@ public class EJBGenerator {
 							Attr colType = doc.createAttribute("type");
 							colType.setValue(attribute.getType());
 
+							
+
+							//atribut "visible"
+							Attr colVisibleAttr = doc.createAttribute("visible");
+							colVisibleAttr.setValue(attribute.getVisible().toString());
+							columnAttr.setAttributeNode(colVisibleAttr);
+							
+							//atribut "readOnly"
+							Attr colReadOnlyAttr = doc.createAttribute("readOnly");
+							colReadOnlyAttr.setValue(attribute.getReadOnly().toString());
+							columnAttr.setAttributeNode(colReadOnlyAttr);
+							
+							//atribut "autoGo"
+							Attr colAutoGoAttr = doc.createAttribute("autoGo");
+							colAutoGoAttr.setValue(attribute.getAutoGo().toString());
+							columnAttr.setAttributeNode(colAutoGoAttr);
+							
+							//atribut "foregroundColor"
+							Attr colForegroundColorAttr = doc.createAttribute("foreground");
+							colForegroundColorAttr.setValue(attribute.getForegraundRGB().toString());
+							columnAttr.setAttributeNode(colForegroundColorAttr);
+							
+							//atribut "backgroundColor"
+							Attr colBackgroundColorAttr = doc.createAttribute("background");
+							colBackgroundColorAttr.setValue(attribute.getBackgroundRGB().toString());
+							columnAttr.setAttributeNode(colBackgroundColorAttr);
+							
 							Enumeration enumeration = attribute.getEnumeration();
 							if(enumeration != null) {
 								//colType.setValue("");
@@ -262,6 +291,22 @@ public class EJBGenerator {
 							colPrecision.setValue(String.valueOf(attribute.getPrecision()));
 							columnAttr.setAttributeNode(colPrecision);
 							
+							//atribut "wrap"
+							Attr colWrap = doc.createAttribute("wrap");
+							colWrap.setValue(attribute.getWrap().toString());
+							columnAttr.setAttributeNode(colWrap);
+							
+							
+							//atribut "posotionX"
+							Attr colPositionXAttr = doc.createAttribute("positionX");
+							colPositionXAttr.setValue(attribute.getPositionX().toString());
+							columnAttr.setAttributeNode(colPositionXAttr);
+							
+							//atribut "posotionY"
+							Attr colPosotionYAttr = doc.createAttribute("positionY");
+							colPosotionYAttr.setValue(attribute.getPositionY().toString());
+							columnAttr.setAttributeNode(colPosotionYAttr);
+							
 							//atribut "key"
 							Attr colKeyAttr = doc.createAttribute("key");
 							colKeyAttr.setValue("false");
@@ -272,14 +317,9 @@ public class EJBGenerator {
 							colHiddenAttr.setValue("false");
 							columnAttr.setAttributeNode(colHiddenAttr);
 							
-							//atribut 'enum'
-							if(attribute.getEnumeration() != null) {
-								Attr colEnumAttr = doc.createAttribute("enum");
-								colEnumAttr.setValue(attribute.getEnumeration().getName());
-								columnAttr.setAttributeNode(colEnumAttr);
-							}
 							
 							attributes.appendChild(columnAttr);
+							
 						}else if(getAttributeType(attribute).equals("ManyToOne")) {
 							Element zoomTag = doc.createElement("zoom-attribute");
 
@@ -453,3 +493,4 @@ public class EJBGenerator {
 		return success;
 	}
 }
+
