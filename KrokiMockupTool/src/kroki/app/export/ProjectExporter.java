@@ -498,8 +498,8 @@ public class ProjectExporter {
 			wrap = nextComponent.getRelativePosition().getY() != positionY;
 		}
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true, false, vp.isRepresentative(),
-				enumeration, visible, readOnly, autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(),
-				wrap, positionX, positionY, componentLength);
+				enumeration, visible, readOnly, autoGo, backgroundRGB, foregroundRGB, wrap,
+				positionX, positionY, componentLength);
 		
 		return attribute;
 	}

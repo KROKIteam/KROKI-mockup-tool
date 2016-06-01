@@ -289,6 +289,7 @@ public class EJBGenerator {
 
 							//attribute "length"
 							Attr colLength = doc.createAttribute("length");
+							System.out.println("LENGTH " + attribute.getLength());
 							colLength.setValue(String.valueOf(attribute.getLength()));
 							columnAttr.setAttributeNode(colLength);
 

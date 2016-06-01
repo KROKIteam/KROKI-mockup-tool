@@ -20,7 +20,6 @@ public class EJBAttribute {
 	private Boolean visible;
 	private Boolean readOnly;
 	private Boolean autoGo;
-	private Integer lenght;
 	private Boolean wrap;
 	private Integer length;
 	private Integer precision;
@@ -33,7 +32,7 @@ public class EJBAttribute {
 			Boolean mandatory,
 			Boolean unique, Boolean representative, Enumeration enumeration, Boolean visible,
 			Boolean readOnly, Boolean autoGo,
-			Integer backgroundRGB, Integer foregraundRGB, Integer lenght, Boolean wrap,
+			Integer backgroundRGB, Integer foregraundRGB, Boolean wrap,
 			Integer positionX, Integer positionY, Integer componentLength) {
 		super();
 		this.annotations = annotations;
@@ -41,6 +40,8 @@ public class EJBAttribute {
 		this.name = name;
 		this.label = label;
 		this.databaseName = databaseName;
+		this.precision = precision;
+		this.length = length;
 		this.mandatory = mandatory;
 		this.unique = unique;
 		this.representative = representative;
@@ -50,7 +51,6 @@ public class EJBAttribute {
 		this.foregraundRGB = foregraundRGB;
 		this.readOnly = readOnly;
 		this.autoGo = autoGo;
-		this.lenght = lenght;
 		this.wrap = wrap;
 		this.positionX = positionX;
 		this.positionY = positionY;
@@ -77,7 +77,7 @@ public class EJBAttribute {
 		this.readOnly = false;
         this.backgroundRGB = Color.WHITE.getRGB();
 		this.foregraundRGB = Color.BLACK.getRGB();
-		this.lenght = 50;
+		this.length = 50;
 		this.wrap = false;
 		columnRefs = new ArrayList<EJBAttribute>();
 		this.positionX = 0;
@@ -211,14 +211,6 @@ public class EJBAttribute {
 
 	public void setWrap(Boolean wrap) {
 		this.wrap = wrap;
-	}
-
-	public Integer getLenght() {
-		return lenght;
-	}
-
-	public void setLenght(Integer lenght) {
-		this.lenght = lenght;
 	}
 
 	public Integer getPositionX() {
