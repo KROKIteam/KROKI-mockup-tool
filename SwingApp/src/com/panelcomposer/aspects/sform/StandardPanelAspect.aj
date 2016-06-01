@@ -1,6 +1,7 @@
 package com.panelcomposer.aspects.sform;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.panelcomposer.elements.SForm;
 import com.panelcomposer.elements.spanel.SPanel;

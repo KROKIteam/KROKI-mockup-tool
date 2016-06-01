@@ -24,4 +24,14 @@
 <value>TABLEVIEW</value>
 <value>INPUTPANELVIEW</value>
 </enum>
+<enum label="Layout" name="Layout">
+<value>VERTICAL</value>
+<value>HORIZONTAL</value>
+<value>FREE</value>
+</enum>
+<enum label="Align" name="Align">
+<value>LEFT</value>
+<value>CENTER</value>
+<value>RIGHT</value>
+</enum>
 </enums>

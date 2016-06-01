@@ -1,6 +1,7 @@
 package com.panelcomposer.core;
 
 import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
 
 import util.PersistenceHelper;
 import util.SchemaGenerator;
@@ -23,7 +24,7 @@ public class MainApp {
 		//TypeMapping.loadMappings();
 		EntityReader.loadMappings();
 		PanelReader.loadMappings();
-
+		
 		//SCHEMA EXPORT
 		//AnnotationConfigurationWithWildcard cfg = new AnnotationConfigurationWithWildcard();
 		//cfg.configure();

@@ -11,6 +11,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import util.DebugUtil;
+
 public class XMLUtil {
 
 	public static String getTagValue(String tag, Element elem) {
@@ -54,6 +56,7 @@ public class XMLUtil {
 			doc.getDocumentElement().normalize();
 			return doc;
 		} catch (Exception e) {
+			DebugUtil.showStackTrace(e);
 			e.printStackTrace();
 			return null;
 		}

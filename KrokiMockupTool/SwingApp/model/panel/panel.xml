@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <panels>
 <standard-panels>
-<standard-panel ejb-ref="ejb.Gggg" id="gggg_st">
+<standard-panel ejb-ref="ejb.Rewrew" id="rewrew_st">
 <settings add="true" align="LEFT" change-mode="true" data-navigation="true" delete="true" layout="VERTICAL" view-mode="panel"/>
 </standard-panel>
 </standard-panels>

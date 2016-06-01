@@ -26,6 +26,7 @@ public class EJBAttribute {
 	private Integer precision;
 	private Integer positionX;
 	private Integer positionY;
+	private Integer componentLength;
 	
 	public EJBAttribute(ArrayList<String> annotations, String type, String name,
 			String label, String databaseName, Integer length, Integer precision, 
@@ -33,7 +34,7 @@ public class EJBAttribute {
 			Boolean unique, Boolean representative, Enumeration enumeration, Boolean visible,
 			Boolean readOnly, Boolean autoGo,
 			Integer backgroundRGB, Integer foregraundRGB, Integer lenght, Boolean wrap,
-			Integer positionX, Integer positionY) {
+			Integer positionX, Integer positionY, Integer componentLength) {
 		super();
 		this.annotations = annotations;
 		this.type = type;
@@ -53,6 +54,7 @@ public class EJBAttribute {
 		this.wrap = wrap;
 		this.positionX = positionX;
 		this.positionY = positionY;
+		this.componentLength = componentLength;
 		columnRefs = new ArrayList<EJBAttribute>();
 	}
 	
@@ -80,6 +82,7 @@ public class EJBAttribute {
 		columnRefs = new ArrayList<EJBAttribute>();
 		this.positionX = 0;
 		this.positionY = 0;
+		this.componentLength = 100;
 	}
 
 	public ArrayList<String> getAnnotations() {
@@ -253,4 +256,17 @@ public class EJBAttribute {
 	public void setPrecision(Integer precision) {
 		this.precision = precision;
 	}
+
+
+	public Integer getComponentLength() {
+		return componentLength;
+	}
+
+
+	public void setComponentLength(Integer componentLength) {
+		this.componentLength = componentLength;
+	}
+
+
+	
 }

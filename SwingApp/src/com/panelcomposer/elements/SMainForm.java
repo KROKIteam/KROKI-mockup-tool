@@ -26,6 +26,7 @@ public class SMainForm extends JFrame {
 	public SMainForm() {
 		setTitle(Settings.MAIN_FORM);
 		setSize(new Dimension(600, 400));
+		setLocationRelativeTo(null);
 		setExtendedState(JFrame.NORMAL);
 		setName("MainForm");
 		UserLoginDialog userLogin = new UserLoginDialog(this);

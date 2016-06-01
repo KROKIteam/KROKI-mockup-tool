@@ -14,10 +14,12 @@ public abstract class AbsAttribute extends AbstractElement {
 	protected Integer foregroundRGB;
 	protected Integer backgroundRGB;
 	protected Integer length;
+	protected Integer precision;
 	protected Boolean wrap = false;
 	protected Boolean visible = true;
 	protected Integer positionX;
 	protected Integer positionY;
+	protected Integer componentLength;
 	
 	public String getFieldName() {
 		return fieldName;
@@ -97,6 +99,38 @@ public abstract class AbsAttribute extends AbstractElement {
 
 	public void setPositionY(Integer positionY) {
 		this.positionY = positionY;
+	}
+
+	public String getMigConstant() {
+		return migConstant;
+	}
+
+	public void setMigConstant(String migConstant) {
+		this.migConstant = migConstant;
+	}
+
+	public Point getPosition() {
+		return position;
+	}
+
+	public void setPosition(Point position) {
+		this.position = position;
+	}
+
+	public Integer getPrecision() {
+		return precision;
+	}
+
+	public void setPrecision(Integer precision) {
+		this.precision = precision;
+	}
+
+	public Integer getComponentLength() {
+		return componentLength;
+	}
+
+	public void setComponentLength(Integer componentLength) {
+		this.componentLength = componentLength;
 	}
 
 }

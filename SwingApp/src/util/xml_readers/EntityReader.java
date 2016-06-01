@@ -10,6 +10,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import util.DebugUtil;
 import util.EntityHelper;
 import util.TypesConverterFromXML;
 import util.resolvers.ComponentResolver;
@@ -66,6 +67,7 @@ public class EntityReader {
 			ejb = getAttributesInfo(ejb, doc);
 			return ejb;
 		} catch (Exception e) {
+			DebugUtil.showStackTrace(e);
 			e.printStackTrace();
 			return null;
 		}
@@ -192,6 +194,12 @@ public class EntityReader {
 		
 		ca.setPositionY(new Integer(TypesConverterFromXML.resolveInteger(elem
 				.getAttribute("positionY"))));
+		
+		ca.setComponentLength(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("componentLength"))));
+		
+		ca.setPrecision(new Integer(TypesConverterFromXML.resolveInteger(elem
+				.getAttribute("precision"))));
 		
 		JComponent component = ComponentResolver.getComponent(ca);
 		ca.setComponent(component);

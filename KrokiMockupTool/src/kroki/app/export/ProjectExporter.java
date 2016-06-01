@@ -490,6 +490,7 @@ public class ProjectExporter {
 		Component component = vp.getComponent();
 		int positionX = (int) component.getRelativePosition().getX();
 		int positionY = (int) component.getRelativePosition().getY();
+		int componentLength = (int) component.getPreferredSize().getWidth();
 		
 		Boolean wrap = false;
 		if (next != null){
@@ -497,7 +498,8 @@ public class ProjectExporter {
 			wrap = nextComponent.getRelativePosition().getY() != positionY;
 		}
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true, false, vp.isRepresentative(),
-				enumeration, visible, readOnly, autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(), wrap, positionX, positionY);
+				enumeration, visible, readOnly, autoGo, backgroundRGB, foregroundRGB, (int)vp.getComponent().getPreferredSize().getWidth(),
+				wrap, positionX, positionY, componentLength);
 		
 		return attribute;
 	}

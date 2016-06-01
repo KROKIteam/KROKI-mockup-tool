@@ -173,7 +173,7 @@ public class InputPanel extends JPanel {
 				if (colAttr.getVisible()){
 					int xPosition = colAttr.getPositionX();
 					int yPosition = colAttr.getPositionY();
-					int length = colAttr.getLength();
+					int length = colAttr.getComponentLength();
 					int height = 30;
 					if (xPosition + length > maxX)
 						maxX = xPosition + length;

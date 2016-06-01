@@ -17,6 +17,7 @@ import org.jdesktop.jxlayer.JXLayer;
 import org.jdesktop.jxlayer.plaf.effect.BufferedImageOpEffect;
 import org.jdesktop.jxlayer.plaf.ext.LockableUI;
 
+import util.DebugUtil;
 import util.EntityHelper;
 import util.resolvers.ComponentResolver;
 import util.staticnames.Messages;
@@ -67,21 +68,27 @@ public class SPanel extends JPanel implements ObserverPanel {
 	public SPanel(MPanel mpanel, SForm form, SPanel ownerPanel,
 			OpenedAs openedAs, String dataFilter) {
 		super();
-		this.form = form;
-		this.modelPanel = (MStandardPanel) mpanel;
-		this.ownerPanel = ownerPanel;
-		this.modelPanel.getDataSettings().setDataFilter(dataFilter);
-		this.modelPanel.getPanelSettings().setOpenedAs(openedAs);
-		if (openedAs == OpenedAs.ZOOM) {
-			modelPanel.getPanelSettings().setViewMode(ViewMode.TABLEVIEW);
+		try{
+			this.form = form;
+			this.modelPanel = (MStandardPanel) mpanel;
+			this.ownerPanel = ownerPanel;
+			this.modelPanel.getDataSettings().setDataFilter(dataFilter);
+			this.modelPanel.getPanelSettings().setOpenedAs(openedAs);
+			if (openedAs == OpenedAs.ZOOM) {
+				modelPanel.getPanelSettings().setViewMode(ViewMode.TABLEVIEW);
+			}
+			init();
 		}
-		init();
+		catch(Exception ex){
+			DebugUtil.showStackTrace(ex);
+		}
+
 	}
 
 	public void init() {
 		getModelPanel().getPanelSettings().setStateMode(StateMode.ADD);
 		setLayout(new MigLayout("", "[0:0,grow 100,fill][pref!]", "[]0[]"));
-		
+
 		JPanel panelContainer = new JPanel();
 		panelContainer.setLayout(new MigLayout());
 
@@ -90,7 +97,7 @@ public class SPanel extends JPanel implements ObserverPanel {
 		addToolBar();
 		addPanelAndTable();
 		cardPanel.setPreferredSize(getTable().getScrollPane().getPreferredSize());
-		
+
 		OperationsPanel op = new OperationsPanel(this);
 		if (modelPanel.getStandardOperations().hasAllowedOperations()) {
 			panelContainer.add(cardPanel, "id cardPanel, pos 0 0 80% 100%");
@@ -153,8 +160,6 @@ public class SPanel extends JPanel implements ObserverPanel {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(getForm(), 
-						Messages.INCORRECT_DATA_INPUT, Messages.ERROR, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
