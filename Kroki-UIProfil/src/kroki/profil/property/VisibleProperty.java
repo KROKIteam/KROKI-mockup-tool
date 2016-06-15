@@ -46,18 +46,18 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
     /*****************/
     /*Constructors   */
     /*****************/
-    public VisibleProperty(String columnLabel, String displayFormat, boolean representative, boolean autoGo, boolean disabled, String defaultValue) {
+    public VisibleProperty(String columnLabel, String displayFormat, boolean representative, boolean autoGo, boolean disabled, String defaultValue, String dataType) {
         this.columnLabel = columnLabel;
         this.displayFormat = displayFormat;
         this.representative = representative;
         this.autoGo = autoGo;
         this.disabled = disabled;
         this.defaultValue = defaultValue;
-        this.dataType = "String";
+        this.dataType = dataType;
         this.lower = 1;
     }
 
-    public VisibleProperty(String label, boolean visible, ComponentType componentType, String columnLabel, String displayFormat, boolean representative, boolean autoGo, boolean disabled, String defaultValue) {
+    public VisibleProperty(String label, boolean visible, ComponentType componentType, String columnLabel, String displayFormat, boolean representative, boolean autoGo, boolean disabled, String defaultValue, String dataType) {
         super(label, visible, componentType);
         this.columnLabel = columnLabel;
         this.displayFormat = displayFormat;
@@ -65,7 +65,7 @@ public class VisibleProperty extends VisibleElement implements UmlProperty {
         this.autoGo = autoGo;
         this.disabled = disabled;
         this.defaultValue = defaultValue;
-        this.dataType = "String";
+        this.dataType = dataType;
         this.lower = 1;
         //System.out.println(umlClass);
     }

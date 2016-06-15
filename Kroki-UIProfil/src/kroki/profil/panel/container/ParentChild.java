@@ -38,9 +38,7 @@ public class ParentChild extends ContainerPanel {
 	@Override
 	public String toString() {
 		return label;
-	}
-
-	
+	}	
 
 
 	/*******************/

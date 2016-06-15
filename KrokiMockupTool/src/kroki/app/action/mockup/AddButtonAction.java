@@ -37,7 +37,7 @@ public class AddButtonAction extends AbstractAction {
         TabbedPaneController tabbedPaneController = KrokiMockupToolApp.getInstance().getTabbedPaneController();
         tabbedPaneController.changeCursorImage(addEnabledIcon);
         tabbedPaneController.getContext().goNext(State.ADD_STATE);
-
+        
         VisibleOperation visibleOperation = new Report("button_1", true, ComponentType.BUTTON);
         ((AddState) tabbedPaneController.getContext().getCurrentState()).setElement(visibleOperation);
         ((AddState) tabbedPaneController.getContext().getCurrentState()).setAddEnabledIcon(addEnabledIcon);

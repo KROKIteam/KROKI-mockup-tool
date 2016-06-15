@@ -1,5 +1,7 @@
 package kroki.app.controller;
 
+import groovy.ui.Console;
+
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -22,6 +24,7 @@ import kroki.app.view.Canvas;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.utils.StandardPanelUtil;
+import kroki.app.gui.console.CommandPanel;
 
 /**
  *
@@ -46,7 +49,6 @@ public class TabbedPaneController extends AbstractController {
                 updateSettingsAt(index);
             }
         });
-
 
         this.context = new Context(this);
         this.canvasList = new ArrayList<Canvas>();

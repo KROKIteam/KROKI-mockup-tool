@@ -23,7 +23,7 @@ public class Link extends GraphElement {
 	protected String[] stereotypes;
 
 	protected Properties<LinkProperties> properties;
-
+		
 	public Link(ArrayList<LinkNode> list) {
 		super();
 		this.sourceConnector = (Connector) list.get(0);

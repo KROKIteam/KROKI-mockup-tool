@@ -34,6 +34,8 @@ public class ElementsGroupUtil {
 			//NEW:
 				//visibleElement.setParentPanel(parentPanel);
 			if (visibleElement instanceof ElementsGroup) {
+
+				System.out.println("uslo");
 				((ElementsGroup) visibleElement).setGroupLocation(group.getGroupLocation());
 				((Composite) visibleElement.getComponent()).setLayoutManager(new FreeLayoutManager());
 			}
