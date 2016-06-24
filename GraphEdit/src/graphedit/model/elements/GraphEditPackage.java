@@ -222,6 +222,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 		if (loadedElement == null)
 			return;
 		GraphEditPackage loadedPackage = savedPackage(umlPackage, loadedElement);
+		if (loadedPackage == null)
+			return;
 		for (GraphElement diagramElement : loadedPackage.getDiagram().getDiagramElements()){
 			if (diagramElement instanceof Shortcut){
 				Shortcut shortcut = (Shortcut) diagramElement;
@@ -549,13 +551,13 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 				Link link;
 
 				if (loadedLink == null){
-					link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, true, true, MainFrame.getInstance().incrementLinkCounter());
 					Point  p1 = new Point(0,0);
 					Point p2 = new Point(200,200);
 					c1 = new Connector(p1, sourceElement);
 					c2 = new Connector(p2, destinationElement);
 					nodes.add(c1);
 					nodes.add(c2);
+					link = new AssociationLink(nodes, "1..1", "1..1", "","","",false,true, true, true, MainFrame.getInstance().incrementLinkCounter());
 				}
 				else{
 
