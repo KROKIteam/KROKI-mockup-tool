@@ -22,6 +22,7 @@ import kroki.app.utils.ImageResource;
 import kroki.app.utils.KrokiLookAndFeel;
 import kroki.app.utils.StringResource;
 import kroki.app.utils.TypeComponentMapper;
+import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
@@ -208,7 +209,51 @@ public class KrokiMockupToolApp {
 		return null;
 	}
 
-
+	public BussinesSubsystem checkPackage(String label, BussinesSubsystem owner) {
+		for(int i=0; i<owner.ownedElementCount(); i++) {
+			if(owner.getOwnedElementAt(i) instanceof BussinesSubsystem) {
+				BussinesSubsystem p = (BussinesSubsystem) owner.getOwnedElementAt(i);
+				if (p.getLabel().equalsIgnoreCase(label)) {
+					return p;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Find panel in relevant project and package
+	 * @param label Label
+	 * @param owner Project whitch contains the package with the specified label
+	 */
+	
+	public VisibleClass findPanel(String label, BussinesSubsystem owner){
+		System.out.println(owner);
+		for(int i=0; i<owner.ownedElementCount(); i++) {
+			if(owner.getOwnedElementAt(i) instanceof VisibleClass) {
+				VisibleClass panel = (VisibleClass) owner.getOwnedElementAt(i);
+				if (panel.getLabel().equalsIgnoreCase(label)){
+					return panel;
+				} else {
+					findPanel(label, owner);
+				} 
+			} 
+		}
+		return null;
+	}
+	
+	public VisibleClass checkPanel(String label, BussinesSubsystem owner){
+		for(int i=0; i<owner.ownedElementCount(); i++) {
+			if(owner.getOwnedElementAt(i) instanceof VisibleClass) {
+				VisibleClass panel = (VisibleClass) owner.getOwnedElementAt(i);
+				if (panel.getLabel().equalsIgnoreCase(label)){
+					return panel;
+				}
+			} 
+		}
+		return null;
+	}
+	
 	/**
 	 * Finds the project which directly contains the specified package (its owner)
 	 * @param pack Package 

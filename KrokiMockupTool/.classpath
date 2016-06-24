@@ -49,6 +49,7 @@
 	<classpathentry kind="lib" path="lib/xml-apis-ext.jar"/>
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/weblaf-complete-1.28.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-4.4-complete.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GraphEdit"/>
 	<classpathentry kind="lib" path="libECore/org.eclipse.emf.common_2.9.0.v20130528-0742.jar"/>
 	<classpathentry kind="lib" path="libECore/org.eclipse.emf.ecore_2.9.0.v20130528-0742.jar"/>
