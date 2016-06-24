@@ -108,10 +108,7 @@ public class KrokiMockupToolApp {
 			public void run() {
 				krokiMockupToolFrame.pack();
 				GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				krokiMockupToolFrame.setMaximizedBounds(e.getMaximumWindowBounds());
-				krokiMockupToolFrame.setMinimumSize(new Dimension(600, 400));
-				krokiMockupToolFrame.setSize(getPreferredSize());
-				krokiMockupToolFrame.setExtendedState(krokiMockupToolFrame.getExtendedState() | JFrame.NORMAL);
+				krokiMockupToolFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				krokiMockupToolFrame.setLocationRelativeTo(null);
 				krokiMockupToolFrame.toFront();
 				krokiMockupToolFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

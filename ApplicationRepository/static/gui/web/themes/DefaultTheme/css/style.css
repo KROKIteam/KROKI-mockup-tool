@@ -56,6 +56,13 @@ body {
 	overflow-y: auto;
 }
 
+/* CLEARFIX */
+.group:after {
+ 	content: "";
+  	display: table;
+  	clear: both;
+}
+
 /*****************************************************************
 												   MENU FORMATTING
 *****************************************************************/
@@ -333,6 +340,10 @@ ul.L2SubMenu {
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
+
+#confirmDialog .windowBody {
+	height: auto;
+}
 /*****************************************************************
 												 FORMS FORMATTING
 *****************************************************************/
@@ -593,7 +604,7 @@ textarea {
 .labelColumn {
 	font-weight: bold;
 	text-align: right;
-	padding-right: 20px;
+	/*padding-right: 20px;*/
 	vertical-align: top;
 }
 
@@ -689,7 +700,7 @@ is shown and to stop click propagation, making the dialog modal
 
 #confirmDialog .printCheckBox {
 	width: 20%;
-	float: left;
+	/*float: left;*/
 }
 
 #confirmDialog .printLabel {

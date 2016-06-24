@@ -687,9 +687,9 @@
 		    });
 		    var count = printContainer.find("input").length;
 		    if(count > 3) {
-		    	$("#confirmDialog").css({height: 42*count + "px"});
+		    	$("#confirmDialog").css({height: (42 * count + 35) + "px"});
 		    }else {
-		    	$("#confirmDialog").css({height: "170px"});
+		    	$("#confirmDialog").css({height: "185px"});
 		    }
 		    $("#confirmDialog p").append(printContainer);
 		}else {

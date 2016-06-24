@@ -49,7 +49,7 @@ body {
 }
 
 #loginForm {
-	width: 300px;
+	width: /*300*/px;
 	height: 200px;
 	float: right;
 	background-color: #f3f4f5;
@@ -97,7 +97,7 @@ body {
 	height: 1.2em;
 	font-size: 1.1em;
 	color: #415b76;
-	width: 100%;
+	width: 95%;
 }
 
 .loginButton {

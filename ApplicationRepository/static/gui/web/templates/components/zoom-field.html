@@ -1,5 +1,9 @@
 <#if attribute.columns??>
-<#assign width = 84/attribute.columns?size>
+<#if (attribute.columns?size > 3)>
+	<#assign width = (82/attribute.columns?size) - 1>
+<#else>
+  	<#assign width = 83/attribute.columns?size>
+</#if>
 <input id="${attribute.fieldName}-id" name="${attribute.fieldName}" class="zoomInputs" type="text" readonly="readonly" style="width: ${width?floor}%" <#if zoomEditMap??><#if zoomEditMap?has_content><#if zoomEditMap[attribute.fieldName]["id"]??>value="${zoomEditMap[attribute.fieldName]["id"]}"<#else>value="None"</#if></#if><#else>value="ID"</#if>>
 <#list attribute.columns as column>
 <#if column.hidden == false>
