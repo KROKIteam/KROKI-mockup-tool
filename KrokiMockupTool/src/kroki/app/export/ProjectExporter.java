@@ -464,7 +464,10 @@ public class ProjectExporter {
 		if (vp.getPersistentType() == null) {
 			vp.setPersistentType("varchar");
 		}
-		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false " + lenPrecAnnotation
+		
+		boolean mandatory = vp.lower() != 0;
+	
+		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = " + !mandatory + lenPrecAnnotation
 				+ ",columnDefinition = \"" + vp.getPersistentType().toUpperCase() + "\")");
 		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true,
 				false, vp.isRepresentative(), enumeration);
