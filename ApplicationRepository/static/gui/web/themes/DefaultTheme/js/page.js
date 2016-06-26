@@ -753,36 +753,45 @@
     });
 
     container.on("click", "#button-ok", function(e) {
-        e.preventDefault();
+    	e.preventDefault();
         var form = $(this).closest(".inputForm");
         var act = form.attr('action');
         var method = form.attr('method');
-        $.ajax({
-            type: method,
-            url: act,
-            data: form.serialize(),
-            encoding:"UTF-8",
-            contentType: "text/html; charset=UTF-8",
-            success: function (data) {
-                $("#messagePopup").html(data);
-                var clas = $("#messagePopup").find("p").attr("data-cssClass");
-                $("#messagePopup").attr("class", clas);
-                $("#messagePopup").prepend("<div></div>");
-                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-                if(clas == "messageOk") {
-                    if(form.attr("name") == "addForm") {
-                        form.trigger("reset");
-                        form.find(".inputFormFields tr:first-child input").focus();
-                    }
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                $("#messagePopup").html("<p>" + errorThrown + "</p>");
-                $("#messagePopup").attr("class", "messageError");
-                $("#messagePopup").prepend("<div></div>");
-                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-            }
-        });
+
+        if(form[0].checkValidity() === false) {
+	      	$("#messagePopup").html("<p>Please fill all required fields.</p>");
+	      	$("#messagePopup").attr("class", "messageError");
+	        $("#messagePopup").prepend("<div></div>");
+	        $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+	    }else {
+	    	$.ajax({
+	            type: method,
+	            url: act,
+	            data: form.serialize(),
+	            encoding:"UTF-8",
+	            contentType: "text/html; charset=UTF-8",
+	            success: function (data) {
+	                $("#messagePopup").html(data);
+	                var clas = $("#messagePopup").find("p").attr("data-cssClass");
+	                $("#messagePopup").attr("class", clas);
+	                $("#messagePopup").prepend("<div></div>");
+	                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+	                if(clas == "messageOk") {
+	                    if(form.attr("name") == "addForm") {
+	                        form.trigger("reset");
+	                        form.find(".inputFormFields tr:first-child input").focus();
+	                    }
+	                }
+	            },
+	            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	                $("#messagePopup").html("<p>" + errorThrown + "</p>");
+	                $("#messagePopup").attr("class", "messageError");
+	                $("#messagePopup").prepend("<div></div>");
+	                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+	            }
+	        });	
+	    }
+        
     });
 });
 //---------------------------------------------------------------------//           UTIL FUNCTIONS

@@ -83,7 +83,7 @@ public class AddResource extends BaseResource {
 			// Extract name-value pairs from submited form
 			String name = pair.getKey();
 			String value = pair.getValue();
-			if(!name.equals("null") && !value.equals("null")) {
+			if(!name.equals("null")) {
 				String nameCap = Character.toUpperCase(name.charAt(0)) + name.substring(1);
 				for (AbstractAttribute attribute : bean.getAttributes()) {
 					// get corresponding sttribute info based on fieldName
@@ -93,7 +93,10 @@ public class AddResource extends BaseResource {
 							Class paramClass  = Class.forName(column.getDataType().split(":")[0]);
 							Method setter = entityClass.getMethod("set" + nameCap, paramClass);
 							setter.setAccessible(true);
-							Object val = ConverterUtil.convert(value, column);
+							Object val = null;
+							if(value != null) {
+								val = ConverterUtil.convert(value, column);
+							}
 							setter.invoke(instance, val);
 						}else if(attribute instanceof JoinColumnAttribute) {
 							JoinColumnAttribute jcAttribute = (JoinColumnAttribute) attribute;

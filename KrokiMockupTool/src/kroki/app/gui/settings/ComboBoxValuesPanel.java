@@ -35,7 +35,6 @@ public class ComboBoxValuesPanel extends JPanel {
 	public ComboBoxValuesPanel(VisiblePropertySettings settingsPanel, VisibleProperty visibleProperty) {
 		setSize(200, 300);
 		
-		this.visibleProperty = visibleProperty;
 		this.settingsPanel = settingsPanel;
 		
 		//Initialize table and table model
@@ -46,6 +45,7 @@ public class ComboBoxValuesPanel extends JPanel {
 		valuesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		valuesTable.setTableHeader(null);
 		
+		setVisibleProperty(visibleProperty);
 		//Default row which is always displayed at the bottom of the table
 		//Click on this row adds new row to the table
 		String[] row = {"..."};
@@ -75,7 +75,7 @@ public class ComboBoxValuesPanel extends JPanel {
 						setVisiblePropertyEnum();
 					}
 				}catch(Exception ex) {
-					
+					ex.printStackTrace();
 				}
 			}
 		});
@@ -96,7 +96,6 @@ public class ComboBoxValuesPanel extends JPanel {
 		});
 		
 		valuesTable.addKeyListener(new KeyAdapter() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 				super.keyTyped(e);
@@ -113,7 +112,6 @@ public class ComboBoxValuesPanel extends JPanel {
 				} catch (Exception e2) {
 				}
 			}
-			
 			@Override
 			public void focusGained(FocusEvent e) {
 			}
@@ -149,19 +147,22 @@ public class ComboBoxValuesPanel extends JPanel {
 		model.addRow(row);
 	}
 	
-	public void setValues(String[] newValues) {
-		DefaultTableModel model = (DefaultTableModel)valuesTable.getModel();
-		model.getDataVector().removeAllElements();
-		
-		//Add all rows from array
-		for(int i=0; i<newValues.length; i++) {
-			String[] newRow = {newValues[i]};
-			model.addRow(newRow);
+	public void setValues() {
+		if(visibleProperty.getEnumeration() != null) {
+			String[] newValues = visibleProperty.getEnumeration().split(";");
+			DefaultTableModel model = (DefaultTableModel)valuesTable.getModel();
+			model.getDataVector().removeAllElements();
+			
+			//Add all rows from array
+			for(int i=0; i<newValues.length; i++) {
+				String[] newRow = {newValues[i]};
+				model.addRow(newRow);
+			}
+			String[] row = {"..."};
+			model.addRow(row);
+		}else {
+			resetTable();
 		}
-		
-		//Add default row
-		String[] row = {"..."};
-		model.addRow(row);
 	}
 
 	public void setVisiblePropertyEnum() {
@@ -183,9 +184,8 @@ public class ComboBoxValuesPanel extends JPanel {
 	public void setVisibleProperty(VisibleProperty visibleProperty) {
 		this.visibleProperty = visibleProperty;
 		try {
-			setValues(visibleProperty.getEnumeration().split(";"));
+			setValues();
 		} catch (Exception e) {
-			resetTable();
 		}
 	}
 }

@@ -6,7 +6,7 @@ package kroki.commons.camelcase;
  */
 public class NamingUtil {
 
-
+	String illegalCharacters = "[-#;*/\\|<>.,~`()?\\]\\[]";
 
 	/**
 	 * Converts given string to camel case.
@@ -67,7 +67,7 @@ public class NamingUtil {
 			}
 		}
 		// Remove special characters
-		columnName = columnName.replaceAll("[-#;*/\\|<>.,~`]", "");
+		columnName = columnName.replaceAll(illegalCharacters, "");
 		return prefix.toUpperCase() + "_" + columnName.replaceAll(" ", "_").toUpperCase();
 	}
 
@@ -105,7 +105,7 @@ public class NamingUtil {
 						prazno=false;
 					}
 				}
-				return builder.toString().replaceAll("[-#;*/\\|<>.,~`]", "");
+				return builder.toString().replaceAll(illegalCharacters, "");
 			}
 		return "";
 		/**/
@@ -201,6 +201,8 @@ public class NamingUtil {
 		return lowerFirstLetter(builder.toString().trim());
 	}
 
-
+	public String stripIllegealChars(String string) {
+		return string.replaceAll(illegalCharacters, "");
+	}
 
 }
