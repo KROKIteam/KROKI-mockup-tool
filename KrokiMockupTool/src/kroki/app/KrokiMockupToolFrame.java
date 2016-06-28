@@ -29,6 +29,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.apache.commons.io.FileDeleteStrategy;
+
 import kroki.app.action.AboutAction;
 import kroki.app.action.CopyAction;
 import kroki.app.action.CutAction;
@@ -36,6 +38,7 @@ import kroki.app.action.DBConneectionSettingsAction;
 import kroki.app.action.ExitAction;
 import kroki.app.action.ExportEclipseProjectAction;
 import kroki.app.action.ExportEclipseUMLDiagramAction;
+import kroki.app.action.ExportLabelsAction;
 import kroki.app.action.ExportSwingAction;
 import kroki.app.action.ExportWebAction;
 import kroki.app.action.HelpAction;
@@ -64,8 +67,6 @@ import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
-
-import org.apache.commons.io.FileDeleteStrategy;
 
 /**
  * Kroki mockup tool main frame
@@ -307,7 +308,8 @@ public class KrokiMockupToolFrame extends JFrame {
 
 			exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,true));
 			exportFileMenu.add(new ExportEclipseUMLDiagramAction(false,false));
-
+			exportFileMenu.addSeparator();
+			exportFileMenu.add(new ExportLabelsAction());
 
 			file.addSeparator();
 
