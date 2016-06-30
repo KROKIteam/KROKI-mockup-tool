@@ -47,10 +47,17 @@ public class UIPropertyUtil {
 			//visibleElement.setParentPanel(this);
 			if (visibleElement instanceof UmlProperty) {
 				((UmlProperty) visibleElement).setUmlClass(panel);
-				panel.getVisibleElementList().add(index, visibleElement);
+				if (index >= panel.getVisibleElementList().size())
+					panel.getVisibleElementList().add(visibleElement);
+				else
+					panel.getVisibleElementList().add(index, visibleElement);
+				
 			} else if (visibleElement instanceof UmlOperation) {
 				((UmlOperation) visibleElement).setUmlClass(panel);
-				panel.getVisibleElementList().add(index, visibleElement);
+				if (panel.getVisibleElementList().size() >= panel.getVisibleElementList().size())
+					panel.getVisibleElementList().add(visibleElement);
+				else
+					panel.getVisibleElementList().add(index, visibleElement);
 			} else {
 				return;
 			}

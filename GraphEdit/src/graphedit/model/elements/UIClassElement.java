@@ -511,6 +511,7 @@ public class UIClassElement extends ClassElement{
 		NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex, label, "*", zoom);
 		zoomMap.put(connector, zoomElement);
 		
+		
 		return zoom;
 	}
 
@@ -714,7 +715,7 @@ public class UIClassElement extends ClassElement{
 		if (!navigable){
 			//izbaci next
 			ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-			ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextEl.getClassIndex()));
+			ElementsGroupUtil.removeVisibleElement(gr, nextEl.getVisibleElement());// UIPropertyUtil.getVisibleElementAt(visibleClass, nextEl.getClassIndex()));
 			UIPropertyUtil.removeVisibleElement(visibleClass, nextEl.getClassIndex());
 
 			Next next = (Next) nextMap.get(connector).getVisibleElement();
@@ -799,7 +800,7 @@ public class UIClassElement extends ClassElement{
 			if (linkEnd == LinkEnd.NEXT){
 				//izbaci zoom
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-				ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
+				ElementsGroupUtil.removeVisibleElement(gr, nextZoom.getVisibleElement());// UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
 				UIPropertyUtil.removeVisibleElement(visibleClass, nextZoom.getClassIndex());
 				zoomMap.remove(connector);
 
@@ -821,7 +822,7 @@ public class UIClassElement extends ClassElement{
 				//izbaci next
 				if (nextZoom != null){
 					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-					ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
+					ElementsGroupUtil.removeVisibleElement(gr,nextZoom.getVisibleElement());// UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
 					UIPropertyUtil.removeVisibleElement(visibleClass, nextZoom.getClassIndex());
 					nextMap.remove(connector);
 					//	label = nextZoom.getLabel();
@@ -903,7 +904,7 @@ public class UIClassElement extends ClassElement{
 				NextZoomElement zoomElement = zoomMap.get(connector);
 				if (visibleClass.getVisibleElementList().contains(zoomElement.getVisibleElement())){
 					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-					ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, zoomElement.getClassIndex()));
+					ElementsGroupUtil.removeVisibleElement(gr, zoomElement.getVisibleElement());
 					UIPropertyUtil.removeVisibleElement(visibleClass, zoomElement .getClassIndex());
 				}
 				zoomMap.remove(connector);
@@ -913,7 +914,7 @@ public class UIClassElement extends ClassElement{
 				NextZoomElement nextElement = nextMap.get(connector);
 				if (visibleClass.getVisibleElementList().contains(nextElement.getVisibleElement())){
 					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-					ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, nextElement.getClassIndex()));
+					ElementsGroupUtil.removeVisibleElement(gr, nextElement.getVisibleElement()); //UIPropertyUtil.getVisibleElementAt(visibleClass, nextElement.getClassIndex()));
 					UIPropertyUtil.removeVisibleElement(visibleClass, nextElement.getClassIndex());
 				}
 				nextMap.remove(connector);

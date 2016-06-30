@@ -50,7 +50,10 @@ public class ElementsGroupUtil {
 	 */
 	public static void addVisibleElement(ElementsGroup group, int index, VisibleElement visibleElement) {
 		if (!group.getVisibleElementList().contains(visibleElement)) {
-			group.getVisibleElementList().add(index, visibleElement);
+			if (index < group.getVisibleElementList().size())
+				group.getVisibleElementList().add(index, visibleElement);
+			else
+				group.getVisibleElementList().add(visibleElement);
 			visibleElement.setParentGroup(group);
 			//NEW:
 				//visibleElement.setParentPanel(parentPanel);
