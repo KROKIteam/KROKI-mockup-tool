@@ -498,7 +498,8 @@ public class UIClassElement extends ClassElement{
 			classIndex = UIPropertyUtil.getVisibleElementNum(visibleClass);
 		if (groupIndex == -1)
 			groupIndex = ElementsGroupUtil.getVisibleElementsNum(gr);
-
+		
+		
 		VisibleProperty property = new VisibleProperty(namer.transformClassName(label), true,  ComponentType.COMBO_BOX);
 		Zoom zoom = new Zoom(property);
 		zoom.setActivationPanel(visibleClass);
@@ -507,9 +508,9 @@ public class UIClassElement extends ClassElement{
 		ElementsGroupUtil.addVisibleElement(gr, groupIndex, zoom);
 		UIPropertyUtil.addVisibleElement(visibleClass, classIndex, zoom);
 
-		NextZoomElement nextElement = new NextZoomElement(targetElement, classIndex, groupIndex, label, "*", zoom);
-		zoomMap.put(connector, nextElement);
-
+		NextZoomElement zoomElement = new NextZoomElement(targetElement, classIndex, groupIndex, label, "*", zoom);
+		zoomMap.put(connector, zoomElement);
+		
 		return zoom;
 	}
 
@@ -575,7 +576,7 @@ public class UIClassElement extends ClassElement{
 		Connector connector = null;
 		Connector otherConnector = null;
 		Boolean source = (Boolean) args[0];
-
+		
 		if (source){
 			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
 			//gledamo da li je zoom ili next, zavisi od kardinaliteta i da li je navigabilno
@@ -632,7 +633,7 @@ public class UIClassElement extends ClassElement{
 			}
 		}
 		else{
-			//ako je ovo ParentChild koji sadrzi drugi, dodaj
+			//if parent-child that contains the other one
 			if (navigable){
 				Hierarchy hierarchy = new Hierarchy();
 				addHierarchyElement(hierarchy, (VisibleClass) otherElement.getUmlType(), connector);
@@ -872,6 +873,7 @@ public class UIClassElement extends ClassElement{
 		String cardinality;
 		UIClassElement otherElement;
 		Boolean source = (Boolean) args[1];
+		
 
 		if (source){
 			connector = link.getSourceConnector();
@@ -974,6 +976,7 @@ public class UIClassElement extends ClassElement{
 
 		if (!navigable)
 			return;
+		
 
 		//proveri da li je standardni ili parent-child panel
 		LinkType linkType;
@@ -996,15 +999,15 @@ public class UIClassElement extends ClassElement{
 			if (source){
 				NextZoomElement next = nextMap.get(link.getSourceConnector());
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
-				ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, next.getClassIndex()));
-				UIPropertyUtil.removeVisibleElement(visibleClass, next.getClassIndex());
+				ElementsGroupUtil.removeVisibleElement(gr, next.getVisibleElement());//UIPropertyUtil.getVisibleElementAt(visibleClass, next.getClassIndex()));
+				UIPropertyUtil.removeVisibleElement(visibleClass, next.getVisibleElement());
 				nextMap.remove(link.getSourceConnector());
 			}
 			else{
 				NextZoomElement zoom = zoomMap.get(link.getDestinationConnector());
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
-				ElementsGroupUtil.removeVisibleElement(gr, UIPropertyUtil.getVisibleElementAt(visibleClass, zoom.getClassIndex()));
-				UIPropertyUtil.removeVisibleElement(visibleClass, zoom.getClassIndex());
+				ElementsGroupUtil.removeVisibleElement(gr, zoom.getVisibleElement());//UIPropertyUtil.getVisibleElementAt(visibleClass, zoom.getClassIndex()));
+				UIPropertyUtil.removeVisibleElement(visibleClass, zoom.getVisibleElement());
 			}
 		}
 	}
@@ -1192,6 +1195,11 @@ public class UIClassElement extends ClassElement{
 	public void setRelationshipsCounterMap(
 			HashMap<UIClassElement, Integer> relationshipsCounterMap) {
 		this.relationshipsCounterMap = relationshipsCounterMap;
+	}
+
+	@Override
+	public String toString() {
+		return "UIClassElement [visibleClass=" + visibleClass + "]";
 	}
 	
 

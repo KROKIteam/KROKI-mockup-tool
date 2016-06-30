@@ -86,6 +86,14 @@ public class NextZoomElement extends AbstractLinkElement{
 	public void setVisibleElement(VisibleElement visibleElement) {
 		this.visibleElement = visibleElement;
 	}
+
+
+	@Override
+	public String toString() {
+		return "NextZoomElement [targetElement=" + targetElement
+				+ ", classIndex=" + classIndex + ", groupIndex=" + groupIndex
+				+ "]";
+	}
 	
 	
 	

@@ -295,9 +295,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 			
 			for (Zoom zoom : VisibleClassUtil.containedZooms(visibleClass)){
 
-
-				//onaj koji sadrzi zoom je destination
-				//onaj koji sadrzi next je source
+				//the ones that contains zoom is destination
+				//the one that contains next is source
 
 
 				UIClassElement targetElement = allElementsMap.get(zoom.getTargetPanel());
@@ -525,15 +524,14 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 						sourceElement = findShortcut((ClassShortcut) origSourceElement);
 					if (origDestinationElement instanceof ClassShortcut)
 						destinationElement = findShortcut((ClassShortcut) origDestinationElement);
-
+					
 				}
 
 				if (sourceElement == null)
 					sourceElement = getDiagramElement(thisElement);
 				if (destinationElement == null)
 					destinationElement = getDiagramElement(targetElement);
-
-
+				
 
 				Connector c1 = null;
 				Connector c2 = null;
@@ -605,8 +603,8 @@ public class GraphEditPackage extends Observable implements GraphEditElement, Gr
 
 				link.setProperty(LinkProperties.STEREOTYPE, "Hierarchy level = " + hierarchy.getLevel());
 
-				c2.setRepresentedElement(thisElement);
-				c1.setRepresentedElement(targetElement);
+				c1.setRepresentedElement(thisElement);
+				c2.setRepresentedElement(targetElement);
 				link.setSourceConnector(c1);
 				link.setDestinationConnector(c2);
 				c1.setLink(link);

@@ -28,9 +28,9 @@ import kroki.uml_core_basic.UmlPackage;
 
 public class CutElementsCommand extends Command {
 
-	private  List<GraphElement> elements;
-	private  List<ElementPainter> elementPainters;
-	private  List<Link> links;
+	private List<GraphElement> elements;
+	private List<ElementPainter> elementPainters;
+	private List<Link> links;
 	private Map<Connector, GraphElement> removedMappings;
 	private GraphEditModel model;
 	private List<GraphEditPackage> packages;
@@ -77,6 +77,8 @@ public class CutElementsCommand extends Command {
 		}
 
 
+		//so link so that those with smaller zoom/next class indexes are added first 
+		
 		if (MainFrame.getInstance().getAppMode() != ApplicationMode.PERSISTENT && links!=null)
 			for (Link link : model.getAssociatedLinks(this.elements)){
 
@@ -85,7 +87,7 @@ public class CutElementsCommand extends Command {
 				GraphElement destination = model.getElementByConnector().get(link.getDestinationConnector());
 
 
-				//brisemo ako se brise element 
+				//delete if the element is deleted
 				if (!(source instanceof Shortcut) && elements.contains(source) ||
 						!(destination instanceof Shortcut) && elements.contains(destination))
 					unlink = true;
@@ -121,6 +123,8 @@ public class CutElementsCommand extends Command {
 			element.getConnectors().add(conn);
 		}
 		model.addToElementByConnectorStructure(removedMappings);
+
+		//
 
 		for (Link link : links){
 
@@ -240,7 +244,7 @@ public class CutElementsCommand extends Command {
 
 	private GraphElement getReplacementElement(Shortcut shortcut){
 
-		
+
 		LinkableElement element = (LinkableElement) shortcut.shortcutTo();
 		double minDiff = -1;
 		GraphElement replacement = null;

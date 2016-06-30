@@ -57,13 +57,17 @@ public class CutLinkCommand extends Command {
 
 		if (ApplicationMode.PERSISTENT != MainFrame.getInstance().getAppMode()){
 
+			
 			sourceElement = link.getSourceConnector().getRepresentedElement();
 			destinationElement = link.getDestinationConnector().getRepresentedElement();
+			
 
 			//if link represents a hierarchy, delete all child hierarchies as well
 			if (sourceElement.getUmlElement() instanceof ParentChild){
 				HierarchyElement hierarchyElement = ((UIClassElement)sourceElement).getHierarchyMap().get(link.getSourceConnector());
 				Hierarchy hierarchy = hierarchyElement.getHierarchy();
+				
+				System.out.println(hierarchy);
 
 				List<Hierarchy> successors = HierarchyUtil.allSuccessors(hierarchy);
 				successors.add(hierarchy);
@@ -80,7 +84,6 @@ public class CutLinkCommand extends Command {
 						hierarchyElement = ((UIClassElement)sourceElement).getHierarchyMap().get(conn.getLink().getSourceConnector());
 						sourceLinkElements.add(hierarchyElement);
 						destinationLinkElements.add(null);
-
 					}
 				}
 
@@ -126,6 +129,8 @@ public class CutLinkCommand extends Command {
 	public void undo() {
 
 
+		System.out.println("cut link undo");
+		
 		for (Connector conn : removedMappings.keySet()){
 			LinkableElement element = (LinkableElement) removedMappings.get(conn);
 			element.getConnectors().add(conn);
@@ -138,6 +143,9 @@ public class CutLinkCommand extends Command {
 
 		for (int i = 0; i < links.size(); i++){
 			link = links.get(i);
+			
+			System.out.println("undo link " + link);
+			
 			if (view != null)
 				linkPainter = linkPainters.get(i);
 			sourceElement = link.getSourceConnector().getRepresentedElement();
@@ -149,6 +157,10 @@ public class CutLinkCommand extends Command {
 
 			sourceLinkElement = sourceLinkElements.get(i);
 			destinationLinkElement = destinationLinkElements.get(i);
+			
+			System.out.println(sourceLinkElement);
+			System.out.println(destinationLinkElement);
+			
 			if (sourceLinkElement != null)
 				sourceElement.setOldLink(link, sourceLinkElement, true);
 			if (destinationLinkElement != null)
