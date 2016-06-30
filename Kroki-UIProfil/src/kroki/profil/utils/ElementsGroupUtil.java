@@ -62,7 +62,10 @@ public class ElementsGroupUtil {
 				((Composite) visibleElement.getComponent()).setLayoutManager(new FreeLayoutManager());
 			}
 			//add drawing component
-			((Composite) group.getComponent()).addChild(index, visibleElement.getComponent());
+			if (index < ((Composite)group.getComponent()).getChildrenList().size())
+				((Composite) group.getComponent()).addChild(index, visibleElement.getComponent());
+			else
+				((Composite) group.getComponent()).addChild(visibleElement.getComponent());
 		}
 	}
 
