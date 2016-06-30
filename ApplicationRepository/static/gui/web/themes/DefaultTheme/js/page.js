@@ -382,32 +382,64 @@
             var assocEnd = childForm.attr("data-assocend");
 			//call server method only if child form exists below this form
 			if(childForm.length > 0) {
-                $.ajax({
-                    url: "/showChildren/" +  childId  + "/" + assocEnd + "/" + rowId,
-                    type: 'GET',
-                    encoding:"UTF-8",
-                    contentType: "text/html; charset=UTF-8",
-                    success: function(data) {
-                        childForm.html(data);
-                        childForm.find("button#btnZoomBack").remove();
-                        var firstRow = childForm.find(".mainTable tbody tr:first-child");
-                        if(firstRow.length > 0) {
-                            firstRow.trigger("click");
-                        }else {
-                          childForm.next().find(".tablePanel").empty();
-                      }
-                      updateBounds(childForm);
-                      },
-                      error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                        $("#messagePopup").html("<p>" + errorThrown + "</p>");
-                        $("#messagePopup").attr("class", "messageError");
-                        $("#messagePopup").prepend("<div></div>");
-                        $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-                    }
-                });
+				var childInputForm = childForm.find("form.inputForm");
+				syncZoomWithParentTable(form, childForm);
+				if(!childInputForm.is(':visible')) {
+					// if table is visible, fetch filtered content
+					$.ajax({
+	                    url: "/showChildren/" +  childId  + "/" + assocEnd + "/" + rowId,
+	                    type: 'GET',
+	                    encoding:"UTF-8",
+	                    contentType: "text/html; charset=UTF-8",
+	                    success: function(data) {
+	                        childForm.html(data);
+	                        childForm.find("button#btnZoomBack").remove();
+	                        var firstRow = childForm.find(".mainTable tbody tr:first-child");
+	                        if(firstRow.length > 0) {
+	                            firstRow.trigger("click");
+	                        }else {
+	                          childForm.next().find(".tablePanel").empty();
+	                      }
+	                      updateBounds(childForm);
+	                      },
+	                      error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	                        $("#messagePopup").html("<p>" + errorThrown + "</p>");
+	                        $("#messagePopup").attr("class", "messageError");
+	                        $("#messagePopup").prepend("<div></div>");
+	                        $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+	                    }
+	                });
+				}
             }
         }
     });
+
+	// Synchronize child zooom values with the selected row in the parent table
+    function syncZoomWithParentTable(parentForm, childForm) {
+    	if(parentForm.find("tr.selectedTr").length > 0) {
+    		var parentId = parentForm.attr("data-resourceId");
+	    	if(childForm.length > 0) {
+	    		// Zoom field consists of a zoom button and input fields for each
+	    		// representative attribute of parent entity.
+	    		// Zoom button contains info about parent id in the 'data-activate' attribute
+				var childInputForm = childForm.find("form.inputForm");
+				var zoomButton = childInputForm.find("button[data-activate='" + parentId + "']");
+				if(zoomButton.length > 0) {
+					// Once we have found the zoom button, iterate over it's zoom fields and populate it
+					// Each zoom input filed's id attribute conforms with the 'data-attrname' attribute
+					// Of a cell in the parent form table which holds the designated attribute value.
+					zoomButton.siblings('input.zoomInputs').each(function() {
+						var zoomId = $(this).attr("id");
+						// We need to strip the prefix from the id to obtain a clear attribute name
+						zoomId = zoomId.substring(zoomId.lastIndexOf('-') + 1);
+						// Then fetch the value from the cell in the selected row and set the value od a zoom field
+						var zoomVal = parentForm.find("tr.selectedTr td[data-attrname='" + zoomId + "']").text();
+						$(this).attr('value', zoomVal);
+					});
+				}
+			}
+    	}
+    }
 
 	//"SWITCH VIEW" BUTTON:
 	// - Shows forms for adding new and editing existent rows in table
@@ -467,6 +499,10 @@
 				form.find(".inputForm[name=addForm]").show();
 				form.fadeIn(fadeSpeed);
 			});
+		}
+		var parentForm = form.prev('.standardForms');
+		if(parentForm.length > 0) {
+			syncZoomWithParentTable(parentForm, form);
 		}
 	});
 
@@ -570,6 +606,10 @@
 			form.find(".operationsDiv").hide();
 			form.find(".inputForm[name=addForm]").show();
 			form.fadeIn("slow");
+			var parentForm = form.prev('.standardForms');
+			if(parentForm.length > 0) {
+				syncZoomWithParentTable(parentForm, form);
+			}
 		});
 	});
 
@@ -753,36 +793,45 @@
     });
 
     container.on("click", "#button-ok", function(e) {
-        e.preventDefault();
+    	e.preventDefault();
         var form = $(this).closest(".inputForm");
         var act = form.attr('action');
         var method = form.attr('method');
-        $.ajax({
-            type: method,
-            url: act,
-            data: form.serialize(),
-            encoding:"UTF-8",
-            contentType: "text/html; charset=UTF-8",
-            success: function (data) {
-                $("#messagePopup").html(data);
-                var clas = $("#messagePopup").find("p").attr("data-cssClass");
-                $("#messagePopup").attr("class", clas);
-                $("#messagePopup").prepend("<div></div>");
-                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-                if(clas == "messageOk") {
-                    if(form.attr("name") == "addForm") {
-                        form.trigger("reset");
-                        form.find(".inputFormFields tr:first-child input").focus();
-                    }
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                $("#messagePopup").html("<p>" + errorThrown + "</p>");
-                $("#messagePopup").attr("class", "messageError");
-                $("#messagePopup").prepend("<div></div>");
-                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
-            }
-        });
+
+        if(form[0].checkValidity() === false) {
+	      	$("#messagePopup").html("<p>Please fill all required fields.</p>");
+	      	$("#messagePopup").attr("class", "messageError");
+	        $("#messagePopup").prepend("<div></div>");
+	        $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+	    }else {
+	    	$.ajax({
+	            type: method,
+	            url: act,
+	            data: form.serialize(),
+	            encoding:"UTF-8",
+	            contentType: "text/html; charset=UTF-8",
+	            success: function (data) {
+	                $("#messagePopup").html(data);
+	                var clas = $("#messagePopup").find("p").attr("data-cssClass");
+	                $("#messagePopup").attr("class", clas);
+	                $("#messagePopup").prepend("<div></div>");
+	                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+	                if(clas == "messageOk") {
+	                    if(form.attr("name") == "addForm") {
+	                        form.trigger("reset");
+	                        form.find(".inputFormFields tr:first-child input").focus();
+	                    }
+	                }
+	            },
+	            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	                $("#messagePopup").html("<p>" + errorThrown + "</p>");
+	                $("#messagePopup").attr("class", "messageError");
+	                $("#messagePopup").prepend("<div></div>");
+	                $("#messagePopup").slideToggle(300).delay(delay).slideToggle(500);
+	            }
+	        });	
+	    }
+        
     });
 });
 //---------------------------------------------------------------------//           UTIL FUNCTIONS

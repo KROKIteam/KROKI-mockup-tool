@@ -21,6 +21,7 @@ public class Tags {
 	public static final String SCALE = read("scale");
 	public static final String UNIQUE = read("unique");
 	public static final String NULLABLE = read("nullable");
+	public static final String MANDATORY =  read("mandatory");
 	
 	public static final String KEY = read("key");
 

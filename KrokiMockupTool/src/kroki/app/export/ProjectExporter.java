@@ -452,7 +452,7 @@ public class ProjectExporter {
 		 */
 		String name = "ka_" + cc.toCamelCase(vp.name(), true);
 		String label = vp.getLabel();
-		String columnLabel = vp.getColumnLabel();
+		String columnLabel = cc.stripIllegealChars(vp.getColumnLabel());
 		int length = vp.getLength();
 		int precision = vp.getPrecision();
 
@@ -464,9 +464,12 @@ public class ProjectExporter {
 		if (vp.getPersistentType() == null) {
 			vp.setPersistentType("varchar");
 		}
-		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = false " + lenPrecAnnotation
+		
+		boolean mandatory = vp.lower() != 0;
+	
+		anotations.add("@Column(name = \"" + columnLabel + "\", unique = false, nullable = " + !mandatory + lenPrecAnnotation
 				+ ",columnDefinition = \"" + vp.getPersistentType().toUpperCase() + "\")");
-		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, true,
+		EJBAttribute attribute = new EJBAttribute(anotations, type, name, label, columnLabel, length, precision, mandatory,
 				false, vp.isRepresentative(), enumeration);
 		return attribute;
 	}

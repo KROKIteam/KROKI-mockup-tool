@@ -214,6 +214,11 @@ public class EJBGenerator {
 				hiddenAttr.setValue("true");
 				idColumn.setAttributeNode(hiddenAttr);
 				
+				//atribut mandatory
+				Attr mandatoryAttr = doc.createAttribute("mandatory");
+				mandatoryAttr.setValue("true");
+				idColumn.setAttributeNode(mandatoryAttr);
+				
 				attributes.appendChild(idColumn);
 
 				//-----------------------------------------------------------
@@ -278,6 +283,11 @@ public class EJBGenerator {
 								colEnumAttr.setValue(attribute.getEnumeration().getName());
 								columnAttr.setAttributeNode(colEnumAttr);
 							}
+							
+							//atribut mandatory
+							Attr colMandatoryAttr = doc.createAttribute("mandatory");
+							colMandatoryAttr.setValue(String.valueOf(attribute.getMandatory()));
+							columnAttr.setAttributeNode(colMandatoryAttr);
 							
 							attributes.appendChild(columnAttr);
 						}else if(getAttributeType(attribute).equals("ManyToOne")) {

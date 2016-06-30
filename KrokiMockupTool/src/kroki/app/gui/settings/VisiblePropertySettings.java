@@ -512,7 +512,7 @@ public class VisiblePropertySettings extends VisibleElementSettings {
             	valuesTa.append(vals[i] + "\n");
             }*/
         	String[] vals = visibleProperty.getEnumeration().split(";");
-        	valuesPanel.setValues(vals);
+        	valuesPanel.setVisibleProperty(visibleProperty);
         }
         defaultValueTf.setText(visibleProperty.getDefaultValue());
         mandatoryCb.setSelected(visibleProperty.lower() != 0);

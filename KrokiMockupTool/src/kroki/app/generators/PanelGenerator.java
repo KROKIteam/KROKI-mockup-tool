@@ -17,6 +17,7 @@ import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Next;
+import kroki.profil.association.VisibleAssociationEnd;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.Report;
@@ -363,9 +364,16 @@ public class PanelGenerator {
 						if(h.getLevel() > 0) {
 							System.out.println(h.getLabel() +  " [LEVEL = "  + h.getLevel() + "]");
 							Attr hPanelAssociationEnd = doc.createAttribute("association-end");
-							hPanelAssociationEnd.setValue(h.getViaAssociationEnd().name());
+							VisibleAssociationEnd associationEnd = h.getViaAssociationEnd();
+							if(associationEnd.name() != null) {
+								System.out.println("ASSOCIATION END: " + h.getViaAssociationEnd().name());
+								hPanelAssociationEnd.setValue(associationEnd.name());
+							}else {
+								System.out.println("ASSOCIATION END: " + associationEnd.toString());
+								hPanelAssociationEnd.setValue(associationEnd.getLabel().replaceAll(" ", "_"));
+							}
 							hPanelTag.setAttributeNode(hPanelAssociationEnd);
-							System.out.println("ASSOCIATION END: " + h.getViaAssociationEnd().name());
+							
 						}
 						pcTag.appendChild(hPanelTag);
 						

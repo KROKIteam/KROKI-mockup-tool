@@ -129,6 +129,9 @@ public class EntityReader {
 		columnAttribute.setFieldName(attributeElement.getAttribute(Tags.FIELD_NAME));
 		columnAttribute.setDataType(attributeElement.getAttribute(Tags.DATA_TYPE));
 		columnAttribute.setLength(Integer.parseInt(attributeElement.getAttribute(Tags.LENGTH)));
+		boolean mandatory = attributeElement.getAttribute(Tags.MANDATORY).equals("true");
+		System.out.println(columnAttribute.getLabel() + " : " + mandatory);
+		columnAttribute.setMandatory(mandatory);
 		
 		String keyString = attributeElement.getAttribute(Tags.KEY);
 		if(keyString != null && (keyString.equals("true") || keyString.equals("false"))) {

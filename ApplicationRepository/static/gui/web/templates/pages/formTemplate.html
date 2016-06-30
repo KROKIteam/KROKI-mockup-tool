@@ -72,10 +72,10 @@
                 <tr>
                     <#list panel.entityBean.attributes as attribute>
                     <#if attribute.fieldName == "id">
-                    <td id="idCell" style="display:none;">${row[attribute.fieldName]}</td>
+                    <td id="idCell" data-attrName="id" style="display:none;">${row[attribute.fieldName]}</td>
                     <#else>
                     <#if attribute.hidden == false>
-                    <td title="${row[attribute.fieldName]}">${row[attribute.fieldName]}</td>    
+                    <td title="${row[attribute.fieldName]}" data-attrName="${attribute.fieldName}">${row[attribute.fieldName]}</td>    
                     </#if>
                     </#if>
                     </#list>
@@ -133,7 +133,7 @@
             <#if attribute.hidden == false>
             <#if inputForm[attribute.fieldName]??>
             <tr>
-                <td class="labelColumn">${attribute.label}</td>
+                <td class="labelColumn">${attribute.label}<#if attribute.mandatory?? && attribute.mandatory>*</#if></td>
                 <td class="inputColumn" style"float:left">
                     <#include "${inputForm[attribute.fieldName]}" parse=true encoding="UTF-8">
                 </td>
