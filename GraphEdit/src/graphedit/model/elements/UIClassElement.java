@@ -753,7 +753,7 @@ public class UIClassElement extends ClassElement{
 
 	private void changeCardinality(Link link, String newCardinality, LinkProperties cardProperty, boolean source){
 
-
+		
 		UIClassElement otherElement = null;
 
 		Connector connector, otherConnector;
@@ -801,7 +801,7 @@ public class UIClassElement extends ClassElement{
 				//izbaci zoom
 				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(propertiesGroup);
 				ElementsGroupUtil.removeVisibleElement(gr, nextZoom.getVisibleElement());// UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
-				UIPropertyUtil.removeVisibleElement(visibleClass, nextZoom.getClassIndex());
+				UIPropertyUtil.removeVisibleElement(visibleClass, nextZoom.getVisibleElement());
 				zoomMap.remove(connector);
 
 				//				label = nextZoom.getLabel();
@@ -813,6 +813,10 @@ public class UIClassElement extends ClassElement{
 					Next next = addNextElement(label, otherElement, connector, -1, -1);
 					setOpposite(next, otherConnector, otherElement);
 					link.setProperty(property, label);
+					NextZoomElement nextElement = new NextZoomElement(otherElement, UIPropertyUtil.getVisibleElementNum(visibleClass) -1, ElementsGroupUtil.getVisibleElementsNum(gr)-1, label, "1..1", next);
+					nextMap.put(connector, nextElement);
+					link.setSourceConnector(connector);
+					link.setDestinationConnector(otherConnector);
 				}
 				else{
 					link.setProperty(property, "");
@@ -820,8 +824,8 @@ public class UIClassElement extends ClassElement{
 			}
 			else{
 				//izbaci next
+				ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
 				if (nextZoom != null){
-					ElementsGroup gr = (ElementsGroup) visibleClass.getVisibleElementList().get(operationsGroup);
 					ElementsGroupUtil.removeVisibleElement(gr,nextZoom.getVisibleElement());// UIPropertyUtil.getVisibleElementAt(visibleClass, nextZoom.getClassIndex()));
 					UIPropertyUtil.removeVisibleElement(visibleClass, nextZoom.getClassIndex());
 					nextMap.remove(connector);
@@ -834,6 +838,11 @@ public class UIClassElement extends ClassElement{
 				Zoom zoom = addZoomElement(label, otherElement, connector, -1, -1);
 				setOpposite(zoom, otherConnector, otherElement);
 				link.setProperty(property, label);
+				NextZoomElement zoomElement = new NextZoomElement(otherElement, UIPropertyUtil.getVisibleElementNum(visibleClass) -1, ElementsGroupUtil.getVisibleElementsNum(gr)-1, label, "*", zoom);
+				zoomMap.put(connector, zoomElement);
+				link.setSourceConnector(otherConnector);
+				link.setDestinationConnector(connector);
+				
 			}
 
 		}
@@ -871,7 +880,6 @@ public class UIClassElement extends ClassElement{
 
 		Connector connector, otherConnector;
 		LinkProperties role;
-		String cardinality;
 		UIClassElement otherElement;
 		Boolean source = (Boolean) args[1];
 		
@@ -880,14 +888,12 @@ public class UIClassElement extends ClassElement{
 			connector = link.getSourceConnector();
 			otherConnector = link.getDestinationConnector();
 			role = LinkProperties.DESTINATION_ROLE;
-			cardinality = (String) link.getProperty(LinkProperties.DESTINATION_CARDINALITY);
 			otherElement = (UIClassElement) link.getDestinationConnector().getRepresentedElement();
 		}
 		else{
 			connector = link.getDestinationConnector();
 			otherConnector = link.getSourceConnector();
 			role = LinkProperties.SOURCE_ROLE;
-			cardinality = (String) link.getProperty(LinkProperties.SOURCE_CARDINALITY);
 			otherElement = (UIClassElement) link.getSourceConnector().getRepresentedElement();
 		}
 
@@ -895,7 +901,16 @@ public class UIClassElement extends ClassElement{
 
 		if (linkType == LinkType.NEXT_ZOOM){
 			NextZoomElement nextZoomElement = (NextZoomElement) args[0];
-			LinkEnd linkEnd = zoomOrNext(cardinality);
+		
+			//properties are just visual
+			//source - next, destination zoom
+			
+			LinkEnd linkEnd;
+			if (source)
+				linkEnd = LinkEnd.NEXT;
+			else
+				linkEnd = LinkEnd.ZOOM;
+			
 			String label = "";
 			if (nextZoomElement != null)
 				label = nextZoomElement.getLabel();

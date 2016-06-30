@@ -262,7 +262,6 @@ public class CutElementsCommand extends Command {
 			}
 		}
 
-		System.out.println(replacement);
 		return replacement;
 	}
 

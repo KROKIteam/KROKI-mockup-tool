@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 /**
  * Provides a single utility method. Makes use in clipboard
  * management, particularly Cut/Copy actions.
- * @author specijalac
  */
 public class SerializationUtility {
 
@@ -19,7 +18,6 @@ public class SerializationUtility {
 	 * @param obj2 represents the second object which is to be streamed
 	 * @return an array of deserialized, objects representing deep copies
 	 * of provided objects <code>obj1</code> and </code>obj2</code>
-	 * @author specijalac
 	 */
 	public static Object[] deepCopy(Object obj1, Object obj2) {
 		Object obj[] = {null, null};
@@ -42,6 +40,26 @@ public class SerializationUtility {
 		}
 		return obj;
 	}
+	
+	public static Object deepCopy(Object obj) {
+		try {
+			// must be the same byte stream (link and element painter)
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+			out.writeObject(obj);
+			out.flush();
+			out.close();
+
+			ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
+			return in.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		}
+		return obj;
+	}
+	
 	
 
 }

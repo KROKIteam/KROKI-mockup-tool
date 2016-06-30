@@ -20,7 +20,7 @@ public class ChangeLinkCommand extends Command {
 		this.link = link;
 		this.newName = newName;
 		this.property = property;
-
+		
 		switch (property) {
 		case DESTINATION_CARDINALITY : 
 			if (link.getDestinationConnector().getRepresentedElement() instanceof UIClassElement){
@@ -98,10 +98,14 @@ public class ChangeLinkCommand extends Command {
 	@Override
 	public void undo() {
 		link.setProperty(property, oldName);
-		if (property == LinkProperties.SOURCE_CARDINALITY || property == LinkProperties.SOURCE_NAVIGABLE)
+		if (property == LinkProperties.SOURCE_NAVIGABLE)
 			link.getDestinationConnector().getRepresentedElement().setOldLink(link, nextZoom, false);
-		else if (property == LinkProperties.DESTINATION_CARDINALITY || property == LinkProperties.DESTINATION_NAVIGABLE)
+		else if (property == LinkProperties.SOURCE_CARDINALITY )
+			link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, oldName, true);
+		else if (property == LinkProperties.DESTINATION_NAVIGABLE)
 			link.getSourceConnector().getRepresentedElement().setOldLink(link, nextZoom, true);
+		else if (property == LinkProperties.DESTINATION_CARDINALITY)
+			link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, oldName, true);
 		else{
 			link.getSourceConnector().getRepresentedElement().changeLinkProperty(link, property, oldName, true);
 			link.getDestinationConnector().getRepresentedElement().changeLinkProperty(link, property, oldName, false);

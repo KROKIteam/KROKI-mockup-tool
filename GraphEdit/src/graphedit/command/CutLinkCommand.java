@@ -49,7 +49,6 @@ public class CutLinkCommand extends Command {
 			this.model = view.getModel();
 
 
-
 		links = new ArrayList<Link>();
 		linkPainters = new ArrayList<LinkPainter>();
 		sourceLinkElements = new ArrayList<AbstractLinkElement>();
@@ -109,6 +108,7 @@ public class CutLinkCommand extends Command {
 			if (view != null)
 				linkPainter = linkPainters.get(i);
 			sourceElement = link.getSourceConnector().getRepresentedElement();
+			
 			destinationElement = link.getDestinationConnector().getRepresentedElement();
 			sourceElement.unlink(link, true);
 			destinationElement.unlink(link, false);
@@ -150,6 +150,7 @@ public class CutLinkCommand extends Command {
 
 			sourceLinkElement = sourceLinkElements.get(i);
 			destinationLinkElement = destinationLinkElements.get(i);
+			
 			
 			if (sourceLinkElement != null)
 				sourceElement.setOldLink(link, sourceLinkElement, true);

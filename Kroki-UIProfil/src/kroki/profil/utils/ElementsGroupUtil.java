@@ -50,7 +50,7 @@ public class ElementsGroupUtil {
 	 */
 	public static void addVisibleElement(ElementsGroup group, int index, VisibleElement visibleElement) {
 		if (!group.getVisibleElementList().contains(visibleElement)) {
-			if (index < group.getVisibleElementList().size())
+			if (index < group.getVisibleElementList().size() && index >= 0)
 				group.getVisibleElementList().add(index, visibleElement);
 			else
 				group.getVisibleElementList().add(visibleElement);
@@ -62,7 +62,7 @@ public class ElementsGroupUtil {
 				((Composite) visibleElement.getComponent()).setLayoutManager(new FreeLayoutManager());
 			}
 			//add drawing component
-			if (index < ((Composite)group.getComponent()).getChildrenList().size())
+			if (index < ((Composite)group.getComponent()).getChildrenList().size() && index >= 0)
 				((Composite) group.getComponent()).addChild(index, visibleElement.getComponent());
 			else
 				((Composite) group.getComponent()).addChild(visibleElement.getComponent());
