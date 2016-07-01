@@ -74,9 +74,9 @@ public class ButtonPainter extends ComponentPainter {
         int y = button.getRelativePosition().y;
 
         //GradientPaint gp = new GradientPaint(x, y, new Color(240, 240, 240), x, y + button.getDimension().height, new Color(210, 210, 210));
-        GradientPaint gp = new GradientPaint(x, y, Color.WHITE, x, y + button.getDimension().height, button.getBgColor());
-        g2d.setPaint(gp);
-        g2d.fill(shape);
+//        GradientPaint gp = new GradientPaint(x, y, Color.WHITE, x, y + button.getDimension().height, button.getBgColor());
+//        g2d.setPaint(gp);
+//        g2d.fill(shape);
 
         //g2d.setPaint(new Color(190, 190, 190));
         g2d.setPaint(button.getFgColor());

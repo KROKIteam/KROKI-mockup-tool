@@ -10,7 +10,6 @@
 	https://github.com/KROKIteam
  *****************************************************************/
  $(document).ready(function(e) {
-
 	//number of miliseconds that popup messages are being visible for
 	var delay = 2000;
 	//speed of fade out and fade in effects
@@ -143,7 +142,8 @@
         var label = $(this).attr("data-label");
         var panelType = $(this).attr("data-paneltype");
         var showback = false;
-        resourceId = $(this).attr("data-activate");
+        var next = false;
+        var resourceId = $(this).attr("data-activate");
 
         //ACTIVATOR SPECIFIC OPERATIONS:
         //if activator is menu item, return menu to inital state
@@ -163,12 +163,15 @@
             var selectedRow = tableDiv.find(".mainTable tbody tr.selectedTr");
             var returnTo = null;
             var zoomName = null;
-            resourceId = $(this).attr("data-resourceId");
+            var next = true;
+            var parentId = form.attr("data-resourceid");
 
+            resourceId = $(this).attr("data-resourceId");
             if(selectedRow.length > 0) {
                 var id = selectedRow.find("#idCell").text();
                 activate = $(this).attr("data-activate") + "/" + id;
                 panelType = "next-panel";
+
             }else {
 				// If nothing is selected, show unfiltered data in new form
 				label = $(this).attr("data-labelClean");
@@ -189,7 +192,13 @@
         }
 
         //finally, pass data to method that creates forms
-        makeNewWindow(activate, label, panelType, showback, returnTo, zoomName, resourceId);
+        var newWindow = makeNewWindow(activate, label, panelType, showback, returnTo, zoomName, resourceId);
+        if(next) {
+        	var newForm = newWindow.find("div.standardForms");
+        	if(newForm.length > 0) {
+        		syncZoomWithParentTable(form, newForm);
+        	}
+        }
     });
 
 	//CLOSE FORM ON 'X' BUTTON CLICK
@@ -284,6 +293,9 @@
 			updateBounds(newWindowBody);
 		});
 
+		var winCount = $(".windows").length + 1;
+		newWindow.css({top: winCount*50, left: winCount*50});
+
 		container.append(newWindow);
 		//if the form that needs to ne displayed is parent-child form
 		//get containing panels with ajax call to /getInfo/panelName
@@ -353,6 +365,7 @@
             }
         }
         updateBounds(newWindowBody);
+        return newWindow;
     }
 
 	/**************************************************************************************************************************
@@ -413,33 +426,6 @@
             }
         }
     });
-
-	// Synchronize child zooom values with the selected row in the parent table
-    function syncZoomWithParentTable(parentForm, childForm) {
-    	if(parentForm.find("tr.selectedTr").length > 0) {
-    		var parentId = parentForm.attr("data-resourceId");
-	    	if(childForm.length > 0) {
-	    		// Zoom field consists of a zoom button and input fields for each
-	    		// representative attribute of parent entity.
-	    		// Zoom button contains info about parent id in the 'data-activate' attribute
-				var childInputForm = childForm.find("form.inputForm");
-				var zoomButton = childInputForm.find("button[data-activate='" + parentId + "']");
-				if(zoomButton.length > 0) {
-					// Once we have found the zoom button, iterate over it's zoom fields and populate it
-					// Each zoom input filed's id attribute conforms with the 'data-attrname' attribute
-					// Of a cell in the parent form table which holds the designated attribute value.
-					zoomButton.siblings('input.zoomInputs').each(function() {
-						var zoomId = $(this).attr("id");
-						// We need to strip the prefix from the id to obtain a clear attribute name
-						zoomId = zoomId.substring(zoomId.lastIndexOf('-') + 1);
-						// Then fetch the value from the cell in the selected row and set the value od a zoom field
-						var zoomVal = parentForm.find("tr.selectedTr td[data-attrname='" + zoomId + "']").text();
-						$(this).attr('value', zoomVal);
-					});
-				}
-			}
-    	}
-    }
 
 	//"SWITCH VIEW" BUTTON:
 	// - Shows forms for adding new and editing existent rows in table
@@ -759,8 +745,8 @@
                     // Get visible input since, one is always hidden, depending on which form is in use (add or edit)
                     var zoomInput = caller.find("#" + zoomName + ":visible"); 
                     
-                    console.log("Menjam     :" + zoomInput.attr("id") + " iz " + zoomInput.closest("form.inputForm").attr("name"));
-                    console.log(zoomInput.val() + " --> " + zoomValue);
+                    // console.log("Menjam     :" + zoomInput.attr("id") + " iz " + zoomInput.closest("form.inputForm").attr("name"));
+                    // console.log(zoomInput.val() + " --> " + zoomValue);
                     zoomInput.val(zoomValue);
                 }
             });
@@ -836,6 +822,39 @@
 });
 //---------------------------------------------------------------------//           UTIL FUNCTIONS
 
+	// Synchronize child zooom values with the selected row in the parent table
+    function syncZoomWithParentTable(parentForm, childForm) {
+    	if(parentForm.find("tr.selectedTr").length > 0) {
+    		var parentId = parentForm.attr("data-resourceId");
+    		console.log("PARENT ID: " + parentId);
+	    	if(childForm != null) {
+	    		if(childForm.length > 0) {
+		    		// Zoom field consists of a zoom button and input fields for each
+		    		// representative attribute of parent entity.
+		    		// Zoom button contains info about parent id in the 'data-activate' attribute
+		    		var childInputForm = childForm.find("div.tableDiv");
+		    		console.log(childInputForm);
+					var zoomButton = childForm.find("button[data-activate='" + parentId + "']");
+					if(zoomButton.length > 0) {
+						// Once we have found the zoom button, iterate over it's zoom fields and populate it
+						// Each zoom input filed's id attribute conforms with the 'data-attrname' attribute
+						// Of a cell in the parent form table which holds the designated attribute value.
+						zoomButton.siblings('input.zoomInputs').each(function() {
+							var zoomId = $(this).attr("id");
+							// We need to strip the prefix from the id to obtain a clear attribute name
+							zoomId = zoomId.substring(zoomId.lastIndexOf('-') + 1);
+							// Then fetch the value from the cell in the selected row and set the value od a zoom field
+							var zoomVal = parentForm.find("tr.selectedTr td[data-attrname='" + zoomId + "']").text();
+							$(this).attr('value', zoomVal);
+						});
+					}else {
+						console.log("No zoom button!");
+					}
+				}
+	    	}
+    	}
+    }
+
     /*
      * Fetches the data from server to form element
      * */
@@ -845,6 +864,7 @@
         $.ajax({
             url: activateLink,
             type: 'GET',
+            async: false,
             encoding:"UTF-8",
             contentType: "text/html; charset=UTF-8",
             success: function(data) {
@@ -894,7 +914,7 @@
                 if(siblings > 1) {
                     form.find(".operationsDiv").css("max-height", "100%");
                 }
-
+                console.log("DATA LOADED!")
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
         	   window.remove();

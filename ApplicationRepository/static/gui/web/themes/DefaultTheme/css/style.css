@@ -352,8 +352,8 @@ ul.L2SubMenu {
 	width: 950px;
 	min-height: 500px;
 	position: absolute;
-	top: 50px;
-	left: 200px;
+	/*top: 50px;*/
+	/*left: 200px;*/
 	background-color: #ECF0F1;
 	border-radius: 5px;
 	z-index: 1;
@@ -552,6 +552,7 @@ ul.L2SubMenu {
 	height: 100%;
 	display: none;
 	color: #346789;
+	float: left;
 }
 
 .formTableContainer {

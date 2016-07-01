@@ -19,10 +19,13 @@ import kroki.app.utils.StringResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;
+import kroki.profil.operation.BussinessOperation;
+import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
+import kroki.profil.utils.VisibleClassUtil;
 
 public class ExportLabelsAction extends AbstractAction {
 
@@ -92,9 +95,18 @@ public class ExportLabelsAction extends AbstractAction {
 		addLabel(panel.getLabel());
 		if(panel instanceof StandardPanel) {
 			StandardPanel standardPanel = (StandardPanel) panel;
+			// GET ATTRIBUTE LABELS
 			for (VisibleElement element : standardPanel.getVisibleElementList()) {
 				if(element instanceof VisibleProperty || element instanceof Zoom) {
 					addLabel(element.getLabel());
+				}
+			}
+			// GET OPERATION LABELS
+			VisibleClass visibleClass = (VisibleClass)panel;
+			if(!VisibleClassUtil.containedOperations(visibleClass).isEmpty()) {
+				for(int k=0; k < VisibleClassUtil.containedOperations(visibleClass).size(); k++) {
+					VisibleOperation visibleOperation = VisibleClassUtil.containedOperations(visibleClass).get(k);
+					addLabel(visibleOperation.getLabel());
 				}
 			}
 		}
