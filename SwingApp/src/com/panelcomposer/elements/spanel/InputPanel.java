@@ -18,6 +18,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -136,7 +137,10 @@ public class InputPanel extends JPanel {
 	private void createComponent(ColumnAttribute colAttr, Boolean lastVisible) {
 		Layout layout = panel.getModelPanel().getPanelSettings().getLayout();
 
-		panelTwo.setPreferredSize(new Dimension(colAttr.getLength(), 20));
+		
+		Dimension dim = new Dimension(colAttr.getComponentLength(), 20);
+		panelTwo.setPreferredSize(dim);
+		panelTwo.setSize(dim);
 
 		if (layout == Layout.VERTICAL) {
 			try {
@@ -292,7 +296,7 @@ public class InputPanel extends JPanel {
 	public JComponent setUpComponent(ColumnAttribute colAttr,
 			JoinColumnAttribute joinColAttr) {
 		JComponent component = colAttr.getComponent();
-		int charSize = ComponentResolver.charactersCount(colAttr.getLength(),
+		int charSize = ComponentResolver.charactersCount(colAttr.getComponentLength(),
 				colAttr.getScale());
 		charSize = (charSize > Settings.MAX_CHAR_SIZE) ? Settings.MAX_CHAR_SIZE
 				: charSize;
@@ -307,6 +311,7 @@ public class InputPanel extends JPanel {
 			Dimension dim = (new Dimension((int) ((charSize * 10 * ratio)/2)-15, 100));
 			component.setPreferredSize(dim);
 			component.setMinimumSize(dim);
+			component.setSize(dim);
 		}
 		component.setBorder(BorderFactory.createTitledBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.GRAY)));
 		Font font = new Font("Verdana", Font.PLAIN, 12);

@@ -150,7 +150,6 @@ public class EJBGenerator {
 			for(int i=0; i<classes.size(); i++) {
 				EJBClass clas = classes.get(i);
 				Document doc = docBuilder.newDocument();
-				System.out.println("Klasa "  + clas.getName());
 
 				//korenski tag <entity> za svaku klasu
 				Element entityRoot = doc.createElement("entity");
@@ -289,11 +288,10 @@ public class EJBGenerator {
 
 							//attribute "length"
 							Attr colLength = doc.createAttribute("length");
-							System.out.println("LENGTH " + attribute.getLength());
 							colLength.setValue(String.valueOf(attribute.getLength()));
 							columnAttr.setAttributeNode(colLength);
 
-							//attribute "length"
+							//attribute "precision"
 							Attr colPrecision = doc.createAttribute("precision");
 							colPrecision.setValue(String.valueOf(attribute.getPrecision()));
 							columnAttr.setAttributeNode(colPrecision);
@@ -303,7 +301,7 @@ public class EJBGenerator {
 							colWrap.setValue(attribute.getWrap().toString());
 							columnAttr.setAttributeNode(colWrap);
 							
-							//attribute "fieldLength"
+							//attribute "componentLength"
 							Attr fieldLength = doc.createAttribute("componentLength");
 							fieldLength.setValue(String.valueOf(attribute.getComponentLength()));
 							columnAttr.setAttributeNode(fieldLength);
