@@ -1,5 +1,9 @@
 package graphedit.gui.table;
 
+import java.util.List;
+
+import javax.swing.table.AbstractTableModel;
+
 import graphedit.app.MainFrame;
 import graphedit.command.AddParameterCommand;
 import graphedit.command.ChangeParameterCommand;
@@ -10,10 +14,6 @@ import graphedit.model.components.GraphElement;
 import graphedit.model.components.Method;
 import graphedit.model.components.Parameter;
 import graphedit.util.Validator;
-
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
 
 public class ParameterTableModel extends AbstractTableModel {
 

@@ -4,6 +4,7 @@ import javax.swing.JTree;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.profil.VisibleElement;
 import kroki.profil.panel.VisibleClass;

@@ -1,12 +1,12 @@
 package graphedit.actions.layout;
 
-import graphedit.app.MainFrame;
-import graphedit.layout.LayoutStrategy;
-import graphedit.view.GraphEditView;
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+
+import graphedit.app.MainFrame;
+import graphedit.layout.LayoutStrategy;
+import graphedit.view.GraphEditView;
 
 public abstract class LayoutAction extends AbstractAction {
 

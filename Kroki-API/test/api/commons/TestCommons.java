@@ -1,4 +1,6 @@
 package api.commons;
+import org.junit.Test;
+
 import junit.framework.TestCase;
 import kroki.api.commons.ApiCommons;
 import kroki.api.enums.OperationType;
@@ -16,8 +18,6 @@ import kroki.profil.panel.container.ParentChild;
 import kroki.profil.property.VisibleProperty;
 import kroki.profil.utils.ParentChildUtil;
 import kroki.profil.utils.StandardPanelUtil;
-
-import org.junit.Test;
 
 
 public class TestCommons extends TestCase{

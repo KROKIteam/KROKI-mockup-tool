@@ -1,5 +1,11 @@
 package graphedit.layout;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
@@ -12,12 +18,6 @@ import graphedit.properties.LayoutProperties;
 import graphedit.strategy.AsIsStrategy;
 import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
-
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class AbstractLayouter implements Layouter{
 	

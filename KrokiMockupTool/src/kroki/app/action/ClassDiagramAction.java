@@ -1,14 +1,13 @@
 package kroki.app.action;
 
-import graphedit.app.MainFrame;
-import graphedit.model.elements.GraphEditPackage;
-
 import java.awt.event.ActionEvent;
 import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
+import graphedit.app.MainFrame;
+import graphedit.model.elements.GraphEditPackage;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
 import kroki.commons.camelcase.NamingUtil;

@@ -1,5 +1,8 @@
 package graphedit.layout.graph;
 
+import java.awt.geom.Point2D;
+import java.util.List;
+
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.DefaultVisualizationModel;
@@ -9,9 +12,6 @@ import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkableElement;
 import graphedit.view.GraphEditView;
-
-import java.awt.geom.Point2D;
-import java.util.List;
 
 public class KKLayouter extends AbstractLayouter{
 

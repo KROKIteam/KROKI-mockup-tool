@@ -1,12 +1,12 @@
 package graphedit.properties;
 
-import graphedit.app.ApplicationMode;
-import graphedit.app.MainFrame;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Properties;
+
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
 
 public class ApplicationModeProperties implements Serializable{
 

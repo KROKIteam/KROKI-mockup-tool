@@ -1,14 +1,14 @@
 package graphedit.model.components.shortcuts;
 
+import java.awt.geom.Point2D;
+import java.util.UUID;
+
 import graphedit.model.components.Class;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.PackageProperties;
-
-import java.awt.geom.Point2D;
-import java.util.UUID;
 
 public class ClassShortcut extends Class implements Shortcut{
 

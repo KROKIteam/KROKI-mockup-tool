@@ -3,11 +3,11 @@ package kroki.app.utils;
 import java.io.File;
 import java.util.HashMap;
 
-import kroki.app.KrokiMockupToolApp;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import kroki.app.KrokiMockupToolApp;
 
 public class TypeComponentMapper {
 	

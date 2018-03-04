@@ -3,7 +3,8 @@ package kroki.app.analyzer;
 import java.util.Iterator;
 import java.util.List;
 
-import kroki.app.generators.utils.*;
+import kroki.app.generators.utils.Operation;
+import kroki.app.generators.utils.Parameter;
 import tudresden.ocl20.pivot.essentialocl.expressions.Variable;
 import tudresden.ocl20.pivot.essentialocl.expressions.impl.ExpressionInOclImpl;
 import tudresden.ocl20.pivot.pivotmodel.ConstrainableElement;

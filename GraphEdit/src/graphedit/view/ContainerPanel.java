@@ -1,12 +1,12 @@
 package graphedit.view;
 
-import graphedit.view.scrollers.HorizontalScrollBar;
-import graphedit.view.scrollers.VerticalScrollBar;
-
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+
+import graphedit.view.scrollers.HorizontalScrollBar;
+import graphedit.view.scrollers.VerticalScrollBar;
 
 public class ContainerPanel extends JPanel{
 	

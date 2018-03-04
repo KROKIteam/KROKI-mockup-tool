@@ -3,7 +3,6 @@ package  ${class.classPackage};
 <#list class.importedPackages as paket>
 ${paket}
 </#list>
-import exceptions.InvariantException;
 </#if> 
 
 public class ${class.name}Constraints extends ${class.name}{

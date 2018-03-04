@@ -4,29 +4,23 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
-import javax.swing.tree.TreePath;
 
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
-import kroki.app.gui.console.CommandPanel;
 import kroki.app.gui.console.OutputPanel;
 import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;
 import kroki.commons.camelcase.NamingUtil;
-import kroki.profil.panel.VisibleClass;
 import kroki.profil.subsystem.BussinesSubsystem;
-import static java.nio.file.StandardCopyOption.*;
 
 public class ExportEclipseProjectAction extends AbstractAction {
 

@@ -1,8 +1,8 @@
 package graphedit.state;
 
-import graphedit.app.MainFrame;
-
 import java.awt.event.MouseEvent;
+
+import graphedit.app.MainFrame;
 
 /**
  * State which is entered if an action is cancelled 

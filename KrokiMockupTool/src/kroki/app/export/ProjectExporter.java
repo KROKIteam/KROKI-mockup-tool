@@ -130,6 +130,7 @@ public class ProjectExporter {
 		try {
 			facade.initialize(null);
 		} catch (TemplateException e) {
+			System.out.println("CATCH");
 			e.printStackTrace();
 		}
 		try {

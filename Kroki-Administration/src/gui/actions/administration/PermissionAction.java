@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import standardForm.administration.PermissionPanel;
 import dao.administration.PermissionHibernateDao;
 import ejb.administration.Permission;
 import framework.GenericStandardForm;
 import framework.ReportUtil;
+import standardForm.administration.PermissionPanel;
 
 public class PermissionAction extends AbstractAction {
 	

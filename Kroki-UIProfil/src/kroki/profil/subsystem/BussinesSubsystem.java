@@ -215,4 +215,5 @@ public class BussinesSubsystem extends VisibleElement implements UmlPackage {
 	public void setProjectDescription(String projectDescription) {
 		this.projectDescription = projectDescription;
 	}
+	
 }

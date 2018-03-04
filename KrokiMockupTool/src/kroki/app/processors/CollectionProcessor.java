@@ -1,6 +1,6 @@
 package kroki.app.processors;
 
-import kroki.app.bodyElements.*;
+import kroki.app.bodyElements.Operation;
 import kroki.app.generators.utils.Parameter;
 
 public class CollectionProcessor extends Processor{

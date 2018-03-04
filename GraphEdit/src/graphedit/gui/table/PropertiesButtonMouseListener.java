@@ -1,17 +1,17 @@
 package graphedit.gui.table;
 
-import graphedit.app.MainFrame;
-import graphedit.model.components.Attribute;
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.Method;
-import graphedit.model.components.Parameter;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
+
+import graphedit.app.MainFrame;
+import graphedit.model.components.Attribute;
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.Method;
+import graphedit.model.components.Parameter;
 
 public class PropertiesButtonMouseListener implements MouseListener {
 

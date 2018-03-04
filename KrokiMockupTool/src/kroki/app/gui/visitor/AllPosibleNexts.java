@@ -45,7 +45,8 @@ public class AllPosibleNexts extends Visitor {
                 umlPackage = umlPackage.nestingPackage();
             }
         }
-        ((BussinesSubsystem) umlPackage).accept(this);
+//        ((BussinesSubsystem) umlPackage).accept(this);
+        VisitorHelper.accept((BussinesSubsystem) umlPackage, this);
         Iterator<Object> iter = objectList.iterator();
         Next next = (Next) object;
         

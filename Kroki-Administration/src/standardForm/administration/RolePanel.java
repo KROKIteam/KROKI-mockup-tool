@@ -12,13 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import net.miginfocom.swing.MigLayout;
 import dao.administration.RoleHibernateDao;
-import ejb.administration.Resource;
 import ejb.administration.Role;
 import framework.GenericStandardForm;
 import framework.IEntity;
 import framework.TextFieldWidth;
+import net.miginfocom.swing.MigLayout;
 
 public class RolePanel extends JPanel {
 

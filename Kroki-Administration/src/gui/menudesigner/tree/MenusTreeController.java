@@ -1,11 +1,7 @@
 package gui.menudesigner.tree;
 
-import gui.menudesigner.MenuDesignerPanel;
-import gui.menudesigner.model.Submenu;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
 
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
@@ -13,6 +9,9 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
+
+import gui.menudesigner.MenuDesignerPanel;
+import gui.menudesigner.model.Submenu;
 
 public class MenusTreeController implements TreeModelListener, TreeSelectionListener, MouseListener {
 	

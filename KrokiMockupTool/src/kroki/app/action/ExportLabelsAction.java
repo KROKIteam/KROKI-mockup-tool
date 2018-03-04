@@ -19,7 +19,6 @@ import kroki.app.utils.StringResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;
-import kroki.profil.operation.BussinessOperation;
 import kroki.profil.operation.VisibleOperation;
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;

@@ -16,6 +16,26 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
+import org.eclipse.uml2.uml.Generalization;
+import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
+import org.eclipse.uml2.uml.internal.impl.ClassImpl;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ExportProjectToEclipseUML;
 import kroki.app.utils.uml.CSVSpliter;
@@ -49,26 +69,6 @@ import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.ElementsGroupUtil;
 import kroki.profil.utils.StandardPanelUtil;
 import kroki.profil.utils.UIPropertyUtil;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Enumeration;
-import org.eclipse.uml2.uml.EnumerationLiteral;
-import org.eclipse.uml2.uml.Generalization;
-import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
-import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Package;
-import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.internal.impl.AssociationImpl;
-import org.eclipse.uml2.uml.internal.impl.ClassImpl;
 
 /**
  * Class that implements import functionality for importing files with Eclipse UML model to Kroki project. 

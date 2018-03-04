@@ -1,12 +1,12 @@
 package graphedit.model.components;
 
-import graphedit.model.elements.GraphEditElement;
-import graphedit.model.properties.Properties;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-
 import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.Set;
+
+import graphedit.model.elements.GraphEditElement;
+import graphedit.model.properties.Properties;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 
 public abstract class GraphElement implements Cloneable, Serializable {
 

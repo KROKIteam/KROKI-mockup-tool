@@ -1,5 +1,9 @@
 package graphedit.command;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
@@ -10,10 +14,6 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MoveElementsCommand extends Command {
 	private List<GraphElement> elements;

@@ -1,20 +1,20 @@
 
 package graphedit.actions.pallete;
 
+import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
 import graphedit.app.MainFrame;
 import graphedit.app.MainFrame.ToolSelected;
-import graphedit.model.components.Link;
 import graphedit.model.components.AssociationLink.AssociationType;
+import graphedit.model.components.Link;
 import graphedit.state.LinkState;
 import graphedit.state.State;
 import graphedit.util.ResourceLoader;
 import graphedit.view.GraphEditView;
 import graphedit.view.GraphEditView.GraphEditController;
-
-import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
 
 public class CompositionLinkButtonAction extends AbstractAction{
 	

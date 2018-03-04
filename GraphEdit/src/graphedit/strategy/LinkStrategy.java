@@ -1,8 +1,8 @@
 package graphedit.strategy;
 
-import graphedit.model.components.LinkNode;
-
 import java.util.ArrayList;
+
+import graphedit.model.components.LinkNode;
 
 public interface LinkStrategy {
 

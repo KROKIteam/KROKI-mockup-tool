@@ -1,5 +1,18 @@
 package graphedit.state;
 
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.SwingUtilities;
+
 import graphedit.actions.popup.MoveElementPopup;
 import graphedit.app.MainFrame;
 import graphedit.command.Command;
@@ -21,19 +34,6 @@ import graphedit.view.GraphEditView;
 import graphedit.view.GraphEditView.GraphEditController;
 import graphedit.view.LinkNodePainter;
 import graphedit.view.LinkPainter;
-
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.Shape;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 
 public class MoveElementState extends State {

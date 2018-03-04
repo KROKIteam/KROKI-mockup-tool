@@ -5,29 +5,6 @@ import static graphedit.concurrency.AutoScrollTask.DOWN;
 import static graphedit.concurrency.AutoScrollTask.LEFT;
 import static graphedit.concurrency.AutoScrollTask.RIGHT;
 import static graphedit.concurrency.AutoScrollTask.UP;
-import graphedit.actions.popup.PopupListener;
-import graphedit.app.ApplicationMode;
-import graphedit.app.MainFrame;
-import graphedit.app.MainFrame.EventSource;
-import graphedit.app.MainFrame.ToolSelected;
-import graphedit.command.CutElementsCommand;
-import graphedit.command.CutLinkCommand;
-import graphedit.concurrency.AutoScrollTask;
-import graphedit.layout.LayoutStrategy;
-import graphedit.layout.Layouter;
-import graphedit.layout.LayouterException;
-import graphedit.layout.LayouterFactory;
-import graphedit.layout.random.RandomLayouter;
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.Link;
-import graphedit.model.components.LinkNode;
-import graphedit.model.components.LinkableElement;
-import graphedit.model.components.Package;
-import graphedit.model.diagram.GraphEditModel;
-import graphedit.model.enums.ClassStereotypeUI;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-import graphedit.state.SelectionState;
-import graphedit.state.State;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -57,6 +34,30 @@ import java.util.Observable;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import graphedit.actions.popup.PopupListener;
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
+import graphedit.app.MainFrame.EventSource;
+import graphedit.app.MainFrame.ToolSelected;
+import graphedit.command.CutElementsCommand;
+import graphedit.command.CutLinkCommand;
+import graphedit.concurrency.AutoScrollTask;
+import graphedit.layout.LayoutStrategy;
+import graphedit.layout.Layouter;
+import graphedit.layout.LayouterException;
+import graphedit.layout.LayouterFactory;
+import graphedit.layout.random.RandomLayouter;
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.Link;
+import graphedit.model.components.LinkNode;
+import graphedit.model.components.LinkableElement;
+import graphedit.model.components.Package;
+import graphedit.model.diagram.GraphEditModel;
+import graphedit.model.enums.ClassStereotypeUI;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.state.SelectionState;
+import graphedit.state.State;
 
 @SuppressWarnings("unused")
 public class GraphEditView extends GraphEditViewPanel implements View {

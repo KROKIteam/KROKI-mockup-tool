@@ -1,12 +1,5 @@
 package graphedit.actions.pallete;
 
-import graphedit.app.MainFrame;
-import graphedit.app.MainFrame.ToolSelected;
-import graphedit.state.State;
-import graphedit.util.ResourceLoader;
-import graphedit.view.GraphEditView;
-import graphedit.view.GraphEditView.GraphEditController;
-
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
@@ -14,6 +7,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+
+import graphedit.app.MainFrame;
+import graphedit.app.MainFrame.ToolSelected;
+import graphedit.state.State;
+import graphedit.util.ResourceLoader;
+import graphedit.view.GraphEditView;
+import graphedit.view.GraphEditView.GraphEditController;
 
 public class ClassButtonAction extends AbstractAction {
 

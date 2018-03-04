@@ -12,6 +12,10 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.collections.CollectionUtils;
+
+import framework.MainFrame;
+import gui.menudesigner.model.Submenu;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.ImageResource;
 import kroki.commons.camelcase.NamingUtil;
@@ -22,11 +26,6 @@ import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.VisibleClassUtil;
-
-import org.apache.commons.collections.CollectionUtils;
-
-import framework.MainFrame;
-import gui.menudesigner.model.Submenu;
 
 /**
  * Administration Subsystem

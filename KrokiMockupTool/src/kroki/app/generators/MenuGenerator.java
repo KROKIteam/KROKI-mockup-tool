@@ -14,15 +14,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.generators.utils.Menu;
 import kroki.app.generators.utils.Submenu;
 import kroki.app.generators.utils.XMLWriter;
 import kroki.app.menu.MenuItem;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Generates menu xml file for swing and web applications

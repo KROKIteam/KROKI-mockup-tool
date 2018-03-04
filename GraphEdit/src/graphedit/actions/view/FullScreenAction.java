@@ -1,8 +1,5 @@
 package graphedit.actions.view;
 
-import graphedit.app.MainFrame;
-import graphedit.util.ResourceLoader;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -11,6 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.KeyStroke;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
+
+import graphedit.app.MainFrame;
+import graphedit.util.ResourceLoader;
 
 public class FullScreenAction extends AbstractAction {
 	

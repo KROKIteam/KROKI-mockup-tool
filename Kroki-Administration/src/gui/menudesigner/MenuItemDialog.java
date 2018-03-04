@@ -1,24 +1,15 @@
 package gui.menudesigner;
 
-import dao.administration.ResourceHibernateDao;
-import ejb.administration.Resource;
-import framework.MainFrame;
-import gui.menudesigner.model.MenuItem;
-import gui.menudesigner.model.Submenu;
-import gui.menudesigner.tree.MenuWorkspace;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,8 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+
+import dao.administration.ResourceHibernateDao;
+import ejb.administration.Resource;
+import gui.menudesigner.model.MenuItem;
+import gui.menudesigner.model.Submenu;
+import gui.menudesigner.tree.MenuWorkspace;
 
 public class MenuItemDialog extends JDialog {
 	

@@ -1,14 +1,14 @@
 package graphedit.model.components;
 
-import graphedit.model.properties.Properties;
-import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-import graphedit.model.properties.PropertyEnums.LinkProperties;
-
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import graphedit.model.properties.Properties;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
+import graphedit.model.properties.PropertyEnums.LinkProperties;
 
 public class Link extends GraphElement {
 	/**

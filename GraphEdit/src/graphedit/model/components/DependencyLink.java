@@ -1,8 +1,8 @@
 package graphedit.model.components;
 
-import graphedit.model.properties.PropertyEnums.LinkProperties;
-
 import java.util.ArrayList;
+
+import graphedit.model.properties.PropertyEnums.LinkProperties;
 
 public class DependencyLink extends Link{
 

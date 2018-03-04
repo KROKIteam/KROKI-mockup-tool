@@ -36,6 +36,7 @@ public class AllPosibleZoomPanels extends Visitor {
                 umlPackage = umlPackage.nestingPackage();
             }
         }
-        ((BussinesSubsystem) umlPackage).accept(this);
+//        ((BussinesSubsystem) umlPackage).accept(this);
+        VisitorHelper.accept((BussinesSubsystem) umlPackage, this);
     }
 }

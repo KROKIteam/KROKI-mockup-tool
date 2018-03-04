@@ -1,11 +1,5 @@
 package graphedit.view;
 
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.Link;
-import graphedit.model.diagram.GraphEditModel;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-import graphedit.properties.Preferences;
-
 import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
@@ -14,6 +8,12 @@ import java.awt.geom.Point2D;
 import java.util.List;
 
 import javax.swing.JPanel;
+
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.Link;
+import graphedit.model.diagram.GraphEditModel;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.properties.Preferences;
 
 abstract class GraphEditViewPanel extends JPanel{
 

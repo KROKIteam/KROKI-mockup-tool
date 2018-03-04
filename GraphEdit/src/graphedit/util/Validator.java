@@ -1,5 +1,7 @@
 package graphedit.util;
 
+import java.util.List;
+
 import graphedit.app.MainFrame;
 import graphedit.model.components.Attribute;
 import graphedit.model.components.GraphElement;
@@ -7,8 +9,6 @@ import graphedit.model.components.Method;
 import graphedit.model.components.Parameter;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-
-import java.util.List;
 
 public class Validator {
 

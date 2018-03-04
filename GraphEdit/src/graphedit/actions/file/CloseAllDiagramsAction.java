@@ -1,14 +1,14 @@
 package graphedit.actions.file;
 
-import graphedit.app.MainFrame;
-import graphedit.util.ResourceLoader;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+
+import graphedit.app.MainFrame;
+import graphedit.util.ResourceLoader;
 
 public class CloseAllDiagramsAction extends AbstractAction {
 

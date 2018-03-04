@@ -1,11 +1,5 @@
 package graphedit.model;
 
-import graphedit.app.MainFrame;
-import graphedit.model.components.GraphElement;
-import graphedit.view.ElementPainter;
-import graphedit.view.GraphEditView;
-import graphedit.view.LinkPainter;
-
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
@@ -14,6 +8,12 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import graphedit.app.MainFrame;
+import graphedit.model.components.GraphElement;
+import graphedit.view.ElementPainter;
+import graphedit.view.GraphEditView;
+import graphedit.view.LinkPainter;
 
 public class ClipboardManager implements ClipboardOwner {
 

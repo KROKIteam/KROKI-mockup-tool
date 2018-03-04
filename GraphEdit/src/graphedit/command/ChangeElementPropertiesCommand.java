@@ -1,11 +1,11 @@
 package graphedit.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.model.components.GraphElement;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.view.GraphEditView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChangeElementPropertiesCommand extends Command {
 

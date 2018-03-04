@@ -1,5 +1,9 @@
 package graphedit.state;
 
+import java.awt.event.MouseEvent;
+
+import javax.swing.SwingUtilities;
+
 import graphedit.app.MainFrame;
 import graphedit.app.MainFrame.ToolSelected;
 import graphedit.command.AddElementCommand;
@@ -14,10 +18,6 @@ import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import graphedit.view.GraphEditView.GraphEditController;
 import graphedit.view.InterfacePainter;
-
-import java.awt.event.MouseEvent;
-
-import javax.swing.SwingUtilities;
 
 public class AddElementState extends State {
 

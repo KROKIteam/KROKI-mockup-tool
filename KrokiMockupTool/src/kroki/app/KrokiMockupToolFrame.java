@@ -374,7 +374,7 @@ public class KrokiMockupToolFrame extends JFrame {
 
 
 			JToolBar runToolbar = new JToolBar(JToolBar.HORIZONTAL);
-			runToolbar.add(new RunSwingAction());
+//			runToolbar.add(new RunSwingAction());
 			runToolbar.add(new RunWebAction());
 
 			mainToolbar.add(guiManager.getMainToolbar());

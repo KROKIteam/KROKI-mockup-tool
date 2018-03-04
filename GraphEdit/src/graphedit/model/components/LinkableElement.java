@@ -1,9 +1,4 @@
 package graphedit.model.components;
-import graphedit.model.components.shortcuts.Shortcut;
-import graphedit.model.properties.Properties;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -12,6 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import graphedit.model.components.shortcuts.Shortcut;
+import graphedit.model.properties.Properties;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 
 public abstract class LinkableElement extends GraphElement {
 

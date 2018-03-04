@@ -18,7 +18,8 @@ public class ContainingPanels extends Visitor {
     @Override
     public void visit(Object object) {
         if (object instanceof BussinesSubsystem) {
-            ((BussinesSubsystem) object).accept(this);
+//            ((BussinesSubsystem) object).accept(this);
+        	VisitorHelper.accept((BussinesSubsystem) object, this);
         } else {
             System.out.println("Not subsystem!");
         }

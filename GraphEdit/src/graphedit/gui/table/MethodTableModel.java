@@ -1,5 +1,10 @@
 package graphedit.gui.table;
 
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.table.AbstractTableModel;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.command.AddMethodCommand;
@@ -17,11 +22,6 @@ import graphedit.model.components.MethodStereotypeUI;
 import graphedit.model.components.Modifier;
 import graphedit.util.Validator;
 import graphedit.view.ClassPainter;
-
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.table.AbstractTableModel;
 
 public class MethodTableModel extends AbstractTableModel {
 

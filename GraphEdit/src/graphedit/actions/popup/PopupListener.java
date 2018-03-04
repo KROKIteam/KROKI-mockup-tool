@@ -1,13 +1,13 @@
 package graphedit.actions.popup;
 
-import graphedit.app.MainFrame;
-import graphedit.app.MainFrame.EventSource;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+
+import graphedit.app.MainFrame;
+import graphedit.app.MainFrame.EventSource;
 
 public class PopupListener extends MouseAdapter {
 	

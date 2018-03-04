@@ -1,10 +1,10 @@
 package graphedit.command;
 
+import java.util.List;
+
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
-
-import java.util.List;
 
 public class CreateShortcutCommand extends Command{
 

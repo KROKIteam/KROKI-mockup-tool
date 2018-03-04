@@ -1,6 +1,6 @@
 package dao.administration;
+import ejb.administration.Resource;
 import framework.GenericDao;
-import ejb.administration.*;
 
 public interface ResourceDao extends GenericDao<Resource> {  
 

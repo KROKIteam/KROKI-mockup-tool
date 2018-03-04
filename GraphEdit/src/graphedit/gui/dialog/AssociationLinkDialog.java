@@ -1,13 +1,4 @@
 package graphedit.gui.dialog;
-import graphedit.app.ApplicationMode;
-import graphedit.app.MainFrame;
-import graphedit.gui.utils.Dialogs;
-import graphedit.model.components.AssociationLink;
-import graphedit.model.components.AssociationLink.AssociationType;
-import graphedit.model.elements.LinkType;
-import graphedit.model.properties.PropertyEnums.LinkProperties;
-import graphedit.util.LinkingUtil;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,6 +19,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
+import graphedit.gui.utils.Dialogs;
+import graphedit.model.components.AssociationLink;
+import graphedit.model.components.AssociationLink.AssociationType;
+import graphedit.model.elements.LinkType;
+import graphedit.model.properties.PropertyEnums.LinkProperties;
+import graphedit.util.LinkingUtil;
 
 public class AssociationLinkDialog extends JDialog{
 

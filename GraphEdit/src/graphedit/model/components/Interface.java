@@ -1,11 +1,11 @@
 package graphedit.model.components;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import graphedit.model.components.Link.LinkType;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class Interface extends Class {
 

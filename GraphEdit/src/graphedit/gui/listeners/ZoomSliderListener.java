@@ -1,11 +1,11 @@
 package graphedit.gui.listeners;
 
-import graphedit.app.MainFrame;
-import graphedit.view.GraphEditView;
-
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import graphedit.app.MainFrame;
+import graphedit.view.GraphEditView;
 
 public class ZoomSliderListener implements ChangeListener {
 

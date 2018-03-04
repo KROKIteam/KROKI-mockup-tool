@@ -1,5 +1,9 @@
 package gui.menu;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import gui.actions.administration.OperationAction;
 import gui.actions.administration.PermissionAction;
 import gui.actions.administration.ResourceAction;
@@ -9,10 +13,6 @@ import gui.actions.administration.RolePermissionAction;
 import gui.actions.administration.UserAction;
 import gui.actions.administration.UserRolesAction;
 import gui.actions.menu.SketchedMenusBarAction;
-
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
 public class MyMenuBar extends JMenuBar {
 

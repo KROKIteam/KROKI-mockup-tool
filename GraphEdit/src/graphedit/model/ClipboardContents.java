@@ -1,13 +1,13 @@
 package graphedit.model;
 
-import graphedit.view.ElementPainter;
-import graphedit.view.LinkPainter;
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.List;
+
+import graphedit.view.ElementPainter;
+import graphedit.view.LinkPainter;
 
 public class ClipboardContents implements Transferable {
 

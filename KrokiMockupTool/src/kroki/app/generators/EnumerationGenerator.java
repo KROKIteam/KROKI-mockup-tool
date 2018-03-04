@@ -15,9 +15,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import kroki.app.generators.utils.Enumeration;
-import kroki.app.generators.utils.XMLWriter;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,6 +29,8 @@ import freemarker.template.TemplateException;
  * @author Kroki Team
  */
 import kroki.app.KrokiMockupToolApp;
+import kroki.app.generators.utils.Enumeration;
+import kroki.app.generators.utils.XMLWriter;
 
 public class EnumerationGenerator {
 

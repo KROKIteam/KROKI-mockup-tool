@@ -1,13 +1,13 @@
 package graphedit.gui.table;
 
-import graphedit.model.components.Attribute;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumnModel;
+
+import graphedit.model.components.Attribute;
 
 public class EnumValuesButtonMouseListener implements MouseListener {
 

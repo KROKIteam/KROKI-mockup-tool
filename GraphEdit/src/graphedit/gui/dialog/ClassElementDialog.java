@@ -1,14 +1,5 @@
 package graphedit.gui.dialog;
 
-import graphedit.app.ApplicationMode;
-import graphedit.app.MainFrame;
-import graphedit.gui.table.ClassDialog;
-import graphedit.model.components.Attribute;
-import graphedit.model.components.Class;
-import graphedit.model.components.Method;
-import graphedit.model.enums.ClassStereotypeUI;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -20,6 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
+import graphedit.gui.table.ClassDialog;
+import graphedit.model.components.Attribute;
+import graphedit.model.components.Class;
+import graphedit.model.components.Method;
+import graphedit.model.enums.ClassStereotypeUI;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import net.miginfocom.swing.MigLayout;
 
 public class ClassElementDialog extends JDialog{

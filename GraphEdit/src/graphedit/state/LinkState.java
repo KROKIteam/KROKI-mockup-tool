@@ -1,5 +1,12 @@
 package graphedit.state;
 
+import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.SwingUtilities;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.app.MainFrame.ToolSelected;
@@ -40,14 +47,6 @@ import graphedit.view.InnerLinkPainter;
 import graphedit.view.LinkPainter;
 import graphedit.view.RealizationLinkPainter;
 import graphedit.view.RequireLinkPainter;
-
-import java.awt.Point;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.SwingUtilities;
-
 import kroki.profil.panel.StandardPanel;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.panel.container.ParentChild;

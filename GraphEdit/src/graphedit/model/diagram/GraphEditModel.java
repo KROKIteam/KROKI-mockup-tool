@@ -1,5 +1,18 @@
 package graphedit.model.diagram;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Set;
+
 import graphedit.command.CommandManager;
 import graphedit.model.components.AssociationLink;
 import graphedit.model.components.Connector;
@@ -16,7 +29,6 @@ import graphedit.model.properties.PropertyEnums.DiagramProperties;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
-import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.state.AddElementState;
 import graphedit.state.LassoSelectionState;
 import graphedit.state.LassoZoomState;
@@ -33,19 +45,6 @@ import graphedit.view.ClassPainter;
 import graphedit.view.ElementPainter;
 import graphedit.view.LinkPainter;
 import graphedit.view.PackagePainter;
-
-import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Observable;
-import java.util.Set;
 
 @SuppressWarnings({"unused"})
 public class GraphEditModel extends Observable implements Serializable, GraphEditTreeNode {

@@ -1,13 +1,13 @@
 package graphedit.command;
 
+import java.util.Collections;
+import java.util.List;
+
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Method;
 import graphedit.model.components.Parameter;
 import graphedit.view.GraphEditView;
-
-import java.util.Collections;
-import java.util.List;
 
 public class MoveParameterCommand extends Command {
 

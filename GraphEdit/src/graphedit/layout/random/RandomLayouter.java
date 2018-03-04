@@ -1,14 +1,14 @@
 package graphedit.layout.random;
 
-import graphedit.layout.AbstractLayouter;
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.LinkableElement;
-import graphedit.view.GraphEditView;
-
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import graphedit.layout.AbstractLayouter;
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.LinkableElement;
+import graphedit.view.GraphEditView;
 
 public class RandomLayouter extends AbstractLayouter{
 

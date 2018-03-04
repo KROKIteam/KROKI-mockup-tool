@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
 import kroki.app.command.CommandManager;
 import kroki.app.command.ResizeCommand;
 import kroki.app.view.Canvas;

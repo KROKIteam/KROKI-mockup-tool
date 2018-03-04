@@ -1,5 +1,10 @@
 package graphedit.gui.table;
 
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.table.AbstractTableModel;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.command.AddAttributeCommand;
@@ -20,11 +25,6 @@ import graphedit.model.enums.AttributeTypeUI;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.util.Validator;
 import graphedit.view.ClassPainter;
-
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.table.AbstractTableModel;
 
 public class AttributeTableModel extends AbstractTableModel {
 

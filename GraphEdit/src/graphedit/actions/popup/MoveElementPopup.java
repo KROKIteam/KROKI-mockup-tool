@@ -1,11 +1,11 @@
 package graphedit.actions.popup;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import graphedit.actions.edit.CopyHereAction;
 import graphedit.actions.edit.CreateShortcutHereAction;
 import graphedit.app.MainFrame;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 public class MoveElementPopup extends JPopupMenu{
 

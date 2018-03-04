@@ -1,10 +1,10 @@
 package gui.actions.menu;
 
-import gui.menudesigner.MenuSketchDialog;
-
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+
+import gui.menudesigner.MenuSketchDialog;
 
 public class SketchedMenusBarAction extends AbstractAction {
 

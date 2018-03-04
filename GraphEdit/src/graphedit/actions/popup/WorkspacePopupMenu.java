@@ -1,8 +1,8 @@
 package graphedit.actions.popup;
 
-import graphedit.actions.file.NewProjectAction;
-
 import javax.swing.JPopupMenu;
+
+import graphedit.actions.file.NewProjectAction;
 
 public class WorkspacePopupMenu extends JPopupMenu {
 

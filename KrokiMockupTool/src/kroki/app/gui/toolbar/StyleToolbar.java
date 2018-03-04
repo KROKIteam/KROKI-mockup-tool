@@ -4,12 +4,14 @@ import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.util.Enumeration;
 import java.util.EventObject;
+
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.action.style.AlignCenterAction;
 import kroki.app.action.style.AlignLeftAction;

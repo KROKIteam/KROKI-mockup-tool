@@ -1,16 +1,16 @@
 package graphedit.view;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Observable;
+
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.components.LinkNode;
 import graphedit.model.components.Package;
 import graphedit.model.components.shortcuts.Shortcut;
 import graphedit.model.diagram.GraphEditModel;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Observable;
 
 public class SelectionModel extends Observable {
 

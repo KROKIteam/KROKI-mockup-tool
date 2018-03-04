@@ -1,5 +1,9 @@
 package graphedit.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.app.MainFrame;
 import graphedit.model.components.Class;
 import graphedit.model.components.GraphElement;
@@ -10,10 +14,6 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.view.ClassPainter;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ShortcutsManager {
 

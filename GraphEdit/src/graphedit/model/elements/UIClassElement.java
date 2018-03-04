@@ -1,5 +1,10 @@
 package graphedit.model.elements;
 
+import java.awt.Dimension;
+import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.List;
+
 import graphedit.app.MainFrame;
 import graphedit.model.components.Attribute;
 import graphedit.model.components.Class;
@@ -16,12 +21,6 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.util.NameTransformUtil;
 import graphedit.util.Utility;
-
-import java.awt.Dimension;
-import java.awt.geom.Point2D;
-import java.util.HashMap;
-import java.util.List;
-
 import kroki.api.commons.ApiCommons;
 import kroki.api.enums.OperationType;
 import kroki.commons.camelcase.NamingUtil;

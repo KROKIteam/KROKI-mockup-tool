@@ -1,4 +1,10 @@
 package graphedit.command;
+import java.awt.Shape;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
@@ -9,12 +15,6 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.strategy.LinkStrategy;
 import graphedit.view.GraphEditView;
-
-import java.awt.Shape;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ResizeElementsCommand extends Command {
    private GraphElement element;

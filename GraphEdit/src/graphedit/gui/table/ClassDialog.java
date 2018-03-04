@@ -1,19 +1,5 @@
 package graphedit.gui.table;
 
-import graphedit.app.ApplicationMode;
-import graphedit.app.MainFrame;
-import graphedit.gui.utils.Dialogs;
-import graphedit.model.components.Attribute;
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.Interface;
-import graphedit.model.components.Method;
-import graphedit.model.components.MethodStereotypeUI;
-import graphedit.model.components.Modifier;
-import graphedit.model.components.Parameter;
-import graphedit.model.enums.AttributeDataTypeUI;
-import graphedit.model.enums.AttributeTypeUI;
-import graphedit.properties.ApplicationModeProperties;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -30,6 +16,20 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
+import graphedit.gui.utils.Dialogs;
+import graphedit.model.components.Attribute;
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.Interface;
+import graphedit.model.components.Method;
+import graphedit.model.components.MethodStereotypeUI;
+import graphedit.model.components.Modifier;
+import graphedit.model.components.Parameter;
+import graphedit.model.enums.AttributeDataTypeUI;
+import graphedit.model.enums.AttributeTypeUI;
+import graphedit.properties.ApplicationModeProperties;
 
 public class ClassDialog extends JDialog {
 

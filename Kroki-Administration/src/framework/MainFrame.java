@@ -1,12 +1,9 @@
 package framework;
 
 
-import gui.menu.MyMenuBar;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -16,12 +13,12 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.h2.tools.Server;
 
+import gui.menu.MyMenuBar;
 import util.ResourceLoader;
 
 public class MainFrame extends JDialog {

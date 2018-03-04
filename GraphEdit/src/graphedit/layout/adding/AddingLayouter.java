@@ -1,5 +1,12 @@
 package graphedit.layout.adding;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import graphedit.layout.AbstractLayouter;
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
@@ -7,13 +14,6 @@ import graphedit.model.components.LinkableElement;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.view.GraphEditView;
-
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 
 public class AddingLayouter extends AbstractLayouter{

@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import kroki.app.KrokiMockupToolApp;
-import kroki.app.gui.console.CommandPanel;
 import kroki.app.gui.console.OutputPanel;
 import kroki.profil.subsystem.BussinesSubsystem;
 

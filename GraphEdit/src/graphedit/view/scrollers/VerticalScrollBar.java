@@ -1,7 +1,5 @@
 package graphedit.view.scrollers;
 
-import graphedit.view.GraphEditView;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,6 +12,8 @@ import java.util.TimerTask;
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+
+import graphedit.view.GraphEditView;
 
 public class VerticalScrollBar extends JScrollBar{
 

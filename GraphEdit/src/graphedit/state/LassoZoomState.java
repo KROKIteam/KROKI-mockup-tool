@@ -1,12 +1,12 @@
 package graphedit.state;
 
-import graphedit.app.MainFrame;
-import graphedit.view.GraphEditView;
-import graphedit.view.GraphEditView.GraphEditController;
-
 import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
+
+import graphedit.app.MainFrame;
+import graphedit.view.GraphEditView;
+import graphedit.view.GraphEditView.GraphEditController;
 
 public class LassoZoomState extends State {
 

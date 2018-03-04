@@ -2,6 +2,11 @@ package kroki.app.utils.uml.stereotypes;
 
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Stereotype;
+
 import kroki.app.utils.uml.ProgressWorker;
 import kroki.profil.association.Next;
 import kroki.profil.association.VisibleAssociationEnd;
@@ -9,11 +14,6 @@ import kroki.profil.association.Zoom;
 import kroki.profil.group.ElementsGroup;
 import kroki.profil.panel.VisibleClass;
 import kroki.profil.property.VisibleProperty;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.uml2.uml.Profile;
-import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Stereotype;
 
 /**
  * Used to check if the stereotypes VisibleAssociationEnd, Zoom, Next, Hierarchy, ElementsGroupProperty and

@@ -1,30 +1,16 @@
 package standardForm.administration;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.sql.SQLException;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JFrame;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.util.ArrayList;
-import java.util.List;
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import java.awt.TextField;
-import enumerations.*;
-import framework.*;
 
+import framework.TextFieldWidth;
 import net.miginfocom.swing.MigLayout;
 
 public class UserPanel extends JPanel {

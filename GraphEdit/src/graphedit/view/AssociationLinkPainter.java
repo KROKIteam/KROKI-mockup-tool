@@ -1,17 +1,17 @@
 package graphedit.view;
 
-import graphedit.model.components.AssociationLink;
-import graphedit.model.components.Link;
-import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-import graphedit.model.properties.PropertyEnums.LinkProperties;
-import graphedit.util.Calculate;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import graphedit.model.components.AssociationLink;
+import graphedit.model.components.Link;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
+import graphedit.model.properties.PropertyEnums.LinkProperties;
+import graphedit.util.Calculate;
 
 public class AssociationLinkPainter extends LinkPainter {
 

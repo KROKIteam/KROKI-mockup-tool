@@ -1,13 +1,13 @@
 package graphedit.model.components;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import graphedit.app.MainFrame;
 import graphedit.model.components.Link.LinkType;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
 import graphedit.util.Validator;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class Class extends LinkableElement {
 

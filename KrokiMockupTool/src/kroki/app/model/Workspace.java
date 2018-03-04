@@ -1,7 +1,6 @@
 package kroki.app.model;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

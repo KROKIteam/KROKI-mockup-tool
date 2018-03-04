@@ -1,9 +1,5 @@
 package graphedit.util;
 
-import graphedit.app.MainFrame;
-import graphedit.gui.utils.Dialogs;
-import graphedit.view.GraphEditView;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,6 +10,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import graphedit.app.MainFrame;
+import graphedit.gui.utils.Dialogs;
+import graphedit.view.GraphEditView;
 
 public final class GraphicsExportUtility {
 

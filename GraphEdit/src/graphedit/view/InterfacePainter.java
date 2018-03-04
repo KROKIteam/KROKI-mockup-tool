@@ -1,11 +1,11 @@
 package graphedit.view;
 
-import graphedit.model.components.GraphElement;
-import graphedit.properties.Preferences;
-
 import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.geom.Dimension2D;
+
+import graphedit.model.components.GraphElement;
+import graphedit.properties.Preferences;
 
 public class InterfacePainter extends ClassPainter {
 

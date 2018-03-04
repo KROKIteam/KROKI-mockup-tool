@@ -3,8 +3,6 @@ package gui.menudesigner.tree;
 import gui.menudesigner.model.Menu;
 import gui.menudesigner.model.Submenu;
 
-import java.util.List;
-
 
 public class MenuWorkspace {
 	

@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import standardForm.administration.RolePermissionPanel;
 import dao.administration.RolePermissionHibernateDao;
 import ejb.administration.RolePermission;
 import framework.GenericStandardForm;
 import framework.ReportUtil;
+import standardForm.administration.RolePermissionPanel;
 
 public class RolePermissionAction extends AbstractAction {
 	

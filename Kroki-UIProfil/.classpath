@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/beans-binding/beansbinding-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6-sources.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="lib/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
-	<classpathentry kind="lib" path="lib/junit_4/junit-4.5-src.jar"/>
-	<classpathentry kind="lib" path="lib/junit_4/junit-4.5.jar"/>
-	<classpathentry kind="lib" path="lib/junit/junit-3.8.2.jar"/>
-	<classpathentry kind="lib" path="lib/miglayout-4.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kroki"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BusinessProcessModelingTool"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

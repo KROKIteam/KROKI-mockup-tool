@@ -5,17 +5,16 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.miginfocom.swing.MigLayout;
 import dao.administration.ResourceHibernateDao;
 import ejb.administration.Resource;
 import framework.GenericStandardForm;
 import framework.IEntity;
+import net.miginfocom.swing.MigLayout;
 
 public class ResourceHierarchyPanel extends JPanel {
 

@@ -1,11 +1,11 @@
   package graphedit.strategy;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import graphedit.model.components.Connector;
 import graphedit.model.components.LinkNode;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class RightAngledStrategy implements LinkStrategy{
 

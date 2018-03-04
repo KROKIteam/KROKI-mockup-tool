@@ -1,9 +1,9 @@
 package graphedit.actions.popup;
 
-import graphedit.actions.view.StandardToolbarAction;
-
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
+
+import graphedit.actions.view.StandardToolbarAction;
 
 public class MainToolBarPopupMenu extends JPopupMenu {
 

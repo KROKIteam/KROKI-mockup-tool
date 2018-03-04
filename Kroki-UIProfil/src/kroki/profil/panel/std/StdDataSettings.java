@@ -1,6 +1,7 @@
 package kroki.profil.panel.std;
 
 import java.io.Serializable;
+
 import kroki.profil.property.VisibleProperty;
 
 /**

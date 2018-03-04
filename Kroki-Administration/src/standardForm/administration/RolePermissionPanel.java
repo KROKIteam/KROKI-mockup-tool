@@ -11,13 +11,13 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.miginfocom.swing.MigLayout;
 import dao.administration.PermissionHibernateDao;
 import dao.administration.RoleHibernateDao;
 import ejb.administration.Permission;
 import ejb.administration.Role;
 import framework.GenericStandardForm;
 import framework.IEntity;
+import net.miginfocom.swing.MigLayout;
 
 public class RolePermissionPanel extends JPanel {
 

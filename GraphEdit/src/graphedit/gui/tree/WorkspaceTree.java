@@ -1,9 +1,5 @@
 package graphedit.gui.tree;
 
-import graphedit.model.GraphEditWorkspace;
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.Link;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -11,6 +7,10 @@ import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+
+import graphedit.model.GraphEditWorkspace;
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.Link;
 
 @SuppressWarnings("serial")
 public class WorkspaceTree extends JTree implements Observer, TreeSelectionListener {

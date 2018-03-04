@@ -1,16 +1,16 @@
 package graphedit.actions.view;
 
-import graphedit.app.MainFrame;
-import graphedit.gui.dialog.PreferencesDialog;
-import graphedit.properties.Preferences;
-import graphedit.util.ResourceLoader;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+
+import graphedit.app.MainFrame;
+import graphedit.gui.dialog.PreferencesDialog;
+import graphedit.properties.Preferences;
+import graphedit.util.ResourceLoader;
 
 public class PreferencesAction extends AbstractAction {
 

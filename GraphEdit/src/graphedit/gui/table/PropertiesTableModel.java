@@ -1,5 +1,19 @@
 package graphedit.gui.table;
 
+import java.awt.Color;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+
+import javax.swing.JButton;
+import javax.swing.table.AbstractTableModel;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.command.ChangeAssociationPropertiesCommand;
@@ -21,20 +35,6 @@ import graphedit.util.LinkingUtil;
 import graphedit.util.NameTransformUtil;
 import graphedit.util.Validator;
 import graphedit.view.SelectionModel;
-
-import java.awt.Color;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
-
-import javax.swing.JButton;
-import javax.swing.table.AbstractTableModel;
 
 @SuppressWarnings("unchecked")
 public class PropertiesTableModel extends AbstractTableModel implements Observer {

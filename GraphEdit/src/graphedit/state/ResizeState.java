@@ -1,5 +1,11 @@
 package graphedit.state;
 
+import java.awt.Cursor;
+import java.awt.Shape;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Dimension2D;
+
 import graphedit.app.MainFrame;
 import graphedit.command.Command;
 import graphedit.command.ResizeElementsCommand;
@@ -12,12 +18,6 @@ import graphedit.strategy.RightAngledStrategy;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import graphedit.view.GraphEditView.GraphEditController;
-
-import java.awt.Cursor;
-import java.awt.Shape;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Dimension2D;
 
 public class ResizeState extends State {
 	

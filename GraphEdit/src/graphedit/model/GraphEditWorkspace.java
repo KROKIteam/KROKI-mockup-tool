@@ -1,5 +1,15 @@
 package graphedit.model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
+
 import graphedit.app.MainFrame;
 import graphedit.layout.LayoutStrategy;
 import graphedit.model.components.GraphElement;
@@ -11,17 +21,6 @@ import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.model.properties.PropertyEnums.WorkspaceProperties;
 import graphedit.properties.Preferences;
 import graphedit.util.WorkspaceUtility;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 

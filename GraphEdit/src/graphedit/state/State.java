@@ -1,10 +1,5 @@
 package graphedit.state;
 
-import graphedit.app.MainFrame;
-import graphedit.model.diagram.GraphEditModel;
-import graphedit.view.GraphEditView;
-import graphedit.view.GraphEditView.GraphEditController;
-
 import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,6 +9,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import graphedit.app.MainFrame;
+import graphedit.model.diagram.GraphEditModel;
+import graphedit.view.GraphEditView;
+import graphedit.view.GraphEditView.GraphEditController;
 import kroki.commons.camelcase.NamingUtil;
 
 public abstract class State implements MouseListener, MouseMotionListener,

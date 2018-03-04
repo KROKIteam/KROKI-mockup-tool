@@ -1,8 +1,5 @@
 package gui.menudesigner;
 
-import gui.menudesigner.model.Submenu;
-import gui.menudesigner.tree.MenuWorkspace;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+
+import gui.menudesigner.model.Submenu;
+import gui.menudesigner.tree.MenuWorkspace;
 
 public class MenuDialog extends JDialog {
 	

@@ -1,14 +1,14 @@
 
 package graphedit.view;
 
-import graphedit.model.components.Connector;
-import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import graphedit.model.components.Connector;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 
 
 public class ConnectorPainter {

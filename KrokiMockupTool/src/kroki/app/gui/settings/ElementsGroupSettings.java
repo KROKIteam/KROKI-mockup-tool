@@ -3,6 +3,7 @@ package kroki.app.gui.settings;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import kroki.intl.Intl;
 import kroki.mockup.model.Composite;
 import kroki.profil.VisibleElement;

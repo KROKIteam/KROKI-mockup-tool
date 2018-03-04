@@ -19,6 +19,28 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.AggregationKind;
+import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.PrimitiveType;
+import org.eclipse.uml2.uml.Profile;
+import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.resource.UML302UMLResource;
+import org.eclipse.uml2.uml.resource.UMLResource;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.utils.uml.IOutputMessage;
 import kroki.app.utils.uml.ProgressWorker;
@@ -42,28 +64,6 @@ import kroki.profil.property.VisibleProperty;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 import kroki.uml_core_basic.UmlType;
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.uml2.uml.AggregationKind;
-import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Enumeration;
-import org.eclipse.uml2.uml.LiteralUnlimitedNatural;
-import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Package;
-import org.eclipse.uml2.uml.PrimitiveType;
-import org.eclipse.uml2.uml.Profile;
-import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.UMLFactory;
-import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.uml2.uml.resource.UML302UMLResource;
-import org.eclipse.uml2.uml.resource.UMLResource;
 
 /**
  * Class that implements export functionality for exporting Kroki project to Eclipse UML diagram files. 
@@ -218,7 +218,7 @@ public class ExportProjectToEclipseUML extends ProgressWorker implements IOutput
 		this.showMessagesFor=showMessagesFor;
 		this.outputMessage=outputMessages;
 		this.showDialogs=showDialogs;
-		publishText("Exporting project to file "+file.getAbsolutePath());
+		publishText("Exporting project to file " + file.getAbsolutePath());
 		model = UMLFactory.eINSTANCE.createModel();
         model.setName(project.getLabel());
         
@@ -236,17 +236,17 @@ public class ExportProjectToEclipseUML extends ProgressWorker implements IOutput
         {
         	File f = new File(".");
             String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
-            if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
-                appPath = appPath.substring(0, appPath.length()-16);
-            }
-	        String stereotypeFilePath=  appPath + "KrokiMockupTool" + File.separator + "libECore" + File.separator + "EUISDSLProfile" + 
+//            if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+//                appPath = appPath.substring(0, appPath.length()-16);
+//            }
+            System.out.println("APP PATH: " + appPath);
+	        String stereotypeFilePath =  appPath + File.separator + "libECore" + File.separator + "EUISDSLProfile" + 
 	        		File.separator + "EUISDSLProfile.profile.uml";
-	        System.out.println("EUISDSL MODEL: " + stereotypeFilePath);
-	        //currentPath+"\\libECore\\EUISDSLProfile\\EUISDSLProfile.profile.uml";
-	        File euisDSLprofile=new File(stereotypeFilePath);
-	        Path euisDSLTargetPath=file.toPath().getParent().resolve(euisDSLprofile.toPath().getFileName());
-
-	        Files.copy(euisDSLprofile.toPath(), euisDSLTargetPath,StandardCopyOption.REPLACE_EXISTING);
+	        File euisDSLprofile = new File(stereotypeFilePath);
+//		    File dest = new File(file.toPath().getParent().toString() + File.separator + euisDSLprofile.toPath().getFileName());
+	        Path euisDSLTargetPath= file.toPath().getParent().resolve(euisDSLprofile.toPath().getFileName());
+	        
+	        Files.copy(euisDSLprofile.toPath(), euisDSLTargetPath, StandardCopyOption.REPLACE_EXISTING);
 	        stereotypeProfile=this.<Profile>loadPackage(URI.createFileURI(euisDSLTargetPath.toString()), true);
 	        //stereotypeProfile.define();
 	        model.applyProfile(stereotypeProfile);

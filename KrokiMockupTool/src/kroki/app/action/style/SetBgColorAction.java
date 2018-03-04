@@ -2,7 +2,9 @@ package kroki.app.action.style;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.ChangeColorCommand;
 import kroki.app.command.CommandManager;

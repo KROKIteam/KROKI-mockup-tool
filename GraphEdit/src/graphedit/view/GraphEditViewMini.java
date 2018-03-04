@@ -1,12 +1,5 @@
 package graphedit.view;
 
-import graphedit.app.ApplicationMode;
-import graphedit.app.MainFrame;
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.Link;
-import graphedit.model.enums.ClassStereotypeUI;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,6 +17,13 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.Link;
+import graphedit.model.enums.ClassStereotypeUI;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 
 public class GraphEditViewMini extends GraphEditViewPanel {
 

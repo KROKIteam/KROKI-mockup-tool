@@ -1,5 +1,7 @@
 package graphedit.command;
 
+import java.util.List;
+
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.components.Method;
@@ -8,9 +10,6 @@ import graphedit.model.elements.ClassElement;
 import graphedit.model.elements.UIClassElement;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.view.GraphEditView;
-
-import java.util.List;
-
 import kroki.uml_core_basic.UmlOperation;
 
 public class RemoveMethodCommand extends Command {

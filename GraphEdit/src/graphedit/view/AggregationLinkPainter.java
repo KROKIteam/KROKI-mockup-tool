@@ -1,14 +1,14 @@
 package graphedit.view;
 
-import graphedit.model.components.Link;
-import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-import graphedit.model.properties.PropertyEnums.LinkProperties;
-import graphedit.util.Calculate;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import graphedit.model.components.Link;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
+import graphedit.model.properties.PropertyEnums.LinkProperties;
+import graphedit.util.Calculate;
 
 public class AggregationLinkPainter extends AssociationLinkPainter{
 

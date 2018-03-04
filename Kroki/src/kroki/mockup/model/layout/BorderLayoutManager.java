@@ -3,9 +3,9 @@ package kroki.mockup.model.layout;
 import java.awt.Dimension;
 import java.awt.Point;
 
-import kroki.mockup.model.Insets;
 import kroki.mockup.model.Component;
 import kroki.mockup.model.Composite;
+import kroki.mockup.model.Insets;
 
 /**
  * Layout manager which places the contained components in its top, bottom, left, right and cetral part 

@@ -1,7 +1,5 @@
 package graphedit.view;
 
-import graphedit.model.components.GraphElement;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -9,6 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+
+import graphedit.model.components.GraphElement;
 
 public abstract class ElementPainter implements Cloneable, Serializable {
 

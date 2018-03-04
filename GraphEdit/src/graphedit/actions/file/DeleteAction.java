@@ -1,5 +1,15 @@
 package graphedit.actions.file;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import javax.swing.tree.TreePath;
+
 import graphedit.app.MainFrame;
 import graphedit.command.Command;
 import graphedit.command.CutElementsCommand;
@@ -12,16 +22,6 @@ import graphedit.model.elements.GraphEditPackage;
 import graphedit.util.ResourceLoader;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
-import javax.swing.tree.TreePath;
 
 public class DeleteAction extends AbstractAction {
 

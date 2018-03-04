@@ -2,9 +2,11 @@ package kroki.app.action;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.command.CommandManager;
 import kroki.app.utils.ImageResource;

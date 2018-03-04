@@ -1,5 +1,10 @@
 package graphedit.actions.edit;
 
+import java.awt.event.ActionEvent;
+import java.awt.geom.Point2D;
+
+import javax.swing.AbstractAction;
+
 import graphedit.app.MainFrame;
 import graphedit.command.AddLinkNodeCommand;
 import graphedit.command.Command;
@@ -11,11 +16,6 @@ import graphedit.strategy.LinkStrategy;
 import graphedit.strategy.RightAngledStrategy;
 import graphedit.view.GraphEditView;
 import graphedit.view.LinkPainter;
-
-import java.awt.event.ActionEvent;
-import java.awt.geom.Point2D;
-
-import javax.swing.AbstractAction;
 
 public class AddLinkNodeAction extends AbstractAction{
 

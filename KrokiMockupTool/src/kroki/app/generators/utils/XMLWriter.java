@@ -12,9 +12,9 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import kroki.app.KrokiMockupToolApp;
-
 import org.w3c.dom.Document;
+
+import kroki.app.KrokiMockupToolApp;
 
 public class XMLWriter {
 	

@@ -1,13 +1,13 @@
 package graphedit.layout.box;
 
+import java.awt.Dimension;
+
 import graphedit.layout.AbstractLayouter;
 import graphedit.layout.LayouterException;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.LinkableElement;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.view.GraphEditView;
-
-import java.awt.Dimension;
 
 /**
  * A simple layout algorithm which places elements in a table like structure

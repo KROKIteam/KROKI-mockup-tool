@@ -1,5 +1,8 @@
 package graphedit.command;
 
+import java.awt.Component;
+import java.awt.geom.Point2D;
+
 import graphedit.app.MainFrame;
 import graphedit.model.components.Package;
 import graphedit.model.elements.GraphEditPackage;
@@ -8,10 +11,6 @@ import graphedit.view.ContainerPanel;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import graphedit.view.PackagePainter;
-
-import java.awt.Component;
-import java.awt.geom.Point2D;
-
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.uml_core_basic.UmlPackage;
 

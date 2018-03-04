@@ -1,5 +1,7 @@
 package graphedit.layout;
 
+import java.awt.Graphics;
+
 import graphedit.layout.adding.AddingLayouter;
 import graphedit.layout.box.BoxLayouter;
 import graphedit.layout.graph.CircleLayouter;
@@ -8,8 +10,6 @@ import graphedit.layout.graph.KKLayouter;
 import graphedit.layout.graph.SpringLayouter;
 import graphedit.layout.random.RandomLayouter;
 import graphedit.view.GraphEditView;
-
-import java.awt.Graphics;
 
 public class LayouterFactory {
 	

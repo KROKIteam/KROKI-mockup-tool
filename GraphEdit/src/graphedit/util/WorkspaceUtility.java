@@ -1,11 +1,5 @@
 package graphedit.util;
 
-import graphedit.app.MainFrame;
-import graphedit.model.components.Package;
-import graphedit.model.diagram.GraphEditModel;
-import graphedit.model.elements.GraphEditPackage;
-import graphedit.model.properties.PropertyEnums.PackageProperties;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,10 +14,15 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import kroki.uml_core_basic.UmlPackage;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import graphedit.app.MainFrame;
+import graphedit.model.components.Package;
+import graphedit.model.diagram.GraphEditModel;
+import graphedit.model.elements.GraphEditPackage;
+import graphedit.model.properties.PropertyEnums.PackageProperties;
+import kroki.uml_core_basic.UmlPackage;
 
 /**
  * Provides couple of utility, convenience methods for data (

@@ -1,13 +1,13 @@
 package graphedit.gui.tree;
 
+import javax.swing.event.TreeModelListener;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
+
 import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.interfaces.GraphEditTreeNode;
-
-import javax.swing.event.TreeModelListener;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
 
 public class WorkspaceModel implements TreeModel {
 

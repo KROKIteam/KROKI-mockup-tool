@@ -15,16 +15,16 @@ public class NamingUtil {
 	 */
 	public String toCamelCase(String s, boolean cap) {
 		if(!s.equals("")) {
-			s = s.replace('Å¾', 'z');
-			s = s.replace('Å½', 'z');
-			s = s.replace('ÄŒ', 'c');
-			s = s.replace('Ä', 'c');
-			s = s.replace('Ä†', 'c');
-			s = s.replace('Ä‡', 'c');
-			s = s.replace('Å ', 's');
-			s = s.replace('Å¡', 's');
-			s = s.replaceAll("Ä", "dj");
-			s = s.replaceAll("Ä‘", "dj");
+			s = s.replace('', 'z');
+			s = s.replace('', 'z');
+			s = s.replace('È', 'c');
+			s = s.replace('è', 'c');
+			s = s.replace('Æ', 'c');
+			s = s.replace('æ', 'c');
+			s = s.replace('Š', 's');
+			s = s.replace('š', 's');
+			s = s.replaceAll("ğ", "dj");
+			s = s.replaceAll("Ğ", "dj");
 		    
 			String sb = toCamelCaseIE(s, cap);
 		    if(cap) {

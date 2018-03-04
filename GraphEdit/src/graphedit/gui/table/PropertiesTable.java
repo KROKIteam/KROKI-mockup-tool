@@ -1,14 +1,14 @@
 package graphedit.gui.table;
 
-import graphedit.app.ApplicationMode;
-import graphedit.app.MainFrame;
-import graphedit.model.enums.ClassStereotypeUI;
-
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
+
+import graphedit.app.ApplicationMode;
+import graphedit.app.MainFrame;
+import graphedit.model.enums.ClassStereotypeUI;
 
 @SuppressWarnings("serial")
 public class PropertiesTable extends JTable{

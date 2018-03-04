@@ -1,9 +1,9 @@
 package graphedit.state;
 
-import graphedit.model.diagram.GraphEditModel;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import graphedit.model.diagram.GraphEditModel;
 
 
 /**

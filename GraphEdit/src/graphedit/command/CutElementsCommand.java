@@ -1,5 +1,11 @@
 package graphedit.command;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.components.Connector;
@@ -17,13 +23,6 @@ import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.util.Calculate;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import kroki.uml_core_basic.UmlPackage;
 
 public class CutElementsCommand extends Command {

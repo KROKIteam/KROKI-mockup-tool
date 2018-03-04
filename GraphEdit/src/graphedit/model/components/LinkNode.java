@@ -1,9 +1,9 @@
 package graphedit.model.components;
 
+import java.awt.geom.Point2D;
+
 import graphedit.model.properties.Properties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-
-import java.awt.geom.Point2D;
 
 public class LinkNode extends GraphElement{
 	

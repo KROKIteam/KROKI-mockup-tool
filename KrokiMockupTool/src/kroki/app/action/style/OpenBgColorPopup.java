@@ -3,9 +3,11 @@ package kroki.app.action.style;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JPopupMenu;
+
 import kroki.app.gui.ColorPalette;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;

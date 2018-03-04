@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import net.miginfocom.swing.MigLayout;
 import dao.administration.OperationHibernateDao;
 import dao.administration.ResourceHibernateDao;
 import ejb.administration.Operation;
@@ -21,6 +20,7 @@ import ejb.administration.Resource;
 import framework.GenericStandardForm;
 import framework.IEntity;
 import framework.TextFieldWidth;
+import net.miginfocom.swing.MigLayout;
 
 public class PermissionPanel extends JPanel {
 

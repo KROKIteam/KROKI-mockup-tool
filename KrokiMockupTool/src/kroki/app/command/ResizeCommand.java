@@ -2,6 +2,7 @@ package kroki.app.command;
 
 import java.awt.Dimension;
 import java.awt.Point;
+
 import kroki.profil.VisibleElement;
 
 /**

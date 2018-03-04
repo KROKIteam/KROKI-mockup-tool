@@ -1,14 +1,5 @@
 package gui.menudesigner;
 
-import ejb.administration.Role;
-import gui.menudesigner.model.Menu;
-import gui.menudesigner.model.MenuItem;
-import gui.menudesigner.model.Submenu;
-import gui.menudesigner.tree.MenuHierarchyModel;
-import gui.menudesigner.tree.MenuTreeController;
-import gui.menudesigner.tree.MenuWorkspace;
-import gui.menudesigner.tree.MenusWorkspace;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -16,9 +7,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -30,10 +18,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+
+import ejb.administration.Role;
+import gui.menudesigner.model.Submenu;
+import gui.menudesigner.tree.MenuHierarchyModel;
+import gui.menudesigner.tree.MenuTreeController;
+import gui.menudesigner.tree.MenuWorkspace;
+import gui.menudesigner.tree.MenusWorkspace;
 
 public class MenuDesignerPanel extends JDialog {
 

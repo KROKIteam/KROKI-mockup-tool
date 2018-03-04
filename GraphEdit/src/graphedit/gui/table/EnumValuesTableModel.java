@@ -2,11 +2,10 @@ package graphedit.gui.table;
 
 import java.util.Collections;
 
-import graphedit.model.components.Attribute;
-import graphedit.util.Utility;
-
 import javax.swing.table.AbstractTableModel;
 
+import graphedit.model.components.Attribute;
+import graphedit.util.Utility;
 import kroki.profil.property.VisibleProperty;
 
 public class EnumValuesTableModel extends AbstractTableModel {

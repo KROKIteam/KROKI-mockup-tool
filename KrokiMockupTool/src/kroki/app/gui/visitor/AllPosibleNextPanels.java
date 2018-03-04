@@ -46,7 +46,8 @@ public class AllPosibleNextPanels extends Visitor {
                 umlPackage = umlPackage.nestingPackage();
             }
         }
-        ((BussinesSubsystem) umlPackage).accept(this);
+//        ((BussinesSubsystem) umlPackage).accept(this);
+        VisitorHelper.accept((BussinesSubsystem) umlPackage, this);
         Iterator iter = objectList.iterator();
         while (iter.hasNext()) {
 

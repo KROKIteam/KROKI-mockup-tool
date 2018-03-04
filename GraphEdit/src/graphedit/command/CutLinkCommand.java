@@ -1,5 +1,9 @@
 package graphedit.command;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.components.Connector;
@@ -13,11 +17,6 @@ import graphedit.model.elements.HierarchyElement;
 import graphedit.model.elements.UIClassElement;
 import graphedit.view.GraphEditView;
 import graphedit.view.LinkPainter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import kroki.profil.association.Hierarchy;
 import kroki.profil.panel.container.ParentChild;
 import kroki.profil.utils.HierarchyUtil;

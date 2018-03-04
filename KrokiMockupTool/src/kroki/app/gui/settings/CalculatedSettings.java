@@ -8,6 +8,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
 import kroki.profil.property.Calculated;

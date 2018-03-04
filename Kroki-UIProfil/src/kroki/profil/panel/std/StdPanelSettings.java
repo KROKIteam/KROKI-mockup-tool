@@ -1,6 +1,7 @@
 package kroki.profil.panel.std;
 
 import java.io.Serializable;
+
 import kroki.profil.panel.mode.OperationMode;
 import kroki.profil.panel.mode.ViewMode;
 

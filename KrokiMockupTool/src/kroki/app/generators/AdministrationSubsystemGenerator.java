@@ -6,10 +6,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import kroki.app.generators.utils.XMLWriter;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import kroki.app.generators.utils.XMLWriter;
 
 /**
  * Generates administration subsystem

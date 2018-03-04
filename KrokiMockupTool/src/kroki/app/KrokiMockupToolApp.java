@@ -128,8 +128,6 @@ public class KrokiMockupToolApp {
 	 */
 	public static void main(String[] args) {
 		KrokiMockupToolApp.getInstance().launch();
-		TypeComponentMapper tcm = new TypeComponentMapper();
-		tcm.getMappings();
 	}
 
 

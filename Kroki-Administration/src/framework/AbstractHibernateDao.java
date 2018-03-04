@@ -1,16 +1,13 @@
 package framework;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
-import framework.AbstractEntity;
-
-import java.lang.reflect.ParameterizedType;
-
-import org.hibernate.Transaction;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 

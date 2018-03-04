@@ -1,10 +1,5 @@
 package graphedit.view;
 
-import graphedit.model.components.Link;
-import graphedit.model.components.LinkNode;
-import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-import graphedit.util.Calculate;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -15,6 +10,11 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
+
+import graphedit.model.components.Link;
+import graphedit.model.components.LinkNode;
+import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
+import graphedit.util.Calculate;
 
 public class LinkPainter  extends ElementPainter implements Serializable {
 

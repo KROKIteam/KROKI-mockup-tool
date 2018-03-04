@@ -1,5 +1,8 @@
 package graphedit.command;
 
+import java.awt.Point;
+import java.util.List;
+
 import graphedit.model.components.Class;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
@@ -14,10 +17,6 @@ import graphedit.util.SerializationUtility;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import graphedit.view.LinkPainter;
-
-import java.awt.Point;
-import java.util.List;
-
 import kroki.uml_core_basic.UmlPackage;
 
 

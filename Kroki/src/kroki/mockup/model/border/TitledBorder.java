@@ -7,8 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Rectangle2D;
 
-
-
 import kroki.mockup.model.Border;
 import kroki.mockup.model.Component;
 import kroki.mockup.model.Insets;

@@ -2,8 +2,10 @@ package kroki.app.action.mockup;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+
 import kroki.app.utils.CursorResource;
 import kroki.app.utils.ImageResource;
 import kroki.app.utils.StringResource;

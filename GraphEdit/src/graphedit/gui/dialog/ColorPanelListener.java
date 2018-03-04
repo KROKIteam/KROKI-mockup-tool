@@ -1,13 +1,13 @@
 package graphedit.gui.dialog;
 
-import graphedit.app.MainFrame;
-
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JColorChooser;
 import javax.swing.JPanel;
+
+import graphedit.app.MainFrame;
 
 /**
  * Adapter class. Handles mouse click event on JPanel instance.

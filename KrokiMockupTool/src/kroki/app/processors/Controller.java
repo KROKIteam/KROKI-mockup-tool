@@ -3,7 +3,6 @@ package kroki.app.processors;
 import kroki.app.analyzer.ConstraintBodyAnalyzer;
 import kroki.app.bodyElements.BodyElement;
 import kroki.app.bodyElements.Operation;
-import kroki.app.processors.*;
 
 
 public class Controller {

@@ -1,12 +1,12 @@
 package graphedit.actions;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import graphedit.app.MainFrame;
 import graphedit.command.CommandManager;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.view.SelectionModel;
-
-import java.util.Observable;
-import java.util.Observer;
 
 public class ActionController implements Observer {
 

@@ -3,6 +3,7 @@ package kroki.app.command;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
 import kroki.profil.VisibleElement;
 
 /**

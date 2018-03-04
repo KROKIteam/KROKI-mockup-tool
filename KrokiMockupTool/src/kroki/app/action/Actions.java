@@ -1,7 +1,9 @@
 package kroki.app.action;
 
 import java.util.HashMap;
+
 import javax.swing.AbstractAction;
+
 import kroki.app.action.mockup.AddButtonAction;
 import kroki.app.action.mockup.AddCheckBoxAction;
 import kroki.app.action.mockup.AddCheckBoxesAction;

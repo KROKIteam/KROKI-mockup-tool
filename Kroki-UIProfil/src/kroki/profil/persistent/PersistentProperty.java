@@ -1,6 +1,7 @@
 package kroki.profil.persistent;
 
 import java.io.Serializable;
+
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlProperty;
 import kroki.uml_core_basic.UmlType;

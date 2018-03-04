@@ -1,5 +1,9 @@
 package graphedit.actions.edit;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
 import graphedit.app.MainFrame;
 import graphedit.command.Command;
 import graphedit.command.RemoveLinkNodeCommand;
@@ -10,10 +14,6 @@ import graphedit.strategy.AsIsStrategy;
 import graphedit.strategy.LinkStrategy;
 import graphedit.strategy.RightAngledStrategy;
 import graphedit.view.GraphEditView;
-
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
 
 public class RemoveLinkNodeAction extends AbstractAction{
 

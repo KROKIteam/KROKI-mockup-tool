@@ -45,8 +45,9 @@ public class AllPosibleHierarchyPanels extends Visitor {
 				umlPackage = umlPackage.nestingPackage();
 			}
 		}
-		((BussinesSubsystem) umlPackage).accept(this);
-
+//		((BussinesSubsystem) umlPackage).accept(this);
+		VisitorHelper.accept((BussinesSubsystem) umlPackage, this);
+		
 		ParentChild parentChild = (ParentChild) umlClass;
 		Hierarchy hierarchy = (Hierarchy)object;
 		if (hierarchy.getLevel() > 1 || hierarchy.getLevel() == -1){

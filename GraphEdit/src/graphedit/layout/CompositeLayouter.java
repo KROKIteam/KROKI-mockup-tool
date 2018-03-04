@@ -1,8 +1,8 @@
 package graphedit.layout;
 
-import graphedit.view.GraphEditView;
-
 import java.util.List;
+
+import graphedit.view.GraphEditView;
 
 public abstract class CompositeLayouter extends AbstractLayouter{
 	

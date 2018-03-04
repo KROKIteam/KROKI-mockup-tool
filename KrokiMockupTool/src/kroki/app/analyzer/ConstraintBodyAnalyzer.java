@@ -1,19 +1,17 @@
 package kroki.app.analyzer;
 
 import java.util.ArrayList;
-
-
 import java.util.List;
-
-import kroki.app.generators.utils.*;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-import kroki.app.bodyElements.*;
+import kroki.app.bodyElements.BodyElement;
+import kroki.app.bodyElements.CollectionLiteral;
+import kroki.app.bodyElements.LetContents;
 import kroki.app.bodyElements.Operation;
-import kroki.app.processors.*;
+import kroki.app.processors.Controller;
 import tudresden.ocl20.pivot.essentialocl.expressions.impl.BooleanLiteralExpImpl;
 import tudresden.ocl20.pivot.essentialocl.expressions.impl.CollectionLiteralExpImpl;
 import tudresden.ocl20.pivot.essentialocl.expressions.impl.EnumLiteralExpImpl;

@@ -1,5 +1,11 @@
 package graphedit.actions.edit;
 
+import java.awt.event.ActionEvent;
+import java.awt.geom.Point2D;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+
 import graphedit.app.MainFrame;
 import graphedit.command.Command;
 import graphedit.command.CreateShortcutCommand;
@@ -7,12 +13,6 @@ import graphedit.model.ShortcutsManager;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.util.ResourceLoader;
 import graphedit.view.ElementPainter;
-
-import java.awt.event.ActionEvent;
-import java.awt.geom.Point2D;
-import java.util.List;
-
-import javax.swing.AbstractAction;
 
 public class CreateShortcutHereAction extends AbstractAction{
 

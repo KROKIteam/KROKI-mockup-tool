@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
 import kroki.app.command.CommandManager;
 import kroki.app.command.MoveCommand;
 import kroki.app.model.SelectionModel;

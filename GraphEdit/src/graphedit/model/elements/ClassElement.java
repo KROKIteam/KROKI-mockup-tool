@@ -1,12 +1,11 @@
 package graphedit.model.elements;
 
+import java.io.Serializable;
+
 import graphedit.model.components.Attribute;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Method;
 import graphedit.model.components.Parameter;
-
-import java.io.Serializable;
-
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlProperty;

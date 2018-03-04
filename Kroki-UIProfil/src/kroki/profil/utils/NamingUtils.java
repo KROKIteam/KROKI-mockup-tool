@@ -2,6 +2,7 @@ package kroki.profil.utils;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+
 import org.apache.commons.lang.StringUtils;
 
 /**

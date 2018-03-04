@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import standardForm.administration.ResourceHierarchyPanel;
 import dao.administration.ResourceHierarchyHibernateDao;
 import ejb.administration.ResourceHierarchy;
 import framework.GenericStandardForm;
 import framework.ReportUtil;
+import standardForm.administration.ResourceHierarchyPanel;
 
 public class ResourceHierarchyAction extends AbstractAction {
 	

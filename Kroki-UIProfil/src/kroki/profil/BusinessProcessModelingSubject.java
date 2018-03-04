@@ -3,8 +3,6 @@
  */
 package kroki.profil;
 
-import bp.model.data.Process;
-
 /**
  * @author specijalac
  *

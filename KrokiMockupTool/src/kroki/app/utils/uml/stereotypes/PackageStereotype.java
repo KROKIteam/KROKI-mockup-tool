@@ -1,11 +1,11 @@
 package kroki.app.utils.uml.stereotypes;
 
-import kroki.app.utils.uml.ProgressWorker;
-import kroki.profil.subsystem.BussinesSubsystem;
-
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
+
+import kroki.app.utils.uml.ProgressWorker;
+import kroki.profil.subsystem.BussinesSubsystem;
 
 /**
  * Used to check if the stereotype BusinessSubsystem

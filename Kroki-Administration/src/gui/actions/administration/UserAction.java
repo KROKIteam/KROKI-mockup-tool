@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import standardForm.administration.UserPanel;
 import dao.administration.UserHibernateDao;
 import ejb.administration.User;
 import framework.GenericStandardForm;
 import framework.ReportUtil;
+import standardForm.administration.UserPanel;
 
 public class UserAction extends AbstractAction {
 	

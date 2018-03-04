@@ -1,13 +1,13 @@
 package graphedit.actions.file;
 
-import graphedit.util.GraphicsExportUtility;
-import graphedit.util.ResourceLoader;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
+
+import graphedit.util.GraphicsExportUtility;
+import graphedit.util.ResourceLoader;
 
 public class ExportAction extends AbstractAction  {
 

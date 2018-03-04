@@ -1,5 +1,9 @@
 package graphedit.actions.popup;
 
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import graphedit.actions.edit.CopyAction;
 import graphedit.actions.edit.CutAction;
 import graphedit.actions.edit.PasteAction;
@@ -8,10 +12,6 @@ import graphedit.actions.edit.RedoAction;
 import graphedit.actions.edit.ShortcutAction;
 import graphedit.actions.edit.UndoAction;
 import graphedit.actions.view.ShowGridAction;
-
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 public class ViewPopupMenu extends JPopupMenu {
 	

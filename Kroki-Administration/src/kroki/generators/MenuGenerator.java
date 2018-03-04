@@ -1,9 +1,5 @@
 package kroki.generators;
 
-import gui.menudesigner.model.Menu;
-import gui.menudesigner.model.MenuItem;
-import gui.menudesigner.model.Submenu;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +10,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import gui.menudesigner.model.Menu;
+import gui.menudesigner.model.MenuItem;
+import gui.menudesigner.model.Submenu;
 
 public class MenuGenerator {
 	

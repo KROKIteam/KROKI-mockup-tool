@@ -1,7 +1,7 @@
 package kroki.common.copy;
 
-import java.io.OutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * ByteArrayOutputStream implementation that doesn't synchronize methods

@@ -1,15 +1,14 @@
 package graphedit.model.components;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.properties.ApplicationModeProperties;
 import graphedit.util.Validator;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import kroki.uml_core_basic.UmlProperty;
 
 

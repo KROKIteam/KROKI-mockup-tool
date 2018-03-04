@@ -1,8 +1,8 @@
 package graphedit.gui.utils;
 
-import graphedit.app.MainFrame;
-
 import javax.swing.JOptionPane;
+
+import graphedit.app.MainFrame;
 
 public class Dialogs {
 

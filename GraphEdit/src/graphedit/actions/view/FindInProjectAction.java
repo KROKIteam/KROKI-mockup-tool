@@ -1,5 +1,12 @@
 package graphedit.actions.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.geom.Point2D;
+
+import javax.swing.AbstractAction;
+import javax.swing.SwingUtilities;
+import javax.swing.tree.TreePath;
+
 import graphedit.app.MainFrame;
 import graphedit.model.GraphEditWorkspace;
 import graphedit.model.components.GraphElement;
@@ -10,13 +17,6 @@ import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.util.ResourceLoader;
 import graphedit.view.GraphEditView;
-
-import java.awt.event.ActionEvent;
-import java.awt.geom.Point2D;
-
-import javax.swing.AbstractAction;
-import javax.swing.SwingUtilities;
-import javax.swing.tree.TreePath;
 
 public class FindInProjectAction extends AbstractAction {
 

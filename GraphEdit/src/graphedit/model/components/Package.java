@@ -1,10 +1,10 @@
 package graphedit.model.components;
 
+import java.awt.geom.Point2D;
+
 import graphedit.model.components.Link.LinkType;
 import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-
-import java.awt.geom.Point2D;
 
 /**
  * Package graph element

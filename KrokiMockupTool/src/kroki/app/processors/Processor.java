@@ -1,8 +1,7 @@
 package kroki.app.processors;
 
-import kroki.app.analyzer.*;
-
-import kroki.app.bodyElements.*;
+import kroki.app.analyzer.ConstraintBodyAnalyzer;
+import kroki.app.bodyElements.BodyElement;
 
 abstract public class Processor {
 	protected ConstraintBodyAnalyzer caller;

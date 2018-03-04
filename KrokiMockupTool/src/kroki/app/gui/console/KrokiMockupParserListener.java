@@ -4,7 +4,6 @@ import kroki.app.gui.console.KrokiMockupToolCommandSyntaxParser.MakeComponentCon
 import kroki.app.gui.console.KrokiMockupToolCommandSyntaxParser.MakePackageContext;
 import kroki.app.gui.console.KrokiMockupToolCommandSyntaxParser.MakeProjectContext;
 import kroki.app.gui.console.KrokiMockupToolCommandSyntaxParser.MakeStdPanelContext;
-import kroki.app.gui.console.CommandPanel;
 
 
 public class KrokiMockupParserListener extends KrokiMockupToolCommandSyntaxBaseListener {

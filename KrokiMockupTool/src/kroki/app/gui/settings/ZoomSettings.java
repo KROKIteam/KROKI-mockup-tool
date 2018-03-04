@@ -3,6 +3,7 @@ package kroki.app.gui.settings;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import kroki.intl.Intl;
 import kroki.profil.VisibleElement;
 import kroki.profil.association.Zoom;

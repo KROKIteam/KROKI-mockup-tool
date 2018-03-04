@@ -23,7 +23,7 @@
 	</taskdef>
 	<target name="build" depends="init">
 		<iajc destdir="${build.home}/bin" sourceroots="${build.home}"
-			source="1.6">
+			source="1.8">
 			<classpath>
 				<pathelement path="${build.home}/lib" />
 				<fileset dir="lib">

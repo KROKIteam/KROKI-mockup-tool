@@ -15,15 +15,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import kroki.app.KrokiMockupToolApp;
-import kroki.app.generators.utils.Attribute;
-import kroki.app.generators.utils.EJBAttribute;
-import kroki.app.generators.utils.EJBClass;
-import kroki.app.generators.utils.Enumeration;
-import kroki.app.generators.utils.ManyToOneAttribute;
-import kroki.app.generators.utils.XMLWriter;
-import kroki.commons.camelcase.NamingUtil;
-
 import org.apache.commons.io.FileDeleteStrategy;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -34,6 +25,12 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import kroki.app.KrokiMockupToolApp;
+import kroki.app.generators.utils.EJBAttribute;
+import kroki.app.generators.utils.EJBClass;
+import kroki.app.generators.utils.Enumeration;
+import kroki.app.generators.utils.XMLWriter;
+import kroki.commons.camelcase.NamingUtil;
 
 public class EJBGenerator {
 

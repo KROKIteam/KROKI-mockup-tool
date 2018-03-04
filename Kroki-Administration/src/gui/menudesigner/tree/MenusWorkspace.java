@@ -1,8 +1,8 @@
 package gui.menudesigner.tree;
 
-import gui.menudesigner.model.Submenu;
-
 import java.util.List;
+
+import gui.menudesigner.model.Submenu;
 
 
 public class MenusWorkspace {

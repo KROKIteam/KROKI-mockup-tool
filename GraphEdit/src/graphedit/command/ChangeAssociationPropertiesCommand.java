@@ -1,11 +1,11 @@
 package graphedit.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.model.components.AssociationLink;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.view.GraphEditView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ChangeAssociationPropertiesCommand extends Command {

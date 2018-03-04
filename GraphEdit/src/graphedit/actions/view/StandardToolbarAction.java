@@ -1,13 +1,13 @@
 package graphedit.actions.view;
 
-import graphedit.actions.popup.MainToolBarPopupMenu;
-import graphedit.app.MainFrame;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
+
+import graphedit.actions.popup.MainToolBarPopupMenu;
+import graphedit.app.MainFrame;
 
 public class StandardToolbarAction extends AbstractAction {
 

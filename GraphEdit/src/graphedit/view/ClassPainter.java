@@ -1,16 +1,5 @@
 package graphedit.view;
 
-import graphedit.app.MainFrame;
-import graphedit.model.components.Attribute;
-import graphedit.model.components.Class;
-import graphedit.model.components.GraphElement;
-import graphedit.model.components.LinkableElement;
-import graphedit.model.components.Method;
-import graphedit.model.components.shortcuts.Shortcut;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-import graphedit.properties.Preferences;
-import graphedit.util.Calculate;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -23,6 +12,17 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+
+import graphedit.app.MainFrame;
+import graphedit.model.components.Attribute;
+import graphedit.model.components.Class;
+import graphedit.model.components.GraphElement;
+import graphedit.model.components.LinkableElement;
+import graphedit.model.components.Method;
+import graphedit.model.components.shortcuts.Shortcut;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.properties.Preferences;
+import graphedit.util.Calculate;
 
 /**
  * This class is the graphical represent of all <code>Class</code> instances.

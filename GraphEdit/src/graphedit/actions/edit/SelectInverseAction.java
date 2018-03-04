@@ -1,14 +1,14 @@
 package graphedit.actions.edit;
 
-import graphedit.app.MainFrame;
-import graphedit.util.ResourceLoader;
-import graphedit.view.GraphEditView;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
+
+import graphedit.app.MainFrame;
+import graphedit.util.ResourceLoader;
+import graphedit.view.GraphEditView;
 
 public class SelectInverseAction extends AbstractAction {
 

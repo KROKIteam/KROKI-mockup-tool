@@ -1,11 +1,11 @@
 package gui.menudesigner.tree;
 
-import gui.menudesigner.model.Submenu;
-
 import javax.swing.JTree;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
+import gui.menudesigner.model.Submenu;
 
 public class MenusHierarchyModel implements TreeModel {
 

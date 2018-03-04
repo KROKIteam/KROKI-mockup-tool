@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import kroki.app.utils.StringResource;
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.VisibleElement;

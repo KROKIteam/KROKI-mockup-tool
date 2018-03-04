@@ -11,11 +11,11 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import kroki.profil.operation.Report;
-import kroki.profil.operation.Transaction;
-
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.internal.impl.ClassImpl;
+
+import kroki.profil.operation.Report;
+import kroki.profil.operation.Transaction;
 
 /**
  * Represents a component that shows a radio group with

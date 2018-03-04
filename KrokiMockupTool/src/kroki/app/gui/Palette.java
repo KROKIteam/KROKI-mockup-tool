@@ -1,10 +1,12 @@
 package kroki.app.gui;
 
 import java.awt.LayoutManager;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
 import kroki.app.action.mockup.AddCheckBoxAction;
 import kroki.app.action.mockup.AddComboBoxAction;
 import kroki.app.action.mockup.AddGroupBoxAction;

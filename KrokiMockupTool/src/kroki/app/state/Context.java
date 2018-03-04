@@ -1,6 +1,7 @@
 package kroki.app.state;
 
 import java.util.HashMap;
+
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.controller.TabbedPaneController;
 

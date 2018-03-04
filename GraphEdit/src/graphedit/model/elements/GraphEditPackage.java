@@ -1,5 +1,16 @@
 package graphedit.model.elements;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Observable;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.layout.LayoutStrategy;
@@ -25,18 +36,6 @@ import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.model.properties.PropertyEnums.LinkProperties;
 import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.util.WorkspaceUtility;
-
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-
 import kroki.commons.camelcase.NamingUtil;
 import kroki.profil.association.Hierarchy;
 import kroki.profil.association.Next;

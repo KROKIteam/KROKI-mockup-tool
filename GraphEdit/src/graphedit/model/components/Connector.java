@@ -1,11 +1,11 @@
 package graphedit.model.components;
 
+import java.awt.Dimension;
+import java.awt.geom.Point2D;
+
 import graphedit.app.MainFrame;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
-
-import java.awt.Dimension;
-import java.awt.geom.Point2D;
 
 public class Connector extends LinkNode {
 

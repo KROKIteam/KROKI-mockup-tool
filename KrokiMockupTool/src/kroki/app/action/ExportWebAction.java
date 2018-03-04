@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ProjectExporter;
-import kroki.app.gui.console.CommandPanel;
 import kroki.app.gui.console.OutputPanel;
 import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.ImageResource;

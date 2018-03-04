@@ -1,76 +1,92 @@
-#                                     Global excludes
-#####################################################
-*.class
-**/.metadata
-**/build
-**/bin
-**/dist
-**/nbproject
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
 .settings/
-.svn/
-.recommenders/*
-#                             KrokiMockupTool exludes
-######################################################
-KrokiMockupTool/Temp/
-kroki.h2.db
-kroki.lock.db
+.loadpath
+.recommenders
 
-#                      Applicaiton repository excludes
-######################################################
-ApplicationRepository/generated/*.xml
-ApplicationRepository/generated/db_config/*.xml
-ApplicationRepository/generated/model/*.xml
-ApplicationRepository/generated/model/ejb/*.xml
-ApplicationRepository/generated/model/panel*.xml
-ApplicationRepository/generated/model/users/*.xml
-ApplicationRepository/generated/props/*.properties
+# External tool builders
+.externalToolBuilders/
 
-#                                       WebApp excludes
-#######################################################
-WebApp/bin/
-WebApp/etc/META-INF/persistence.xml
-WebApp/src_gen/adapt/entities/generated
-!WebApp/config
-WebApp/config/*
-!WebApp/config/actions.xml
-!WebApp/config/forms.xml
-!WebApp/config/resources.xml
-WebApp/src_gen/config/resources-generated.xml
-WebApp/src_gen/adapt/templates/menu.html
-WebApp/props/app.properties
-WebApp/src_gen/ejb_generated
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# CDT- autotools
+.autotools
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+######################################################################################################
+#   KROKI generated files:
+
+KrokiMockupTool/Temp
+
+ApplicationRepository/generated/db_config/*
+ApplicationRepository/generated/model/*
+ApplicationRepository/generated/props/*
+!ApplicationRepository/generated/**/.gitkeep
+
+WebApp/etc/META-INF/*
+!WebApp/etc/META-INF/.gitkeep
+
 WebApp/src_gen/ejb_generated/*
-#                                    SwingApp excludes
-######################################################
-SwingApp/bin/
-SwingApp/props/META-INF/persistence.xml
-SwingApp/src/hibernate.cfg.xml
-SwingApp/src/ejb/
-SwingApp/model/xml-mapping.xml
-SwingApp/model/panel.xml
-SwingApp/model/panel-map.xml
-SwingApp/model/panel-map.xml
-SwingApp/model/enumeration.xml
-SwingApp/model/ejb/
-SwingApp/ddl_createDatabase.sql
-SwingApp/props/main-generated.properties
+!WebApp/src_gen/ejb_generated/.gitkeep
 
-# ignore generated but skip default enumerations
-!SwingApp/src/com/panelcomposer/enumerations
-SwingApp/src/com/panelcomposer/enumerations/*
-!SwingApp/src/com/panelcomposer/enumerations/OpenedAs.java
-!SwingApp/src/com/panelcomposer/enumerations/OperationType.java
-!SwingApp/src/com/panelcomposer/enumerations/PanelType.java
-!SwingApp/src/com/panelcomposer/enumerations/StateMode.java
-!SwingApp/src/com/panelcomposer/enumerations/ViewMode.java
-SwingApp/ddl_createDatabase.sql
-SwingApp/src/panelcomposer/enumerations/
-SwingApp/model/menu.xml
-SwingApp/model/panel/
-ApplicationRepository/generated/model/panel/panel-map.xml
-ApplicationRepository/generated/model/panel/panel.xml
-ApplicationRepository/generated/model/users/.gitkeep
-ApplicationRepository/generated/model/users/.gitkeep
-WebApp/.classpath
-WebApp/src/ejb_generated/*.java
-WebApp/src_gen/ejb_generated/Automobil.java
+SwingApp/

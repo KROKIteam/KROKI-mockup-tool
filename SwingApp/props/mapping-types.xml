@@ -1,7 +1,0 @@
-<mapping>
-	<type model-type="varchar" language-type="java.lang.String" />
-	<type model-type="integer" language-type="java.lang.Integer" />
-	<type model-type="bool" language-type="java.lang.Boolean" />
-	<type model-type="boolean" language-type="java.lang.Boolean" />
-	<type model-type="decimal" language-type="java.math.BigDecimal" />
-</mapping>

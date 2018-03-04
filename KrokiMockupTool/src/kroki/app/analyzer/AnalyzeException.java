@@ -1,8 +1,5 @@
 package kroki.app.analyzer;
 
-import java.lang.Exception;
-
-
 public class AnalyzeException extends Exception {
 
 	/**

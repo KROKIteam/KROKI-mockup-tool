@@ -4,7 +4,6 @@ package kroki.app.action;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -15,7 +14,6 @@ import javax.swing.JOptionPane;
 import kroki.app.KrokiMockupToolApp;
 import kroki.app.export.ExportProjectToEclipseUML;
 import kroki.app.export.ProjectExporter;
-import kroki.app.gui.console.CommandPanel;
 import kroki.app.gui.console.OutputPanel;
 import kroki.app.utils.FileChooserHelper;
 import kroki.app.utils.ImageResource;
@@ -24,8 +22,6 @@ import kroki.app.utils.StringResource;
 import kroki.app.utils.uml.KrokiComponentOutputMessage;
 import kroki.profil.subsystem.BussinesSubsystem;
 import kroki.profil.utils.DatabaseProps;
-
-import org.apache.commons.io.FileDeleteStrategy;
 
 /**
  * Action that runs selected project as web application
@@ -76,8 +72,17 @@ public class RunWebAction extends AbstractAction {
 									
 									//get temporary location in KROKI directory
 									File f = new File(".");
-									String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1) + "Temp";
-									File tempDir = new File(appPath);
+									String appPath = f.getAbsolutePath().substring(0,f.getAbsolutePath().length()-1);
+						            if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
+						                appPath = appPath.substring(0, appPath.length()-16);
+						            }
+									File tempDir = new File(appPath + "KrokiMockupTool" + File.separator + "Temp");
+							        if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
+							        	tempDir = new File(appPath + File.separator + "Temp");
+							        }
+							        if(!tempDir.exists()) {
+							        	tempDir.mkdir();
+							        }
 
 									//generate connection settings for embedded h2 database
 									DatabaseProps tempProps = new DatabaseProps();
@@ -85,6 +90,7 @@ public class RunWebAction extends AbstractAction {
 									ProjectExporter exporter = new ProjectExporter(false);
 									
 									KrokiMockupToolApp.getInstance().displayTextOutput("Generating UML model...", 0);
+									
 									File tempUMLFile = new File(tempDir.getAbsolutePath() + File.separator + jarName + ".uml");
 									try{
 										new ExportProjectToEclipseUML(tempUMLFile, proj, true, true).exportToUMLDiagram(new KrokiComponentOutputMessage(), ExportProjectToEclipseUML.MESSAGES_FOR_CLASS, false);

@@ -2,6 +2,7 @@ package kroki.profil.persistent;
 
 import java.io.Serializable;
 import java.util.List;
+
 import kroki.uml_core_basic.UmlClass;
 import kroki.uml_core_basic.UmlOperation;
 import kroki.uml_core_basic.UmlParameter;

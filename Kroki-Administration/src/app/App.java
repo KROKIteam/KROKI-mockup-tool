@@ -1,9 +1,5 @@
 package app;
 
-import java.sql.SQLException;
-
-import org.h2.tools.Server;
-
 import framework.MainFrame;
 
 public class App {

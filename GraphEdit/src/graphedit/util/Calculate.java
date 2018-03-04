@@ -1,5 +1,11 @@
 package graphedit.util;
 
+import java.awt.FontMetrics;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+
 import graphedit.model.components.Attribute;
 import graphedit.model.components.Class;
 import graphedit.model.components.Connector;
@@ -8,12 +14,6 @@ import graphedit.model.components.Method;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.model.properties.PropertyEnums.LinkNodeProperties;
 import graphedit.properties.Preferences;
-
-import java.awt.FontMetrics;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class contains methods that are used when drawing links and elements 

@@ -1,19 +1,17 @@
 package graphedit.command;
 
+import java.util.List;
+import java.util.Map;
+
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
 import graphedit.model.components.Link;
 import graphedit.model.diagram.GraphEditModel;
 import graphedit.model.elements.ClassElement;
 import graphedit.model.elements.GraphEditElement;
-import graphedit.model.elements.GraphEditPackage;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
 import graphedit.view.LinkPainter;
-
-import java.util.List;
-import java.util.Map;
-
 import kroki.uml_core_basic.UmlPackage;
 
 @SuppressWarnings("unused")

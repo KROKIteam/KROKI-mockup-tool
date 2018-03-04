@@ -1,5 +1,10 @@
 package graphedit.command;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import graphedit.app.MainFrame;
 import graphedit.model.components.Connector;
 import graphedit.model.components.GraphElement;
@@ -10,11 +15,6 @@ import graphedit.model.elements.GraphEditPackage;
 import graphedit.model.properties.PropertyEnums.PackageProperties;
 import graphedit.view.ElementPainter;
 import graphedit.view.GraphEditView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DeletePackagesCommand extends Command {
 

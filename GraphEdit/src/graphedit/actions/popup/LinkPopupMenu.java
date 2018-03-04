@@ -1,13 +1,13 @@
 package graphedit.actions.popup;
 
+import java.awt.geom.Point2D;
+
+import javax.swing.JPopupMenu;
+
 import graphedit.actions.edit.AddLinkNodeAction;
 import graphedit.actions.edit.RemoveLinkNodeAction;
 import graphedit.app.MainFrame;
 import graphedit.view.SelectionModel;
-
-import java.awt.geom.Point2D;
-
-import javax.swing.JPopupMenu;
 
 public class LinkPopupMenu extends JPopupMenu{
 	

@@ -1,11 +1,11 @@
 package graphedit.state;
 
-import graphedit.app.MainFrame;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
+
+import graphedit.app.MainFrame;
 
 public class LassoSelectionState extends State {
 

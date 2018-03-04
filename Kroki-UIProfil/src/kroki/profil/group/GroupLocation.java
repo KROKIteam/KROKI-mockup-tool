@@ -1,6 +1,7 @@
 package kroki.profil.group;
 
 import java.io.Serializable;
+
 import kroki.intl.Intl;
 
 /**

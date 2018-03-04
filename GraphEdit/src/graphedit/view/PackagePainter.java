@@ -1,9 +1,5 @@
 package graphedit.view;
 
-import graphedit.model.components.GraphElement;
-import graphedit.model.properties.PropertyEnums.GraphElementProperties;
-import graphedit.properties.Preferences;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,6 +12,10 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import graphedit.model.components.GraphElement;
+import graphedit.model.properties.PropertyEnums.GraphElementProperties;
+import graphedit.properties.Preferences;
 
 public class PackagePainter extends ElementPainter{
 

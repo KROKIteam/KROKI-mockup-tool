@@ -1,6 +1,7 @@
 package kroki.profil.panel.mode;
 
 import java.io.Serializable;
+
 import kroki.intl.Intl;
 
 /**

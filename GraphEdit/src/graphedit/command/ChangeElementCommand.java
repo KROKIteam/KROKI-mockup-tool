@@ -1,5 +1,9 @@
 package graphedit.command;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import graphedit.app.ApplicationMode;
 import graphedit.app.MainFrame;
 import graphedit.model.components.Class;
@@ -15,11 +19,6 @@ import graphedit.model.elements.UIClassElement;
 import graphedit.model.properties.PropertyEnums.GraphElementProperties;
 import graphedit.view.GraphEditView;
 import graphedit.view.LinkPainter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import kroki.uml_core_basic.UmlNamedElement;
 
 public class ChangeElementCommand extends Command {

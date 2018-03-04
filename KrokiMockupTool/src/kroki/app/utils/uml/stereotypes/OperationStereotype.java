@@ -2,15 +2,15 @@ package kroki.app.utils.uml.stereotypes;
 
 import java.util.List;
 
-import kroki.app.utils.uml.ProgressWorker;
-import kroki.profil.group.ElementsGroup;
-import kroki.profil.operation.Report;
-import kroki.profil.operation.Transaction;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Stereotype;
+
+import kroki.app.utils.uml.ProgressWorker;
+import kroki.profil.group.ElementsGroup;
+import kroki.profil.operation.Report;
+import kroki.profil.operation.Transaction;
 
 /**
  * Used to check if the stereotypes Report, Transaction and ElementsGroupOperation

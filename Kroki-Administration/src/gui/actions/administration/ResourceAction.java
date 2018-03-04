@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import standardForm.administration.ResourcePanel;
 import dao.administration.ResourceHibernateDao;
 import ejb.administration.Resource;
 import framework.GenericStandardForm;
 import framework.ReportUtil;
+import standardForm.administration.ResourcePanel;
 
 public class ResourceAction extends AbstractAction {
 	

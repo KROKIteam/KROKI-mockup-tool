@@ -1,5 +1,12 @@
 package graphedit.actions.file;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
+import javax.swing.tree.TreePath;
+
 import graphedit.app.MainFrame;
 import graphedit.command.Command;
 import graphedit.command.NewProjectCommand;
@@ -8,13 +15,6 @@ import graphedit.model.GraphEditWorkspace;
 import graphedit.model.interfaces.GraphEditTreeNode;
 import graphedit.util.ResourceLoader;
 import graphedit.util.Validator;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
-import javax.swing.tree.TreePath;
 
 public class NewProjectAction extends AbstractAction {
 
