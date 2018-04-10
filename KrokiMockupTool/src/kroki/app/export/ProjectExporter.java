@@ -102,6 +102,26 @@ public class ProjectExporter {
 		this.swing = swing;
 	}
 
+	public void validateProject(BussinesSubsystem proj) {
+		this.project = proj;
+		checkEclipsePath();
+		getData(proj);
+		appRepoGenerator.generate(classes, menus, elements, enumerations, rootMenu);
+		KrokiMockupToolApp.getInstance().getKrokiMockupToolFrame()
+		.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+	
+	private void checkEclipsePath() {
+		if(project.getEclipseProjectPath() != null) {
+			KrokiMockupToolApp.getInstance().displayTextOutput("Associated Eclipse project path: " + project.getEclipseProjectPath().getAbsolutePath(), OutputPanel.KROKI_RESPONSE);
+			if(!project.getEclipseProjectPath().exists()) {
+				KrokiMockupToolApp.getInstance().displayTextOutput("Associated Eclipse project folder does not exist, exporting will not be possible.", OutputPanel.KROKI_WARNING);
+			}		
+		}else {
+			KrokiMockupToolApp.getInstance().displayTextOutput("No Eclipse project associated, exporting will not be possible.", OutputPanel.KROKI_WARNING);
+		}
+	}
+	
 	/**
 	 * Generates code and applicaion repository from the Kroki project and
 	 * builds the exported application All other exprot methods are called from

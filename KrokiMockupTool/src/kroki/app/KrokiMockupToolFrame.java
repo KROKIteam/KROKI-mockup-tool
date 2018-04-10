@@ -55,6 +55,7 @@ import kroki.app.action.SaveAction;
 import kroki.app.action.SaveAllAction;
 import kroki.app.action.SaveAsAction;
 import kroki.app.action.UndoAction;
+import kroki.app.action.ValidateProjectAction;
 import kroki.app.gui.GuiManager;
 import kroki.app.gui.console.CommandPanel;
 import kroki.app.gui.console.OutputPanel;
@@ -348,6 +349,7 @@ public class KrokiMockupToolFrame extends JFrame {
 			project.addSeparator();
 			project.add(run);
 			project.addSeparator();
+			project.add(new ValidateProjectAction());
 			project.add(new DBConneectionSettingsAction());
 
 			JMenu help = new JMenu();
@@ -374,9 +376,9 @@ public class KrokiMockupToolFrame extends JFrame {
 
 
 			JToolBar runToolbar = new JToolBar(JToolBar.HORIZONTAL);
-//			runToolbar.add(new RunSwingAction());
+			runToolbar.add(new ValidateProjectAction());
 			runToolbar.add(new RunWebAction());
-
+			
 			mainToolbar.add(guiManager.getMainToolbar());
 			mainToolbar.add(runToolbar);
 			mainToolbar.add(guiManager.getStyleToolbar());
