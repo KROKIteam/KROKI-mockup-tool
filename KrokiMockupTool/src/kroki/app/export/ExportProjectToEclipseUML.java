@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -243,13 +244,21 @@ public class ExportProjectToEclipseUML extends ProgressWorker implements IOutput
 	        String stereotypeFilePath =  appPath + File.separator + "libECore" + File.separator + "EUISDSLProfile" + 
 	        		File.separator + "EUISDSLProfile.profile.uml";
 	        File euisDSLprofile = new File(stereotypeFilePath);
-//		    File dest = new File(file.toPath().getParent().toString() + File.separator + euisDSLprofile.toPath().getFileName());
+		    File altDest = new File(appPath + File.separator + "Temp" + File.separator + euisDSLprofile.toPath().getFileName());
 	        Path euisDSLTargetPath= file.toPath().getParent().resolve(euisDSLprofile.toPath().getFileName());
+	        System.out.println("TARGET PATH: " + altDest);
 	        
-	        Files.copy(euisDSLprofile.toPath(), euisDSLTargetPath, StandardCopyOption.REPLACE_EXISTING);
-	        stereotypeProfile=this.<Profile>loadPackage(URI.createFileURI(euisDSLTargetPath.toString()), true);
-	        //stereotypeProfile.define();
-	        model.applyProfile(stereotypeProfile);
+	        try {
+	        	Files.copy(euisDSLprofile.toPath(), euisDSLTargetPath, StandardCopyOption.REPLACE_EXISTING);
+		        stereotypeProfile=this.<Profile>loadPackage(URI.createFileURI(euisDSLTargetPath.toString()), true);
+		        //stereotypeProfile.define();
+		        model.applyProfile(stereotypeProfile);
+			} catch (NoSuchFileException e) {
+				Files.copy(euisDSLprofile.toPath(), altDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		        stereotypeProfile=this.<Profile>loadPackage(URI.createFileURI(euisDSLTargetPath.toString()), true);
+		        //stereotypeProfile.define();
+		        model.applyProfile(stereotypeProfile);
+			}
         }
         
         classesMap=new HashMap<VisibleClass, Class>();

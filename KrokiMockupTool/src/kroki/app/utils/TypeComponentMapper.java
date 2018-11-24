@@ -30,7 +30,7 @@ public class TypeComponentMapper {
 			Document altDoc = XMLParser.parseXml(appPath + File.separator + "mappings" + File.separator + "type-component-mappings.xml");
 			NodeList typeNodes = altDoc.getElementsByTagName("property");
 			System.out.println("Alternative file OK. Found " + typeNodes.getLength() + " nodes.");
-			KrokiMockupToolApp.getInstance().setBinaryRun(true);
+//			KrokiMockupToolApp.getInstance().setBinaryRun(true);
 			for(int i=0; i<typeNodes.getLength(); i++) {
 				Element el = (Element) typeNodes.item(i);
 				mapping.put(el.getAttribute("component-type"), el.getAttribute("language-type"));

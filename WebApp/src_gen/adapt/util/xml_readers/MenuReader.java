@@ -75,7 +75,7 @@ public class MenuReader {
 				+ File.separator + file);
 		
 		if (resDoc == null && file.equals(xmlFileName)) {
-			throw new GeneratedMenuMissingException(file + ", Generated menu missing, proceeding with default");
+			throw new GeneratedMenuMissingException("'" + file + "'. Proceeding with default settings.");
 		}
 		
 		// Ekstrakcija menija

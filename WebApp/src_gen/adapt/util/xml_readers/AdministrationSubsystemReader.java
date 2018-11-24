@@ -40,8 +40,8 @@ public class AdministrationSubsystemReader {
 			storeAdministrationSubsytem(xmlFileName, em);
 			AppCache.displayTextOnMainFrame(logPrefix + "Administration-Subsytem structure obtained successfully!", 0);
 		} catch (Exception e) {
-			AppCache.displayTextOnMainFrame("Error reading administration-generated.xml", 1);
-			AppCache.displayStackTraceOnMainFrame(e);
+			AppCache.displayTextOnMainFrame("Error reading 'administration-generated.xml'. Proceeding with default settings.", 2);
+//			AppCache.displayStackTraceOnMainFrame(e);
 		}
 	}
 	

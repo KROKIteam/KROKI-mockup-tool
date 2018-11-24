@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.File;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -95,6 +96,11 @@ public class KrokiMockupToolApp {
 		renderer.setOpenIcon(openIcon);
 		projectHierarchy.setCellRenderer(renderer);
 		projectHierarchy.setEditable(true);
+		
+		URL classURL = KrokiMockupToolApp.class.getResource("KrokiMockupToolApp.class");
+		if(classURL.toString().contains(".jar!")) {
+			setBinaryRun(true);
+		}
 	}
 
 	public static KrokiMockupToolApp getInstance() {

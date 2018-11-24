@@ -166,7 +166,7 @@ public class DatabaseConfigGenerator {
 		} catch (IOException e) {
 			//e.printStackTrace();
 //			KrokiMockupToolApp.getInstance().displayTextOnConsole("[DB CONFIG GENERATOR] Templates directory not found. Trying the alternative one...", 0);
-			KrokiMockupToolApp.getInstance().setBinaryRun(true);
+//			KrokiMockupToolApp.getInstance().setBinaryRun(true);
 			try {
 				templateLoader = new FileTemplateLoader(new File(appPath + "templates"));
 				cfg.setTemplateLoader(templateLoader);

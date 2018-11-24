@@ -76,15 +76,16 @@ public class RunWebAction extends AbstractAction {
 						            if(!KrokiMockupToolApp.getInstance().isBinaryRun()) {
 						                appPath = appPath.substring(0, appPath.length()-16);
 						            }
-									File tempDir = new File(appPath + "KrokiMockupTool" + File.separator + "Temp");
-							        if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
-							        	tempDir = new File(appPath + File.separator + "Temp");
-							        }
+//							        if(KrokiMockupToolApp.getInstance().isBinaryRun()) {
+						        	File tempDir = new File(appPath + File.separator + "Temp");
+//							        }
 							        if(!tempDir.exists()) {
 							        	tempDir.mkdir();
 							        }
 
-									//generate connection settings for embedded h2 database
+							        KrokiMockupToolApp.getInstance().displayTextOutput("BINARY RUN: " + KrokiMockupToolApp.getInstance().isBinaryRun(), OutputPanel.KROKI_RESPONSE);
+							        KrokiMockupToolApp.getInstance().displayTextOutput("TEMP DIR: " + tempDir.getAbsolutePath(), OutputPanel.KROKI_RESPONSE);
+							        //generate connection settings for embedded h2 database
 									DatabaseProps tempProps = new DatabaseProps();
 									//proj.setDBConnectionProps(tempProps);
 									ProjectExporter exporter = new ProjectExporter(false);
