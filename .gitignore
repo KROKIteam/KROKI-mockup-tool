@@ -77,6 +77,7 @@ hs_err_pid*
 #   KROKI generated files:
 
 KrokiMockupTool/Temp
+Temp/
 
 ApplicationRepository/generated/db_config/*
 ApplicationRepository/generated/model/*

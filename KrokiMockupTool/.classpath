@@ -6,8 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
-	<classpathentry kind="lib" path="lib/ant.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-4.4-complete.jar"/>
 	<classpathentry kind="lib" path="lib/batik-dom.jar"/>
 	<classpathentry kind="lib" path="lib/batik-swing.jar"/>
@@ -73,5 +71,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-commons"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kroki-intl"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kroki-UIProfil"/>
+	<classpathentry kind="lib" path="lib/ant.jar"/>
+	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

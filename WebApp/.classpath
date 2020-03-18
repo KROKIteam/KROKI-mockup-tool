@@ -3,7 +3,11 @@
 	<classpathentry kind="src" path="src_gen"/>
 	<classpathentry kind="src" path="src_manual"/>
 	<classpathentry kind="src" path="etc"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/com.noelios.restlet.jar"/>
 	<classpathentry kind="lib" path="lib/org.restlet.jar"/>
@@ -19,9 +23,8 @@
 	<classpathentry kind="lib" path="lib/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="lib/aspectjtools.jar"/>
 	<classpathentry kind="lib" path="lib/h2-1.4.189.jar"/>
-	<classpathentry kind="lib" path="lib/aspectjtools-old.jar"/>
 	<classpathentry kind="lib" path="lib/itextpdf-5.5.8.jar"/>
+	<classpathentry kind="lib" path="lib/aspectjtools-1.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

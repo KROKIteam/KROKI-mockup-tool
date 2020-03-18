@@ -18,12 +18,11 @@
 	</target>
 	<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
 		<classpath>
-			<pathelement location="${build.home}/lib/aspectjtools.jar" />
+			<pathelement location="${build.home}/lib/aspectjtools-1.9.0.jar" />
 		</classpath>
 	</taskdef>
 	<target name="build" depends="init">
-		<iajc destdir="${build.home}/bin" sourceroots="${build.home}"
-			source="1.8">
+		<iajc destdir="${build.home}/bin" sourceroots="${build.home}" source="1.9">
 			<classpath>
 				<pathelement path="${build.home}/lib" />
 				<fileset dir="lib">
